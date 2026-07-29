@@ -81,7 +81,18 @@ header {
   border: 1px solid rgba(212,175,55,.5); background: rgba(212,175,55,.14); color: var(--gold);
 }
 .btn.pri { background: linear-gradient(135deg, rgba(0,224,240,.2), rgba(176,107,255,.18)); border-color: rgba(0,224,240,.45); color: #c8fbff; }
+.btn.rumble {
+  background: linear-gradient(135deg, #85c742, #b8e986);
+  border-color: transparent;
+  color: #0a1206;
+  box-shadow: 0 4px 16px rgba(133, 199, 66, 0.3);
+}
 .btn:hover { text-decoration: none; filter: brightness(1.08); }
+.embed-wrap {
+  position: relative; width: 100%; padding-bottom: 56.25%; height: 0;
+  border-radius: 12px; overflow: hidden; background: #000; border: 1px solid var(--line);
+}
+.embed-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 section {
   margin: 22px 0; padding: 20px 18px; border-radius: 14px;
   background: rgba(20,20,34,.92); border: 1px solid var(--line);
@@ -212,10 +223,38 @@ footer nav { display: flex; flex-wrap: wrap; gap: 10px 14px; margin-bottom: 10px
         <p>
           <a href="https://kick.com/excavationpro" target="_blank" rel="noopener">Kick</a> ·
           <a href="https://twitch.tv/excavationpro" target="_blank" rel="noopener">Twitch</a> ·
-          <a href="https://rumble.com/user/Excavationpro" target="_blank" rel="noopener">Rumble</a>
+          <a href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener">Rumble LIVE</a>
+        </p>
+        <p style="margin-top:8px">
+          <a class="btn rumble" style="padding:8px 12px;font-size:.8rem" href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">Join Rumble via Excavationpro</a>
         </p>
       </div>
     </div>
+  </section>
+
+  <section id="rumble-live" aria-label="Rumble live and referral">
+    <h2>Rumble LIVE + free signup</h2>
+    <p>
+      Always-on coffee-room radio and originals on Rumble. New to Rumble?
+      Use the referral button so the channel is credited — free account.
+    </p>
+    <div class="embed-wrap" style="margin:14px 0">
+      <iframe
+        src="https://rumble.com/embed/v7b5p30/?pub=1th29y"
+        title="Excavationpro Rumble live"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <div class="cta">
+      <a class="btn rumble" href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">Join Rumble via Excavationpro</a>
+      <a class="btn pri" href="https://rumble.com/Excavationpro/live?mref=1th29y&amp;mc=2p3fp" target="_blank" rel="noopener noreferrer">Watch LIVE</a>
+    </div>
+    <p style="margin:10px 0 0;font-size:.85rem;color:var(--muted)">
+      Referral URL:
+      <a href="https://rumble.com/register/Excavationpro/" target="_blank" rel="noopener noreferrer sponsored">https://rumble.com/register/Excavationpro/</a>
+    </p>
   </section>
 
   <div class="ad-slot" aria-label="Advertisement">
