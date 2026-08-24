@@ -1,24 +1,11 @@
 # excavationpro.ca
 
-Excavationpro music hub
+Artist site for **Justin Helmer / Excavationpro**: original music writing, catalog explanation, license, and links to the free player.
 
-AdSense publisher: `ca-pub-0646320966060599`
+Rebuild HTML from the source strings:
 
-## Files
-- `index.html` — homepage
-- `ads.txt` — Google ads.txt
-- `privacy.html` — privacy policy
-- `CNAME` — GitHub Pages custom domain
-- `robots.txt` / `sitemap.xml`
+```bash
+python _build_pages.py
+```
 
-## GoDaddy DNS (replace parking)
-
-| Type | Name | Value |
-|------|------|--------|
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | deepseekoracle.github.io |
-
-Repo: DeepSeekOracle/excavationpro-ca · Pages: main / (root) · Custom domain: excavationpro.ca
+AdSense publisher `ca-pub-0646320966060599` · `ads.txt` at site root.
