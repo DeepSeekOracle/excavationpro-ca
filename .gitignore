@@ -1,0 +1,16 @@
+.env
+.env.*
+*.pem
+*.key
+*.p12
+id_rsa
+id_ed25519
+secrets/
+*.local.json
+.DS_Store
+Thumbs.db
+*.bak
+*.bak.*
+__pycache__/
+.vscode/
+.idea/
