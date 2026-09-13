@@ -15,4 +15,5 @@
   <url><loc>https://excavationpro.ca/terms.html</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
   <url><loc>https://excavationpro.ca/support.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://excavationpro.ca/hub.html</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://excavationpro.ca/thanks.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
 </urlset>

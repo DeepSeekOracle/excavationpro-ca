@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-cookie-key="excavationpro_cookies">
 <head>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/favicon.svg">
+<link rel="stylesheet" href="/assets/site-kit.css">
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Excavationpro — Original Music by Justin Helmer</title>
@@ -64,6 +68,7 @@
 </script>
 </head>
 <body class="home">
+<div id="lygoLoad" class="lygo-load">Loading</div>
 <header class="top">
   <a class="brand" href="/">Excavationpro</a>
   <nav aria-label="Primary">
@@ -191,5 +196,19 @@
   <p>© <span class="y"></span> Justin Helmer / Excavationpro. Original music and original writing. All rights reserved except the personal listen license described in Terms.</p>
 </footer>
 <script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+
+<div class="sticky-cta" aria-label="Mobile actions">
+  <a class="pri" href="https://asiancoastline.com/listen.html">Listen</a>
+  <a class="sec" href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a>
+</div>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div>
+    <button type="button" class="ok" id="cookieOk">Accept</button>
+    <button type="button" class="no" id="cookieNo">Decline</button>
+  </div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+
 </body>
 </html>
