@@ -1,19 +1,19 @@
 /* LYGO TV Ninja — portable framed player. Inherits host --bg --fg --muted --line --gold --accent */
 .lygo-tv-wrap,
 .ad-slot.lygo-tv-wrap {
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding: 0.6rem 4vw 2.4rem;
+  width: min(960px, 100%);
+  max-width: 960px;
+  margin: 0 auto 0.4rem;
+  padding: 0.4rem 0 1.8rem;
   min-height: 0;
   border: none;
   background: transparent;
   text-align: left;
+  box-sizing: border-box;
 }
 .lygo-tv-wrap .lygo-tv-ninja,
 .ad-slot.lygo-tv-wrap .lygo-tv-ninja {
-  max-width: 1120px;
+  max-width: 960px;
   margin: 0 auto;
 }
 .lygo-tv-ninja {
@@ -23,7 +23,7 @@
   --_line: var(--line, rgba(255,255,255,.14));
   --_accent: var(--accent, var(--gold, #c9b8a0));
   border: 1px solid var(--_line);
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: color-mix(in srgb, var(--_bg) 88%, #000);
   color: var(--_fg);
@@ -34,8 +34,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px;
+  gap: 10px;
+  padding: 8px 12px;
 }
 .lygo-tv-ninja .tv-kicker {
   margin: 0;
@@ -50,7 +50,7 @@
   text-transform: uppercase;
   color: var(--_accent);
   text-decoration: none;
-  min-height: 36px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
@@ -58,7 +58,6 @@
 .lygo-tv-ninja .tv-screen {
   position: relative;
   aspect-ratio: 16 / 9;
-  min-height: min(56vw, 520px);
   background: #000;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_fg) 10%, transparent);
 }
@@ -75,6 +74,7 @@
 .lygo-tv-ninja .tv-meta {
   margin: 0;
   flex: 1;
+  min-width: 0;
   text-align: center;
   font-size: 0.72rem;
   letter-spacing: 0.03em;
@@ -84,8 +84,8 @@
   white-space: nowrap;
 }
 .lygo-tv-ninja .tv-zap {
-  min-width: 52px;
-  min-height: 40px;
+  min-width: 64px;
+  min-height: 44px;
   padding: 0 12px;
   border-radius: 8px;
   border: 1px solid var(--_line);
@@ -100,8 +100,29 @@
 .lygo-tv-ninja .tv-zap:hover {
   background: color-mix(in srgb, var(--_fg) 8%, transparent);
 }
-@media (max-width: 640px) {
+@media (min-width: 1100px) {
   .lygo-tv-wrap,
-  .ad-slot.lygo-tv-wrap { padding: 0.4rem 0.75rem 1.6rem; }
-  .lygo-tv-ninja .tv-screen { min-height: 220px; }
+  .ad-slot.lygo-tv-wrap {
+    width: 960px;
+    margin-left: calc(50% - 480px);
+    margin-right: calc(50% - 480px);
+  }
+}
+@media (max-width: 700px) {
+  .lygo-tv-wrap,
+  .ad-slot.lygo-tv-wrap {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 0 1.4rem;
+  }
+  .lygo-tv-ninja .tv-bar {
+    flex-wrap: wrap;
+  }
+  .lygo-tv-ninja .tv-meta {
+    flex-basis: 100%;
+    order: 3;
+    white-space: normal;
+  }
 }
