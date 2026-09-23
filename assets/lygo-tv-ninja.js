@@ -87,14 +87,20 @@
         "&parent=" + encodeURIComponent(location.hostname) + "&autoplay=true&muted=true";
     }
     let url = ch.url || "";
-    if (ch.kind === "rumble" || url.indexOf("rumble.com") !== -1) return withParam(url, "autoplay", "2");
+    if (ch.kind === "rumble" || url.indexOf("rumble.com") !== -1) {
+      url = withParam(url, "autoplay", "2");
+      return url;
+    }
     if (ch.kind === "youtube" || url.indexOf("youtube") !== -1) {
       url = withParam(url, "autoplay", "1");
-      return withParam(url, "mute", "1");
+      url = withParam(url, "mute", "1");
+      url = withParam(url, "playsinline", "1");
+      return url;
     }
     if (ch.kind === "kick" || url.indexOf("kick.com") !== -1) {
       url = withParam(url, "autoplay", "true");
-      return withParam(url, "muted", "true");
+      url = withParam(url, "muted", "true");
+      return url;
     }
     return url;
   }
@@ -155,7 +161,7 @@
         '<a class="tv-open" target="_blank" rel="noopener noreferrer" href="' + TV_PAGE + "#channel/" + DEFAULT_ID + '">Open player</a>' +
       "</div>" +
       '<div class="tv-screen">' +
-        '<iframe title="LYGO TV channel" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
+        '<iframe title="LYGO TV channel" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
         '<video playsinline muted autoplay></video>' +
       "</div>" +
       '<div class="tv-bar">' +
@@ -214,8 +220,11 @@
         stopHls();
         video.hidden = true;
         frame.hidden = false;
-        frame.src = embed(ch);
+        frame.setAttribute("allow", "autoplay; encrypted-media; fullscreen; picture-in-picture");
         frame.title = ch.title;
+        const src = embed(ch);
+        frame.src = "about:blank";
+        window.requestAnimationFrame(function () { frame.src = src; });
         return;
       }
       playHls(ch.url);
@@ -242,6 +251,15 @@
     });
     video.hidden = true;
     play(i);
+    if (window.IntersectionObserver) {
+      const io = new IntersectionObserver(function (ents) {
+        if (!ents[0] || !ents[0].isIntersecting) return;
+        play(i);
+        io.disconnect();
+      }, { threshold: 0.2, rootMargin: "120px" });
+      io.observe(host);
+    }
+    window.addEventListener("load", function () { play(i); }, { once: true });
 
     fetch(TV_PAGE + "catalog.json", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (cat) {
       if (!cat) return;
