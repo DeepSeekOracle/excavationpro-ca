@@ -49,13 +49,15 @@
   background: #000;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_fg) 10%, transparent);
 }
-.lygo-tv-ninja .tv-screen iframe {
+.lygo-tv-ninja .tv-screen iframe,
+.lygo-tv-ninja .tv-screen video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
   background: #000;
+  object-fit: contain;
 }
 .lygo-tv-ninja .tv-meta {
   margin: 0;
