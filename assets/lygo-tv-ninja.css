@@ -1,0 +1,90 @@
+/* LYGO TV Ninja — portable framed player. Inherits host --bg --fg --muted --line --gold --accent */
+.lygo-tv-wrap {
+  padding: 0 6vw 2.2rem;
+  max-width: 52rem;
+  margin: 0 auto;
+}
+.lygo-tv-ninja {
+  --_bg: var(--bg, #0a0a0b);
+  --_fg: var(--fg, #f4f1ea);
+  --_muted: var(--muted, #9a9388);
+  --_line: var(--line, rgba(255,255,255,.14));
+  --_accent: var(--accent, var(--gold, #c9b8a0));
+  border: 1px solid var(--_line);
+  border-radius: 16px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--_bg) 88%, #000);
+  color: var(--_fg);
+  font-family: inherit;
+}
+.lygo-tv-ninja .tv-top,
+.lygo-tv-ninja .tv-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+}
+.lygo-tv-ninja .tv-kicker {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--_accent);
+}
+.lygo-tv-ninja .tv-open {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--_accent);
+  text-decoration: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+.lygo-tv-ninja .tv-open:hover { text-decoration: underline; }
+.lygo-tv-ninja .tv-screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_fg) 10%, transparent);
+}
+.lygo-tv-ninja .tv-screen iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+.lygo-tv-ninja .tv-meta {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--_muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lygo-tv-ninja .tv-zap {
+  min-width: 52px;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--_line);
+  background: transparent;
+  color: var(--_fg);
+  font: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.lygo-tv-ninja .tv-zap:hover {
+  background: color-mix(in srgb, var(--_fg) 8%, transparent);
+}
+@media (max-width: 640px) {
+  .lygo-tv-wrap { padding: 0 1rem 1.6rem; }
+}
