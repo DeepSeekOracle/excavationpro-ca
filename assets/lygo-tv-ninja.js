@@ -22,12 +22,36 @@
       url: "https://www.youtube-nocookie.com/embed/videoseries?list=UUr2GPEJcl2lXu0lS9-0FjvA" }
   ];
 
+  function withParam(url, key, val) {
+    if (!url) return url;
+    try {
+      const u = new URL(url);
+      u.searchParams.set(key, val);
+      return u.toString();
+    } catch (e) {
+      const join = url.indexOf("?") >= 0 ? "&" : "?";
+      return url + join + encodeURIComponent(key) + "=" + encodeURIComponent(val);
+    }
+  }
+
   function embed(ch) {
     if (ch.kind === "twitch" || (ch.url && ch.url.indexOf("player.twitch.tv") !== -1)) {
       return "https://player.twitch.tv/?channel=" + encodeURIComponent(ch.channel || "excavationpro") +
         "&parent=" + encodeURIComponent(location.hostname) + "&autoplay=true&muted=true";
     }
-    return ch.url;
+    let url = ch.url || "";
+    if (ch.kind === "rumble" || url.indexOf("rumble.com") !== -1) {
+      return withParam(url, "autoplay", "2");
+    }
+    if (ch.kind === "youtube" || url.indexOf("youtube") !== -1) {
+      url = withParam(url, "autoplay", "1");
+      return withParam(url, "mute", "1");
+    }
+    if (ch.kind === "kick" || url.indexOf("kick.com") !== -1) {
+      url = withParam(url, "autoplay", "true");
+      return withParam(url, "muted", "true");
+    }
+    return url;
   }
 
   function rumbleIndex(list) {
