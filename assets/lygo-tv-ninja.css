@@ -1,7 +1,19 @@
 /* LYGO TV Ninja — portable framed player. Inherits host --bg --fg --muted --line --gold --accent */
-.lygo-tv-wrap {
-  padding: 0 6vw 2.2rem;
-  max-width: 52rem;
+.lygo-tv-wrap,
+.ad-slot.lygo-tv-wrap {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 0.6rem 4vw 2.4rem;
+  min-height: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+}
+.lygo-tv-wrap .lygo-tv-ninja,
+.ad-slot.lygo-tv-wrap .lygo-tv-ninja {
+  max-width: 1120px;
   margin: 0 auto;
 }
 .lygo-tv-ninja {
@@ -46,6 +58,7 @@
 .lygo-tv-ninja .tv-screen {
   position: relative;
   aspect-ratio: 16 / 9;
+  min-height: min(56vw, 520px);
   background: #000;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--_fg) 10%, transparent);
 }
@@ -88,5 +101,7 @@
   background: color-mix(in srgb, var(--_fg) 8%, transparent);
 }
 @media (max-width: 640px) {
-  .lygo-tv-wrap { padding: 0 1rem 1.6rem; }
+  .lygo-tv-wrap,
+  .ad-slot.lygo-tv-wrap { padding: 0.4rem 0.75rem 1.6rem; }
+  .lygo-tv-ninja .tv-screen { min-height: 220px; }
 }
