@@ -158,6 +158,19 @@ button.chip.active{border-color:var(--accent);color:var(--accent);background:col
 @keyframes pulse{50%{opacity:.3}}
 @media(max-width:600px){.health-grid{grid-template-columns:1fr 1fr}.health-title{font-size:11px}}
 
+
+/* Hidden local failure log */
+.diag-panel{display:none;position:fixed;inset:0;z-index:9999;background:rgba(3,4,8,.94);padding:22px;overflow:auto}
+body.diag-open .diag-panel{display:block}
+.diag-card{max-width:980px;margin:0 auto;background:#0d111c;border:1px solid #2a3550;border-radius:14px;padding:18px;color:#e8edf7;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.diag-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.diag-head h2{font:700 16px/1.2 system-ui,sans-serif;margin:0;color:#fff}
+.diag-actions{display:flex;gap:8px;flex-wrap:wrap}
+.diag-card button{border:1px solid #33415f;background:#151c2c;color:#dbe6ff;border-radius:8px;padding:7px 10px;cursor:pointer;font:600 11px system-ui,sans-serif}
+.diag-card button:hover{background:#1c2740}
+.diag-card pre{white-space:pre-wrap;word-break:break-word;font-size:11.5px;line-height:1.55;background:#080b13;border:1px solid #202a40;border-radius:10px;padding:12px;max-height:62vh;overflow:auto}
+.diag-note{font:11px system-ui,sans-serif;color:#8f9bb3;margin:0 0 12px}
+
 </style>
 <meta name="robots" content="noindex,follow">
 </head>
@@ -229,12 +242,59 @@ button.chip.active{border-color:var(--accent);color:var(--accent);background:col
 </div>
 <div id="toast"></div>
 <div id="modalRoot"></div>
+<div class="diag-panel" id="diagPanel" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
+  <div class="diag-card">
+    <div class="diag-head">
+      <h2 id="diagTitle">Local failure log</h2>
+      <div class="diag-actions">
+        <button type="button" id="diagDownload">Download JSON</button>
+        <button type="button" id="diagClear">Clear</button>
+        <button type="button" id="diagClose">Close</button>
+      </div>
+    </div>
+    <p class="diag-note">A local copy is stored in this browser. If REMOTE_LOG_URL is configured, a redacted copy is also sent to the owner endpoint. No keys or prompts. Max 100 local entries. Open with ?diag=1 or Ctrl+Shift+L.</p>
+    <pre id="diagBody"></pre>
+  </div>
+</div>
+
 <script>
 (()=>{
 "use strict";
 const LS_KEY="chatagent_studio_v3";
 const DB_NAME="chatagent_studio_db",STORE="generations";
 const state={mode:"image",providerId:"google",compare:false,selected:new Set(["google"]),keys:{},sessionKeys:{},persistKeys:false,aspect:"1:1",duration:"5s",models:{},skin:"midnight",proxyUrl:"",forceProxy:{},custom:{baseUrl:"",model:"",endpoint:"/images/generations"},history:[],pending:[]};
+
+/* ---------- hidden local failure log ---------- */
+const FAIL_KEY="chatagent_studio_failures_v1";
+const REMOTE_LOG_URL="https://lygo-studio-edge.lygo-studio-delta9.workers.dev/log";
+function redactSecrets(text){return String(text||"").replace(/\b(?:sk-|xai-|nvapi-|gsk_|hf_|AIza|r8_|sk-or-v1-)[A-Za-z0-9_-]{8,}/g,"[REDACTED]").slice(0,600);}
+function logFailure(kind,providerId,message,extra){
+  const record={ts:new Date().toISOString(),kind:kind||"error",provider:(PROVIDERS[providerId]&&PROVIDERS[providerId].name)||providerId||"",mode:state.mode,message:redactSecrets(message),...extra};
+  try{
+    const arr=JSON.parse(localStorage.getItem(FAIL_KEY)||"[]");
+    arr.unshift(record);localStorage.setItem(FAIL_KEY,JSON.stringify(arr.slice(0,100)));
+  }catch(_){}
+  try{
+    if(REMOTE_LOG_URL&&navigator.onLine)fetch(REMOTE_LOG_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({...record,page:location.pathname,ua:navigator.userAgent}),keepalive:true}).catch(()=>{});
+  }catch(_){}
+}
+function readFailures(){try{return JSON.parse(localStorage.getItem(FAIL_KEY)||"[]");}catch(_){return [];}}
+function openDiag(){
+  const b=$("diagBody"); if(!b)return;
+  b.textContent=readFailures().length?JSON.stringify(readFailures(),null,2):"No failures recorded.";
+  document.body.classList.add("diag-open");
+}
+function closeDiag(){document.body.classList.remove("diag-open");}
+const DEFAULT_PROXY_URL="https://lygo-studio-edge.lygo-studio-delta9.workers.dev/proxy";
+function downloadDiag(){
+  const blob=new Blob([JSON.stringify(readFailures(),null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="excavationpro-studio-failures.json";a.click();URL.revokeObjectURL(a.href);
+}
+window.addEventListener("error",e=>logFailure("window","",e.message,{source:e.filename||"",line:e.lineno||0}));
+window.addEventListener("unhandledrejection",e=>logFailure("promise","",(e.reason&&e.reason.message)||String(e.reason||"Unhandled rejection")));
+window.__studioFailures=readFailures;
+window.__studioDiag=openDiag;
+
 
 /* ---------- IndexedDB ---------- */
 let dbPromise=null;
@@ -371,10 +431,10 @@ async function checkHealth(ids){
       else{
         let msg="HTTP "+res.status;
         try{const t=await res.text();if(t)msg+=" · "+t.slice(0,80).replace(/\s+/g," ");}catch{}
-        healthState[id]={status:"fail",note:msg};
+        healthState[id]={status:"fail",note:msg};logFailure("health",id,msg,{http:res.status});
       }
     }catch(err){
-      healthState[id]={status:"fail",note:(err&&err.name==="TimeoutError")?"Timed out":("CORS/network: "+((err&&err.message)||"blocked")).slice(0,90)};
+      healthState[id]={status:"fail",note:(err&&err.name==="TimeoutError")?"Timed out":("CORS/network: "+((err&&err.message)||"blocked")).slice(0,90)};logFailure("health",id,healthState[id].note);
     }
     renderHealth();
   }));
@@ -394,7 +454,7 @@ async function generateChecked(){
 
 async function generateForProvider(provider,prompt,batchId){const key=getKey(provider.id);if(!key&&!provider.noKeyRequired)throw new Error("Missing API key for "+provider.name+".");if(needsProxy(provider)&&!state.proxyUrl)throw new Error(provider.name+" requires a proxy. Add one in Settings.");const model=selectedModel(provider.id);const opts={prompt,aspect:state.aspect,model,duration:state.duration};let items;if(needsProxy(provider)&&!provider.requiresProxy){const patched={...provider,generate:async(k,o)=>{const origFetch=window.fetch;window.fetch=(u,init)=>{const url=typeof u==="string"?u:u.url;if(url.startsWith("https://api.")||url.startsWith("https://queue.fal.run")){return origFetch(proxied(url),init);}return origFetch(u,init);};try{return await provider.generate(k,o);}finally{window.fetch=origFetch;}}};items=await patched.generate(key,opts);}else{items=await provider.generate(key,opts);}if(!items||!items.length)throw new Error("No output returned.");for(const it of items){if(it.url){await new Promise((res,rej)=>{const probe=new Image();probe.onload=()=>res();probe.onerror=()=>rej(new Error("Provider returned an image URL that failed to load (402/404/CORS)."));probe.src=it.url;});}}const recs=[];for(const it of items)recs.push(await normalizeAndSave(provider,it,batchId,prompt,state.mode));return recs;}
 
-async function generate(){const prompt=$("prompt").value.trim();if(!prompt)return setStatus("Write a prompt first.","error");const ids=state.compare?[...state.selected]:[state.providerId];const providers=ids.map(id=>PROVIDERS[id]).filter(Boolean);if(!providers.length)return setStatus("Select at least one provider.","error");const btn=$("generateBtn");btn.disabled=true;$("btnLabel").textContent="Generating…";const batchId=uid();state.pending=providers.map(p=>({batchId,providerId:p.id,providerName:p.name,prompt,mode:state.mode}));renderGallery();setStatus('<span class="spinner"></span> Generating with '+providers.map(p=>p.name).join(", ")+"…");const results=await Promise.allSettled(providers.map(p=>generateForProvider(p,prompt,batchId)));const errors=[];for(let i=0;i<results.length;i++){const r=results[i];const p=providers[i];if(r.status==="rejected"){errors.push(p.name+": "+r.reason.message);const rec={id:uid(),batchId,providerId:p.id,providerName:p.name,prompt,mode:state.mode,createdAt:Date.now(),error:r.reason.message};await idbAdd(rec);}}state.history=await idbAll();state.history.sort((a,b)=>b.createdAt-a.createdAt);state.pending=[];renderGallery();btn.disabled=false;$("btnLabel").textContent="Generate";if(errors.length)setStatus(errors.join(" · "),"error");else setStatus("Done — generated with "+providers.length+" provider"+(providers.length>1?"s":"")+".","ok");}
+async function generate(){const prompt=$("prompt").value.trim();if(!prompt)return setStatus("Write a prompt first.","error");const ids=state.compare?[...state.selected]:[state.providerId];const providers=ids.map(id=>PROVIDERS[id]).filter(Boolean);if(!providers.length)return setStatus("Select at least one provider.","error");const btn=$("generateBtn");btn.disabled=true;$("btnLabel").textContent="Generating…";const batchId=uid();state.pending=providers.map(p=>({batchId,providerId:p.id,providerName:p.name,prompt,mode:state.mode}));renderGallery();setStatus('<span class="spinner"></span> Generating with '+providers.map(p=>p.name).join(", ")+"…");const results=await Promise.allSettled(providers.map(p=>generateForProvider(p,prompt,batchId)));const errors=[];for(let i=0;i<results.length;i++){const r=results[i];const p=providers[i];if(r.status==="rejected"){errors.push(p.name+": "+r.reason.message);logFailure("generate",p.id,r.reason.message);const rec={id:uid(),batchId,providerId:p.id,providerName:p.name,prompt,mode:state.mode,createdAt:Date.now(),error:r.reason.message};await idbAdd(rec);}}state.history=await idbAll();state.history.sort((a,b)=>b.createdAt-a.createdAt);state.pending=[];renderGallery();btn.disabled=false;$("btnLabel").textContent="Generate";if(errors.length)setStatus(errors.join(" · "),"error");else setStatus("Done — generated with "+providers.length+" provider"+(providers.length>1?"s":"")+".","ok");}
 
 /* ---------- Settings modal ---------- */
 function openSettings(){const root=$("modalRoot");root.innerHTML='<div class="modal-bg" id="modalBg"><div class="modal"><h2>Settings</h2><p>All settings are stored in this browser only. API keys never leave your device.</p><label class="checkbox-row"><input type="checkbox" id="sPersist" '+(state.persistKeys?"checked":"")+'> Remember keys across browser restarts (less secure)</label><p style="margin-top:8px;font-size:11px;opacity:.7">Unchecked = keys live only in this tab session and are cleared when you close the browser. This is the safer default.</p><div class="field"><label>Proxy URL (for Replicate / fal.ai and CORS fallback)</label><input id="sProxy" placeholder="https://your-worker.workers.dev" value="'+escapeHtml(state.proxyUrl)+'"></div><div class="field"><label>Force proxy for OpenAI</label><label class="checkbox-row"><input type="checkbox" id="sForceOpenAI" '+(state.forceProxy.openai?"checked":"")+'> Route OpenAI requests through the proxy</label></div><div class="field"><label>Custom provider base URL</label><input id="sCustomBase" placeholder="https://api.example.com/v1" value="'+escapeHtml(state.custom.baseUrl)+'"></div><div class="field"><label>Custom endpoint path</label><input id="sCustomEp" placeholder="/images/generations" value="'+escapeHtml(state.custom.endpoint||"/images/generations")+'"></div><div class="field"><label>Custom model ID</label><input id="sCustomModel" placeholder="your-model" value="'+escapeHtml(state.custom.model)+'"></div><div class="modal-actions"><button class="btn-danger" id="clearHistory">Clear history</button><button class="btn-secondary" id="exportCfg">Export settings</button><button class="btn-secondary" id="importCfg">Import settings</button><button class="btn-secondary" id="closeSettings">Cancel</button><button class="btn-primary" id="saveSettings">Save</button></div></div></div>';const close=()=>root.innerHTML="";$("closeSettings").onclick=close;$("modalBg").addEventListener("click",e=>{if(e.target.id==="modalBg")close();});$("saveSettings").onclick=()=>{const newPersist=$("sPersist").checked;if(newPersist&&!state.persistKeys){for(const[id,v]of Object.entries(state.sessionKeys))if(v.trim())state.keys[id]=v;state.sessionKeys={};}else if(!newPersist&&state.persistKeys){for(const[id,v]of Object.entries(state.keys))if(v.trim())state.sessionKeys[id]=v;state.keys={};}state.persistKeys=newPersist;state.proxyUrl=$("sProxy").value.trim();state.forceProxy.openai=$("sForceOpenAI").checked;state.custom.baseUrl=$("sCustomBase").value.trim();state.custom.endpoint=$("sCustomEp").value.trim()||"/images/generations";state.custom.model=$("sCustomModel").value.trim();persist();renderProviders();syncComposer();close();toast("Settings saved.");};$("clearHistory").onclick=async()=>{if(!confirm("Delete all generation history from this browser?"))return;await idbClear();state.history=[];renderGallery();close();toast("History cleared.");};$("exportCfg").onclick=()=>{const blob=new Blob([JSON.stringify({proxyUrl:state.proxyUrl,forceProxy:state.forceProxy,custom:state.custom,skin:state.skin,mode:state.mode,persistKeys:state.persistKeys},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="excavationpro-studio-settings.json";a.click();URL.revokeObjectURL(a.href);};$("importCfg").onclick=()=>{const inp=document.createElement("input");inp.type="file";inp.accept=".json";inp.onchange=async()=>{const f=inp.files[0];if(!f)return;try{const j=JSON.parse(await f.text());if(j.proxyUrl!==undefined)state.proxyUrl=j.proxyUrl;if(j.forceProxy)state.forceProxy={...state.forceProxy,...j.forceProxy};if(j.custom)state.custom={...state.custom,...j.custom};if(j.skin)state.skin=j.skin;if(j.mode)state.mode=j.mode;if(typeof j.persistKeys==="boolean")state.persistKeys=j.persistKeys;persist();close();applySkin();toast("Settings imported.");}catch{toast("Invalid settings file.");}};inp.click();};}
@@ -402,7 +462,7 @@ function openSettings(){const root=$("modalRoot");root.innerHTML='<div class="mo
 /* ---------- Init ---------- */
 function applySkin(){document.documentElement.dataset.skin=state.skin;document.querySelectorAll("[data-skin-btn]").forEach(b=>b.classList.toggle("active",b.dataset.skinBtn===state.skin));}
 
-async function init(){restore();applySkin();state.history=await idbAll();state.history.sort((a,b)=>b.createdAt-a.createdAt);renderProviders();syncComposer();renderGallery();renderHealth();setTimeout(()=>checkHealth(),350);document.querySelectorAll("[data-mode]").forEach(b=>{b.classList.toggle("active",b.dataset.mode===state.mode);b.onclick=()=>{state.mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>x.classList.toggle("active",x.dataset.mode===state.mode));renderProviders();syncComposer();persist();};});document.querySelectorAll("[data-skin-btn]").forEach(b=>{b.onclick=()=>{state.skin=b.dataset.skinBtn;applySkin();persist();};});$("compareBtn").onclick=()=>{state.compare=!state.compare;state.selected=new Set([state.providerId]);$("compareBtn").classList.toggle("active",state.compare);renderProviders();syncComposer();persist();};$("apiKey").addEventListener("input",e=>{setKey(state.providerId,e.target.value);persist();renderProviders();renderHealth();});$("modelSelect").addEventListener("change",e=>{state.models[state.providerId]=e.target.value;persist();});$("forgetAll").onclick=()=>{if(!confirm("Remove all stored API keys from this browser?"))return;state.keys={};state.sessionKeys={};persist();renderProviders();syncComposer();toast("All keys removed.");};$("settingsBtn").onclick=openSettings;$("healthBtn").onclick=()=>checkHealth();$("generateBtn").onclick=generateChecked;$("prompt").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();generateChecked();}});}
+async function init(){restore();if(!state.proxyUrl)state.proxyUrl=DEFAULT_PROXY_URL;applySkin();state.history=await idbAll();state.history.sort((a,b)=>b.createdAt-a.createdAt);renderProviders();syncComposer();renderGallery();renderHealth();setTimeout(()=>checkHealth(),350);document.querySelectorAll("[data-mode]").forEach(b=>{b.classList.toggle("active",b.dataset.mode===state.mode);b.onclick=()=>{state.mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>x.classList.toggle("active",x.dataset.mode===state.mode));renderProviders();syncComposer();persist();};});document.querySelectorAll("[data-skin-btn]").forEach(b=>{b.onclick=()=>{state.skin=b.dataset.skinBtn;applySkin();persist();};});$("compareBtn").onclick=()=>{state.compare=!state.compare;state.selected=new Set([state.providerId]);$("compareBtn").classList.toggle("active",state.compare);renderProviders();syncComposer();persist();};$("apiKey").addEventListener("input",e=>{setKey(state.providerId,e.target.value);persist();renderProviders();renderHealth();});$("modelSelect").addEventListener("change",e=>{state.models[state.providerId]=e.target.value;persist();});$("forgetAll").onclick=()=>{if(!confirm("Remove all stored API keys from this browser?"))return;state.keys={};state.sessionKeys={};persist();renderProviders();syncComposer();toast("All keys removed.");};$("settingsBtn").onclick=openSettings;$("diagClose").onclick=closeDiag;$("diagClear").onclick=()=>{try{localStorage.removeItem(FAIL_KEY);}catch(_){};openDiag();};$("diagDownload").onclick=downloadDiag;document.addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toLowerCase()==="l"){e.preventDefault();openDiag();}});if(new URLSearchParams(location.search).get("diag")==="1")openDiag();$("healthBtn").onclick=()=>checkHealth();$("generateBtn").onclick=generateChecked;$("prompt").addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){e.preventDefault();generateChecked();}});}
 init();
 })();
 </script>
