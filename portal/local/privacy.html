@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LYGO Local — Privacy Notice</title>
+<meta name="description" content="LYGO Local privacy notice: loopback-only engine access, no prompt upload, no telemetry by default.">
+<link rel="canonical" href="https://excavationpro.ca/portal/local/privacy.html">
+<meta name="robots" content="index,follow">
+<link rel="stylesheet" href="/portal/local/local.css">
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="/portal/local/"><span class="seal">Δ9</span><span><b>LYGO LOCAL</b><small>privacy notice</small></span></a><nav class="navlinks"><a href="/portal/local/">Local home</a><a href="/portal/">API portal</a><a href="/portal/local/terms.html">Terms</a></nav></div></header>
+<main class="legal-body wrap">
+<p class="kicker">Last updated 2026-10-20</p>
+<h1>LYGO Local — Privacy Notice</h1>
+<p>This notice covers the LYGO Local harness and local browser console. It does not replace the <a href="/privacy.html">excavationpro.ca site privacy policy</a> for the public website.</p>
+
+<h2>The short version</h2>
+<ul>
+<li>The Phase 1 harness runs on your machine and binds only <code>127.0.0.1</code>.</li>
+<li>Prompts go to the engine you select on your own machine.</li>
+<li>Prompts and answers are not uploaded to excavationpro.ca.</li>
+<li>No chat history is written to disk by the harness.</li>
+<li>No analytics or telemetry is sent by the harness.</li>
+<li>The public portal relay is Phase 2 and is not active in this build.</li>
+</ul>
+
+<h2>What the harness reads</h2>
+<p>It reads the model list from known loopback AI endpoints and, if present, a local <code>%LOCALAPPDATA%\LYGO\engines.json</code> file that you create. It does not scan your LAN, your files, your browser history, or the public internet.</p>
+
+<h2>What leaves your machine</h2>
+<p>Your prompt is sent only to the local engine you select. That engine may itself call external services if it is configured to do so; those calls are between you and that engine. LYGO Connect does not add a cloud call.</p>
+
+<h2>What is stored</h2>
+<p>The harness does not write prompts or answers to disk. The browser tab holds the current answer in memory. Startup and engine-status messages may be written to the console or a local log for diagnostics. You can delete the install directory at any time.</p>
+
+<h2>Public portal (Phase 2)</h2>
+<p>When pairing is enabled, a local connector will open an outbound connection to a relay and exchange a one-time pairing code and session token. The relay will route requests between your browser and your local engine. A WebSocket relay can technically see message contents; a WebRTC path can be end-to-end between browser and local engine. The pairing screen will state which mode is in use before you connect. No public relay is active in Phase 1.</p>
+
+<h2>Website and downloads</h2>
+<p>The public pages use Google AdSense on the portal and site. AdSense and the site host may process standard web request data under their own policies. Model downloads from Hugging Face are governed by Hugging Face and the model authors. The LYGO Local installer will publish a SHA-256 and a signing identity; verify both before running it.</p>
+
+<h2>Security</h2>
+<p>The local API is token-gated, bound to loopback, and has no CORS access. Report a vulnerability through <a href="https://excavationpro.ca/security.txt">security.txt</a> or <a href="https://excavationpro.ca/contact.html">contact</a>. Do not test against systems you do not own.</p>
+
+<h2>Contact</h2>
+<p>Privacy questions: <a href="https://excavationpro.ca/contact.html">excavationpro.ca/contact.html</a>. Steward: Justin Helmer / Excavationpro.</p>
+<p class="note">This is a product privacy notice, not legal advice. The public site privacy policy and portal legal page also apply.</p>
+</main>
+<footer class="foot"><div class="wrap"><p><a href="/portal/local/">LYGO Local</a> · <a href="/portal/local/terms.html">Terms</a> · <a href="/portal/legal.html">Portal legal</a> · <a href="/privacy.html">Site privacy</a></p></div></footer>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LYGO Local — run your own AI engine | excavationpro.ca</title>
+<meta name="description" content="LYGO Local: a loopback-only engine harness for Hermes, Ollama, llama.cpp, LM Studio and vLLM. Scan, boot, and open a local browser console without an API key. Signed installer pending.">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<link rel="canonical" href="https://excavationpro.ca/portal/local/">
+<meta name="theme-color" content="#070b12">
+<link rel="icon" href="/portal/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/portal/local/local.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="excavationpro.ca">
+<meta property="og:url" content="https://excavationpro.ca/portal/local/">
+<meta property="og:title" content="LYGO Local — run your own AI engine">
+<meta property="og:description" content="Run your local engine through a browser console. No API key. Loopback only. Hermes, Ollama, llama.cpp, LM Studio, vLLM.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO Local — run your own AI engine">
+<meta name="twitter:description" content="Scan, boot, and use a local AI engine in the browser. No API key. Loopback only.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"LYGO Local","url":"https://excavationpro.ca/portal/local/","description":"Local AI engine harness and browser console. Loopback only; no cloud API key.","isPartOf":{"@type":"WebSite","name":"excavationpro.ca","url":"https://excavationpro.ca/"},"author":{"@id":"https://excavationpro.ca/about.html#person"}}
+</script>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="brand" href="/"><span class="seal">Δ9</span><span><b>LYGO LOCAL</b><small>portal / local engine</small></span></a>
+  <nav class="navlinks">
+    <a href="/portal/">API portal</a>
+    <a href="#install">Install</a>
+    <a href="#engines">Engines</a>
+    <a href="#models">Models</a>
+    <a href="#disclosure">Disclosure</a>
+  </nav>
+</div></header>
+
+<main class="wrap">
+<section class="hero">
+  <p class="kicker">No API key · loopback only · your hardware</p>
+  <h1>Run your engine.<br>Use it in the browser.</h1>
+  <p class="lead">LYGO Local is the harness that finds the AI engine already on your machine — Hermes, Ollama, llama.cpp, LM Studio, or vLLM — and opens a clean local console. No account, no cloud key, no prompt sent to excavationpro.ca.</p>
+  <p class="lead"><strong>Phase 1 is the local console.</strong> The public portal pairing relay is Phase 2. The installer is not published until the Windows binary is Authenticode-signed.</p>
+  <div class="actions">
+    <a class="btn primary" href="#install">Install status</a>
+    <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">Open installed console</a>
+    <a class="btn ghost" href="/portal/">Use the API portal</a>
+  </div>
+  <div class="statusbar">
+    <span class="pill warn">SIGNED INSTALLER PENDING</span>
+    <span>local harness 0.1.0-phase1</span>
+    <span>·</span><span>no unsigned EXE offered</span>
+  </div>
+</section>
+
+<section class="section" id="ways">
+  <h2>Three ways to use LYGO</h2>
+  <p class="sub">The API portal stays for people with keys. LYGO Local is for people who want their own engine and their own hardware.</p>
+  <div class="grid">
+    <article class="card"><p class="tag">01 · Local</p><h3>Bring your own engine</h3><p>Already run Hermes, Ollama, llama.cpp, LM Studio or vLLM? The harness scans the loopback ports, reads the model list, and opens a console. No model download required.</p><a class="btn" href="#engines">Engine compatibility</a></article>
+    <article class="card"><p class="tag">02 · Full pack</p><h3>LYGO Studio Pack</h3><p>A hardware-matched model pack from our Hugging Face vault. Text and code first; image, audio and video as separate packs because one 9B model cannot do all four well on 8 GB.</p><a class="btn" href="#models">Model packs</a></article>
+    <article class="card"><p class="tag">03 · API</p><h3>Public API portal</h3><p>No local engine, no install. Paste a Groq, Gemini, OpenRouter, OpenAI, Claude, Grok or DeepSeek key into the existing portal. Your key stays in the tab.</p><a class="btn" href="/portal/">Open API portal</a></article>
+  </div>
+</section>
+
+<section class="install" id="install">
+  <h2>Signed installer</h2>
+  <p class="sub"><strong>Not published yet.</strong> An unsigned Windows EXE triggers SmartScreen and antivirus warnings, and that is not acceptable for a public download. The harness is built and tested; the install button will be enabled only after the release binary is signed with a trusted Authenticode certificate and its SHA-256 is published here.</p>
+  <div class="row">
+    <button class="btn primary" type="button" disabled aria-disabled="true">Installer pending code signing</button>
+    <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">I already have it — open console</a>
+  </div>
+  <p class="note"><b>No silent install.</b> A browser can download an installer; Windows requires the user to run it. The signed installer will be per-user, no admin, and will not start an engine until you press Boot.</p>
+  <ul class="checklist">
+    <li>Per-user install in <code>%LOCALAPPDATA%\LYGO</code></li>
+    <li>No Windows service, no kernel driver</li>
+    <li>Loopback bind only, never LAN</li>
+    <li>Engine boot only on local button press</li>
+    <li>No prompt upload to excavationpro.ca</li>
+    <li>No telemetry on by default</li>
+    <li>Uninstall leaves your models and engines untouched</li>
+    <li>Signed release + published SHA-256</li>
+  </ul>
+  <details>
+    <summary>Developer preview: build from source</summary>
+    <p>For review before signing. Requires Go 1.25+.</p>
+    <pre>git clone &lt;your LYGO Connect source&gt;
+cd lygo_local
+go build -trimpath -ldflags "-s -w" -o dist\lygo-connect.exe .
+.\dist\lygo-connect.exe</pre>
+    <p>This is a source build, not the public installer. Do not redistribute an unsigned binary.</p>
+  </details>
+  <p class="note"><b>Phase 2:</b> after signing, LYGO Connect gets a pairing code and the public portal relay. The local console is already usable offline today; the relay is what extends it to excavationpro.ca/portal/.</p>
+</section>
+
+<section class="section" id="engines">
+  <h2>Engine compatibility</h2>
+  <p class="sub">The harness only probes these loopback ports. It does not scan your LAN or the internet. Custom adapters live in a local config file the website cannot write.</p>
+  <table>
+    <thead><tr><th>Engine</th><th>Default endpoint</th><th>Detected</th><th>Boot from harness</th></tr></thead>
+    <tbody>
+      <tr><td>Ollama</td><td><code>127.0.0.1:11434</code></td><td>Yes</td><td>Yes, if <code>ollama</code> is on PATH</td></tr>
+      <tr><td>Hermes / llama.cpp / OpenAI-compatible</td><td><code>127.0.0.1:8080</code>, <code>:8081</code></td><td>Yes</td><td>Start via your launcher; custom config can add a boot command</td></tr>
+      <tr><td>LM Studio</td><td><code>127.0.0.1:1234</code></td><td>Yes</td><td>Start in LM Studio; harness connects</td></tr>
+      <tr><td>vLLM</td><td><code>127.0.0.1:8000</code></td><td>Yes</td><td>Start via your vLLM command</td></tr>
+      <tr><td>LYGO Console</td><td>Custom adapter</td><td>Yes</td><td>Add its launcher in <code>%LOCALAPPDATA%\LYGO\engines.json</code></td></tr>
+    </tbody>
+  </table>
+  <p class="note">The first build was tested against a live QwenPaw 9B server on <code>:8080</code>; the harness read <code>qwenpaw-9b</code> and returned a local chat answer. No cloud request was involved.</p>
+</section>
+
+<section class="section" id="models">
+  <h2>Model packs from Hugging Face</h2>
+  <p class="sub">Models are separate from the harness. They are large, licensed, and hardware-specific. Pull only what your machine can run.</p>
+  <div class="grid">
+    <article class="card"><p class="tag">Text + code</p><h3>LYGO Console model vault</h3><p>GGUF models used by the LYGO console, including Qwen-family text and coding models. Start with the 9B Q4 tier on 8 GB.</p><a class="btn" href="https://huggingface.co/DeepSeekOracle/lygo-console-models" target="_blank" rel="noopener">Open model vault</a></article>
+    <article class="card"><p class="tag">Large expert</p><h3>LYGO Qwen 3.6 35B OpenClaw</h3><p>MoE GGUF for bigger GPUs. Not a starter pack; expect a large download and serious RAM/VRAM requirements.</p><a class="btn" href="https://huggingface.co/DeepSeekOracle/LYGO-Qwen3.6-35B-Uncensored-OpenClaw" target="_blank" rel="noopener">Open model</a></article>
+    <article class="card"><p class="tag">Engine + kits</p><h3>LYGO console builds</h3><p>Installers, console builds and supporting files. Verify every SHA-256. Model licences remain with their authors.</p><a class="btn" href="https://huggingface.co/DeepSeekOracle/lygo-console-builds" target="_blank" rel="noopener">Open builds</a></article>
+    <article class="card"><p class="tag">Creative</p><h3>LYGO Resonance Engine</h3><p>Image-to-sound and creative profile engine, separate from the text LLM. Useful once the local console is running.</p><a class="btn" href="https://huggingface.co/DeepSeekOracle/LYGO-Resonance-Engine" target="_blank" rel="noopener">Open engine</a></article>
+    <article class="card"><p class="tag">Image / audio / video</p><h3>Separate media engines</h3><p>Qwen-Image/SDXL, ACE-Step and Wan 2.2 are separate runtimes, not one magic model. The Studio Pack will detect hardware and recommend a tier.</p><a class="btn" href="https://huggingface.co/DeepSeekOracle" target="_blank" rel="noopener">All LYGO models</a></article>
+    <article class="card"><p class="tag">Already have one?</p><h3>Bring your own</h3><p>Ollama, LM Studio and llama.cpp already manage their own downloads. LYGO Connect will use them without duplicating a model.</p><a class="btn" href="#engines">See ports</a></article>
+  </div>
+</section>
+
+<section class="section" id="disclosure">
+  <h2>Full disclosure</h2>
+  <p class="sub">What the harness does, what it does not do, and what leaves your machine.</p>
+  <div class="grid">
+    <article class="card"><h3>What it reads</h3><p>Your local loopback ports and the model list returned by the selected engine. Optionally, a local <code>engines.json</code> you create.</p></article>
+    <article class="card"><h3>What it sends</h3><p>Only your prompt, to the selected engine on <code>127.0.0.1</code>. No prompt is sent to excavationpro.ca. No analytics endpoint is called by the harness.</p></article>
+    <article class="card"><h3>What it stores</h3><p>No chat history is written to disk. The browser tab holds the current answer. The harness logs startup and engine status to its own console.</p></article>
+    <article class="card"><h3>What it will add later</h3><p>Phase 2 pairing sends a one-time code and session token to the relay. That will be disclosed and opt-in. The relay cannot see prompts if WebRTC is used; with a WebSocket relay it can, so that choice will be explicit.</p></article>
+    <article class="card"><h3>What it never does</h3><p>No arbitrary command from the website, no LAN scan, no open proxy, no silent auto-start, no remote shell, no model upload.</p></article>
+    <article class="card"><h3>Your responsibility</h3><p>Model licences, hardware limits, content you generate, and any API or tip you choose. The harness is a local tool, not a hosted service.</p></article>
+  </div>
+  <p class="note"><b>Legal:</b> <a href="/portal/local/terms.html">LYGO Local terms &amp; EULA</a> · <a href="/portal/local/privacy.html">LYGO Local privacy notice</a> · <a href="/portal/legal.html">Portal legal</a> · <a href="/privacy.html">Site privacy</a> · <a href="/terms.html">Site terms</a>.</p>
+</section>
+
+<section class="section">
+  <h2>What Phase 1 already proves</h2>
+  <p class="sub">This is not a mockup. The built harness was run on this machine against a live local engine.</p>
+  <div class="grid">
+    <article class="card"><h3>Detected</h3><p>QwenPaw 9B on <code>127.0.0.1:8080</code>; model <code>qwenpaw-9b</code>; auth handled locally with the engine's key.</p></article>
+    <article class="card"><h3>Answered</h3><p>The local browser console sent a prompt through the harness and received <code>OK</code>. No cloud API key was used.</p></article>
+    <article class="card"><h3>Bounded</h3><p>Loopback only, token-gated local API, no CORS, no prompt upload, no engine boot without a local button press.</p></article>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <p><strong>LYGO Local</strong> · a local-first product by Justin Helmer / Excavationpro · <a href="/portal/">API portal</a> · <a href="/portal/local/terms.html">Terms</a> · <a href="/portal/local/privacy.html">Privacy</a> · <a href="/portal/legal.html">Portal legal</a></p>
+  <p>No unsigned installer is offered on this page. Model files remain under their authors' licences. This page is a product disclosure, not a promise of uptime or fitness.</p>
+</div></footer>
+</body>
+</html>
