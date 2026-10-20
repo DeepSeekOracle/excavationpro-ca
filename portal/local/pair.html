@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LYGO Local — pair a local engine</title>
+<meta name="description" content="Pair a LYGO Connect local engine with the public portal through the LYGO relay.">
+<meta name="robots" content="noindex,follow">
+<link rel="stylesheet" href="/portal/local/local.css">
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="/portal/local/"><span class="seal">Δ9</span><span><b>LYGO LOCAL</b><small>relay pairing · developer preview</small></span></a><nav class="navlinks"><a href="/portal/local/">Local home</a><a href="/portal/">API portal</a><a href="/portal/local/terms.html">Terms</a></nav></div></header>
+<main class="wrap">
+<section class="hero">
+  <p class="kicker">Phase 2 · pairing preview</p>
+  <h1>Pair a local engine.</h1>
+  <p class="lead">Start LYGO Connect with <code>--relay-url</code>, read the six-character pair code in its local console, and enter it here. The relay forwards JSON between this page and your local harness; it does not proxy arbitrary traffic.</p>
+  <p class="note"><b>Developer preview.</b> The production relay is not deployed yet. This page defaults to <code>wss://lygo-relay.lygo-studio-delta9.workers.dev/ws</code>. For local testing append <code>?relay=ws://127.0.0.1:8788/ws</code>.</p>
+</section>
+<section class="install">
+  <h2>Pairing</h2>
+  <p class="sub">The code is shown by LYGO Connect. It is not a password and expires with the session.</p>
+  <div class="row"><input id="code" class="mono" maxlength="6" placeholder="ABC123" aria-label="Pair code" style="max-width:180px;text-transform:uppercase"><button class="btn primary" type="button" id="connect">Connect</button><span class="pill" id="status">idle</span></div>
+  <p class="hint" id="relay-line"></p>
+</section>
+<section class="section">
+  <h2>Engines</h2>
+  <div class="grid" id="engines"><article class="card"><p class="muted">Connect a code to read the local engine list.</p></article></div>
+</section>
+<section class="section">
+  <h2>Prompt</h2>
+  <div class="chat-shell">
+    <div class="chat-panel">
+      <label for="engine">Engine</label><select id="engine"><option value="">No engine</option></select>
+      <label for="model" style="margin-top:10px">Model</label><select id="model"><option value="">No model</option></select>
+      <label for="prompt" style="margin-top:10px">Prompt</label><textarea id="prompt" placeholder="Ask your local engine…"></textarea>
+      <div class="chat-actions"><button class="btn primary" type="button" id="send">Send</button><button class="btn ghost" type="button" id="clear">Clear</button></div>
+      <p class="hint" id="chat-status">No request sent.</p>
+    </div>
+    <div class="chat-panel"><label>Answer</label><div id="answer" class="muted">The relayed answer appears here.</div></div>
+  </div>
+</section>
+</main>
+<footer class="foot"><div class="wrap"><p><a href="/portal/local/">LYGO Local</a> · <a href="/portal/local/privacy.html">Privacy</a> · <a href="/portal/local/terms.html">Terms</a> · relay preview; no production endpoint yet.</p></div></footer>
+<script>
+(function(){
+  const params = new URLSearchParams(location.search);
+  const relay = params.get('relay') || 'wss://lygo-relay.lygo-studio-delta9.workers.dev/ws';
+  const $ = id => document.getElementById(id);
+  let ws = null, engines = [], engine = '', model = '', req = 0;
+  const pending = new Map();
+  $('relay-line').textContent = 'Relay: ' + relay;
+
+  function setStatus(t, cls){ $('status').textContent = t; $('status').className = 'pill ' + (cls || ''); }
+  function send(obj) { if (!ws || ws.readyState !== 1) throw new Error('not connected'); ws.send(JSON.stringify(obj)); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function connect(){
+    const code = ($('code').value || '').trim().toUpperCase();
+    if (!/^[A-Z0-9]{6}$/.test(code)) { alert('Enter the six-character code shown by LYGO Connect.'); return; }
+    if (ws) { try { ws.close(); } catch(_) {} }
+    setStatus('connecting', 'warn');
+    ws = new WebSocket(relay + '?role=viewer&code=' + encodeURIComponent(code));
+    ws.onopen = () => { setStatus('waiting for engine', 'warn'); send({type:'models', id:'m0'}); };
+    ws.onmessage = ev => {
+      let m; try { m = JSON.parse(ev.data); } catch(_) { return; }
+      if (m.type === 'paired') { setStatus('paired', 'ok'); send({type:'models', id:'m1'}); }
+      if (m.type === 'waiting') { setStatus('waiting for engine', 'warn'); }
+      if (m.type === 'models') { engines = m.engines || []; render(); setStatus('paired', 'ok'); }
+      if (m.type === 'answer') { finish(m); }
+      if (m.type === 'error') { const cb = pending.get(m.id); if (cb) { cb.reject(new Error(m.error)); pending.delete(m.id); } }
+    };
+    ws.onclose = () => setStatus('disconnected', 'warn');
+    ws.onerror = () => setStatus('relay error', 'warn');
+  }
+
+  function render(){
+    const running = engines.filter(e => e.running);
+    $('engines').innerHTML = engines.map(e => '<article class="card"><h3>' + esc(e.name) + '</h3><p class="hint mono">' + esc(e.base_url) + '</p><p class="hint">' + esc(e.detail || '') + '</p><p class="hint">' + esc((e.models || []).join(' · ')) + '</p></article>').join('') || '<article class="card"><p class="muted">No engines reported.</p></article>';
+    const sel = $('engine');
+    sel.innerHTML = '<option value="">Choose engine</option>' + running.map(e => '<option value="' + esc(e.id) + '">' + esc(e.name) + '</option>').join('');
+    if (running.length === 1) sel.value = running[0].id;
+    engine = sel.value; updateModels();
+  }
+  function updateModels(){
+    const e = engines.find(x => x.id === engine);
+    const sel = $('model');
+    sel.innerHTML = (e && e.models || []).map(m => '<option value="' + esc(m) + '">' + esc(m) + '</option>').join('') || '<option value="">No models</option>';
+    model = sel.value;
+  }
+  $('engine').onchange = () => { engine = $('engine').value; updateModels(); };
+  $('model').onchange = () => { model = $('model').value; };
+  $('connect').onclick = connect;
+  $('clear').onclick = () => { $('prompt').value = ''; $('answer').textContent = ''; $('answer').className = 'muted'; $('chat-status').textContent = 'No request sent.'; };
+  $('send').onclick = () => {
+    if (!ws || ws.readyState !== 1) { alert('Connect a pair code first.'); return; }
+    if (!engine) { alert('Choose an engine.'); return; }
+    const text = $('prompt').value.trim(); if (!text) return;
+    const id = 'c' + (++req);
+    $('answer').textContent = 'Waiting for the local engine…'; $('answer').className = 'muted'; $('chat-status').textContent = 'Relayed request sent.';
+    send({type:'chat', id, engine_id: engine, model, messages:[{role:'user', content:text}]});
+    pending.set(id, {reject: e => { $('answer').textContent = 'Relay error: ' + e.message; $('chat-status').textContent = 'Failed.'; }});
+  };
+  function finish(m){ const p = pending.get(m.id); if (p) pending.delete(m.id); $('answer').className = ''; $('answer').textContent = m.text || '(empty answer)'; $('chat-status').textContent = 'Done · ' + (m.text || '').length + ' chars · via ' + (m.engine || 'local engine') + '.'; }
+})();
+</script>
+</body>
+</html>

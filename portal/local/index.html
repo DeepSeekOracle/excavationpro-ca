@@ -70,6 +70,7 @@
   <div class="row">
     <button class="btn primary" type="button" disabled aria-disabled="true">Installer pending code signing</button>
     <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">I already have it — open console</a>
+    <a class="btn ghost" href="/portal/local/pair.html">Pair an existing install</a>
   </div>
   <p class="note"><b>No silent install.</b> A browser can download an installer; Windows requires the user to run it. The signed installer will be per-user, no admin, and will not start an engine until you press Boot.</p>
   <ul class="checklist">
@@ -91,7 +92,7 @@ go build -trimpath -ldflags "-s -w" -o dist\lygo-connect.exe .
 .\dist\lygo-connect.exe</pre>
     <p>This is a source build, not the public installer. Do not redistribute an unsigned binary.</p>
   </details>
-  <p class="note"><b>Phase 2:</b> after signing, LYGO Connect gets a pairing code and the public portal relay. The local console is already usable offline today; the relay is what extends it to excavationpro.ca/portal/.</p>
+  <p class="note"><b>Phase 2 relay is live.</b> LYGO Connect can display a six-character pair code and connect to the Cloudflare relay; the preview pairing page is available. Public installer download still waits on code signing.</p>
 </section>
 
 <section class="section" id="engines">
