@@ -583,3 +583,104 @@ input[type="search"]:focus, input[type="url"]:focus {
   .spin, .live-dot { animation: none; }
   button, .btn, .tab, .chip, .aud, select, input { transition: none; }
 }
+
+
+/* --- Excavationpro player-first layout: no sidebar over the HUD --- */
+html, body {
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+body {
+  display: block !important;
+  min-height: 100dvh;
+}
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+.stage {
+  display: block !important;
+  overflow: visible !important;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.screen {
+  height: auto !important;
+  overflow: visible !important;
+}
+.player-box {
+  flex: none !important;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: none !important;
+  min-height: 0 !important;
+}
+.hud {
+  position: relative;
+  z-index: 20;
+  padding-bottom: 1.15rem;
+}
+.hud .row {
+  flex-wrap: wrap;
+  gap: .38rem;
+}
+.hud .row .btn {
+  min-height: 2.45rem;
+}
+.side {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  border-left: 0 !important;
+  border-top: 1px solid var(--line);
+  padding: 1.35rem 0 0 !important;
+  max-width: 1500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+.side > h1 { margin-top: 0; }
+.side .catalog {
+  display: block !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+.side .list {
+  max-height: 560px;
+  overflow: auto;
+}
+.side .note { max-width: 100%; }
+.side .tabs { position: static !important; }
+.ad-region {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 1500px;
+  margin: 1.35rem auto;
+  padding: 0 16px;
+}
+.ad-region .ad-slot {
+  margin: 0;
+  min-height: 110px;
+}
+.ad-region .ad-slot.ads-visible { display: block; }
+.foot {
+  max-height: none !important;
+}
+@media (max-width: 820px) {
+  .stage, .ad-region { padding-left: 8px; padding-right: 8px; }
+  .ad-region { grid-template-columns: 1fr; }
+  .side { padding-top: 1rem !important; }
+  .side .list { max-height: none; }
+  .hud .row { gap: .3rem; }
+  .hud .row .btn { font-size: .72rem; padding: .4rem .55rem; }
+}
