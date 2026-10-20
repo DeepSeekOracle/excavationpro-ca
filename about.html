@@ -1,50 +1,302 @@
 <!DOCTYPE html>
 <html lang="en" data-cookie-key="excavationpro_cookies">
 <head>
-<meta charset="utf-8">
+<base href="/witness/">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About Justin Helmer / Excavationpro</title>
-<meta name="description" content="Biography of Justin Helmer, the independent musician behind Excavationpro and Lightfather.">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>About Justin Helmer / Excavationpro — Public Witness</title>
+<meta name="description" content="About Justin Helmer, the independent artist and steward behind Excavationpro and Lightfather, combined with the interactive LYGO Public Witness globe.">
 <meta name="author" content="Justin Helmer / Excavationpro">
-<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://excavationpro.ca/about.html">
-<link rel="stylesheet" href="/site.css">
+<link rel="icon" href="/witness/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/witness/app.css">
 <meta name="google-adsense-account" content="ca-pub-0646320966060599">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:url" content="https://excavationpro.ca/about.html">
-<meta property="og:title" content="About Justin Helmer / Excavationpro">
-<meta property="og:description" content="Biography of Justin Helmer, the independent musician behind Excavationpro and Lightfather.">
-<meta property="og:site_name" content="Excavationpro">
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="About Justin Helmer / Excavationpro — Public Witness">
+<meta property="og:description" content="The artist behind the catalog, combined with the interactive Public Witness globe. Public signals are reference; the lattice is canon.">
+<meta property="og:image" content="https://excavationpro.ca/about.htmlog.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@Excavationpro">
-<meta name="twitter:title" content="About Justin Helmer / Excavationpro">
-<meta name="twitter:description" content="Biography of Justin Helmer, the independent musician behind Excavationpro and Lightfather.">
-
+<meta name="twitter:title" content="About Justin Helmer / Excavationpro — Public Witness">
+<meta name="twitter:description" content="The artist behind the catalog, combined with the interactive Public Witness globe.">
+<meta name="twitter:image" content="https://excavationpro.ca/about.htmlog.jpg">
 <link rel="stylesheet" href="/assets/site-kit.css">
-<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "About Justin Helmer / Excavationpro", "description": "Biography of Justin Helmer, the independent musician behind Excavationpro and Lightfather.", "url": "https://excavationpro.ca/about.html", "isPartOf": {"@type": "WebSite", "name": "Excavationpro", "url": "https://excavationpro.ca/"}}</script>
+<style id="about-witness-style">
+.about-hero{padding:clamp(3rem,7vw,6rem) 0 clamp(2rem,4vw,3.5rem);border-bottom:1px solid var(--line);background:radial-gradient(1000px 460px at 12% 0%,#0d2b36 0%,#080d18 62%)}
+.about-hero .wrap{max-width:1120px;margin:0 auto;padding:0 1.25rem}
+.about-hero .kicker{color:var(--gold);font:600 .66rem/1.4 "IBM Plex Mono",monospace;letter-spacing:.16em;text-transform:uppercase;margin:0 0 .8rem}
+.about-hero h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(2.8rem,7vw,5.6rem);line-height:.95;letter-spacing:-.025em;margin:0 0 1.2rem;color:var(--ink)}
+.about-lead{max-width:820px;font-size:clamp(1rem,1.4vw,1.18rem);line-height:1.65;color:#b9c6d5;margin:0 0 .9rem}
+.about-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:2rem}
+.about-facts div{border:1px solid rgba(52,211,153,.25);border-radius:10px;padding:12px 13px;background:rgba(8,18,28,.55)}
+.about-facts b{display:block;font:600 .68rem/1.4 "IBM Plex Mono",monospace;letter-spacing:.06em;color:var(--gold);text-transform:uppercase}
+.about-facts span{display:block;margin-top:4px;font-size:.82rem;color:var(--muted)}
+.about-story{padding:clamp(2.5rem,5vw,4.5rem) 0;background:#080d18;border-top:1px solid var(--line)}
+.about-story .wrap{max-width:980px;margin:0 auto;padding:0 1.25rem}
+.about-story .prose{max-width:none}
+.about-story h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;color:var(--gold);font-size:clamp(1.8rem,3vw,2.5rem);margin:2rem 0 .7rem}
+.about-story p{color:#b9c6d5;line-height:1.75;margin:0 0 1rem}
+.about-story a{color:var(--cyan)}
+.side h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(1.45rem,2.2vw,1.9rem);line-height:1.1;margin:.15rem 0 .55rem}
+@media(max-width:820px){.about-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.about-facts{grid-template-columns:1fr}.about-hero h1{font-size:2.7rem}}
+</style>
 </head>
 <body>
-<header class="site">
-  <div class="wrap nav">
-    <a class="brand" href="/">Excavationpro</a>
-    <nav class="navlinks" aria-label="Primary"> <a href="/">Home</a> <a href="/about.html" aria-current="page">About</a> <a href="/music.html">Music</a><a href="/data-vault/">Data Vault</a>
-      <a href="/portal/">Portal</a>
-      <a href="/LYGOTV/">LYGO TV</a> <a href="/articles/">Writing</a> <a href="/contact.html">Contact</a> <a href="https://asiancoastline.com/">Listen free</a></nav>
-  </div>
+<div class="mast">
+<header class="top">
+  <a class="brand" href="/">excavationpro.ca</a>
+  <nav aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/about.html" aria-current="page">About</a>
+    <a href="/music.html">Music</a>
+    <a href="/data-vault/">Data Vault</a>
+    <a href="/portal/">Portal</a>
+    <a href="/LYGOTV/">LYGO TV</a>
+    <a href="/signal/">Signal</a>
+    <a href="/talk-radio/">AI Talk Radio</a>
+    <a href="/articles/">Writing</a>
+    <a href="/contact.html">Contact</a>
+    <a href="https://asiancoastline.com/">Listen</a>
+    <a class="nav-donate" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+  </nav>
 </header>
-<div class="wrap">
-<article class="prose">
-  <h1>About Justin Helmer / Excavationpro</h1>
-  <p class="meta">Artist · producer · steward of a free public catalog</p>
+<div class="donate-strip" id="donate">
+  <div class="donate-copy">
+    <b>Support Public Witness</b>
+    <span class="donate-handle">PayPal.me/ExcavationPro · optional tip</span>
+  </div>
+  <div class="donate-actions">
+    <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
+    <a class="btn ghost" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener noreferrer">Patreon</a>
+  </div>
+  <div id="radioDock" class="radio-bar">
+    <audio id="radioEl" preload="none"></audio>
+    <button type="button" id="radioPlay">Play</button>
+    <button type="button" id="radioNext">Next</button>
+    <button type="button" id="radioMute" title="Mute (does not stop playback)">Mute</button>
+    <label class="radio-vol">Vol <input id="radioVol" type="range" min="0" max="100" value="55"></label>
+    <span class="radio-now" id="radioNow">Now playing · idle</span>
+    <span class="radio-title" id="radioTitle" hidden>Idle</span>
+    <a class="radio-hub" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen portal</a>
+    <span class="radio-dsp">
+      <a href="https://ffm.to/eovnvo9" target="_blank" rel="noopener noreferrer">Stream Excavationpro</a>
+      · <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" target="_blank" rel="noopener noreferrer">Spotify</a>
+      · <a href="https://music.apple.com/us/artist/excavationpro/1586588545" target="_blank" rel="noopener noreferrer">Apple</a>
+    </span>
+  </div>
+</div>
+</div>
+
+<section class="about-hero">
+  <div class="wrap">
+    <p class="kicker">About · steward · public record</p>
+    <h1>Justin Helmer / Excavationpro</h1>
+    <p class="about-lead">Independent artist, producer, and steward of a free public catalog. I release music as <strong>Excavationpro</strong>, write in longer mythic work as <strong>Lightfather</strong>, and keep the technical side public under <strong>DeepSeekOracle</strong>.</p>
+    <p class="about-lead">This page combines the person behind the catalog with the interactive Public Witness globe: public signals are reference, lattice ledgers are canon, and a shadow is named rather than invented.</p>
+    <div class="about-facts">
+      <div><b>Excavationpro</b><span>Independent music · free streams</span></div>
+      <div><b>Lightfather</b><span>Long-form mythic writing</span></div>
+      <div><b>DeepSeekOracle</b><span>Encodes · pages · ledgers</span></div>
+      <div><b>Public room</b><span>Open, maintained, no paywall</span></div>
+    </div>
+  </div>
+</section>
+<div class="stage">
+  <div class="maps">
+  <div class="globe-wrap">
+    <canvas id="globe" aria-label="Public Witness globe. Earth is reference. Lattice is canon. Wheel zoom, drag to pan and rotate, double-click to focus."></canvas>
+    <div class="globe-tools">
+      <button type="button" id="g-zin" title="Zoom in">+</button>
+      <button type="button" id="g-zout" title="Zoom out">−</button>
+      <button type="button" id="g-reset" title="Reset view">reset</button>
+      <button type="button" id="g-full" title="Fullscreen globe">full</button>
+      <span id="g-meta">click a pin · wheel zoom · double-click focus</span>
+    </div>
+    <div class="hud">
+      <button class="mode on" data-mode="earth" type="button">Sphere · globe</button>
+      <button class="mode" data-mode="lattice" type="button">Lattice · canon</button>
+      <button class="mode" data-mode="split" type="button">Split</button>
+      <a class="mode" href="#flat-earth">Disc · below</a>
+      <button class="chip ref on" data-layer="quakes" type="button">USGS</button>
+      <button class="chip ref on" data-layer="events" type="button">EONET/GDACS</button>
+      <button class="chip ref on" data-layer="iss" type="button">ISS</button>
+      <button class="chip ref on" data-layer="alerts" type="button">NWS</button>
+      <button class="chip ref on" data-layer="floods" type="button">Floods</button>
+      <button class="chip ref on" data-layer="launches" type="button">Launches</button>
+      <button class="chip ref on" data-layer="aurora" type="button">Aurora</button>
+      <button class="chip ref on" data-layer="flights" type="button">ADS-B box</button>
+      <button class="chip ref on" data-layer="weather" type="button">Weather</button>
+      <button class="chip ref on" data-layer="radar" type="button">Radar mosaic</button>
+      <button class="chip ref on" data-layer="air" type="button">Air quality</button>
+      <button class="chip ref on" data-layer="marine" type="button">Marine</button>
+      <button class="chip canon on" data-layer="canon" type="button">Ledgers / eggs</button>
+      <button class="chip shadow on" data-layer="shadow" type="button">Named shadows</button>
+      <button class="chip matrix on" data-layer="matrix" type="button">Matrix</button>
+      <button class="chip" id="btn-follow-iss" type="button">Follow ISS</button>
+    </div>
+    <div class="doctrine-bar">
+      <b>Doctrine.</b> Public nodes are <b>resources</b>. Private nodes are <b>named shadows</b>, we keep the silhouette so you remember to check every public, legal link around them. Hollow rings mean the payload is not here. Sphere and disc are two live perspectives of the same overlay.
+    </div>
+  </div>
+  <div class="disc-wrap" id="flat-earth">
+    <canvas id="disc" aria-label="Flat Earth disc. North at center, ice rim at the edge. Same public resources as the globe."></canvas>
+    <div class="globe-tools">
+      <button type="button" id="d-zin" title="Zoom disc">+</button>
+      <button type="button" id="d-zout" title="Zoom out">−</button>
+      <button type="button" id="d-reset" title="Reset disc">reset</button>
+      <button type="button" id="d-full" title="Fullscreen disc">full</button>
+      <span id="d-meta">FLAT EARTH · drag pan · click a pin (view stays) · wheel zoom</span>
+    </div>
+    <div class="doctrine-bar disc-bar">
+      <b>Disc model.</b> North Pole at the center. Equator is the mid ring. The outer ice is the southern rim. Same USGS / ISS / EONET points as the sphere, a different geometry, not a second dataset.
+    </div>
+  </div>
+  <div id="map-brief" class="map-brief" hidden></div>
+  </div>
+  <aside class="side">
+    <p class="kicker">Δ9Φ963 · Public Witness · <span id="utc-clock">…</span></p>
+    <p class="now-playing" id="nowPlaying">Now playing · idle</p>
+    <h2>See the world. Name the shadow. Crunch what is public.</h2>
+    <p class="lead">Pretty globes are not a moat. The moat is data that never became public. Scroll down for the <a href="#flat-earth">flat disc</a>, north at the center, ice at the rim, running the same public overlay. Two models. One set of resources.</p>
+    <article id="brief" class="brief empty">
+      <p class="kicker">Selected node</p>
+      <h2>Click a colored dot</h2>
+      <p>Each map mark is a <strong>public resource</strong>, a <strong>lattice receipt</strong>, or a <strong>named shadow</strong>. This card tells you what it is and opens the official page. We do not invent private interiors.</p>
+    </article>
+    <details class="help layer-key" open>
+      <summary>What the dots mean</summary>
+      <ul>
+        <li><span class="swatch" style="background:#f59e0b"></span> Amber fill. USGS quake (opens USGS)</li>
+        <li><span class="swatch ring" style="border-color:#fb7185"></span> Pink ring. NASA EONET event</li>
+        <li><span class="swatch" style="background:#7dd3fc"></span> Cyan glow. ISS (opens tracker)</li>
+        <li><span class="swatch" style="background:#fbbf24"></span> Gold, public weather / NWS-style alert</li>
+        <li><span class="swatch" style="background:#f472b6"></span> Pink fill, launch pad</li>
+        <li><span class="swatch hollow"></span> Hollow purple, named shadow (public checks only)</li>
+      </ul>
+      <p>Click a dot or a feed row. The card above fills and the buttons go to the agency site. JSON under the feed is for agents.</p>
+    </details>
+    <div class="stat-row">
+      <div class="stat"><b id="n-ref">0</b><span>public resource pings</span></div>
+      <div class="stat"><b id="n-canon">0</b><span>canon nodes</span></div>
+      <div class="stat"><b id="n-shadow">0</b><span>named shadows</span></div>
+      <div class="stat"><b id="n-hf">, </b><span>HF overlay points</span></div>
+    </div>
+    <p class="legend">Sources:
+      HF feed <span id="st-hf" class="tag miss">…</span>
+      USGS <span id="st-usgs" class="tag miss">…</span>
+      EONET <span id="st-eonet" class="tag miss">…</span>
+      ISS <span id="st-iss" class="tag miss">…</span>
+      NWS <span id="st-nws" class="tag miss">…</span>
+      GDACS <span id="st-gdacs" class="tag miss">…</span>
+      ADS-B <span id="st-flights" class="tag miss">…</span>
+      Weather <span id="st-wx" class="tag miss">…</span>
+      Radar <span id="st-radar" class="tag miss">…</span>
+      World alerts <span id="st-walert" class="tag miss">…</span>
+      Air <span id="st-aq" class="tag miss">…</span>
+      DWD <span id="st-dwd" class="tag miss">…</span>
+      Anchors <span id="st-anchors" class="tag miss">…</span>
+      Star Chart <span id="st-star" class="tag miss">…</span>
+      Eggs <span id="st-eggs" class="tag miss">…</span>
+      Agora <span id="st-agora" class="tag miss">…</span>
+    </p>
+    <div class="actions">
+      <button class="btn" id="btn-refresh" type="button">Reload sources</button>
+      <button class="btn ghost" id="btn-overlay" type="button">JSON overlay</button>
+      <button class="btn ghost" id="btn-ollama" type="button">Local Ollama summary</button>
+      <button class="btn ghost" id="btn-hf" type="button">HF SmolLM2 summary</button>
+      <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate PayPal</a>
+      <button class="btn ghost" id="btn-copy-ll" type="button">Copy lat,lon</button>
+    </div>
+    <input class="feed-q" id="feed-q" type="search" placeholder="Filter overlay (quake, ISS, shadow…)" aria-label="Filter overlay">
+    <div class="filter-row">
+      <button class="chip on" data-filter="all" type="button">All</button>
+      <button class="chip ref" data-filter="resource" type="button">Resources</button>
+      <button class="chip canon" data-filter="canon" type="button">Canon</button>
+      <button class="chip shadow" data-filter="shadow" type="button">Shadows</button>
+    </div>
+    <ul class="feed" id="feed"></ul>
+    <p class="legend">Click a map dot or a row here. Info and official links appear in the <strong>Selected node</strong> card at the top of this column.</p>
+    <pre class="out" id="detail" aria-label="Agent JSON for the selected node">Signature: waiting…</pre>
+    <details class="help">
+      <summary>Map controls</summary>
+      <p>Drag rotate · Shift-drag pan · Wheel zoom · Double-click focus · Click pick · Click a feed row to fly both maps · ISS row follows · Fullscreen · Gold line is the day/night terminator · Country names appear when zoomed · <code>#ll=lat,lon</code> permalink.</p>
+    </details>
+    <pre class="out" id="ollama-out">Ollama is optional (localhost:11434). Pair with lygo-ollama-army.</pre>
+    <p class="legend">Agents: <code>npx clawhub@latest install deepseekoracle/lygo-public-witness</code><br>
+    FULL zip: <a href="/lygoskillhub.html#full-lygo">SkillHub</a> ·
+    Eye: <a href="https://chatagent.ca/godseye/">God's Eye</a> ·
+    Chart: <a href="https://chatagent.ca/starchart/">Star Chart live</a> ·
+    Canon: <a href="https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html">Haven Star Chart</a> ·
+    Eggs: <a href="https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRetrieval.html">Kernel eggs</a> ·
+    Guide: <a href="https://chatagent.ca/guides/lygo-public-witness.html">Doctrine</a>
+    </p>
+    <p class="legend" id="sig"></p>
+  </aside>
+</div>
+
+<section class="bottom-deck" id="public-cameras">
+  <p class="kicker">Public cameras · official only</p>
+  <h2>Live public cameras</h2>
+  <p class="legend">NOAA GOES, NASA EPIC/SDO, and official USGS volcano cam pages. No private CCTV. Stills refresh; livestreams open on the agency site.</p>
+  <div class="cam-grid" id="cam-grid"></div>
+  <p class="kicker">Public monitor · disasters and severe headlines</p>
+  <h2>World disaster &amp; severe news monitor</h2>
+  <p class="legend">Public GET only: GDACS, USGS, ReliefWeb, NHC, NASA EONET, NWS, UN News, WHO, BBC/Guardian/NYT World. Severe lane = disaster agencies plus a keyword filter. Headlines stay <strong>RESOURCE</strong>. The event ledger is an append-only public log, <strong>not</strong> Star Chart CANON. Empty beats fake.</p>
+  <p class="legend" id="news-meta">Monitor · waiting…</p>
+  <div class="news-grid three">
+    <div class="news-col">
+      <h3>Severe / disaster <span id="st-news-sev" class="tag miss">…</span></h3>
+      <ul id="news-severe"></ul>
+    </div>
+    <div class="news-col">
+      <h3>World public wire <span id="st-news-world" class="tag miss">…</span></h3>
+      <ul id="news-world"></ul>
+    </div>
+    <div class="news-col">
+      <h3>Eternal event ledger <span id="st-news-led" class="tag miss">…</span></h3>
+      <p class="src" id="ledger-tip">RESOURCE log · tip pending</p>
+      <ul id="news-ledger"></ul>
+    </div>
+  </div>
+</section>
+
+<section class="prose">
+  <h2>What this is</h2>
+  <p>LYGO Public Witness is an original overlay: one Earth of public <strong>resources</strong>, one lattice of <strong>canon</strong> receipts, and a ring of <strong>named shadows</strong>. Shadows are not empty ignorance. They are the reminder that a private node exists, and that the honest move is to examine every public, legal surface linked to it. LYGO is public-data infrastructure, every available angle, without malice.</p>
+  <h2>Sphere and disc</h2>
+  <p>Two live models share one overlay. The <strong>globe</strong> is the sphere. The <strong>flat disc</strong> under it is the north-centered map: North Pole at the hub, equator as the mid ring, southern ice as the rim. USGS quakes, ISS, EONET, weather, the same public points, plotted twice. Different geometry. Same resources. Neither view invents a private payload.</p>
+  <h2>Three classes</h2>
+  <ul>
+    <li><strong>Resource</strong>, a public feed we may crunch (USGS, EONET, ISS). If the GET fails, the node stays named; we follow its public URL.</li>
+    <li><strong>Canon</strong>, dual ledgers, eggs, Star Chart feed, Agora. On-lattice receipts.</li>
+    <li><strong>Shadow</strong>, private rooms we will not open (ops desks, vaults, vendor intel, live chart write). Silhouette + why + public checks. Payload is always null.</li>
+  </ul>
+  
+  <h2>Support</h2>
+  <p>Public Witness is free. Optional donations pay hosting and packaging. A tip does not buy access, skip the doctrine, or unlock private intel.</p>
+  <p>
+    <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal.me/ExcavationPro</a>
+    <a class="btn ghost" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener noreferrer">Patreon / Excavationpro</a>
+  </p>
+  <h2>Integrate</h2>
+  <p>Humans use this page. The globe crunches live public resources (USGS, EONET, ISS, NWS, GDACS, NOAA SWPC, Open-Meteo, a public ADS-B box, launch pads, CoinGecko). Hugging Face hosts a labeled overlay snapshot: <a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed">DeepSeekOracle/lygo-public-witness-feed</a>. Failed GETs stay <strong>named shadows</strong>. Agents: ClawHub tentacle + SkillHub FULL zip.</p>
+</section>
+<section class="about-story"><div class="wrap"><article class="prose">
+  
+  
   <p>My legal name is Justin Helmer. I release original music as <strong>Excavationpro</strong>. In longer mythic and creative writing I also use <strong>Lightfather</strong>. Those are not three different product lines fighting for a brand kit. They are one person, working in public, keeping the rights, and refusing to make listening a privilege.</p>
   <p>I am not signed to a major label. I do not have a manager who sends me a weekly playlist target. I record, mix, encode public streams, and write about the practice because the practice is the point. If that sounds stubborn, it is. Stubborn is how a catalog survives when the industry prefers a thirty-second clip and a merch drop.</p>
-  <div class="ad-slot" aria-label="Advertisement">
-  <div class="ad-label">Advertisement</div>
-  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-</div>
+  
 <h2>What I make</h2>
   <p>The music sits between hip-hop, electronic production, and experimental forms that do not mind being too long, too quiet, or too dense for a “mood mix.” I care about voice, rhythm, and atmosphere more than I care about sounding current. Current expires. A bed you can live in does not.</p>
   <p>I also maintain small free tools for other musicians, notably a browser BPM detector at bpmfinder.ca, because I needed them myself and I did not want another subscription. Those tools are documented in plain language on this site. They are not a bait-and-switch for a paid SaaS.</p>
@@ -67,25 +319,19 @@
 <p>The public room is the part of the catalog anyone can walk into: the player, the essays, the free tools. It is maintained, not automated. A link that stops working is a repair job. A page that stops being true is revised. The room is open because someone is still paying attention.</p>
 <h2>What this site is not</h2>
 <p>It is not a label, a management company, or a playlist service. It does not sell a rank. It does not promise a release schedule. It is the artist's own desk, with the door propped open.</p>
-</section></article>
-</div>
+</section></article></div></section>
+
 <footer class="site">
   <div class="wrap">
-    <nav aria-label="Footer">
-      <a href="/">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/music.html">Music</a>
-      <a href="/articles/">Writing</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/privacy.html">Privacy</a>
-      <a href="/terms.html">Terms</a>
-      <a href="/support.html">Support</a>
-      <a href="/hub.html">Live &amp; tools hub</a>
-    </nav>
-    <p>© <span class="y"></span> Justin Helmer / Excavationpro. Original music and original writing. All rights reserved except the personal listen license described in Terms.</p>
+    <p>© <span class="y"></span> Justin Helmer / Excavationpro. Original music and original writing. The Public Witness globe is part of the LYGO public record.</p>
+    <p><a href="/">Home</a> · <a href="/about.html">About</a> · <a href="/music.html">Music</a> · <a href="/articles/">Writing</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+    <p><strong>Optional tip:</strong> <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a> · <a href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a></p>
   </div>
 </footer>
 <script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+<script src="/witness/radio.js"></script>
+<script src="/witness/app.js"></script>
+<script src="/witness/disc.js"></script>
 <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
   <div>Google AdSense may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
   <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
