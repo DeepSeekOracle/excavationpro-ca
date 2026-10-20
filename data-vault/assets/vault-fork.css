@@ -1,0 +1,54 @@
+/* Excavationpro Vault fork kit */
+:root{
+  --xp-gold:#e0bd6b; --xp-gold2:#f6e5b1; --xp-cyan:#65e6d1; --xp-panel:rgba(9,16,28,.92);
+  --xp-line:rgba(224,189,107,.22);
+}
+body.vault-fork{background-color:#05080f}
+.forkbar{
+  position:sticky;top:0;z-index:70;background:rgba(4,8,15,.94);
+  border-bottom:1px solid var(--xp-line);backdrop-filter:blur(14px);
+  box-shadow:0 12px 40px -28px #000;
+}
+.forkbar-inner{max-width:1240px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fork-brand{display:flex;flex-direction:column;line-height:1;text-decoration:none;color:var(--xp-gold2);font-weight:700;letter-spacing:.14em;font-size:.72rem;text-transform:uppercase}
+.fork-brand span{font-size:.92rem;letter-spacing:.04em;text-transform:none;color:var(--xp-cyan);font-weight:600;margin-top:3px}
+.forkbar nav{display:flex;flex-wrap:wrap;gap:2px;flex:1;min-width:280px}
+.forkbar nav a{color:#b9c8d9;font-size:.71rem;padding:6px 8px;border-radius:6px;text-decoration:none;white-space:nowrap}
+.forkbar nav a:hover{color:var(--xp-gold2);background:rgba(224,189,107,.08)}
+.forkbar nav a.fork-on{color:#081018;background:var(--xp-gold);font-weight:700}
+.fork-back{font-size:.7rem;color:#9fb1c6;border:1px solid var(--xp-line);border-radius:999px;padding:6px 10px;white-space:nowrap}
+.fork-back:hover{color:var(--xp-gold2);border-color:var(--xp-gold)}
+.fork-ad{margin:18px 0;border:1px solid rgba(224,189,107,.16);border-radius:12px;padding:10px 12px;background:rgba(5,11,20,.5)}
+.fork-ad .ad-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#697f94;margin-bottom:6px}
+.fork-ad ins{display:block;min-height:70px}
+.fork-ad.bottom{margin-top:34px}
+.fork-footer{margin-top:34px;border-top:1px solid var(--xp-line);padding-top:18px;color:#8093a9;font-size:.72rem;display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+.fork-footer a{color:#c3d2e1;text-decoration:none;margin-right:12px}
+.fork-footer a:hover{color:var(--xp-gold2)}
+.fork-domains{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px}
+.fork-domains a{color:#a8bdcc;font-size:.7rem}
+.fork-note{border-left:2px solid var(--xp-gold);padding-left:12px;color:#aab9c8;font-size:.78rem;margin:14px 0}
+.fork-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:18px 0}
+.fork-card{border:1px solid var(--xp-line);border-radius:13px;background:linear-gradient(160deg,rgba(17,30,51,.9),rgba(7,14,25,.9));padding:16px}
+.fork-card h3{margin:0 0 6px;color:var(--xp-gold2);font-size:1rem}
+.fork-card p{margin:0 0 12px;color:#9fb0c2;font-size:.82rem}
+.fork-card a{font-size:.8rem;color:var(--xp-cyan)}
+.fork-hero{border:1px solid var(--xp-line);border-radius:20px;padding:36px 30px;background:linear-gradient(125deg,rgba(8,15,27,.9),rgba(16,29,48,.66));margin:16px 0 20px}
+.fork-hero h1{margin:0 0 8px;font-size:clamp(2rem,4vw,3.6rem);line-height:1;color:#f7efd2;letter-spacing:-.04em}
+.fork-hero h1 span{color:var(--xp-cyan);font-weight:400}
+.fork-hero p{color:#b7c6d5;max-width:760px;margin:0}
+.fork-kicker{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--xp-gold);margin:0 0 12px}
+table.ledger-table{width:100%;border-collapse:collapse;font-size:.78rem}
+table.ledger-table th,table.ledger-table td{border-bottom:1px solid rgba(224,189,107,.14);padding:8px 7px;text-align:left;vertical-align:top}
+table.ledger-table th{color:var(--xp-gold2);font-size:.65rem;text-transform:uppercase;letter-spacing:.08em}
+table.ledger-table a{color:var(--xp-cyan)}
+.ledger-filters{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.ledger-filters input,.ledger-filters select{background:#0b1728;color:#dce7f3;border:1px solid rgba(224,189,107,.22);border-radius:7px;padding:8px 10px;font:inherit;font-size:.8rem}
+.ledger-filters input{flex:1;min-width:220px}
+.ledger-count{color:#8da1b5;font-size:.75rem}
+@media(max-width:700px){
+  .forkbar-inner{padding:8px 10px}
+  .forkbar nav a{font-size:.66rem;padding:5px 6px}
+  .fork-back{display:none}
+  .fork-hero{padding:26px 19px}
+}

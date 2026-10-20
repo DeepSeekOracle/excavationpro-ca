@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-adsense-account" content="ca-pub-0646320966060599">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+  <title>LYGO Link Ledger — Excavationpro Vault</title>
+  <meta name="description" content="A browseable mirror of the LYGO public link archive: canonical pages, tools, ledgers, star chart, mesh, and deployment anchors.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://excavationpro.ca/data-vault/link-ledger.html">
+  <meta property="og:title" content="LYGO Link Ledger — Excavationpro Vault">
+  <meta property="og:url" content="https://excavationpro.ca/data-vault/link-ledger.html">
+  <link rel="stylesheet" href="assets/vault.css">
+  <link rel="stylesheet" href="assets/vault-fork.css">
+  <script src="assets/vault-fork.js" defer></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="fork-hero">
+    <p class="fork-kicker">Δ9Φ963 · Excavationpro Vault · public links</p>
+    <h1>Link <span>Ledger</span></h1>
+    <p>A public, browseable mirror of the LYGO link archive. Every row points to a canonical public page, tool, ledger, or deployment anchor. The source JSON remains available below.</p>
+  </header>
+  <main>
+    <div class="ledger-filters">
+      <input id="lq" type="search" placeholder="Search id, title, role, URL…" autocomplete="off" aria-label="Search link ledger">
+      <select id="lrole" aria-label="Filter by role"><option value="all">All roles</option></select>
+      <a class="btn" href="data/LYGO_PUBLIC_LINK_ARCHIVE.json">Raw JSON ↗</a>
+    </div>
+    <p class="ledger-count" id="lcount">Loading ledger…</p>
+    <div class="ledger-table-wrap"><table class="ledger-table"><thead><tr><th>ID / title</th><th>Role</th><th>Public links</th><th>Since</th></tr></thead><tbody id="lrows"></tbody></table></div>
+  </main>
+</div>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  let entries = [];
+  fetch("data/LYGO_PUBLIC_LINK_ARCHIVE.json", {cache:"no-store"}).then(r => {
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.json();
+  }).then(d => {
+    entries = d.entries || [];
+    const roles = [...new Set(entries.map(e => e.role).filter(Boolean))].sort();
+    $("#lrole").innerHTML += roles.map(r => `<option value="${esc(r)}">${esc(r)}</option>`).join("");
+    render();
+    $("#lq").addEventListener("input", render);
+    $("#lrole").addEventListener("change", render);
+  }).catch(e => { $("#lcount").textContent = "Ledger failed to load: " + e.message; });
+
+  function links(urls) {
+    return Object.entries(urls || {}).filter(([,v]) => typeof v === "string" && /^https?:/.test(v)).slice(0,4)
+      .map(([k,v]) => `<a href="${esc(v)}" target="_blank" rel="noopener">${esc(k)}</a>`).join("<br>");
+  }
+  function render() {
+    const q = ($("#lq").value || "").toLowerCase().trim();
+    const role = $("#lrole").value;
+    const rows = entries.filter(e => {
+      const hay = [e.id,e.title,e.role,JSON.stringify(e.urls || {})].join(" ").toLowerCase();
+      return (!q || hay.includes(q)) && (role === "all" || e.role === role);
+    });
+    $("#lcount").textContent = rows.length + " public link" + (rows.length === 1 ? "" : "s");
+    $("#lrows").innerHTML = rows.map(e => `<tr><td><strong>${esc(e.title || e.id)}</strong><br><span class="sig">${esc(e.id)}</span></td><td>${esc(e.role || "")}</td><td>${links(e.urls)}</td><td>${esc(e.since || "")}</td></tr>`).join("");
+  }
+})();
+</script>
+</body>
+</html>
