@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="excavationpro_portal_cookies">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https: blob:; connect-src 'self' https: http://127.0.0.1:* http://localhost:*; frame-src https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>AGENT BUILD: add an image, sound or video engine | excavationpro.ca</title>
+<meta name="description" content="Install one local engine on your own machine — Qwen-Image 2.1, ACE-Step 1.5 or Wan 2.2 — and the LYGO portal uses it. A copy-paste brief your agent runs, official download links, and the one-file bridge the page talks to. You do not need the whole suite.">
+<meta name="theme-color" content="#0c0a08">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://excavationpro.ca/portal/limbs.html">
+<link rel="icon" href="/portal/logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261018e">
+<script src="consent.js"></script>
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="portal-fork.css">
+<script src="portal-fork.js" defer></script>
+</head>
+<body class="limbs-page">
+<a class="skip" href="#limb-cards">Skip to the limbs</a>
+
+<header class="limbs-top">
+  <a class="limbs-brand" href="/portal/">Δ9Φ963 · LYGO</a>
+  <nav class="limbs-nav">
+    <a href="/portal/">Portal</a>
+    <a href="/portal/image-engine.html">Image engine (old page)</a>
+    <a href="/lygoskillhub.html">SkillHub</a>
+    <a href="/about.html">About</a>
+  </nav>
+</header>
+
+<main class="limbs-main">
+
+  <section class="limbs-hero">
+    <p class="limbs-kicker">AGENT BUILD · LOCAL ENGINE</p>
+    <h1>Bring your own engine.<br>The portal is the cockpit.</h1>
+    <p class="limbs-lede">The page has no GPU and no model, and it never will. You install <b>one</b> engine on your
+      own machine, your agent does the work, and the portal uses it through a small local bridge. Image, sound or
+      video — pick the one you actually need. The full LYGO console is still there if you want all three plus the chat engine.</p>
+    <p class="limbs-state" id="limb-summary">checking this machine…</p>
+    <p class="limbs-links">
+      <button type="button" id="limb-recheck" class="limb-btn">Check again</button>
+      <a class="limb-btn limb-btn-alt" href="/portal/#limbs">Use a limb from the portal</a>
+      <a class="limb-btn limb-btn-alt" href="/lygoskillhub.html#lygo-llm-kernel">Or take the whole console</a>
+    </p>
+  </section>
+
+  <section class="limbs-how" aria-labelledby="howTitle">
+    <h2 id="howTitle">How this works, in four honest steps</h2>
+    <ol class="limbs-steps">
+      <li><b>Pick one card below.</b> Image, sound or video. One limb is a complete product — you are not buying the suite, and nothing else on the portal changes.</li>
+      <li><b>Copy the agent brief.</b> It names the engine, the exact weights, the folder each file goes in, the command, and what it must prove before it reports success. Paste it into Claude Code, Codex, Grok, or any agent with a shell on your PC.</li>
+      <li><b>Your agent installs it.</b> ComfyUI, the weights, the workflow, then the bridge on <code>127.0.0.1:8191</code> (image), <code>:8192</code> (sound) or <code>:8193</code> (video). It reports what it measured, not what it hopes.</li>
+      <li><b>The portal lights up.</b> This page and the portal's LOCAL LIMBS module probe that port and, when it answers, generate on your machine with the file rendered in the page. Chrome will ask once for <b>local network access</b> — that is the page reaching your own PC, and it is the one permission this needs. Refuse it and the bridge still works in <b>its own window</b> (<code>127.0.0.1:8191</code>), which needs no permission at all.</li>
+    </ol>
+  </section>
+
+  <section class="limbs-cards" id="limb-cards" aria-label="Choose a limb"></section>
+
+  <section class="limbs-note" aria-labelledby="oneTitle">
+    <h2 id="oneTitle">Only want pictures? Then only install pictures.</h2>
+    <p>The full <a href="/lygoskillhub.html#lygo-llm-kernel">LYGO LLM Console</a> is the everything-build: chat on your own
+      GGUF, skills, the image suite and the USB version. It is the right answer if you want a local chat brain.
+      It is the wrong answer if all you want is better images than a free API tier gives you — that is one model,
+      one folder and one bridge, and this page is the short path.</p>
+    <p>Two paths, same honesty: <b>A</b> — do nothing, paste an API key in the portal, and the vendor's model draws.
+      <b>B</b> — install a limb here, and your own card draws with no per-picture bill. Neither is a subscription,
+      and neither hides which one answered: every image the page makes carries its route.</p>
+  </section>
+
+  <section class="limbs-honesty" aria-labelledby="honTitle">
+    <h2 id="honTitle">What we do and do not claim</h2>
+    <ul>
+      <li><b>No mirror, no re-host.</b> Every weight link goes to the official Hugging Face repository. We do not
+        serve model files, and we do not repackage licences we cannot ship.</li>
+      <li><b>Stub mode is not a demo of the model.</b> The bridge ships a <code>--backend stub</code> that writes a
+        gradient, a sine tone and a test clip. It exists so you can prove the page ↔ limb wiring before a 20 GB
+        download. <code>/health</code> always says which backend answered — if it says <code>stub</code>, no model ran.</li>
+      <li><b>Your machine stays yours.</b> The bridge binds <code>127.0.0.1</code> only. Nothing is uploaded, no
+        account exists, and the portal cannot reach the limb unless the limb is running.</li>
+      <li><b>The browser is a gate, not a bug.</b> A public HTTPS page calling a program on your own PC is a
+        Local Network Access request: Chrome asks, and if it is refused the page shows <i>blocked by this
+        browser</i> rather than pretending the limb is missing. Every card links to the bridge's own window as
+        the fallback, so a strict browser costs you the portal's paint job, never the engine.</li>
+      <li><b>Hardware numbers are tiers, not promises.</b> 12 GB of VRAM is comfortable for image and video at 720p;
+        8 GB works with quantized files and one job at a time; no NVIDIA card means use the API route, not this page.</li>
+    </ul>
+    <p class="hint">Machine-readable copy for your agent: <a href="limbs/manifest.json">limbs/manifest.json</a> ·
+      bridge source: <a href="limbs/limb_server.py">limbs/limb_server.py</a></p>
+  </section>
+
+</main>
+
+<footer class="legal limbs-foot">
+  <p>© <span class="y">2026</span> Justin Helmer · LYGO™ · RESOURCE, not CANON ·
+    <a href="/portal/">Portal</a> · <a href="/portal/legal.html">Legal &amp; disclaimers</a> ·
+    <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+</footer>
+
+<script src="limbs.js?v=20261018e"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+/* Excavationpro portal fork additions */
+.xp-fork-badge{position:fixed;left:14px;bottom:14px;z-index:9998;display:flex;flex-wrap:wrap;gap:3px 10px;
+  max-width:calc(100vw - 28px);padding:8px 11px;border:1px solid rgba(224,189,107,.38);border-radius:10px;
+  background:rgba(5,9,16,.93);backdrop-filter:blur(12px);box-shadow:0 12px 40px -18px #000;
+  font:600 10px/1.35 ui-sans-serif,system-ui,"Segoe UI",sans-serif;letter-spacing:.04em;
+  color:#c9d6e3}
+.xp-fork-badge b{color:#f6e5b1;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.xp-fork-badge a{color:#65e6d1;text-decoration:none;white-space:nowrap}
+.xp-fork-badge a:hover{color:#f6e5b1}
+.xp-consent{position:fixed;right:14px;bottom:14px;z-index:9999;width:min(360px,calc(100vw - 28px));
+  padding:14px;border:1px solid rgba(224,189,107,.35);border-radius:12px;
+  background:rgba(7,12,21,.97);box-shadow:0 22px 70px -22px #000;
+  color:#d8e1eb;font:13px/1.5 ui-sans-serif,system-ui,"Segoe UI",sans-serif}
+.xp-consent[hidden]{display:none}
+.xp-consent p{margin:0 0 10px}
+.xp-consent a{color:#65e6d1}
+.xp-consent .row{display:flex;gap:7px;flex-wrap:wrap}
+.xp-consent button{cursor:pointer;border-radius:7px;padding:7px 10px;font:600 12px ui-sans-serif,system-ui,sans-serif;
+  border:1px solid rgba(224,189,107,.3);background:#111d30;color:#f1e8d3}
+.xp-consent button.ok{background:#e0bd6b;color:#161208;border-color:#f6e5b1}
+.xp-ad{margin:22px auto;max-width:1100px;padding:0 14px}
+.xp-ad .xp-ad-label{font:700 9px ui-sans-serif,system-ui,sans-serif;letter-spacing:.18em;text-transform:uppercase;
+  color:#7d8fa3;margin-bottom:5px}
+.xp-ad ins{display:block;min-height:70px}
+@media(max-width:620px){
+  .xp-fork-badge{left:8px;bottom:8px;font-size:9px;padding:6px 8px}
+  .xp-consent{right:8px;bottom:52px;width:calc(100vw - 16px)}
+}

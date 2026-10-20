@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="excavationpro_portal_cookies">
+<head>
+<script src="/portal/consent.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' https: blob:; connect-src 'self' https: http://127.0.0.1:* http://localhost:* http://127.0.0.1:9641 http://localhost:9641 http://127.0.0.1:11434 http://127.0.0.1:11441; frame-src 'self' https://rumble.com https://www.youtube-nocookie.com https://player.kick.com https://player.twitch.tv https://www.twitch.tv https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://www.google.com https://*.adtrafficquality.google;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(self), payment=(), usb=()">
+<title>LYGO API Portal: bring Groq, OpenAI, Claude, Grok | excavationpro.ca</title>
+<meta name="description" content="LYGO API Portal: connect Groq, OpenAI, Claude, Grok, DeepSeek or any OpenAI-compatible key. ⇄ Compare bench sends one prompt to several models and shows the answers side by side, then one click synthesizes them into a single refined answer, or you keep the strongest segments of each and assemble them yourself. Browser agent tools (wiki, fetch, weather, Δ9 champions). Full local GGUF console is a separate SkillHub download. No GPU on this page.">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="creator" content="Justin Helmer">
+<meta name="publisher" content="excavationpro.ca">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large">
+<meta name="bingbot" content="index, follow">
+<meta name="keywords" content="LYGO, LLM portal, free AI chat, local LLM, Hugging Face, Δ9 champions, Excavationpro, Justin Helmer, Lightfather, chatagent.ca, OpenClaw, llama.cpp">
+<meta name="theme-color" content="#0c0a08">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="LYGO LLM Portal">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LYGO Portal">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="canonical" href="https://excavationpro.ca/portal/">
+<link rel="alternate" hreflang="en" href="https://excavationpro.ca/portal/">
+<link rel="manifest" href="/portal/manifest.json">
+<link rel="icon" href="/portal/logo.svg" type="image/svg+xml">
+<link rel="icon" href="/portal/logo.jpg" type="image/jpeg" sizes="512x512">
+<link rel="apple-touch-icon" href="/portal/logo.jpg">
+<link rel="image_src" href="https://excavationpro.ca/portal/x-card.jpg">
+<link rel="author" href="https://excavationpro.ca/about.html">
+<link rel="license" href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE">
+<link rel="sitemap" type="application/xml" href="https://excavationpro.ca/sitemap.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261018e">
+<link rel="stylesheet" href="/assets/lygo-tv-ninja.css?v=8">
+<script src="/assets/hls.min.js" defer></script>
+<script src="/assets/lygo-tv-ninja.js?v=8" defer></script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="chatagent.ca">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://excavationpro.ca/portal/">
+<meta property="og:title" content="LYGO API Portal, free agent studio">
+<meta property="og:description" content="Paste a Groq, OpenAI, Claude, Grok, or any OpenAI-compatible key. Send one prompt to several models side by side, then synthesize their answers into one refined answer in a click. No GPU on this page, the FULL local console is a SkillHub download.">
+<meta property="og:image" content="https://excavationpro.ca/portal/x-card.jpg">
+<meta property="og:image:url" content="https://excavationpro.ca/portal/x-card.jpg">
+<meta property="og:image:secure_url" content="https://excavationpro.ca/portal/x-card.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LYGO API Portal, gold Δ9 phi seal, bring a free key on chatagent.ca/portal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO API Portal, free agent studio">
+<meta name="twitter:description" content="Paste a Groq, OpenAI, Claude, or Grok key. Run one prompt through several models side by side, then synthesize one refined answer. chatagent.ca/portal">
+<meta name="twitter:image" content="https://excavationpro.ca/portal/x-card.jpg">
+<meta name="twitter:image:src" content="https://excavationpro.ca/portal/x-card.jpg">
+<meta name="twitter:image:alt" content="LYGO API Portal. Δ9Φ963 gold and cyan seal">
+<meta name="twitter:url" content="https://excavationpro.ca/portal/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://excavationpro.ca/portal/#app",
+      "name": "LYGO LLM Portal",
+      "alternateName": ["LYGO Free LLM Portal", "LYGO Agent Studio"],
+      "url": "https://excavationpro.ca/portal/",
+      "image": "https://excavationpro.ca/portal/x-card.jpg",
+      "logo": "https://excavationpro.ca/portal/logo.jpg",
+      "description": "LYGO API Portal: connect a free or paid LLM key (Groq, OpenAI, Claude, Grok, …). Browser agent tools. Full local console is a separate SkillHub download.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "author": {"@type": "Person", "name": "Justin Helmer", "alternateName": ["Excavationpro", "Lightfather"], "url": "https://excavationpro.ca/about.html", "sameAs": ["https://x.com/Excavationpro", "https://github.com/DeepSeekOracle"]},
+      "publisher": {"@type": "Organization", "name": "chatagent.ca", "url": "https://excavationpro.ca/", "logo": {"@type": "ImageObject", "url": "https://excavationpro.ca/portal/logo.jpg"}},
+      "isPartOf": {"@type": "WebSite", "name": "chatagent.ca", "url": "https://excavationpro.ca/"}
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://excavationpro.ca/portal/#page",
+      "url": "https://excavationpro.ca/portal/",
+      "name": "LYGO LLM Portal",
+      "isPartOf": {"@id": "https://excavationpro.ca/portal/#app"},
+      "inLanguage": "en-US",
+      "dateModified": "2026-09-24"
+    }
+  ]
+}
+</script>
+<style>
+  /* V1 bench stamp, same token family as style.css, kept inline so the page
+     revision is legible even before a fresh style.css is cached. */
+  .bench-stamp { font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted, #a99a86); margin:0.25rem 0 0.45rem; border-left:2px solid rgba(224,179,106,0.5); padding-left:0.5rem; }
+  .bench-stamp strong { color:var(--gold, #e0b36a); font-weight:600; }
+  /* Model-discovery bar: honest status for the key -> model list path. */
+  .models-bar { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; margin:.5rem 0 0; font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.74rem; line-height:1.4; }
+  .models-status { color:var(--muted,#9aa4b2); letter-spacing:.02em; }
+  .models-status.ok { color:#7fd18a; }
+  .models-status.warn { color:#e0b36a; }
+  .models-status.busy { color:#9aa4b2; font-style:italic; }
+  #models-refresh { font-family:inherit; font-size:.72rem; padding:.2rem .5rem; border:1px solid rgba(224,179,106,.5); background:transparent; color:inherit; border-radius:3px; cursor:pointer; }
+  #models-refresh:hover { background:rgba(224,179,106,.12); }
+  #model-filter { font-family:inherit; font-size:.72rem; padding:.2rem .45rem; background:transparent; border:1px solid rgba(255,255,255,.18); border-radius:3px; color:inherit; min-width:12rem; }
+</style>
+<link rel="stylesheet" href="portal-fork.css">
+<script src="portal-fork.js" defer></script>
+</head>
+<body class="public-mode branded">
+<a class="skip" href="#msg">Skip to chat</a>
+<!-- One-time entrance. Markup lives here so it paints before anything else; intro.js reveals it,
+     types the handshake, and remembers the click. Without JS, the noscript rule below removes it. -->
+<div id="introLayer" class="intro-layer" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <canvas id="introCanvas" class="intro-canvas" aria-hidden="true"></canvas>
+  <div class="intro-card">
+    <p class="intro-kicker">Δ9Φ963 · chatagent.ca · PUBLIC RESOURCE</p>
+    <h2 id="introTitle" class="intro-title">LYGO API PORTAL</h2>
+    <p class="intro-sub">The public gate to the lattice, a ninja console with no GPU, and no model of its own.</p>
+    <pre id="introTerm" class="intro-term" aria-live="polite"></pre>
+    <ul class="intro-terms">
+      <li><strong>You bring the key.</strong> Groq, Gemini, OpenRouter, OpenAI, Claude, Grok, DeepSeek, any OpenAI-compatible key. This page hosts no model.</li>
+      <li><strong>The key stays in this tab.</strong> chatagent.ca never receives it, and no answer is stored anywhere but your own browser.</li>
+      <li><strong>The answer is the vendor's model talking</strong>, not LYGO, not verified truth. Check the important things before you build on them (that is the P0 gate).</li>
+      <li><strong>Free the whole way.</strong> Nothing on this page is locked away, no code and no reminder timer. The ads on the page pay for it.</li>
+    </ul>
+    <div class="intro-actions">
+      <button type="button" id="introEnter" class="intro-cta" disabled>Entering…</button>
+      <a class="intro-link" id="introGuide" href="#start">How to start</a>
+    </div>
+    <p class="intro-foot">Free to use, supported by ads. Donations stay optional:
+      <a href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal.me/ExcavationPro</a> ·
+      <a href="https://excavationpro.ca/portal/legal.html">Legal &amp; disclaimers</a> ·
+      <a href="https://excavationpro.ca/about.html">Steward: Justin Helmer</a>.</p>
+  </div>
+</div>
+<noscript><style>#introLayer { display: none !important; }</style></noscript>
+<header>
+  <div class="brand-lockup">
+    <a class="mark" href="https://excavationpro.ca/" title="chatagent.ca">
+      <img src="logo.jpg" width="72" height="72" alt="LYGO Δ9 phi seal">
+    </a>
+    <div>
+      <p class="kicker">Δ9Φ963 · chatagent.ca · RESOURCE</p>
+      <h1>LYGO API Portal</h1>
+      <p class="bench-stamp">WEB PORTAL (API ONLY) · V1 bench · console line 1.3.2 · assets 2026-09-24 · ⇄ compare bench · ✦ one-click synthesis</p>
+      <p class="sub syslabel">One console, three systems, <strong>WEB PORTAL (API ONLY, online, you are here)</strong> · <strong>PC LOCAL</strong> (full admin console on your PC, GPU when present) · <strong>USB LOCAL</strong> (stand-alone stick agent, plug and play, mobile). Same limbs, same P0 gate, same labels; only the brain differs.</p>
+      <p class="sub">A <strong>ninja console with no GPU</strong>: bring a key from <em>any</em> vendor (Groq, Gemini, OpenRouter, OpenAI, Grok, DeepSeek, …). Pick the provider → paste the key → <strong>Connect</strong> → chat. Keys stay in this tab, chatagent.ca never sees them. Browser tools + 15 champions are already installed on the page. Want it all offline on your own machine? <a href="https://excavationpro.ca/lygo-llm-console.html">Local GGUF console</a>, same V1 bench, no API key at all. Legal: <a href="https://excavationpro.ca/portal/legal.html">legal &amp; disclaimers</a>. Steward: <a href="https://excavationpro.ca/about.html">Justin Helmer</a>.</p>
+      <nav class="site-nav" aria-label="Site">
+        <a href="https://excavationpro.ca/">Home</a>
+        <a href="https://excavationpro.ca/portal/" aria-current="page">Portal</a>
+        <a href="https://excavationpro.ca/lygo-llm-console.html">Console kit</a>
+        <a href="https://excavationpro.ca/lygoskillhub.html">SkillHub</a>
+        <a href="/books/">Books</a>
+        <a href="/signal/">LYGO Signal</a>
+        <a href="https://excavationpro.ca/sources/">LYGO TV</a>
+        <a href="https://asiancoastline.com/listen.html" rel="noopener">Listen</a>
+        <a href="https://excavationpro.ca/champions.html">Champions</a>
+        <a href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">Donate</a>
+        <a href="limbs.html">Agent build</a>
+      </nav>
+    </div>
+  </div>
+  <div id="health" class="health">API portal · pick a provider → paste its key → Connect</div>
+  <div class="conn">
+    <select id="mode" title="API provider">
+      <option value="groq" selected>Groq (free tier)</option>
+    </select>
+    <select id="model" title="Model is chosen for you" aria-label="Model">
+      <option value="openai/gpt-oss-20b" selected>openai/gpt-oss-20b</option>
+    </select>
+    <input id="hf-token" type="password" placeholder="Paste that provider’s API key (stays in this tab)" autocomplete="off">
+    <input id="endpoint" type="text" placeholder="Endpoint (custom only)" autocomplete="off" hidden>
+    <button type="button" id="connect">Connect</button>
+    <label class="chk hide-public" id="full-wrap"><input type="checkbox" id="full"> Full LYGO limbs</label>
+  </div>
+  <p class="models-bar"><span id="models-status" class="models-status">models, the list is read from your key, not a hard-coded table</span><button type="button" id="models-refresh" title="Re-read the model list from this provider">↻ models</button><input id="model-filter" type="search" placeholder="filter models…" autocomplete="off" aria-label="Filter models" hidden></p>
+  <p class="mode-pill" id="mode-help">Pick a provider → paste its key → Connect. Model is filled for you. <a href="#start">Start here</a> · <a href="#free-keys">Free keys</a> · <a href="#image-suite">Image suite</a> · <a href="/guides/how-to-lygo-llm-portal.html">Guide</a></p>
+</header>
+<section class="lygo-tv-wrap tv-med" aria-label="LYGO TV, live channels">
+  <div data-lygo-tv></div>
+</section>
+<section id="world" class="world" aria-label="World time">
+  <div class="world-now">
+    <div id="world-local" class="world-local">local , </div>
+    <div id="world-utc" class="world-utc">UTC , </div>
+  </div>
+  <div id="world-cities" class="world-cities"></div>
+</section>
+<main>
+  <nav class="rail">
+    <h2>Continuity</h2>
+    <div class="cont-tabs" role="tablist">
+      <button type="button" class="on" data-cont="soul">Soul</button>
+      <button type="button" data-cont="id">Identity</button>
+      <button type="button" data-cont="mem">Memory</button>
+    </div>
+    <div id="pane-soul" class="cont-pane"><textarea id="soul-edit" spellcheck="false" aria-label="SOUL.md"></textarea></div>
+    <div id="pane-id" class="cont-pane" hidden><textarea id="id-edit" spellcheck="false" aria-label="IDENTITY.md"></textarea></div>
+    <div id="pane-mem" class="cont-pane" hidden><textarea id="mem-edit" spellcheck="false" aria-label="MEMORY.md"></textarea></div>
+    <p class="hint">Shipped with this portal. Edits stay in your browser. <button type="button" id="id-reset">Reset defaults</button></p>
+    <h2>Skills</h2>
+    <p class="hint">Already on this page. Toggle on/off, no download. 15 champions + LYGO modules.</p>
+    <div id="skills-list" class="skills-list"></div>
+    <p class="hint" id="skill-pack">Loading pack…</p>
+    <h2>Agent limbs</h2>
+    <p class="hint">All browser-safe tools are installed on this page. Disk/shell stay on the local console.</p>
+    <p class="sub">No engine attached? The <strong>Image generation</strong> suite at the bottom of this page has two routes:
+    a key you already hold (nothing installed), or <strong>your own console</strong>, running the engine on your machine,
+    free and unlimited. Attach it with <code>?console=http://127.0.0.1:9642</code> from its public gateway, and allow local
+    network access when Chrome asks. Engine inside the kit since 1.3.2 (PC and stick); the checkpoint is fetched once , 
+    <a href="/portal/image-engine.html">both routes, in detail</a>.</p>
+    <div class="limbs">
+      <button type="button" data-limb="wiki">wiki</button>
+      <button type="button" data-limb="weather">weather</button>
+      <button type="button" data-limb="now">now</button>
+      <button type="button" data-limb="hn">HN</button>
+      <button type="button" data-limb="github">GitHub</button>
+      <button type="button" data-limb="handshake">lattice</button>
+      <button type="button" data-limb="whoami">whoami</button>
+      <button type="button" data-limb="iss">ISS</button>
+      <button type="button" data-limb="quake">quakes</button>
+      <button type="button" data-limb="howto">How to connect</button>
+      <button type="button" data-limb="skillhub">SkillHub FULL</button>
+      <button type="button" data-limb="kit">Console docs</button>
+    </div>
+    <h2>Modules</h2>
+    <p class="hint" id="modules-status">Looking for an attached console…</p>
+    <div class="skills-list" id="modules-list"></div>
+    <p class="hint">This page has no kernel of its own, so modules come from a console you attach: run <strong>PC LOCAL</strong> or <strong>USB CLAW</strong>, then start its public gateway (<code>PUBLIC_GATEWAY.bat</code>) and open this page with
+    <code>?console=http://127.0.0.1:9642</code>, the gateway is the address this page can talk to (the admin UI on
+    <code>:9641</code> / <code>:9651</code> is for you, not for a web page), and Chrome will ask to <em>allow access to your
+    local network</em>: say yes, or the console route fails as if nothing were running. Each row says what that module can do <em>here</em>, anything marked <em>needs your machine</em> is running in your local console, not in this tab.</p>
+    <h2>Full local console</h2>
+    <p class="hint">GGUF scan, folders, SkillHub FULL, USB CLAW, not this webpage.</p>
+    <p class="hint">
+      <a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">Download from SkillHub</a><br>
+      <a href="https://excavationpro.ca/lygo-llm-console.html">lygo-llm-console.html</a><br>
+      <a href="https://clawhub.ai/deepseekoracle/skills/lygo-llm-console">ClawHub map</a>
+    </p>
+    <pre class="ai-card" id="ai-card">name: LYGO API Portal
+url: https://excavationpro.ca/portal/
+channel: PUBLIC RESOURCE. API keys in the visitor browser
+not: hosted GPU; admin disks; vaults
+providers: groq, openrouter, openai, xai, deepseek, mistral, together, fireworks, gemini, anthropic, huggingface, custom OpenAI-compat
+browser_limbs: 50+ HTTPS + tab tools (wiki, fetch, weather, github, lattice_handshake, champions, …); no disk/shell
+full_local_kit: https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel
+docs: https://excavationpro.ca/lygo-llm-console.html
+how_to: https://excavationpro.ca/guides/how-to-lygo-llm-portal.html
+canon: dual ledgers / Haven Star Chart
+steward: Justin Helmer / Excavationpro / Lightfather
+</pre>
+  </nav>
+  <section class="chat-panel">
+    <ol class="start-card" id="start">
+      <li>Choose a <strong>provider</strong> in the dropdown (Groq is free; Gemini, OpenRouter, OpenAI, Grok, DeepSeek, and others work too).</li>
+      <li>Open that vendor’s key page from <a href="#free-keys">Free and near-free API keys</a>. Copy the key.</li>
+      <li>Paste it in the key box. Click <strong>Connect</strong>. The model is chosen for you.</li>
+      <li>Then chat. Skills and champions are already on this page, toggle them in the left rail.</li>
+      <li>Optional: press <strong>⇄ Compare</strong> to put one prompt to two or more models at once and read the answers side by side. Then press the <strong>+</strong> on the strongest segments of each answer and <strong>Assemble</strong> them into one, or leave nothing picked and press <strong>⇄ Synthesize</strong> for one refined answer.</li>
+    </ol>
+    <div id="log" class="log" aria-live="polite"></div>
+    <form id="form" class="composer">
+      <input id="msg" type="text" placeholder="Connect first, then ask…" autocomplete="off" autofocus>
+      <button type="button" id="cmp-toggle" class="cmp-toggle" aria-pressed="false" title="Send one prompt to two or more models, read the answers side by side, then synthesize them into one refined answer">⇄ Compare</button>
+      <button type="button" id="attach-file">Attach file</button>
+      <button type="submit">Send</button>
+    </form>
+    <div class="bench" id="bench" hidden aria-label="Compare bench and one-click synthesis">
+      <div class="bench-head">
+        <strong>⇄ Compare bench</strong>
+        <span class="hint" id="bench-status">two lanes, one prompt, side by side, then one refined answer</span>
+        <span class="bench-tools">
+          <button type="button" id="bench-add" title="Add a lane (up to four)">+ lane</button>
+          <button type="button" id="bench-run" title="Send what is in the box above to every ready lane now">Run on all lanes</button>
+        </span>
+      </div>
+      <div class="bench-lanes" id="bench-lanes"></div>
+      <p class="hint">Put the same prompt to two or more models at once, then read them side by side. From there, <strong>one click</strong> turns the comparison into something you can use: <strong>press the + on the strongest segments</strong> of each answer and <strong>Assemble</strong> them, your own picks, in order, verbatim, tagged to the answer each came from and written without spending a call, or leave nothing picked and press <strong>⇄ Synthesize</strong> to send every answer to one chosen lane and get a single refined answer back, with the line saying what it leaned on. If you have picked segments, Synthesize sends <em>only those</em>, so the fuse is sharp and costs less. One answer per run joins the conversation, so the log stays a conversation. <strong>Keys pasted in a lane stay in this tab’s memory</strong>, never in browser storage; nothing here is uploaded and no answer is stored anywhere but your own browser. A lane set to the same provider as the top box shares the key you already pasted there. A custom lane can point at any OpenAI-compatible URL (two self-hosted servers, two labs), and <code>127.0.0.1</code>/<code>localhost</code> is allowed by this page’s own policy. Each run spends one call per ready lane on your keys (the synthesis spends one more), and the seconds and tokens of each answer are shown with it.</p>
+      <div class="bench-out" id="bench-out" hidden></div>
+    </div>
+    <div class="np-foot" style="margin:0.4rem 0.2rem">
+      <button type="button" id="sess-save">Save session as…</button>
+      <button type="button" id="sess-load">Load session</button>
+    </div>
+  </section>
+  <aside>
+    <section class="ad-consent" id="adConsent" hidden aria-label="Advertising consent">
+      <p><strong>Ads &amp; cookies.</strong> Google AdSense may use cookies after you accept. <a href="/privacy.html">Privacy</a>.</p>
+      <div><button type="button" class="btn" id="adAccept">Accept ads</button><button type="button" class="btn ghost" id="adDecline">Essential only</button></div>
+    </section>
+    <div class="ad-slot" aria-label="Advertisement">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+    <h2>Trace</h2>
+    <pre id="limb-out" class="limb-out">public · no server shell</pre>
+    <section class="notepad" id="notepad">
+      <h2>Notepad</h2>
+      <p class="hint">Browser memory, or Save as… to a file you choose.</p>
+      <textarea id="np-body" placeholder="Scratch pad…"></textarea>
+      <div class="np-foot">
+        <button type="button" id="np-save">Save in browser</button>
+        <button type="button" id="np-disk">Save notepad as…</button>
+        <span id="np-status" class="hint">localStorage</span>
+      </div>
+    </section>
+    <div class="ad-slot" aria-label="Advertisement">
+      <div class="ad-label">Advertisement</div>
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+  </aside>
+</main>
+<footer class="media-dock" aria-label="Radio and TV">
+  <audio id="radioEl" preload="auto"></audio>
+  <div id="radioDock" class="radio-inline">
+    <button type="button" id="radioPlay">Play</button>
+    <button type="button" id="radioNext">Next</button>
+    <button type="button" id="radioMute">Mute</button>
+    <label class="radio-vol" title="Radio volume">Vol
+      <input type="range" data-radio-vol min="0" max="100" value="45" aria-label="Radio volume">
+      <span id="radioVolPct">45%</span>
+    </label>
+    <span id="radioTitle" class="radio-title-inline">Radio</span>
+    <a id="radioListen" href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen hub</a>
+    <a id="radioTv" href="https://excavationpro.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
+    <span id="radioHint" class="hint"></span>
+  </div>
+</footer>
+<section class="img-suite" id="image-suite" aria-labelledby="img-h">
+  <h2 id="img-h">Image generation</h2>
+  <p class="hint">Type a prompt, choose where the picture is made, and it appears right here in the module. Nothing is
+    uploaded to chatagent.ca: a picture is either made on a LYGO console you attach (the same SDXL engine the PC LOCAL
+    console uses) or by the key you pasted above, that key stays in this tab.</p>
+  <div class="img-grid">
+    <div class="img-controls">
+      <label class="img-lbl" for="img-prompt">What should the picture show?</label>
+      <textarea id="img-prompt" rows="4" spellcheck="false" placeholder="a lime green sports car on a wet neon street, cinematic lighting, ultra detailed, 8k photo"></textarea>
+      <div class="img-row">
+        <label class="img-lbl" for="img-route">Make it with</label>
+        <select id="img-route" aria-label="Picture route"></select>
+      </div>
+      <div class="img-row">
+        <label class="img-lbl" for="img-size">Size</label>
+        <select id="img-size" aria-label="Picture size">
+          <option value="1024">1024 × 1024 · best quality</option>
+          <option value="768">768 × 768 · faster</option>
+          <option value="512">512 × 512 · fastest</option>
+        </select>
+        <button type="button" id="img-go">Generate image</button>
+        <button type="button" id="img-check">Check routes</button>
+      </div>
+      <p class="hint" id="img-status">Loading routes…</p>
+      <details class="img-routes">
+        <summary>Which routes this page can really use, and what each one costs</summary>
+        <div id="img-routes-body"></div>
+      </details>
+      <p class="hint">A console draws one picture at a time (3 per 10 minutes per address): seconds on a free card, about
+        5 minutes on the CPU route the engine picks while the chat model holds the card. A key route bills your own
+        account, usually free or a few cents a picture.</p>
+    </div>
+    <figure class="img-stage">
+      <img id="img-out" alt="the picture this page generated" hidden>
+      <figcaption id="img-meta" class="hint">No picture yet.</figcaption>
+      <div class="img-actions">
+        <a id="img-dl" class="img-btn" hidden download="lygo-image.png">Download</a>
+        <button type="button" id="img-again" hidden>Again</button>
+        <button type="button" id="img-clear" hidden>Clear</button>
+      </div>
+    </figure>
+  </div>
+</section>
+<section class="limb-suite" id="limbs" aria-labelledby="limbsTitle">
+  <h2 id="limbsTitle">🧩 Local engine limbs <span class="sup-tag">AGENT BUILD</span> <button type="button" id="limbs-allow" class="limb-btn-sm">Allow local access</button></h2>
+  <p class="hint">This page has no GPU and no model. Install <b>one</b> engine on your own machine — image, sound or
+    video — and this module drives it through a small local bridge. Nothing is uploaded, and the portal cannot reach
+    it unless it is running. <a href="limbs.html"><b>Build a limb →</b></a> · or take the
+    <a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">full console</a> if you want all three plus the chat engine.</p>
+  <div id="limbs-body" class="limb-body"></div>
+  <p class="hint">A limb answering as <b>stub</b> proves the wiring, not the model — <code>/health</code> always names
+    the backend. Ports: image 8191 · sound 8192 · video 8193, all on <code>127.0.0.1</code>.</p>
+</section>
+<style>
+.image-studio-shell{max-width:1240px;margin:34px auto 0;padding:0 18px}
+.image-studio-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 12px;flex-wrap:wrap}
+.image-studio-kicker{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.image-studio-head h2{font-size:clamp(22px,3vw,32px);margin:4px 0 4px;line-height:1.1}
+.image-studio-head p{margin:0;max-width:760px;color:var(--muted);font-size:13px;line-height:1.55}
+.image-studio-frame{width:100%;height:min(92vh,1100px);min-height:760px;border:1px solid var(--border);border-radius:16px;background:var(--surface);display:block;overflow:hidden}
+@media(max-width:700px){.image-studio-shell{padding:0 10px;margin-top:24px}.image-studio-frame{height:90vh;min-height:680px;border-radius:12px}}
+</style>
+<section class="image-studio-shell" id="image-studio" aria-labelledby="image-studio-title">
+  <div class="image-studio-head">
+    <div>
+      <div class="image-studio-kicker">Standalone image portal</div>
+      <h2 id="image-studio-title">ChatAgent Image Studio</h2>
+      <p>Full-size BYOK image and video studio. Every provider gets a read-only preflight check before generation; keys stay in this browser. Existing portal tools are untouched.</p>
+    </div>
+    <a class="img-btn" href="/portal/image-studio.html" target="_blank" rel="noopener">Open full page ↗</a>
+  </div>
+  <iframe class="image-studio-frame" src="/portal/image-studio.html" title="ChatAgent Image Studio — full provider portal" loading="lazy" referrerpolicy="no-referrer" allow="clipboard-write"></iframe>
+</section>
+
+<section class="legal how" id="disclaimer">
+  <h2>Two products: do not mix them</h2>
+  <ol>
+    <li><strong>This page (API portal).</strong> Pick a provider, paste <em>that</em> vendor’s key, Connect, then chat. Groq is one free start, not the only one. Keys stay in your browser. chatagent.ca never sees the key.</li>
+    <li><strong>FULL local LYGO LLM Console.</strong> Your own GGUF models, folders, SkillHub FULL, USB CLAW. Download: <a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub FULL kernel</a> · docs <a href="https://excavationpro.ca/lygo-llm-console.html">lygo-llm-console.html</a> · ClawHub <a href="https://clawhub.ai/deepseekoracle/skills/lygo-llm-console">lygo-llm-console</a>.</li>
+  </ol>
+  <p>Step-by-step: <a href="/guides/how-to-lygo-llm-portal.html">How to use the LYGO API portal</a>.</p>
+  <h2 id="free-keys">Free and near-free API keys</h2>
+  <p>Limits change. Prefer the provider’s own page. This portal accepts <strong>any OpenAI-compatible</strong> key: pick the vendor or choose <em>Any OpenAI-compatible URL</em>, paste base + key + model id. Keys stay in this tab.</p>
+  <table class="keys-table">
+    <thead><tr><th>Get a key</th><th>Typical free offer</th><th>Use here</th></tr></thead>
+    <tbody>
+      <tr><td><a href="https://console.groq.com/keys" rel="noopener">Groq</a></td><td>No card. Default model <code>openai/gpt-oss-20b</code>. Llama 3.1 8B Instant is enterprise-only now.</td><td><button type="button" data-fill="groq">Fill Groq</button></td></tr>
+      <tr><td><a href="https://aistudio.google.com/apikey" rel="noopener">Google AI Studio (Gemini)</a></td><td>No card. Gemini Flash/Pro. Generous daily cap.</td><td><button type="button" data-fill="gemini">Fill Gemini</button></td></tr>
+      <tr><td><a href="https://openrouter.ai/keys" rel="noopener">OpenRouter</a></td><td>Email. Many models with <code>:free</code> suffix. ~50 req/day until you add credits.</td><td><button type="button" data-fill="openrouter">Fill OpenRouter</button></td></tr>
+      <tr><td><a href="https://cloud.cerebras.ai" rel="noopener">Cerebras</a></td><td>Very fast wafer inference. Free/trial Llama &amp; Qwen.</td><td><button type="button" data-fill="cerebras">Fill Cerebras</button></td></tr>
+      <tr><td><a href="https://huggingface.co/settings/tokens" rel="noopener">Hugging Face</a></td><td>Free account. Router + Inference Providers.</td><td><button type="button" data-fill="huggingface">Fill HF</button></td></tr>
+      <tr><td><a href="https://console.mistral.ai" rel="noopener">Mistral</a></td><td>Free/studio credits, no card on default Free.</td><td><button type="button" data-fill="mistral">Fill Mistral</button></td></tr>
+      <tr><td><a href="https://build.nvidia.com" rel="noopener">NVIDIA NIM</a></td><td>Large catalog. Phone verify. OpenAI-compat.</td><td><button type="button" data-fill="nvidia">Fill NVIDIA</button></td></tr>
+      <tr><td><a href="https://dashboard.cohere.com/api-keys" rel="noopener">Cohere</a></td><td>Trial key, eval limits.</td><td><button type="button" data-fill="cohere">Fill Cohere</button></td></tr>
+      <tr><td><a href="https://cloud.sambanova.ai" rel="noopener">SambaNova</a></td><td>Cloud Llama. Signup credits vary.</td><td><button type="button" data-fill="sambanova">Fill SambaNova</button></td></tr>
+      <tr><td><a href="https://llm7.io" rel="noopener">LLM7.io</a></td><td>Free OpenAI-compat endpoint.</td><td><button type="button" data-fill="llm7">Fill LLM7</button></td></tr>
+      <tr><td><a href="https://z.ai" rel="noopener">Z.ai / GLM</a></td><td>Flash models, cheap/free tiers in some regions.</td><td><button type="button" data-fill="zai">Fill Z.ai</button></td></tr>
+      <tr><td><a href="https://deepinfra.com" rel="noopener">DeepInfra</a></td><td>Small signup credit. Open models.</td><td><button type="button" data-fill="deepinfra">Fill DeepInfra</button></td></tr>
+      <tr><td><a href="https://app.hyperbolic.xyz" rel="noopener">Hyperbolic</a></td><td>Signup credit. Open-weight models.</td><td><button type="button" data-fill="hyperbolic">Fill Hyperbolic</button></td></tr>
+      <tr><td><a href="https://novita.ai" rel="noopener">Novita</a></td><td>Trial credit. OpenAI-compat.</td><td><button type="button" data-fill="novita">Fill Novita</button></td></tr>
+      <tr><td><a href="https://siliconflow.com" rel="noopener">SiliconFlow</a></td><td>Small credit. Qwen and more.</td><td><button type="button" data-fill="siliconflow">Fill SiliconFlow</button></td></tr>
+      <tr><td><a href="https://platform.deepseek.com" rel="noopener">DeepSeek V4.1 Flash</a></td><td><strong>Deal (official, Sep 2026):</strong> model <code>deepseek-flash</code> · 1M context · tools · vision. Off-peak <strong>$0.15 in / $0.60 out</strong> per 1M (cache-hit input <strong>$0.003</strong>). Peak is 2× (Mon–Fri 01:00–04:00 &amp; 06:00–10:00 UTC). V4 Pro still billed separately. Docs: <a href="https://api-docs.deepseek.com/quick_start/pricing" rel="noopener">api-docs.deepseek.com</a></td><td><button type="button" data-fill="deepseek">Fill deepseek-flash</button></td></tr>
+      <tr><td><a href="https://console.x.ai" rel="noopener">xAI Grok</a></td><td>Signup credits (not unlimited free).</td><td><button type="button" data-fill="xai">Fill Grok</button></td></tr>
+      <tr><td><a href="https://api.together.xyz" rel="noopener">Together</a> · <a href="https://fireworks.ai" rel="noopener">Fireworks</a></td><td>Small trial credits, then paid.</td><td><button type="button" data-fill="together">Together</button> <button type="button" data-fill="fireworks">Fireworks</button></td></tr>
+      <tr><td><a href="https://platform.openai.com/api-keys" rel="noopener">OpenAI</a> · <a href="https://console.anthropic.com" rel="noopener">Anthropic</a></td><td>Paid. Paste key here the same way.</td><td><button type="button" data-fill="openai">OpenAI</button> <button type="button" data-fill="anthropic">Claude</button></td></tr>
+    </tbody>
+  </table>
+  <p>Unknown vendor? Choose <strong>Any OpenAI-compatible URL</strong>, paste their <code>base</code> (we append <code>/v1/chat/completions</code> if needed), key, and model id. Directories: <a href="https://freellm.net" rel="noopener">freellm.net</a> · <a href="https://github.com/open-free-llm-api/awesome-freellm-apis" rel="noopener">awesome-freellm-apis</a>.</p>
+  <h2>Disclaimers</h2>
+  <ul>
+    <li>RESOURCE, not CANON. Dual ledgers / Haven Star Chart remain canon, nothing here writes to them.</li>
+    <li>No account. <strong>Your API key stays in this browser</strong> and goes only to the vendor you chose; chatagent.ca servers never see it.</li>
+    <li><strong>Not medical, legal, or financial advice.</strong> Models can be confidently wrong, check anything that matters. You remain the publisher of what you send and what you do with the answer.</li>
+    <li><strong>Your key, your vendor, their terms:</strong> pricing, quotas, retention and acceptable use are between you and that vendor. Vendor names are their owners' marks; no affiliation or endorsement is claimed. Key can spend real money.</li>
+    <li><strong>No warranty.</strong> Provided “as is”, no uptime promise. This domain does <strong>not</strong> host a public GPU. CORS failures are the vendor blocking browsers; try Groq/OpenRouter or the local kit.</li>
+    <li>Models keep their authors' licences (Gemma and Qwen are Apache-2.0; llama.cpp is MIT). The console code is <strong>LYGO Sovereign License v3.0</strong>, source-available, not MIT: use it, build on it, do not sell, rebrand or strip attribution.</li>
+    <li>Donate is optional: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a>.</li>
+  </ul>
+  <p><strong><a href="https://excavationpro.ca/portal/legal.html">Read the full legal &amp; disclaimers page →</a></strong>, licence, model attribution, warranty, AI caveats, acceptable use and privacy in plain language. Terms: <a href="https://excavationpro.ca/terms.html">Terms</a> · <a href="https://excavationpro.ca/privacy.html">Privacy</a>.</p>
+</section>
+<footer class="legal">
+  <p>© <span class="y">2026</span> Justin Helmer · LYGO™ · Dual ledgers / Star Chart remain CANON. This page is RESOURCE · <a href="https://excavationpro.ca/portal/legal.html">Legal &amp; disclaimers</a> · <a href="https://excavationpro.ca/privacy.html">Privacy</a> · <a href="https://excavationpro.ca/terms.html">Terms</a> · <a href="https://excavationpro.ca/security.txt">security.txt</a> · <a href="/guides/how-to-lygo-llm-portal.html">How to</a></p>
+</footer>
+<noscript>
+  <p>LYGO LLM Portal requires JavaScript. Docs: <a href="https://excavationpro.ca/lygo-llm-console.html">lygo-llm-console.html</a>. Free. No account.</p>
+</noscript>
+<script src="tools.js?v=20260924a"></script>
+<script src="synth.js?v=20260924c"></script>
+<script src="app.js?v=20260924i"></script>
+<script src="radio.js"></script>
+<script src="intro.js?v=20261018a"></script>
+<script src="limbs.js?v=20261018e"></script>
+<script src="/portal/ads.js" defer></script>
+</body>
+</html>

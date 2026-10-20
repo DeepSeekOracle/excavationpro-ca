@@ -1,0 +1,69 @@
+{
+  "name": "LYGO local engine limbs",
+  "version": "1.0.0",
+  "updated": "2026-10-18",
+  "what": "Local image, sound and video engines a person can install on their own machine and hand to the portal. The portal is the cockpit; the engine stays on their hardware.",
+  "bridge": {
+    "file": "https://chatagent.ca/portal/limbs/limb_server.py",
+    "python": "3.9+",
+    "binds": "127.0.0.1",
+    "endpoints": { "health": "GET /health", "generate": "POST /generate", "progress": "GET /progress" },
+    "backends": ["comfy", "diffusers", "stub"],
+    "note": "Answers CORS and Chrome's Local Network Access preflight; ComfyUI does not, which is why the bridge exists."
+  },
+  "limbs": [
+    {
+      "id": "image",
+      "port": 8191,
+      "model": "Qwen-Image 2.1",
+      "licence": "Qwen licence (weights) · ComfyUI build redistributed by Comfy-Org",
+      "picked_on": "11.4M downloads of the ComfyUI build; strong text rendering; a GGUF path that fits 12 GB cards",
+      "weights": [
+        { "repo": "Comfy-Org/Qwen-Image-2.1", "url": "https://huggingface.co/Comfy-Org/Qwen-Image-2.1", "role": "ComfyUI layout: turbo bf16 model 14.2 GB + int8 text encoder 9.35 GB", "primary": true },
+        { "repo": "Qwen/Qwen-Image-2.1", "url": "https://huggingface.co/Qwen/Qwen-Image-2.1", "role": "official diffusers weights, 33.1 GB bf16" },
+        { "repo": "unsloth/Qwen-Image-2.1-GGUF", "url": "https://huggingface.co/unsloth/Qwen-Image-2.1-GGUF", "role": "Q5_K_M 5.4 GB / Q6_K 6.3 GB for 8–12 GB cards" }
+      ],
+      "engine": { "name": "ComfyUI", "url": "https://github.com/comfyanonymous/ComfyUI", "extra": "https://github.com/city96/ComfyUI-GGUF" },
+      "disk": "~23 GB (int8 + turbo) or ~16 GB (GGUF Q5)",
+      "vram": "12 GB comfortable, 8 GB with GGUF",
+      "brief": "skills/image.md"
+    },
+    {
+      "id": "sound",
+      "port": 8192,
+      "model": "ACE-Step 1.5",
+      "licence": "MIT",
+      "picked_on": "MIT weights, turbo renders a track in seconds on 8 GB, the most-used music model in ComfyUI",
+      "weights": [
+        { "repo": "Comfy-Org/ace_step_1.5_ComfyUI_files", "url": "https://huggingface.co/Comfy-Org/ace_step_1.5_ComfyUI_files", "role": "all-in-one checkpoint 10.03 GB", "primary": true },
+        { "repo": "ACE-Step/Ace-Step1.5", "url": "https://huggingface.co/ACE-Step/Ace-Step1.5", "role": "official split files, 10.09 GB, MIT" }
+      ],
+      "engine": { "name": "ComfyUI", "url": "https://github.com/comfyanonymous/ComfyUI" },
+      "disk": "~10 GB",
+      "vram": "8 GB (turbo), 16 GB to batch",
+      "brief": "skills/sound.md"
+    },
+    {
+      "id": "video",
+      "port": 8193,
+      "model": "Wan 2.2 TI2V-5B",
+      "licence": "Apache-2.0",
+      "picked_on": "the one good video model that fits a desktop: 720p, Apache-2.0, 3.8 GB at Q5 instead of a 34 GB repo",
+      "weights": [
+        { "repo": "QuantStack/Wan2.2-TI2V-5B-GGUF", "url": "https://huggingface.co/QuantStack/Wan2.2-TI2V-5B-GGUF", "role": "Q5_K_M 3.8 GB — the desktop path", "primary": true },
+        { "repo": "Wan-AI/Wan2.2-TI2V-5B", "url": "https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B", "role": "official bf16, 34.2 GB" },
+        { "repo": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged", "url": "https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged", "role": "every Wan 2.2 variant in ComfyUI layout, including text encoder and VAE" }
+      ],
+      "engine": { "name": "ComfyUI", "url": "https://github.com/comfyanonymous/ComfyUI", "extra": "https://ffmpeg.org/download.html" },
+      "disk": "~18 GB (Q5 model + fp8 text encoder + VAE)",
+      "vram": "12 GB floor for 720p, 16–24 GB comfortable",
+      "brief": "skills/video.md"
+    }
+  ],
+  "honesty": [
+    "Stub mode proves the wiring, never the model. /health says which backend answered.",
+    "No weights are mirrored here: every download link is the official Hugging Face repository.",
+    "Nothing is uploaded. The bridge binds 127.0.0.1; the portal can reach it and the internet cannot.",
+    "One limb is a complete product. The full LYGO console is optional and separate."
+  ]
+}

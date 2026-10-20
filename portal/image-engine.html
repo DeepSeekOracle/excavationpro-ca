@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="consent.js"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Image generation: LYGO API Portal</title>
+<meta name="description" content="How to generate images with the LYGO portal: use a key route with no install, or install the same stable-diffusion.cpp engine the PC console uses and draw on your own machine.">
+<link rel="canonical" href="https://excavationpro.ca/portal/image-engine.html">
+<link rel="stylesheet" href="/portal/style.css?v=20260924b">
+<style>
+  body { background: #0a0a0b; color: #f4f1ea; font-family: 'IBM Plex Mono', ui-monospace, monospace; margin: 0; line-height: 1.62; }
+  main { max-width: 860px; margin: 0 auto; padding: 1.4rem 1.2rem 4rem; }
+  h1, h2, h3 { font-family: 'Syne', system-ui, sans-serif; line-height: 1.2; }
+  h1 { font-size: 1.7rem; margin: .4rem 0 .2rem; }
+  h2 { font-size: 1.15rem; margin: 2rem 0 .5rem; color: #c9b8a0; }
+  h3 { font-size: .98rem; margin: 1.3rem 0 .3rem; }
+  p, li { font-size: .88rem; }
+  code, pre { font-family: 'IBM Plex Mono', ui-monospace, monospace; }
+  code { background: rgba(255,255,255,.06); padding: .08rem .3rem; border-radius: 4px; font-size: .84rem; }
+  pre { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 10px;
+        padding: .8rem .9rem; overflow-x: auto; font-size: .8rem; }
+  table { width: 100%; border-collapse: collapse; margin: .6rem 0 1rem; font-size: .82rem; }
+  th, td { text-align: left; padding: .45rem .5rem; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top; }
+  th { color: #c9b8a0; font-weight: 600; }
+  a { color: #c9b8a0; }
+  .kicker { letter-spacing: .18em; text-transform: uppercase; font-size: .68rem; color: #c9b8a0; }
+  .note { border-left: 3px solid #c9b8a0; padding: .1rem 0 .1rem .8rem; color: #cfc8bd; font-size: .84rem; }
+  .ok { color: #9fd39f; } .no { color: #d99; }
+</style>
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<link rel="stylesheet" href="portal-fork.css">
+<script src="portal-fork.js" defer></script>
+</head>
+<body>
+<main>
+  <p class="kicker">Δ9Φ963 · chatagent.ca · resource</p>
+  <h1>Image generation: two honest paths</h1>
+  <p>One module. Two ways to feed it. This page says exactly what each one needs, what it costs, and
+  what it will not do, because the fastest way to lose someone's trust is to promise a picture the
+  engine never made.</p>
+
+  <p><a href="/portal/#image-suite">← the picture module</a> · <a href="/lygoskillhub.html">SkillHub</a> ·
+  <a href="/lygo-llm-console.html">LYGO LLM Console</a> · <a href="https://github.com/DeepSeekOracle/chatagent/tree/main/portal/image-engine">installer source</a></p>
+
+  <p><b>New · build one limb with your agent.</b> If the console is more than you need, <a href="limbs.html"><b>AGENT BUILD</b></a>
+  installs a single engine — Qwen-Image 2.1 for pictures, ACE-Step 1.5 for sound, Wan 2.2 for video — as one model, one
+  bridge and no suite. Your agent runs a written brief; the portal drives the result. This page still describes the older
+  console add-on, and it still works.</p>
+
+  <table>
+    <tr><th></th><th>who it is for</th><th>install</th><th>cost</th><th>speed</th></tr>
+    <tr><td><b>A · web portal + a key</b></td><td>anyone, no GPU</td><td>none, the page does it</td>
+        <td>your own provider key (a free Gemini key works)</td><td>the provider's</td></tr>
+    <tr><td><b>B · your own engine</b></td><td>a Windows PC</td><td>console + a 12 MB add-on</td>
+        <td>nothing, unlimited, offline</td><td>55 s at 512², ~5 min at 1024² (CPU)</td></tr>
+  </table>
+
+  <h2>A · No install: the portal with a key</h2>
+  <p>Scroll to the <a href="/portal/#image-suite">Image generation</a> module, pick a route, paste a key,
+  press Generate. The picture appears in the module with its route, model, pixels, seconds and size.</p>
+  <p>Which routes a <em>browser</em> can actually call, probed by the page itself, from this origin
+  (measured 2026-09-24):</p>
+  <p><span class="ok">callable</span> Google Gemini (free tier) · OpenRouter · SiliconFlow · Fireworks<br>
+     <span class="no">blocked</span> xAI, OpenAI images, DeepInfra, Hyperbolic, Together, they send no
+     CORS header, so a web page cannot call them at all. Anthropic, Groq, Mistral, Cerebras, Cohere,
+     Perplexity, DeepSeek and LLM7 have no image API.</p>
+  <p class="note">Free key: <a href="https://aistudio.google.com/apikey">aistudio.google.com/apikey</a>.
+  Your key stays in your tab, chatagent.ca never sees it, and this page holds no key of its own.</p>
+  <p><b>Ask an agent instead of clicking.</b> In the chat, "draw me a lime green sports car in a
+  futuristic neon city" is enough: the model has an <code>image_generate</code> limb, and the module and
+  the agent call the <em>same</em> function, so an agent cannot claim a picture the page did not make.
+  The agent gets back route · model · pixels · seconds · bytes, never the image bytes themselves.</p>
+
+  <h2>B · Your own engine: the console + the image engine add-on</h2>
+  <p>This is the same engine the PC console uses, <b>stable-diffusion.cpp</b> running SDXL Turbo or
+  SD 1.5. Free forever, no key, nothing sent anywhere, no per-picture limits. Two downloads and one
+  file to fetch.</p>
+
+  <h3>1. The console</h3>
+  <p><a href="/lygo-llm-console.html">LYGO LLM Console 1.3.2</a>, the PC installer, or the <b>FULL set</b>
+  that carries the chat weights, the picture engine <em>and</em> the SD 1.5 checkpoint inside, so pictures
+  work the moment it finishes installing (nothing to fetch; the one download is optional and faster).
+  The stick build (USB CLAW) carries the picture engine too, and its ALL-IN-ONE variant the checkpoint as
+  well. Builds and hashes are listed on the
+  <a href="/lygoskillhub.html#catalog">SkillHub catalog</a> and hosted on
+  <a href="https://huggingface.co/DeepSeekOracle/lygo-console-builds/tree/console-v1.3.2">our Hugging Face vault</a>.</p>
+
+  <h3>2. The image engine (12 MB, CPU build, no CUDA, no admin)</h3>
+  <pre>LYGO_IMAGE_ENGINE_SETUP.exe
+https://huggingface.co/DeepSeekOracle/lygo-console-builds/resolve/image-engine-v1/LYGO_IMAGE_ENGINE_SETUP.exe
+12,930,665 B   sha256 56934538d1847921d03a96a49b64a59081bdbcf08dc3a1f1bb1d7229716a5a
+
+CertUtil -hashfile LYGO_IMAGE_ENGINE_SETUP.exe SHA256</pre>
+  <p>Install it per-user; it lands in <code>%LOCALAPPDATA%\LYGO\image-engine</code>. Verify the hash
+  first, it is the one line that separates a download from an install.</p>
+
+  <h3>3. One checkpoint (the only step that needs the network)</h3>
+  <pre>powershell -ExecutionPolicy Bypass -File get_model.ps1 -List
+powershell -ExecutionPolicy Bypass -File get_model.ps1            # SDXL Turbo, 6.94 GB, 4 steps
+powershell -ExecutionPolicy Bypass -File get_model.ps1 -Model sd15 # SD 1.5, 4.27 GB, 20 steps</pre>
+  <p>It resumes if the line drops, checks the byte count, and throws the file away rather than keeping
+  a bad one. Have your own checkpoint? Drop it in <code>models\sd\</code> or pass <code>-From &lt;url&gt;</code>.</p>
+  <p class="note"><b>Licences are the model authors'.</b> SDXL Turbo is Stability AI's
+  <em>non-commercial research</em> licence. SD 1.5 is CreativeML Open RAIL-M (commercial use allowed
+  with its restrictions). Nothing here changes that, and no weights are shipped in the installer.</p>
+
+  <h3>4. Point the console at it, and start the gateway</h3>
+  <pre>LYGO_IMAGE_ENGINE.bat</pre>
+  <p>It finds the console, merges <code>media_root</code>, <code>sd_exe</code> and <code>sd_model</code>
+  into <code>&lt;console&gt;\config\local.json</code> (merging, never overwriting what is there), says
+  out loud whether it found the engine and a checkpoint, then starts the console's
+  <code>PUBLIC_GATEWAY.bat</code>.</p>
+  <p>Then open:</p>
+  <pre>https://excavationpro.ca/portal/?console=http://127.0.0.1:9642</pre>
+  <p>The console row in the picture module turns <b>ready</b> and every picture is drawn on your own
+  machine. 9642 is the gateway's own default port.</p>
+
+  <h2>What it costs, measured: not estimated</h2>
+  <table>
+    <tr><th>engine</th><th>512×512</th><th>1024×1024</th><th>notes</th></tr>
+    <tr><td>CPU build, distilled checkpoint (SDXL Turbo, 4 steps)</td><td>~55 s</td><td>272–300 s</td>
+        <td>this box, while the chat model held the 8 GB card</td></tr>
+    <tr><td>CPU build, SD 1.5 (20 steps)</td><td>~174 s</td><td>minutes</td>
+        <td>MEASURED 173.9 s at 512², the checkpoint we may redistribute, so the one the all-in-one
+            installers carry; 20 steps is 5× Turbo's, and the clock follows the steps</td></tr>
+    <tr><td>CUDA build (1.1 GB, optional)</td><td>~4 s</td><td>~12.5 s</td>
+        <td>card free; not required for the engine to work</td></tr>
+    <tr><td>Key routes (Gemini / OpenRouter / SiliconFlow / Fireworks)</td><td colspan="2">the provider's clock</td>
+        <td>no local compute at all; your key, your quota</td></tr>
+  </table>
+  <p>Distilled checkpoints (turbo, schnell, lightning, lcm, dmd, hyper) are detected by name and run at
+  4 steps, cfg 1.0. A normal SDXL wants about 20 steps at cfg 7. Running turbo at 20 steps is slow
+  <em>and</em> worse, that is a fact about the checkpoint, not a preference.</p>
+
+  <h2>Why the engine is an add-on and not part of the page</h2>
+  <p>A browser cannot run a 7 GB diffusion model, and a GPU that draws for strangers is somebody's
+  bill. So the page offers both honestly: <b>key routes</b> for anyone with a key and no hardware, and
+  <b>a real engine</b> for a machine that has one. What the page never does is pretend, if no engine
+  answers, the module says so, with the engine's own words in it.</p>
+
+  <h2>For agents: the skill</h2>
+  <p>Everything above, as a skill an agent can install and follow:
+  <a href="https://github.com/DeepSeekOracle/chatagent/blob/main/portal/image-engine/SKILL.md">lygo-image-engine · SKILL.md</a>
+ , the two paths, the limb contract, the measured numbers, and the pitfalls (UTF-16 engine strings,
+  a BOM in <code>local.json</code>, a five-minute request dying in a proxy, and never narrating a
+  picture no engine produced). Catalogs and downloads:
+  <a href="/lygoskillhub.html">chatagent.ca/lygoskillhub.html</a>.</p>
+
+  <p class="note">Steward: <a href="/about.html">Justin Helmer</a>. Legal:
+  <a href="/portal/legal.html">legal &amp; disclaimers</a>. Engine: stable-diffusion.cpp (MIT).
+  Installer source: <a href="https://github.com/DeepSeekOracle/chatagent/tree/main/portal/image-engine">portal/image-engine</a>.</p>
+</main>
+</body>
+</html>

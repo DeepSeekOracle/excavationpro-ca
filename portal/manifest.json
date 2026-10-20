@@ -1,0 +1,34 @@
+{
+  "name": "LYGO LLM Portal",
+  "short_name": "LYGO Portal",
+  "description": "Free public LYGO agent studio at excavationpro.ca.",
+  "start_url": "https://excavationpro.ca/portal/",
+  "scope": "https://excavationpro.ca/portal/",
+  "id": "https://excavationpro.ca/portal/",
+  "display": "standalone",
+  "background_color": "#0c0a08",
+  "theme_color": "#0c0a08",
+  "icons": [
+    {
+      "src": "https://excavationpro.ca/portal/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "https://excavationpro.ca/portal/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://excavationpro.ca/portal/x-card.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "LYGO API Portal"
+    }
+  ]
+}
