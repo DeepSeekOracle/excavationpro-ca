@@ -3,7 +3,7 @@
  "hub": "https://chatagent.ca/signal/",
  "feed": "https://chatagent.ca/signal/feed.xml",
  "updated": "2026-10-20",
- "shows": [
+ "shows": [{"slug":"decoding-the-lygo-grok-archive-show","title":"Decoding the LYGO Grok Archive","page":"https://excavationpro.ca/signal/decoding-the-lygo-grok-archive-show/","audio":"https://excavationpro.ca/signal/shows/decoding-the-lygo-grok-archive-show/ai_radio.mp3","duration":"13:13","seconds":794,"speakers":["Paul","Marcus","Elena","Tariq"]},
   {
    "slug": "quantum-dots-neural-anchors-architecture",
    "title": "Quantum Dots: Neural Anchors Architecture",
