@@ -667,3 +667,18 @@ body {
   .hud .row { gap: .3rem; }
   .hud .row .btn { font-size: .72rem; padding: .4rem .55rem; }
 }
+
+
+/* Keep the footer on the bottom edge; no dead strip below it. */
+body {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+.top { flex: none; }
+.stage { flex: 0 0 auto; }
+.foot {
+  margin-top: auto !important;
+  flex: none;
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
+}
