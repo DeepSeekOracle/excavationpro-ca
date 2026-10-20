@@ -1,12 +1,59 @@
-/* LYGO TV Ninja — rooms first (Rumble default), then public catalog. No terms gate. */
+/* LYGO TV Ninja — rooms first (Rumble default), then the public catalog. The catalog endpoint is open to
+   read; the public FAST/world lists inside the player UI wait for a per-session Terms tick. Catalog entries
+   are remote data and are URL-checked before anything is framed or played (see urlAllowed below). */
 (function () {
   "use strict";
-  const TV_PAGE = "https://chatagent.ca/sources/";
+  const TV_PAGE = "https://excavationpro.ca/LYGOTV/";
   const HLS_SRC = "https://cdn.jsdelivr.net/npm/hls.js@1.5.18/dist/hls.min.js";
+  // Pinned with Subresource Integrity, so a swapped or tampered copy at the CDN fails to run instead of
+  // executing in the visitor's browser. The hash is of the file npm publishes for 1.5.18 (verified against
+  // the tarball, not only against the CDN).
+  const HLS_SRI = "sha384-R2JqybiEexSXz60H6Zz28MdsqWWnMQlP+NDb7nIhDHWxx6sM7Otw7OWCq9EBCPsz";
   const DEFAULT_ID = "rumble_live";
   const POOL_MAX = 12000;
   const MAX_BYTES = 8000000;
   const EMBED = { youtube: 1, rumble: 1, twitch: 1, kick: 1 };
+  const SOUND_KEY = "lygo_tv_sound";
+  // Embed kinds are pinned to their own platform's hosts; a stream has to be plain https with no credentials.
+  const EMBED_HOSTS = {
+    rumble: ["rumble.com", "www.rumble.com"],
+    kick: ["player.kick.com", "kick.com", "www.kick.com"],
+    twitch: ["player.twitch.tv", "www.twitch.tv", "twitch.tv"],
+    youtube: ["www.youtube-nocookie.com", "youtube-nocookie.com", "www.youtube.com", "youtube.com"],
+  };
+
+  function kindOf(ch) {
+    const k = ch && ch.kind;
+    if (k && EMBED[k]) return k;
+    const u = String((ch && ch.url) || "").toLowerCase();
+    if (u.indexOf("rumble.com") !== -1) return "rumble";
+    if (u.indexOf("kick.com") !== -1) return "kick";
+    if (u.indexOf("twitch.tv") !== -1) return "twitch";
+    if (u.indexOf("youtube") !== -1) return "youtube";
+    return "";
+  }
+
+  // The only door a catalog URL can come through. Returns the parsed href, or "" for anything refused:
+  // not https, carrying credentials, holding control characters, unparseable, or - for an embed kind -
+  // pointing at a host that is not that platform's. Exposed so a page can ask the same question.
+  function urlAllowed(raw, kind) {
+    const s = String(raw == null ? "" : raw).trim();
+    if (!s || /[\u0000-\u001f\u007f]/.test(s)) return "";
+    let u;
+    try { u = new URL(s); } catch (e) { return ""; }
+    if (u.protocol !== "https:" || u.username || u.password) return "";
+    if (kind && EMBED[kind] && EMBED_HOSTS[kind].indexOf(u.hostname.toLowerCase()) === -1) return "";
+    return u.href;
+  }
+  window.LYGO_TV_ALLOWED_URL = urlAllowed;
+  // Every channel used to be silent, on every channel, always: the mute was baked into the embed URL
+  // (mute=1 / muted=true) to satisfy the browser's autoplay rule, and nothing ever took it back off.
+  // Sound is a preference here ("want") that only applies once a real click has happened in this
+  // player ("gesture") - that click is what tells the browser this visitor wants audio.
+  let want = false;
+  let gesture = false;
+  try { want = localStorage.getItem(SOUND_KEY) === "1"; } catch (e) {}
+  function mutedNow() { return !(want && gesture); }
   const ROOMS = [
     { id: "rumble_live", title: "Excavationpro Rumble LIVE", kind: "rumble",
       url: "https://rumble.com/embed/v7b5p30/?pub=1th29y", https: true },
@@ -35,6 +82,8 @@
     hlsLibLoading = [cb];
     const s = document.createElement("script");
     s.src = HLS_SRC;
+    s.integrity = HLS_SRI;
+    s.crossOrigin = "anonymous";
     s.async = true;
     s.onload = function () {
       const q = hlsLibLoading || [];
@@ -84,7 +133,8 @@
   function embed(ch) {
     if (ch.kind === "twitch" || (ch.url && String(ch.url).indexOf("player.twitch.tv") !== -1)) {
       return "https://player.twitch.tv/?channel=" + encodeURIComponent(ch.channel || "excavationpro") +
-        "&parent=" + encodeURIComponent(location.hostname) + "&autoplay=true&muted=true";
+        "&parent=" + encodeURIComponent(location.hostname) + "&autoplay=true" +
+        (mutedNow() ? "&muted=true" : "");
     }
     let url = ch.url || "";
     if (ch.kind === "rumble" || url.indexOf("rumble.com") !== -1) {
@@ -93,15 +143,17 @@
     }
     if (ch.kind === "youtube" || url.indexOf("youtube") !== -1) {
       url = withParam(url, "autoplay", "1");
-      url = withParam(url, "mute", "1");
+      url = withParam(url, "mute", mutedNow() ? "1" : "0");
       url = withParam(url, "playsinline", "1");
       return url;
     }
     if (ch.kind === "kick" || url.indexOf("kick.com") !== -1) {
       url = withParam(url, "autoplay", "true");
-      url = withParam(url, "muted", "true");
+      url = withParam(url, "muted", mutedNow() ? "true" : "false");
       return url;
     }
+    // Rumble takes no mute parameter from outside: it carries its own control inside the frame, and a
+    // reload that happens inside a click is what lets the browser give it sound.
     return url;
   }
 
@@ -161,14 +213,17 @@
         '<a class="tv-open" target="_blank" rel="noopener noreferrer" href="' + TV_PAGE + "#channel/" + DEFAULT_ID + '">Open player</a>' +
       "</div>" +
       '<div class="tv-screen">' +
-        '<iframe title="LYGO TV channel" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
+        '<iframe title="LYGO TV channel" referrerpolicy="no-referrer" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
         '<video playsinline muted autoplay></video>' +
       "</div>" +
       '<div class="tv-bar">' +
         '<button type="button" class="tv-zap" data-dir="-1" aria-label="Previous channel">Prev</button>' +
         '<p class="tv-meta">Channel</p>' +
         '<button type="button" class="tv-zap" data-dir="1" aria-label="Next channel">Next</button>' +
-      "</div>";
+        '<button type="button" class="tv-zap tv-sound" data-sound aria-pressed="false"' +
+        ' title="Sound on or off">\uD83D\uDD07 Sound</button>' +
+      "</div>" +
+      '<p class="tv-meta tv-hint" data-sound-hint hidden style="font-size:.78em;opacity:.78"></p>';
 
     const list = ROOMS.slice();
     const seen = {};
@@ -191,7 +246,7 @@
       frame.hidden = true;
       frame.removeAttribute("src");
       video.hidden = false;
-      video.muted = true;
+      video.muted = mutedNow();
       if (video.canPlayType("application/vnd.apple.mpegurl")) {
         video.src = url;
         video.play().catch(function () {});
@@ -214,8 +269,20 @@
       if (!list.length) return;
       i = (n + list.length) % list.length;
       const ch = list[i];
+      const safe = urlAllowed(ch.url, kindOf(ch));
       meta.textContent = ch.title + " · " + (i + 1) + " / " + list.length;
       open.href = portalHref(ch);
+      if (!safe) {
+        // Belt and braces: merge() already drops these, so arriving here means the pool came from elsewhere.
+        // Never hand an unreviewed URL to the frame or the video.
+        stopHls();
+        video.hidden = true;
+        frame.hidden = false;
+        frame.removeAttribute("src");
+        frame.title = "Channel not loaded";
+        hint.textContent = "That channel's source is not an https address on a host this player trusts, so it was not loaded.";
+        return;
+      }
       if (EMBED[ch.kind]) {
         stopHls();
         video.hidden = true;
@@ -223,8 +290,15 @@
         frame.setAttribute("allow", "autoplay; encrypted-media; fullscreen; picture-in-picture");
         frame.title = ch.title;
         const src = embed(ch);
-        frame.src = "about:blank";
-        window.requestAnimationFrame(function () { frame.src = src; });
+        if (frame.getAttribute("src") === src) {
+          // Same URL again (the sound toggle reloads the channel so the embed re-reads it). The blank
+          // hop is only needed for that case - and it must not depend on requestAnimationFrame, which a
+          // backgrounded tab never runs, leaving the screen stuck blank on the channel just asked for.
+          frame.src = "about:blank";
+          window.setTimeout(function () { frame.src = src; }, 0);
+        } else {
+          frame.src = src;
+        }
         return;
       }
       playHls(ch.url);
@@ -235,7 +309,7 @@
       for (let n = 0; n < chs.length; n++) {
         const c = chs[n];
         if (!c || !c.url || seen[c.url]) continue;
-        if (!c.https && !EMBED[c.kind]) continue;
+        if (!urlAllowed(c.url, kindOf(c))) continue;
         seen[c.url] = 1;
         list.push(c);
         if (list.length >= POOL_MAX) break;
@@ -244,11 +318,36 @@
       if (ch) meta.textContent = ch.title + " · " + (i + 1) + " / " + list.length;
     }
 
-    host.querySelectorAll(".tv-zap").forEach(function (btn) {
+    const soundBtn = host.querySelector("[data-sound]");
+    const hint = host.querySelector("[data-sound-hint]");
+    function paintSound() {
+      if (!soundBtn) return;
+      soundBtn.textContent = (want ? "\uD83D\uDD0A" : "\uD83D\uDD07") + " Sound";
+      soundBtn.setAttribute("aria-pressed", want ? "true" : "false");
+      if (hint) {
+        const pending = want && !gesture;
+        hint.hidden = !pending;
+        hint.textContent = pending
+          ? "Sound is set to on. The browser needs one click here before it will play audio - press Sound, or Prev/Next."
+          : "";
+      }
+    }
+    if (soundBtn) {
+      soundBtn.addEventListener("click", function () {
+        want = !want;
+        gesture = true;                 // a real click: from here the browser allows audio
+        try { localStorage.setItem(SOUND_KEY, want ? "1" : "0"); } catch (e) {}
+        paintSound();
+        play(i);                        // reload the channel under the rule that now applies
+      });
+    }
+    host.querySelectorAll(".tv-zap[data-dir]").forEach(function (btn) {
       btn.addEventListener("click", function () {
+        gesture = true;                 // walking channels is a click too: keep the sound decision
         play(i + parseInt(btn.getAttribute("data-dir"), 10));
       });
     });
+    paintSound();
     video.hidden = true;
     play(i);
     if (window.IntersectionObserver) {

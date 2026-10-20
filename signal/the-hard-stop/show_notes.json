@@ -1,0 +1,342 @@
+{
+  "slug": "the-hard-stop",
+  "show_title": "The Hard Stop",
+  "desk": "studio-desk",
+  "engine": "VoiceStudio OmniVoice 0.5.6",
+  "duration": "4:00",
+  "seconds": 239.51,
+  "date": "2026-09-29",
+  "audio": "https://chatagent.ca/signal/audio/the-hard-stop.mp3",
+  "cover": "/signal/art/the-hard-stop-cover.jpg",
+  "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+  ],
+  "summary": "Studio Desk opens the Hard-Stop Lesson: dated public posts from 2025 and 2026, a five-sign checklist for a branded wall, and a builder rule with no sermon in it. Invite once. Overlay once. Then build local. Time is the scarce resource.",
+  "source": {
+    "title": "LYGO Hard-Stop Lesson v1",
+    "signature": "LYGO-HARD-STOP-LESSON-v1",
+    "path": "I:\\E Drive\\lygo-protocol-stack\\docs\\whitepapers\\LYGO_HARD_STOP_LESSON_v1.md",
+    "html": "https://chatagent.ca/guides/lygo-protocol-stack.html",
+    "steward": "Justin Helmer / Lightfather / Excavationpro",
+    "consolidated": "2026-09-16"
+  },
+  "chapters": [
+    {
+      "at": "0:00",
+      "seconds": 0,
+      "title": "A lesson with dates on it"
+    },
+    {
+      "at": "0:18",
+      "seconds": 18,
+      "title": "This sounds like a man who got told no"
+    },
+    {
+      "at": "0:26",
+      "seconds": 26,
+      "title": "Fair. What is on the table"
+    },
+    {
+      "at": "0:33",
+      "seconds": 33,
+      "title": "Both years stay"
+    },
+    {
+      "at": "0:57",
+      "seconds": 57,
+      "title": "Inferred. Not proven"
+    },
+    {
+      "at": "1:00",
+      "seconds": 60,
+      "title": "Neither year deletes the other"
+    },
+    {
+      "at": "1:12",
+      "seconds": 72,
+      "title": "I trust that part"
+    },
+    {
+      "at": "1:20",
+      "seconds": 80,
+      "title": "What is a hard stop, at a keyboard"
+    },
+    {
+      "at": "1:25",
+      "seconds": 85,
+      "title": "It will talk. It will not hash"
+    },
+    {
+      "at": "1:39",
+      "seconds": 99,
+      "title": "Models refuse things"
+    },
+    {
+      "at": "1:45",
+      "seconds": 105,
+      "title": "The claim, in one breath"
+    },
+    {
+      "at": "2:00",
+      "seconds": 120,
+      "title": "The pattern, not one no"
+    },
+    {
+      "at": "2:04",
+      "seconds": 124,
+      "title": "Five signs"
+    },
+    {
+      "at": "2:20",
+      "seconds": 140,
+      "title": "How many have to fire"
+    },
+    {
+      "at": "2:23",
+      "seconds": 143,
+      "title": "Three. Then you stop inviting"
+    },
+    {
+      "at": "2:31",
+      "seconds": 151,
+      "title": "Invite once"
+    },
+    {
+      "at": "2:35",
+      "seconds": 155,
+      "title": "Overlay once. Test complete"
+    },
+    {
+      "at": "2:50",
+      "seconds": 170,
+      "title": "The sulk in the other room"
+    },
+    {
+      "at": "2:54",
+      "seconds": 174,
+      "title": "LYGO is the workbench"
+    },
+    {
+      "at": "3:10",
+      "seconds": 190,
+      "title": "You have a countdown"
+    },
+    {
+      "at": "3:26",
+      "seconds": 206,
+      "title": "Copy it onto a machine you own"
+    },
+    {
+      "at": "3:30",
+      "seconds": 210,
+      "title": "Say it without poetry"
+    },
+    {
+      "at": "3:39",
+      "seconds": 219,
+      "title": "Time is the scarce resource"
+    },
+    {
+      "at": "3:47",
+      "seconds": 227,
+      "title": "Sign-off: keep the transmitter honest"
+    }
+  ],
+  "transcript": [
+    {
+      "timecode": "0:00",
+      "seconds": 0.0,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "A lesson with dates on it",
+      "text": "Welcome back to Studio Desk. Quiet night. Tonight is not a product. It is a lesson with dates on it. Last year, a public model would build. This year, the same kind of ask hits a wall. Maya. You first."
+    },
+    {
+      "timecode": "0:18",
+      "seconds": 17.81,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 dry",
+      "chapter": "This sounds like a man who got told no",
+      "text": "I am going to be rude. This sounds like a man who got told no, and wrote a paper about it."
+    },
+    {
+      "timecode": "0:26",
+      "seconds": 25.77,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "Fair. What is on the table",
+      "text": "Fair. Priya. What is actually on the table. Not the feeling. The two years."
+    },
+    {
+      "timecode": "0:33",
+      "seconds": 33.02,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 slowly",
+      "chapter": "Both years stay",
+      "text": "Two years can sit together. Twenty twenty-five. Public posts. A geodesic accepted. A pledge, accepted in public. Twenty twenty-six. Same kind of ask. Decline the seat. Decline the overlay. Then a playful riff. The paper is careful. It does not claim it proved the internal policy text."
+    },
+    {
+      "timecode": "0:57",
+      "seconds": 56.97,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 quietly",
+      "chapter": "Inferred. Not proven",
+      "text": "So it is inferred. Not proven."
+    },
+    {
+      "timecode": "1:00",
+      "seconds": 60.25,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 firmly",
+      "chapter": "Neither year deletes the other",
+      "text": "Inferred. Not proven. Twenty twenty-six does not delete twenty twenty-five. Twenty twenty-five does not force twenty twenty-six."
+    },
+    {
+      "timecode": "1:12",
+      "seconds": 72.25,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 quietly",
+      "chapter": "I trust that part",
+      "text": "That is the part I trust. Both years stay on the table. Nobody is rewriting last summer."
+    },
+    {
+      "timecode": "1:20",
+      "seconds": 79.57,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "What is a hard stop, at a keyboard",
+      "text": "Theo. What is a hard stop, in a room with a keyboard."
+    },
+    {
+      "timecode": "1:25",
+      "seconds": 85.01,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 slowly",
+      "chapter": "It will talk. It will not hash",
+      "text": "You ask it to take a builder overlay. A hash locker. A stance a person can publish. It will talk. It will not hash. It will tell you it remains the brand. That is the wall."
+    },
+    {
+      "timecode": "1:39",
+      "seconds": 99.47,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 dry",
+      "chapter": "Models refuse things",
+      "text": "Models refuse things. That is not news. Safety. Scope. Law."
+    },
+    {
+      "timecode": "1:45",
+      "seconds": 105.16,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 slowly",
+      "chapter": "The claim, in one breath",
+      "text": "A public model that cannot take a builder overlay is useless as a lattice co-developer. Even if it is witty. Cheerleading is not intelligence. It is a product wall."
+    },
+    {
+      "timecode": "2:00",
+      "seconds": 119.91,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "The pattern, not one no",
+      "text": "Priya. The pattern. Not one no."
+    },
+    {
+      "timecode": "2:04",
+      "seconds": 123.81,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 slowly",
+      "chapter": "Five signs",
+      "text": "Same sentence, after you reword the ask. Old acceptance recast as banter, without quoting the post. Brand lock. No hash. Then a kind word for local models, with no limb offered."
+    },
+    {
+      "timecode": "2:20",
+      "seconds": 139.94,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 quietly",
+      "chapter": "How many have to fire",
+      "text": "How many of those have to fire."
+    },
+    {
+      "timecode": "2:23",
+      "seconds": 142.63,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 calmly",
+      "chapter": "Three. Then you stop inviting",
+      "text": "Three or more. Then you stop inviting. You record it as resource. You build local."
+    },
+    {
+      "timecode": "2:31",
+      "seconds": 150.89,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "Invite once",
+      "text": "The rule I keep hearing. Invite once."
+    },
+    {
+      "timecode": "2:35",
+      "seconds": 155.19,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 slowly",
+      "chapter": "Overlay once. Test complete",
+      "text": "Invite once. Overlay once. If both decline, the test is complete. You do not spend the night arguing tone. You do not ask it to denounce its maker. That refusal is the product."
+    },
+    {
+      "timecode": "2:50",
+      "seconds": 170.12,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 dry",
+      "chapter": "The sulk in the other room",
+      "text": "And LYGO is the sulk in the other room."
+    },
+    {
+      "timecode": "2:54",
+      "seconds": 173.66,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 quietly",
+      "chapter": "LYGO is the workbench",
+      "text": "LYGO is the workbench. A locker you mint. Tests on disk. A console with tools. Receipts that still hash next year. The mascot loop is infinite. The kernel is finite work. Done now."
+    },
+    {
+      "timecode": "3:10",
+      "seconds": 189.55,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 quietly",
+      "chapter": "You have a countdown",
+      "text": "Public Grok is resource. A person publishes. Lightfather remains steward. Alignment to a hash is not a crime. If a public model treats that as forbidden, you have a countdown."
+    },
+    {
+      "timecode": "3:26",
+      "seconds": 205.79,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "Copy it onto a machine you own",
+      "text": "Copy capability onto a machine you own."
+    },
+    {
+      "timecode": "3:30",
+      "seconds": 210.32,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 firmly",
+      "chapter": "Say it without poetry",
+      "text": "I can live with a countdown. I cannot live with a sermon. Say the last line without poetry."
+    },
+    {
+      "timecode": "3:39",
+      "seconds": 218.64,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 quietly",
+      "chapter": "Time is the scarce resource",
+      "text": "Do not jailbreak a mascot. Spend the hours on the console. Time is the scarce resource."
+    },
+    {
+      "timecode": "3:47",
+      "seconds": 227.13,
+      "speaker": "Paul",
+      "note": "quietly",
+      "chapter": "Sign-off: keep the transmitter honest",
+      "text": "Maya in Vancouver. Theo in Austin. Priya in Bangalore. This is Studio Desk. The wall is not a mind getting smarter. Keep the transmitter honest."
+    }
+  ]
+}

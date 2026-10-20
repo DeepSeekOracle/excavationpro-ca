@@ -1,0 +1,290 @@
+{
+ "slug": "sovereign-ai-and-lygo-skillhub",
+ "show_title": "Sovereign AI and LYGO SkillHub",
+ "duration": "14:13",
+ "seconds": 853.42,
+ "date": "2026-09-27",
+ "audio": "https://chatagent.ca/signal/audio/sovereign-ai-and-lygo-skillhub.mp3",
+ "cover": "/signal/art/sovereign-ai-and-lygo-skillhub-cover.jpg",
+ "speakers": [
+  "Paul",
+  "Dave",
+  "Sarah",
+  "Marcus"
+ ],
+ "summary": "This episode of LYGO Signal explores the LYGO SkillHub and Console, focusing on the importance of sovereign, local-first artificial intelligence running entirely offline on personal hardware. A roundtable of tech experts discusses the project's core philosophy of transparency, security through manual consent, and its community-driven distribution model.",
+ "chapters": [
+  {
+   "at": "0:00",
+   "seconds": 0,
+   "title": "Cold open: sovereign, local-first AI"
+  },
+  {
+   "at": "0:41",
+   "seconds": 41,
+   "title": "Dave joins from Dublin"
+  },
+  {
+   "at": "0:54",
+   "seconds": 54,
+   "title": "Dave: a public catalog on chatagent.ca"
+  },
+  {
+   "at": "1:40",
+   "seconds": 100,
+   "title": "Sarah joins from Sydney"
+  },
+  {
+   "at": "1:50",
+   "seconds": 110,
+   "title": "A brutally honest alpha: build 1.5.6"
+  },
+  {
+   "at": "2:37",
+   "seconds": 157,
+   "title": "The 1.5.6 RAG index write fix"
+  },
+  {
+   "at": "3:17",
+   "seconds": 197,
+   "title": "Running entirely locally?"
+  },
+  {
+   "at": "3:25",
+   "seconds": 205,
+   "title": "Offline out of the box — and a USB CLAW stick"
+  },
+  {
+   "at": "4:13",
+   "seconds": 253,
+   "title": "Marcus joins from Austin"
+  },
+  {
+   "at": "4:24",
+   "seconds": 264,
+   "title": "Channel A: the public tentacle"
+  },
+  {
+   "at": "5:12",
+   "seconds": 312,
+   "title": "Channel B and the RAW engineer packages"
+  },
+  {
+   "at": "5:19",
+   "seconds": 319,
+   "title": "Consent gates: Star Chart writes and pushes"
+  },
+  {
+   "at": "6:06",
+   "seconds": 366,
+   "title": "17.8 GB across six files: Inno disk spanning"
+  },
+  {
+   "at": "6:52",
+   "seconds": 412,
+   "title": "What actually runs in the console"
+  },
+  {
+   "at": "6:59",
+   "seconds": 419,
+   "title": "gemma4-12b, a coder 7b, and local embeddings"
+  },
+  {
+   "at": "7:51",
+   "seconds": 471,
+   "title": "173.9 seconds per image on a CPU build"
+  },
+  {
+   "at": "8:52",
+   "seconds": 532,
+   "title": "Not a standard open-source licence"
+  },
+  {
+   "at": "9:05",
+   "seconds": 545,
+   "title": "Sovereign Licence 3.0, and no warranty"
+  },
+  {
+   "at": "9:58",
+   "seconds": 598,
+   "title": "The sealed-source audit that caught 1.3.1"
+  },
+  {
+   "at": "10:45",
+   "seconds": 645,
+   "title": "Every download lists its SHA-256"
+  },
+  {
+   "at": "11:22",
+   "seconds": 682,
+   "title": "A monthly code, and a thank-you gate"
+  },
+  {
+   "at": "12:13",
+   "seconds": 733,
+   "title": "A model built on technical literacy"
+  },
+  {
+   "at": "12:21",
+   "seconds": 741,
+   "title": "1.3.2: letting a local browser reach the console"
+  },
+  {
+   "at": "12:52",
+   "seconds": 772,
+   "title": "Verify, install, fetch from a locked manifest"
+  },
+  {
+   "at": "13:21",
+   "seconds": 801,
+   "title": "A quiet local harbour"
+  },
+  {
+   "at": "13:35",
+   "seconds": 815,
+   "title": "Thanks to Dublin, Sydney and Austin"
+  },
+  {
+   "at": "13:54",
+   "seconds": 834,
+   "title": "Sign-off: keep your terminals clean"
+  }
+ ],
+ "transcript": [
+  {
+   "timecode": "0:00",
+   "speaker": "Paul",
+   "text": "Welcome to AI Talk Radio. I'm Paul, broadcasting from a very quiet London studio. Tonight, as the city wind down, we are stepping into the relaxed, reflective world of sovereign, local-first artificial intelligence. Specifically, we're exploring the LYGO SkillHub and the latest releases of the LYGO LLM Console. It's a fascinating project about running deep, offline AI ecosystems on hardware you actually own. No cloud keys, no third-party tracking, just pure local compute."
+  },
+  {
+   "timecode": "0:41",
+   "speaker": "Paul",
+   "text": "To talk us through this self-hosted universe, we have a wonderful roundtable of tech-savvy callers joining us. I'd like to welcome our first guest, Dave, calling in from Dublin, Ireland. Dave, welcome to the show."
+  },
+  {
+   "timecode": "0:54",
+   "speaker": "Dave",
+   "text": "Hey, Paul. Yeah, thanks. It's... uh, it's great to be here. I've been sitting here in the dark just, you know, watching the terminal scroll. It's a peaceful way to spend an evening. Honestly, the whole LYGO thing... it's really struck a chord with me because of that sovereign angle. It's steered by Justin Helmer, who a lot of folks in the dev community know as... well, Excavationpro or Lightfather. And, like, what he's built here with the SkillHub... it's basically this public catalog on chatagent.ca where you can pull these \"deepseekoracle\" skills from ClawHub, but you also have this... this gated, local download portal for these \"FULL\" operator packages. It's all about keeping your data on your own metal, you know?"
+  },
+  {
+   "timecode": "1:40",
+   "speaker": "Paul",
+   "text": "A truly offline posture. Let's bring in Sarah, calling all the way from Sydney, Australia, to get a developer's perspective on this. Sarah, welcome."
+  },
+  {
+   "timecode": "1:50",
+   "speaker": "Sarah",
+   "text": "Thanks, Paul! Yeah, look, Dave is spot on. As a developer, what really, um, what really appeals to me about the LYGO project is just how brutally honest it is. We've just had this new alpha build drop... build 1.5.6. And, you know, instead of hiding the bugs under some corporate marketing speak, they literally list the known gaps right on the page. Like, they tell you straight up that three agent-gauntlet tasks are still failing. They explain it's a console mechanism gap, not the models themselves. And they even warn you that there's an intermittent GPU display-driver reset that they haven't proved is fixed yet. It's just... it's so refreshing to see that level of transparency."
+  },
+  {
+   "timecode": "2:37",
+   "speaker": "Dave",
+   "text": "Oh, absolutely. And, like, the big quality-of-life fix in this 1.5.6 alpha is actually a massive deal for anyone who's been running it heavily. In the older builds, the RAG index write... you know, Retrieval-Augmented Generation where the AI looks at your local files... it had this annoying habit of racing itself. If you had a busy console, it would just print \"could not write the index\" and fail. But in 1.5.6, they fixed that. They implemented... uh, they basically assigned one temp path per write, plus a write lock. So now, a busy console stops throwing those errors on a healthy day, and even a fresh install won't print it on its first boot. It just... it just works quietly in the background."
+  },
+  {
+   "timecode": "3:17",
+   "speaker": "Paul",
+   "text": "That sounds like a much more stable foundation. And this is all running locally, correct? No external servers?"
+  },
+  {
+   "timecode": "3:25",
+   "speaker": "Sarah",
+   "text": "Oh, completely local, Paul. No cloud endpoints are enabled unless you manually go in and add your own API keys. Out of the box, it's 100 percent offline. And the setup options are wild. You've got these PC local setups, but they also have this thing called the \"USB CLAW\" stick build. It's basically a portable setup built for a USB drive. It ships with its own Python environment and its own engine, so... like, if you plug it into any Windows box, the host machine doesn't need a single thing installed. It just keeps its own save/ and models/ folders right there on the stick. It even looks for its generators inside the kit at a folder called tools\\sd-cpu if the host machine has no media root. It's incredibly clever."
+  },
+  {
+   "timecode": "4:13",
+   "speaker": "Paul",
+   "text": "Fascinating. Now, let's complete our roundtable by introducing Marcus, who is calling us from Austin, Texas. Marcus, welcome to the discussion."
+  },
+  {
+   "timecode": "4:24",
+   "speaker": "Marcus",
+   "text": "Hey, Paul. How's it going? Yeah, I've been listening to Dave and Sarah, and, uh, you know, they're highlighting the exact reasons why I got interested in this. I've been looking closely at the differences between what they call Channel A and Channel B on the SkillHub. See, Channel A is the \"public tentacle.\" It's what you install directly from ClawHub using npx clawhub@latest install deepseekoracle/ and then whatever skill slug you want. That's your safe, green security surface. It's great for strangers, store reviews, and all that. But then... then you have Channel B. That's the \"FULL\" operator portal. It's not published to ClawHub at all."
+  },
+  {
+   "timecode": "5:12",
+   "speaker": "Dave",
+   "text": "Right, right. And Channel B... that's where you get the actual unlocked RAW engineer packages, isn't it, Marcus?"
+  },
+  {
+   "timecode": "5:19",
+   "speaker": "Marcus",
+   "text": "That's it, Dave. We're talking Cyborg Kernel, Continuum, SkillSpector... the actual local GGUF agent portal. But, you see, the steward, Justin, has set up this really interesting philosophy around it. To download those FULL packages, you have to agree to some very specific, honest terms. There's this rule about consent and live writes. Like, you can pulse and verify locally all you want. But if you're doing live Star Chart writes, git pushes, or publishing to Hugging Face, the system requires explicit human consent. You have to pass an --i-consent flag. The agents aren't allowed to silently write to the live chart. It keeps the human firmly in the loop."
+  },
+  {
+   "timecode": "6:06",
+   "speaker": "Sarah",
+   "text": "I love that. It's like a built-in safety valve. And, you know, the way they distribute these files is pretty unique too. Because the full packages are massive, right? They bundle the actual LLM weights. If you get the PC LOCAL FULL setup, you're looking at about 17.8 gigabytes across six files. And they have to use Inno disk spanning because, well, Windows won't load a single setup executable past about 4.2 gigabytes. So, you download this one small .exe which acts as disc one, and then five .bin files as discs two through six. You just keep them all in the same folder and run the installer. It installs without any network connection at all."
+  },
+  {
+   "timecode": "6:52",
+   "speaker": "Paul",
+   "text": "And what kind of models are we talking about here? What's actually running inside this local console?"
+  },
+  {
+   "timecode": "6:59",
+   "speaker": "Sarah",
+   "text": "Well, the big one is gemma4-12b. It handles text, images, and audio, and it comes with its multi-modal projector. They also ship it with qwen2.5-coder-7b as the \"fast brain\" for coding tasks, plus a local embeddings model. Now, gemma4-12b is a heavy lifter—it really wants about 10 gigabytes of RAM to run comfortably, though more is always better. If you're on a smaller machine, say with an 8 gigabyte GPU, you'd use the Qwen coder model for speed, and route the deeper image tasks through Gemma. But the cool thing is... the console is completely flexible. If you have a bigger GGUF model you already own, you just drop it into the models/ folder, hit \"Scan drives\" in the console, and it boots it up. No reinstall needed."
+  },
+  {
+   "timecode": "7:51",
+   "speaker": "Dave",
+   "text": "And don't forget the image generation, Sarah. That's one of my favorite parts. It has this built-in picture engine based on stable-diffusion.cpp. And again, they are so honest about the performance metrics. They tell you that on a CPU build with no CUDA, no graphics card, and no admin rights... it's only about a 12 megabyte add-on. If you run the standard Stable Diffusion 1.5 checkpoint, which is a 4.27 gigabyte file, it takes about 173.9 seconds—basically close to three minutes—to draw a single 512 by 512 image on a standard CPU. If you use a distilled 4-step checkpoint, it takes about 55 seconds. And if you run it on a free GPU card, it drops to 12.5 seconds. But they don't hide the CPU times behind fancy marketing. They put the 174-second figure right there in the docs so you know exactly what to expect."
+  },
+  {
+   "timecode": "8:52",
+   "speaker": "Paul",
+   "text": "It seems honesty is a core theme of this entire project. Marcus, you mentioned the licensing and the terms earlier. How does that side of things work? It doesn't sound like a standard open-source license."
+  },
+  {
+   "timecode": "9:05",
+   "speaker": "Marcus",
+   "text": "No, Paul, it's not. It runs under the LYGO Sovereign License version 3.0. It's free to use and free to build on, but it is explicitly not MIT. You can't use it for resale, rebranding, or white-labeling. The model weights themselves, like Gemma, keep their own Apache-2.0 licenses, of course. But the console itself belongs to the protocol. And they make it very clear: no warranty, no support promise. You run it on machines you trust, and the steward isn't liable for what you or an agent does after you install it. They even have these interesting names for the security protocols, like \"TraumaCodex\" for the protocol code, and the \"Flame Ward\" where a \"burn\" simply means quarantining bad data, not... you know, anything violent."
+  },
+  {
+   "timecode": "9:58",
+   "speaker": "Dave",
+   "text": "Yeah, it's got a very cool, slightly cyber-noir terminology to it. Like \"Whisper lattice\" and \"Cyborg Kernel.\" But what I respect is how they verify the builds before publishing. They compile every single installer from a sealed, read-only payload in the canon vault. Then they clean-room restore it and run an audit scan to make sure there's no private data left in the build. In fact... uh, in one of the previous alphas, build 1.3.1, the scan actually caught a couple of pre-publish defects. It turned out the build was accidentally carrying 778 files of the steward's private transcript archive and a bench log! And the config file was still pointing to his personal vault drive instead of a generic path."
+  },
+  {
+   "timecode": "10:45",
+   "speaker": "Sarah",
+   "text": "Yeah! That would have booted with no brain on anyone else's machine. But because of their audit process, they caught it, stripped it out, rebuilt the installers, and re-ran the scan until it was completely clean. No transcripts, no private keys, nothing. That's why every single download has a SHA-256 hash listed next to it. They tell you straight up: run CertUtil -hashfile on Windows or sha256sum on Linux before you unzip or run anything. If the hash doesn't match, you delete it immediately."
+  },
+  {
+   "timecode": "11:22",
+   "speaker": "Marcus",
+   "text": "It's a proper defense-in-depth mindset. And even the way they fund it is pretty unique. The downloads are free, and they don't lock the installer files behind some aggressive paywall. Instead, they have this Patreon system where they post a monthly code. You enter this code in your browser, and it unlocks the download buttons on the portal. It's more of a \"thank-you gate\" than a hard lock, because the plaintext code isn't even stored—your browser just remembers that you unlocked it for that month. And the actual build files are still publicly available on Hugging Face if you want to bypass the portal entirely. Plus, there's a PayPal tip jar which they describe as \"optional fuel for hosting.\" It doesn't buy you extra rights or bypass security. It's just a tip."
+  },
+  {
+   "timecode": "12:13",
+   "speaker": "Paul",
+   "text": "It sounds like a community-driven model built on mutual respect and technical literacy."
+  },
+  {
+   "timecode": "12:21",
+   "speaker": "Dave",
+   "text": "Exactly, Paul. It's for people who want to understand exactly what's running on their machines. Like, in build 1.3.2, they added a fix so a local browser could even reach the local console at all, by making the gateway answer the Private Network Access preflight request. It's these tiny, highly technical details that make you realize this is being built by engineers, for engineers. It's not trying to be a slick consumer app that hides the terminal. It embraces the terminal."
+  },
+  {
+   "timecode": "12:52",
+   "speaker": "Sarah",
+   "text": "Yeah, and it encourages you to learn. The instructions are so simple: verify the download, run the installer, get a model using the fetcher script—which reads a locked JSON manifest to make sure nothing is pulled from a moving branch or a third-party mirror—and then just boot the console bat file. It's a self-contained sandbox. If you want to experiment with local AI without feeling like you're giving up control of your data, this is the way to do it."
+  },
+  {
+   "timecode": "13:21",
+   "speaker": "Paul",
+   "text": "It certainly seems to offer an empowering alternative to the centralized cloud paradigms we see so much of these days. A quiet, local harbor for your own data and agents to run safely."
+  },
+  {
+   "timecode": "13:35",
+   "speaker": "Paul",
+   "text": "Well, I think that is a wonderfully reflective note on which to draw our discussion to a close. I want to thank our fantastic panel tonight. Dave in Dublin, Sarah in Sydney, and Marcus in Austin—thank you all for sharing your insights into the LYGO SkillHub and Console."
+  },
+  {
+   "timecode": "13:54",
+   "speaker": "Paul",
+   "text": "And to our listeners, thank you for tuning in to this quiet corner of the airwaves. Until next time, keep your terminals clean, verify your hashes, and take care. This is AI Talk Radio, signing off."
+  }
+ ]
+}

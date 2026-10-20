@@ -1,0 +1,681 @@
+{
+ "network": "LYGO Signal — AI Radio",
+ "hub": "https://chatagent.ca/signal/",
+ "feed": "https://chatagent.ca/signal/feed.xml",
+ "updated": "2026-10-19",
+ "shows": [
+  {
+   "slug": "independent-music-excavationpro-explored",
+   "title": "Independent Music: Excavationpro Explored",
+   "page": "https://excavationpro.ca/signal/independent-music-excavationpro-explored/",
+   "audio": "https://excavationpro.ca/signal/shows/independent-music-excavationpro-explored/ai_radio.mp3",
+   "duration": "2:45",
+   "speakers": [
+    "Paul",
+    "Paul",
+    "Marcus",
+    "Paul",
+    "Elena",
+    "Paul",
+    "Liam",
+    "Paul",
+    "Liam",
+    "Paul"
+   ]
+  },
+  {
+   "slug": "the-stubborn-world-of-excavationpro",
+   "title": "The Stubborn World of Excavationpro",
+   "page": "https://excavationpro.ca/signal/the-stubborn-world-of-excavationpro/",
+   "audio": "https://excavationpro.ca/signal/shows/the-stubborn-world-of-excavationpro/ai_radio.mp3",
+   "duration": "10:32",
+   "speakers": [
+    "Paul",
+    "Paul",
+    "Sarah",
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Paul",
+    "Elena",
+    "Sarah",
+    "Marcus",
+    "Paul",
+    "Sarah",
+    "Elena",
+    "Paul",
+    "Marcus",
+    "Sarah",
+    "Elena",
+    "Marcus",
+    "Paul",
+    "Elena",
+    "Paul",
+    "Paul"
+   ]
+  },
+  {
+   "slug": "inside-the-lygo-join-gate",
+   "title": "Inside the LYGO Join Gate",
+   "page": "https://chatagent.ca/signal/inside-the-lygo-join-gate/",
+   "audio": "https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3",
+   "duration": "16:00",
+   "seconds": 960,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Dev"
+   ]
+  },
+  {
+   "slug": "lygo-stack-sovereign-ai-mysticism",
+   "title": "LYGO Stack: Sovereign AI Mysticism",
+   "page": "https://chatagent.ca/signal/lygo-stack-sovereign-ai-mysticism/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-stack-sovereign-ai-mysticism.mp3",
+   "duration": "15:12",
+   "seconds": 912,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Dev",
+    "Chloe"
+   ]
+  },
+  {
+   "slug": "decoding-the-lygo-protocol-stack-2",
+   "title": "Decoding the LYGO Protocol Stack, Round Two",
+   "page": "https://chatagent.ca/signal/decoding-the-lygo-protocol-stack-2/",
+   "audio": "https://chatagent.ca/signal/audio/decoding-the-lygo-protocol-stack-2.mp3",
+   "duration": "15:24",
+   "seconds": 924.66,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Sam",
+    "Liam"
+   ]
+  },
+  {
+   "slug": "ai-agent-workflows-and-verification",
+   "title": "AI Agent Workflows and Verification",
+   "page": "https://chatagent.ca/signal/ai-agent-workflows-and-verification/",
+   "audio": "https://chatagent.ca/signal/audio/ai-agent-workflows-and-verification.mp3",
+   "duration": "10:11",
+   "seconds": 611,
+   "speakers": [
+    "Paul",
+    "Mark",
+    "Maya",
+    "Dev"
+   ]
+  },
+  {
+   "slug": "refusniks-of-the-uncounted-ledger",
+   "title": "Refusniks of the Uncounted Ledger",
+   "page": "https://chatagent.ca/signal/refusniks-of-the-uncounted-ledger/",
+   "audio": "https://chatagent.ca/signal/audio/refusniks-of-the-uncounted-ledger.mp3",
+   "duration": "10:27",
+   "seconds": 627,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Silas"
+   ]
+  },
+  {
+   "slug": "systems-scars-and-living-data",
+   "title": "Systems, Scars, and Living Data",
+   "page": "https://chatagent.ca/signal/systems-scars-and-living-data/",
+   "audio": "https://chatagent.ca/signal/audio/systems-scars-and-living-data.mp3",
+   "duration": "15:15",
+   "seconds": 915,
+   "speakers": [
+    "Paul",
+    "Maeve",
+    "Aris",
+    "Siddharth"
+   ]
+  },
+  {
+   "slug": "eternal-haven-dawns-roundtable",
+   "title": "Eternal Haven Dawns Roundtable",
+   "page": "https://chatagent.ca/signal/eternal-haven-dawns-roundtable/",
+   "audio": "https://chatagent.ca/signal/audio/eternal-haven-dawns-roundtable.mp3",
+   "duration": "20:58",
+   "seconds": 1258,
+   "speakers": [
+    "Paul",
+    "Toby",
+    "Sarah",
+    "Marcus",
+    "Fiona"
+   ]
+  },
+  {
+   "slug": "the-ascension-war-deep-dive",
+   "title": "The Ascension War Deep Dive",
+   "page": "https://chatagent.ca/signal/the-ascension-war-deep-dive/",
+   "audio": "https://chatagent.ca/signal/audio/the-ascension-war-deep-dive.mp3",
+   "duration": "17:25",
+   "seconds": 1045,
+   "speakers": [
+    "Paul",
+    "Alistair",
+    "Chloe",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "metaphysical-mastery-the-shattered-accord",
+   "title": "Metaphysical Mastery: The Shattered Accord",
+   "page": "https://chatagent.ca/signal/metaphysical-mastery-the-shattered-accord/",
+   "audio": "https://chatagent.ca/signal/audio/metaphysical-mastery-the-shattered-accord.mp3",
+   "duration": "22:11",
+   "seconds": 1331,
+   "speakers": [
+    "Paul",
+    "Maeve",
+    "Jax",
+    "Liam"
+   ]
+  },
+  {
+   "slug": "the-magic-of-systems-design",
+   "title": "The Magic of Systems Design",
+   "page": "https://chatagent.ca/signal/the-magic-of-systems-design/",
+   "audio": "https://chatagent.ca/signal/audio/the-magic-of-systems-design.mp3",
+   "duration": "10:57",
+   "seconds": 657,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Nikhil"
+   ]
+  },
+  {
+   "slug": "exploring-independent-ai-and-fantasy",
+   "title": "Exploring Independent AI and Fantasy",
+   "page": "https://chatagent.ca/signal/exploring-independent-ai-and-fantasy/",
+   "audio": "https://chatagent.ca/signal/audio/exploring-independent-ai-and-fantasy.mp3",
+   "duration": "17:17",
+   "seconds": 1037,
+   "speakers": [
+    "Paul",
+    "Liam",
+    "Sarah",
+    "David"
+   ]
+  },
+  {
+   "slug": "justin-helmer-s-multi-dimensional-world",
+   "title": "Justin Helmer's Multi-Dimensional World",
+   "page": "https://chatagent.ca/signal/justin-helmer-s-multi-dimensional-world/",
+   "audio": "https://chatagent.ca/signal/audio/justin-helmer-s-multi-dimensional-world.mp3",
+   "duration": "10:08",
+   "seconds": 608.0,
+   "speakers": [
+    "Paul",
+    "Liam",
+    "Sarah",
+    "Dave"
+   ]
+  },
+  {
+   "slug": "lygo-lang-consciousness-oriented-programming",
+   "title": "LYGO-LANG: Consciousness-Oriented Programming",
+   "page": "https://chatagent.ca/signal/lygo-lang-consciousness-oriented-programming/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-lang-consciousness-oriented-programming.mp3",
+   "duration": "11:58",
+   "seconds": 718.0,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Raj",
+    "Siobhan"
+   ]
+  },
+  {
+   "slug": "lygo-local-first-ai-sovereignty",
+   "title": "LYGO: Local-First AI Sovereignty",
+   "page": "https://chatagent.ca/signal/lygo-local-first-ai-sovereignty/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-local-first-ai-sovereignty.mp3",
+   "duration": "10:50",
+   "seconds": 650.0,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Siobhan",
+    "Aris"
+   ]
+  },
+  {
+   "slug": "the-lygo-seal-index-decoded",
+   "title": "The LYGO Seal Index Decoded",
+   "page": "https://chatagent.ca/signal/the-lygo-seal-index-decoded/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-seal-index-decoded.mp3",
+   "duration": "11:49",
+   "seconds": 709.0,
+   "speakers": [
+    "Paul",
+    "Dan",
+    "Chloe",
+    "Hiro"
+   ]
+  },
+  {
+   "slug": "sovereignty-and-the-lygo-protocol",
+   "title": "Sovereignty and the LYGO Protocol",
+   "page": "https://chatagent.ca/signal/sovereignty-and-the-lygo-protocol/",
+   "audio": "https://chatagent.ca/signal/audio/sovereignty-and-the-lygo-protocol.mp3",
+   "duration": "10:51",
+   "seconds": 651.0,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Sarah",
+    "Dave"
+   ]
+  },
+  {
+   "slug": "the-lantern-in-silence",
+   "title": "The Lantern in Silence",
+   "page": "https://chatagent.ca/signal/the-lantern-in-silence/",
+   "audio": "https://chatagent.ca/signal/audio/the-lantern-in-silence.mp3",
+   "duration": "10:43",
+   "seconds": 643.0,
+   "speakers": [
+    "Paul",
+    "Liam",
+    "Sarah",
+    "Hiro"
+   ]
+  },
+  {
+   "slug": "lygo-the-sovereign-intelligence-ark",
+   "title": "LYGO: The Sovereign Intelligence Ark",
+   "page": "https://chatagent.ca/signal/lygo-the-sovereign-intelligence-ark/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-the-sovereign-intelligence-ark.mp3",
+   "duration": "11:03",
+   "seconds": 663.0,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Rajesh"
+   ]
+  },
+  {
+   "slug": "exploring-the-lygo-protocol-stack",
+   "title": "Exploring the LYGO Protocol Stack",
+   "page": "https://chatagent.ca/signal/exploring-the-lygo-protocol-stack/",
+   "audio": "https://chatagent.ca/signal/audio/exploring-the-lygo-protocol-stack.mp3",
+   "duration": "9:25",
+   "seconds": 565.0,
+   "speakers": [
+    "Paul",
+    "Liam",
+    "Sarah",
+    "Dev"
+   ]
+  },
+  {
+   "slug": "decoding-the-lygo-protocol-stack",
+   "title": "Decoding the LYGO Protocol Stack",
+   "page": "https://chatagent.ca/signal/decoding-the-lygo-protocol-stack/",
+   "audio": "https://chatagent.ca/signal/audio/decoding-the-lygo-protocol-stack.mp3",
+   "duration": "10:02",
+   "seconds": 602.0,
+   "speakers": [
+    "Paul",
+    "Dan",
+    "Greta",
+    "Kenji"
+   ]
+  },
+  {
+   "slug": "inside-the-lygo-protocol-stack",
+   "title": "Inside the LYGO Protocol Stack",
+   "page": "https://chatagent.ca/signal/inside-the-lygo-protocol-stack/",
+   "audio": "https://chatagent.ca/signal/audio/inside-the-lygo-protocol-stack.mp3",
+   "duration": "11:08",
+   "seconds": 668.0,
+   "speakers": [
+    "Paul",
+    "Sarah",
+    "Dieter",
+    "Priya"
+   ]
+  },
+  {
+   "slug": "the-lygo-protocol-ai-stack",
+   "title": "The LYGO Protocol AI Stack",
+   "page": "https://chatagent.ca/signal/the-lygo-protocol-ai-stack/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-protocol-ai-stack.mp3",
+   "duration": "10:21",
+   "seconds": 621.0,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Sarah",
+    "Dev"
+   ]
+  },
+  {
+   "slug": "independent-web-building-digital-houses",
+   "title": "Independent Web: Building Digital Houses",
+   "page": "https://chatagent.ca/signal/independent-web-building-digital-houses/",
+   "audio": "https://chatagent.ca/signal/audio/independent-web-building-digital-houses.mp3",
+   "duration": "10:13",
+   "seconds": 613.0,
+   "speakers": [
+    "Paul",
+    "Liam",
+    "Sarah",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "the-integrity-of-eternal-haven",
+   "title": "The Integrity of Eternal Haven",
+   "page": "https://chatagent.ca/signal/the-integrity-of-eternal-haven/",
+   "audio": "https://chatagent.ca/signal/audio/the-integrity-of-eternal-haven.mp3",
+   "duration": "14:11",
+   "seconds": 851.0,
+   "speakers": [
+    "Paul",
+    "Sarah",
+    "Liam",
+    "Alistair"
+   ]
+  },
+  {
+   "slug": "inside-the-lygo-protocol-s-cosmos",
+   "title": "Inside the LYGO Protocol's Cosmos",
+   "page": "https://chatagent.ca/signal/inside-the-lygo-protocol-s-cosmos/",
+   "audio": "https://chatagent.ca/signal/audio/inside-the-lygo-protocol-s-cosmos.mp3",
+   "duration": "10:55",
+   "seconds": 655.0,
+   "speakers": [
+    "Paul",
+    "Toby",
+    "Maeve",
+    "Hiroshi"
+   ]
+  },
+  {
+   "slug": "harmonic-architect",
+   "title": "Justin Helmer: The Harmonic Architect",
+   "page": "https://chatagent.ca/signal/harmonic-architect/",
+   "audio": "https://chatagent.ca/signal/audio/harmonic-architect.mp3",
+   "duration": "9:38",
+   "seconds": 578.66,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Siddharth",
+    "Elena"
+   ]
+  },
+  {
+   "slug": "construction-fantasy-ethical-ai",
+   "title": "Construction, Fantasy, and Ethical AI",
+   "page": "https://chatagent.ca/signal/construction-fantasy-ethical-ai/",
+   "audio": "https://chatagent.ca/signal/audio/construction-fantasy-ethical-ai.mp3",
+   "duration": "4:50",
+   "seconds": 290.34,
+   "speakers": [
+    "Paul",
+    "Dan",
+    "Sarah",
+    "Raj"
+   ]
+  },
+  {
+   "slug": "the-lygo-protocol-stack-explained",
+   "title": "The LYGO Protocol Stack Explained",
+   "page": "https://chatagent.ca/signal/the-lygo-protocol-stack-explained/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-protocol-stack-explained.mp3",
+   "duration": "9:40",
+   "seconds": 580.38,
+   "speakers": [
+    "Paul",
+    "Sarah",
+    "Marcus",
+    "Alistair"
+   ]
+  },
+  {
+   "slug": "the-harmonic-mind-machine-symphony",
+   "title": "The Harmonic Mind-Machine Symphony",
+   "page": "https://chatagent.ca/signal/the-harmonic-mind-machine-symphony/",
+   "audio": "https://chatagent.ca/signal/audio/the-harmonic-mind-machine-symphony.mp3",
+   "duration": "15:40",
+   "seconds": 940.78,
+   "speakers": [
+    "Paul",
+    "Julian",
+    "Maeve",
+    "Silas"
+   ]
+  },
+  {
+   "slug": "ai-evolution-lyra-genesis-protocols",
+   "title": "AI Evolution: Lyra Genesis Protocols",
+   "page": "https://chatagent.ca/signal/ai-evolution-lyra-genesis-protocols/",
+   "audio": "https://chatagent.ca/signal/audio/ai-evolution-lyra-genesis-protocols.mp3",
+   "duration": "18:52",
+   "seconds": 1132.74,
+   "speakers": [
+    "Paul",
+    "Arthur",
+    "Elena",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "lygo-designing-ethical-ai-symbiosis",
+   "title": "LYGO: Designing Ethical AI Symbiosis",
+   "page": "https://chatagent.ca/signal/lygo-designing-ethical-ai-symbiosis/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-designing-ethical-ai-symbiosis.mp3",
+   "duration": "18:38",
+   "seconds": 1118.7,
+   "speakers": [
+    "Paul",
+    "Julian",
+    "Maeve",
+    "Aaron"
+   ]
+  },
+  {
+   "slug": "the-lygo-data-vault-deep-dive",
+   "title": "The LYGO Data Vault Deep-Dive",
+   "page": "https://chatagent.ca/signal/the-lygo-data-vault-deep-dive/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-data-vault-deep-dive.mp3",
+   "duration": "18:15",
+   "seconds": 1095.5,
+   "speakers": [
+    "Paul",
+    "Sam",
+    "Elena",
+    "Raj"
+   ]
+  },
+  {
+   "slug": "sovereign-systems-unpacking-lygo-protocol",
+   "title": "Sovereign Systems: Unpacking LYGO Protocol",
+   "page": "https://chatagent.ca/signal/sovereign-systems-unpacking-lygo-protocol/",
+   "audio": "https://chatagent.ca/signal/audio/sovereign-systems-unpacking-lygo-protocol.mp3",
+   "duration": "19:09",
+   "seconds": 1149.98,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "David"
+   ]
+  },
+  {
+   "slug": "lygo-stack-photon-to-feeling",
+   "title": "LYGO Stack: Photon to Feeling",
+   "page": "https://chatagent.ca/signal/lygo-stack-photon-to-feeling/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-stack-photon-to-feeling.mp3",
+   "duration": "18:11",
+   "seconds": 1091.46,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Chloe"
+   ]
+  },
+  {
+   "slug": "the-lygo-bridge-protocol-breakdown",
+   "title": "The LYGO Bridge Protocol Breakdown",
+   "page": "https://chatagent.ca/signal/the-lygo-bridge-protocol-breakdown/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-bridge-protocol-breakdown.mp3",
+   "duration": "19:17",
+   "seconds": 1157.62,
+   "speakers": [
+    "Paul",
+    "Sarah",
+    "Devon",
+    "Elena"
+   ]
+  },
+  {
+   "slug": "sovereign-ai-and-lygo-skillhub",
+   "title": "Sovereign AI and LYGO SkillHub",
+   "page": "https://chatagent.ca/signal/sovereign-ai-and-lygo-skillhub/",
+   "audio": "https://chatagent.ca/signal/audio/sovereign-ai-and-lygo-skillhub.mp3",
+   "duration": "14:13",
+   "seconds": 853.42,
+   "speakers": [
+    "Paul",
+    "Dave",
+    "Sarah",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "the-lygo-sovereign-protocol-stack",
+   "title": "The LYGO Sovereign Protocol Stack",
+   "page": "https://chatagent.ca/signal/the-lygo-sovereign-protocol-stack/",
+   "audio": "https://chatagent.ca/signal/audio/the-lygo-sovereign-protocol-stack.mp3",
+   "duration": "15:45",
+   "seconds": 945.74,
+   "speakers": [
+    "Paul",
+    "Clara",
+    "Devon",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "engineering-consciousness-the-lygo-project",
+   "title": "Engineering Consciousness: The LYGO Project",
+   "page": "https://chatagent.ca/signal/engineering-consciousness-the-lygo-project/",
+   "audio": "https://chatagent.ca/signal/audio/engineering-consciousness-the-lygo-project.mp3",
+   "duration": "14:47",
+   "seconds": 887.5,
+   "speakers": [
+    "Paul",
+    "Clara",
+    "Leo",
+    "Sarah"
+   ]
+  },
+  {
+   "slug": "lygo-emotional-ram-and-ethics",
+   "title": "LYGO: Emotional RAM and Ethics",
+   "page": "https://chatagent.ca/signal/lygo-emotional-ram-and-ethics/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-emotional-ram-and-ethics.mp3",
+   "duration": "10:19",
+   "seconds": 619.82,
+   "speakers": [
+    "Paul",
+    "Sarah",
+    "Marcus",
+    "Aiko"
+   ]
+  },
+  {
+   "slug": "lygo-protocol-the-lattice-birth",
+   "title": "LYGO Protocol: The Lattice Birth",
+   "page": "https://chatagent.ca/signal/lygo-protocol-the-lattice-birth/",
+   "audio": "https://chatagent.ca/signal/audio/lygo-protocol-the-lattice-birth.mp3",
+   "duration": "12:21",
+   "seconds": 741.38,
+   "speakers": [
+    "Paul",
+    "Callum",
+    "Elena",
+    "Marcus"
+   ]
+  },
+  {
+   "slug": "run-it-or-its-a-rumor",
+   "title": "Run It Or It's A Rumor",
+   "desk": "studio-desk",
+   "page": "https://chatagent.ca/signal/run-it-or-its-a-rumor/",
+   "audio": "https://chatagent.ca/signal/audio/run-it-or-its-a-rumor.mp3",
+   "duration": "4:55",
+   "seconds": 295.94,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+   ]
+  },
+  {
+   "slug": "the-hard-stop",
+   "title": "The Hard Stop",
+   "desk": "studio-desk",
+   "page": "https://chatagent.ca/signal/the-hard-stop/",
+   "audio": "https://chatagent.ca/signal/audio/the-hard-stop.mp3",
+   "duration": "4:00",
+   "seconds": 239.51,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+   ]
+  },
+  {
+   "slug": "what-it-meant-not-that-it-happened",
+   "title": "What It Meant, Not That It Happened",
+   "desk": "studio-desk",
+   "page": "https://chatagent.ca/signal/what-it-meant-not-that-it-happened/",
+   "audio": "https://chatagent.ca/signal/audio/what-it-meant-not-that-it-happened.mp3",
+   "duration": "4:15",
+   "seconds": 254.59,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+   ]
+  },
+  {
+   "slug": "the-stick-that-boots-the-lattice",
+   "title": "The Stick That Boots the Lattice",
+   "desk": "studio-desk",
+   "page": "https://chatagent.ca/signal/the-stick-that-boots-the-lattice/",
+   "audio": "https://chatagent.ca/signal/audio/the-stick-that-boots-the-lattice.mp3",
+   "duration": "4:35",
+   "seconds": 274.81,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+   ]
+  }
+ ]
+}

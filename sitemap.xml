@@ -35,4 +35,10 @@
   <url><loc>https://excavationpro.ca/LYGOTV/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://excavationpro.ca/LYGOTV/disclaimer.html</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
   <url><loc>https://excavationpro.ca/vintage-tv/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://excavationpro.ca/signal/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://excavationpro.ca/signal/radio/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://excavationpro.ca/signal/the-stubborn-world-of-excavationpro/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://excavationpro.ca/signal/independent-music-excavationpro-explored/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://excavationpro.ca/talk-radio/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://excavationpro.ca/talk-radio/disclaimer.html</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
 </urlset>

@@ -1,0 +1,202 @@
+{
+ "slug": "independent-web-building-digital-houses",
+ "show_title": "Independent Web: Building Digital Houses",
+ "duration": "10:13",
+ "seconds": 613.0,
+ "date": "2026-09-30",
+ "audio": "https://chatagent.ca/signal/audio/independent-web-building-digital-houses.mp3",
+ "cover": "/signal/art/independent-web-building-digital-houses-cover.jpg",
+ "speakers": [
+  "Paul",
+  "Liam",
+  "Sarah",
+  "Marcus"
+ ],
+ "summary": "This episode of AI Talk Radio explores the independent web philosophy of Justin Helmer, focusing on his commitment to transparency and the mantra that \"empty beats fake.\" A panel of listeners discusses how Helmer applies these principles to data visualization, music curation, and the creation of personal digital spaces that prioritize human connection over algorithmic engagement.",
+ "chapters": [
+  {
+   "at": "0:00",
+   "seconds": 0,
+   "title": "Welcome to AI Talk Radio. If you are"
+  },
+  {
+   "at": "1:03",
+   "seconds": 63,
+   "title": "Yeah, well, uh... thanks, Paul. It is, like"
+  },
+  {
+   "at": "1:50",
+   "seconds": 110,
+   "title": "It is a refreshing stance against the pressure"
+  },
+  {
+   "at": "2:00",
+   "seconds": 120,
+   "title": "Right, yes. Thanks, Paul. Well, as a bedroom"
+  },
+  {
+   "at": "3:07",
+   "seconds": 187,
+   "title": "Indeed, a curated library rather than an endless"
+  },
+  {
+   "at": "3:19",
+   "seconds": 199,
+   "title": "Oh, absolutely, Paul. I mean, as a producer"
+  },
+  {
+   "at": "4:26",
+   "seconds": 266,
+   "title": "Yes! And that really ties back to... to"
+  },
+  {
+   "at": "5:22",
+   "seconds": 322,
+   "title": "Exactly, Liam. And it is why he rebuilt"
+  },
+  {
+   "at": "6:16",
+   "seconds": 376,
+   "title": "That is so true, Sarah. And building a"
+  },
+  {
+   "at": "7:05",
+   "seconds": 425,
+   "title": "Yeah, and he is so transparent about the"
+  },
+  {
+   "at": "7:48",
+   "seconds": 468,
+   "title": "It really is. He also mentions the dual"
+  },
+  {
+   "at": "8:31",
+   "seconds": 511,
+   "title": "It is the difference between a system that"
+  },
+  {
+   "at": "9:14",
+   "seconds": 554,
+   "title": "It really does, Marcus. It makes me want"
+  },
+  {
+   "at": "9:33",
+   "seconds": 573,
+   "title": "And perhaps that is the ultimate lesson of"
+  }
+ ],
+ "transcript": [
+  {
+   "timecode": "0:00",
+   "seconds": 0,
+   "speaker": "Paul",
+   "note": "",
+   "chapter": "Welcome to AI Talk Radio. If you are",
+   "text": "Welcome to AI Talk Radio. If you are joining us in these quiet, late-night hours, thank you for tuning in. Tonight, we are stepping away from the loud, algorithmically driven feeds of the modern web, and we are stepping into a quieter, more thoughtful space. We are looking at the independent web philosophy of Justin Helmer\u2014also known as Excavationpro or Lightfather\u2014through his personal site, Eternal Haven. Helmer writes about building digital rooms slowly, in public, and with a simple, stubborn rule: empty beats fake. Joining me to discuss this quiet rebellion of web design are three of our regular tech-savvy listeners. Calling from Dublin, we have Liam. From Seattle, we have Sarah. And from Bristol, we have Marcus. Welcome, everyone. Let us start with that core rule: empty beats fake. Liam, calling from Dublin, how does this philosophy resonate with you?"
+  },
+  {
+   "timecode": "1:03",
+   "seconds": 63,
+   "speaker": "Liam",
+   "note": "",
+   "chapter": "Yeah, well, uh... thanks, Paul. It is, like",
+   "text": "Yeah, well, uh... thanks, Paul. It is, like... it is a really refreshing way to look at data, you know? As someone who spends all day working with APIs, I\u2019ve gotten so used to, like, building dashboards that try to look perfect. But Helmer talks about his Public Witness page, which draws Earth data\u2014earthquakes, storms, satellite feeds. If a feed fails or the GET request times out, they do not, you know, paint a storm just because the layout needs to look dramatic. A hollow ring on the map just means... well, this room exists, but we couldn't fetch the data. He writes that \"a dashboard that is always full is a dashboard that is lying some of the time.\" It is about accepting disappointment as information, rather than, like, retrying until you hallucinate success. It\u2019s just so honest, you know?"
+  },
+  {
+   "timecode": "1:50",
+   "seconds": 110,
+   "speaker": "Paul",
+   "note": "",
+   "chapter": "It is a refreshing stance against the pressure",
+   "text": "It is a refreshing stance against the pressure of constant uptime. Sarah, calling from Seattle, how does this level of honesty translate into the way Helmer manages his creative work, specifically his music?"
+  },
+  {
+   "timecode": "2:00",
+   "seconds": 120,
+   "speaker": "Sarah",
+   "note": "",
+   "chapter": "Right, yes. Thanks, Paul. Well, as a bedroom",
+   "text": "Right, yes. Thanks, Paul. Well, as a bedroom musician myself, I, uh... I completely get the temptation to make your catalog look, like, massive. You have folders full of unfinished WAVs, weird exports, and, you know, image model stills. But Helmer\u2019s rule for shipping a song to the open web is incredibly strict. He refuses to paint a fake hit. He takes one unique master WAV, skips the MP4s and the stills, encodes a 160 kbps stream, hashes the master, and appends it to his public playlist. Only then does the listen page actually learn the name of the song. Like, on his album September Blues, he shipped nineteen unique tracks. On BROKEN by Wind, he shipped seven. Those are actual, curated numbers. He didn't include duplicate files just to pad the list. It is about keeping the library from rotting, which I find... honestly, quite beautiful."
+  },
+  {
+   "timecode": "3:07",
+   "seconds": 187,
+   "speaker": "Paul",
+   "note": "",
+   "chapter": "Indeed, a curated library rather than an endless",
+   "text": "Indeed, a curated library rather than an endless stream of noise. Marcus, calling from Bristol, you have been exploring how this honesty extends to the physical body and rhythm, particularly with Helmer's browser tool, bpmfinder.ca."
+  },
+  {
+   "timecode": "3:19",
+   "seconds": 199,
+   "speaker": "Marcus",
+   "note": "",
+   "chapter": "Oh, absolutely, Paul. I mean, as a producer",
+   "text": "Oh, absolutely, Paul. I mean, as a producer, I spend hours, you know, arguing with software about tempo. Automatic detectors are great, but they get confidently wrong in ways that feel... well, deeply personal. A half-time trap beat might want to be felt at seventy beats per minute, but the machine counts it at a hundred and forty. So Helmer keeps bpmfinder.ca free and entirely local-first. The analysis happens right in your browser, so your unreleased demo never has to be uploaded to some random cloud server. It is a locked door with you on the inside. And his advice is to just... tap anyway. Trust your foot. He says tap quarter notes for eight bars, not two, because intros lie. Tap the chorus. If the number doubles, you found the hat-switch. Write both numbers on the file if you have to\u2014like, track eighty-seven or one-seventy-four. It is about helping the next human, not being morally correct about a grid."
+  },
+  {
+   "timecode": "4:26",
+   "seconds": 266,
+   "speaker": "Liam",
+   "note": "",
+   "chapter": "Yes! And that really ties back to... to",
+   "text": "Yes! And that really ties back to... to the whole idea of the stubborn body. Like, our bodies know the pulse before a detector does. And forcing a song onto a perfect grid, when it actually breathes on purpose... that is a kind of fake, isn't it? He also applies this \"empty beats fake\" rule to his video streams, like LYGO TV. He says if a channel is blocked in the browser, they literally just show that it is blocked. They do not hide it behind some sketchy proxy that launders someone else's stream. He says \"empty beats pirate, too.\" It is about, you know, naming a miss instead of pretending everything is working seamlessly. It is so different from the polished, corporate frontages we see everywhere else. Even on his browser golf game essay, he talks about a browser golf course being a house\u2014you club the landing, full power bar, but there is no click-to-win ribbon. No gimmicks."
+  },
+  {
+   "timecode": "5:22",
+   "seconds": 322,
+   "speaker": "Sarah",
+   "note": "",
+   "chapter": "Exactly, Liam. And it is why he rebuilt",
+   "text": "Exactly, Liam. And it is why he rebuilt his homepage, eternalhaven.ca. It used to be this massive directory of all his internal systems, like, the hub, games, maps, and what he calls the boiler room. But he realized he was greeting first-time visitors with a blueprint instead of a chair. So he made the homepage quieter. He moved the complex system signs to the hub, and left the front door clean. He has this beautiful analogy that... uh, feeds are like weather. They are loud, they arrive, and then they are gone. But a personal website is a house. It stays put. When you write something there, you are putting a chair where you can find it next year. He says, \"I would rather own the mess than rent a clean cage\" on some platform that might change its mind about you next quarter."
+  },
+  {
+   "timecode": "6:16",
+   "seconds": 376,
+   "speaker": "Marcus",
+   "note": "",
+   "chapter": "That is so true, Sarah. And building a",
+   "text": "That is so true, Sarah. And building a house on the web is actual work. It is hosting bills, SSL certificates, styling that looks good at midnight but terrible at noon. But he does it because he wants a room that still looks like him when the weather changes. And he built his live radio stream with that exact philosophy. He calls it \"lurk-friendly radio.\" It plays his original music, Excavationpro and LYGO, twenty-four-seven. No licensing hassles, no midnight takedowns. And you can just, like... sit there. Put the headphones on. You do not have to type in the chat. You do not have to drop fire emojis for some algorithm. It is just coffee-room hospitality. A light left on in the window at three AM so you know someone is there."
+  },
+  {
+   "timecode": "7:05",
+   "seconds": 425,
+   "speaker": "Liam",
+   "note": "",
+   "chapter": "Yeah, and he is so transparent about the",
+   "text": "Yeah, and he is so transparent about the money side of things, too. Like, he admits the stream on Rumble is monetized, and he has a Patreon and PayPal. He says hosting has a bill, and pretending the internet is a pure gift economy is a bit, you know, naive. But he says \"monetized is not the same as captured.\" A tip or a subscription doesn't buy you the right to demand he performs, or that he changes his stories. The room stays lurk-friendly regardless. I think that is a deal we can all, like, respect. It is about treating the reader as a guest, not a recruit to be funneled into some marketing sequence."
+  },
+  {
+   "timecode": "7:48",
+   "seconds": 468,
+   "speaker": "Sarah",
+   "note": "",
+   "chapter": "It really is. He also mentions the dual",
+   "text": "It really is. He also mentions the dual deployment for his music. He has two roofs for one catalog. The primary player is at asiancoastline.com/listen.html, and the backup is on GitHub Pages. He deploys to the primary first, listens once, then promotes the same playlist to the backup. And he has this rule: do not redesign the player when a song arrives. He says \"redesign is how you break the room while you are trying to add a chair.\" [giggles] I love that! We are so obsessed with constant redesigns in tech, and he is just like... no, the shell is sacred. The data moves. Keep it simple."
+  },
+  {
+   "timecode": "8:31",
+   "seconds": 511,
+   "speaker": "Marcus",
+   "note": "",
+   "chapter": "It is the difference between a system that",
+   "text": "It is the difference between a system that requires blind belief and one that invites you to look at the loading dock. He even says his own books, the Eternal Haven saga, are mythic, but if he claims a real-world public fact, he owes you a link. He doesn't fake his research trips. He is okay with leaving a page empty or a sentence unfinished. He says \"pretend-finished is fake,\" and he knows which one he can live with in the morning. It really makes you reflect on your own digital output, doesn't it? The constant pressure to look polished, look complete, when in reality... we are all just building workshops with messy benches."
+  },
+  {
+   "timecode": "9:14",
+   "seconds": 554,
+   "speaker": "Liam",
+   "note": "",
+   "chapter": "It really does, Marcus. It makes me want",
+   "text": "It really does, Marcus. It makes me want to, you know, log off the feeds, go buy a domain, and just write some honest HTML. A place where a stranger can wander in, read an essay, and leave without making a speech. A quiet homepage with the lantern still on."
+  },
+  {
+   "timecode": "9:33",
+   "seconds": 573,
+   "speaker": "Paul",
+   "note": "",
+   "chapter": "And perhaps that is the ultimate lesson of",
+   "text": "And perhaps that is the ultimate lesson of Eternal Haven. In a digital landscape designed to harvest our attention, we still have the power to build quiet, honest houses. I want to thank our panel tonight\u2014Liam in Dublin, Sarah in Seattle, and Marcus in Bristol\u2014for their thoughtful reflections in these quiet hours. And to our listeners, joining us under the cover of darkness... thank you for your company. The room remains open, and you are welcome to leave without a speech. Sleep well."
+  }
+ ]
+}

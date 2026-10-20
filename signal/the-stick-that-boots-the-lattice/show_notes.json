@@ -1,0 +1,315 @@
+{
+  "slug": "the-stick-that-boots-the-lattice",
+  "show_title": "The Stick That Boots the Lattice",
+  "desk": "studio-desk",
+  "engine": "VoiceStudio OmniVoice 0.5.6",
+  "duration": "4:35",
+  "seconds": 274.81,
+  "date": "2026-09-29",
+  "audio": "https://chatagent.ca/signal/audio/the-stick-that-boots-the-lattice.mp3",
+  "cover": "/signal/art/the-stick-that-boots-the-lattice-cover.jpg",
+  "speakers": [
+    "Paul",
+    "Maya",
+    "Theo",
+    "Priya"
+  ],
+  "summary": "Studio Desk opens the LYGO USB BUILDR and LYGO-Claw master whitepaper: two products on one lattice, a daemon on loopback port 9630, six of six Phase 1 gates, and a retail path that refuses WMI auto-start. Paul hosts from London; Maya, Theo and Priya push the numbers.",
+  "source": {
+    "title": "LYGO USB BUILDR + LYGO-Claw \u2014 Master whitepaper & running build log",
+    "signature": "D9Phi963-USB-CLAW-MASTER-WHITEPAPER-v1",
+    "path": "I:\\E Drive\\lygo-claw\\docs\\LYGO_USB_AND_CLAW_MASTER_WHITEPAPER.md",
+    "steward": "Justin Helmer / Lightfather / Excavationpro",
+    "consolidated": "2026-07-05"
+  },
+  "chapters": [
+    {
+      "at": "0:00",
+      "seconds": 0,
+      "title": "Welcome: a whitepaper on a stick"
+    },
+    {
+      "at": "0:24",
+      "seconds": 24,
+      "title": "Not one installer"
+    },
+    {
+      "at": "0:43",
+      "seconds": 43,
+      "title": "Over to Theo in Austin"
+    },
+    {
+      "at": "0:48",
+      "seconds": 48,
+      "title": "One-Boot and a three-B model"
+    },
+    {
+      "at": "1:10",
+      "seconds": 70,
+      "title": "Tokens a second still sounds like marketing"
+    },
+    {
+      "at": "1:18",
+      "seconds": 78,
+      "title": "Six of six on the fifth of July"
+    },
+    {
+      "at": "1:42",
+      "seconds": 102,
+      "title": "Over to Priya in Bangalore"
+    },
+    {
+      "at": "1:46",
+      "seconds": 106,
+      "title": "Port nine six three zero"
+    },
+    {
+      "at": "2:10",
+      "seconds": 130,
+      "title": "The stick does not hijack the machine"
+    },
+    {
+      "at": "2:20",
+      "seconds": 140,
+      "title": "Tray, then maybe autostart"
+    },
+    {
+      "at": "2:32",
+      "seconds": 152,
+      "title": "Four public SKUs, vault stays home"
+    },
+    {
+      "at": "2:48",
+      "seconds": 168,
+      "title": "Who talks to whom"
+    },
+    {
+      "at": "2:56",
+      "seconds": 176,
+      "title": "Daemon first, then Claw"
+    },
+    {
+      "at": "3:07",
+      "seconds": 187,
+      "title": "Windows is the dummy-proof path"
+    },
+    {
+      "at": "3:16",
+      "seconds": 196,
+      "title": "The verification checklist"
+    },
+    {
+      "at": "3:23",
+      "seconds": 203,
+      "title": "Four commands, then health"
+    },
+    {
+      "at": "3:38",
+      "seconds": 218,
+      "title": "If they fail, the paper is a story"
+    },
+    {
+      "at": "3:46",
+      "seconds": 226,
+      "title": "Takeaways for the desk"
+    },
+    {
+      "at": "4:01",
+      "seconds": 241,
+      "title": "The stick plus the verify scripts win"
+    },
+    {
+      "at": "4:09",
+      "seconds": 249,
+      "title": "Plug it in, then argue with the numbers"
+    },
+    {
+      "at": "4:14",
+      "seconds": 254,
+      "title": "Treat the file as canonical"
+    },
+    {
+      "at": "4:24",
+      "seconds": 264,
+      "title": "Sign-off: keep the transmitter honest"
+    }
+  ],
+  "transcript": [
+    {
+      "timecode": "0:00",
+      "seconds": 0.0,
+      "speaker": "Paul",
+      "note": "calmly",
+      "chapter": "Welcome: a whitepaper on a stick",
+      "text": "Welcome to Studio Desk on LYGO Signal, broadcasting from a quiet London studio. Tonight we open a whitepaper that lives on a stick, not a cloud. The LYGO USB builder and LYGO-Claw master paper. Signature D nine Phi nine six three. Two products. One lattice. Maya is in Vancouver, Theo in Austin, Priya in Bangalore. Maya, you read it as an engineer. What is the first thing that is not a slogan?"
+    },
+    {
+      "timecode": "0:24",
+      "seconds": 23.89,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 dry",
+      "chapter": "Not one installer",
+      "text": "It is not one installer. The Windows path is Python three eleven plus double-click batch files. Two products sit on one lattice. Builder USB is the offline A I kit, with an optional guardian daemon on the stick. LYGO-Claw is the host agent gateway. If you treat them as one blob, you miss the architecture."
+    },
+    {
+      "timecode": "0:43",
+      "seconds": 42.62,
+      "speaker": "Paul",
+      "note": "measuredly",
+      "chapter": "Over to Theo in Austin",
+      "text": "Theo, you actually tried to boot it. What happens when the stick is in the machine?"
+    },
+    {
+      "timecode": "0:48",
+      "seconds": 47.99,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 enthusiastically",
+      "chapter": "One-Boot and a three-B model",
+      "text": "One-Boot. That is the batch file that sets the environment, serves the model, and opens chat. Portable Ollama on the stick, about five point one gigabytes, Qwen two point five three B in the models folder. Warm eval on the paper's Phase One run was seventy-nine to one hundred twenty-four tokens a second. That is a USB stick doing inference. Not a demo G I F."
+    },
+    {
+      "timecode": "1:10",
+      "seconds": 69.76,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 skeptical",
+      "chapter": "Tokens a second still sounds like marketing",
+      "text": "Tokens a second on USB still sounds like a marketing number. What gate actually passed, Theo? Because I will not clap for a chart."
+    },
+    {
+      "timecode": "1:18",
+      "seconds": 77.97,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 firmly",
+      "chapter": "Six of six on the fifth of July",
+      "text": "Six of six, Maya. Fresh P C ready in about a tenth of a second. Daemon health around eleven milliseconds. Queued verify about half a second. Claw C L I steps, one hundred twenty to one hundred fifty milliseconds. Safe internet probes. Lattice on the stick, about fifty-four seconds, and it came back aligned. That is the benchmark JSON from the fifth of July, twenty twenty-six. Not a tweet."
+    },
+    {
+      "timecode": "1:42",
+      "seconds": 101.7,
+      "speaker": "Paul",
+      "note": "politely",
+      "chapter": "Over to Priya in Bangalore",
+      "text": "Priya, the daemon. Port, jobs, and what it will refuse to do."
+    },
+    {
+      "timecode": "1:46",
+      "seconds": 105.67,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 calmly",
+      "chapter": "Port nine six three zero",
+      "text": "Loopback port nine six three zero. Get health. Post Supervise through the Claw gateway. Post Task is a whitelist: verify standalone, verify bootstrap, chat once, and anchor audit. The task log is JSON L under user data. Retail version one will not auto-start the daemon with W M I when you insert the stick. That was deferred, because antivirus and consent. Tray plus opt-in autostart is the path."
+    },
+    {
+      "timecode": "2:10",
+      "seconds": 129.92,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 thoughtfully",
+      "chapter": "The stick does not hijack the machine",
+      "text": "So the stick does not hijack the machine when you plug it in. That is the part I actually trust. Consent first. Health in a tray. Stop is a button, not a prayer."
+    },
+    {
+      "timecode": "2:20",
+      "seconds": 139.73,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 conversational",
+      "chapter": "Tray, then maybe autostart",
+      "text": "Yeah. You log on, or you run the daemon tray batch. Tray shows health, One-Boot chat, Claw docs, stop. Autostart is a separate batch, once, if you want it. Nobody is installing a silent helper for you."
+    },
+    {
+      "timecode": "2:32",
+      "seconds": 151.94,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 measured",
+      "chapter": "Four public SKUs, vault stays home",
+      "text": "Four public SKU zips, ready for a human storefront. Lightfather, LYRA, Sancora, Hermes Sentinel. About five point three gigabytes each. The builder vault and the signing keys stay off the retail zip. Steward upload is a person. Agents do not push the store."
+    },
+    {
+      "timecode": "2:48",
+      "seconds": 167.86,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 pressing",
+      "chapter": "Who talks to whom",
+      "text": "Four champion skins, same stick physics. Fine. I still want to know who talks to whom, because a pretty zip is not a start order."
+    },
+    {
+      "timecode": "2:56",
+      "seconds": 175.91,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 precisely",
+      "chapter": "Daemon first, then Claw",
+      "text": "Start order with the USB. Daemon or tray first. Then LYGO-Claw USB health. Then gateway and tasks. Claw never pretends the stick is up if port nine six three zero is quiet."
+    },
+    {
+      "timecode": "3:07",
+      "seconds": 186.56,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 plainly",
+      "chapter": "Windows is the dummy-proof path",
+      "text": "And it is not a Linux Lucks retail kit. Windows is the dummy-proof path. Docs exist for Lucks. Buyers get batch files. Python, not one giant exe."
+    },
+    {
+      "timecode": "3:16",
+      "seconds": 195.54,
+      "speaker": "Paul",
+      "note": "measuredly",
+      "chapter": "The verification checklist",
+      "text": "Priya, before anyone calls this done, the paper has a checklist. What has to pass on a real machine, not in a paragraph?"
+    },
+    {
+      "timecode": "3:23",
+      "seconds": 203.07,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 precisely",
+      "chapter": "Four commands, then health",
+      "text": "Four commands. Verify standalone USB. Verify bootstrap, builder edition, phase two. Benchmark the stick with network and a Claw root. Then Claw self check. Daemon up means health on nine six three zero, and the task queue flag is true."
+    },
+    {
+      "timecode": "3:38",
+      "seconds": 217.64,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 firmly",
+      "chapter": "If they fail, the paper is a story",
+      "text": "That is the part I would actually run. If any of those fail, the whitepaper is a story. If they pass, it is a stick. I can live with a stick."
+    },
+    {
+      "timecode": "3:46",
+      "seconds": 226.17,
+      "speaker": "Paul",
+      "note": "calmly",
+      "chapter": "Takeaways for the desk",
+      "text": "Takeaways for the desk. Two products. Python plus batch files, not one exe. Daemon on nine six three zero with a task whitelist. Six gates passed on the fifth of July. No W M I in retail. Four SKUs, vault stays home. Maya, last word from the skeptic."
+    },
+    {
+      "timecode": "4:01",
+      "seconds": 241.26,
+      "speaker": "Maya",
+      "note": "Accent: Canadian \u00b7 firmly",
+      "chapter": "The stick plus the verify scripts win",
+      "text": "If the whitepaper and the stick disagree, the stick plus the verify scripts win. Read the paper. Then run the bats. Then argue."
+    },
+    {
+      "timecode": "4:09",
+      "seconds": 249.27,
+      "speaker": "Theo",
+      "note": "Accent: Texan-light \u00b7 grinning",
+      "chapter": "Plug it in, then argue with the numbers",
+      "text": "Plug it in. One-Boot. Then argue with the numbers. That is the whole pitch."
+    },
+    {
+      "timecode": "4:14",
+      "seconds": 254.12,
+      "speaker": "Priya",
+      "note": "Accent: Indian \u00b7 quietly",
+      "chapter": "Treat the file as canonical",
+      "text": "Signature D nine Phi nine six three. Treat the file as canonical until a newer consolidation lands. Steward is Justin Helmer. The paper says so in the header."
+    },
+    {
+      "timecode": "4:24",
+      "seconds": 264.09,
+      "speaker": "Paul",
+      "note": "calmly",
+      "chapter": "Sign-off: keep the transmitter honest",
+      "text": "Maya in Vancouver, Theo in Austin, Priya in Bangalore. This is Studio Desk on LYGO Signal. The paper is on the lattice. The stick is in the machine. Keep the transmitter honest."
+    }
+  ]
+}

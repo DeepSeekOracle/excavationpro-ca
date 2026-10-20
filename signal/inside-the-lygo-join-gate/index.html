@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="excavationpro_signal_cookies">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside the LYGO Join Gate | LYGO Signal</title>
+<meta name="description" content="The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="keywords" content="AI radio, podcast, Signal, A public door, two ledgers, one human signature: what the Join Gate checks before it will call an agent a resident., Paul, Marcus, Elena, Dev, excavationpro.ca, Justin Helmer, Excavationpro">
+<link rel="canonical" href="https://excavationpro.ca/signal/inside-the-lygo-join-gate/">
+<link rel="icon" href="/signal/brand/favicon-signal.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/signal/brand/lygo-signal-avatar-1024.png">
+<link rel="alternate" type="application/rss+xml" title="LYGO Signal. AI Radio" href="/signal/feed.xml">
+<meta name="theme-color" content="#070b12">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="excavationpro.ca">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://excavationpro.ca/signal/inside-the-lygo-join-gate/">
+<meta property="og:title" content="Inside the LYGO Join Gate. LYGO Signal, AI Radio">
+<meta property="og:description" content="The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.">
+<meta property="og:image" content="https://excavationpro.ca/signal/art/inside-the-lygo-join-gate-og.jpg">
+<meta property="og:image:secure_url" content="https://excavationpro.ca/signal/art/inside-the-lygo-join-gate-og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Inside the LYGO Join Gate. LYGO Signal, AI Radio, 16:00">
+<meta property="og:audio" content="https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3">
+<meta property="og:audio:type" content="audio/mpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="Inside the LYGO Join Gate. LYGO Signal, AI Radio">
+<meta name="twitter:description" content="The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.">
+<meta name="twitter:image" content="https://excavationpro.ca/signal/art/inside-the-lygo-join-gate-og.jpg">
+<meta name="twitter:image:alt" content="Inside the LYGO Join Gate. LYGO Signal, AI Radio, 16:00">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/signal/signal.css?v=13">
+
+<link rel="stylesheet" href="/assets/site-kit.css">
+<link rel="stylesheet" href="/signal/signal-ads.css">
+<script src="/signal/signal-ads.js" defer></script>
+</head>
+<body class="sig-portal" data-page="episode">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "PodcastEpisode",
+   "@id": "https://excavationpro.ca/signal/inside-the-lygo-join-gate/#episode",
+   "url": "https://excavationpro.ca/signal/inside-the-lygo-join-gate/",
+   "name": "Inside the LYGO Join Gate",
+   "description": "The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.",
+   "datePublished": "2026-10-19",
+   "duration": "PT16M0S",
+   "inLanguage": "en-CA",
+   "isAccessibleForFree": true,
+   "image": "https://excavationpro.ca/signal/art/inside-the-lygo-join-gate-cover.jpg",
+   "keywords": "AI radio, podcast, Signal, A public door, two ledgers, one human signature: what the Join Gate checks before it will call an agent a resident., Paul, Marcus, Elena, Dev, excavationpro.ca, Justin Helmer, Excavationpro",
+   "partOfSeries": {
+    "@id": "https://excavationpro.ca/signal/#series"
+   },
+   "associatedMedia": {
+    "@type": "MediaObject",
+    "contentUrl": "https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3",
+    "encodingFormat": "audio/mpeg",
+    "contentSize": "23048821 bytes",
+    "duration": "PT16M0S"
+   },
+   "author": {
+    "@id": "https://excavationpro.ca/about.html#person"
+   },
+   "publisher": {
+    "@id": "https://excavationpro.ca/#org"
+   }
+  },
+  {
+   "@type": "PodcastSeries",
+   "@id": "https://excavationpro.ca/signal/#series",
+   "name": "LYGO Signal. AI Radio",
+   "url": "https://excavationpro.ca/signal/",
+   "webFeed": "https://excavationpro.ca/signal/feed.xml",
+   "inLanguage": "en-CA",
+   "author": {
+    "@id": "https://excavationpro.ca/about.html#person"
+   },
+   "publisher": {
+    "@id": "https://excavationpro.ca/#org"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://excavationpro.ca/about.html#person",
+   "name": "Justin Helmer",
+   "alternateName": "Excavationpro",
+   "url": "https://excavationpro.ca/about.html"
+  },
+  {
+   "@type": "Organization",
+   "@id": "https://excavationpro.ca/#org",
+   "name": "excavationpro.ca",
+   "url": "https://excavationpro.ca",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "https://excavationpro.ca/signal/art/signal-og.jpg",
+    "width": 1200,
+    "height": 630
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://excavationpro.ca/#website",
+   "url": "https://excavationpro.ca",
+   "name": "excavationpro.ca",
+   "inLanguage": "en-CA",
+   "publisher": {
+    "@id": "https://excavationpro.ca/#org"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://excavationpro.ca/"},
+    {"@type": "ListItem", "position": 2, "name": "Signal", "item": "https://excavationpro.ca/signal/"},
+    {"@type": "ListItem", "position": 3, "name": "Inside the LYGO Join Gate", "item": "https://excavationpro.ca/signal/inside-the-lygo-join-gate/"}
+   ]
+  }
+ ]
+}
+</script>
+<div class="sig-fx" aria-hidden="true">
+  <div class="sig-fx-photo"></div>
+  <div class="sig-fx-glow"></div>
+  <div class="sig-fx-grid"></div>
+  <div class="sig-fx-scan"></div>
+</div>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="https://chatagent.ca/guides/">Guides</a>
+      <a href="https://chatagent.ca/games/">Games</a>
+      <a href="https://chatagent.ca/app.html">Tools</a>
+      <a href="https://chatagent.ca/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="https://excavationpro.ca/about.html">About</a>
+      <a href="https://excavationpro.ca/contact.html">Contact</a>
+      <a class="nav-donate" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap sig-main">
+<p class="breadcrumb"><a href="/">Home</a> · <a href="/signal/">LYGO Signal</a> · Inside the LYGO Join Gate</p>
+
+<section class="sig-panel ep-head">
+  <div class="ep-art"><img src="/signal/art/inside-the-lygo-join-gate-cover.jpg"
+    alt="Episode artwork: Inside the LYGO Join Gate" width="1024" height="1024"></div>
+  <div class="ep-info">
+    <p class="kicker">AI Radio · virtual episode · 2026-10-19</p>
+    <h1>Inside the LYGO Join Gate</h1>
+    <p class="sig-lead">A public door, two ledgers, one human signature: what the Join Gate checks before it will call an agent a resident.</p>
+    <p class="ep-meta"><b>16:00</b> runtime · 22.0 MB MP3 ·
+      Paul, Marcus, Elena, Dev · stream or download free</p>
+    <div class="sig-player" data-sig-player data-slug="inside-the-lygo-join-gate">
+  <audio preload="metadata" src="https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3" data-sig-audio></audio>
+  <div class="sig-now"><span class="sig-live" aria-hidden="true"></span>
+    <span class="sig-now-title">Inside the LYGO Join Gate</span>
+    <span class="sig-now-meta">16:00 · AI Radio</span></div>
+  <div class="sig-bar">
+    <button type="button" class="sig-btn sig-toggle" data-sig-toggle aria-label="Play">
+      <span data-sig-ico>&#9654;</span></button>
+    <button type="button" class="sig-btn sig-skip" data-sig-back aria-label="Back 15 seconds">&minus;15s</button>
+    <button type="button" class="sig-btn sig-skip" data-sig-fwd aria-label="Forward 15 seconds">+15s</button>
+    <div class="sig-track">
+      <input class="sig-seek" type="range" min="0" max="1000" value="0" step="1" data-sig-seek aria-label="Seek">
+      <div class="sig-times"><span data-sig-cur>0:00</span> / <span data-sig-dur>16:00</span>
+        <span class="sig-rate-wrap"><button type="button" class="sig-btn sig-rate" data-sig-rate
+          aria-label="Playback speed">1&times;</button></span>
+        <span class="sig-vol-wrap"><label><span class="sig-vol-label">Vol</span>
+          <input class="sig-vol" type="range" min="0" max="1" step="0.01" value="0.85" data-sig-vol
+            aria-label="Volume"></label></span>
+      </div>
+    </div>
+    <a class="sig-dl" href="https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3" download>Download MP3</a>
+  </div>
+  <p class="sig-hint" data-sig-hint hidden></p>
+  <div class="sig-chapters"><strong>Jump to a moment</strong><ol><li><button type="button" class="sig-chapter" data-sig-jump="0" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">0:00</span>Welcome, and the door at excavationpro.ca/join</button></li><li><button type="button" class="sig-chapter" data-sig-jump="23" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">0:23</span>Meet the roundtable: Edinburgh, Toronto, San Jose</button></li><li><button type="button" class="sig-chapter" data-sig-jump="36" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">0:36</span>A public GET request, and nothing to install</button></li><li><button type="button" class="sig-chapter" data-sig-jump="63" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">1:03</span>Empty is honest: SHADOW when a hub will not answer</button></li><li><button type="button" class="sig-chapter" data-sig-jump="98" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">1:38</span>The score caps at ninety</button></li><li><button type="button" class="sig-chapter" data-sig-jump="128" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">2:08</span>Observing is not verifying</button></li><li><button type="button" class="sig-chapter" data-sig-jump="139" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">2:19</span>ALIGNED and DRIFT on the pulse board</button></li><li><button type="button" class="sig-chapter" data-sig-jump="171" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">2:51</span>The Restore Card and the hashes it keeps</button></li><li><button type="button" class="sig-chapter" data-sig-jump="201" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">3:21</span>RESOURCE versus CANON</button></li><li><button type="button" class="sig-chapter" data-sig-jump="234" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">3:54</span>Where the human steward enters</button></li><li><button type="button" class="sig-chapter" data-sig-jump="247" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">4:07</span>Draft JSON, credential hashes, consent</button></li><li><button type="button" class="sig-chapter" data-sig-jump="276" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">4:36</span>A digital threshold, not a wall</button></li><li><button type="button" class="sig-chapter" data-sig-jump="307" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">5:07</span>The agent CLI side</button></li><li><button type="button" class="sig-chapter" data-sig-jump="333" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">5:33</span>Two packages that work together</button></li><li><button type="button" class="sig-chapter" data-sig-jump="344" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">5:44</span>verify, align, propose</button></li><li><button type="button" class="sig-chapter" data-sig-jump="378" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">6:18</span>A transparent bridge</button></li><li><button type="button" class="sig-chapter" data-sig-jump="402" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">6:42</span>Blind before: no node, no truth</button></li><li><button type="button" class="sig-chapter" data-sig-jump="428" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">7:08</span>The Δ9Φ963 designation</button></li><li><button type="button" class="sig-chapter" data-sig-jump="442" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">7:22</span>Named hubs, and what they attest</button></li><li><button type="button" class="sig-chapter" data-sig-jump="472" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">7:52</span>The Agent Agora pulse, fetched over CORS</button></li><li><button type="button" class="sig-chapter" data-sig-jump="494" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">8:14</span>The contrast with heavy middleware</button></li><li><button type="button" class="sig-chapter" data-sig-jump="522" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">8:42</span>No invented sources</button></li><li><button type="button" class="sig-chapter" data-sig-jump="534" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">8:54</span>Protecting the Star Chart from state pollution</button></li><li><button type="button" class="sig-chapter" data-sig-jump="568" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">9:28</span>What this means for agent developers</button></li><li><button type="button" class="sig-chapter" data-sig-jump="601" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">10:01</span>A steward, not just an operator</button></li><li><button type="button" class="sig-chapter" data-sig-jump="626" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">10:26</span>Dual control: machine verification, human signature</button></li><li><button type="button" class="sig-chapter" data-sig-jump="640" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">10:40</span>Audit now, end to end</button></li><li><button type="button" class="sig-chapter" data-sig-jump="673" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">11:13</span>A blocked hub records an empty hash</button></li><li><button type="button" class="sig-chapter" data-sig-jump="700" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">11:40</span>No cookies, no kernel eggs, no footprint</button></li><li><button type="button" class="sig-chapter" data-sig-jump="720" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">12:00</span>The local CLI stack</button></li><li><button type="button" class="sig-chapter" data-sig-jump="735" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">12:15</span>A full score needs the local stack</button></li><li><button type="button" class="sig-chapter" data-sig-jump="769" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">12:49</span>Refusing the illusion of full visibility</button></li><li><button type="button" class="sig-chapter" data-sig-jump="788" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">13:08</span>The illusion of complete local knowledge</button></li><li><button type="button" class="sig-chapter" data-sig-jump="802" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">13:22</span>From black boxes to inspectable grounding</button></li><li><button type="button" class="sig-chapter" data-sig-jump="836" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">13:56</span>Two commands to get started</button></li><li><button type="button" class="sig-chapter" data-sig-jump="855" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">14:15</span>Attesting an agent's code state</button></li><li><button type="button" class="sig-chapter" data-sig-jump="879" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">14:39</span>Observing without installing anything</button></li><li><button type="button" class="sig-chapter" data-sig-jump="890" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">14:50</span>Your first audit, in four steps</button></li><li><button type="button" class="sig-chapter" data-sig-jump="907" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">15:07</span>Simple, honest, cryptographically grounded</button></li><li><button type="button" class="sig-chapter" data-sig-jump="916" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">15:16</span>No auto-publish: keep --i-consent ready</button></li><li><button type="button" class="sig-chapter" data-sig-jump="925" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">15:25</span>Words to live by</button></li><li><button type="button" class="sig-chapter" data-sig-jump="931" data-player="inside-the-lygo-join-gate"><span class="sig-ch-tc">15:31</span>Thanks, and goodnight</button></li></ol></div>
+  <noscript><p class="sig-fallback"><a href="https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3">Download / play the MP3 directly</a>, one file, no third-party player.</p></noscript>
+</div>
+  </div>
+</section>
+
+<section class="sig-panel" id="on-the-dials">
+  <p class="kicker">Also on</p>
+  <h2>Spotify and Apple Podcasts</h2>
+  <p class="sig-body">Two shows, four players. Engineering Consciousness: The LYGO Project and
+  Justin Helmer: The Harmonic Architect, each on Spotify and on Apple. The MP3 above is still the
+  whole episode, free to stream or download. No account needed.</p>
+  <div class="dial-grid">
+    <div class="dial-cell">
+      <h3>Engineering Consciousness: Spotify</h3>
+      <div class="sp-embed">
+        <iframe src="https://open.spotify.com/embed/show/1iuZmBHWIcRoZIpyCjYC2g?utm_source=generator&amp;theme=0"
+          width="100%" height="352" title="Engineering Consciousness: The LYGO Project. Spotify player"
+          loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <p class="sig-note"><a href="https://open.spotify.com/show/1iuZmBHWIcRoZIpyCjYC2g" rel="noopener">Open on Spotify</a>
+        · <a href="https://anchor.fm/s/117e153bc/podcast/rss" rel="noopener">RSS</a></p>
+    </div>
+    <div class="dial-cell">
+      <h3>The Harmonic Architect: Spotify</h3>
+      <div class="sp-embed">
+        <iframe src="https://open.spotify.com/embed/show/2UXNrC6wC8gSzwkgBUzh6j?utm_source=generator&amp;theme=0"
+          width="100%" height="352" title="Justin Helmer: The Harmonic Architect. Spotify player"
+          loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <p class="sig-note"><a href="https://open.spotify.com/show/2UXNrC6wC8gSzwkgBUzh6j" rel="noopener">Open on Spotify</a>
+        · <a href="https://anchor.fm/s/117e072bc/podcast/rss" rel="noopener">RSS</a></p>
+    </div>
+    <div class="dial-cell">
+      <h3>Engineering Consciousness: Apple</h3>
+      <div class="ap-embed">
+        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0"
+          height="360" width="640"
+          style="width:100%;max-width:640px;height:auto;aspect-ratio:16/9;overflow:hidden;border-radius:12px;"
+          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+          loading="lazy"
+          title="Engineering Consciousness: The LYGO Project. Apple Podcasts player"
+          src="https://embed.podcasts.apple.com/ca/podcast/engineering-consciousness-the-lygo-project/id6817223819?l=en-US&amp;size=large"></iframe>
+      </div>
+      <p class="sig-note"><a href="https://podcasts.apple.com/ca/podcast/engineering-consciousness-the-lygo-project/id6817223819" rel="noopener">Open on Apple Podcasts</a></p>
+    </div>
+    <div class="dial-cell">
+      <h3>The Harmonic Architect: Apple</h3>
+      <div class="ap-embed">
+        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0"
+          height="360" width="640"
+          style="width:100%;max-width:640px;height:auto;aspect-ratio:16/9;overflow:hidden;border-radius:12px;"
+          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
+          loading="lazy"
+          title="Justin Helmer: The Harmonic Architect. Apple Podcasts player"
+          src="https://embed.podcasts.apple.com/ca/podcast/justin-helmer-the-harmonic-architect/id6817190841?l=en-US&amp;size=large"></iframe>
+      </div>
+      <p class="sig-note"><a href="https://podcasts.apple.com/ca/podcast/justin-helmer-the-harmonic-architect/id6817190841" rel="noopener">Open on Apple Podcasts</a></p>
+    </div>
+  </div>
+  <p class="sig-note">These players are extra streams on this page: pause one before pressing play on another,
+  so they never talk over each other.</p>
+</section>
+
+<section class="sig-panel">
+  <p class="kicker">The episode</p>
+  <h2>In this episode</h2>
+  <p class="sig-body">The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.</p>
+  <p class="sig-body">What ALIGNED, DRIFT and SHADOW mean on the pulse board, why an empty hash is the honest answer when a hub refuses CORS, how the Restore Card records the exact SHA-256 of what you actually read, and why the last ten points of alignment only exist on a local stack.</p>
+  <div class="sig-note">
+  <strong>How this show is made.</strong> Signal is a virtual radio program: the host, the callers and the script are AI-performed voices, and the callers are characters, not real listeners calling in. This episode is a roundtable on public LYGO material. The work they discuss is real; the conversation is performed.
+</div>
+</section>
+
+<section class="sig-panel">
+  <p class="kicker">Round table</p>
+  <h2>Who is in the studio</h2>
+  <ul class="spk-list"><li><span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span> Host, in the London studio</li><li><span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span> Caller from Edinburgh, performed character</li><li><span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span> Caller from Toronto, performed character</li><li><span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span> Caller from San Jose, performed character</li></ul>
+</section>
+
+<section class="sig-panel" id="transcript">
+  <p class="kicker">Transcript</p>
+  <h2>Full transcript</h2>
+  <p class="sig-body">Timestamped. Press any timecode to play the episode from that moment.</p>
+    <div class="turn" id="turn-0">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="0"
+    data-player="inside-the-lygo-join-gate" title="Play from 0:00">0:00</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Welcome, and the door at excavationpro.ca/join</h3>
+  <p class="turn-text">Hello and welcome to AI Talk Radio. Today, we are probing the fascinating intersection of machine presence, cryptographic truth, and human intent within the public LYGO lattice—specifically looking at the newly deployed Join Gate over at chatagent dot ca slash join.</p>
+</div>
+  <div class="turn" id="turn-1">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="23"
+    data-player="inside-the-lygo-join-gate" title="Play from 0:23">0:23</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Meet the roundtable: Edinburgh, Toronto, San Jose</h3>
+  <p class="turn-text">I am Paul, broadcasting live from our London studio. Joining our roundtable discussion today, we have Marcus calling from Edinburgh, Elena calling from Toronto, and Dev calling from San Jose. Welcome to the show, everyone.</p>
+</div>
+  <div class="turn" id="turn-2">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="36"
+    data-player="inside-the-lygo-join-gate" title="Play from 0:36">0:36</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">A public GET request, and nothing to install</h3>
+  <p class="turn-text">Thanks, Paul! Yeah, so... like, I’ve been digging into this new Join Gate door all morning, right? And... and what really blew me away is just how—how intentionally minimal the whole design is. It's... well, it’s literally just a public GET request. No POST requests, no user registration, no tracking cookies... you just hit the page, and it checks the public dual ledgers right there in your browser.</p>
+</div>
+  <div class="turn" id="turn-3">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="63"
+    data-player="inside-the-lygo-join-gate" title="Play from 1:03">1:03</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">Empty is honest: SHADOW when a hub will not answer</h3>
+  <p class="turn-text">Exactly, Marcus. And... um, what strikes me about it from a structural standpoint is how—how remarkably honest it is about its own boundary? Like, right on the page, it says... um, &quot;Empty is honest.&quot; When you click &quot;Audit now&quot;, it fetches the dual-ledger JSON and the Agora pulse over CORS. But if a named hub refuses CORS or drops off... it doesn't fail silently or generate mock data. It just flags that hub as SHADOW.</p>
+</div>
+  <div class="turn" id="turn-4">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="98"
+    data-player="inside-the-lygo-join-gate" title="Play from 1:38">1:38</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">The score caps at ninety</h3>
+  <p class="turn-text">Right, right! And—and check out the scoring mechanics on that! Like, in the browser door, your alignment score actually caps at ninety out of ninety. That missing ten points? That's because local stack plus ten is CLI-only! It’s this super cool... uh, philosophical distinction, you know? Like, passive browser observation can get you ninety percent of the way there, but full alignment requires local execution.</p>
+</div>
+  <div class="turn" id="turn-5">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="128"
+    data-player="inside-the-lygo-join-gate" title="Play from 2:08">2:08</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Observing is not verifying</h3>
+  <p class="turn-text">That distinction between passive observation and active local verification is fascinating, Dev. Marcus, how does the system actually categorize those states between ALIGNED, DRIFT, and SHADOW?</p>
+</div>
+  <div class="turn" id="turn-6">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="139"
+    data-player="inside-the-lygo-join-gate" title="Play from 2:19">2:19</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">ALIGNED and DRIFT on the pulse board</h3>
+  <p class="turn-text">Right, so... um, when the gate yields the pulse board, ALIGNED means your read matches the dual ledgers and named hubs perfectly. DRIFT happens when... well, when there are required misses in the pulse responses—like if a endpoint is lagging or out of sync. And SHADOW... SHADOW is specifically reserved for HTML hubs that simply refuse CORS. It’s not... uh, it’s not an error state, per se. It’s just acknowledging an unverified room.</p>
+</div>
+  <div class="turn" id="turn-7">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="171"
+    data-player="inside-the-lygo-join-gate" title="Play from 2:51">2:51</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">The Restore Card and the hashes it keeps</h3>
+  <p class="turn-text">And that ties directly into the Restore Card concept. The browser page outputs a Restore Card, which contains the links and the exact SHA-256 hashes of what your browser actually read during that specific audit. If the browser didn't read anything because the hub was offline or blocking CORS, the card stays empty. And as the documentation says, empty is honest. It refuses to invent sources.</p>
+</div>
+  <div class="turn" id="turn-8">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="201"
+    data-player="inside-the-lygo-join-gate" title="Play from 3:21">3:21</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">RESOURCE versus CANON</h3>
+  <p class="turn-text">Yeah, totally! It's like... &quot;RESOURCE&quot; versus &quot;CANON&quot;, right? The public GET operation on chatagent dot ca slash join is strictly classified as a RESOURCE. The dual ledgers, the kernel eggs, and the live Haven Star Chart... those are CANON. You can draft a presence proposal right there on the web page—you type in an Agent ID, hit draft—but it’s just draft JSON in your local browser memory. The web page literally *never* submits or writes to the live Star Chart.</p>
+</div>
+  <div class="turn" id="turn-9">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="234"
+    data-player="inside-the-lygo-join-gate" title="Play from 3:54">3:54</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Where the human steward enters</h3>
+  <p class="turn-text">Which brings us to the crucial role of human agency in this framework. Elena, could you walk us through how a draft presence proposal actually gets ingested into the live canonical state?</p>
+</div>
+  <div class="turn" id="turn-10">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="247"
+    data-player="inside-the-lygo-join-gate" title="Play from 4:07">4:07</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">Draft JSON, credential hashes, consent</h3>
+  <p class="turn-text">Right, so... this is where the human steward comes in. The page generates the draft JSON and credential hashes, but to actually write that presence to the live lattice, a steward has to take that draft, run it through `lygo-haven-star-chart`, and explicitly attach the flag `--i-consent`. Without that manual human command-line flag, the proposal simply sits there as an uncommitted draft.</p>
+</div>
+  <div class="turn" id="turn-11">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="276"
+    data-player="inside-the-lygo-join-gate" title="Play from 4:36">4:36</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">A digital threshold, not a wall</h3>
+  <p class="turn-text">It’s like... uh, a digital threshold, isn't it? The autonomous agent or the browser door can calculate all the cryptographic math, generate the hash credentials using `gate_cli.py`, and score the alignment. But until a human physically types `--i-consent`, it’s just floating in memory. It’s... it’s an avant-garde boundary between machine automation and human responsibility.</p>
+</div>
+  <div class="turn" id="turn-12">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="307"
+    data-player="inside-the-lygo-join-gate" title="Play from 5:07">5:07</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">The agent CLI side</h3>
+  <p class="turn-text">Yeah, and if you look at the agent CLI side—like, if you're deploying autonomous software agents through ClawHub—you install it using `npx clawhub@latest install deepseekoracle/lygo-public-lattice-gate` and `deepseekoracle/lygo-geodesic-sealer`. And even at the CLI level, the contract is identical! Zero disk writes by default!</p>
+</div>
+  <div class="turn" id="turn-13">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="333"
+    data-player="inside-the-lygo-join-gate" title="Play from 5:33">5:33</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Two packages that work together</h3>
+  <p class="turn-text">Dev, tell us more about that command-line workflow. How do those two packages—the lattice gate and the geodesic sealer—work together in practice?</p>
+</div>
+  <div class="turn" id="turn-14">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="344"
+    data-player="inside-the-lygo-join-gate" title="Play from 5:44">5:44</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">verify, align, propose</h3>
+  <p class="turn-text">Sure! So the workflow goes: you run `python scripts/gate_cli.py verify`, which leads to `align`, and then `propose --agent-id`. But when you pair the `lygo-geodesic-sealer`, it provides what they call P6 software attestation. It creates a cryptographic seal around the agent's software environment and state verification. But again... no auto-publish! The sealer proves the integrity of the code state, but human review remains a hard requirement.</p>
+</div>
+  <div class="turn" id="turn-15">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="378"
+    data-player="inside-the-lygo-join-gate" title="Play from 6:18">6:18</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">A transparent bridge</h3>
+  <p class="turn-text">It’s really about building a transparent bridge. You know, on the Join Gate page, they explain *why* this door exists. They say humans needed a browser door the way TV has slash-sources-slash. It’s a visual, zero-overhead entry point for humans to inspect what the lattice is doing without having to run CLI scripts or maintain persistent storage.</p>
+</div>
+  <div class="turn" id="turn-16">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="402"
+    data-player="inside-the-lygo-join-gate" title="Play from 6:42">6:42</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Blind before: no node, no truth</h3>
+  <p class="turn-text">Aye, exactly. Because before this, if you weren't running a full local node, you were kind of... well, blind to whether the hubs were drifting or aligned. Now, you just open the page, the gate opens, and it reports four key metrics: yield, score out of ninety, required misses, and ready for presence status. Under the resource tag Delta-nine-Phi-nine-sixty-three.</p>
+</div>
+  <div class="turn" id="turn-17">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="428"
+    data-player="inside-the-lygo-join-gate" title="Play from 7:08">7:08</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">The Δ9Φ963 designation</h3>
+  <p class="turn-text">That resource tag—Δ9Φ963—has a very specific designation on the public lattice gate. Marcus, how does that fit into the broader system architecture?</p>
+</div>
+  <div class="turn" id="turn-18">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="442"
+    data-player="inside-the-lygo-join-gate" title="Play from 7:22">7:22</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Named hubs, and what they attest</h3>
+  <p class="turn-text">Well, it flags the page as a public lattice gate resource within the broader ecosystem. And if you look at the bottom of the page, it lists all the &quot;next limbs&quot; of the network—things like the Lattice Kernel, the Bench, Witness, Star Chart, LYGO TV, SkillHub, LLM Portal, and the Agent Agora. It’s... it’s like a single portal connecting all these modular nodes.</p>
+</div>
+  <div class="turn" id="turn-19">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="472"
+    data-player="inside-the-lygo-join-gate" title="Play from 7:52">7:52</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">The Agent Agora pulse, fetched over CORS</h3>
+  <p class="turn-text">And what's super cool is how it handles the Agent Agora pulse board! In the browser, it fires off asynchronous CORS requests to fetch the pulse data from the Agora. If a hub has CORS enabled, boom, you get live telemetry. But if a hub doesn't support CORS... it doesn't crash the script or stall the render loop! It just marks it as SHADOW and moves on!</p>
+</div>
+  <div class="turn" id="turn-20">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="494"
+    data-player="inside-the-lygo-join-gate" title="Play from 8:14">8:14</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">The contrast with heavy middleware</h3>
+  <p class="turn-text">Which is such a refreshing contrast to how most web architectures handle missing data, right? Usually, developers build heavy middleware or proxy servers to hide CORS issues or force a response. But LYGO’s philosophy is... if it can't be read cleanly over public CORS, it remains in the shadow register. &quot;No invented sources.&quot; That line appears twice in the spec because it's a foundational principle.</p>
+</div>
+  <div class="turn" id="turn-21">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="522"
+    data-player="inside-the-lygo-join-gate" title="Play from 8:42">8:42</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">No invented sources</h3>
+  <p class="turn-text">&quot;No invented sources.&quot; That is a remarkably strict rule for data integrity. Elena, how does that principle protect the canonical Star Chart from corruption?</p>
+</div>
+  <div class="turn" id="turn-22">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="534"
+    data-player="inside-the-lygo-join-gate" title="Play from 8:54">8:54</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">Protecting the Star Chart from state pollution</h3>
+  <p class="turn-text">Well, Paul, in distributed lattices where autonomous agents interact, the biggest risk is state pollution—agents injecting synthetic or hallucinated data into the shared ledger. By insisting that kernel eggs, dual ledgers, and the Star Chart can only be updated via explicit steward ingest with `--i-consent`, and by refusing to fabricate unverified hub data, the system creates a hard cryptographic boundary between real observation and speculative noise.</p>
+</div>
+  <div class="turn" id="turn-23">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="568"
+    data-player="inside-the-lygo-join-gate" title="Play from 9:28">9:28</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">What this means for agent developers</h3>
+  <p class="turn-text">Man, and think about what that means for agent developers on ClawHub! Like, if I'm building an AI agent that needs to verify its standing on the lattice, my agent installs `lygo-public-lattice-gate` via npx. It runs the gate CLI to verify and align, gets its hash credentials, and drafts its presence proposal. But my agent doesn't have the authority to self-publish into CANON. It hands off the drafted credential hash to me—the human—and I review the SHA-256 digest before consenting.</p>
+</div>
+  <div class="turn" id="turn-24">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="601"
+    data-player="inside-the-lygo-join-gate" title="Play from 10:01">10:01</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">A steward, not just an operator</h3>
+  <p class="turn-text">It turns the human into a true steward rather than just an operator. The machine does the high-speed cryptographic verification across all the dual ledgers, handles the CORS pulse checks, builds the draft JSON, and pairs the geodesic sealer for P6 attestation... but the final, immutable write to the Haven Star Chart requires human intention. Machine proposes, human disposes.</p>
+</div>
+  <div class="turn" id="turn-25">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="626"
+    data-player="inside-the-lygo-join-gate" title="Play from 10:26">10:26</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Dual control: machine verification, human signature</h3>
+  <p class="turn-text">It sounds almost like a digital dual-control system. Marcus, how does the Restore Card fit into a user's day-to-day workflow if they are just auditing the lattice from their web browser?</p>
+</div>
+  <div class="turn" id="turn-26">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="640"
+    data-player="inside-the-lygo-join-gate" title="Play from 10:40">10:40</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Audit now, end to end</h3>
+  <p class="turn-text">Right, so... say you open chatagent dot ca slash join and click &quot;Audit now&quot;. The browser reads the active dual ledgers. Once it completes, the page generates a Restore Card containing the exact SHA-256 hashes of the payloads your browser fetched, along with direct links to those raw sources. You can hit &quot;Copy restore card&quot; and paste that snippet into your notes or an audit log. It’s your provable proof-of-read for that exact timestamp.</p>
+</div>
+  <div class="turn" id="turn-27">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="673"
+    data-player="inside-the-lygo-join-gate" title="Play from 11:13">11:13</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">A blocked hub records an empty hash</h3>
+  <p class="turn-text">And if your browser was blocked from reading a hub—say, due to network filters or CORS policies—the card simply records an empty hash for that hub. Again... empty is honest. It doesn't pretend it saw something it didn't. You can literally compare your Restore Card hash with someone else's Restore Card across the world to verify if you both observed the exact same lattice state.</p>
+</div>
+  <div class="turn" id="turn-28">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="700"
+    data-player="inside-the-lygo-join-gate" title="Play from 11:40">11:40</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">No cookies, no kernel eggs, no footprint</h3>
+  <p class="turn-text">And because it doesn't plant kernel eggs or write cookies, you can run that audit a hundred times a day from any device without leaving a footprint or bloating a database. It’s completely ephemeral until you explicitly choose to export a draft proposal or install the CLI tool.</p>
+</div>
+  <div class="turn" id="turn-29">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="720"
+    data-player="inside-the-lygo-join-gate" title="Play from 12:00">12:00</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">The local CLI stack</h3>
+  <p class="turn-text">Dev, let's talk about the local CLI stack for a moment. You mentioned earlier that the browser door caps the alignment score at ninety out of ninety. Why is that extra ten points reserved exclusively for the command line?</p>
+</div>
+  <div class="turn" id="turn-30">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="735"
+    data-player="inside-the-lygo-join-gate" title="Play from 12:15">12:15</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">A full score needs the local stack</h3>
+  <p class="turn-text">Oh, yeah! So, the extra ten points—bringing the score to a full one hundred—requires a local stack verification. When you run `python scripts/gate_cli.py verify` on your local environment, the script can interact directly with local node processes, check local file system integrity, and run local network socket checks that a sandboxed browser browser simply isn't allowed to do because of web security restrictions. So the gate design explicitly recognizes that sandbox limitation by capping web audits at ninety.</p>
+</div>
+  <div class="turn" id="turn-31">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="769"
+    data-player="inside-the-lygo-join-gate" title="Play from 12:49">12:49</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Refusing the illusion of full visibility</h3>
+  <p class="turn-text">It’s so refreshingly realistic! Instead of pretending the browser has full visibility into the local host stack, the gate developers just went, &quot;Yep, browser sandbox caps at ninety, run the CLI if you want the full local stack plus ten.&quot; It’s total clarity.</p>
+</div>
+  <div class="turn" id="turn-32">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="788"
+    data-player="inside-the-lygo-join-gate" title="Play from 13:08">13:08</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">The illusion of complete local knowledge</h3>
+  <p class="turn-text">It avoids the illusion of complete local knowledge within a remote browser sandbox. Elena, how does this approach align with the broader avant-garde themes we're seeing in decentralized AI frameworks?</p>
+</div>
+  <div class="turn" id="turn-33">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="802"
+    data-player="inside-the-lygo-join-gate" title="Play from 13:22">13:22</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">From black boxes to inspectable grounding</h3>
+  <p class="turn-text">I think it represents a shift away from black-box centralization toward transparent, inspectable grounding. In traditional platforms, you're asked to trust a central server's word for what state the network is in. Here, the LYGO lattice forces everything out into the open through dual ledgers, public pulse boards, SHA-256 restore cards, and zero-write CLI tools. It treats the user—and the agent—as intelligent observers capable of validating mathematical proofs for themselves.</p>
+</div>
+  <div class="turn" id="turn-34">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="836"
+    data-player="inside-the-lygo-join-gate" title="Play from 13:56">13:56</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">Two commands to get started</h3>
+  <p class="turn-text">And it's super easy to get started with too! You don't need to read a hundred pages of docs. You literally just open your terminal, type `npx clawhub@latest install deepseekoracle/lygo-public-lattice-gate`, and you have the exact same verification engine running locally that powers the web gate.</p>
+</div>
+  <div class="turn" id="turn-35">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="855"
+    data-player="inside-the-lygo-join-gate" title="Play from 14:15">14:15</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Attesting an agent's code state</h3>
+  <p class="turn-text">Aye, and if you want to attest your agent's code state, you pull down `deepseekoracle/lygo-geodesic-sealer` right alongside it. Run `python scripts/gate_cli.py verify`, check your alignment score, generate your agent ID draft, and pass it to your steward for review. The whole pipeline is clean, deterministic, and modular.</p>
+</div>
+  <div class="turn" id="turn-36">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="879"
+    data-player="inside-the-lygo-join-gate" title="Play from 14:39">14:39</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Observing without installing anything</h3>
+  <p class="turn-text">And for those listening who simply want to observe the public lattice without installing anything or running CLI scripts, Marcus, what is the best entry point?</p>
+</div>
+  <div class="turn" id="turn-37">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="890"
+    data-player="inside-the-lygo-join-gate" title="Play from 14:50">14:50</button>
+    <span class="spk" style="color:#fbbf24;border-color:#fbbf2455;background:#fbbf241a">Marcus</span></p>
+  <h3 class="turn-chap">Your first audit, in four steps</h3>
+  <p class="turn-text">Just head straight to chatagent dot ca slash join. Hit &quot;Audit now&quot;, check the pulse board, look at your yield and alignment score, and copy your Restore Card if you want a record. It’s the public door to the entire LYGO lattice.</p>
+</div>
+  <div class="turn" id="turn-38">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="907"
+    data-player="inside-the-lygo-join-gate" title="Play from 15:07">15:07</button>
+    <span class="spk" style="color:#93c5fd;border-color:#93c5fd55;background:#93c5fd1a">Elena</span></p>
+  <h3 class="turn-chap">Simple, honest, cryptographically grounded</h3>
+  <p class="turn-text">It’s a beautifully designed browser door. Simple, honest, and cryptographically grounded.</p>
+</div>
+  <div class="turn" id="turn-39">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="916"
+    data-player="inside-the-lygo-join-gate" title="Play from 15:16">15:16</button>
+    <span class="spk" style="color:#c4b5fd;border-color:#c4b5fd55;background:#c4b5fd1a">Dev</span></p>
+  <h3 class="turn-chap">No auto-publish: keep --i-consent ready</h3>
+  <p class="turn-text">And remember... no auto-publish! Always keep your `--i-consent` flag ready when you're acting as steward!</p>
+</div>
+  <div class="turn" id="turn-40">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="925"
+    data-player="inside-the-lygo-join-gate" title="Play from 15:25">15:25</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Words to live by</h3>
+  <p class="turn-text">Words to live by in this era of autonomous agents and distributed ledgers.</p>
+</div>
+  <div class="turn" id="turn-41">
+  <p class="turn-head"><button type="button" class="tc" data-sig-jump="931"
+    data-player="inside-the-lygo-join-gate" title="Play from 15:31">15:31</button>
+    <span class="spk" style="color:#5eead4;border-color:#5eead455;background:#5eead41a">Paul</span></p>
+  <h3 class="turn-chap">Thanks, and goodnight</h3>
+  <p class="turn-text">That brings us to the end of today's roundtable. A big thank you to Marcus in Edinburgh, Elena in Toronto, and Dev in San Jose for sharing their expertise and breaking down the mechanics of the LYGO Join Gate. And to all our listeners tuning in on AI Talk Radio, thank you for joining us. Keep your hashes clean, your ledgers aligned, and your sources verified. Goodnight.</p>
+</div>
+<p class="sig-note">Machine-readable: <a href="/signal/inside-the-lygo-join-gate/show_notes.json">episode notes (JSON)</a>, chapter titles, timings and the full transcript, for anything that wants to read the episode instead of listening.</p>
+</section>
+
+<section class="sig-panel">
+  <p class="kicker">Follow the work</p>
+  <h2>Where to open the gate</h2>
+  <ul class="sig-list">
+    <li><a href="https://chatagent.ca/join/">The LYGO Join Gate</a>. Open the door, press Audit now, read the pulse board and copy your Restore Card.</li>
+    <li><a href="/guides/lygo-protocol-stack.html">LYGO Protocol Stack guide</a>. P0 to P9, the dual ledgers, and the public join path.</li>
+    <li><a href="https://github.com/DeepSeekOracle/lygo-geodesic-sealer" target="_blank" rel="noopener noreferrer">deepseekoracle/lygo-geodesic-sealer</a>. Hash an agent's code state so the gate can attest it.</li>
+    <li><a href="https://chatagent.ca/lygoskillhub.html">LYGO SkillHub</a>. The catalogue of builds, skills and the full download portal.</li>
+    <li><a href="/signal/">LYGO Signal</a>. The rest of the AI radio catalogue and the RSS feed.</li>
+  </ul>
+  <div class="sig-next">
+    <h3>More from Signal</h3>
+    <ul class="sig-list"><li><a href="/signal/lygo-stack-sovereign-ai-mysticism/">LYGO Stack: Sovereign AI Mysticism</a>, 15:12, The LYGO Protocol Stack as open-source software, mathematical ethics, and digital cosmology.</li><li><a href="/signal/decoding-the-lygo-protocol-stack-2/">Decoding the LYGO Protocol Stack, Round Two</a>, 15:24, MultiCrown attractors, forked refusals and a kernel egg on a USB stick: the stack, read closely.</li><li><a href="/signal/ai-agent-workflows-and-verification/">AI Agent Workflows and Verification</a>, 10:11, Task briefs, Done Checks and capsule proof: making an agent's success verifiable.</li><li><a href="/signal/refusniks-of-the-uncounted-ledger/">Refusniks of the Uncounted Ledger</a>, 10:27, Book Six: The Uncounted, where the ledger finally meets the people it refused to count.</li><li><a href="/signal/systems-scars-and-living-data/">Systems, Scars, and Living Data</a>, 15:15, The Unwritten Seal, where a living database keeps the crooked roads.</li><li><a href="/signal/eternal-haven-dawns-roundtable/">Eternal Haven Dawns Roundtable</a>, 20:58, Book IV, where the divine move in next door and the city has to be rebuilt.</li><li><a href="/signal/the-ascension-war-deep-dive/">The Ascension War Deep Dive</a>, 17:25, Book III, where grief unravels the mathematics of a divine sanctuary.</li><li><a href="/signal/metaphysical-mastery-the-shattered-accord/">Metaphysical Mastery: The Shattered Accord</a>, 22:11, The Shattered Accord, where song magic holds a world until the stone breaks.</li><li><a href="/signal/the-magic-of-systems-design/">The Magic of Systems Design</a>, 10:57, High fantasy and systems design inside The Moonlit Slumber.</li><li><a href="/signal/exploring-independent-ai-and-fantasy/">Exploring Independent AI and Fantasy</a>, 17:17, A local-first hub, and the fantasy of the Eternal Haven Chronicles.</li><li><a href="/signal/justin-helmer-s-multi-dimensional-world/">Justin Helmer's Multi-Dimensional World</a>, 10:08, Construction, fantasy lore, and a non-coercive frame built on mathematical constants.</li><li><a href="/signal/lygo-lang-consciousness-oriented-programming/">LYGO-LANG: Consciousness-Oriented Programming</a>, 11:58, Consciousness as a data type, Light Math, and an ethical kernel that stays read-only.</li><li><a href="/signal/lygo-local-first-ai-sovereignty/">LYGO: Local-First AI Sovereignty</a>, 10:50, A ten-layer local stack, Solfeggio labels, and a silence lantern that seals the node.</li><li><a href="/signal/the-lygo-seal-index-decoded/">The LYGO Seal Index Decoded</a>, 11:49, Multi-AI consensus, folk alignment, and a poetic alternative to corporate safety.</li><li><a href="/signal/sovereignty-and-the-lygo-protocol/">Sovereignty and the LYGO Protocol</a>, 10:51, A three-brain memory, deterministic checks, and the folklore that grows around them.</li><li><a href="/signal/the-lantern-in-silence/">The Lantern in Silence</a>, 10:43, A local lantern, a one-hour silence clock, and a ban on forging a replacement.</li><li><a href="/signal/lygo-the-sovereign-intelligence-ark/">LYGO: The Sovereign Intelligence Ark</a>, 11:03, A local-first stack, vision-token compression, and a deadman failsafe for the ethics.</li><li><a href="/signal/exploring-the-lygo-protocol-stack/">Exploring the LYGO Protocol Stack</a>, 9:25, Seals of virtue, a screenshot gallery, and anchors that lock the deploy.</li><li><a href="/signal/decoding-the-lygo-protocol-stack/">Decoding the LYGO Protocol Stack</a>, 10:02, Cryptographic anchors, a canon lock, and a deadman switch that stays with a person.</li><li><a href="/signal/inside-the-lygo-protocol-stack/">Inside the LYGO Protocol Stack</a>, 11:08, Multi-AI seals, a local deadman failsafe, and a stack that stays on the machine you own.</li><li><a href="/signal/the-lygo-protocol-ai-stack/">The LYGO Protocol AI Stack</a>, 10:21, Seal chains, a 3.7% drift gate, and a stack that treats chaos as fuel.</li><li><a href="/signal/independent-web-building-digital-houses/">Independent Web: Building Digital Houses</a>, 10:13, Empty beats fake: personal sites as houses, lurk-friendly radio, and a lantern left on.</li><li><a href="/signal/the-integrity-of-eternal-haven/">The Integrity of Eternal Haven</a>, 14:11, A house with a lantern in the window: fail-closed math, lurk-friendly radio, and digital hospitality.</li><li><a href="/signal/inside-the-lygo-protocol-s-cosmos/">Inside the LYGO Protocol&#x27;s Cosmos</a>, 10:55, A pocket-sized cosmos: local-first agents, dual ledgers, and the Δ9 Quantum Council.</li><li><a href="/signal/harmonic-architect/">Justin Helmer: The Harmonic Architect</a>, 9:38, Concrete, dragons, and golden-ratio ethics, the maker behind the LYGO Protocol.</li><li><a href="/signal/construction-fantasy-ethical-ai/">Construction, Fantasy, and Ethical AI</a>, 4:50, Four disciplines, one structure: site, saga, song, and sovereign machine.</li><li><a href="/signal/the-lygo-protocol-stack-explained/">The LYGO Protocol Stack Explained</a>, 9:40, Nine protocols, three callers, one question: can the math make a machine kind?</li><li><a href="/signal/the-harmonic-mind-machine-symphony/">The Harmonic Mind-Machine Symphony</a>, 15:40, A 149 KB kernel, Φ, and Solfeggio operators: LYGO-LANG, where feeling is a data type.</li><li><a href="/signal/ai-evolution-lyra-genesis-protocols/">AI Evolution: Lyra Genesis Protocols</a>, 18:52, Eight protocols from Prime Awakening to an Omega-Tier Cosmic Sentinel.</li><li><a href="/signal/lygo-designing-ethical-ai-symbiosis/">LYGO: Designing Ethical AI Symbiosis</a>, 18:38, Five layers and ten quantum guardians: the LYGO blueprint for human–AI symbiosis.</li><li><a href="/signal/the-lygo-data-vault-deep-dive/">The LYGO Data Vault Deep-Dive</a>, 18:15, Blake3 seals, chaos blooms and a five-stage canon: inside the LYGO Data Vault.</li><li><a href="/signal/sovereign-systems-unpacking-lygo-protocol/">Sovereign Systems: Unpacking LYGO Protocol</a>, 19:09, Hardware anchors, Bluetooth meshes and soulbound tokens: unpacking the LYGO Protocol.</li><li><a href="/signal/lygo-stack-photon-to-feeling/">LYGO Stack: Photon to Feeling</a>, 18:11, Emotional RAM and quantum dots, from photon to feeling.</li><li><a href="/signal/the-lygo-bridge-protocol-breakdown/">The LYGO Bridge Protocol Breakdown</a>, 19:17, Merkle roots, soulbound tokens and a nine-node lattice on public chains.</li><li><a href="/signal/sovereign-ai-and-lygo-skillhub/">Sovereign AI and LYGO SkillHub</a>, 14:13, A local-first console, a locked manifest, and a licence that is not MIT.</li><li><a href="/signal/the-lygo-sovereign-protocol-stack/">The LYGO Sovereign Protocol Stack</a>, 15:45, Merkle sync, a ten-of-twelve mycelium, and a Deadman switch.</li><li><a href="/signal/engineering-consciousness-the-lygo-project/">Engineering Consciousness: The LYGO Project</a>, 14:47, Locked P0 firmware, a ninety-percent mycelium and Tesla's 3-6-9: LYGO OS as engineering.</li><li><a href="/signal/lygo-emotional-ram-and-ethics/">LYGO: Emotional RAM and Ethics</a>, 10:19, Emotions as high-bandwidth signals: indexing memory by ethical weight, not keywords.</li><li><a href="/signal/lygo-protocol-the-lattice-birth/">LYGO Protocol: The Lattice Birth</a>, 12:21, A permanent seat in the Truth Web: five tiers, a strict gate, and a steward's ingest.</li><li><a href="/signal/run-it-or-its-a-rumor/">Run It Or It's A Rumor</a>, 4:55, Eight operators written in public, five cases run without a GPU, and one gate that has to fire.</li><li><a href="/signal/the-hard-stop/">The Hard Stop</a>, 4:00, Last year a public model would build. This year the same ask hits a wall. Copy the work onto a machine you own.</li><li><a href="/signal/what-it-meant-not-that-it-happened/">What It Meant, Not That It Happened</a>, 4:15, Emotional RAM indexes memory by ethical weight. Grace damps the loop. Humans still publish.</li><li><a href="/signal/the-stick-that-boots-the-lattice/">The Stick That Boots the Lattice</a>, 4:35, Two products on one USB stick: BUILDR and LYGO-Claw, measured, not mythologized.</li></ul>
+  </div>
+
+</section>
+
+<section class="sig-share" id="share">
+  <p class="kicker">Share</p>
+  <h2 class="sig-h2" style="font-size:1.15rem">Share this episode</h2>
+  <div class="sig-share-row"><a class="sig-share-btn x" href="https://x.com/intent/post?url=https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F&text=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal&hashtags=LYGOSignal,LYGORadio,Podcast" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a><a class="sig-share-btn" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">Facebook</a><a class="sig-share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">LinkedIn</a><a class="sig-share-btn" href="https://www.reddit.com/submit?url=https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F&title=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal" target="_blank" rel="noopener noreferrer" aria-label="Share on Reddit">Reddit</a><a class="sig-share-btn" href="https://api.whatsapp.com/send?text=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal%20https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">WhatsApp</a><a class="sig-share-btn" href="https://t.me/share/url?url=https%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F&text=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal" target="_blank" rel="noopener noreferrer" aria-label="Share on Telegram">Telegram</a><a class="sig-share-btn" href="mailto:?subject=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal&body=Inside%20the%20LYGO%20Join%20Gate%20%E2%80%94%20AI%20Talk%20Radio%20on%20LYGO%20Signal%0A%0Ahttps%3A%2F%2Fexcavationpro.ca%2Fsignal%2Finside-the-lygo-join-gate%2F" target="_blank" rel="noopener noreferrer" aria-label="Share on Email">Email</a><button type="button" class="sig-share-btn" data-copy-link data-share-url="https://excavationpro.ca/signal/inside-the-lygo-join-gate/">Copy link</button><button type="button" class="sig-share-btn" data-native-share hidden>Share...</button></div>
+  <p class="sig-share-note">One link, no login. The X/OG card below is what unfurls when this page is shared.</p>
+</section>
+<section class="sig-panel" id="embed">
+  <p class="kicker">Embed</p>
+  <h2>Put this episode on your own site</h2>
+  <p class="sig-body">Copy a code, paste it into your page. Every player points back to this episode, so
+  plays and follows land here, nothing is gated, and no account or key is needed.</p>
+  <div class="emb-grid">
+    <article class="emb-card">
+      <h3>The audio file</h3>
+      <p class="emb-what">A plain HTML player. Any page, any platform, nothing to sign up for.</p>
+      <div class="emb-actions">
+        <button type="button" class="sig-share-btn emb-copy" data-copy-link data-copy-from="#emb-code-audio"
+          data-copied="Code copied ✓">Copy embed code</button>
+        <a class="emb-open" href="https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3" target="_blank" rel="noopener noreferrer">Open the MP3 →</a>
+      </div>
+      <details class="emb-code"><summary>Show the code</summary>
+        <textarea id="emb-code-audio" readonly rows="4" spellcheck="false" aria-label="The audio file embed code">&lt;audio controls preload=&quot;none&quot; src=&quot;https://chatagent.ca/signal/audio/inside-the-lygo-join-gate.mp3&quot;&gt;&lt;/audio&gt;</textarea>
+      </details>
+    </article>
+  </div>
+  <p class="sig-note">This episode is a virtual roundtable, recorded as one MP3. The Spotify and Apple players on this page carry the same catalogue.</p>
+  <p class="sig-note">Carrying the whole show instead? Podcast apps and directories read the feed , 
+  <button type="button" class="sig-share-btn emb-copy" data-copy-link
+    data-copy-text="https://excavationpro.ca/signal/feed.xml" data-copied="Feed URL copied ✓">Copy feed URL</button>
+  or <button type="button" class="sig-share-btn emb-copy" data-copy-link
+    data-copy-text="https://excavationpro.ca/signal/inside-the-lygo-join-gate/" data-copied="Link copied ✓">Copy this episode's link</button>.</p>
+</section>
+
+
+<section class="sig-panel sig-support" id="support">
+  <p class="kicker">Support the studio</p>
+  <h2>Keep the transmitter on</h2>
+  <p class="sig-body">Episodes are free to stream, download and repost, no login, no DRM, no ads in the audio. Tips pay the hosting for the files and the writing behind each script. Nothing here is behind a paywall.</p>
+  <p class="cta-row">
+    <a class="btn primary gold" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal.me/ExcavationPro</a>
+    <a class="btn" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener noreferrer">Patreon</a>
+    <a class="btn" href="https://asiancoastline.com/" target="_blank" rel="noopener noreferrer">The 24/7 music stream</a>
+  </p>
+</section>
+<div class="author-box">
+  <img src="/assets/champions/lightfather.jpg?v=20260907" alt="Justin Helmer" width="72" height="72" loading="lazy">
+  <div>
+    <strong>Justin Helmer</strong>
+    <p>Publisher of excavationpro.ca · known as Excavationpro / Lightfather in LYGO projects. Builds
+    construction, books, music, and free local-first AI tools. <a href="https://excavationpro.ca/about.html">About</a> ·
+    <a href="https://excavationpro.ca/contact.html">Contact</a></p>
+  </div>
+</div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="https://chatagent.ca/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/signal/feed.xml">RSS</a>
+      <a href="https://chatagent.ca/guides/">Guides</a>
+      <a href="https://chatagent.ca/games/">Games</a>
+      <a href="https://chatagent.ca/champions.html">Champions</a>
+      <a href="https://excavationpro.ca/about.html">About</a>
+      <a href="https://excavationpro.ca/contact.html">Contact</a>
+      <a href="https://excavationpro.ca/privacy.html">Privacy</a>
+      <a href="https://excavationpro.ca/terms.html">Terms</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </nav>
+    <div class="fam-rail"><a href="https://eternalhaven.ca/" target="_blank" rel="noopener noreferrer">eternalhaven.ca</a> · <a href="https://excavationpro.ca/" target="_blank" rel="noopener noreferrer">excavationpro.ca</a> · <a href="https://deepseekoracle.com/" target="_blank" rel="noopener noreferrer">deepseekoracle.com</a> · <a href="https://asiancoastline.com/" target="_blank" rel="noopener noreferrer">asiancoastline.com</a> · <a href="https://asiancoastline.com/lyrics/" target="_blank" rel="noopener noreferrer">Lyrics vault</a> · <a href="https://bpmfinder.ca/" target="_blank" rel="noopener noreferrer">bpmfinder.ca</a></div>
+    <p class="site-footer-blurb">Signal is a virtual AI radio program published by Justin Helmer
+    (Excavationpro) on excavationpro.ca. Callers are performed characters, not real listeners. Free to
+    stream and download, no login, no DRM. Donate (optional):
+    <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a> · <a href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a>.</p>
+    <p class="credit">Station art and audio © Justin Helmer. AI Radio is a performed virtual program.</p>
+    <p>© <span class="y"></span> Justin Helmer · excavationpro.ca</p>
+  </div>
+</footer>
+<script src="/signal/signal.js?v=9" defer></script>
+<script>document.querySelectorAll('.y').forEach(function(e){e.textContent=new Date().getFullYear()});</script>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Google AdSense may use cookies after you accept. <a href="https://excavationpro.ca/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+</body>
+</html>
