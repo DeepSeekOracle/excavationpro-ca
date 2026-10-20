@@ -18,6 +18,7 @@
   };
   const P0 = /format\s+c:|\bdiskpart\b|\bbcdedit\b|rm\s+-rf\s+\/|invoke-expression/i;
   const PROVIDERS = {
+    local: { label: "LYGO Local (paired engine)", kind: "local", url: "", model: "", key: false, help: "Start LYGO Connect; the portal reads its models through the six-character pair code. No API key." },
     groq: { label: "Groq (free, no card)", kind: "openai", url: "https://api.groq.com/openai/v1/chat/completions", model: "openai/gpt-oss-20b", models: ["openai/gpt-oss-20b", "groq/compound-mini", "groq/compound", "openai/gpt-oss-120b", "qwen/qwen3.8-27b"], key: true, help: "Get a key at console.groq.com/keys (one free option). Any provider in the list works." },
     gemini: { label: "Google Gemini (free, no card)", kind: "openai", url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model: "gemini-2.0-flash", key: true, help: "aistudio.google.com/apikey" },
     openrouter: { label: "OpenRouter (many :free models)", kind: "openai", url: "https://openrouter.ai/api/v1/chat/completions", model: "openrouter/auto", key: true, help: "openrouter.ai/keys — use model ids ending :free", extra: { "HTTP-Referer": "https://excavationpro.ca/portal/", "X-Title": "LYGO API Portal" } },
@@ -128,9 +129,108 @@
   const modelEl = document.getElementById("model");
   let history = [];
   let connected = false;
+  let localWS = null, localSeq = 0, localPending = new Map(), localModels = [], localEngineId = "", localWaiters = [];
   let SKILLS = [];
   let ENABLED = {};
   let DOCS = { soul: "", identity: "", memory: "" };
+
+
+  function localRelayURL() {
+    try {
+      const raw = new URLSearchParams(location.search).get("relay") || "";
+      if (/^wss?:\/\//i.test(raw)) return raw;
+    } catch (_) {}
+    return "wss://lygo-relay.lygo-studio-delta9.workers.dev/ws";
+  }
+
+  function localPairCode() {
+    try {
+      const q = new URLSearchParams(location.search);
+      const raw = (q.get("pair") || q.get("code") || sessionStorage.getItem("lygo_local_pair") || "").toUpperCase();
+      if (/^[A-Z0-9]{6}$/.test(raw)) { try { sessionStorage.setItem("lygo_local_pair", raw); } catch (_) {} return raw; }
+    } catch (_) {}
+    return "";
+  }
+
+  function localApplyModels() {
+    const seen = new Set(), ids = [];
+    localEngineId = "";
+    localModels.forEach(function (e) {
+      if (!e.running) return;
+      if (!localEngineId) localEngineId = e.id;
+      (e.models || []).forEach(function (m) { if (m && !seen.has(m)) { seen.add(m); ids.push(m); } });
+    });
+    const cur = modelEl ? modelEl.value : "";
+    fillModelOptions(ids, ids.indexOf(cur) >= 0 ? cur : (ids[0] || ""));
+  }
+
+  function localConnect() {
+    if (localWS && localWS.readyState === 1) {
+      if (localModels.length) { localApplyModels(); connected = true; return Promise.resolve(true); }
+      return new Promise(function (resolve) {
+        localWaiters.push(resolve);
+        try { localWS.send(JSON.stringify({ type: "models", id: "m-local" })); } catch (_) { resolve(false); }
+        setTimeout(function () { if (localWaiters.indexOf(resolve) >= 0) { localWaiters.splice(localWaiters.indexOf(resolve), 1); resolve(false); } }, 12000);
+      });
+    }
+    const code = localPairCode();
+    if (!code) {
+      setHealth("LYGO Local · start LYGO Connect to get a pair code");
+      setModels("No local pair code. Start LYGO Connect, then use the link it opens.", "warn");
+      bubble("assistant", "Start LYGO Connect on this machine, then open the portal link it provides (or use /portal/local/pair.html). The portal cannot invent a local connection without that code.");
+      return Promise.resolve(false);
+    }
+    setHealth("LYGO Local · connecting pair " + code + " …");
+    setModels("waiting for the local engine…", "busy");
+    return new Promise(function (resolve) {
+      let settled = false;
+      function done(ok) { if (settled) return; settled = true; clearTimeout(timer); const i = localWaiters.indexOf(done); if (i >= 0) localWaiters.splice(i, 1); resolve(ok); }
+      localWaiters.push(done);
+      const timer = setTimeout(function () { setHealth("LYGO Local · pair timed out"); setModels("no answer from pair " + code, "warn"); done(false); }, 15000);
+      try {
+        const ws = new WebSocket(localRelayURL() + (localRelayURL().indexOf("?") >= 0 ? "&" : "?") + "role=viewer&code=" + encodeURIComponent(code));
+        localWS = ws;
+        ws.onopen = function () { ws.send(JSON.stringify({ type: "models", id: "m-local" })); };
+        ws.onmessage = function (ev) {
+          let m; try { m = JSON.parse(ev.data); } catch (_) { return; }
+          if (m.type === "paired") ws.send(JSON.stringify({ type: "models", id: "m-local" }));
+          if (m.type === "models") {
+            localModels = (m.engines || []).filter(function (e) { return e.running; });
+            localApplyModels(); connected = true;
+            const count = localModels.length;
+            setHealth("connected · LYGO Local · " + count + " engine(s)");
+            setModels(count ? "✓ local models read through the relay" : "local relay connected; no running engine", count ? "ok" : "warn");
+            localWaiters.slice().forEach(function (fn) { fn(true); }); localWaiters = [];
+            done(true);
+          }
+          if (m.type === "answer") {
+            const p = localPending.get(m.id); if (!p) return;
+            clearTimeout(p.timer); localPending.delete(m.id);
+            p.resolve({ choices: [{ message: { content: m.text || "" } }] });
+          }
+          if (m.type === "error") {
+            const p = localPending.get(m.id); if (!p) return;
+            clearTimeout(p.timer); localPending.delete(m.id); p.reject(new Error(m.error || "relay error"));
+          }
+        };
+        ws.onerror = function () { setHealth("LYGO Local · relay error"); setModels("relay error — is Cloudflare reachable?", "warn"); done(false); };
+        ws.onclose = function () { if (!settled) { setHealth("LYGO Local · disconnected"); done(false); } };
+      } catch (e) { setHealth("LYGO Local · " + e.message); done(false); }
+    });
+  }
+
+  function localCall(messages) {
+    return localConnect().then(function (ok) {
+      if (!ok) throw new Error("local engine is not paired");
+      const id = "local-" + (++localSeq);
+      return new Promise(function (resolve, reject) {
+        const timer = setTimeout(function () { localPending.delete(id); reject(new Error("local engine timed out")); }, 120000);
+        localPending.set(id, { resolve: resolve, reject: reject, timer: timer });
+        const body = { type: "chat", id: id, engine_id: localEngineId, model: modelEl.value || (localModels[0] && localModels[0].models && localModels[0].models[0]) || "", messages: messages };
+        try { localWS.send(JSON.stringify(body)); } catch (e) { clearTimeout(timer); localPending.delete(id); reject(e); }
+      });
+    });
+  }
 
   function bubble(role, text) {
     const d = document.createElement("div");
@@ -263,6 +363,16 @@
     const p = provider();
     const pid = modeEl ? modeEl.value : "";
     const mem = modelMem()[pid];
+    if (pid === "local") {
+      if (endpointEl) { endpointEl.hidden = true; endpointEl.value = ""; }
+      if (tokenEl) tokenEl.style.display = "none";
+      if (localModels.length) localApplyModels();
+      else { fillModelOptions([], ""); setModels("Start LYGO Connect or use the link it opens to pair this portal.", "warn"); }
+      setHealth("LYGO Local · " + (connected ? "connected" : "not paired") + " · " + (localEngineId || "no engine"));
+      const help = document.getElementById("mode-help");
+      if (help) help.innerHTML = "Local mode uses the LYGO Connect harness through the public relay. No API key. <a href=\"/portal/local/\">Install / repair</a> · <a href=\"/portal/local/pair.html?code=" + localPairCode() + "\">Pairing details</a>";
+      return;
+    }
     fillModelOptions((p.models || (p.model ? [p.model] : [])).concat([mem]), mem || p.model);
     remapDeadModel();
     if (BROWSER_BLOCKED[pid]) setModels("⚠ " + p.label + " — " + BROWSER_BLOCKED[pid] + " (this provider works only in the desktop console)", "warn");
@@ -453,6 +563,10 @@
     opts = opts || {};
     const p = provider();
     const pid = modeEl ? modeEl.value : "";
+    if (pid === "local") {
+      const ok = await localConnect();
+      return { ok: ok, model: modelEl ? modelEl.value : "", count: localModels.length, reason: ok ? "" : "local engine not paired" };
+    }
     setModels("reading the model list from " + p.label + " …", "busy");
     const r = await listProviderModels();
     const chat = (r.ids || []).filter(isChatModel).sort();
@@ -581,6 +695,7 @@
   }
 
   async function callApi(messages) {
+    if (modeEl && modeEl.value === "local") return await localCall(messages);
     const p = provider();
     const url = openaiUrl();
     remapDeadModel();
@@ -643,6 +758,11 @@
     fillProvider();
     const p = provider();
     const pid = modeEl.value;
+    if (pid === "local") {
+      const ok = await localConnect();
+      if (ok) { connected = true; setHealth("connected · LYGO Local · " + (localEngineId || "engine")); }
+      return;
+    }
     if (p.key && !readKey() && pid !== "llm7" && pid !== "custom" && pid !== "openrouter") {
       setHealth("paste your API key (this tab only) — " + p.help);
       setModels("waiting for your key — the model list comes from the key, not from us", "warn");
@@ -946,6 +1066,10 @@
       benchRun(text);
       return;
     }
+    if (!connected && modeEl.value === "local") {
+      const ok = await localConnect();
+      if (!ok) return;
+    }
     if (!connected) {
       if (readKey()) {
         setHealth("connecting…");
@@ -1030,6 +1154,14 @@
   };
 
   bubble("assistant", stewardHowTo("welcome"));
+  try {
+    const localQ = new URLSearchParams(location.search);
+    if (localQ.get("local") === "1" || localQ.get("pair")) {
+      modeEl.value = "local";
+      fillProvider();
+      setTimeout(function () { localConnect(); }, 80);
+    }
+  } catch (_) {}
 
   // ---- ⇄ Compare bench --------------------------------------------------------------------------
   // The feature the visitors asked for in their own thread: send ONE prompt to two or more connected

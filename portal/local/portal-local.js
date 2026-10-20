@@ -24,7 +24,8 @@
     text.textContent = 'Pair code ' + code + '. Open the local engine inside the portal.';
 
     var link = document.createElement('a');
-    link.href = '/portal/local/pair.html?code=' + encodeURIComponent(code);
+    var relay = params.get('relay') || '';
+    link.href = '/portal/?local=1&pair=' + encodeURIComponent(code) + (relay ? '&relay=' + encodeURIComponent(relay) : '');
     link.textContent = 'Use local engine →';
     link.style.cssText = 'display:inline-block;margin-top:8px;color:#5eead4;font-weight:600;text-decoration:none';
 
