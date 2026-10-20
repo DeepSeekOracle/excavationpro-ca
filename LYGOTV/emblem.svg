@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LYGO TV — harmonic orbits, cyan geodesic, vesica of Truth × Light">
+  <!-- Original LYGO mark. Hollow phi-scaled orbits + vesica lens + geodesic. Not filled red/yellow discs. -->
+  <defs>
+    <clipPath id="leftOrb"><circle cx="24" cy="32" r="16"/></clipPath>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#05070d"/>
+  <!-- Unity lens (intersection only) -->
+  <circle cx="40" cy="32" r="16" fill="#38bdf8" fill-opacity=".20" clip-path="url(#leftOrb)"/>
+  <!-- Outer orbits (432-label) -->
+  <circle cx="24" cy="32" r="16" fill="none" stroke="#d4a017" stroke-width="2.05"/>
+  <circle cx="40" cy="32" r="16" fill="none" stroke="#e8a54b" stroke-width="2.05"/>
+  <!-- Inner harmonic orbits (144-label = outer / φ) -->
+  <circle cx="24" cy="32" r="9.89" fill="none" stroke="#f0d278" stroke-width="1.15"/>
+  <circle cx="40" cy="32" r="9.89" fill="none" stroke="#f0d278" stroke-width="1.15"/>
+  <!-- Cyan geodesic (Truth × Light) + short gold lattice tick -->
+  <path d="M32 13.5v37" stroke="#38bdf8" stroke-width="1.35" stroke-linecap="round"/>
+  <path d="M27.4 32h9.2" stroke="#d4a017" stroke-width="1.05" stroke-linecap="round"/>
+  <!-- Δ unity node -->
+  <path d="M32 29.2 L34.3 33.3 H29.7 Z" fill="none" stroke="#7dd3fc" stroke-width="0.85" stroke-linejoin="round"/>
+</svg>

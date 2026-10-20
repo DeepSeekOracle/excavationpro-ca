@@ -13,6 +13,7 @@ NAV = [
     ("/music.html", "Music"),
     ("/data-vault/", "Data Vault"),
     ("/portal/", "Portal"),
+    ("/LYGOTV/", "LYGO TV"),
     ("/articles/", "Writing"),
     ("/contact.html", "Contact"),
     ("https://asiancoastline.com/", "Listen free"),

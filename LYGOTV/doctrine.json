@@ -1,0 +1,15 @@
+{
+  "signature": "Delta9Phi963-LYGO-FREE-SOURCES-v1.18.0",
+  "name": "LYGO TV",
+  "version": "1.18.0",
+  "class": "RESOURCE",
+  "live_star_chart_ingest": false,
+  "doctrine": {
+    "is": "Portal-only free TV pointer. Public lists plus Excavationpro rooms. Does not host or decrypt streams.",
+    "rule": "HTTPS only. No POST. Not branded XXX. Unlabeled = all ages. Kids and Adult separated; Adult gated and labeled Adult. Human remains publisher of catalog.json."
+  },
+  "donate": {
+    "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
+    "patreon": "https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961"
+  }
+}
