@@ -1,5 +1,5 @@
 /* Excavationpro portal fork additions */
-.xp-fork-badge{position:fixed;left:auto;right:14px;bottom:14px;z-index:9998;display:flex;flex-wrap:wrap;gap:3px 10px;
+.xp-fork-badge{position:fixed;left:auto;right:14px;bottom:64px;z-index:9998;display:flex;flex-wrap:wrap;gap:3px 10px;
   max-width:calc(100vw - 28px);padding:8px 11px;border:1px solid rgba(224,189,107,.38);border-radius:10px;
   background:rgba(5,9,16,.93);backdrop-filter:blur(12px);box-shadow:0 12px 40px -18px #000;
   font:600 10px/1.35 ui-sans-serif,system-ui,"Segoe UI",sans-serif;letter-spacing:.04em;
