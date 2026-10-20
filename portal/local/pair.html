@@ -15,7 +15,7 @@
   <p class="kicker">Phase 2 · pairing preview</p>
   <h1>Pair a local engine.</h1>
   <p class="lead">Start LYGO Connect with <code>--relay-url</code>, read the six-character pair code in its local console, and enter it here. The relay forwards JSON between this page and your local harness; it does not proxy arbitrary traffic.</p>
-  <p class="note"><b>Developer preview.</b> The production relay is not deployed yet. This page defaults to <code>wss://lygo-relay.lygo-studio-delta9.workers.dev/ws</code>. For local testing append <code>?relay=ws://127.0.0.1:8788/ws</code>.</p>
+  <p class="note"><b>Developer preview.</b> The staging relay is live at <code>lygo-relay.lygo-studio-delta9.workers.dev</code>. The branded <code>relay.excavationpro.ca</code> route and the signed installer are still pending. For local testing append <code>?relay=ws://127.0.0.1:8788/ws</code>.</p>
 </section>
 <section class="install">
   <h2>Pairing</h2>
@@ -41,7 +41,7 @@
   </div>
 </section>
 </main>
-<footer class="foot"><div class="wrap"><p><a href="/portal/local/">LYGO Local</a> · <a href="/portal/local/privacy.html">Privacy</a> · <a href="/portal/local/terms.html">Terms</a> · relay preview; no production endpoint yet.</p></div></footer>
+<footer class="foot"><div class="wrap"><p><a href="/portal/local/">LYGO Local</a> · <a href="/portal/local/privacy.html">Privacy</a> · <a href="/portal/local/terms.html">Terms</a> · staging relay · signed installer pending · <a href="/portal/local/">install status</a></p></div></footer>
 <script>
 (function(){
   const params = new URLSearchParams(location.search);
