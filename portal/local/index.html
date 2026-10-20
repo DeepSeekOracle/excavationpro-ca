@@ -41,16 +41,16 @@
   <p class="kicker">No API key · loopback only · your hardware</p>
   <h1>Run your engine.<br>Use it in the browser.</h1>
   <p class="lead">LYGO Local is the harness that finds the AI engine already on your machine — Hermes, Ollama, llama.cpp, LM Studio, or vLLM — and opens a clean local console. No account, no cloud key, no prompt sent to excavationpro.ca.</p>
-  <p class="lead"><strong>Phase 1 is the local console.</strong> The public portal pairing relay is Phase 2. The installer is not published until the Windows binary is Authenticode-signed.</p>
+  <p class="lead"><strong>Local console + public relay are live.</strong> The Windows setup is signed with the LYGO Local self-signed certificate. It is a preview certificate, not a public CA; Windows may show Unknown publisher until you trust it.</p>
   <div class="actions">
     <a class="btn primary" href="#install">Install status</a>
     <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">Open installed console</a>
     <a class="btn ghost" href="/portal/">Use the API portal</a>
   </div>
   <div class="statusbar">
-    <span class="pill warn">SIGNED INSTALLER PENDING</span>
+    <span class="pill ok">SIGNED PREVIEW · SELF-SIGNED</span>
     <span>local harness 0.1.0-phase1</span>
-    <span>·</span><span>no unsigned EXE offered</span>
+    <span>·</span><span>setup + uninstaller + public certificate</span>
   </div>
 </section>
 
@@ -65,34 +65,39 @@
 </section>
 
 <section class="install" id="install">
-  <h2>Signed installer</h2>
-  <p class="sub"><strong>Not published yet.</strong> An unsigned Windows EXE triggers SmartScreen and antivirus warnings, and that is not acceptable for a public download. The harness is built and tested; the install button will be enabled only after the release binary is signed with a trusted Authenticode certificate and its SHA-256 is published here.</p>
+  <h2>Download LYGO Local</h2>
+  <p class="sub"><strong>Signed preview available.</strong> The setup is Authenticode-signed with the LYGO Local self-signed code-signing certificate. Windows may show <em>Unknown publisher</em> because this is not a public CA certificate. The public <code>.cer</code>, SHA-256 and trust notes are beside the download. No administrator rights are required.</p>
   <div class="row">
-    <button class="btn primary" type="button" disabled aria-disabled="true">Installer pending code signing</button>
-    <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">I already have it — open console</a>
-    <a class="btn ghost" href="/portal/local/pair.html">Pair an existing install</a>
+    <a class="btn primary" href="download/LYGO-Local-Setup-0.1.0-phase1.exe" download>Download LYGO Local Setup</a>
+    <a class="btn" href="download/lygo-connect-0.1.0-phase1.exe" download>Portable EXE</a>
+    <a class="btn ghost" href="download/LYGO-Local-Uninstall-0.1.0-phase1.exe" download>Uninstaller</a>
   </div>
-  <p class="note"><b>No silent install.</b> A browser can download an installer; Windows requires the user to run it. The signed installer will be per-user, no admin, and will not start an engine until you press Boot.</p>
+  <div class="row" style="margin-top:10px">
+    <a class="btn ghost" href="download/LYGO-Local-CodeSigning.cer">Public certificate (.cer)</a>
+    <a class="btn ghost" href="download/SHA256.txt">SHA-256 manifest</a>
+    <a class="btn ghost" href="download/README.txt">Install notes</a>
+    <a class="btn ghost" href="http://127.0.0.1:8787/" target="_blank" rel="noopener">Open installed console</a>
+  </div>
+  <p class="note"><b>Trust note.</b> The signature is real but the certificate is self-signed. Verify the SHA-256 before running. If you trust this source, you may import <code>LYGO-Local-CodeSigning.cer</code> into your user Trusted Publishers store; otherwise use Windows “More info → Run anyway” only after comparing the hash. This is not a claim of public-CA trust or SmartScreen reputation.</p>
+  <p class="note"><b>What Setup does.</b> It installs per-user into <code>%LOCALAPPDATA%\LYGO</code>, writes the harness, uninstaller, certificate and README, creates a Start Menu shortcut, and launches LYGO Connect. No service, driver, firewall rule, or startup entry. Uninstall from the installed <code>LYGO-Local-Uninstall.exe</code>; your models and engines are untouched.</p>
   <ul class="checklist">
-    <li>Per-user install in <code>%LOCALAPPDATA%\LYGO</code></li>
-    <li>No Windows service, no kernel driver</li>
+    <li>Signed setup + signed harness + signed uninstaller</li>
+    <li>Per-user, no admin, no Windows service</li>
     <li>Loopback bind only, never LAN</li>
     <li>Engine boot only on local button press</li>
-    <li>No prompt upload to excavationpro.ca</li>
-    <li>No telemetry on by default</li>
-    <li>Uninstall leaves your models and engines untouched</li>
-    <li>Signed release + published SHA-256</li>
+    <li>No prompt upload to excavationpro.ca in local mode</li>
+    <li>Public certificate and SHA-256 published</li>
+    <li>Uninstaller removes app files and shortcut only</li>
+    <li>Python/Go/Node dependencies not required</li>
   </ul>
+  <p class="note"><b>Phase 2 relay is live.</b> LYGO Connect can display a six-character pair code and connect to the Cloudflare relay; the pairing preview is at <a href="/portal/local/pair.html">/portal/local/pair.html</a>. Local-first API fallback is available on that page.</p>
   <details>
-    <summary>Developer preview: build from source</summary>
-    <p>For review before signing. Requires Go 1.25+.</p>
-    <pre>git clone &lt;your LYGO Connect source&gt;
-cd lygo_local
+    <summary>Developer source build</summary>
+    <p>Requires Go 1.25+. This is for review; the signed setup is the recommended install.</p>
+    <pre>cd lygo_local
 go build -trimpath -ldflags "-s -w" -o dist\lygo-connect.exe .
 .\dist\lygo-connect.exe</pre>
-    <p>This is a source build, not the public installer. Do not redistribute an unsigned binary.</p>
   </details>
-  <p class="note"><b>Phase 2 relay is live.</b> LYGO Connect can display a six-character pair code and connect to the Cloudflare relay; the preview pairing page is available. Public installer download still waits on code signing.</p>
 </section>
 
 <section class="section" id="engines">
@@ -151,7 +156,7 @@ go build -trimpath -ldflags "-s -w" -o dist\lygo-connect.exe .
 
 <footer class="foot"><div class="wrap">
   <p><strong>LYGO Local</strong> · a local-first product by Justin Helmer / Excavationpro · <a href="/portal/">API portal</a> · <a href="/portal/local/terms.html">Terms</a> · <a href="/portal/local/privacy.html">Privacy</a> · <a href="/portal/legal.html">Portal legal</a></p>
-  <p>No unsigned installer is offered on this page. Model files remain under their authors' licences. This page is a product disclosure, not a promise of uptime or fitness.</p>
+  <p>LYGO Local is distributed as a self-signed preview. Verify SHA-256 and the public certificate before running. Model files remain under their authors' licences. This page is a product disclosure, not a promise of uptime or fitness.</p>
 </div></footer>
 </body>
 </html>
