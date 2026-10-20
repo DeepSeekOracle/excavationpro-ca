@@ -55,9 +55,11 @@
 <script>
 (function(){
   const params = new URLSearchParams(location.search);
+  const preset = (params.get('code') || params.get('pair') || '').toUpperCase();
   const relay = params.get('relay') || 'wss://lygo-relay.lygo-studio-delta9.workers.dev/ws';
   const $ = id => document.getElementById(id);
   let ws = null, engines = [], engine = '', model = '', req = 0;
+  if (/^[A-Z0-9]{6}$/.test(preset)) $('code').value = preset;
   const pending = new Map();
   $('relay-line').textContent = 'Relay: ' + relay;
 
