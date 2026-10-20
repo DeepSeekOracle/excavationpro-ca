@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="excavationpro_cookies">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rust + Python Interop : Excavationpro</title>
+<meta name="description" content="Choose the right layer, use sidecar JSON or PyO3/maturin, share errors and tests, and ship the boundary.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<link rel="canonical" href="https://excavationpro.ca/skills/rust-python-interop/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site-kit.css">
+<link rel="stylesheet" href="/site.css">
+<link rel="image_src" href="https://excavationpro.ca/assets/og-home.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://excavationpro.ca/skills/rust-python-interop/">
+<meta property="og:title" content="Rust + Python Interop : Excavationpro">
+<meta property="og:description" content="Choose the right layer, use sidecar JSON or PyO3/maturin, share errors and tests, and ship the boundary.">
+<meta property="og:site_name" content="Excavationpro">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="Rust + Python Interop : Excavationpro">
+<meta name="twitter:description" content="Choose the right layer, use sidecar JSON or PyO3/maturin, share errors and tests, and ship the boundary.">
+<meta name="twitter:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.4rem 0}
+.skill-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.15rem;display:flex;flex-direction:column;gap:.55rem}
+.skill-card h2{margin:0;font-size:1.2rem;line-height:1.25;color:var(--navy)}
+.skill-card p{margin:0;color:var(--muted);font-family:system-ui,sans-serif;font-size:.92rem;line-height:1.55}
+.skill-card .topics{font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;color:var(--gold)}
+.skill-card .actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto;padding-top:.45rem}
+.skill-card .btn{padding:.55rem .8rem;font-size:.82rem}
+.skill-doc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.35rem;margin:1.4rem 0;overflow-wrap:anywhere}
+.skill-doc h2{font-size:1.35rem;color:var(--navy);margin:1.6rem 0 .45rem}
+.skill-doc h3{font-size:1.08rem;margin:1.2rem 0 .35rem}
+.skill-doc p,.skill-doc li{line-height:1.7}
+.skill-doc table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1rem 0;font-family:system-ui,sans-serif;font-size:.86rem}
+.skill-doc th,.skill-doc td{border:1px solid var(--line);padding:.45rem .55rem;text-align:left;vertical-align:top}
+.skill-doc th{background:#f0ebe1}
+.skill-doc pre{overflow-x:auto;background:#171c20;color:#edf3f5;padding:1rem;border-radius:9px;font-size:.82rem;line-height:1.55}
+.skill-doc code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}
+.skill-doc blockquote{margin:1rem 0;padding-left:1rem;border-left:4px solid var(--line);color:var(--muted)}
+.skill-doc img{max-width:100%;height:auto}
+.meta-line{font-family:system-ui,sans-serif;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){.skill-card{padding:1rem}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"Rust + Python Interop","description":"Choose the right layer, use sidecar JSON or PyO3/maturin, share errors and tests, and ship the boundary.","url":"https://excavationpro.ca/skills/rust-python-interop/","isPartOf":{"@type":"WebSite","name":"Excavationpro","url":"https://excavationpro.ca/"},"license":"https://opensource.org/license/mit-0"}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">Excavationpro</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/music.html">Music</a>
+      <a href="/data-vault/">Data Vault</a>
+      <a href="/portal/">Portal</a>
+      <a href="/LYGOTV/">LYGO TV</a>
+      <a href="/signal/">Signal</a>
+      <a href="/articles/">Writing</a>
+      <a href="/skills/" aria-current="page">Skills</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://asiancoastline.com/">Listen free</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<article class="prose">
+  <p class="meta-line"><a href="/skills/">← All skills</a> · MIT-0 · v1.0.1</p>
+  <h1>Rust + Python Interop</h1>
+  <p class="lead">Choose the right layer, use sidecar JSON or PyO3/maturin, share errors and tests, and ship the boundary.</p>
+  <div class="cta-row" style="margin:1rem 0 1.2rem">
+    <a class="btn primary" href="/skills/downloads/rust-python-interop-1.0.1.zip">Download ZIP</a>
+    <a class="btn" href="/skills/downloads/rust-python-interop/SKILL.md">Raw SKILL.md</a>
+    <a class="btn ghost" href="/skills/downloads/rust-python-interop/LICENSE">License</a>
+  </div>
+  <div class="skill-doc"><p>This is the <strong>combined</strong> skill. It teaches the boundary, not just two syntaxes. Deep references:</p>
+<ul>
+<li><code>rust-advanced</code></li>
+<li><code>python-advanced</code></li>
+<li><code>python-advanced</code> (Windows interpreter basics)</li>
+<li><code>powershell-advanced</code> (orchestration)</li>
+</ul>
+<p>Audited toolchain:</p>
+<pre><code class="language-text">rustc 1.93.1
+cargo 1.93.1
+Python 3.13.5
+PowerShell 7.6.7
+</code></pre>
+<h2>1. Choose the layer</h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Python</th>
+<th>Rust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Glue, scripting, file/API work</td>
+<td><strong>best</strong></td>
+<td>possible, more code</td>
+</tr>
+<tr>
+<td>Typed domain model</td>
+<td>good</td>
+<td>better for invariants</td>
+</tr>
+<tr>
+<td>CPU-bound loops</td>
+<td>slow</td>
+<td><strong>best</strong></td>
+</tr>
+<tr>
+<td>Memory control / no GC</td>
+<td>no</td>
+<td><strong>best</strong></td>
+</tr>
+<tr>
+<td>Async I/O</td>
+<td>asyncio/httpx</td>
+<td>Tokio, more control</td>
+</tr>
+<tr>
+<td>Fast iteration</td>
+<td><strong>best</strong></td>
+<td>slower</td>
+</tr>
+<tr>
+<td>Single binary distribution</td>
+<td>difficult</td>
+<td><strong>best</strong></td>
+</tr>
+<tr>
+<td>ML/data ecosystem</td>
+<td><strong>best</strong></td>
+<td>limited</td>
+</tr>
+<tr>
+<td>Python extension</td>
+<td>—</td>
+<td><strong>PyO3</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Decision rule:</p>
+<blockquote>
+<p>Start in Python. Move a <strong>measured</strong> hot path to Rust. Keep the boundary boring: JSON over stdin/stdout first, PyO3 only when call overhead matters.</p>
+</blockquote>
+<h2>2. Four integration patterns</h2>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Use when</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sidecar JSON</strong></td>
+<td>batch jobs, CLIs, isolation</td>
+<td>process startup + serialize</td>
+</tr>
+<tr>
+<td><strong>PyO3/maturin</strong></td>
+<td>many small calls from Python</td>
+<td>ABI/build complexity</td>
+</tr>
+<tr>
+<td><strong>C ABI + ctypes</strong></td>
+<td>existing C/Rust library</td>
+<td>manual memory/type safety</td>
+</tr>
+<tr>
+<td><strong>Local HTTP/socket</strong></td>
+<td>long-running service</td>
+<td>protocol/lifecycle</td>
+</tr>
+</tbody>
+</table>
+<p>Start with sidecar JSON. It is testable from PowerShell, Python, and CI.</p>
+<h2>3. Learning path — 8 labs</h2>
+<h3>Lab 1 — Python contract first</h3>
+<pre><code class="language-python">from dataclasses import dataclass
+import json
+
+@dataclass(frozen=True)
+class Job:
+    id: int
+    text: str
+
+def encode(job: Job) -&gt; str:
+    return json.dumps({&quot;id&quot;: job.id, &quot;text&quot;: job.text})
+</code></pre>
+<p>Define the JSON schema before writing Rust. Test it in Python.</p>
+<h3>Lab 2 — Rust sidecar</h3>
+<pre><code class="language-rust">use std::io::{self, Read, Write};
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+    let mut input = String::new();
+    io::stdin().read_to_string(&amp;mut input)?;
+    let v: serde_json::Value = serde_json::from_str(&amp;input)?;
+    let out = serde_json::json!({ &quot;ok&quot;: true, &quot;echo&quot;: v });
+    writeln!(io::stdout(), &quot;{}&quot;, serde_json::to_string(&amp;out)?)?;
+    Ok(())
+}
+</code></pre>
+<p>Cargo:</p>
+<pre><code class="language-toml">[dependencies]
+serde_json = &quot;1&quot;
+</code></pre>
+<p>Build:</p>
+<pre><code class="language-powershell">cargo build --release
+</code></pre>
+<h3>Lab 3 — Python subprocess bridge</h3>
+<pre><code class="language-python">import json, subprocess
+
+def call_rust(exe: str, payload: dict) -&gt; dict:
+    p = subprocess.run(
+        [exe],
+        input=json.dumps(payload),
+        capture_output=True,
+        text=True,
+        encoding=&quot;utf-8&quot;,
+        timeout=30,
+        check=False,
+    )
+    if p.returncode != 0:
+        raise RuntimeError(f&quot;rust exit {p.returncode}: {p.stderr}&quot;)
+    return json.loads(p.stdout)
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Pass JSON on stdin; read JSON on stdout; logs on stderr.</li>
+<li>Never parse human-readable text as the contract.</li>
+<li>Set a timeout and cap output size.</li>
+<li>Do not use a shell.</li>
+</ul>
+<h3>Lab 4 — Rust library + tests</h3>
+<pre><code class="language-rust">pub fn normalize(s: &amp;str) -&gt; Result&lt;String, &amp;'static str&gt; {
+    let t = s.trim();
+    if t.is_empty() { return Err(&quot;empty&quot;); }
+    Ok(t.to_lowercase())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn trims() { assert_eq!(normalize(&quot; Hi &quot;).unwrap(), &quot;hi&quot;); }
+}
+</code></pre>
+<p>Run:</p>
+<pre><code class="language-powershell">cargo test
+cargo clippy --all-targets -- -D warnings
+cargo fmt --check
+</code></pre>
+<h3>Lab 5 — Python tests around the sidecar</h3>
+<pre><code class="language-python">import json, subprocess
+from pathlib import Path
+
+EXE = Path(&quot;target/release/sidecar.exe&quot;)
+
+def test_roundtrip():
+    p = subprocess.run(
+        [str(EXE)], input=json.dumps({&quot;x&quot;: 1}),
+        capture_output=True, text=True, encoding=&quot;utf-8&quot;, timeout=10,
+    )
+    assert p.returncode == 0
+    assert json.loads(p.stdout)[&quot;ok&quot;] is True
+</code></pre>
+<ul>
+<li>Mark integration tests so they can be skipped if the binary is absent.</li>
+<li>Test malformed JSON, empty stdin, huge input, and non-zero exit.</li>
+<li>Compare Python and Rust results on the same fixtures.</li>
+</ul>
+<h3>Lab 6 — PyO3 when calls are hot</h3>
+<pre><code class="language-rust">use pyo3::prelude::*;
+
+#[pyfunction]
+fn add(a: i64, b: i64) -&gt; i64 { a + b }
+
+#[pymodule]
+fn fastcore(m: &amp;Bound&lt;'_, PyModule&gt;) -&gt; PyResult&lt;()&gt; {
+    m.add_function(wrap_pyfunction!(add, m)?)?;
+    Ok(())
+}
+</code></pre>
+<pre><code class="language-toml">[lib]
+name = &quot;fastcore&quot;
+crate-type = [&quot;cdylib&quot;]
+
+[dependencies]
+pyo3 = { version = &quot;0.26&quot;, features = [&quot;extension-module&quot;] }
+</code></pre>
+<pre><code class="language-powershell">python -m pip install maturin
+maturin develop --release
+</code></pre>
+<p>This is a shape, not a compiled test. Pin PyO3 to the version in its current guide.</p>
+<h3>Lab 7 — Async and concurrency</h3>
+<ul>
+<li>Python: <code>asyncio.TaskGroup</code>, <code>asyncio.timeout</code>, <code>to_thread</code>.</li>
+<li>Rust: Tokio <code>spawn</code>, <code>timeout</code>, <code>select!</code>, <code>spawn_blocking</code>.</li>
+<li>Never block a Python event loop or a Tokio worker with synchronous CPU work.</li>
+<li>Pass results through channels/queues, not shared mutable state.</li>
+</ul>
+<h3>Lab 8 — Package and ship</h3>
+<ul>
+<li>Rust: <code>cargo build --release</code>, strip, LTO; sign if distributing.</li>
+<li>Python: build a wheel; pin <code>requires-python</code>.</li>
+<li>Ship the sidecar binary beside the Python package or resolve it via an env var.</li>
+<li>Test on a clean machine; do not assume <code>cargo</code> or Rust is installed for end users.</li>
+<li>For PyO3, build wheels per Python version/platform.</li>
+</ul>
+<h2>4. Cross-language error contract</h2>
+<p>Use a stable JSON error shape:</p>
+<pre><code class="language-json">{&quot;ok&quot;:false,&quot;code&quot;:&quot;INVALID_INPUT&quot;,&quot;message&quot;:&quot;...&quot;,&quot;retryable&quot;:false}
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Rust exit code 0 = success; non-zero = failure.</li>
+<li>Python raises a typed exception on non-zero.</li>
+<li>Do not leak secrets or full stack traces to the caller; log them separately.</li>
+<li>Include a <code>request_id</code> for correlation.</li>
+<li>Map Rust <code>thiserror</code> variants to stable <code>code</code> values.</li>
+</ul>
+<h2>5. Performance method</h2>
+<ol>
+<li>Measure Python with <code>cProfile</code>, <code>timeit</code>, or <code>py-spy</code>.</li>
+<li>Identify one hot function with a stable contract.</li>
+<li>Write Rust with the same fixtures.</li>
+<li>Compare wall time, memory, and startup.</li>
+<li>Keep the Python fallback; switch behind a flag.</li>
+<li>Do not rewrite I/O or glue in Rust unless measured.</li>
+</ol>
+<h2>6. Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python can't find sidecar</td>
+<td>path resolution</td>
+<td>resolve relative to package, or env var</td>
+</tr>
+<tr>
+<td>Rust binary exits instantly</td>
+<td>stdin closed / panic</td>
+<td>log stderr; handle empty input</td>
+</tr>
+<tr>
+<td>JSON parse mismatch</td>
+<td>schema drift</td>
+<td>one shared schema + fixture tests</td>
+</tr>
+<tr>
+<td>Unicode mojibake</td>
+<td>Windows console encoding</td>
+<td>UTF-8 on both sides; <code>errors="replace"</code></td>
+</tr>
+<tr>
+<td>Rust <code>link.exe</code> missing</td>
+<td>MSVC missing</td>
+<td>install VS Build Tools C++</td>
+</tr>
+<tr>
+<td>PyO3 import fails</td>
+<td>ABI/Python mismatch</td>
+<td>rebuild with maturin for this interpreter</td>
+</tr>
+<tr>
+<td>Python hangs on child</td>
+<td>pipe full</td>
+<td>read streams; cap output</td>
+</tr>
+<tr>
+<td>Rust async not Send</td>
+<td>non-Send across await</td>
+<td>Arc/tokio sync; drop guard</td>
+</tr>
+<tr>
+<td>slow calls</td>
+<td>per-call process spawn</td>
+<td>batch JSON or PyO3</td>
+</tr>
+<tr>
+<td>binary too large</td>
+<td>debug/LTO</td>
+<td>release profile + strip</td>
+</tr>
+<tr>
+<td>Python packaging misses binary</td>
+<td>package data</td>
+<td>include sidecar as package data/wheel</td>
+</tr>
+<tr>
+<td>tests pass locally, fail CI</td>
+<td>toolchain missing</td>
+<td>install Rust/Python versions explicitly</td>
+</tr>
+</tbody>
+</table>
+<h2>7. Templates</h2>
+<ul>
+<li><code>templates/rust_json.rs</code></li>
+<li><code>templates/python_bridge.py</code></li>
+<li><code>templates/pyo3_lib.rs</code></li>
+<li><code>templates/pyproject_maturin.toml</code></li>
+<li><code>templates/powershell_runner.ps1</code></li>
+</ul>
+<h2>8. Sources</h2>
+<ul>
+<li>Rust Book ownership/errors/concurrency/async.</li>
+<li>Python asyncio/packaging/subprocess docs.</li>
+<li>PyO3 guide and maturin.</li>
+<li>Tokio tutorial; serde.</li>
+</ul>
+<p>See <code>references/SOURCES.md</code>.</p></div>
+</article>
+</main><footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/music.html">Music</a>
+      <a href="/articles/">Writing</a><a href="/skills/">Skills</a><a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a>
+    </nav>
+    <p class="family" style="display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.78rem;opacity:.85;margin:.6rem 0">
+      <a href="https://eternalhaven.ca/">eternalhaven.ca</a>
+      <a href="https://excavationpro.ca/">excavationpro.ca</a>
+      <a href="https://deepseekoracle.com/">deepseekoracle.com</a>
+      <a href="https://chatagent.ca/">chatagent.ca</a>
+      <a href="https://asiancoastline.com/">asiancoastline.com</a>
+      <a href="https://bpmfinder.ca/">bpmfinder.ca</a>
+    </p>
+    <p>© <span class="y"></span> Justin Helmer / Excavationpro. Skill text is MIT-0; music and essays retain their own terms.</p>
+  </div>
+</footer>
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+</body>
+</html>

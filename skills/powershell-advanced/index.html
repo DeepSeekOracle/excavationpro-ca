@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="excavationpro_cookies">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PowerShell Advanced : Excavationpro</title>
+<meta name="description" content="Advanced PowerShell 7 work: parsing, native process control, jobs, JSON/HTTP, encoding, ACLs and Windows troubleshooting.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<link rel="canonical" href="https://excavationpro.ca/skills/powershell-advanced/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site-kit.css">
+<link rel="stylesheet" href="/site.css">
+<link rel="image_src" href="https://excavationpro.ca/assets/og-home.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://excavationpro.ca/skills/powershell-advanced/">
+<meta property="og:title" content="PowerShell Advanced : Excavationpro">
+<meta property="og:description" content="Advanced PowerShell 7 work: parsing, native process control, jobs, JSON/HTTP, encoding, ACLs and Windows troubleshooting.">
+<meta property="og:site_name" content="Excavationpro">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="PowerShell Advanced : Excavationpro">
+<meta name="twitter:description" content="Advanced PowerShell 7 work: parsing, native process control, jobs, JSON/HTTP, encoding, ACLs and Windows troubleshooting.">
+<meta name="twitter:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin:1.4rem 0}
+.skill-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.15rem;display:flex;flex-direction:column;gap:.55rem}
+.skill-card h2{margin:0;font-size:1.2rem;line-height:1.25;color:var(--navy)}
+.skill-card p{margin:0;color:var(--muted);font-family:system-ui,sans-serif;font-size:.92rem;line-height:1.55}
+.skill-card .topics{font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;color:var(--gold)}
+.skill-card .actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto;padding-top:.45rem}
+.skill-card .btn{padding:.55rem .8rem;font-size:.82rem}
+.skill-doc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.25rem 1.35rem;margin:1.4rem 0;overflow-wrap:anywhere}
+.skill-doc h2{font-size:1.35rem;color:var(--navy);margin:1.6rem 0 .45rem}
+.skill-doc h3{font-size:1.08rem;margin:1.2rem 0 .35rem}
+.skill-doc p,.skill-doc li{line-height:1.7}
+.skill-doc table{width:100%;border-collapse:collapse;display:block;overflow-x:auto;margin:1rem 0;font-family:system-ui,sans-serif;font-size:.86rem}
+.skill-doc th,.skill-doc td{border:1px solid var(--line);padding:.45rem .55rem;text-align:left;vertical-align:top}
+.skill-doc th{background:#f0ebe1}
+.skill-doc pre{overflow-x:auto;background:#171c20;color:#edf3f5;padding:1rem;border-radius:9px;font-size:.82rem;line-height:1.55}
+.skill-doc code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em}
+.skill-doc blockquote{margin:1rem 0;padding-left:1rem;border-left:4px solid var(--line);color:var(--muted)}
+.skill-doc img{max-width:100%;height:auto}
+.meta-line{font-family:system-ui,sans-serif;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){.skill-card{padding:1rem}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"TechArticle","headline":"PowerShell Advanced","description":"Advanced PowerShell 7 work: parsing, native process control, jobs, JSON/HTTP, encoding, ACLs and Windows troubleshooting.","url":"https://excavationpro.ca/skills/powershell-advanced/","isPartOf":{"@type":"WebSite","name":"Excavationpro","url":"https://excavationpro.ca/"},"license":"https://opensource.org/license/mit-0"}
+</script>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">Excavationpro</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/music.html">Music</a>
+      <a href="/data-vault/">Data Vault</a>
+      <a href="/portal/">Portal</a>
+      <a href="/LYGOTV/">LYGO TV</a>
+      <a href="/signal/">Signal</a>
+      <a href="/articles/">Writing</a>
+      <a href="/skills/" aria-current="page">Skills</a>
+      <a href="/contact.html">Contact</a>
+      <a href="https://asiancoastline.com/">Listen free</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<article class="prose">
+  <p class="meta-line"><a href="/skills/">← All skills</a> · MIT-0 · v1.0.1</p>
+  <h1>PowerShell Advanced</h1>
+  <p class="lead">Advanced PowerShell 7 work: parsing, native process control, jobs, JSON/HTTP, encoding, ACLs and Windows troubleshooting.</p>
+  <div class="cta-row" style="margin:1rem 0 1.2rem">
+    <a class="btn primary" href="/skills/downloads/powershell-advanced-1.0.1.zip">Download ZIP</a>
+    <a class="btn" href="/skills/downloads/powershell-advanced/SKILL.md">Raw SKILL.md</a>
+    <a class="btn ghost" href="/skills/downloads/powershell-advanced/LICENSE">License</a>
+  </div>
+  <div class="skill-doc"><p>Audited environment: <strong>PowerShell 7.6.7</strong> (<code>C:\Program Files\PowerShell\7\pwsh.exe</code>) and Windows PowerShell 5.1 (<code>C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</code>).</p>
+<h2>0. Know which engine you are in</h2>
+<pre><code class="language-powershell">$PSVersionTable
+$PSVersionTable.PSEdition          # Core or Desktop
+[Environment]::Is64BitProcess
+$PSHOME
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Write for <strong>PowerShell 7</strong> unless the target is explicitly 5.1.</li>
+<li><code>pwsh</code> and <code>powershell.exe</code> are different engines with different JSON, encoding, and parallel behavior.</li>
+<li>Do not assume a module installed for 5.1 is visible in 7 (or the reverse).</li>
+<li><code>$PSVersionTable.PSVersion.Major -ge 7</code> gates <code>ForEach-Object -Parallel</code>, <code>ConvertFrom-Json -AsHashtable</code>, and <code>utf8NoBOM</code>.</li>
+</ul>
+<h2>1. Parsing and quoting</h2>
+<p>PowerShell has two modes: <strong>expression</strong> and <strong>argument</strong>. The same token can mean different things.</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Mode</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Write-Output 2+2</code></td>
+<td>argument</td>
+<td>string <code>"2+2"</code></td>
+</tr>
+<tr>
+<td><code>Write-Output (2+2)</code></td>
+<td>expression</td>
+<td>integer <code>4</code></td>
+</tr>
+<tr>
+<td><code>Write-Output $a+2</code></td>
+<td>argument</td>
+<td>string, e.g. <code>"4+2"</code></td>
+</tr>
+<tr>
+<td><code>Write-Output ($a+2)</code></td>
+<td>expression</td>
+<td>integer <code>6</code></td>
+</tr>
+</tbody>
+</table>
+<p>Practical rules:</p>
+<ul>
+<li>Put expressions in parentheses when passing to a command.</li>
+<li>Use single quotes for literal strings, double quotes for expansion.</li>
+<li>Escape <code>$</code> in an expandable string with a backtick: <code>"`$HOME"</code>.</li>
+<li>Do <strong>not</strong> use backtick line continuation when a natural break exists (after <code>|</code>, <code>,</code>, <code>(</code>, <code>{</code>, an operator). Use splatting for many parameters.</li>
+<li><code>--%</code> stops PowerShell parsing for a native command; use it only when needed and remember it stops at newline/pipe.</li>
+<li><code>--</code> ends PowerShell parameters; for native commands it is usually passed through.</li>
+<li><code>$PSNativeCommandArgumentPassing</code> (7.3+) changes native quote behavior. If a native call worked in 5.1 but breaks in 7, inspect this variable.</li>
+</ul>
+<pre><code class="language-powershell"># Preferred: splatting
+$p = @{
+    Path        = 'C:\Program Files\App\app.exe'
+    ErrorAction = 'Stop'
+}
+Get-Item @p
+</code></pre>
+<h2>2. Error handling</h2>
+<pre><code class="language-powershell">Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+try {
+    Get-Item -LiteralPath 'C:\missing' -ErrorAction Stop
+}
+catch [System.Management.Automation.ItemNotFoundException] {
+    Write-Error &quot;Not found: $($_.Exception.Message)&quot;
+}
+catch {
+    Write-Error (&quot;{0}`n{1}&quot; -f $_.Exception.Message, $_.ScriptStackTrace)
+}
+finally {
+    # always runs, including on many terminating paths
+}
+</code></pre>
+<p>Key facts:</p>
+<ul>
+<li>Cmdlets often emit <strong>non-terminating</strong> errors; <code>try/catch</code> will not see them unless <code>-ErrorAction Stop</code> or <code>$ErrorActionPreference='Stop'</code>.</li>
+<li><code>throw</code> creates a terminating error.</li>
+<li><code>$ErrorActionPreference='SilentlyContinue'</code> can suppress <code>throw</code>; do not use it globally in a library.</li>
+<li><code>$?</code> and <code>$LASTEXITCODE</code> are not the same. <code>$LASTEXITCODE</code> is for native processes.</li>
+<li><code>catch</code> matches exception type by inheritance; put specific catches before general ones.</li>
+</ul>
+<h2>3. Native process capture without deadlocks</h2>
+<p>The common failure: <code>&amp; tool</code> with large stdout/stderr, or <code>Start-Process</code> with <code>-Wait</code> and redirected streams, hangs. Capture via <code>System.Diagnostics.Process</code> with <code>ArgumentList</code> for exact quoting.</p>
+<p>Template: <code>scripts/Invoke-SafeProcess.ps1</code>.</p>
+<pre><code class="language-powershell">$psi = [System.Diagnostics.ProcessStartInfo]::new()
+$psi.FileName = 'C:\Program Files\Git\bin\git.exe'
+$psi.UseShellExecute = $false
+$psi.RedirectStandardOutput = $true
+$psi.RedirectStandardError = $true
+$psi.CreateNoWindow = $true
+$psi.ArgumentList.Add('status')
+$psi.ArgumentList.Add('--short')
+
+$p = [System.Diagnostics.Process]::new()
+$p.StartInfo = $psi
+[void]$p.Start()
+$stdout = $p.StandardOutput.ReadToEnd()
+$stderr = $p.StandardError.ReadToEnd()
+$p.WaitForExit()
+$exit = $p.ExitCode
+</code></pre>
+<p>Rules:</p>
+<ul>
+<li>Use <code>ArgumentList</code>, not a hand-built argument string, when paths/quotes matter.</li>
+<li>Read stdout and stderr <strong>before</strong> <code>WaitForExit</code> for large output, or use async event handlers.</li>
+<li>For a child that may outlive the helper, redirect to files or <code>DEVNULL</code>; do not leave a pipe open.</li>
+<li><code>Start-Process -Wait</code> waits for the process tree in some cases; <code>Wait-Process</code> waits for the process object only.</li>
+<li><code>cmd /c</code> changes quoting; avoid it when a native exe can be called directly.</li>
+</ul>
+<h2>4. Parallelism: choose the right tool</h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A few CPU-bound jobs, PS 7</td>
+<td><code>ForEach-Object -Parallel -ThrottleLimit N</code></td>
+</tr>
+<tr>
+<td>Jobs needing separate runspaces</td>
+<td><code>Start-ThreadJob</code></td>
+</tr>
+<tr>
+<td>Child process isolation</td>
+<td><code>Start-Job</code></td>
+</tr>
+<tr>
+<td>Long-lived worker pool</td>
+<td><code>RunspacePool</code></td>
+</tr>
+<tr>
+<td>Native process concurrency</td>
+<td><code>Start-Process</code> + wait/handles</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-powershell">$items = 1..8
+$results = $items | ForEach-Object -Parallel {
+    Start-Sleep -Milliseconds 200
+    [pscustomobject]@{ n = $_; pid = $PID }
+} -ThrottleLimit 4
+$results
+</code></pre>
+<p>Caveats:</p>
+<ul>
+<li><code>-Parallel</code> scriptblocks run in separate runspaces; variables do not flow in automatically. Use <code>$using:name</code>.</li>
+<li>Do not mutate a shared <code>List</code> from parallel runspaces without a lock.</li>
+<li>Pipeline output ordering may differ.</li>
+<li>A hung child can hang the whole job; add timeouts at the native process layer.</li>
+</ul>
+<h2>5. JSON, HTTP, encoding</h2>
+<pre><code class="language-powershell">$r = Invoke-RestMethod -Uri $url -Headers @{
+    Authorization = &quot;Bearer $env:TOKEN&quot;
+    Accept        = 'application/json'
+} -TimeoutSec 30
+
+$r | ConvertTo-Json -Depth 20
+</code></pre>
+<ul>
+<li>Use <code>-Depth</code> when nesting is deeper than 2; the default truncates.</li>
+<li>PS 7: <code>ConvertFrom-Json -AsHashtable</code> gives a hashtable, not <code>PSCustomObject</code>.</li>
+<li><code>Invoke-RestMethod</code> parses JSON automatically; use <code>Invoke-WebRequest</code> when you need raw bytes/status/headers.</li>
+<li>Do not log Authorization headers or tokens.</li>
+<li>TLS 1.2 is default in modern .NET; old 5.1 may need <code>[Net.ServicePointManager]::SecurityProtocol</code>.</li>
+</ul>
+<p>Encoding:</p>
+<pre><code class="language-powershell">Set-Content -LiteralPath $path -Value $text -Encoding utf8NoBOM   # PS 7
+Get-Content -LiteralPath $path -Raw -Encoding utf8
+[IO.File]::WriteAllText($path, $text, [Text.UTF8Encoding]::new($false))
+</code></pre>
+<ul>
+<li>5.1 <code>-Encoding UTF8</code> writes a BOM; 7's <code>utf8NoBOM</code> does not.</li>
+<li>Use <code>-LiteralPath</code> for names containing <code>[ ] * ?</code>.</li>
+<li>Use <code>-Raw</code> to read a file as one string, not an array of lines.</li>
+<li>Use <code>[IO.Path]::GetFullPath</code> and <code>\\?\</code> for very long paths.</li>
+</ul>
+<h2>6. Advanced Windows workarounds</h2>
+<h3>Spaces, brackets, and quotes</h3>
+<pre><code class="language-powershell">Get-Item -LiteralPath 'C:\Program Files (x86)\App [x64]\app.exe'
+</code></pre>
+<p>Do not use <code>-Path</code> with wildcard characters in literal paths.</p>
+<h3>Elevation</h3>
+<pre><code class="language-powershell">Start-Process -FilePath 'pwsh.exe' -Verb RunAs -ArgumentList @(
+    '-NoProfile','-File','C:\path\script.ps1'
+)
+</code></pre>
+<ul>
+<li>UAC cannot be bypassed silently. If the task must run unattended, use a scheduled task with the right principal, not a fake elevation trick.</li>
+<li>Do not disable UAC or Defender to make a script work.</li>
+</ul>
+<h3>Services, tasks, registry</h3>
+<pre><code class="language-powershell">Get-Service -Name 'Spooler'
+Get-ScheduledTask -TaskName 'Hermes_Gateway'
+Get-CimInstance Win32_Process -Filter &quot;ProcessId = 1234&quot;
+</code></pre>
+<ul>
+<li>Prefer <code>Get-CimInstance</code> over deprecated <code>Get-WmiObject</code>.</li>
+<li>Registry writes are persistent and risky; export the key first.</li>
+<li>Scheduled tasks are better than startup scripts for restartable services.</li>
+</ul>
+<h3>ACLs</h3>
+<pre><code class="language-powershell">$acl = Get-Acl -LiteralPath $path
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+    &quot;$env:USERDOMAIN\$env:USERNAME&quot;, 'Modify', 'ContainerInherit,ObjectInherit', 'None', 'Allow')
+$acl.SetAccessRule($rule)
+Set-Acl -LiteralPath $path -AclObject $acl
+</code></pre>
+<ul>
+<li>Back up the ACL (<code>Get-Acl | Export-Clixml</code>) before changing it.</li>
+<li>Do not grant <code>Everyone</code>/<code>Users</code> broad write on system paths.</li>
+</ul>
+<h3>Execution policy</h3>
+<pre><code class="language-powershell">pwsh -NoProfile -ExecutionPolicy Bypass -File .\script.ps1
+</code></pre>
+<ul>
+<li>This is process-scoped. Do not change the machine policy to run one script.</li>
+<li>Sign production scripts; <code>Get-AuthenticodeSignature</code> verifies.</li>
+</ul>
+<h3>Exit codes</h3>
+<pre><code class="language-powershell">&amp; tool.exe
+if ($LASTEXITCODE -ne 0) { throw &quot;tool failed: $LASTEXITCODE&quot; }
+</code></pre>
+<ul>
+<li><code>$LASTEXITCODE</code> is set by native programs, not cmdlets.</li>
+<li><code>exit $LASTEXITCODE</code> preserves it; <code>exit 0</code> hides failures.</li>
+<li>In a function, <code>return</code> does not set exit code.</li>
+</ul>
+<h2>7. Script skeleton</h2>
+<pre><code class="language-powershell">[CmdletBinding()]
+param(
+    [Parameter(Mandatory)][string]$InputPath,
+    [string]$OutPath = (Join-Path $PWD 'out.json')
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+try {
+    if (-not (Test-Path -LiteralPath $InputPath -PathType Leaf)) {
+        throw &quot;Input not found: $InputPath&quot;
+    }
+    $data = Get-Content -LiteralPath $InputPath -Raw | ConvertFrom-Json
+    $data | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $OutPath -Encoding utf8NoBOM
+    Write-Output &quot;OK $OutPath&quot;
+}
+catch {
+    Write-Error (&quot;FAILED: {0}`n{1}&quot; -f $_.Exception.Message, $_.ScriptStackTrace)
+    exit 1
+}
+</code></pre>
+<h2>8. Testing and quality</h2>
+<pre><code class="language-powershell">Invoke-ScriptAnalyzer -Path .\script.ps1 -Severity Warning,Error
+Invoke-Pester -Path .\tests
+</code></pre>
+<ul>
+<li>Pester 5 uses <code>Describe</code>, <code>Context</code>, <code>It</code>, <code>Should</code>.</li>
+<li>Test with a temporary directory and clean up in <code>finally</code>.</li>
+<li>Use <code>-WhatIf</code>/<code>-Confirm</code> only if the function supports <code>SupportsShouldProcess</code>.</li>
+<li>Avoid <code>Invoke-Expression</code> on user input; it is a code-injection primitive.</li>
+</ul>
+<h2>9. Troubleshooting table</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>try/catch</code> never catches</td>
+<td>non-terminating cmdlet error</td>
+<td><code>-ErrorAction Stop</code> or <code>$ErrorActionPreference='Stop'</code></td>
+</tr>
+<tr>
+<td>Native command gets wrong args</td>
+<td>PowerShell re-parsed quotes</td>
+<td><code>ProcessStartInfo.ArgumentList</code> or <code>--%</code></td>
+</tr>
+<tr>
+<td>Script hangs on child output</td>
+<td>pipe buffer full</td>
+<td>read stdout/stderr before wait; redirect to files</td>
+</tr>
+<tr>
+<td><code>$LASTEXITCODE</code> is blank</td>
+<td>last command was a cmdlet</td>
+<td>check after native call only</td>
+</tr>
+<tr>
+<td>JSON truncated</td>
+<td>default <code>ConvertTo-Json</code> depth 2</td>
+<td><code>-Depth 20</code></td>
+</tr>
+<tr>
+<td>UTF-8 file has BOM</td>
+<td>5.1 <code>-Encoding UTF8</code></td>
+<td>use .NET <code>UTF8Encoding(false)</code> or 7 <code>utf8NoBOM</code></td>
+</tr>
+<tr>
+<td>Path with <code>[ ]</code> not found</td>
+<td>wildcard globbing</td>
+<td><code>-LiteralPath</code></td>
+</tr>
+<tr>
+<td>Parallel block cannot see variable</td>
+<td>separate runspace</td>
+<td><code>$using:name</code></td>
+</tr>
+<tr>
+<td>Job survives shell</td>
+<td>child inherits job object</td>
+<td>scheduled task or detached process</td>
+</tr>
+<tr>
+<td><code>Start-Process</code> quoting wrong</td>
+<td>single argument string</td>
+<td><code>ArgumentList</code> array / .NET</td>
+</tr>
+<tr>
+<td>Script blocked by execution policy</td>
+<td>policy</td>
+<td>process-scoped <code>-ExecutionPolicy Bypass</code>, or sign</td>
+</tr>
+<tr>
+<td>Module missing in 7</td>
+<td>installed for 5.1 only</td>
+<td>install for the target engine</td>
+</tr>
+<tr>
+<td><code>Get-WmiObject</code> slow/deprecated</td>
+<td>legacy WMI</td>
+<td><code>Get-CimInstance</code></td>
+</tr>
+</tbody>
+</table>
+<h2>10. Templates in this skill</h2>
+<ul>
+<li><code>scripts/Invoke-SafeProcess.ps1</code> — exact native args, separate stdout/stderr, timeout, JSON result.</li>
+<li><code>templates/parallel.ps1</code> — throttled parallel runspace.</li>
+<li><code>templates/http-json.ps1</code> — API call with timeout and no secret logging.</li>
+</ul>
+<h2>Sources</h2>
+<ul>
+<li>Microsoft Learn: <code>about_Parsing</code>, <code>about_Try_Catch_Finally</code>, <code>about_Jobs</code>, <code>about_Classes</code>, <code>about_Execution_Policies</code>.</li>
+<li>PowerShell 7.3 native argument passing notes.</li>
+<li>.NET <code>System.Diagnostics.ProcessStartInfo.ArgumentList</code>.</li>
+</ul>
+<p>See <code>references/SOURCES.md</code>.</p></div>
+</article>
+</main><footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a><a href="/about.html">About</a><a href="/music.html">Music</a>
+      <a href="/articles/">Writing</a><a href="/skills/">Skills</a><a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a>
+    </nav>
+    <p class="family" style="display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.78rem;opacity:.85;margin:.6rem 0">
+      <a href="https://eternalhaven.ca/">eternalhaven.ca</a>
+      <a href="https://excavationpro.ca/">excavationpro.ca</a>
+      <a href="https://deepseekoracle.com/">deepseekoracle.com</a>
+      <a href="https://chatagent.ca/">chatagent.ca</a>
+      <a href="https://asiancoastline.com/">asiancoastline.com</a>
+      <a href="https://bpmfinder.ca/">bpmfinder.ca</a>
+    </p>
+    <p>© <span class="y"></span> Justin Helmer / Excavationpro. Skill text is MIT-0; music and essays retain their own terms.</p>
+  </div>
+</footer>
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+</body>
+</html>
