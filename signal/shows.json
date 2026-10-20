@@ -2,8 +2,22 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://chatagent.ca/signal/",
  "feed": "https://chatagent.ca/signal/feed.xml",
- "updated": "2026-10-19",
+ "updated": "2026-10-20",
  "shows": [
+  {
+   "slug": "quantum-dots-neural-anchors-architecture",
+   "title": "Quantum Dots: Neural Anchors Architecture",
+   "page": "https://excavationpro.ca/signal/quantum-dots-neural-anchors-architecture/",
+   "audio": "https://excavationpro.ca/signal/shows/quantum-dots-neural-anchors-architecture/ai_radio.mp3",
+   "duration": "15:36",
+   "seconds": 936,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Dev"
+   ]
+  },
   {
    "slug": "independent-music-excavationpro-explored",
    "title": "Independent Music: Excavationpro Explored",
