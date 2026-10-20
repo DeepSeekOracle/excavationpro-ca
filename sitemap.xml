@@ -34,4 +34,5 @@
   <url><loc>https://excavationpro.ca/portal/legal.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://excavationpro.ca/LYGOTV/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://excavationpro.ca/LYGOTV/disclaimer.html</loc><changefreq>weekly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://excavationpro.ca/vintage-tv/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>

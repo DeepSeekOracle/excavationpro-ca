@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050403">
+  <title>Vintage TV — LYGO TV</title>
+  <meta name="description" content="A full-screen vintage television. Turn the dial and watch LYGO TV channels like it is 1963.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://excavationpro.ca/vintage-tv/">
+  <meta property="og:title" content="Vintage TV — LYGO TV">
+  <meta property="og:description" content="One old television. No menus. Just turn the dial.">
+  <meta property="og:url" content="https://excavationpro.ca/vintage-tv/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/LYGOTV/emblem.svg" type="image/svg+xml">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; media-src 'self' https: blob:; frame-src https://www.youtube-nocookie.com https://rumble.com https://player.twitch.tv https://player.kick.com; connect-src 'self' https:; upgrade-insecure-requests">
+  <link rel="stylesheet" href="vintage.css">
+</head>
+<body>
+  <a class="back" href="/LYGOTV/" aria-label="Back to LYGO TV">← BACK TO LYGO TV</a>
+
+  <main class="stage" aria-label="Vintage television">
+    <div class="television" id="television">
+      <!-- Photo: Zulfugar Karimov / Pexels, free stock license. -->
+      <img class="cabinet" src="vintage-tv.jpg" alt="A vintage black television in a workshop" draggable="false">
+      <div class="screen" id="screen" role="region" aria-label="Television screen">
+        <div class="screen-inner" id="screen-inner"></div>
+        <div class="scanlines" aria-hidden="true"></div>
+        <div class="glare" aria-hidden="true"></div>
+        <div class="osd" id="osd" aria-live="polite">
+          <span class="osd-ch" id="osd-ch">CH 00001</span>
+          <span class="osd-name" id="osd-name">LYGO TV</span>
+        </div>
+        <div class="noise" id="noise" aria-hidden="true"></div>
+      </div>
+      <div class="zap prev" data-step="-1" role="button" tabindex="0" aria-label="Previous channel"></div>
+      <div class="zap next" data-step="1" role="button" tabindex="0" aria-label="Next channel"></div>
+      <button class="hotspot prev" data-step="-1" type="button" aria-label="Previous channel"><span>CH −</span></button>
+      <button class="hotspot next" data-step="1" type="button" aria-label="Next channel"><span>CH +</span></button>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.18/dist/hls.min.js"></script>
+  <script src="vintage.js"></script>
+</body>
+</html>
