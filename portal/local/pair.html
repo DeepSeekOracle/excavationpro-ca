@@ -27,6 +27,16 @@
   <h2>Engines</h2>
   <div class="grid" id="engines"><article class="card"><p class="muted">Connect a code to read the local engine list.</p></article></div>
 </section>
+<section class="install" id="fallback">
+  <h2>API fallback <span class="pill">optional</span></h2>
+  <p class="sub">If the local engine stalls, this page can send the same prompt to an OpenAI-compatible API. The key stays in this tab only; nothing is stored by LYGO. Leave blank to stay local-only.</p>
+  <div class="fallback-grid">
+    <label>Base URL<input id="api-base" type="text" placeholder="https://api.groq.com/openai/v1" autocomplete="off"></label>
+    <label>API key<input id="api-key" type="password" placeholder="stays in this tab" autocomplete="off"></label>
+    <label>Model<input id="api-model" type="text" placeholder="model id" autocomplete="off"></label>
+  </div>
+  <p class="hint" id="fallback-status">Local first. API fallback is off until all three fields are filled.</p>
+</section>
 <section class="section">
   <h2>Prompt</h2>
   <div class="chat-shell">
@@ -90,8 +100,28 @@
   }
   $('engine').onchange = () => { engine = $('engine').value; updateModels(); };
   $('model').onchange = () => { model = $('model').value; };
+  updateApiStatus();
   $('connect').onclick = connect;
   $('clear').onclick = () => { $('prompt').value = ''; $('answer').textContent = ''; $('answer').className = 'muted'; $('chat-status').textContent = 'No request sent.'; };
+  function apiConfig() {
+    const base=$('api-base').value.trim().replace(/\/$/,'');
+    const key=$('api-key').value.trim(); const model=$('api-model').value.trim();
+    return base && model ? {base,key,model} : null;
+  }
+  function updateApiStatus(){ const c=apiConfig(); $('fallback-status').textContent = c ? 'API fallback armed: ' + c.base + ' · model ' + c.model : 'Local first. API fallback is off until base URL and model are filled.'; }
+  ['api-base','api-key','api-model'].forEach(id => $(id).addEventListener('input', updateApiStatus));
+  async function callApi(text, id) {
+    const c=apiConfig(); if(!c) return;
+    $('fallback-status').textContent='Local stalled; trying API fallback…';
+    try {
+      const res=await fetch(c.base + '/chat/completions', {method:'POST',headers:{'Content-Type':'application/json', ...(c.key?{'Authorization':'Bearer '+c.key}:{})},body:JSON.stringify({model:c.model,messages:[{role:'user',content:text}],max_tokens:1024,temperature:.7})});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+      const j=await res.json(); const t=j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content||'';
+      pending.delete(id); $('answer').className=''; $('answer').textContent=t||'(empty API answer)';
+      $('chat-status').textContent='Done · API fallback · ' + (t||'').length + ' chars';
+      $('fallback-status').textContent='API fallback succeeded; key not stored.';
+    } catch(e) { $('answer').textContent='Local stalled and API fallback failed: ' + e.message; $('chat-status').textContent='Fallback failed.'; }
+  }
   $('send').onclick = () => {
     if (!ws || ws.readyState !== 1) { alert('Connect a pair code first.'); return; }
     if (!engine) { alert('Choose an engine.'); return; }
@@ -99,9 +129,10 @@
     const id = 'c' + (++req);
     $('answer').textContent = 'Waiting for the local engine…'; $('answer').className = 'muted'; $('chat-status').textContent = 'Relayed request sent.';
     send({type:'chat', id, engine_id: engine, model, messages:[{role:'user', content:text}]});
-    pending.set(id, {reject: e => { $('answer').textContent = 'Relay error: ' + e.message; $('chat-status').textContent = 'Failed.'; }});
+    const timer = setTimeout(() => { if (pending.has(id)) callApi(text, id); }, 8000);
+    pending.set(id, {reject: e => { $('answer').textContent = 'Relay error: ' + e.message; $('chat-status').textContent = 'Failed.'; }, timer});
   };
-  function finish(m){ const p = pending.get(m.id); if (p) pending.delete(m.id); $('answer').className = ''; $('answer').textContent = m.text || '(empty answer)'; $('chat-status').textContent = 'Done · ' + (m.text || '').length + ' chars · via ' + (m.engine || 'local engine') + '.'; }
+  function finish(m){ const p = pending.get(m.id); if (p) { if (p.timer) clearTimeout(p.timer); pending.delete(m.id); } $('answer').className = ''; $('answer').textContent = m.text || '(empty answer)'; $('chat-status').textContent = 'Done · ' + (m.text || '').length + ' chars · via ' + (m.engine || 'local engine') + '.'; }
 })();
 </script>
 </body>
