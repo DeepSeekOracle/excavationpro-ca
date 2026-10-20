@@ -128,11 +128,11 @@
     const text = $('prompt').value.trim(); if (!text) return;
     const id = 'c' + (++req);
     $('answer').textContent = 'Waiting for the local engine…'; $('answer').className = 'muted'; $('chat-status').textContent = 'Relayed request sent.';
-    send({type:'chat', id, engine_id: engine, model, messages:[{role:'user', content:text}]});
     const timer = setTimeout(() => { if (pending.has(id)) callApi(text, id); }, 8000);
     pending.set(id, {reject: e => { $('answer').textContent = 'Relay error: ' + e.message; $('chat-status').textContent = 'Failed.'; }, timer});
+    send({type:'chat', id, engine_id: engine, model, messages:[{role:'user', content:text}]});
   };
-  function finish(m){ const p = pending.get(m.id); if (p) { if (p.timer) clearTimeout(p.timer); pending.delete(m.id); } $('answer').className = ''; $('answer').textContent = m.text || '(empty answer)'; $('chat-status').textContent = 'Done · ' + (m.text || '').length + ' chars · via ' + (m.engine || 'local engine') + '.'; }
+  function finish(m){ if (!pending.has(m.id)) return; const p = pending.get(m.id); if (p.timer) clearTimeout(p.timer); pending.delete(m.id); $('answer').className = ''; $('answer').textContent = m.text || '(empty answer)'; $('chat-status').textContent = 'Done · ' + (m.text || '').length + ' chars · via ' + (m.engine || 'local engine') + '.'; }
 })();
 </script>
 </body>
