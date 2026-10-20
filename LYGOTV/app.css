@@ -682,3 +682,17 @@ body {
   flex: none;
   padding-bottom: max(8px, env(safe-area-inset-bottom, 0px)) !important;
 }
+
+
+/* Playlist first under the player, immediately after the consent line. */
+.side {
+  display: flex !important;
+  flex-direction: column;
+}
+.side > h1 { order: 1; }
+.side > .ad-consent { order: 2; }
+.side > .tabs { order: 3; }
+.side > .catalog { order: 4; }
+.side > .note { order: 5; }
+.side > .donate { order: 6; }
+.side > .rooms { order: 7; }
