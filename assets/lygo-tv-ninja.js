@@ -142,6 +142,7 @@
       return url;
     }
     if (ch.kind === "youtube" || url.indexOf("youtube") !== -1) {
+      url = withParam(url, "origin", location.origin);
       url = withParam(url, "autoplay", "1");
       url = withParam(url, "mute", mutedNow() ? "1" : "0");
       url = withParam(url, "playsinline", "1");
@@ -213,7 +214,7 @@
         '<a class="tv-open" target="_blank" rel="noopener noreferrer" href="' + TV_PAGE + "#channel/" + DEFAULT_ID + '">Open player</a>' +
       "</div>" +
       '<div class="tv-screen">' +
-        '<iframe title="LYGO TV channel" referrerpolicy="no-referrer" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
+        '<iframe title="LYGO TV channel" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>' +
         '<video playsinline muted autoplay></video>' +
       "</div>" +
       '<div class="tv-bar">' +
