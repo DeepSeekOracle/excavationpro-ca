@@ -564,3 +564,7 @@ body.arcade-portal .hub-rail a:hover { color: #e8eef5; }
   .view-options { width: 100%; flex-direction: column; }
   .view-option { min-width: 0; width: 100%; }
 }
+
+/* Publish Portal: clip fixed portal canvas and wide ad iframes to the viewport. */
+html, body { overflow-x: hidden; }
+.portal-fx, .portal-grid { overflow: hidden; }
