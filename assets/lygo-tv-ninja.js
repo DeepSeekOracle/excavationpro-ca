@@ -3,7 +3,7 @@
    are remote data and are URL-checked before anything is framed or played (see urlAllowed below). */
 (function () {
   "use strict";
-  const TV_PAGE = "https://excavationpro.ca/LYGOTV/";
+  const TV_PAGE = "https://chatagent.ca/sources/";
   const HLS_SRC = "https://cdn.jsdelivr.net/npm/hls.js@1.5.18/dist/hls.min.js";
   // Pinned with Subresource Integrity, so a swapped or tampered copy at the CDN fails to run instead of
   // executing in the visitor's browser. The hash is of the file npm publishes for 1.5.18 (verified against
@@ -269,7 +269,10 @@
       if (!list.length) return;
       i = (n + list.length) % list.length;
       const ch = list[i];
-      const safe = urlAllowed(ch.url, kindOf(ch));
+      const kind = kindOf(ch);
+      const src = embed(ch);
+      const safe = urlAllowed(src, kind);
+      if (hint) { hint.hidden = true; hint.textContent = ""; }
       meta.textContent = ch.title + " · " + (i + 1) + " / " + list.length;
       open.href = portalHref(ch);
       if (!safe) {
@@ -280,16 +283,16 @@
         frame.hidden = false;
         frame.removeAttribute("src");
         frame.title = "Channel not loaded";
-        hint.textContent = "That channel's source is not an https address on a host this player trusts, so it was not loaded.";
+        hint.hidden = false;
+        hint.textContent = "That channel's source could not be loaded safely.";
         return;
       }
-      if (EMBED[ch.kind]) {
+      if (EMBED[kind]) {
         stopHls();
         video.hidden = true;
         frame.hidden = false;
         frame.setAttribute("allow", "autoplay; encrypted-media; fullscreen; picture-in-picture");
         frame.title = ch.title;
-        const src = embed(ch);
         if (frame.getAttribute("src") === src) {
           // Same URL again (the sound toggle reloads the channel so the embed re-reads it). The blank
           // hop is only needed for that case - and it must not depend on requestAnimationFrame, which a
@@ -299,9 +302,11 @@
         } else {
           frame.src = src;
         }
+        paintSound();
         return;
       }
       playHls(ch.url);
+      paintSound();
     }
 
     function merge(chs) {
