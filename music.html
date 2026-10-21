@@ -433,6 +433,75 @@ audio { width:100%; height:36px; }
 .live-stage.viz-shift #vizCanvas { animation:vizShift .7s ease-out; }
 
 html,body{overflow-x:hidden}
+
+/* ===== BPM LAB ===== */
+.bpm-lab { max-width:1120px; margin:44px auto 0; padding:0 16px; }
+.bpm-shell {
+  border:1px solid rgba(232,161,60,.26); border-radius:24px; overflow:hidden;
+  background:
+    radial-gradient(90% 90% at 100% 0%, rgba(232,161,60,.10), transparent 50%),
+    radial-gradient(80% 90% at 0% 100%, rgba(62,168,160,.09), transparent 55%),
+    linear-gradient(145deg,#090b12,#0a0d16 55%,#080a10);
+  box-shadow:0 26px 70px rgba(0,0,0,.44), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.bpm-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; padding:24px 26px 18px; border-bottom:1px solid rgba(255,255,255,.07); }
+.bpm-kicker { margin:0 0 7px; color:#f0c36d; font:600 9px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.19em; text-transform:uppercase; }
+.bpm-kicker span { display:inline-block; width:6px; height:6px; border-radius:50%; background:#3ea8a0; box-shadow:0 0 10px rgba(62,168,160,.8); margin-right:6px; }
+.bpm-head h2 { margin:0 0 6px; color:#fff; font:500 clamp(1.35rem,2.8vw,2.05rem)/1.1 Georgia,"Times New Roman",serif; letter-spacing:-.02em; }
+.bpm-lede { margin:0; max-width:66ch; color:rgba(200,212,231,.58); font-size:.8rem; line-height:1.6; }
+.bpm-jump { flex:0 0 auto; color:#f0c36d; font:600 10px/1.4 ui-monospace,monospace; letter-spacing:.04em; text-decoration:none; border:1px solid rgba(232,161,60,.35); border-radius:999px; padding:8px 11px; }
+.bpm-jump:hover { border-color:#f0c36d; color:#fff; }
+.bpm-grid { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(230px,.75fr); gap:0; }
+.bpm-rack { padding:20px 24px 24px; min-width:0; }
+.bpm-side { border-left:1px solid rgba(255,255,255,.07); padding:20px 22px 24px; background:rgba(2,5,10,.24); }
+.bpm-drop { position:relative; overflow:hidden; border:1.5px dashed rgba(232,161,60,.38); border-radius:14px; padding:22px 18px; text-align:center; cursor:pointer; background:rgba(0,0,0,.25); transition:border-color .2s,background .2s; }
+.bpm-drop:hover, .bpm-drop.drag { border-color:#e8a13c; background:rgba(232,161,60,.07); }
+.bpm-drop input { position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
+.bpm-drop-icon { color:#e8a13c; font-size:1.8rem; line-height:1; margin-bottom:6px; filter:drop-shadow(0 0 10px rgba(232,161,60,.4)); }
+.bpm-drop p { margin:0 0 4px; color:#d8e0ee; font-size:.85rem; }
+.bpm-drop strong { color:#fff; }
+.bpm-drop span { color:rgba(190,207,229,.45); font:500 9px ui-monospace,monospace; letter-spacing:.04em; }
+.bpm-readout { display:flex; align-items:center; justify-content:center; gap:12px; min-height:96px; margin-top:12px; }
+.bpm-number { color:rgba(240,195,109,.4); font:700 clamp(46px,8vw,78px)/1 ui-monospace,SFMono-Regular,Consolas,monospace; font-variant-numeric:tabular-nums; transition:color .2s; }
+.bpm-number.live { color:#f0c36d; }
+.bpm-number.empty { color:rgba(200,215,235,.32); font-size:28px; letter-spacing:.02em; font-weight:500; }
+.bpm-unit { color:rgba(190,209,234,.48); font:500 12px ui-monospace,monospace; letter-spacing:.1em; }
+.bpm-pulse { width:8px; height:8px; border-radius:50%; background:#39443b; flex:none; }
+.bpm-pulse.on { animation:bpmBeat var(--beat-ms,500ms) ease-out infinite; }
+@keyframes bpmBeat { 0%{background:#e8a13c;box-shadow:0 0 12px 2px rgba(232,161,60,.75)} 30%,100%{background:#39443b;box-shadow:none} }
+.bpm-status { margin:7px 0 0; min-height:18px; text-align:center; color:rgba(190,209,234,.52); font-size:.72rem; }
+.bpm-status.warn { color:#ff8d78; }
+.bpm-confidence { display:flex; align-items:center; gap:10px; max-width:330px; margin:12px auto 0; }
+.bpm-confidence span { flex:0 0 72px; color:rgba(190,209,234,.48); font-size:.68rem; }
+.bpm-track { flex:1; height:5px; border-radius:3px; overflow:hidden; background:rgba(255,255,255,.08); }
+.bpm-track i { display:block; height:100%; width:0; background:#3ea8a0; transition:width .4s ease,background .3s; }
+#bpm-wave { display:block; width:100%; height:84px; margin:14px auto 0; border:1px solid rgba(62,168,160,.18); border-radius:10px; background:#050908; }
+.bpm-preview { display:none; width:100%; height:34px; margin-top:10px; }
+.bpm-controls, .bpm-tools { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:12px; }
+.bpm-tools { margin-top:8px; }
+.bpm-lab button { cursor:pointer; border:1px solid rgba(255,255,255,.14); border-radius:8px; background:rgba(19,23,32,.9); color:#e8eef8; padding:8px 12px; font:600 .72rem/1 ui-monospace,SFMono-Regular,Consolas,monospace; }
+.bpm-lab button:hover:not(:disabled) { border-color:#e8a13c; color:#f0c36d; }
+.bpm-lab button:disabled { opacity:.35; cursor:not-allowed; }
+.bpm-lab .bpm-tap { border-color:rgba(62,168,160,.6); background:linear-gradient(180deg,#4bc4bc,#3ea8a0); color:#04221f; }
+.bpm-lab .bpm-tap:hover { filter:brightness(1.08); color:#04221f; }
+.bpm-delay { width:100%; border-collapse:collapse; font-size:.72rem; }
+.bpm-delay th, .bpm-delay td { text-align:left; padding:7px 5px; border-bottom:1px solid rgba(255,255,255,.07); }
+.bpm-delay th { color:#e8a13c; font:600 .62rem ui-monospace,monospace; letter-spacing:.08em; text-transform:uppercase; }
+.bpm-delay td { color:rgba(205,219,238,.62); }
+.bpm-delay td.mono { color:#5eead4; font-family:ui-monospace,monospace; white-space:nowrap; }
+.bpm-empty { color:rgba(190,209,234,.38); font-size:.72rem; line-height:1.5; margin:4px 0 0; }
+.bpm-note { border-top:1px solid rgba(255,255,255,.07); margin-top:16px; padding-top:12px; }
+.bpm-note b { display:block; color:#e8eef8; font:600 .74rem Georgia,serif; margin-bottom:3px; }
+.bpm-note p { margin:0; color:rgba(190,209,234,.45); font-size:.69rem; line-height:1.55; }
+@media (max-width:760px) {
+  .bpm-head { padding:20px 18px 14px; flex-direction:column; gap:12px; }
+  .bpm-grid { grid-template-columns:1fr; }
+  .bpm-rack { padding:16px 16px 20px; }
+  .bpm-side { border-left:0; border-top:1px solid rgba(255,255,255,.07); padding:16px; }
+  .bpm-lab { padding:0 10px; margin-top:30px; }
+  .bpm-number { font-size:58px; }
+}
+
 </style>
 <link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=8">
 </head>
@@ -774,6 +843,70 @@ html,body{overflow-x:hidden}
 <a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
 <a href="https://chatagent.ca/">Chatagent</a></p>
 
+</section>
+
+
+<section class="bpm-lab" id="bpm-lab" aria-labelledby="bpm-heading">
+  <div class="bpm-shell">
+    <div class="bpm-head">
+      <div>
+        <p class="bpm-kicker"><span></span> LIVE TOOL / BPM LAB</p>
+        <h2 id="bpm-heading">Find the tempo. Then play it.</h2>
+        <p class="bpm-lede">Drop an MP3, WAV, or FLAC. The analysis runs in your browser; nothing is uploaded. Read the BPM, check the confidence, flip half/double, or tap it out by hand.</p>
+      </div>
+      <a class="bpm-jump" href="https://bpmfinder.ca/app.html" target="_blank" rel="noopener">Open full BPMfinder ↗</a>
+    </div>
+    <div class="bpm-grid">
+      <div class="bpm-rack">
+        <div class="bpm-drop" id="bpm-dropzone">
+          <input type="file" id="bpm-fileInput" accept="audio/*" aria-label="Choose an audio file for BPM analysis">
+          <div class="bpm-drop-icon" aria-hidden="true">♫</div>
+          <p><strong>Drop a song</strong> or click to browse</p>
+          <span>MP3 · WAV · FLAC · analyzed locally</span>
+        </div>
+        <div class="bpm-readout">
+          <span class="bpm-pulse" id="bpm-pulseDot"></span>
+          <span class="bpm-number empty" id="bpm-bpmValue">--</span>
+          <span class="bpm-unit">BPM</span>
+        </div>
+        <p class="bpm-status" id="bpm-status">Ready — choose or drop an audio file.</p>
+        <div class="bpm-confidence" id="bpm-confidenceRow" style="display:none">
+          <span>Confidence</span>
+          <div class="bpm-track"><i id="bpm-confidenceFill"></i></div>
+        </div>
+        <canvas id="bpm-wave" width="900" height="84" aria-label="Waveform"></canvas>
+        <audio id="bpm-previewAudio" class="bpm-preview" controls preload="none"></audio>
+        <div class="bpm-controls">
+          <button type="button" id="bpm-halfBtn" disabled>Half</button>
+          <button type="button" id="bpm-doubleBtn" disabled>Double</button>
+          <button type="button" id="bpm-tapBtn" class="bpm-tap">Tap tempo</button>
+          <button type="button" id="bpm-resetTapBtn">Reset taps</button>
+        </div>
+        <div class="bpm-tools">
+          <button type="button" id="bpm-minusBtn" disabled>−1</button>
+          <button type="button" id="bpm-plusBtn" disabled>+1</button>
+          <button type="button" id="bpm-copyBpmBtn" disabled>Copy BPM</button>
+          <button type="button" id="bpm-shareCopy">Copy tool link</button>
+        </div>
+      </div>
+      <aside class="bpm-side">
+        <p class="bpm-kicker">DELAY TIMES</p>
+        <table class="bpm-delay" id="bpm-delayTable" style="display:none" aria-label="Delay times at current BPM">
+          <thead><tr><th>Note</th><th>Time</th><th>Use</th></tr></thead>
+          <tbody id="bpm-delayBody"></tbody>
+        </table>
+        <p class="bpm-empty" id="bpm-delayEmpty">The delay table fills in when a BPM is found.</p>
+        <div class="bpm-note">
+          <b>Tap tempo</b>
+          <p>No file? Tap the beat with the button. Four taps is usually enough; reset if the groove changes.</p>
+        </div>
+        <div class="bpm-note">
+          <b>Private by design</b>
+          <p>Decoding, waveform drawing and beat detection happen in this tab. The page never uploads your audio.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
 </section>
 
 <footer class="site-footer">
@@ -2390,6 +2523,217 @@ rebuildFilter();
   audio && audio.addEventListener('pause', function () { if (energyLabel) energyLabel.textContent = 'PAUSED'; });
   requestAnimationFrame(draw);
 })();
+</script>
+
+
+<script type="module">
+/* ===== BPM LAB — local browser tempo detector ===== */
+const $bpm = (id) => document.getElementById('bpm-' + id);
+let detect;
+try {
+  detect = (await import('https://cdn.jsdelivr.net/npm/bpm-detective/+esm')).default;
+} catch (e) { detect = null; }
+
+const dropzone = $bpm('dropzone');
+const fileInput = $bpm('fileInput');
+const bpmValue = $bpm('bpmValue');
+const pulseDot = $bpm('pulseDot');
+const statusEl = $bpm('status');
+const halfBtn = $bpm('halfBtn');
+const doubleBtn = $bpm('doubleBtn');
+const tapBtn = $bpm('tapBtn');
+const minusBtn = $bpm('minusBtn');
+const plusBtn = $bpm('plusBtn');
+const copyBpmBtn = $bpm('copyBpmBtn');
+const resetTapBtn = $bpm('resetTapBtn');
+const confRow = $bpm('confidenceRow');
+const confFill = $bpm('confidenceFill');
+const canvas = $bpm('wave');
+const ctx2d = canvas.getContext('2d');
+const previewAudio = $bpm('previewAudio');
+const delayTable = $bpm('delayTable');
+const delayBody = $bpm('delayBody');
+const delayEmpty = $bpm('delayEmpty');
+let currentBpm = null;
+let audioBuffer = null;
+let lastFileName = '';
+let objectUrl = null;
+let taps = [];
+
+function setStatus(msg, warn = false) {
+  statusEl.textContent = msg;
+  statusEl.classList.toggle('warn', !!warn);
+}
+function updateDelayTable(bpm) {
+  if (!delayTable || !delayBody) return;
+  if (!bpm) {
+    delayTable.style.display = 'none';
+    delayBody.innerHTML = '';
+    if (delayEmpty) delayEmpty.style.display = 'block';
+    return;
+  }
+  const beat = 60000 / bpm;
+  const rows = [
+    ['1/1 (whole)', beat * 4, 'Long pads / ambient'],
+    ['1/2', beat * 2, 'Half-note delay'],
+    ['1/4', beat, 'Quarter-note delay'],
+    ['1/8', beat / 2, 'Eighth-note delay'],
+    ['1/8 dotted', beat * 0.75, 'Dotted 8th'],
+    ['1/16', beat / 4, 'Sixteenth'],
+    ['1/4 triplet', beat * (2 / 3), 'Quarter triplet']
+  ];
+  delayBody.innerHTML = rows.map((r) =>
+    '<tr><td>' + r[0] + '</td><td class="mono">' + r[1].toFixed(1) + ' ms</td><td>' + r[2] + '</td></tr>'
+  ).join('');
+  delayTable.style.display = 'table';
+  if (delayEmpty) delayEmpty.style.display = 'none';
+}
+function setBpm(bpm) {
+  currentBpm = bpm;
+  bpmValue.textContent = bpm ? bpm.toFixed(1) : '--';
+  bpmValue.classList.toggle('live', !!bpm);
+  bpmValue.classList.toggle('empty', !bpm);
+  if (bpm) {
+    document.documentElement.style.setProperty('--beat-ms', `${60000 / bpm}ms`);
+    pulseDot.classList.add('on');
+    halfBtn.disabled = bpm / 2 < 30;
+    doubleBtn.disabled = bpm * 2 > 300;
+    minusBtn.disabled = bpm <= 30;
+    plusBtn.disabled = bpm >= 300;
+    copyBpmBtn.disabled = false;
+  } else {
+    pulseDot.classList.remove('on');
+    halfBtn.disabled = true;
+    doubleBtn.disabled = true;
+    minusBtn.disabled = true;
+    plusBtn.disabled = true;
+    copyBpmBtn.disabled = true;
+  }
+  updateDelayTable(bpm);
+}
+async function estimateConfidence(buffer) {
+  const sr = buffer.sampleRate;
+  const chan = buffer.getChannelData(0);
+  const windowLen = Math.min(chan.length, 12 * sr);
+  const starts = [0, Math.floor(chan.length * 0.33), Math.floor(chan.length * 0.6)]
+    .filter((s) => s + windowLen <= chan.length);
+  const results = [];
+  for (const start of starts) {
+    const slice = chan.subarray(start, start + windowLen);
+    const mini = new AudioBuffer({ length: slice.length, sampleRate: sr, numberOfChannels: 1 });
+    mini.copyToChannel(Float32Array.from(slice), 0);
+    try { results.push(detect(mini)); } catch (e) {}
+  }
+  if (results.length < 2) return 0.4;
+  const base = results[0];
+  const normalized = results.map((r) => {
+    while (r > base * 1.5) r /= 2;
+    while (r < base / 1.5) r *= 2;
+    return r;
+  });
+  const mean = normalized.reduce((a, b) => a + b, 0) / normalized.length;
+  const variance = normalized.reduce((a, b) => a + (b - mean) ** 2, 0) / normalized.length;
+  return Math.max(0.15, Math.min(1, 1 - Math.sqrt(variance) / mean));
+}
+function drawWaveform(buffer, bpm) {
+  const w = canvas.width, h = canvas.height;
+  ctx2d.clearRect(0, 0, w, h);
+  const data = buffer.getChannelData(0);
+  const step = Math.ceil(data.length / w);
+  ctx2d.fillStyle = '#3ea8a0';
+  for (let x = 0; x < w; x++) {
+    let min = 1, max = -1;
+    for (let i = 0; i < step; i++) {
+      const idx = x * step + i;
+      if (idx >= data.length) break;
+      const v = data[idx];
+      if (v < min) min = v;
+      if (v > max) max = v;
+    }
+    const yMin = (1 + min) * 0.5 * h;
+    const yMax = (1 + max) * 0.5 * h;
+    ctx2d.fillRect(x, yMin, 1, Math.max(1, yMax - yMin));
+  }
+  if (bpm) {
+    const beatSec = 60 / bpm;
+    ctx2d.strokeStyle = 'rgba(232,161,60,.58)';
+    ctx2d.lineWidth = 1;
+    for (let t = 0; t < buffer.duration; t += beatSec) {
+      const x = (t / buffer.duration) * w;
+      ctx2d.beginPath(); ctx2d.moveTo(x, 0); ctx2d.lineTo(x, h); ctx2d.stroke();
+    }
+  }
+}
+async function handleFile(file) {
+  if (!file) return;
+  if (!detect) { setStatus('BPM engine failed to load. Check your connection and refresh.', true); return; }
+  setStatus('Decoding audio…');
+  setBpm(null);
+  confRow.style.display = 'none';
+  lastFileName = file.name || 'audio';
+  if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} objectUrl = null; }
+  if (previewAudio) {
+    objectUrl = URL.createObjectURL(file);
+    previewAudio.src = objectUrl;
+    previewAudio.style.display = 'block';
+  }
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let buffer;
+  try { buffer = await audioCtx.decodeAudioData(await file.arrayBuffer()); }
+  catch (e) { setStatus('Could not decode this file — try a different format.', true); return; }
+  audioBuffer = buffer;
+  if (buffer.duration < 6) setStatus('Clip is short — detection is less reliable under ~6s.', true);
+  let bpm;
+  try { bpm = detect(buffer); }
+  catch (e) { setStatus('Could not detect a beat — try tap tempo below.', true); drawWaveform(buffer, null); return; }
+  setBpm(bpm);
+  drawWaveform(buffer, bpm);
+  setStatus(`Detected from ${file.name}`);
+  const confidence = await estimateConfidence(buffer);
+  confRow.style.display = 'flex';
+  confFill.style.width = `${Math.round(confidence * 100)}%`;
+  confFill.style.background = confidence > 0.7 ? '#3ea8a0' : confidence > 0.4 ? '#e8a13c' : '#d9634a';
+  if (confidence < 0.4) setStatus('Low confidence — check half/double, or verify with tap tempo.', true);
+}
+
+fileInput.addEventListener('change', (e) => { handleFile(e.target.files[0]); fileInput.value = ''; });
+dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag'); });
+['dragleave', 'drop'].forEach((evt) => dropzone.addEventListener(evt, () => dropzone.classList.remove('drag')));
+dropzone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+});
+halfBtn.addEventListener('click', () => { if (!currentBpm) return; setBpm(currentBpm / 2); if (audioBuffer) drawWaveform(audioBuffer, currentBpm); });
+doubleBtn.addEventListener('click', () => { if (!currentBpm) return; setBpm(currentBpm * 2); if (audioBuffer) drawWaveform(audioBuffer, currentBpm); });
+minusBtn.addEventListener('click', () => { if (!currentBpm) return; setBpm(Math.max(30, currentBpm - 1)); if (audioBuffer) drawWaveform(audioBuffer, currentBpm); });
+plusBtn.addEventListener('click', () => { if (!currentBpm) return; setBpm(Math.min(300, currentBpm + 1)); if (audioBuffer) drawWaveform(audioBuffer, currentBpm); });
+copyBpmBtn.addEventListener('click', async () => {
+  if (!currentBpm) return;
+  const text = currentBpm.toFixed(1) + ' BPM' + (lastFileName ? ' — ' + lastFileName : '');
+  try { await navigator.clipboard.writeText(text); setStatus('Copied: ' + text); }
+  catch (e) { setStatus('Could not copy — select the BPM value manually.', true); }
+});
+resetTapBtn.addEventListener('click', () => { taps = []; setStatus('Tap tempo cleared — tap again in time.'); });
+tapBtn.addEventListener('click', () => {
+  const now = performance.now();
+  taps = taps.filter((t) => now - t < 3000);
+  taps.push(now);
+  if (taps.length >= 2) {
+    const intervals = taps.slice(1).map((t, i) => t - taps[i]);
+    const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+    setBpm(60000 / avg);
+    setStatus(`Tap tempo — ${taps.length} taps`);
+  } else setStatus('Keep tapping in time…');
+});
+$bpm('shareCopy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText('https://excavationpro.ca/music.html#bpm-lab'); setStatus('Tool link copied.'); }
+  catch (e) { setStatus('Could not copy link.', true); }
+});
+if (!detect) {
+  setStatus('BPM engine failed to load. Check your connection and refresh.', true);
+  fileInput.disabled = true; tapBtn.disabled = true;
+}
 </script>
 
 </body>
