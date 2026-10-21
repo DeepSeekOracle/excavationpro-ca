@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-08-18T02:52:53.229511+00:00",
-  "count": 672,
+  "generated_utc": "2026-10-21T13:34:13.495996+00:00",
+  "count": 674,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -10831,7 +10831,39 @@
       "full_bytes": 221219,
       "width": 933,
       "height": 1400
+    },
+    {
+      "id": "5d3ec2eac7a6a0a6",
+      "title": "credits tile Excavationpro (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "credits tile Excavationpro (1).png",
+      "source_root": "Publish Portal",
+      "original_name": "credits tile Excavationpro (1).png",
+      "original_bytes": 679581,
+      "full": "assets/gallery/full/5d3ec2eac7a6a0a6.jpg",
+      "thumb": "assets/gallery/thumb/5d3ec2eac7a6a0a6.jpg",
+      "full_bytes": 114981,
+      "width": 1080,
+      "height": 1080
+    },
+    {
+      "id": "0dfea468749b536d",
+      "title": "credits tile Excavationpro",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "credits tile Excavationpro.png",
+      "source_root": "Publish Portal",
+      "original_name": "credits tile Excavationpro.png",
+      "original_bytes": 798363,
+      "full": "assets/gallery/full/0dfea468749b536d.jpg",
+      "thumb": "assets/gallery/thumb/0dfea468749b536d.jpg",
+      "full_bytes": 121009,
+      "width": 1080,
+      "height": 1080
     }
   ],
-  "cache_bust": "672-no-062614"
+  "cache_bust": "674-auto-202610210734"
 }
