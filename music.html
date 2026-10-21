@@ -662,6 +662,7 @@ html,body{overflow-x:hidden}
           <button type="button" data-wave-mode="2">Bars</button>
           <button type="button" data-wave-mode="3">Orbit</button>
           <button type="button" data-wave-mode="4">Ribbon</button>
+          <button type="button" data-wave-mode="5">Original</button>
         </div>
       </div>
     </div>
@@ -2762,7 +2763,7 @@ if (!detect) {
   const stage = document.getElementById('live-stage');
   if (!deck || !canvas || !audio) return;
   const ctx = canvas.getContext('2d');
-  const MODES = ['Mirror', 'Radial', 'Bars', 'Orbit', 'Ribbon'];
+  const MODES = ['Mirror', 'Radial', 'Bars', 'Orbit', 'Ribbon', 'Original'];
   const buttons = [...deck.querySelectorAll('[data-wave-mode]')];
   const modeName = document.getElementById('waveModeName');
   let mode = 0;
@@ -2922,6 +2923,60 @@ if (!detect) {
       ctx.strokeStyle = rgba([c.a, c.b, c.c][layer], .22 + layer * .13); ctx.lineWidth = 1 + layer * .7; ctx.shadowColor = c.a; ctx.shadowBlur = 9; ctx.stroke(); ctx.shadowBlur = 0;
     }
   }
+  const particles = [];
+  function original(c) {
+    const w = W, h = H;
+    const bg = ctx.createLinearGradient(0, 0, 0, h);
+    bg.addColorStop(0, 'rgba(6,6,14,.92)');
+    bg.addColorStop(1, 'rgba(10,10,22,.98)');
+    ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(0,240,255,.07)'; ctx.lineWidth = 1;
+    for (let gx = 0; gx < w; gx += 48) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+    for (let gy = 0; gy < h; gy += 32) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+    const cx = w / 2, cy = h * .54, maxH = h * .34;
+    let bass = 0;
+    for (let b = 0; b < 10; b++) bass += (freq[b] || 0) / 255;
+    bass /= 10;
+    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * .42);
+    glow.addColorStop(0, 'rgba(0,240,255,' + (.06 + bass * .20) + ')');
+    glow.addColorStop(1, 'rgba(0,240,255,0)');
+    ctx.fillStyle = glow; ctx.fillRect(0, 0, w, h);
+    const bars = 96, step = w / bars;
+    for (let i = 0; i < bars; i++) {
+      const v = Math.pow((freq[Math.floor(Math.pow(i / bars, 1.7) * (freq.length - 1))] || 0) / 255, 1.15);
+      const bh = Math.max(3, v * maxH);
+      const x = i * step + step * .18, bw = Math.max(1, step * .64);
+      const g = ctx.createLinearGradient(0, cy - bh, 0, cy + bh);
+      g.addColorStop(0, 'rgba(232,194,122,.95)');
+      g.addColorStop(.5, 'rgba(0,240,255,.9)');
+      g.addColorStop(1, 'rgba(255,77,210,.55)');
+      ctx.fillStyle = g;
+      ctx.shadowColor = 'rgba(0,240,255,.65)'; ctx.shadowBlur = 10 + bass * 18;
+      ctx.fillRect(x, cy - bh, bw, bh * 2);
+    }
+    ctx.shadowBlur = 0;
+    ctx.beginPath();
+    for (let j = 0; j < bars; j++) {
+      const yy = cy + Math.sin(j * .28 + performance.now() / 1000 * 2.2) * (5 + (freq[j] || 0) / 255 * 18);
+      if (j === 0) ctx.moveTo(0, yy); else ctx.lineTo(j * step, yy);
+    }
+    ctx.strokeStyle = 'rgba(0,240,255,.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+    if (!audio.paused && Math.random() < .45 + bass * .4) {
+      particles.push({ x: Math.random() * w, y: h, v: .4 + Math.random() * 1.6, life: 1, c: Math.random() > .5 ? '0,240,255' : '232,194,122' });
+    }
+    for (let pi = particles.length - 1; pi >= 0; pi--) {
+      const pt = particles[pi]; pt.y -= pt.v; pt.life -= .012;
+      if (pt.life <= 0) { particles.splice(pi, 1); continue; }
+      ctx.fillStyle = 'rgba(' + pt.c + ',' + pt.life * .7 + ')';
+      ctx.fillRect(pt.x, pt.y, 1.6, 1.6);
+    }
+    if (particles.length > 180) particles.splice(0, particles.length - 180);
+    const dur = audio && isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+    const prog = dur ? Math.min(1, audio.currentTime / dur) : 0;
+    ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(0, h - 4, w, 2);
+    ctx.fillStyle = 'rgba(232,194,122,.9)'; ctx.fillRect(0, h - 4, w * prog, 2);
+  }
+
   function draw(now) {
     requestAnimationFrame(draw);
     if (now - last < 1000 / 30) return;
@@ -2940,7 +2995,8 @@ if (!detect) {
     else if (mode === 1) radial(c);
     else if (mode === 2) bars(c);
     else if (mode === 3) orbit(c);
-    else ribbon(c);
+    else if (mode === 4) ribbon(c);
+    else original(c);
   }
   resize(); setMode(0, false);
   if (window.ResizeObserver) new ResizeObserver(resize).observe(deck); else window.addEventListener('resize', resize);
