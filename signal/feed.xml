@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Justin Helmer's Modular Digital Ecosystem</title>
+    <link>https://excavationpro.ca/signal/justin-helmer-s-modular-digital-ecosystem/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/justin-helmer-s-modular-digital-ecosystem/</guid>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 +0000</pubDate>
+    <description>This episode examines the highly disciplined digital ecosystem built by independent artist Justin Helmer, including his modular web architecture and custom AI tool stack. The panel discusses Helmer's commitment to privacy, data ownership, and human-centric content in a landscape often dominated by centralized platforms.</description>
+    <itunes:duration>13:18</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/justin-helmer-s-modular-digital-ecosystem/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/justin-helmer-s-modular-digital-ecosystem/ai_radio.mp3" length="19176220" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>LYGO Protocol: Sovereign Decentralized AI</title>
     <link>https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/</guid>

@@ -5,6 +5,21 @@
  "updated": "2026-10-21",
  "shows": [
   {
+   "slug": "justin-helmer-s-modular-digital-ecosystem",
+   "title": "Justin Helmer's Modular Digital Ecosystem",
+   "page": "https://excavationpro.ca/signal/justin-helmer-s-modular-digital-ecosystem/",
+   "audio": "https://excavationpro.ca/signal/shows/justin-helmer-s-modular-digital-ecosystem/ai_radio.mp3",
+   "duration": "13:18",
+   "seconds": 798.94,
+   "speakers": [
+    "Paul",
+    "Alex",
+    "Maya",
+    "Liam"
+   ],
+   "date": "2026-10-21"
+  },
+  {
    "slug": "lygo-protocol-sovereign-decentralized-ai",
    "title": "LYGO Protocol: Sovereign Decentralized AI",
    "page": "https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/",
