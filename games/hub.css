@@ -1,0 +1,566 @@
+.games-arcade { margin: 1.1rem 0 0; }
+.ggrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.gcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line, #ddd);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--card, #fff);
+  min-height: 100%;
+}
+.gcard.is-coming { opacity: .88; border-style: dashed; }
+.gcard-cover {
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  display: block;
+  background: #1a140c;
+}
+.gcard-cover-empty {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(224,179,106,.35), transparent 55%),
+    linear-gradient(160deg, #1a140c, #2a2218);
+}
+.gcard-body { padding: 1rem 1.05rem 1.1rem; flex: 1; display: flex; flex-direction: column; }
+.gcard-kicker {
+  font-family: system-ui, sans-serif;
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted, #6b6258);
+  margin: 0 0 .35rem;
+}
+.gcard h2, .gcard h3 { margin: 0 0 .4rem; font-size: 1.2rem; }
+.gcard p { margin: 0 0 .85rem; color: var(--muted, #5c534a); font-size: .95rem; flex: 1; }
+.gcard .cta-row { margin-top: auto; }
+.gcard-soon {
+  display: inline-block;
+  padding: .55rem .9rem;
+  border-radius: 8px;
+  border: 1px dashed var(--line, #ccc);
+  font-weight: 700;
+  font-size: .85rem;
+  color: var(--muted, #6b6258);
+}
+.gfilters { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1rem; }
+.gfilters button {
+  font: inherit;
+  font-size: .8rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .35rem .7rem;
+  border-radius: 999px;
+  border: 1px solid var(--line, #ddd);
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+.gfilters button[aria-pressed="true"] {
+  background: var(--accent, #2f6f4e);
+  border-color: var(--accent, #2f6f4e);
+  color: #fff;
+}
+.home .gcard { background: rgba(255,255,255,.04); }
+.home .gcard h2, .home .gcard h3 { color: var(--gold, #e0b36a); }
+.home .gcard p { color: #ddd4c8; }
+
+.games-chrome {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-shrink: 0;
+  height: 40px;
+  padding: 0 12px;
+  background: #080e16;
+  border-bottom: 1px solid #1e3a4a;
+  font: 700 12px/1 system-ui, sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  z-index: 20;
+}
+.games-chrome a {
+  color: #fbbf24;
+  text-decoration: none;
+}
+.games-chrome a:hover { color: #5eead4; }
+.games-chrome .games-chrome-home { color: #e8eef5; margin-left: auto; font-weight: 800; }
+body:has(> .games-chrome) {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: 100%;
+  margin: 0;
+}
+body:has(> .games-chrome) #root {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto !important;
+}
+
+/* Studio arcade portal — dark floor, scoped so the rest of the site stays as-is */
+body.arcade-portal {
+  --bg: #070b12;
+  --card: #0c121c;
+  --ink: #e8eef5;
+  --muted: #94a3b8;
+  --line: #1e3a4a;
+  --accent: #14b8a6;
+  --accent2: #5eead4;
+  --gold: #fbbf24;
+  --link: #5eead4;
+  --soft: #0e1622;
+  background: #070b12;
+  color: #e8eef5;
+  font-family: "Source Sans 3", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+body.arcade-portal a { color: #5eead4; }
+body.arcade-portal .wrap { max-width: 1180px; position: relative; z-index: 2; }
+body.arcade-portal header.site {
+  background: rgba(7, 11, 18, .78);
+  border-bottom: 1px solid #1e3a4a;
+  backdrop-filter: blur(14px);
+}
+body.arcade-portal .brand { color: #e8eef5; font-family: Syne, system-ui, sans-serif; }
+body.arcade-portal .navlinks a { color: #94a3b8; }
+body.arcade-portal .navlinks a:hover,
+body.arcade-portal .navlinks a[aria-current="page"] { color: #5eead4; }
+body.arcade-portal footer.site {
+  background: transparent;
+  border-top: 1px solid #1e3a4a;
+  color: #94a3b8;
+  position: relative;
+  z-index: 2;
+}
+body.arcade-portal footer.site a { color: #5eead4; }
+body.arcade-portal .card {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+body.arcade-portal .prose h1,
+body.arcade-portal .card h1,
+body.arcade-portal .card h2 { color: #e8eef5; }
+body.arcade-portal .meta { color: #5eead4; letter-spacing: .14em; text-transform: uppercase; font-size: .72rem; }
+body.arcade-portal .breadcrumb { color: #64748b; font-family: "IBM Plex Mono", monospace; font-size: .78rem; margin: 1.2rem 0 0; }
+body.arcade-portal .author-box {
+  background: #0c121ce8;
+  border: 1px solid #1e3a4a;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  margin: 1.6rem 0 2.2rem;
+  display: flex;
+  gap: .9rem;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+body.arcade-portal .author-box strong { color: #fbbf24; }
+body.arcade-portal .author-box p { color: #94a3b8; margin: .25rem 0 0; }
+body.arcade-portal .ad-slot {
+  background: #0c121c;
+  border: 1px solid #1e3a4a;
+  border-radius: 12px;
+  margin: 1.6rem 0;
+}
+/* LYGO TV mounts in the hub's ad-slot lane; the shared player draws its own frame. */
+body.arcade-portal .ad-slot.lygo-tv-wrap {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  margin: 1rem auto 1.6rem;
+  text-align: left;
+}
+
+.portal-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(94, 234, 212, .16), transparent 42%),
+    radial-gradient(ellipse at 88% 12%, rgba(251, 191, 36, .1), transparent 38%),
+    radial-gradient(ellipse at 50% 100%, rgba(20, 184, 166, .08), transparent 48%),
+    #070b12;
+}
+.portal-fx canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.portal-grid {
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(rgba(94, 234, 212, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, .055) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(600px) rotateX(58deg) translateY(-8%);
+  transform-origin: 50% 0;
+  animation: portal-drift 28s linear infinite;
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 70%, transparent);
+}
+@keyframes portal-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 56px, 56px 0; }
+}
+.portal-scan {
+  position: absolute;
+  left: 0; right: 0; height: 28%;
+  background: linear-gradient(180deg, transparent, rgba(94, 234, 212, .06), transparent);
+  animation: portal-scan 9s ease-in-out infinite;
+}
+@keyframes portal-scan {
+  0% { top: -20%; }
+  100% { top: 110%; }
+}
+
+.portal-hero {
+  padding: 1.6rem 0 1.1rem;
+  position: relative;
+  z-index: 2;
+}
+.portal-hero .kicker {
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5eead4;
+  font-size: .72rem;
+  margin: 0 0 .45rem;
+}
+.portal-hero h1 {
+  font-family: Syne, system-ui, sans-serif;
+  font-size: clamp(2.1rem, 6vw, 3.6rem);
+  letter-spacing: .04em;
+  line-height: .95;
+  margin: 0 0 .7rem;
+  color: #fff8e8;
+  text-shadow: 0 0 40px rgba(94, 234, 212, .25);
+}
+.portal-hero h1 em {
+  font-style: normal;
+  color: #fbbf24;
+}
+.portal-lead {
+  max-width: 46rem;
+  color: #c5d0dc;
+  font-size: 1.08rem;
+  line-height: 1.65;
+  margin: 0 0 1.15rem;
+}
+.portal-lead strong { color: #5eead4; font-weight: 700; }
+body.arcade-portal .stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  margin: 0 0 1.4rem;
+}
+body.arcade-portal .stat {
+  background: #0c121ce8;
+  border: 1px solid #1e3a4a;
+  border-radius: 12px;
+  padding: .55rem .85rem;
+  min-width: 7.5rem;
+}
+body.arcade-portal .stat b {
+  display: block;
+  font-family: Syne, sans-serif;
+  font-size: 1.35rem;
+  color: #fbbf24;
+  line-height: 1.1;
+}
+body.arcade-portal .stat span {
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+body.arcade-portal .gfilters { margin: 0 0 1.15rem; }
+body.arcade-portal .gfilters button {
+  background: #0c121c;
+  border-color: #1e3a4a;
+  color: #94a3b8;
+  font-family: "IBM Plex Mono", monospace;
+}
+body.arcade-portal .gfilters button:hover { color: #5eead4; border-color: #5eead4; }
+body.arcade-portal .gfilters button[aria-pressed="true"] {
+  background: #134e4a;
+  border-color: #5eead4;
+  color: #ecfdf5;
+}
+
+body.arcade-portal .ggrid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.15rem;
+}
+body.arcade-portal .gcard {
+  background: linear-gradient(180deg, #101826, #0c121c);
+  border: 1px solid #1e3a4a;
+  border-radius: 16px;
+  box-shadow: 0 18px 40px #0007, inset 0 1px 0 rgba(94, 234, 212, .08);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+body.arcade-portal .gcard:hover {
+  transform: translateY(-4px);
+  border-color: #5eead4;
+  box-shadow: 0 22px 48px #000a, 0 0 28px rgba(94, 234, 212, .12);
+}
+body.arcade-portal .gcard.is-coming { opacity: .75; }
+body.arcade-portal .gcard-kicker { color: #5eead4; font-family: "IBM Plex Mono", monospace; }
+body.arcade-portal .gcard h2 {
+  font-family: Syne, sans-serif;
+  color: #fff8e8;
+  letter-spacing: .03em;
+}
+body.arcade-portal .gcard p { color: #94a3b8; }
+body.arcade-portal .gcard .btn {
+  background: #0b121c;
+  border-color: #1e3a4a;
+  color: #e8eef5;
+}
+body.arcade-portal .gcard .btn.primary {
+  background: #0f766e;
+  border-color: #14b8a6;
+  color: #ecfdf5;
+}
+body.arcade-portal .gcard .btn:hover { border-color: #fbbf24; color: #fbbf24; }
+body.arcade-portal .gcard .btn.primary:hover { filter: brightness(1.12); color: #fff; }
+body.arcade-portal .gcard-soon {
+  border-color: #334155;
+  color: #94a3b8;
+}
+body.arcade-portal .gcard-cover {
+  filter: saturate(1.08) contrast(1.05);
+}
+body.arcade-portal .gmod-stage { position: relative; overflow: hidden; }
+body.arcade-portal .gmod-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 42%;
+  background: linear-gradient(180deg, transparent, #0c121c);
+  pointer-events: none;
+}
+
+.hub-rail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: .55rem;
+  margin: 1.2rem 0 0;
+}
+.hub-rail a {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: .7rem .8rem;
+  border: 1px solid #1e3a4a;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #121a26, #0c121c);
+  color: #e8eef5;
+  text-decoration: none;
+}
+.hub-rail a b {
+  font-family: Syne, sans-serif;
+  color: #fff8e8;
+  font-size: .95rem;
+}
+.hub-rail a span {
+  color: #94a3b8;
+  font-size: .75rem;
+}
+.hub-rail a:hover { border-color: #fbbf24; }
+body.arcade-portal .hub-rail a:hover { color: #e8eef5; }
+
+.portal-play,
+.portal-halls,
+.portal-tv {
+  position: relative;
+  z-index: 2;
+  margin: 1.6rem 0 0;
+}
+.portal-halls,
+.portal-tv { margin-top: 2.4rem; }
+.portal-play > .kicker,
+.portal-halls > .kicker,
+.portal-tv > .kicker {
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #5eead4;
+  font-size: .72rem;
+  margin: 0 0 .35rem;
+}
+.portal-play > h2,
+.portal-halls > h2,
+.portal-tv > h2 {
+  font-family: Syne, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: #fff8e8;
+  margin: 0 0 .5rem;
+  letter-spacing: .04em;
+}
+.hall-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: stretch;
+}
+.hall {
+  background: linear-gradient(180deg, #101826, #0c121c);
+  border: 1px solid #1e3a4a;
+  border-radius: 16px;
+  padding: .95rem 1rem 1.05rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 17.5rem;
+  height: 100%;
+}
+.hall header h3 {
+  font-family: Syne, sans-serif;
+  margin: .1rem 0 .35rem;
+  color: #fff8e8;
+  font-size: 1.15rem;
+}
+.hall-meta {
+  color: #94a3b8;
+  font-size: .82rem;
+  margin: 0 0 .7rem;
+}
+.hall-rows {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  flex: 1;
+}
+.hall-rows li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .1rem .7rem;
+  padding: .4rem 0;
+  border-bottom: 1px solid #1e3a4a;
+  font-size: .88rem;
+}
+.hall-rows li b {
+  grid-row: 1 / 3;
+  font-family: "IBM Plex Mono", monospace;
+  color: #fbbf24;
+  font-size: .95rem;
+  align-self: center;
+}
+.hall-rows li span { color: #e8eef5; }
+.hall-rows li em {
+  font-style: normal;
+  color: #64748b;
+  font-size: .75rem;
+}
+.hall .btn {
+  margin-top: auto;
+  align-self: flex-start;
+  background: #0b121c;
+  border: 1px solid #1e3a4a;
+  color: #e8eef5;
+  font-size: .82rem;
+  padding: .45rem .75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-grid, .portal-scan { animation: none; }
+}
+
+/* ---------- two views: catalog (this page) vs the Arcade Deck console ---------- */
+.view-switch-bar {
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid #14212d;
+  background: linear-gradient(180deg, rgba(11, 18, 28, 0.94), rgba(7, 11, 18, 0.7));
+}
+.view-switch {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  padding: 0.9rem 0;
+}
+.view-switch-label {
+  margin: 0 auto 0 0;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.view-switch-label b { color: #fbbf24; font-weight: 600; }
+.view-options { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.view-option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 200px;
+  padding: 0.55rem 0.9rem 0.6rem;
+  border: 1px solid #1e3a4a;
+  border-radius: 10px;
+  background: #0b121c;
+  text-decoration: none;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+.view-option b {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: Syne, sans-serif;
+  font-size: 0.95rem;
+  color: #e8eef5;
+}
+.view-option span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.71rem;
+  letter-spacing: 0.02em;
+  color: #64748b;
+}
+.view-option:hover { border-color: #fbbf24; transform: translateY(-1px); box-shadow: 0 10px 24px -16px rgba(251, 191, 36, 0.9); }
+.view-option:focus-visible { outline: 2px solid #fbbf24; outline-offset: 2px; }
+.view-option.is-active {
+  border-color: rgba(14, 165, 233, 0.75);
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.16), rgba(11, 18, 28, 0.9));
+}
+.view-option.is-active b::after {
+  content: "this page";
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 999px;
+  padding: 0.12rem 0.42rem;
+}
+.view-option.is-deck {
+  border-color: #fbbf24;
+  background: linear-gradient(180deg, #fbbf24, #f59e0b);
+  box-shadow: 0 12px 28px -18px rgba(251, 191, 36, 0.95);
+}
+.view-option.is-deck b { color: #0b121c; }
+.view-option.is-deck span { color: rgba(11, 18, 28, 0.74); }
+.view-option.is-deck:hover { border-color: #fde68a; box-shadow: 0 16px 32px -16px rgba(251, 191, 36, 1); }
+@media (max-width: 760px) {
+  /* the hub's .wrap drops its side padding at this width, so the bar carries its own */
+  .view-switch { justify-content: stretch; padding: 0.85rem 1.1rem; }
+  .view-switch-label { width: 100%; font-size: 0.66rem; }
+  .view-options { width: 100%; flex-direction: column; }
+  .view-option { min-width: 0; width: 100%; }
+}

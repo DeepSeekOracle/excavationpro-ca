@@ -1,0 +1,36 @@
+{
+  "units": [
+    {
+      "id": "serenya",
+      "name": "Serenya",
+      "hp": 86,
+      "mp": 42,
+      "atk": 8,
+      "def": 6,
+      "mag": 14,
+      "res": 10,
+      "spd": 9,
+      "mov": 4,
+      "jump": 2,
+      "hum": 72,
+      "accord": 78,
+      "eva": 8,
+      "luck": 10,
+      "acc": 82
+    },
+    {
+      "id": "emberion",
+      "name": "Emberion",
+      "hum": 68,
+      "accord": 60,
+      "eva": 6,
+      "luck": 8,
+      "acc": 76,
+      "stages": [
+        { "stage": 0, "hp": 110, "mp": 28, "atk": 14, "def": 10, "mag": 11, "res": 8, "spd": 8, "mov": 4, "jump": 2 },
+        { "stage": 1, "hp": 150, "mp": 36, "atk": 20, "def": 12, "mag": 16, "res": 10, "spd": 9, "mov": 5, "jump": 3 },
+        { "stage": 2, "hp": 190, "mp": 48, "atk": 26, "def": 14, "mag": 22, "res": 12, "spd": 10, "mov": 6, "jump": 4 }
+      ]
+    }
+  ]
+}

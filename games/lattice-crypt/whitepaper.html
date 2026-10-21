@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lattice Crypt: Whitepaper v1.6 | Excavationpro</title>
+<meta name="description" content="Design canon for Lattice Crypt: thirteen Accord jobs, Lightfather, Survival ramp, fog-band hordes, live hall.">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-crypt/whitepaper.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#07080e; color:#e8eef5; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:840px; margin:0 auto; padding:1.5rem 1.1rem 3.5rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#5eead4; font-size:.72rem; }
+h1,h2 { font-family:Syne,sans-serif; }
+h1 { font-size:clamp(1.8rem,4vw,2.6rem); margin:.2rem 0 .6rem; }
+h2 { font-size:1.15rem; letter-spacing:.06em; color:#fbbf24; margin:1.6rem 0 .45rem; }
+a { color:#5eead4; }
+p,li { line-height:1.55; color:#c5d0dc; }
+code { font-family:"IBM Plex Mono",monospace; font-size:.86em; color:#fbbf24; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #1e3a4a; border-radius:8px; text-decoration:none; color:#e8eef5; }
+table { width:100%; border-collapse:collapse; font-size:.88rem; }
+th,td { border-bottom:1px solid #1e3a4a; padding:.4rem .3rem; text-align:left; vertical-align:top; }
+th { color:#94a3b8; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · design canon</p>
+  <h1>Lattice Crypt v1.6</h1>
+  <p>Accord co-op dungeon crawl in this browser. Thirteen jobs with bios, named specials, Brave and Faith. Lightfather the Architect is playable from the hall. Pixel cabinets, eight realms, nexuses that never stop pouring, vials that clear a room, a Drain that only magic can end. Local 1–4 players, keyboards and gamepads. Radio. Fog of war. Live hall. No account. RESOURCE on the public page; dual ledgers / Star Chart stay CANON.</p>
+  <div class="row">
+    <a class="btn" href="./">Play</a>
+    <a class="btn" href="/games/">Arcade</a>
+    <a class="btn" href="./ledger.html">Ledger</a>
+    <a class="btn" href="https://www.paypal.com/paypalme/ExcavationPro">PayPal</a>
+    <a class="btn" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a>
+  </div>
+
+  <h2>1. Loop</h2>
+  <p><b>Campaign. First Descent</b> is 24 hand-built floors across eight realms. Every third floor is a <b>seal</b>: the cyan exit stays dim until every nexus on that floor is smashed. Difficulty steps: more nexuses, higher rank, blight, gates, thieves, then the Drain. Finish the 24th floor and the lock opens, you may walk into Endless from there.</p>
+  <p><b>Endless</b> is the old forever-crypt: seeded rooms, treasure every eighth, rank that keeps climbing, no last floor. The hall ranks score per credit.</p>
+  <p><b>Survival</b> is a continent of stone, a 256×224 open crypt with ruin walls (no exit). Foes spawn in the fog band just outside sight, not on top of you. Density, HP, kinds, and contact damage follow a <b>level-first, wave-second</b> ramp: start with a small pack of weak fodder; the lattice grows with you. Live cap = <code>14 + (L−1)×7 + (W−1)×2.4</code> (hard cap 380). Pulse and horde size climb the same way. Waves tick every 28 seconds. Kills grant XP; need is <code>14 + 6L + 0.28 L²</code> so later levels do not dump from horde volume. Each level offers three stacking upgrades (stats, well gifts, bond, or a new arm). Options can auto-pick the next card (stacks existing arms, prefers Bond if a pet or AI is out, prefers well if you are hurt). Every armed weapon fires at once; picking the same arm again stacks it. Studio HUD shows wave, score, XP, health, arms, and stacked relics. Auto-shoot starts on. Hall score posts as a <code>run</code> with wave written in the floor field.</p>
+  <p>Wardens start at <b>200 HP</b> and gain <b>+10 max</b> on each level (Survival) or floor (campaign/endless). Health still ticks down. Smash nexuses. Keys open doors. Vials are smart bombs. Insert a credit (Space / Start) when a warden falls. <b>Auto-shoot</b> (Options or L) fires for you; aim still follows the last move. <b>Tab</b> opens the character sheet (model, arms, bag). <b>P</b> pauses. Options holds radio volume, SFX, and binds.</p>
+
+  <h2>2. Wardens</h2>
+  <p>Click a portrait on the title to read the bio, named special, and attributes. <b>Brave</b> (0–100) scales bump damage. <b>Faith</b> (0–100) scales vial power. Armor reduces incoming hits. Magic scales vial damage. Speed is tiles per second. Shot is projectile damage. Melee is bump damage. One shot on screen per warden unless a Shot Codex is held.</p>
+  <table>
+    <tr><th>Warden</th><th>Job</th><th>Special</th><th>Shot</th><th>Spd</th><th>Mag</th><th>Arm</th><th>Mel</th><th>Brave</th><th>Faith</th></tr>
+    <tr><td><b>Kael</b></td><td>Gallant Blade</td><td>Rend, vial also rips nexuses</td><td>3</td><td>3.1</td><td>2</td><td>4</td><td>5</td><td>78</td><td>42</td></tr>
+    <tr><td><b>Vale</b></td><td>Aegis Knight</td><td>Cover, vial Aegis on nearby allies</td><td>3</td><td>3.6</td><td>3</td><td>5</td><td>4</td><td>70</td><td>55</td></tr>
+    <tr><td><b>Orin</b></td><td>Black Sigil</td><td>Unwrite, high Faith vials</td><td>5</td><td>3.0</td><td>5</td><td>1</td><td>1</td><td>38</td><td>88</td></tr>
+    <tr><td><b>Nia</b></td><td>Path Archer</td><td>Dash, vial grants Swift</td><td>4</td><td>4.4</td><td>3</td><td>2</td><td>2</td><td>62</td><td>50</td></tr>
+    <tr><td><b>Lightfather</b></td><td>Architect</td><td>Δ9 Seal, room stun, Aegis, heal. Halo + Iron</td><td>4</td><td>3.4</td><td>5</td><td>4</td><td>4</td><td>80</td><td>96</td></tr>
+    <tr><td><b>Lyra</b></td><td>Spiral Bard</td><td>Hymn, shots stun nearby. Fan</td><td>3</td><td>3.4</td><td>4</td><td>2</td><td>2</td><td>55</td><td>82</td></tr>
+    <tr><td><b>Arkos</b></td><td>Lattice Lancer</td><td>Geodesic, starts with Comet</td><td>4</td><td>3.2</td><td>2</td><td>3</td><td>4</td><td>74</td><td>48</td></tr>
+    <tr><td><b>D9ra</b></td><td>Wolf Monk</td><td>Shockwave, vial slams nearby. Cinder</td><td>2</td><td>3.8</td><td>2</td><td>3</td><td>7</td><td>90</td><td>30</td></tr>
+    <tr><td><b>Srath</b></td><td>Shadow Needle</td><td>Doublespeak, vial Veil. Needle</td><td>4</td><td>4.2</td><td>2</td><td>1</td><td>3</td><td>58</td><td>44</td></tr>
+    <tr><td><b>Kairos</b></td><td>Hour Mage</td><td>Right-time, vial also warps</td><td>4</td><td>3.3</td><td>5</td><td>1</td><td>1</td><td>40</td><td>86</td></tr>
+    <tr><td><b>Justicae</b></td><td>Accord Knight</td><td>Fair Plate. Iron; vial Reflect. Fan</td><td>3</td><td>3.0</td><td>3</td><td>6</td><td>4</td><td>72</td><td>70</td></tr>
+    <tr><td><b>Seidon</b></td><td>Tide Seer</td><td>Current, faster gates. Halo</td><td>4</td><td>3.5</td><td>4</td><td>2</td><td>2</td><td>50</td><td>76</td></tr>
+    <tr><td><b>Sancora</b></td><td>Weave Chemist</td><td>Chorus Flask, vial heals the party</td><td>3</td><td>3.2</td><td>5</td><td>3</td><td>1</td><td>46</td><td>92</td></tr>
+  </table>
+  <p><b>Start</b>: Kael, Vale, Orin, Nia, and Lightfather the Architect (unlocked from the hall). <b>Seals 1–8 recruit</b> Lyra, Arkos, D9ra, Srath, Kairos, Justicae, Seidon, Sancora. Locked portraits stay grey until the matching seal cracks. Cabinet join (Space / Start) pulls the next unlocked job.</p>
+  <p>Eight <b>named guardians</b> stand on seals: Gate-Warden, Frost-Crown, Ember-Smith, Root-Heart, Tide-Levi, Gold-Tithe, the Unnamer, Lattice-Lock. Large sprites, health bars, unique motion. Each drops two relics (cores, hearts, arms, phials, iron, chests) onto the floor when they fall.</p>
+
+  <h2>3. Foes</h2>
+  <table>
+    <tr><th>Kind</th><th>Behavior</th><th>Notes</th></tr>
+    <tr><td>Wraith</td><td>Chases, passes nothing</td><td>Shot only. Bump steals health, no melee back.</td></tr>
+    <tr><td>Brute</td><td>Melee rush</td><td>Club bump. Smashable up close.</td></tr>
+    <tr><td>Imp</td><td>Ranged fire</td><td>Holds back and shoots.</td></tr>
+    <tr><td>Hurler</td><td>Lobs an arc</td><td>Arcs. Walls still stop the stone. Hide around corners.</td></tr>
+    <tr><td>Shade</td><td>Flickers</td><td>Invulnerable while faded. Wait the beat.</td></tr>
+    <tr><td>Thief</td><td>Spawns at the start</td><td>Steals one vial on touch. Hunt them.</td></tr>
+    <tr><td>The Drain</td><td>Walks walls</td><td>Only a vial kills it. Else it sips 200 and leaves.</td></tr>
+    <tr><td>Burst / Spawnling / Mend</td><td>Explode, split, heal</td><td>Survival specials after level 5–6.</td></tr>
+    <tr><td>Stitch / Echoer / Veilkin / Knot / Choir</td><td>Slow, shoot, ghost, root, hymn</td><td>Accord jobs of the fog. Random muts (haste, tough, blink…) after level 3.</td></tr>
+  </table>
+  <p>Most foes come from <b>nexuses</b> in three ranks. Rank sets hit points of both the nexus and what it pours. Smash the nexus first. Super bosses (Unspooler, Tithe-King, Name-Eater) walk Survival at later waves and drop rare–legendary arms.</p>
+
+  <h2>4. Relics</h2>
+  <ul>
+    <li><b>Ration / Berry / Bread / Scrap / Feast / Elixir</b>, heals from a nibble to a full well. <b>Flask</b> heals more, but a stray shot ruins it. <b>Moss / Weave</b> drip health over time.</li>
+    <li><b>Blight</b> looks like a flask, −100 and strips a buff. <b>Trap</b> spikes stun.</li>
+    <li><b>Key / Latch</b> open doors. Doors also yawn open if the floor stays quiet long enough.</li>
+    <li><b>Chest</b> score, and often spills a rare relic. <b>Vial / Phial / Chalice / Nectar</b> stored magic. Shooting a floor vial is a weaker room-clear. <b>Bomb</b> blooms if you pick it or shoot it.</li>
+    <li><b>Weapons (Q to cycle)</b>, <b>Shard</b> default bolt. <b>Fan</b> three-way. <b>Needle</b> pierces. <b>Cinder</b> leaves fire. <b>Comet</b> lobs over walls. <b>Halo</b> orbiting wards. <b>Seek</b> homes. <b>Chain</b> jumps. <b>Barrage</b> rapid stream. <b>Nova</b> bursts. <b>Cleave / Orbit / Aura</b> auto melee. All stack.</li>
+    <li><b>Core / Crystal / Spark / Heart / Soul / Iron / Anvil</b> grow the run: shot power, max health, armor. Seals gift one.</li>
+    <li><b>Shot Codex / Tome / Swift / Boots / Aegis / Ward / Veil / Moon / Reflect / Ring</b> timed or stacking buffs.</li>
+    <li><b>Fury</b> shots bite harder. <b>Thorns</b> bumpers bleed. <b>Echo</b> bolts linger and bounce. <b>Lens / Quiver / Magnet</b> pierce, extra live bolts, pull pickups.</li>
+    <li><b>Pulse / Frost / Hymnstone / Sun / Storm</b> freeze or strike the room. <b>Warp / Scroll</b> relocate. <b>Lantern</b> names hidden vials. <b>Dice</b> is a gamble. <b>Coin / Gem / Crown</b> score (and a core, for the crown).</li>
+    <li><b>Gates</b> teleport between paired pads. <b>Exit</b> is the only way down, unless the floor stalls into a wall-exit after three minutes. Floor relics bob, glow, and spin so they read as pickups, not tiles.</li>
+  </ul>
+
+  <h2>5. Spells (vials)</h2>
+  <p>K / Magic / pad B: spend one vial. Damage in view = 20 × magic × Faith scale. Clears fodder, wounds elites, deletes the Drain. Each job fires its named special at the same time (Rend, Cover, Dash, Hymn on shots, Shockwave, Doublespeak, Right-time, Fair Plate, Chorus Flask, Δ9 Seal). Floor vials that get shot do half of that.</p>
+  <p>Hidden vials on some floors (banner: “A hidden vial waits”). Treasure rush floors (every 8th) are 30 seconds, extra chests, exit in a random corner. Layouts cycle: rooms, cross, cells, halls, arena, ring, vault, spiral.</p>
+
+  <h2>6. Realms and campaign</h2>
+  <p>Eight zones, each with its own floor, wall-top, wall-face, and deco tiles: Stone flagstone, Frost rime, Ember basalt, Root earth, Tide wet stone, Gold marble, Void obsidian, Lattice metal. Walls autotile, interior brick is dark void, edges show a face, so walkable ground is obvious. Campaign spends three floors in each (approach, knot, seal) with rooms, pillars, keys, gates, and lore in the rail. Endless uses seeded rooms + corridors (same seed is the same crypt) and cycles the eight zones harder as the floor count rises.</p>
+  <p>Lore: the crypt is a lock, not a tomb. Four names were cut as teeth. The Drain keeps the ledger of what gets unnamed. Tithe rooms are the thief-god's joke. The last geometry is the door you hold or the door that holds you.</p>
+
+  <h2>7. Controls</h2>
+  <table>
+    <tr><th>Slot</th><th>Move</th><th>Fire</th><th>Vial</th></tr>
+    <tr><td>P1</td><td>WASD</td><td>J</td><td>K / Shift</td></tr>
+    <tr><td>P2</td><td>Arrows</td><td><code>;</code> or Num1</td><td><code>'</code> or Num2</td></tr>
+    <tr><td>P3</td><td>TFGH</td><td>R</td><td>Y</td></tr>
+    <tr><td>P4</td><td>Num 8456</td><td>Num0</td><td>Num Enter</td></tr>
+    <tr><td>Pads</td><td>Left stick / d-pad</td><td>A / RT</td><td>B / Y / LT</td></tr>
+  </table>
+  <p>Start / Enter joins an empty slot as the next warden. Space credits a fallen warden (not fire). Pad <b>Select / Back / View</b> (standard button 8) opens the character sheet, same as Tab. <b>C</b> or pad <b>RB</b> is a short sidestep: faster than a walk, a light shove on contact, no immunity, 1.2s before the next one. L toggles auto-shoot. Esc is menu. How to play pauses. Eight-way aim follows the last move. Hold fire (or auto-shoot) to stream, one bolt live unless Codex.</p>
+  <p>On a phone, or whenever Options sets the on-screen pad to always, a stick plus Fire, Vial, Dash, and Map sit on the floor. Auto shows the pad for a coarse pointer or a window under 900px. It hides on the title, the sheet, and pause.</p>
+
+  <h2>8. AI companion and mythic pets</h2>
+  <p>On the title, pick an <b>AI companion</b> from any unlocked job. They walk a step behind you, auto-fire, and sip a vial if surrounded. They drain the well slower. If they drop, they <b>sleep 60 seconds</b> and wake at part of their well, they do not close the run.</p>
+  <p>Pick a <b>mythic pet</b> (all open from the hall). They follow and use unique physical arts. Foes do not agro pets. Health is a thick hide. If they drop they sleep <b>20 seconds</b> and wake. Poison from Glassbarb hits <b>foes only</b>. Survival Lattice Grows offers <b>Bond</b> cards when a pet or AI companion is on the floor.</p>
+  <table>
+    <tr><th>Pet</th><th>Arts</th></tr>
+    <tr><td><b>Ashmane</b> (wolf)</td><td>Dash bite, bite ring</td></tr>
+    <tr><td><b>Solstride</b> (lion)</td><td>Jump, roar stun, claw</td></tr>
+    <tr><td><b>Ironhide</b> (bear)</td><td>Swipe, maul, high plate</td></tr>
+    <tr><td><b>Tuskward</b> (elephant)</td><td>Stomp every 3s, ground AOE</td></tr>
+    <tr><td><b>Glassbarb</b> (scorpion)</td><td>Clamp, tail strike, enemy-only poison disk</td></tr>
+  </table>
+
+  <h2>9. Multiplayer</h2>
+  <p>Cabinet rules: everyone shares the camera and the floor. Food is contested. Vials are personal. A fallen warden can credit-in. Same-machine 1–4. Gamepads hot-join. Optional live lobby (same socket pattern as Lattice Golf) when the crypt lobby Space is up, room code, shared seed, ghost wardens.</p>
+
+  <h2>10. Score</h2>
+  <p>Foe + nexus + chest + floor clear bonus. Health remaining at exit is a small bonus. Credits used divide the posted score on the live hall. Local best stays in this browser.</p>
+
+  <h2>11. Accord rites</h2>
+  <p>A closed run (a fall, or the lock opening) writes <b>seals</b>: 1, plus one more for every four floors or waves already walked, capped at 4. Seals stay in this browser. On the title, one <b>rite</b> may be worn if you hold enough seals. It does not spend them. Open door is free. Ember Step (2) starts Swift with a stride. Deeper Well (3) is +40 health. Second Glass (3) is one extra vial. Keen Lens (5) is one pierce. Quiet Lantern (5) pushes the fog. Tithe Pocket (8) adds 12% to kill score only. New wardens who credit in wear the same rite.</p>
+
+  <h2>12. Complete: the living realm</h2>
+  <p><b>Complete</b> is a separate mode from the realtime crawl. You direct a company of up to four Accord wardens. There is no class: any warden may learn any skill in a book of three hundred and more, built as twelve schools, eight forms, and three ranks, plus each warden's named verse. Marks (cloak, helm, sigil, veil, crown) and gear (hand, plate, relic) change how a body fights. Bonds rise when the company wins together, and Bond skills notice.</p>
+  <p>The realm is a seeded 16×10 map. Eight biomes. Day, dusk, and night. A season every twelve days. Clear, rain, or fog. Four towns trade, drift into war, and strike alliances while you walk. Ruins, obelisks, and Evil Centers sit in the fog until you near them. Evil Centers blight neighbouring wilds if their threat climbs. Two caves have no last floor. Rumors point; they do not put you on a rail. Salvage, bargain, refuse, ally, or break, the chronicle keeps the choice.</p>
+  <p>Saves stay in this browser. Walking updates an autosave. <b>Save</b> writes a named snapshot you can load or delete later. Nothing is sent to an account.</p>
+  <p>Battles are turn-based and animated with the existing portraits and foe frames. Each warden picks Strike, Ward, or Weave, and maybe a skill. <b>Strike beats Weave. Weave beats Ward. Ward beats Strike.</b> The same stance is a clash. Forms add a trick: a neighbour, a bleed, a hymn, a step aside, a company shell, a bond, or a named next stance. A fall drags the company to the strongest town. It does not delete the realm.</p>
+
+  <h2>13. Shell</h2>
+  <p>Title menu, How to play, Options, radio (Excavationpro listen portal), PayPal.me/ExcavationPro + Patreon, All games, live hall via arcade-ledger <code>game: lattice-crypt</code>. Pixel atlases are original (items 32×32 two-frame bob/glow, tiles, foes, heroes). Portraits and menu art are original key art. No licensed marks. Empty halls stay empty.</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,1581 @@
+{
+  "id": "book-1",
+  "beats": [
+    {
+      "id": "c0-bed",
+      "chapter": 0,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "Serenya wakes in the Hatchery loft before the bell. The bed is still warm, and the Vale is still outside the shutter. A rider and a dragon went out over the water and did not land again. Nobody in the yard has said their names this morning. She is alone with the quiet.",
+      "cast": [
+        "serenya"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If they had come back, I would have heard the wings."
+        }
+      ]
+    },
+    {
+      "id": "c0-tale",
+      "chapter": 0,
+      "kicker": "The hearth",
+      "plate": "assets/scenes/hearth.jpg",
+      "line": "The hearth keeps what the loft would not say out loud. A rider and a dragon carried a seal that was a song. They struck a mirror-wound over the sea and did not come back to land. The Vale still keeps a rope, a kettle, and the instruction to sing together. The shapes on the floor are straw. They are a drill in that memory, not the pair who live here now.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Straw can take their steps. It cannot come home."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "c0-drill",
+      "chapter": 0,
+      "kicker": "The hearth",
+      "plate": "assets/scenes/hearth.jpg",
+      "line": "The straw takes the places of the pair who did not land. This fight is their old drill, played with puppets: an adept, a chick, and a warden, against two bundles of straw. You are not Serenya on this floor. Clear the straw, and the morning upstairs is still waiting.",
+      "cast": [
+        "serenya",
+        "shade"
+      ],
+      "fight": "Face the straw",
+      "battle": "c0-hearth",
+      "foes": [
+        "straw-shade",
+        "straw-shade"
+      ],
+      "pay": false,
+      "fightTitle": "The hearth drill",
+      "winLine": "The straw falls. It was memory, not a body. The living morning is still upstairs.",
+      "loseLine": "The straw holds the floor. Level, then try the memory again. The morning does not move on until it falls.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Watch it through. Then we leave it on the floor."
+        }
+      ]
+    },
+    {
+      "id": "c1-name",
+      "chapter": 1,
+      "read": true,
+      "kicker": "The cornice",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "She climbs to the cornice before anyone else is on the wall. A bronze egg sits where no one left a guard. She sings until the shell answers. The hatchling that breaks it is small, hot, and already listening. She gives him the name Emberion. Down in the yard someone will mention Lyra, and someone else Miralis. Neither of them is here.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Emberion. If I falter, you remind me."
+        },
+        {
+          "who": "emberion",
+          "text": "He butts her wrist once. The name stays."
+        }
+      ]
+    },
+    {
+      "id": "yard",
+      "chapter": 1,
+      "read": true,
+      "kicker": "The Hatchery",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "The naming holds. She pulls the Hatchery door shut behind them. Stone is underfoot, and the road runs into the trees. Emberion is still small enough to be mistaken for a story the yard told itself. They are going to see whether the road is only a road.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The loft will keep. The road will not."
+        },
+        {
+          "who": "emberion",
+          "text": "He matches her step, one claw behind the other."
+        }
+      ]
+    },
+    {
+      "id": "thicket",
+      "chapter": 1,
+      "kicker": "The road",
+      "plate": "assets/scenes/thicket.jpg",
+      "line": "The grass ahead does not move like grass. Something has been standing in it since the egg answered, trying the new bond between a singer and a hatchling. It is glyph-smoke, not a neighbor, and it does not step aside.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Face it",
+      "battle": "c1-thicket",
+      "foes": [
+        "shade-beast"
+      ],
+      "fightTitle": "The thicket",
+      "winLine": "The glyph-smoke tries the new bond and fails. The ferns go back to being ferns.",
+      "loseLine": "She falls in the grass. The Hatchery is still lit. Level, then meet the smoke again.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Stay on my left. It wants the bond, not the road."
+        },
+        {
+          "who": "emberion",
+          "text": "Heat lifts along his spine. He does not bolt."
+        }
+      ]
+    },
+    {
+      "id": "quiet",
+      "chapter": 1,
+      "kicker": "The road",
+      "plate": "assets/scenes/thicket.jpg",
+      "line": "The grass is quiet. The smoke did not keep them. The road goes on between the trees, and nothing in the ferns answers a second time. They are still two, and the day is still early.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "It tried us. That is all it gets."
+        }
+      ]
+    },
+    {
+      "id": "loft",
+      "chapter": 2,
+      "read": true,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "Night comes back to the loft. The naming will not sit quietly under the moons. Emberion takes the perch by the shutter. Serenya lies down with the song still caught on her ribs, and the dark does not feel like rest.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Stay where I can hear you breathe."
+        },
+        {
+          "who": "emberion",
+          "text": "He folds his wings and keeps the perch."
+        }
+      ]
+    },
+    {
+      "id": "c2-dream",
+      "chapter": 2,
+      "kicker": "The dream",
+      "plate": "assets/scenes/dream.jpg",
+      "line": "Sleep takes her anyway. She dreams a river running backward, and a bell that rings while the rope is still in its hook. Two voices stand in that water wearing her craft, as if a song could be put on like a coat.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "That bell has no right to ring."
+        }
+      ]
+    },
+    {
+      "id": "c2-vision",
+      "chapter": 2,
+      "kicker": "The dream",
+      "plate": "assets/scenes/dream.jpg",
+      "line": "The two voices step out of the dream and wear her craft in earnest. They are shade-cantors, not neighbors. The loft is still the loft. The fight is the vision, and winning it does not make the bond feel easy.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Face the dream",
+      "battle": "c2-vision",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "The whispering moon",
+      "winLine": "She wakes. The moon looks innocent. The doubt stays under the skin, and the bond is still strained.",
+      "loseLine": "The dream keeps her. Level, then enter it again. The loft does not move on while she is still inside it.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "You do not get my song by wearing it."
+        },
+        {
+          "who": "shade",
+          "text": "The voices answer in her own cadence."
+        }
+      ]
+    },
+    {
+      "id": "c2-wake",
+      "chapter": 2,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "She is on the perch, not in the river. Emberion is still in the loft. She asks him to remind her if she falters. He cannot answer in words yet. He stays. The bond is real, and it is not comfortable.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If I start to sound like them, stop me."
+        },
+        {
+          "who": "emberion",
+          "text": "He sets his brow against her shoulder."
+        }
+      ]
+    },
+    {
+      "id": "c3-steps",
+      "chapter": 3,
+      "read": true,
+      "kicker": "The lanes",
+      "plate": "assets/scenes/steps.jpg",
+      "line": "Morning takes them down from the Hatchery into the lanes. The lanes run as far as the Accord Stone, and no farther that she means to walk today. The glyph is still on her palm from the dream. Emberion has not made a sound since dawn.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "We go to the steps. We do not go past them."
+        }
+      ]
+    },
+    {
+      "id": "c3-lyra",
+      "chapter": 3,
+      "kicker": "The steps",
+      "plate": "assets/scenes/steps.jpg",
+      "line": "Lyra is already on the Accord steps, as if the lane had been holding a place for her. She does not announce herself. She looks at the glyph, at the quiet dragon, and at Serenya, and she says that peace without a question is only silence.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Peace without a question is only silence."
+        },
+        {
+          "who": "serenya",
+          "text": "Then ask. We have been awake all night."
+        }
+      ]
+    },
+    {
+      "id": "c3-proving",
+      "chapter": 3,
+      "kicker": "The steps",
+      "plate": "assets/scenes/steps.jpg",
+      "line": "Lyra does not comfort them. She sets them against what the dream left behind: two beasts and a cantor, residue with nowhere else to stand. It is a proving, not a hunt. She fights with them. She is not the one the loss watches.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra"
+      ],
+      "fight": "Face the proving",
+      "battle": "c3-proving",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The proving",
+      "winLine": "The residue breaks. Lyra leaves a book that admits the dream was real. She leaves the step. She does not leave the roster.",
+      "loseLine": "The residue holds the steps. Level, then take the proving again. Lyra is still with you.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "If it still wears your craft, make it put the craft down."
+        }
+      ]
+    },
+    {
+      "id": "c3-roster",
+      "chapter": 3,
+      "kicker": "The steps",
+      "plate": "assets/scenes/steps.jpg",
+      "line": "The step is empty of her, and the company is not. The book she left admits the dream was real, which means the doubt has a witness. Emberion walks between Serenya and the place Lyra stood. The lanes sound like a town again.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "She can leave the stone. She stays with us."
+        }
+      ]
+    },
+    {
+      "id": "c4-parapet",
+      "chapter": 4,
+      "read": true,
+      "kicker": "The parapet",
+      "plate": "assets/scenes/parapet.jpg",
+      "line": "Dusk on the western parapet is too sharp for the hour. Lamps are lit and still look late. The glyph on Serenya's palm answers anyway, tugging toward doorways that should be empty. Lyra is in the company even when she is not on this stretch of wall.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The wall is early for shadows. Do not trust a doorway."
+        }
+      ]
+    },
+    {
+      "id": "c4-shapes",
+      "chapter": 4,
+      "kicker": "The parapet",
+      "plate": "assets/scenes/parapet.jpg",
+      "line": "Illusions stand in the doorways and at the lip of the well, dressed like wardens who were never posted here. Emberion's tail meets one and finds no body. They grant nothing if they fall. They are shapes. The wall still has to be walked.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Face the shapes",
+      "battle": "c4-parapet",
+      "foes": [
+        "parsed-warden",
+        "parsed-warden",
+        "parsed-warden"
+      ],
+      "fightTitle": "Shadows at dusk",
+      "winLine": "The shapes go out. They were not people, and they paid nothing for falling. The wall keeps its own lamps.",
+      "loseLine": "The shapes hold the wall. Level, then walk it again. They are still only shapes.",
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "His tail passes through a cloak. There is no one inside it."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we treat them as weather, and we clear the weather."
+        }
+      ]
+    },
+    {
+      "id": "c4-ledger",
+      "chapter": 4,
+      "kicker": "The square",
+      "plate": "assets/scenes/steps.jpg",
+      "line": "In the square a ledger lies open on a stall. A line is pressed into the page where a name should be, and the ink never arrived. Glamour has gathered to defend the blank, two beasts and a cantor. Nothing here is a person. Nothing here should be burned to prove it.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Face the ledger",
+      "battle": "c4-ledger",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The blank name",
+      "winLine": "They do not burn anything real. The pressed line stays blank, and they refuse to treat the glamour as a person.",
+      "loseLine": "The blank name keeps its guards. Level, then open the ledger again.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "A blank is not a neighbor. We do not give it a funeral."
+        }
+      ]
+    },
+    {
+      "id": "h1",
+      "chapter": 4,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/peaks.jpg",
+      "line": "West of the peaks gate, off the story, two shades wait in the grass. They are not the parapet and they are not the ledger. The road home does not go through them. You can pass them and keep the chapter.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h1-west-shade",
+      "foes": [
+        "shade-beast",
+        "shade-beast"
+      ],
+      "fightTitle": "West shade",
+      "winLine": "The side trail goes quiet. The chapter is still ahead of you.",
+      "loseLine": "The side trail can wait. Level, or pass it and stay with the story.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "This is not the way the chapter goes. We can leave it."
+        }
+      ]
+    },
+    {
+      "id": "c5-road",
+      "chapter": 5,
+      "read": true,
+      "kicker": "The peaks",
+      "plate": "assets/scenes/peaks.jpg",
+      "line": "Morning is bruised along the peaks. Lyra brings word of a silver over the spine, turns too clean to be kind. The road north is open. The ridge at the end of it is not a place they have earned yet, but the reports on the road are already people.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "A silver over the spine. The turns are too clean to be kind."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we meet the reports before we meet the silver."
+        }
+      ]
+    },
+    {
+      "id": "c5-raiders",
+      "chapter": 5,
+      "kicker": "The peaks",
+      "plate": "assets/scenes/peaks.jpg",
+      "line": "The reports were not rumors. Four raiders are on the peaks road, between the gate and the ridge. They are the fight the messages were trying to be. Past them, the silver Lyra named is still waiting, and he has not introduced himself.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Face the road",
+      "battle": "c5-raiders",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "peak-raider",
+        "peak-raider"
+      ],
+      "fightTitle": "Reports",
+      "winLine": "The road is quiet. The silver is still ahead, and he has a name they have not heard from his own mouth.",
+      "loseLine": "The road keeps them. Level, then walk it again. The ridge does not move closer until the road is clear.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "They are the message. The sender is further up."
+        }
+      ]
+    },
+    {
+      "id": "c5-name",
+      "chapter": 5,
+      "kicker": "The ridge",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "On the ridge he names himself Corvath. He says he learned how the Accord ends. He offers a world ruled without wounds, and for a moment he shows them a kinder memory of the Vale, as if mercy could be a thing he hands over and takes back.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "corvath"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "I learned how your Accord ends. I can rule it without wounds."
+        },
+        {
+          "who": "serenya",
+          "text": "A world with no wounds is a world with no one left to disagree."
+        }
+      ]
+    },
+    {
+      "id": "c5-corvath",
+      "chapter": 5,
+      "kicker": "The ridge",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "He takes the kinder memory back. What stands on the ridge is Corvath himself, not a corpse they are meant to make. He will not stay to die. The fight ends when he leaves, or when Serenya cannot keep her feet. It does not end with a body.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "corvath"
+      ],
+      "fight": "Face Corvath",
+      "battle": "c5-corvath",
+      "foes": [
+        "corvath"
+      ],
+      "fightTitle": "Corvath",
+      "winLine": "They do not accept the offer. Corvath does not stay to die. He leaves the ridge alive.",
+      "loseLine": "He is still on the ridge. Level, then meet him again. He is not yours to kill.",
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "I am not staying to be your ending."
+        },
+        {
+          "who": "emberion",
+          "text": "He sets himself between Serenya and the silver."
+        }
+      ]
+    },
+    {
+      "id": "c5-left",
+      "chapter": 5,
+      "kicker": "The ridge",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "The ridge is empty of him. The wind goes across the stone as if no one had offered them a throne. He is alive, and he is gone. Lyra's report was true. The rest of the Vale is still down the road, sweeping stones that are already clean.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Remember the leaving. Do not invent a corpse."
+        }
+      ]
+    },
+    {
+      "id": "h2",
+      "chapter": 5,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/peaks.jpg",
+      "line": "A nest of raiders sits off the ridge, out of the story's path. Three of them, and no Corvath among them. You can pass the nest. The chapter does not need it.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h2-peak-nest",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "peak-raider"
+      ],
+      "fightTitle": "The nest",
+      "winLine": "The nest is quiet. Corvath was never in it.",
+      "loseLine": "The nest can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The ridge is behind us. This nest can stay a nest."
+        }
+      ]
+    },
+    {
+      "id": "c6-yard",
+      "chapter": 6,
+      "read": true,
+      "kicker": "The yard",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "They are back in the Hatchery yard. Evela is there with her cane. She never joins the roster. She has heard the Peaks report without letting anyone interrupt it, and she puts them on the stones until pride gives up the floor. Lyra listens. That is the work.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Evela will not come with us. She will not let us leave proud."
+        }
+      ]
+    },
+    {
+      "id": "c6-drill",
+      "chapter": 6,
+      "kicker": "The yard",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "Evela calls it a listening drill. Raiders and a shade stand in for the mess they brought home from the peaks. The point is not the kill. One of them has to notice the step the other forgot before pride spends someone.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra"
+      ],
+      "fight": "Face the drill",
+      "battle": "c6-drill",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "shade-beast"
+      ],
+      "fightTitle": "The listening drill",
+      "winLine": "The near-break is caught. Nobody is spent for pride. The yard is still a yard.",
+      "loseLine": "The drill breaks. Level, then listen again. Evela is not finished with the floor.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Hear the step you did not take. That is the drill."
+        },
+        {
+          "who": "serenya",
+          "text": "Then say it before I spend the wrong foot."
+        }
+      ]
+    },
+    {
+      "id": "c6-limb",
+      "chapter": 6,
+      "kicker": "The yard",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "The second lesson is a forgotten limb, not a death. A shade-cantor stands in the yard and tries to take Emberion's voice out of the bond. If the silence lands, the others have to notice which part of the line went quiet. Everyone is meant to be standing at the end.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra"
+      ],
+      "fight": "Face the lesson",
+      "battle": "c6-limb",
+      "foes": [
+        "shade-cantor"
+      ],
+      "fightTitle": "The forgotten limb",
+      "winLine": "They notice the step. The lesson ends with everyone standing. Silence does not get to keep him.",
+      "loseLine": "The lesson is not finished. Level, then take it again.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If he goes quiet, that quiet is the thing we answer."
+        }
+      ]
+    },
+    {
+      "id": "c6-join",
+      "chapter": 6,
+      "kicker": "The yard",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "Bram and Nessa come into the roster when the yard is done. Bram cuts. Nessa sings. Neither of them is a reward for winning pretty. At dusk the market is ordinary again, which was the point of the drill. The Vale has more people in it than a prologue.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra",
+        "bram",
+        "nessa"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "Point me at the work. I can find the rest."
+        },
+        {
+          "who": "nessa",
+          "text": "I will keep the song where the song is needed."
+        }
+      ]
+    },
+    {
+      "id": "h3",
+      "chapter": 6,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/hearth.jpg",
+      "line": "Straw is set in the hearth again, this time as practice and not as the prologue. Two bundles, weak and repeatable. It is off the story. You can pass it. The festival does not wait on a training floor.",
+      "cast": [
+        "serenya",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h3-drill",
+      "foes": [
+        "straw-shade",
+        "straw-shade"
+      ],
+      "fightTitle": "Practice straw",
+      "winLine": "The practice straw is down. It was never the pair who did not land.",
+      "loseLine": "Practice can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "This straw is practice. The first straw was a memory. Do not mix them."
+        }
+      ]
+    },
+    {
+      "id": "c7-green",
+      "chapter": 7,
+      "read": true,
+      "kicker": "The festival",
+      "plate": "assets/scenes/festival.jpg",
+      "line": "The Vale puts on gold lanterns and chalks seals on the green like a children's game. Miralis is in the crowd with a bronze wheel of small bells, the Kairos wheel, so the hour cannot cheat without being heard. She is not a rumor anymore. She is in the company.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "The bells are small. They are still a clock."
+        },
+        {
+          "who": "serenya",
+          "text": "Then stay where we can hear them."
+        }
+      ]
+    },
+    {
+      "id": "c7-lanterns",
+      "chapter": 7,
+      "kicker": "The festival",
+      "plate": "assets/scenes/festival.jpg",
+      "line": "Glamour tries the lane mouths with clean substitutions, four shapes dressed like wardens who belong to nobody. It is not a cloud of monsters. It is a polite lie at every door. Corvath is watched from the edge of the green. He does not touch them. The offer in the air is a crown, and they are here to refuse it.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "miralis"
+      ],
+      "fight": "Face the doorways",
+      "battle": "c7-lanterns",
+      "foes": [
+        "parsed-warden",
+        "parsed-warden",
+        "parsed-warden",
+        "parsed-warden"
+      ],
+      "fightTitle": "The lanterns",
+      "winLine": "They name the glamour false and refuse a crown. Miralis stays. Corvath still has not touched them.",
+      "loseLine": "The doorways hold. Level, then name them again. The festival is not over.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Name it false. Do not let the green become a throne."
+        },
+        {
+          "who": "miralis",
+          "text": "I have the hour. You hold the doors."
+        }
+      ]
+    },
+    {
+      "id": "h4",
+      "chapter": 7,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/festival.jpg",
+      "line": "After the crowd thins, two cantors linger on the green under the leftover garlands. They are not the lantern fight. You can pass them and keep the night moving toward the loft.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h4-garland",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "The garland",
+      "winLine": "The green is only a green again.",
+      "loseLine": "The garland can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The green can keep its leftovers. We are done performing."
+        }
+      ]
+    },
+    {
+      "id": "c8-night",
+      "chapter": 8,
+      "read": true,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "The lanterns go out. The company beds down, and Serenya does not. A mirror in the loft offers her the day finished, every argument already agreed, peace with no one left to disagree. Emberion is awake because she is awake.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "It is offering me a quiet with none of you in it."
+        },
+        {
+          "who": "emberion",
+          "text": "He stays on the perch. He does not look at the glass."
+        }
+      ]
+    },
+    {
+      "id": "c8-mirror",
+      "chapter": 8,
+      "kicker": "The mirror",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "The mirror puts a copy of Serenya on the floor, wearing what she knows and asking to be the last voice in the room. It is not a second heroine. If it breaks, it does not get up in the roster. Emberion is in the fight because the offer is about being alone.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "fight": "Face the mirror",
+      "battle": "c8-mirror",
+      "foes": [
+        "mirror-serenya"
+      ],
+      "fightTitle": "The mirror",
+      "winLine": "She reaches toward the quiet, then does not take it. The mirror shatters. It was not another Serenya.",
+      "loseLine": "The offer is still open. Level, then refuse it again. Emberion is still in the loft.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Completion that erases the room is not rest."
+        }
+      ]
+    },
+    {
+      "id": "c8-dawn",
+      "chapter": 8,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "Dawn comes in on the shutter. The scar on her palm is quiet. The doubt is not gone, and she does not pretend it is. Emberion stayed through the night. Miralis's bells are somewhere in the town, not in this room. The day after a refusal is still a day.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "I am still here. That is the answer I kept."
+        },
+        {
+          "who": "emberion",
+          "text": "He breathes, slow, until her hands unclench."
+        }
+      ]
+    },
+    {
+      "id": "c9-stair",
+      "chapter": 9,
+      "read": true,
+      "kicker": "Under the Stone",
+      "plate": "assets/scenes/vault.jpg",
+      "line": "Lyra takes them under the Accord Stone, down a stair the map forgot. The city is still above them, selling bread. Below, she says, is a room that shows Haven as a presence rather than a picture. Miralis comes as far as the company comes. The water is the lesson, not a trophy.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra",
+        "miralis"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Do not fight a shadow where it is already king."
+        },
+        {
+          "who": "serenya",
+          "text": "Then show me the room, and say the rest of the rule."
+        }
+      ]
+    },
+    {
+      "id": "c9-vault",
+      "chapter": 9,
+      "kicker": "The vault",
+      "plate": "assets/scenes/vault.jpg",
+      "line": "The Mirror Vault holds a basin. The water shows Haven leaning close, and a crack that moves like a decision someone is still making. Two cantors and a beast stand in the lesson. Miralis is still with them. The basin is not there to be destroyed. Win, and the stones she has walked will carry her afterward.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra",
+        "miralis"
+      ],
+      "fight": "Face the vault",
+      "battle": "c9-vault",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "shade-beast"
+      ],
+      "flag": "fastTravel",
+      "fightTitle": "The mirror vault",
+      "winLine": "The crack stops. The rule holds: do not fight the shadow where it is already king. Make it stand in the market and name a price. The stones she has walked will carry her.",
+      "loseLine": "The vault keeps its crack. Level, then go down again. The basin is still whole.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Make it stand in the market and name a price."
+        },
+        {
+          "who": "serenya",
+          "text": "The basin stays. The crack does not get to choose for us."
+        }
+      ]
+    },
+    {
+      "id": "c9-morning",
+      "chapter": 9,
+      "kicker": "The vault",
+      "plate": "assets/scenes/vault.jpg",
+      "line": "Morning is in the street above the Stone. The city did not notice the vault, which is how a city stays a city. The crack has stopped. From here, the places she has already walked can take her without the long road between them. The ridge is still not one of those places.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The city kept the morning. We keep the rule."
+        }
+      ]
+    },
+    {
+      "id": "h5",
+      "chapter": 9,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/vault.jpg",
+      "line": "An echo stays in the basin after the lesson, two cantors repeating a verse that already ended. It is off the story. You can pass it. The vault does not need a second victory to stay true.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h5-echo",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "The echo",
+      "winLine": "The echo is gone. The basin remains.",
+      "loseLine": "The echo can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "An echo is not the verse. Leave it if you are done."
+        }
+      ]
+    },
+    {
+      "id": "c10-court",
+      "chapter": 10,
+      "read": true,
+      "kicker": "Moonrise",
+      "plate": "assets/scenes/moonrise.jpg",
+      "line": "Moonrise is dressed as a courtesy. The court is swept, the lamps are kind, and the kindness is an ambush. Miralis brings the Kairos wheel so the hour cannot cheat quietly. Lyra has already decided the order of the night: the Stone is held before anyone is rescued.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis",
+        "lyra"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "If the hour cheats, the bells will say so."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we hold the square. Rescue is not the first step."
+        }
+      ]
+    },
+    {
+      "id": "c10-moonrise",
+      "chapter": 10,
+      "kicker": "Moonrise",
+      "plate": "assets/scenes/moonrise.jpg",
+      "line": "Corvath is in the court with shades at his back. He does not have to fall for the night to break. Hold long enough, or put down every shade that is not him, and the ambush fails. The cost is already walking beside Serenya with a wheel of bells. Do not spend Miralis to prove you were brave.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "corvath",
+        "lyra",
+        "miralis"
+      ],
+      "fight": "Hold the square",
+      "battle": "c10-moonrise",
+      "foes": [
+        "corvath",
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "flag": "miralisTaken",
+      "fightTitle": "Moonrise",
+      "winLine": "The square holds. The wheel is in the gutter afterward, a bell missing. Miralis is gone. Corvath barely soiled his claws. Bringing her back is not this book.",
+      "loseLine": "The square is not held. Level, then keep it again. Miralis is not lost until you win this night.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "The Stone first. A rescue that loses the square saves no one."
+        },
+        {
+          "who": "corvath",
+          "text": "I will barely have to soil my claws."
+        }
+      ]
+    },
+    {
+      "id": "c10-after",
+      "chapter": 10,
+      "kicker": "Moonrise",
+      "plate": "assets/scenes/moonrise.jpg",
+      "line": "Miralis is not in the company. The court is not a place to grind for another hour of practice. One bell is missing from the wheel, and the rest of it mutters on Serenya's wrist. Corvath has left the courtesy unfinished. They take the long way toward home.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "She is taken. We do not pretend the court is a shop."
+        },
+        {
+          "who": "emberion",
+          "text": "He walks close. He does not ask the wrist to be quiet."
+        }
+      ]
+    },
+    {
+      "id": "c11-home",
+      "chapter": 11,
+      "read": true,
+      "kicker": "The long way",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "Serenya walks Emberion the long way home. There is blood on the loft planks before the night is willing to be a night. The broken wheel mutters on her wrist. His fire wants a clean, simple answer. Clean would mean forgetting who is missing.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "We name the pain. We do not sand it down."
+        },
+        {
+          "who": "emberion",
+          "text": "The fire in him wants a short road. He does not take it."
+        }
+      ]
+    },
+    {
+      "id": "c11-trial",
+      "chapter": 11,
+      "kicker": "The yard",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "The yard asks the question his fire already asked. Three shades stand in for the simple ending, the one where grief becomes a clean burn. Lyra, Bram, and Nessa stand with them. Miralis cannot. If Emberion falls and the shades still die, the morning will put him back on his feet. The loss that ends the fight is still Serenya's.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra",
+        "bram",
+        "nessa"
+      ],
+      "fight": "Face the trial",
+      "battle": "c11-trial",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-beast"
+      ],
+      "fightTitle": "Emberion's trial",
+      "winLine": "They name the pain instead of simplifying it. He comes out larger. Miralis is still gone. The concord is breath, memory, and vow.",
+      "loseLine": "The trial is not done. Level, then walk him home again.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Not the clean version. Stay until it has a true name."
+        }
+      ]
+    },
+    {
+      "id": "c11-mark",
+      "chapter": 11,
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "What they keep is a concord mark: breath, memory, and a vow shared, not a crown and not a cure. Emberion is larger in the loft than he was on the road. The wheel still mutters. Miralis is still taken. The mark does not pretend otherwise.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Breath. Memory. Vow. That is the size of it."
+        },
+        {
+          "who": "emberion",
+          "text": "He answers with the same heat, held smaller than it wants to be."
+        }
+      ]
+    },
+    {
+      "id": "h6",
+      "chapter": 11,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "Raiders are on the ridge again, off the story, three of them and no trial hidden inside the fight. You can pass them. The Stone is the next true page, not this trail.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "bram"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h6-ridge",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "peak-raider"
+      ],
+      "fightTitle": "The ridge trail",
+      "winLine": "The ridge trail is quiet.",
+      "loseLine": "The ridge trail can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "I can take a trail. The Stone will not wait if we linger."
+        }
+      ]
+    },
+    {
+      "id": "c12-stone",
+      "chapter": 12,
+      "read": true,
+      "kicker": "The Stone",
+      "plate": "assets/scenes/crack.jpg",
+      "line": "The Accord Stone grows an honest crack, the kind no one can call a trick of the light. Lyra calls the circle before anyone can pretend not to hear it. Serenya has shard-lines ready in her head: the well, the school gate, the bakery, the mouth of the lane where Miralis was taken.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Hear it now. Later, everyone will say they meant to."
+        },
+        {
+          "who": "serenya",
+          "text": "The well. The school. The bakery. The lane."
+        }
+      ]
+    },
+    {
+      "id": "c12-crack",
+      "chapter": 12,
+      "kicker": "The Stone",
+      "plate": "assets/scenes/crack.jpg",
+      "line": "Shades press the square while the crack is still deciding how wide to be. The Stone is why they came. Clear the shades, and the crack does not get the square. Corvath is not in this hour. Lyra is still with the company. The square is lost if Serenya falls.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra"
+      ],
+      "fight": "Hold the Stone",
+      "battle": "c12-crack",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The crack",
+      "winLine": "The Stone still stands. One bell from the wheel is tied to a rope as a witness. The crack did not get the square.",
+      "loseLine": "The crack keeps widening. Level, then hold the Stone again. The square is lost if Serenya falls.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Clear them off the square. The crack does not get the night."
+        },
+        {
+          "who": "lyra",
+          "text": "The circle still holds. Finish the shades."
+        }
+      ]
+    },
+    {
+      "id": "c12-commons",
+      "chapter": 12,
+      "kicker": "The commons",
+      "plate": "assets/scenes/crack.jpg",
+      "line": "The square is not the whole Vale. Raiders and warden-shapes push the lanes: the edges, the commons, the places a verse is supposed to keep when there is no stage for it. A scrap of the old song is Serenya's to spend here, not to perform. The Gate has to hold, even if it holds at an ember.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "bram",
+        "nessa"
+      ],
+      "fight": "Hold the lanes",
+      "battle": "c12-commons",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "parsed-warden",
+        "parsed-warden"
+      ],
+      "fightTitle": "The commons",
+      "winLine": "The lanes hold. The Gate holds at an ember. The commons did the work they practiced.",
+      "loseLine": "The lanes are still open. Level, then hold them again.",
+      "speak": [
+        {
+          "who": "nessa",
+          "text": "Edges and commons. Not a stage."
+        },
+        {
+          "who": "bram",
+          "text": "Then we hold the lane like a door, not like a show."
+        }
+      ]
+    },
+    {
+      "id": "h7",
+      "chapter": 12,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/crack.jpg",
+      "line": "Something still worries the square after both fights: two cantors and a beast, picking at a crack that has already been answered. You can pass it. The ruins tonight are a different page.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h7-crack",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "shade-beast"
+      ],
+      "fightTitle": "The worried square",
+      "winLine": "The square settles.",
+      "loseLine": "The square can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The square has had its answer. This worry can wait."
+        }
+      ]
+    },
+    {
+      "id": "c13-ruins",
+      "chapter": 13,
+      "read": true,
+      "kicker": "The ruins",
+      "plate": "assets/scenes/ruins.jpg",
+      "line": "Night finds the same square in ruins. Lyra comes to the cracked Stone without her staff. Corvath is there to offer terms and a smoother city, the kind that obeys. She has already chosen the song that keeps the arch standing. She has also chosen what the song will cost.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "lyra",
+        "corvath"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "The arch stands if the song is spent. I know the price."
+        },
+        {
+          "who": "serenya",
+          "text": "Say it so I can refuse it."
+        },
+        {
+          "who": "lyra",
+          "text": "You can refuse it. The arch cannot."
+        }
+      ]
+    },
+    {
+      "id": "c13-song",
+      "chapter": 13,
+      "kicker": "The ruins",
+      "plate": "assets/scenes/ruins.jpg",
+      "line": "Corvath multiplies across the ruins and revises the square toward something smooth. Lyra spends the song. Her falling is the victory the arch requires, and it is still a loss. Serenya's own fall can still lose the night before that song is finished. This is not a fight you win by keeping everyone.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "lyra",
+        "corvath"
+      ],
+      "fight": "Keep the arch",
+      "battle": "c13-last-song",
+      "foes": [
+        "corvath",
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "flag": "lyraFallen",
+      "fightTitle": "The last song",
+      "winLine": "Lyra does not leave the ruins on her feet. Serenya takes the weight under a smaller name. This is a victory, and a loss that does not end the book.",
+      "loseLine": "The arch is not kept yet. Level, then come back. Lyra is still with you until the song is spent.",
+      "speak": [
+        {
+          "who": "lyra",
+          "text": "Hold the hum simple. I will spend the rest."
+        },
+        {
+          "who": "corvath",
+          "text": "Terms are kinder than rubble. Take them."
+        }
+      ]
+    },
+    {
+      "id": "c13-after",
+      "chapter": 13,
+      "kicker": "The ruins",
+      "plate": "assets/scenes/ruins.jpg",
+      "line": "Lyra is not selectable again in this book. The arch is memory and stone, and the song is spent. Emberion holds the hum simple, the way she asked. Bram and Nessa do the commons work they practiced. Serenya carries the weight under a smaller name. Nobody says the night was clean.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "She is not a piece we put back on the board."
+        },
+        {
+          "who": "emberion",
+          "text": "He keeps the hum small enough to last."
+        }
+      ]
+    },
+    {
+      "id": "c14-gate",
+      "chapter": 14,
+      "read": true,
+      "kicker": "The Gate",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "Haven leans through the Gate and asks for an interval, not a throne. Emberion puts his brow to that heat. He can grow into the ask without moving in to stay. Corvath's cleanliness cannot bear a lag, a world that refuses to be smooth. The sea beyond the ridge is still only a sea.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "An interval. Not a crown. We do not move in to stay."
+        },
+        {
+          "who": "emberion",
+          "text": "The heat takes his brow. He grows, and he does not sit the throne."
+        }
+      ]
+    },
+    {
+      "id": "c14-ascend",
+      "chapter": 14,
+      "kicker": "The ridge",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "Corvath meets them on the ridge because a rough world offends him. He is not here to become a corpse. The fight turns when he is brought low enough to leave, not when he is ended. A cantor stands with him. Emberion is in his ascent. Nobody is here to be crowned if they win.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "corvath"
+      ],
+      "fight": "Face him",
+      "battle": "c14-ascend",
+      "foes": [
+        "corvath",
+        "shade-cantor"
+      ],
+      "fightTitle": "The ascent",
+      "winLine": "They give him a rougher world than he can bear. He leaves toward the horizon. He is not a corpse. Nobody is crowned.",
+      "loseLine": "He is still in the gate. Level, then meet him again. The win is his leaving, not his death.",
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "Your lag is an insult. I will not live in it."
+        },
+        {
+          "who": "serenya",
+          "text": "Then leave. The win is the leaving."
+        }
+      ]
+    },
+    {
+      "id": "c14-sea",
+      "chapter": 14,
+      "kicker": "The ridge",
+      "plate": "assets/scenes/ridge.jpg",
+      "line": "The sea goes back to being a sea. The horizon does not return him. Lyra is still gone. Miralis is still taken. Emberion is still beside Serenya, larger, and not a king. The Gate cools. What they refused was a throne. What they kept was the lag he could not stand.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "No crown. No corpse. The sea can have its own name back."
+        }
+      ]
+    },
+    {
+      "id": "h8",
+      "chapter": 14,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/moonrise.jpg",
+      "line": "Three cantors linger at Moonrise after the duel, a mirror of the court with none of the ambush left in it. You can pass them. Dawn does not depend on this trail.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "nessa"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "h8-mirror-sea",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "The mirror sea",
+      "winLine": "Moonrise is only a court again.",
+      "loseLine": "The court can wait. Level, or pass it.",
+      "speak": [
+        {
+          "who": "nessa",
+          "text": "Moonrise has had its night. Leave the rest of it."
+        }
+      ]
+    },
+    {
+      "id": "c15-dawn",
+      "chapter": 15,
+      "read": true,
+      "kicker": "Dawn",
+      "plate": "assets/scenes/dawn.jpg",
+      "line": "Dawn is undecided. Ash sits in the cobbles where the square used to be sure of itself. Lyra's arch is memory. The Gate is coal. The moon wears a crack. Haven leans once toward the Vale and then takes its hand back. What remains of the night is still standing in the ash, and it is not the ending yet.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "One more clearing. Then we let the morning be a morning."
+        },
+        {
+          "who": "emberion",
+          "text": "He watches the cracked moon and does not chase it."
+        }
+      ]
+    },
+    {
+      "id": "c15-ash",
+      "chapter": 15,
+      "kicker": "Dawn",
+      "plate": "assets/scenes/dawn.jpg",
+      "line": "Three beasts and a cantor stand in the ash. This is the aftermath, not the slumber. Corvath is not among them. No one is taken or fallen in this fight except what the night already spent. Clear the square so dawn has somewhere to stand.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "bram",
+        "nessa"
+      ],
+      "fight": "Clear the ash",
+      "battle": "c15-ash",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The ash",
+      "winLine": "The square is quiet enough for morning. The slumber is the next page, not another fight.",
+      "loseLine": "The ash is still moving. Level, then clear it again.",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "Aftermath. Not a legend. Sweep it."
+        },
+        {
+          "who": "serenya",
+          "text": "Sweep it, and do not call it a war."
+        }
+      ]
+    },
+    {
+      "id": "c15-slumber",
+      "chapter": 15,
+      "kicker": "The Moonlit Slumber",
+      "plate": "assets/scenes/dawn.jpg",
+      "line": "Haven leans once more and takes its hand back for good. The song that remains is one the Vale can keep without being carried. Serenya and Emberion are still here. Miralis is still taken. Lyra is still gone. Nobody is crowned. The slumber keeps this save. The Shattered Accord opens on the next page.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "flag": "book1Clear",
+      "next": "The Shattered Accord",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "We are still here. That is the slumber I will keep."
+        },
+        {
+          "who": "emberion",
+          "text": "He settles. The square does not ask him to be more than that."
+        }
+      ]
+    }
+  ]
+}

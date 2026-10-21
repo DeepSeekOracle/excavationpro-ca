@@ -1,0 +1,10 @@
+{
+  "id": "mine-mouth",
+  "name": "Old Mine Mouth",
+  "kind": "dungeon",
+  "floors": [
+    { "id": "mouth", "name": "The mouth", "encounters": [], "descend": null }
+  ],
+  "enter": { "x": 30, "y": 8 },
+  "leave": { "map": "opening", "x": 30, "y": 9 }
+}

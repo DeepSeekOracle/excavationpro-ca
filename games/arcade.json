@@ -1,0 +1,18 @@
+{
+  "game": "arcade",
+  "title": "chatagent.ca live board",
+  "updated": null,
+  "space": "https://deepseekoracle-lattice-marines-ledger.hf.space",
+  "dataset": "DeepSeekOracle/lattice-marines-wins/arcade.json",
+  "note": "Pages copy is a schema fallback. Live rows live on the Hugging Face dataset; the Space writer snapshots this file after each inscribe.",
+  "books": {
+    "lattice-marines": { "title": "Lattice Marines Eternal Ledger", "key": "wins", "rows": [] },
+    "stock-market-masters": { "title": "Stock Market Masters TOP Cashout", "key": "cashouts", "rows": [] },
+    "haven-rally": { "title": "Haven Rally Hall", "key": "rows", "rows": [] },
+    "lattice-golf": { "title": "Lattice Golf Hall", "key": "rounds", "rows": [] },
+    "lattice-swarm": { "title": "Lattice Swarm Hall", "key": "scores", "rows": [] },
+    "eternal-lattice": { "title": "Eternal Lattice Ladder", "key": "ladder", "rows": [] },
+    "lattice-crypt": { "title": "Lattice Crypt Hall", "key": "runs", "rows": [] },
+    "fish-tank": { "title": "Fish Tank Cemetery", "key": "lives", "rows": [] }
+  }
+}

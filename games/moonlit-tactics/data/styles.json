@@ -1,0 +1,247 @@
+{
+  "catalog": 1,
+  "bodies": [
+    {
+      "id": "serenya",
+      "file": "assets/serenya.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": false,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/serenya-idle.png",
+        "assets/styles/poses/serenya-strike.png",
+        "assets/styles/poses/serenya-hurt.png",
+        "assets/styles/poses/serenya-down.png"
+      ],
+      "wardrobe": ["cantor", "warden", "kindler"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "lyra",
+      "file": "assets/styles/lyra-body.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": true,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/lyra-idle.png",
+        "assets/styles/poses/lyra-strike.png",
+        "assets/styles/poses/lyra-hurt.png",
+        "assets/styles/poses/lyra-down.png"
+      ],
+      "wardrobe": ["cantor"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "miralis",
+      "file": "assets/styles/miralis-body.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": true,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/miralis-idle.png",
+        "assets/styles/poses/miralis-strike.png",
+        "assets/styles/poses/miralis-hurt.png",
+        "assets/styles/poses/miralis-down.png"
+      ],
+      "wardrobe": ["warden"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "bram",
+      "file": "assets/styles/bram-body.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": true,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/bram-idle.png",
+        "assets/styles/poses/bram-strike.png",
+        "assets/styles/poses/bram-hurt.png",
+        "assets/styles/poses/bram-down.png"
+      ],
+      "wardrobe": ["warden"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "nessa",
+      "file": "assets/styles/nessa-body.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": true,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/nessa-idle.png",
+        "assets/styles/poses/nessa-strike.png",
+        "assets/styles/poses/nessa-hurt.png",
+        "assets/styles/poses/nessa-down.png"
+      ],
+      "wardrobe": ["cantor"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "recruit",
+      "file": "assets/styles/recruit-body.png",
+      "box": { "w": 407, "h": 1103 },
+      "paintInBase": true,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/recruit-idle.png",
+        "assets/styles/poses/recruit-strike.png",
+        "assets/styles/poses/recruit-hurt.png",
+        "assets/styles/poses/recruit-down.png"
+      ],
+      "wardrobe": ["cantor", "warden", "kindler"],
+      "anchors": { "weapon": [0.68, 0.62], "off": [0.34, 0.62] },
+      "weaponDraw": 0.22,
+      "shieldDraw": 0.18
+    },
+    {
+      "id": "emberion",
+      "file": "assets/emberion.png",
+      "box": { "w": 790, "h": 696 },
+      "paintInBase": false,
+      "drawHeight": "TH*2.45",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/emberion-idle.png",
+        "assets/styles/poses/emberion-strike.png",
+        "assets/styles/poses/emberion-hurt.png",
+        "assets/styles/poses/emberion-down.png"
+      ],
+      "wardrobe": [],
+      "stageScale": [1.0, 1.15, 1.35],
+      "anchors": { "weapon": [0.72, 0.58] },
+      "clawDrawOfDw": 0.42,
+      "clawPlateBox": [360, 280]
+    },
+    {
+      "id": "shade",
+      "file": "assets/shade.png",
+      "box": { "w": 926, "h": 1016 },
+      "paintInBase": false,
+      "drawHeight": "TH*2.15",
+      "posesInBase": false,
+      "poses": [
+        "assets/styles/poses/shade-idle.png",
+        "assets/styles/poses/shade-strike.png",
+        "assets/styles/poses/shade-hurt.png",
+        "assets/styles/poses/shade-down.png"
+      ],
+      "wardrobe": [],
+      "handPlate": false,
+      "enemies": {
+        "shade-beast": {},
+        "shade-cantor": { "multiply": [0.75, 0.9, 0.88] },
+        "straw-shade": { "alpha": 0.72 }
+      }
+    }
+  ],
+  "wardrobes": [
+    {
+      "id": "cantor",
+      "file": "assets/styles/wardrobe-cantor.png",
+      "box": { "w": 407, "h": 1103 },
+      "trim": "#ff00ff"
+    },
+    {
+      "id": "warden",
+      "file": "assets/styles/wardrobe-warden.png",
+      "box": { "w": 407, "h": 1103 },
+      "trim": "#ff00ff"
+    },
+    {
+      "id": "kindler",
+      "file": "assets/styles/wardrobe-kindler.png",
+      "box": { "w": 407, "h": 1103 },
+      "trim": "#ff00ff"
+    }
+  ],
+  "families": {
+    "blade": {
+      "power": 100,
+      "range": 1,
+      "shape": "eight",
+      "overlay": "slash",
+      "sfx": "weapon",
+      "plate": "assets/gear/blade.png",
+      "recolor": true,
+      "plateBox": [180, 180]
+    },
+    "brand": {
+      "power": 100,
+      "range": 1,
+      "shape": "eight",
+      "overlay": "slash",
+      "sfx": "weapon",
+      "plate": "assets/gear/brand.png",
+      "recolor": true,
+      "plateBox": [180, 180]
+    },
+    "claw": {
+      "power": 100,
+      "range": 1,
+      "shape": "eight",
+      "overlay": "slash",
+      "sfx": "claw",
+      "plate": null,
+      "recolor": false
+    },
+    "spear": {
+      "power": 100,
+      "range": 2,
+      "rangeMin": 1,
+      "shape": "orthogonal",
+      "overlay": "slash",
+      "radiusScale": 1.4,
+      "sfx": "weapon",
+      "plate": "assets/gear/spear.png",
+      "recolor": true,
+      "plateBox": [180, 180]
+    },
+    "staff": {
+      "power": 80,
+      "range": 1,
+      "shape": "eight",
+      "overlay": "bolt",
+      "sfx": "weapon",
+      "plate": "assets/gear/staff.png",
+      "recolor": true,
+      "plateBox": [180, 180]
+    }
+  },
+  "elements": {
+    "none": { "tint": "#e4c27a", "sfx": "bronze" },
+    "bronze": { "tint": "#c4843c", "sfx": "bronze" },
+    "moon": { "tint": "#d7d3f0", "sfx": "bronze" },
+    "seal": { "tint": "#8fd0c8", "sfx": "seal" },
+    "fracture": { "tint": "#ba8ce8", "sfx": "fracture" }
+  },
+  "trims": {
+    "cloth": "#cbb89a",
+    "mail": "#8ea0b5",
+    "robe": "#7f6ea8",
+    "plate": "#d7dde6"
+  },
+  "overlays": [
+    { "id": "slash", "durationMs": 280, "travel": "arc" },
+    { "id": "bolt", "durationMs": 460, "travel": "head" },
+    { "id": "arc", "durationMs": 360, "travel": "sweep" },
+    { "id": "breath", "durationMs": 420, "travel": "cone" },
+    { "id": "self", "durationMs": 320, "travel": "none" },
+    { "id": "heal", "durationMs": 460, "travel": "bolt", "tint": [143, 208, 200] }
+  ]
+}

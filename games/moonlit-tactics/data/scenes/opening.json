@@ -1,0 +1,37 @@
+{
+  "id": "opening-pages",
+  "beats": [
+    {
+      "id": "yard",
+      "kicker": "The Hatchery",
+      "plate": "assets/scenes/yard.jpg",
+      "line": "The door closes. Stone underfoot, and the road running into the trees.",
+      "cast": ["serenya", "emberion"],
+      "next": "Onward"
+    },
+    {
+      "id": "thicket",
+      "kicker": "The road",
+      "plate": "assets/scenes/thicket.jpg",
+      "line": "The grass ahead does not move like grass. Something is standing in it.",
+      "cast": ["serenya", "emberion", "shade"],
+      "fight": "Face it"
+    },
+    {
+      "id": "quiet",
+      "kicker": "The road",
+      "plate": "assets/scenes/thicket.jpg",
+      "line": "The grass is quiet. The road goes on, and nothing answers.",
+      "cast": ["serenya", "emberion"],
+      "next": "Onward"
+    },
+    {
+      "id": "loft",
+      "kicker": "The loft",
+      "plate": "assets/scenes/loft.jpg",
+      "line": "Night in the loft. The naming will not sit quietly, and the next trial is still ahead.",
+      "cast": ["serenya", "emberion"],
+      "next": "Menu"
+    }
+  ]
+}

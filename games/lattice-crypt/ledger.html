@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lattice Crypt: Live hall | Excavationpro</title>
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-crypt/ledger.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#07080e; color:#e8eef5; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:820px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#5eead4; font-size:.72rem; }
+h1 { font-family:Syne,sans-serif; }
+a { color:#5eead4; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #1e2a3a; border-radius:8px; text-decoration:none; color:#e8eef5; }
+.muted { color:#94a3b8; }
+.round { width:100%; text-align:left; background:#0c1018; color:#e8eef5; border:1px solid #1e2a3a; border-radius:10px; padding:.7rem .8rem; margin:.4rem 0 0; font:inherit; }
+.rtop { display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap; }
+.rtop b { font-family:Syne,sans-serif; }
+.rmeta { color:#94a3b8; font-size:.82rem; }
+.rmeta b { color:#fbbf24; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · live hall</p>
+  <h1>Lattice Crypt ledger</h1>
+  <p class="muted">Public runs. Names, score, floor (Survival writes wave here). Empty beats a fake board.</p>
+  <div class="row">
+    <a class="btn" href="./">Play</a>
+    <a class="btn" href="/games/">Hub</a>
+    <a class="btn" href="./whitepaper.html">Whitepaper</a>
+    <a class="btn" href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal</a>
+    <a class="btn" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" rel="noopener">Patreon</a>
+  </div>
+  <p class="muted" id="srcMeta">Loading…</p>
+  <div id="hall"></div>
+</div>
+<script>
+(function(){
+  function esc(s){ return String(s||"").replace(/[<>]/g,""); }
+  var FEEDS = [
+    "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json",
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/crypt/ledger.json",
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json",
+    "./ledger.json"
+  ];
+  async function pull(){
+    var rows = [];
+    var src = "this browser";
+    for (var i=0;i<FEEDS.length;i++){
+      try {
+        var r = await fetch(FEEDS[i], { cache:"no-store" });
+        if (!r.ok) continue;
+        var data = await r.json();
+        var list = data.rounds || data.runs || (data.books && data.books["lattice-crypt"] && (data.books["lattice-crypt"].rows || data.books["lattice-crypt"].runs)) || (Array.isArray(data) ? data : []);
+        if (list && list.length) { rows = list.slice(); src = FEEDS[i].replace(/^https?:\/\//,""); break; }
+      } catch(e) {}
+    }
+    try {
+      var s = JSON.parse(localStorage.getItem("lygo_lattice_crypt_v1") || "{}");
+      var q = JSON.parse(localStorage.getItem("lygo-lattice-crypt-ledger-q") || "[]");
+      rows = rows.concat(q);
+      if (s.best) rows.push({ name: s.name||"Warden", score: s.best, floor: "best" });
+    } catch(e) {}
+    rows.sort(function(a,b){ return (b.score||0)-(a.score||0); });
+    document.getElementById("srcMeta").textContent = rows.length ? ("Showing " + rows.length + " · " + src) : "Hall is empty, a real zero.";
+    document.getElementById("hall").innerHTML = rows.slice(0,40).map(function(r){
+      return "<div class='round'><div class='rtop'><b>"+esc(r.name||"Warden")+"</b><span>"+(r.score||0)+"</span></div>"+
+        "<div class='rmeta'>wave/floor <b>"+esc(r.floor||", ")+"</b></div></div>";
+    }).join("") || "<p class='muted'>No runs yet.</p>";
+  }
+  pull();
+  setInterval(pull, 40000);
+})();
+</script>
+</body>
+</html>

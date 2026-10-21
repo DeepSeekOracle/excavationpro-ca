@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-lygo-gate-embed>
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Marines: isometric island war | eternalhaven.ca</title>
+<meta name="description" content="Lattice Marines is a free isometric strategy game: three-phase turns, Battleship fog of war, adaptive AI, unlocks, and a local leaderboard. Inspired by Metal Marines, built as a standalone webpage.">
+<meta name="theme-color" content="#070b12">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<link rel="canonical" href="https://eternalhaven.ca/games/lattice-marines/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://eternalhaven.ca/games/lattice-marines/">
+<meta property="og:title" content="Lattice Marines, island war">
+<meta property="og:description" content="Place command centres. Probe the fog. Watch missiles and marines resolve. Adaptive AI, campaign loop, unlocks, leaderboard.">
+<meta property="og:image" content="https://eternalhaven.ca/games/lattice-marines/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="Lattice Marines, island war">
+<meta name="twitter:description" content="Three-phase isometric strategy. Fog of war. Adaptive AI. Free in the browser.">
+<meta name="twitter:image" content="https://eternalhaven.ca/games/lattice-marines/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./game.css?v=7">
+<link rel="stylesheet" href="/games/lygo-gate.css?v=1">
+<script src="/games/lygo-gate.js?v=1" defer></script>
+</head>
+<body>
+<div id="boot" class="boot">
+  <p class="kicker">Δ9Φ963 · Excavationpro</p>
+  <h1>Lattice Marines</h1>
+  <p class="boot-msg" id="bootMsg">Loading island assets…</p>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="top">
+    <a class="brand" href="/">eternalhaven.ca</a>
+    <a class="games-mini" href="/games/">All games</a>
+    <div class="phase-pill" id="phasePill">BRIEFING</div>
+    <div class="res" id="resHud"></div>
+    <div class="hq-pips" id="hqPips"></div>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer" title="PayPal.me/ExcavationPro">PayPal</a>
+  </header>
+
+  <div class="stage">
+    <aside class="rail left" id="leftRail"></aside>
+    <div class="viewport">
+      <canvas id="iso" tabindex="0" aria-label="Isometric island battlefield" aria-describedby="camHelp"></canvas>
+      <div class="hint" id="hint"></div>
+      <div class="cam-help" id="camHelp">Drag or touch pan · wheel / pinch zoom · 1–9 select · Enter ends phase</div>
+    </div>
+    <aside class="rail right">
+      <div class="panel cmd-panel" id="cmdPanel"></div>
+      <div class="panel" id="selPanel"></div>
+      <div class="panel log-panel">
+        <h3>Battle log</h3>
+        <div class="log" id="log" aria-live="polite" aria-relevant="additions"></div>
+      </div>
+      <div class="panel" id="boardPanel"></div>
+    </aside>
+  </div>
+
+  <footer class="dock">
+    <button type="button" class="btn ghost" id="btnHelp">How to play</button>
+    <a class="games-mini" href="/games/">All games</a>
+    <button type="button" class="btn ghost" id="btnMenu">Abort / menu</button>
+    <span class="grow" id="dockStatus" aria-live="polite"></span>
+    <button type="button" class="btn ghost" id="btnPace" title="Playback speed. F">Speed ×1</button>
+    <button type="button" class="btn" id="btnSkip">Skip playback</button>
+    <button type="button" class="btn gold" id="btnEnd">End phase</button>
+  </footer>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<div id="radioDock" class="radio-dock">
+  <audio id="radioEl" preload="none"></audio>
+  <div class="radio-chip">
+    <button type="button" id="radioView" title="Show or hide radio (music keeps playing)">Radio</button>
+    <button type="button" id="radioMute" title="Mute radio (does not stop playback)">Mute</button>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+  </div>
+  <div class="radio-panel" id="radioPanel">
+    <div class="radio-head">
+      <strong>Listen portal radio</strong>
+      <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Free listen portal</a>
+      <p class="radio-dsp">
+        <a href="https://ffm.to/eovnvo9" target="_blank" rel="noopener noreferrer">Stream Excavationpro</a>
+        · <a href="https://open.spotify.com/artist/6CkZ4bN2xu3WRKbjEL3u2S" target="_blank" rel="noopener noreferrer">Spotify</a>
+        · <a href="https://music.apple.com/us/artist/excavationpro/1586588545" target="_blank" rel="noopener noreferrer">Apple Music</a>
+        · <a href="https://music.youtube.com/channel/UCnCf9gjhMEfUFPvGkdlUabQ" target="_blank" rel="noopener noreferrer">YouTube Music</a>
+      </p>
+    </div>
+    <div class="radio-title" id="radioTitle">Idle, press Play for Excavationpro radio</div>
+    <div class="radio-row">
+      <button type="button" id="radioPlay">Play</button>
+      <button type="button" id="radioNext">Next</button>
+      <label class="radio-vol">Vol <input id="radioVol" type="range" min="0" max="100" value="55"></label>
+    </div>
+  </div>
+</div>
+
+<script src="./radio.js"></script>
+<script src="./game.js?v=7"></script>
+</body>
+</html>

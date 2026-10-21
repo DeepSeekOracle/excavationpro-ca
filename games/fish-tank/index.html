@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fish Tank: real-time aquarium | Excavationpro</title>
+<meta name="description" content="Free real-time aquarium. Eighteen species, including one octopus, LYGO Claw the lobster, and a reef crab, grow through six ages and breed generations of fry. Adult in a day, a week unless you use pellets. Snails, algae eaters, and a turtle keep the water. Local save. Life hall. No account.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#071018">
+<link rel="canonical" href="https://excavationpro.ca/games/fish-tank/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="chatagent.ca">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://excavationpro.ca/games/fish-tank/">
+<meta property="og:title" content="Fish Tank, real-time aquarium">
+<meta property="og:description" content="Name your fish, keep the water, and see who lasts. Eighteen species, including one octopus, LYGO Claw the lobster, and a reef crab. Six ages, day and night on the real clock. Life hall ranks the longest lives.">
+<meta property="og:image" content="https://excavationpro.ca/games/fish-tank/assets/og.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fish Tank title over a golden aquarium with a goldfish, a blue stripe, an octopus, and a gold-clawed lobster">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fish Tank, real-time aquarium">
+<meta name="twitter:description" content="Eighteen species, including one octopus, LYGO Claw the lobster, and a reef crab. Six ages, real day and night. Local save. Life hall. No account.">
+<meta name="twitter:image" content="https://excavationpro.ca/games/fish-tank/assets/og.jpg?v=2">
+<meta name="twitter:image:alt" content="Fish Tank title over a golden aquarium with a goldfish, a blue stripe, an octopus, and a gold-clawed lobster">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Fish Tank",
+  "url": "https://excavationpro.ca/games/fish-tank/",
+  "image": "https://excavationpro.ca/games/fish-tank/assets/og.jpg?v=2",
+  "description": "Free real-time aquarium. Eighteen species, including one octopus, LYGO Claw the lobster, and a reef crab, grow through six ages. Cleaners keep algae and water quality in check. Local save. Life hall ranks hours lived.",
+  "genre": ["Simulation", "Casual"],
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+  "author": {
+    "@type": "Person",
+    "name": "Justin Helmer",
+    "alternateName": ["Excavationpro", "Lightfather"],
+    "url": "https://chatagent.ca/"
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./tank.css?v=18">
+<link rel="stylesheet" href="/games/lygo-gate.css?v=1">
+<script src="/games/lygo-gate.js?v=1" defer></script>
+</head>
+<body>
+<div id="menu" class="menu">
+  <div class="title-screen">
+    <div class="title-art">
+      <img src="./assets/menu.jpg" alt="Golden-hour aquarium: goldfish and a blue-striped fish among plants, a stone arch, and driftwood" width="1280" height="720">
+    </div>
+    <div class="title-panel">
+      <p class="kicker">Δ9Φ963 · Excavationpro</p>
+      <h1>Fish Tank</h1>
+      <nav class="menu-tabs" aria-label="Menu">
+        <button type="button" class="tab on" data-tab="panelHome">Home</button>
+        <button type="button" class="tab" data-tab="panelTank">Tank</button>
+        <button type="button" class="tab" data-tab="panelHow">Guide</button>
+      </nav>
+      <div id="panelHome">
+        <div class="modes">
+          <button type="button" class="mode-card" id="menuContinue"><b>Continue</b><span>Open the tank already in this browser.</span></button>
+          <button type="button" class="mode-card" id="menuNew"><b>New tank</b><span>Choose a caretaker, three gifts, then the fish.</span></button>
+          <button type="button" class="mode-card" id="menuAuto"><b>Automatic</b><span>The keeper picks the fish, feeds, and tends the water. Hunters still roll. You cannot stop them.</span></button>
+          <button type="button" class="mode-card" id="menuHow"><b>How to keep them</b><span id="howLine">Ages, food, water, cleaners, points.</span></button>
+          <button type="button" class="mode-card" id="menuOpt"><b>Options</b><span>Names, light, heater, motion.</span></button>
+
+          <button type="button" class="mode-card" id="menuRpg"><b>Fish Tank RPG</b><span>No points and no shop: three fish of your pick, two of a kind, and everything else has to breed. Will the ecology hold?</span></button>
+        </div>
+        <div class="row">
+          <a class="btn" href="./ledger.html">Life hall</a>
+          <a class="btn" href="/games/">All games</a>
+        </div>
+      </div>
+      <div id="panelKeep" class="hidden">
+        <p class="kicker">Home · who keeps it</p>
+        <label>Your name</label>
+        <input class="name" id="menuOwner" maxlength="18" value="" placeholder="What should we call you?" aria-label="Your name">
+        <div class="cast-grid" id="menuKeepers"></div>
+        <article class="rpg-sheet" id="keeperSheet"></article>
+        <p class="kicker">Three gifts</p>
+        <div class="keeper-pick" id="menuPerks"></div>
+        <p class="lore" id="perkNote">Choose three gifts.</p>
+        <div class="row">
+          <button type="button" class="btn gold" id="menuToTank">Next · the tank</button>
+        </div>
+      </div>
+      <div id="panelTank" class="hidden">
+        <p class="kicker">Tank</p>
+        <div class="modes" id="themePick">
+          <button type="button" class="mode-card on" data-theme="river"><b>River garden</b><span>Clear water, plants, and a stone arch. 25°.</span></button>
+          <button type="button" class="mode-card" data-theme="coral"><b>Coral shelf</b><span>Warm shallows, corals, and an anemone. 27°.</span></button>
+          <button type="button" class="mode-card" data-theme="bog"><b>Blackwater</b><span>Tea-stained water, roots, and leaf litter. 23°. Less algae.</span></button>
+        </div>
+        <p class="kicker">Mode</p>
+        <div class="modes">
+          <button type="button" class="mode-card" data-mode="calm"><b>Calm</b><span>Algae grows slowly. A quiet glass.</span></button>
+          <button type="button" class="mode-card on" data-mode="standard"><b>Standard</b><span>The usual day. Adult in a day, a week of life.</span></button>
+          <button type="button" class="mode-card" data-mode="busy"><b>Busy</b><span>More play, more food waste, greener glass.</span></button>
+        </div>
+        <p class="kicker">Three starters</p>
+        <div class="cast" id="menuCast"></div>
+        <p class="lore" id="menuNote">Choose three.</p>
+        <div class="row">
+          <button type="button" class="btn gold" id="menuOpen">Open the glass</button>
+          <button type="button" class="btn" id="menuBack">Back</button>
+        </div>
+      </div>
+      <div id="panelHow" class="hidden">
+        <p class="kicker">Instructions</p>
+        <ol class="how">
+          <li>Pick Calm, Standard, or Busy, then three babies. Each fish is born with its own temper, bold, wary, social, solitary, greedy, delicate. Click one and the rail names what it is.</li>
+          <li>A meal makes a fish grow faster and live longer. No food for about a day and a half, and that fish dies. Flakes fall from a hand. Top-feeders race for them, mid-water fish cut across, and bottom-feeders wait for what settles. LYGO Claw, the lobster, and Pincer the crab walk the sand, take food only after it lands, and sidestep a hunter along the bottom. A pellet adds a day to whoever reaches it first.</li>
+          <li>While this page is open they patrol, school, glide, graze the gravel, rest, shelter in the weeds, and shove each other off the food. Bigger fish push smaller ones around. All of it earns points. Points buy more fish and cleaners. The Firsts list pays for milestones.</li>
+          <li>Watch temperature, algae, and quality on the scoreboard. Every species has its own comfort range: too warm and they gulp at the surface, too cold and they hang low and slow. Snails and algae eaters scrape green. Corys and the turtle lift waste. A water change costs 10 points.</li>
+          <li>Keep the water clean and two grown fish of the same species will court and leave eggs on the rockwork. The eggs hatch into fry that inherit their parents' tempers and traits, and each generation is marked in the list. Foul water kills eggs.</li>
+          <li>Fish swim near the glass and back in the tank. A bite, a bump, and a meal only land when they share that depth. Click a fish for its character card: bio, health, hunger, growth, and how it lives with the others. The tank holds 50 fish. Hunters are not part of that count. The hunter line holds 10, babies included. Only one octopus. It jets between two poses. When a hunter chases it, it throws black ink, and that cloud takes 10% off the bite. Each species grows on its own hour count. A fed hour counts double. Crowding and dirty water drain health.</li>
+          <li>Hunters, including their babies, stay small in the far water so they do not cover the fish. They come forward for a hunt or a fight, then slip back. Now and then one leaves the glass for a few minutes and returns. One tank hour is the hunter clock. One hunter can enter in a quiet hour. A bite still targets the weakest fish. A full, fed fish is only a 25% bite. A success leaves one baby that hour, and that baby grows into another hunter. Two misses and it dies. Greymaw the shark becomes JAWS after three clean meals in a row. JAWS is larger, can take two fish on an eat hour, heals 25% for each, and dies if it misses food for two hours. Another hunter can fight JAWS, once a tank hour, with hit points. Two fights will usually finish JAWS. You cannot stop them. Tank sounds, including the air pump and the low music while JAWS is in the glass, turn off in Options. The radio has its own volume.</li>
+        </ol>
+        <button type="button" class="btn" id="howBack">Back</button>
+      </div>
+      <div class="donate-row">
+        <a class="donate-paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal.me/ExcavationPro</a>
+        <a class="donate-patreon" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener">Patreon</a>
+      </div>
+      <p class="lore">Optional. The tank stays free. A tip never buys a fish or a longer life.</p>
+    </div>
+  </div>
+</div>
+<div class="app hidden" id="app">
+  <header class="top">
+    <a class="brand" href="/games/">GAMES</a>
+    <h1>Fish Tank</h1>
+    <span class="clock" id="clock">day</span>
+    <span class="points" id="points">0 pts</span>
+    <span class="grow"></span>
+    <button type="button" class="btn" id="btnAuto">Auto</button>
+    <button type="button" class="btn" id="btnMenu">Menu</button>
+    <button type="button" class="btn" id="btnOpt">Options</button>
+    <a class="mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a>
+    <a class="mini" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener">Patreon</a>
+    <a class="mini" href="./ledger.html">Life hall</a>
+    <a class="mini" href="/games/">Hub</a>
+  </header>
+  <section class="board" id="board" aria-label="Tank scoreboard">
+    <div><b id="mLiving">0</b><span>fish</span></div>
+    <div><b id="mHunters">0</b><span>hunters</span></div>
+    <div><b id="mTank">0 h</b><span>tank up</span></div>
+    <div><b id="mLong">0 h</b><span>longest fish</span></div>
+    <div><b id="mBest">0 h</b><span>hall fish</span></div>
+    <div><b id="mTemp">25.0°</b><span>water</span></div>
+    <div><b id="mAlgae">0%</b><span>algae</span></div>
+    <div><b id="mQual">100</b><span>quality</span></div>
+    <div><b id="mOxy">92%</b><span>oxygen</span></div>
+    <div><b id="mEggs">0</b><span>eggs</span></div>
+    <div><b id="mGen">gen 1</b><span>lineage</span></div>
+    <p class="lore board-note" id="waterNote">Water is steady.</p>
+  </section>
+  <div class="stage">
+    <aside id="keeperBox" class="keeper-box" aria-live="polite">
+      <p id="keeperBubble" class="keeper-bubble hidden"></p>
+      <img id="keeperPic" alt="" width="120" height="120">
+      <b id="keeperLabel">Keeper</b>
+      <span class="keeper-tag" id="keeperTag"></span>
+    </aside>
+    <section id="fishCard" class="fish-card hidden" aria-live="polite" aria-label="Fish card">
+      <header>
+        <img id="fishCardPic" alt="">
+        <div>
+          <p class="kicker" id="fishCardSpecies">Fish</p>
+          <h3 id="fishCardName">: </h3>
+          <p class="chips" id="fishCardChips"></p>
+        </div>
+      </header>
+      <p class="fish-card-social" id="fishCardSocial"></p>
+      <dl class="fish-card-rows" id="fishCardRows"></dl>
+      <p class="fish-card-word" id="fishCardWord"></p>
+      <footer class="fish-card-foot">
+        <img id="fishCardKeeperPic" alt="">
+        <span id="fishCardKeeperNote"></span>
+      </footer>
+    </section>
+    <div class="tankwrap"><canvas id="tank"></canvas></div>
+    <aside class="rail">
+      <p class="kicker">Keeper</p>
+      <input class="name" id="owner" maxlength="18" aria-label="Your name">
+      <p class="lore">The clock is real. Points come from every flake a fish actually eats, so feeding is the job. A fish that is already full lets the flake sink, and food that sinks rots. Cleaners lift the rot and pay for it in algae, and the only thing that eats algae is an algae eater: the shop sells two, so the rest have to be bred. About a day and a half with no food, and a fish dies. The save stays in this browser.</p>
+      <div class="row">
+        <button type="button" class="btn gold" id="feed">Flakes</button>
+        <button type="button" class="btn" id="pellet">Pellet · 15</button>
+        <button type="button" class="btn" id="change">Water change · 10</button>
+      </div>
+      <h2>Water</h2>
+      <div class="water-panel" id="waterPanel"></div>
+      <h2>Scoreboard</h2>
+      <div class="board-table" id="boardRows"></div>
+      <h2>Firsts</h2>
+      <p class="lore">Marks pay points the first time they happen.</p>
+      <div class="goals" id="goals"></div>
+      <h2>This fish</h2>
+      <article id="charCard" class="char-card">
+        <div class="char-head">
+          <img id="charPic" alt="" width="200" height="110">
+          <div>
+            <p class="kicker" id="charNiche">Character</p>
+            <h3 id="charTitle">Choose a fish</h3>
+            <p class="lore" id="charLatin"></p>
+          </div>
+        </div>
+        <p id="charBio" class="char-bio">Click a fish in the glass or the list.</p>
+        <p id="charSocial" class="char-social"></p>
+        <dl id="charStats" class="char-stats"></dl>
+        <div class="char-actions" id="charActions"></div>
+      </article>
+      <input class="name" id="fishName" maxlength="16" placeholder="Name" aria-label="Fish name">
+      <h2>Living</h2>
+      <div class="manage" id="manageBox">
+        <div class="manage-head">
+          <input id="manageFind" class="manage-find" type="search" placeholder="Find a fish or a cleaner" aria-label="Find a fish or a cleaner">
+          <span class="manage-count" id="manageCount">, </span>
+        </div>
+        <div class="manage-scroll" id="manageScroll">
+          <div id="fishList"></div>
+          <div id="crewList"></div>
+        </div>
+        <p class="manage-foot" id="manageFoot">Click a name to open its card.</p>
+      </div>
+      <h2 id="shopHead">Bring a baby</h2>
+      <div class="row" id="shop"></div>
+      <h2>Cleaners</h2>
+      <p class="lore" id="crewNote">Snails and algae eaters scrape the green. Corys and the turtle lift waste. Jellies pulse when the water is kind. Buy one here, then pick it in the list above to look at it, rename it, or release it.</p>
+      <div class="row" id="crewShop"></div>
+      <h2>Cemetery</h2>
+      <div id="graves"></div>
+      <h2>Log</h2>
+      <div class="log" id="log"></div>
+    </aside>
+  </div>
+  <footer class="dock">
+    <audio id="radioEl" preload="none"></audio>
+    <div id="radioDock" class="radio-inline">
+      <button type="button" id="radioPlay">Radio</button>
+      <button type="button" id="radioNext">Next</button>
+      <button type="button" id="radioMute">Mute</button>
+      <label class="radio-vol">Vol <input type="range" data-radio-vol min="0" max="100" value="50" aria-label="Radio volume"></label>
+      <span class="radio-title-inline" id="radioTitle">Idle</span>
+    </div>
+    <span class="lore">School, graze, court, and play. Cleaners keep the water. Longest lives lead the hall.</span>
+    <a class="mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a>
+    <a class="mini" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" target="_blank" rel="noopener">Patreon</a>
+  </footer>
+</div>
+<div id="optLayer" class="opt hidden" role="dialog" aria-modal="true" aria-label="Options">
+  <div class="optbox">
+    <p class="kicker">Options</p>
+    <h2>The glass</h2>
+    <label class="check"><input type="checkbox" id="optNames" checked> Show names</label>
+    <label class="check"><input type="checkbox" id="optBoard" checked> Show the scoreboard</label>
+    <label class="check"><input type="checkbox" id="optMotion" checked> Swim motion</label>
+    <label class="check"><input type="checkbox" id="optHeater" checked> Heater on</label>
+    <label class="check"><input type="checkbox" id="optSoundTalk" checked> Character talking</label>
+    <label class="check"><input type="checkbox" id="optSoundAmbient" checked> Ambient water</label>
+    <label class="check">Ambient volume <input type="range" id="optAmbientVol" min="0" max="100" value="100"> <b id="optAmbientVal">100%</b></label>
+    <label class="check"><input type="checkbox" id="optSoundFx" checked> Sound effects</label>
+    <label class="check"><input type="checkbox" id="optSoundFish" checked> Fish noise</label>
+    <label class="check">Sound <input type="range" id="optSoundVol" min="0" max="100" value="40"> <b id="optSoundVal">40%</b></label>
+    <label class="check">Light
+      <select id="optClock">
+        <option value="real">Follow the real clock</option>
+        <option value="day">Always day</option>
+        <option value="night">Always night</option>
+      </select>
+    </label>
+    <label class="check">Target temp <input type="range" id="optTemp" min="20" max="30" value="25"> <b id="optTempVal">25°</b></label>
+    <div class="row">
+      <button type="button" class="btn gold" id="optClose">Close</button>
+      <button type="button" class="btn" id="optReset">Reset this tank</button>
+    </div>
+  </div>
+</div>
+<div id="thanksLayer" class="opt hidden" role="dialog" aria-modal="true" aria-label="Thank you">
+  <div class="optbox thanks-box">
+    <p class="kicker">A new hour</p>
+    <h2>Thank you for playing</h2>
+    <p class="thanks-copy">The birth, eat, and battle clock just turned. The tank is still free. A donation is optional, and it funds more fish, more tanks, and more options.</p>
+    <div class="thanks-links">
+      <a class="donate-paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a>
+      <a href="https://chatagent.ca/sources/" target="_blank" rel="noopener">LYGO TV</a>
+      <a href="https://ffm.to/justin-helmer" target="_blank" rel="noopener">Justin Helmer</a>
+      <a href="https://ffm.to/eovnvo9" target="_blank" rel="noopener">Excavationpro</a>
+      <a href="https://www.youtube.com/@justinhelmer" target="_blank" rel="noopener">YouTube · Justin Helmer</a>
+      <a href="https://www.youtube.com/@ExcavationPro" target="_blank" rel="noopener">YouTube · Excavationpro</a>
+      <a href="https://justinhelmer.ca/" target="_blank" rel="noopener">justinhelmer.ca</a>
+    </div>
+    <div class="row">
+      <button type="button" class="btn gold" id="thanksClose">Keep playing</button>
+    </div>
+  </div>
+</div>
+<script src="/games/arcade-ledger.js?v=5"></script>
+<script src="./radio.js?v=2"></script>
+<script src="./tank.js?v=66"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stock Market Masters: TOP Cashout</title>
+<meta name="description" content="Live TOP Cashout hall for Stock Market Masters. Names and net worth only when a desk cashes out.">
+<meta name="theme-color" content="#070b10">
+<link rel="canonical" href="https://excavationpro.ca/games/stock-market-masters/ledger.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stock Market Masters. TOP Cashout">
+<meta property="og:description" content="Public hall of cashouts. Net worth at the bell.">
+<meta property="og:image" content="https://excavationpro.ca/games/stock-market-masters/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#070b10; --gold:#d4af37; --mute:#94a3b8; --line:#2a3a2a; --text:#e8eef4; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: "Source Sans 3", system-ui, sans-serif; }
+a { color: var(--gold); }
+.hero { min-height: 36vh; position: relative; display: grid; place-items: end start; }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .5; }
+.hero-fade { position: absolute; inset: 0; background: linear-gradient(180deg, #070b1088 0%, #070b10 90%); }
+.hero-copy { position: relative; padding: 2.2rem 1.4rem 1.4rem; max-width: 1100px; }
+.kicker { letter-spacing: .22em; text-transform: uppercase; color: var(--gold); font-size: .72rem; }
+h1 { font-family: Syne, sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); margin: .2rem 0 .35rem; }
+.lead { color: #dbe7f3; max-width: 46rem; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem 3rem; }
+.row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.btn {
+  display: inline-flex; align-items: center; background: #132033; color: var(--text); text-decoration: none;
+  border: 1px solid #334155; border-radius: 9px; padding: .55rem .9rem; font: 650 0.85rem Syne, sans-serif;
+}
+.btn.gold { background: var(--gold); color: #111; border-color: var(--gold); }
+.paypal { background: #0070ba; color: #fff !important; border-color: #0070ba; }
+.card { background: #0b1520; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; }
+.card h2 { font-family: Syne, sans-serif; font-size: 1.05rem; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin: 0 0 .5rem; }
+table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+th, td { text-align: left; padding: .4rem .45rem; border-bottom: 1px solid #1e293b; }
+th { color: var(--gold); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+.score { color: var(--gold); font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+.meta { font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--mute); }
+.empty { color: var(--mute); padding: 1rem 0; }
+footer { margin-top: 1.5rem; color: var(--mute); font-size: .8rem; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <img src="./assets/menu.jpg" alt="">
+  <div class="hero-fade"></div>
+  <div class="hero-copy">
+    <p class="kicker">Δ9Φ963 · TOP Cashout</p>
+    <h1>TOP Cashout</h1>
+    <p class="lead">Cash out a desk and your name plus net worth hit this hall. Hot-seat and AI desks stay local unless a human cashes out.</p>
+    <div class="row">
+      <a class="btn gold" href="./">Play Stock Market Masters</a>
+      <a class="btn" href="/games/">All games</a>
+      <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">PayPal.me/ExcavationPro</a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="card">
+    <h2>Live tape</h2>
+    <p class="meta" id="updated">loading…</p>
+    <div style="overflow:auto">
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Net worth</th><th>Rounds</th><th>Jackpots</th><th>Date</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="empty" hidden>No cashouts yet. Open the floor.</p>
+  </section>
+  <footer>Stock Market Masters · Excavationpro · names and match metadata only. · <a href="./disclaimer.html">Gambling disclaimer</a></footer>
+</main>
+<script>
+const FEEDS = [
+  "./ledger.json",
+  "https://huggingface.co/datasets/DeepSeekOracle/stock-market-masters-cashouts/resolve/main/ledger.json",
+  "https://deepseekoracle-lattice-marines-ledger.hf.space/smm/ledger.json"
+];
+function dollars(c) {
+  const n = Number(c);
+  if (!Number.isFinite(n)) return ", ";
+  return (n / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+function rowsFrom(data) {
+  const list = (data && (data.cashouts || data.wins)) || [];
+  return list.slice().sort((a, b) => (b.worth || 0) - (a.worth || 0));
+}
+async function load() {
+  let best = { cashouts: [] };
+  for (const url of FEEDS) {
+    try {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) continue;
+      const j = await r.json();
+      const rows = rowsFrom(j);
+      if (rows.length >= rowsFrom(best).length) best = { ...j, cashouts: rows };
+    } catch (_) {}
+  }
+  try {
+    const q = JSON.parse(localStorage.getItem("smm-queue") || "[]");
+    const map = new Map();
+    rowsFrom(best).concat(q).forEach((x) => {
+      const k = (x.name || "") + "|" + (x.worth || 0) + "|" + (x.date || "");
+      map.set(k, x);
+    });
+    best.cashouts = [...map.values()].sort((a, b) => (b.worth || 0) - (a.worth || 0));
+  } catch (_) {}
+  const rows = best.cashouts || [];
+  document.getElementById("updated").textContent = rows.length
+    ? (rows.length + " cashouts · sorted by net worth")
+    : "waiting for the first cashout";
+  const tb = document.getElementById("rows");
+  const empty = document.getElementById("empty");
+  if (!rows.length) { empty.hidden = false; tb.innerHTML = ""; return; }
+  empty.hidden = true;
+  tb.innerHTML = rows.slice(0, 200).map((x, i) =>
+    `<tr><td>${i + 1}</td><td>${(x.name || "Desk").replace(/[<>]/g, "")}</td><td class="score">${dollars(x.worth)}</td><td>${x.rounds ?? ", "}</td><td>${x.jackpots ?? 0}</td><td>${x.date || ""}</td></tr>`
+  ).join("");
+}
+load();
+setInterval(load, 20000);
+</script>
+</body>
+</html>

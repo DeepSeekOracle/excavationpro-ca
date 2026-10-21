@@ -1,0 +1,165 @@
+/* LYGO games — the donation gate and the supporter row.
+   Nothing here is hard-coded to a palette: every colour resolves from the --lyg-* variables below,
+   and lygo-gate.js re-points those at the game's own tokens (--panel, --line, --text, --mute,
+   --gold, --cyan, --bg) or — for a game that publishes none — at the real computed colours of the
+   menu items it sits beside. The module is meant to read as one more item of that menu.
+   Everything is prefixed .lyg- and carries its own box-sizing, so it cannot inherit from (or leak
+   into) any of the eight games. Loaded by /games/lygo-gate.js. */
+
+.lyg-layer,
+.lyg-row,
+.lyg-layer *,
+.lyg-row * { box-sizing: border-box; }
+
+.lyg-layer,
+.lyg-row {
+  --lyg-panel: rgba(12, 22, 34, 0.94);
+  --lyg-well: rgba(0, 0, 0, 0.35);
+  --lyg-line: #1e3a4a;
+  --lyg-text: #e8eef5;
+  --lyg-mute: #94a3b8;
+  --lyg-gold: #fbbf24;
+  --lyg-cyan: #5eead4;
+  --lyg-radius: 10px;
+  --lyg-font: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --lyg-display: Syne, Georgia, serif;
+  --lyg-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --lyg-size: 0.8rem;
+  --lyg-title: 0.92rem;
+}
+
+/* ---------- the reminder card ---------- */
+
+.lyg-layer {
+  position: fixed; inset: 0; z-index: 99999; display: none;
+  align-items: center; justify-content: center; padding: 1rem;
+  background: rgba(3, 6, 10, 0.88);
+  font-family: var(--lyg-font); color: var(--lyg-text);
+}
+.lyg-layer.lyg-open { display: flex; }
+.lyg-layer[hidden] { display: none !important; }
+.lyg-rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.3; pointer-events: none; }
+
+.lyg-card {
+  position: relative; width: min(33rem, 100%); max-height: 92vh; overflow: auto;
+  background: var(--lyg-panel); border: 1px solid var(--lyg-line); border-radius: 14px;
+  padding: 1.1rem 1.25rem 1rem; box-shadow: 0 26px 60px rgba(0, 0, 0, 0.62);
+}
+.lyg-kicker {
+  margin: 0 0 0.5rem; font-family: var(--lyg-mono);
+  font-size: 0.62rem; letter-spacing: 0.2em; color: var(--lyg-mute); text-transform: uppercase;
+}
+.lyg-title {
+  margin: 0 0 0.55rem; font-family: var(--lyg-display); font-weight: 800;
+  font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.04; letter-spacing: 0.01em;
+  text-transform: uppercase; color: var(--lyg-gold); text-shadow: 0 0 16px rgba(0, 0, 0, 0.55);
+}
+.lyg-lead { margin: 0 0 0.7rem; font-size: 0.86rem; line-height: 1.5; color: var(--lyg-text); }
+.lyg-list { margin: 0 0 0.9rem; padding-left: 1.1rem; }
+.lyg-list li { margin: 0 0 0.42rem; font-size: 0.82rem; line-height: 1.45; color: var(--lyg-mute); }
+.lyg-list strong { color: var(--lyg-gold); }
+.lyg-card a { color: var(--lyg-cyan); }
+
+.lyg-actions { display: flex; flex-direction: column; gap: 0.45rem; }
+.lyg-btn {
+  display: block; width: 100%; text-align: center; text-decoration: none; cursor: pointer;
+  font-family: var(--lyg-font); font-size: 0.86rem; font-weight: 600; padding: 0.64rem 0.85rem;
+  border-radius: var(--lyg-radius); border: 1px solid var(--lyg-line);
+  background: var(--lyg-panel); color: var(--lyg-gold);
+  transition: filter 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+.lyg-btn:hover { filter: brightness(1.18); border-color: var(--lyg-gold); }
+.lyg-btn-cta {
+  background: var(--lyg-gold); color: #10161d; border-color: transparent;
+  font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; font-size: 0.82rem;
+}
+.lyg-btn-cta:hover { filter: brightness(1.08); border-color: transparent; }
+.lyg-btn-cta:disabled { opacity: 0.45; cursor: not-allowed; filter: none; }
+.lyg-btn-door { background: transparent; border: 1px dashed var(--lyg-cyan); font-size: 0.8rem; color: var(--lyg-cyan); }
+.lyg-btn-door:hover { background: rgba(255, 255, 255, 0.05); border-color: var(--lyg-cyan); }
+.lyg-foot { margin: 0.7rem 0 0; font-size: 0.66rem; letter-spacing: 0.05em; color: var(--lyg-mute); }
+
+/* ---------- the supporter row (bottom of a game menu, or a fixed tab) ---------- */
+
+.lyg-row {
+  margin: 0.7rem 0 0.2rem; padding: 0.7rem 0.8rem 0.75rem;
+  background: var(--lyg-panel); border: 1px solid var(--lyg-line); border-radius: var(--lyg-radius);
+  font-family: var(--lyg-font); font-size: var(--lyg-size); color: var(--lyg-text);
+  text-align: left; transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+.lyg-row.lyg-flash { border-color: var(--lyg-gold); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.14), 0 0 34px rgba(0, 0, 0, 0.45); }
+.lyg-row-head { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+.lyg-row-title {
+  font-family: var(--lyg-display); font-weight: 700; font-size: var(--lyg-title);
+  letter-spacing: 0.03em; color: var(--lyg-gold);
+}
+.lyg-row-chip {
+  font-family: var(--lyg-mono); font-size: 0.58rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #10161d; background: var(--lyg-gold);
+  border-radius: 999px; padding: 0.12rem 0.5rem;
+}
+.lyg-row-note { margin: 0 0 0.5rem; font-size: 0.75rem; line-height: 1.45; color: var(--lyg-mute); }
+.lyg-row-fields { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.lyg-input {
+  flex: 1 1 12rem; min-width: 0; font-family: var(--lyg-mono); font-size: 0.86rem;
+  letter-spacing: 0.1em; padding: 0.5rem 0.6rem; background: var(--lyg-well); color: var(--lyg-text);
+  border: 1px solid var(--lyg-line); border-radius: calc(var(--lyg-radius) - 2px);
+}
+.lyg-input::placeholder { color: var(--lyg-mute); letter-spacing: 0.08em; }
+.lyg-input:focus { outline: none; border-color: var(--lyg-gold); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.12); }
+.lyg-input:disabled { opacity: 0.55; }
+.lyg-row .lyg-btn {
+  display: inline-block; width: auto; font-size: 0.8rem; padding: 0.5rem 0.85rem;
+  border-radius: calc(var(--lyg-radius) - 2px);
+}
+.lyg-row .lyg-btn-quiet { background: transparent; color: var(--lyg-mute); border-color: var(--lyg-line); }
+.lyg-row .lyg-btn-quiet:hover { color: var(--lyg-text); border-color: var(--lyg-mute); filter: none; }
+.lyg-row-msg { margin: 0.5rem 0 0; min-height: 0.9rem; font-size: 0.75rem; line-height: 1.4; color: var(--lyg-cyan); }
+.lyg-row-get {
+  display: block; margin-top: 0.55rem; text-align: center; text-decoration: none;
+  font-family: var(--lyg-display); font-weight: 700; font-size: 0.78rem;
+  color: #10161d; background: var(--lyg-gold); border-radius: calc(var(--lyg-radius) - 2px);
+  padding: 0.5rem 0.6rem;
+}
+.lyg-row-get:hover { filter: brightness(1.08); }
+
+/* the fixed variant: for the compiled games that have no menu element of their own */
+.lyg-row-tab {
+  display: none; width: 100%; font-family: var(--lyg-display); font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #10161d; cursor: pointer;
+  background: var(--lyg-gold); border: 0; border-radius: calc(var(--lyg-radius) - 2px);
+  padding: 0.5rem 0.7rem;
+}
+/* the fixed variant: for the compiled games that have no menu element of their own.
+   It parks in the bottom-RIGHT corner on purpose. It used to sit bottom-centre at
+   30rem wide, which on games/eternal-lattice put it straight across the match
+   footer — wide enough to cover Log and End dawn, and being on top of them it
+   swallowed the clicks meant for those buttons. A compact corner tab stays clear
+   of a centred control strip, and only the tab itself takes pointer events so
+   nothing beside or behind it can be blocked. */
+.lyg-row.lyg-row-fixed {
+  position: fixed; right: 0.75rem; bottom: 0.6rem; left: auto; transform: none; z-index: 99990;
+  width: auto; max-width: min(22rem, calc(100vw - 1.5rem)); margin: 0; padding: 0.3rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+}
+.lyg-row.lyg-row-fixed:not(.is-open) { pointer-events: none; }
+.lyg-row.lyg-row-fixed:not(.is-open) .lyg-row-tab { pointer-events: auto; }
+.lyg-row.lyg-row-fixed .lyg-row-tab { display: block; }
+.lyg-row.lyg-row-fixed .lyg-row-head,
+.lyg-row.lyg-row-fixed .lyg-row-note,
+.lyg-row.lyg-row-fixed .lyg-row-fields,
+.lyg-row.lyg-row-fixed .lyg-row-msg,
+.lyg-row.lyg-row-fixed .lyg-row-get { display: none; }
+.lyg-row.lyg-row-fixed.is-open { padding: 0.7rem 0.8rem 0.75rem; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-tab { display: none; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-head { display: flex; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-note { display: block; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-fields { display: flex; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-msg { display: block; }
+.lyg-row.lyg-row-fixed.is-open .lyg-row-get { display: block; }
+
+@media (max-width: 520px) {
+  .lyg-card { padding: 1rem 0.95rem 0.9rem; }
+  .lyg-row .lyg-btn { flex: 1 1 auto; }
+  .lyg-input { flex: 1 1 100%; }
+}

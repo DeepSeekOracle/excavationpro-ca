@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Golf: plant the marker | Excavationpro</title>
+<meta name="description" content="Free 2.5D Lattice Golf in the browser. Plant a marker, read the wind, watch the ball fly the fairway. Pine Haven, Coral Lattice, Singularity Nine. No account.">
+<meta name="keywords" content="Lattice Golf, golf game, HTML5 golf, Eternal Haven, Excavationpro, LYGO, browser golf, Pine Haven">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="theme-color" content="#07140c">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-golf/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="image_src" href="https://excavationpro.ca/games/lattice-golf/assets/og.jpg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eternal Haven">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://excavationpro.ca/games/lattice-golf/">
+<meta property="og:title" content="Lattice Golf, plant the marker">
+<meta property="og:description" content="Minimal math golf. Clubs with ranges, wind you can read, named courses with lore, endless mode, local ledger. Free HTML5.">
+<meta property="og:image" content="https://excavationpro.ca/games/lattice-golf/assets/og.jpg">
+<meta property="og:image:secure_url" content="https://excavationpro.ca/games/lattice-golf/assets/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lattice Golf key art: twilight green, gold-cyan lattice, titled LATTICE GOLF">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="Lattice Golf, plant the marker">
+<meta name="twitter:description" content="Pick a club. Plant a marker. Choose power. Walk it in. Free on chatagent.ca.">
+<meta name="twitter:image" content="https://excavationpro.ca/games/lattice-golf/assets/og.jpg">
+<meta name="twitter:image:alt" content="Lattice Golf key art: twilight green with LATTICE GOLF title">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./game.css?v=25">
+<link rel="stylesheet" href="/games/hub.css?v=2">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Lattice Golf","url":"https://excavationpro.ca/games/lattice-golf/","description":"Browser golf: club ranges, marker aiming, wind, named 9 and 18-hole courses, endless mode, campaign vs AI, local ledger.","image":"https://excavationpro.ca/games/lattice-golf/assets/og.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"genre":["Sports","Golf","Strategy"],"gamePlatform":"Web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"},"applicationCategory":"Game"}</script>
+<link rel="stylesheet" href="/games/lygo-gate.css?v=1">
+<script src="/games/lygo-gate.js?v=1" defer></script>
+</head>
+<body>
+<audio id="radioEl" preload="none"></audio>
+<div id="boot" class="boot">
+  <p class="kicker">Δ9Φ963 · Excavationpro</p>
+  <h1>Lattice Golf</h1>
+  <p class="boot-msg">Lining up the first tee…</p>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="top">
+    <a class="brand" href="/">chatagent.ca</a>
+    <a class="games-mini" href="/games/">All games</a>
+    <div class="phase-pill" id="holePill">HOLE 1</div>
+    <div class="hud-meta" id="hudMeta"></div>
+    <span class="grow"></span>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">PayPal</a>
+  </header>
+  <div class="stage">
+    <div class="viewport">
+      <canvas id="fairway" tabindex="0" aria-label="Golf hole"></canvas>
+      <div class="golfer-plate" id="golferPlate">
+        <img id="golferImg" alt="Golfer" src="./assets/g-mira.jpg?v=2">
+        <div class="golfer-meta">
+          <b id="golferName">Mira Quinn</b>
+          <span id="golferTag">Parkland</span>
+        </div>
+      </div>
+      <div class="hint" id="hint">Club the gold marker, not the flag. Wrong club is bunkers, trees, or water.</div>
+      <div class="shot-chip" id="shotChip" aria-live="polite"></div>
+      <div class="power-hud" id="powerHud">
+        <div class="power-hud-track">
+          <div class="power-hud-groove"></div>
+          <div class="power-hud-fill" id="powerHudFill"></div>
+          <input id="powerHudRange" type="range" min="0" max="100" step="1" value="75" aria-label="Shot power">
+        </div>
+        <div class="power-hud-read" id="powerHudRead">75% · 218 yd</div>
+      </div>
+      <div class="view-tools" id="viewTools">
+        <button type="button" id="zoomIn" title="Zoom in (+)">+</button>
+        <button type="button" id="zoomOut" title="Zoom out (−)">−</button>
+        <button type="button" id="zoomReset" title="Fit hole (R)">⌂</button>
+      </div>
+      <div class="keys">scroll zoom · right-drag orbit · R fit · Space shoot</div>
+    </div>
+    <aside class="rail">
+      <div class="panel">
+        <h3>Wind</h3>
+        <div class="wind" id="windHud">, </div>
+      </div>
+      <div class="panel">
+        <h3>Club</h3>
+        <div class="clubs" id="clubs"></div>
+      </div>
+      <div class="panel power-panel">
+        <h3>Power</h3>
+        <div class="power-board">
+          <div class="power-readout">
+            <b id="powPct">75%</b>
+            <span id="powYd">218 yd</span>
+          </div>
+          <div class="power-track-wrap">
+            <div class="power-groove"></div>
+            <div class="power-fill" id="powerFill"></div>
+            <div class="power-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            <input id="powerRange" type="range" min="0" max="100" step="1" value="75" aria-label="Shot power">
+          </div>
+          <div class="power-scale">
+            <span id="powMin">chip</span>
+            <span class="power-scale-mid" id="powClub">Driver</span>
+            <span id="powMax">290 yd</span>
+          </div>
+          <div class="powers">
+            <button type="button" class="pow" data-p="0.25">25</button>
+            <button type="button" class="pow" data-p="0.5">50</button>
+            <button type="button" class="pow on" data-p="0.75">75</button>
+            <button type="button" class="pow" data-p="1">100</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Caddie</h3>
+        <div class="card caddie" id="caddieHud">Plant a marker.</div>
+      </div>
+      <div class="panel">
+        <h3>This hole</h3>
+        <div class="card" id="holeCard"></div>
+      </div>
+      <div class="panel">
+        <h3>Log</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </aside>
+  </div>
+  <footer class="dock">
+    <button type="button" class="btn ghost" id="btnHelp">How to play</button>
+    <button type="button" class="btn ghost" id="btnCard">Scorecard</button>
+    <button type="button" class="btn ghost" id="btnUndo">Undo shot</button>
+    <button type="button" class="btn ghost" id="btnMulligan">Mulligan</button>
+    <div id="radioDock" class="radio-inline">
+      <button type="button" id="radioPlay" title="Play or pause radio">Radio</button>
+      <button type="button" id="radioNext" title="Next track">Next</button>
+      <button type="button" id="radioMute" title="Mute (does not stop playback)">Mute</button>
+      <span class="radio-title-inline" id="radioTitle">Idle</span>
+    </div>
+    <span class="grow" id="dockStatus">Plant a marker, then shoot.</span>
+    <a class="games-mini" href="/games/">All games</a>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+    <button type="button" class="btn hidden" id="btnEnd">End walk</button>
+    <button type="button" class="btn" id="btnMenu">Menu</button>
+    <button type="button" class="btn gold" id="btnShoot">Shoot</button>
+  </footer>
+</div>
+
+<div id="overlay" class="overlay"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+<script src="./radio.js"></script>
+<script src="./golf3d.js?v=21"></script>
+<script src="./lobby.js?v=1"></script>
+<script src="/games/arcade-ledger.js?v=5"></script>
+<script src="./game.js?v=42"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+{
+  "updated": "2026-10-08",
+  "hub": "https://excavationpro.ca/games/",
+  "board": "https://excavationpro.ca/games/board.html",
+  "space": "https://deepseekoracle-lattice-marines-ledger.hf.space",
+  "arcade": "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json",
+  "submit": "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade/submit",
+  "note": "HF dataset arcade.json is the live book. Space writes it. Hub and board.html only GET. New game: POST {game:slug,...} to /arcade/submit.",
+  "games": [
+    {
+      "id": "lattice-marines",
+      "play": "/games/lattice-marines/",
+      "ledger": "/games/lattice-marines/ledger.html",
+      "feeds": [
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/ledger.json",
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/ledger.json",
+        "/games/lattice-marines/ledger.json"
+      ]
+    },
+    {
+      "id": "stock-market-masters",
+      "play": "/games/stock-market-masters/",
+      "ledger": "/games/stock-market-masters/ledger.html",
+      "feeds": [
+        "https://huggingface.co/datasets/DeepSeekOracle/stock-market-masters-cashouts/resolve/main/ledger.json",
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/smm/ledger.json",
+        "/games/stock-market-masters/ledger.json"
+      ]
+    },
+    {
+      "id": "haven-rally",
+      "play": "/games/haven-rally/",
+      "ledger": "/games/haven-rally/ledger.html",
+      "feeds": [
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/rally/ledger.json",
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/haven-rally.json",
+        "/games/haven-rally/ledger.json"
+      ]
+    },
+    {
+      "id": "lattice-golf",
+      "play": "/games/lattice-golf/",
+      "ledger": "/games/lattice-golf/ledger.html",
+      "feeds": [
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/golf/ledger.json",
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/lattice-golf.json",
+        "/games/lattice-golf/ledger.json"
+      ]
+    },
+    {
+      "id": "lattice-swarm",
+      "play": "/games/lattice-swarm/",
+      "ledger": "/games/lattice-swarm/ledger.html",
+      "feeds": [
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/swarm/ledger.json",
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/lattice-swarm.json",
+        "/games/lattice-swarm/ledger.json"
+      ]
+    },
+    {
+      "id": "lattice-crypt",
+      "play": "/games/lattice-crypt/",
+      "ledger": "/games/lattice-crypt/ledger.html",
+      "feeds": [
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json",
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/crypt/ledger.json",
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json",
+        "/games/lattice-crypt/ledger.json"
+      ]
+    },
+    {
+      "id": "lattice-arena",
+      "play": "/games/lattice-arena/",
+      "ledger": "/games/lattice-arena/ledger.html",
+      "feeds": [
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json",
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json"
+      ]
+    },
+    {
+      "id": "eternal-lattice",
+      "play": "/games/eternal-lattice/",
+      "ledger": "/games/eternal-lattice/ledger.html",
+      "feeds": [
+        "https://deepseekoracle-lattice-marines-ledger.hf.space/eternal/ledger.json",
+        "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/eternal-lattice.json",
+        "/games/eternal-lattice/ledger.json"
+      ]
+    },
+    {
+      "id": "moonlit-tactics",
+      "play": "/games/moonlit-tactics/",
+      "ledger": "/games/moonlit-tactics/ledger.html",
+      "feeds": [
+        "/games/moonlit-tactics/ledger.json"
+      ]
+    },
+    {
+      "id": "haven-desk",
+      "play": "/games/haven-desk/",
+      "ledger": "/games/haven-desk/ledger.html",
+      "feeds": [
+        "/games/haven-desk/ledger.json"
+      ]
+    }
+  ]
+}

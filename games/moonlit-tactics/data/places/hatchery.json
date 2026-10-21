@@ -1,0 +1,17 @@
+{
+  "id": "hatchery",
+  "name": "The Hatchery",
+  "kind": "town",
+  "talk": [
+    { "id": "keeper", "name": "Hearth Keeper", "text": "The kettle is hot. The road is outside." }
+  ],
+  "shop": [
+    "ember-knife", "moon-staff", "hearth-brand",
+    "wool-hood", "linen-wrap", "ember-charm",
+    "mend-salve", "interval-tonic"
+  ],
+  "sleep": { "restCost": 10, "save": true, "restore": true },
+  "respec": { "cost": 30, "oncePerChapter": true },
+  "enter": { "x": 8, "y": 20 },
+  "leave": { "map": "opening", "x": 8, "y": 19 }
+}

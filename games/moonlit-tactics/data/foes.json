@@ -1,0 +1,119 @@
+{
+  "bodies": [
+    {
+      "id": "shade-beast",
+      "role": "trash",
+      "kit": ["shade-bolt", "turn-nick"],
+      "stats": { "hp": 120, "mp": 48, "atk": 9, "def": 6, "mag": 18, "res": 6, "spd": 7, "mov": 4, "jump": 2, "hum": 30, "accord": 75, "eva": 6, "luck": 4, "acc": 74 },
+      "weak": ["seal", "bronze"],
+      "resist": ["fracture"],
+      "bolt": { "power": 110, "reach": 4, "kind": "magical", "element": "fracture", "overlay": "bolt" }
+    },
+    {
+      "id": "shade-cantor",
+      "role": "trash",
+      "kit": ["shade-bolt", "dusk-mend", "lullaby", "hush-the-name"],
+      "stats": { "hp": 58, "mp": 36, "atk": 5, "def": 5, "mag": 13, "res": 9, "spd": 8, "mov": 3, "jump": 2, "hum": 25, "accord": 80, "eva": 5, "luck": 6, "acc": 80 },
+      "weak": ["seal", "bronze"],
+      "resist": ["fracture"]
+    },
+    {
+      "id": "peak-raider",
+      "role": "trash",
+      "kit": ["basic", "turn-nick"],
+      "stats": { "hp": 92, "mp": 0, "atk": 13, "def": 9, "mag": 3, "res": 5, "spd": 8, "mov": 4, "jump": 3, "hum": 55, "accord": 30, "eva": 7, "luck": 8, "acc": 76 },
+      "weak": ["moon"],
+      "resist": []
+    },
+    {
+      "id": "parsed-warden",
+      "role": "trash",
+      "kit": ["basic", "dusk-guard", "call-the-gate"],
+      "stats": { "hp": 84, "mp": 0, "atk": 11, "def": 10, "mag": 3, "res": 6, "spd": 7, "mov": 4, "jump": 2, "hum": 50, "accord": 35, "eva": 5, "luck": 4, "acc": 76 },
+      "weak": [],
+      "resist": []
+    },
+    {
+      "id": "straw-shade",
+      "role": "trash",
+      "kit": ["basic"],
+      "stats": { "hp": 40, "mp": 0, "atk": 6, "def": 3, "mag": 4, "res": 3, "spd": 6, "mov": 3, "jump": 2, "hum": 20, "accord": 40, "eva": 2, "luck": 1, "acc": 60 },
+      "basic": { "power": 100, "reach": 1, "kind": "physical", "element": "none", "overlay": "slash" }
+    },
+    {
+      "id": "corvath",
+      "role": "boss",
+      "kit": ["clean-line", "basic", "seven-faces", "parsed-strike", "gilded-name"],
+      "statsByBattle": {
+        "c5": { "hp": 280, "mp": 60, "atk": 26, "def": 14, "mag": 18, "res": 12, "spd": 11, "mov": 5, "jump": 4, "hum": 40, "accord": 88, "eva": 12, "luck": 16, "acc": 90 },
+        "c10": { "hp": 360, "mp": 70, "atk": 30, "def": 15, "mag": 20, "res": 13, "spd": 11, "mov": 5, "jump": 4, "hum": 40, "accord": 88, "eva": 12, "luck": 16, "acc": 90 },
+        "c13": { "hp": 520, "mp": 80, "atk": 34, "def": 16, "mag": 24, "res": 15, "spd": 12, "mov": 5, "jump": 4, "hum": 35, "accord": 90, "eva": 14, "luck": 18, "acc": 92 },
+        "c14": { "hp": 680, "mp": 90, "atk": 36, "def": 18, "mag": 26, "res": 16, "spd": 12, "mov": 6, "jump": 4, "hum": 35, "accord": 90, "eva": 14, "luck": 20, "acc": 94 }
+      },
+      "weak": ["seal", "bronze"],
+      "resist": ["fracture"],
+      "withdraw": { "c5": "phase2", "c13": 0.3, "c14": 0.25 }
+    },
+    {
+      "id": "corvath-shard",
+      "role": "add",
+      "kit": ["basic"],
+      "stats": { "hp": 40, "mp": 4, "atk": 4, "def": 4, "mag": 4, "res": 4, "spd": 6, "mov": 3, "jump": 3, "hum": 4, "accord": 4, "eva": 4, "luck": 4, "acc": 4 },
+      "basic": { "power": 100, "reach": 1, "kind": "physical", "element": "none", "overlay": "slash" }
+    },
+    {
+      "id": "mirror-serenya",
+      "role": "leader",
+      "copy": "serenya-card",
+      "kit": []
+    }
+  ],
+  "roads": {
+    "tier0": ["shade-beast", "shade-beast"],
+    "tier1": ["shade-beast", "shade-beast", "shade-cantor"],
+    "tier2": ["shade-beast", "shade-beast", "shade-cantor", "peak-raider"],
+    "leaderIndex": 3
+  },
+  "placements": [
+    { "battle": "c0-hearth", "body": "straw-shade", "count": 2 },
+    { "battle": "c1-thicket", "body": "shade-beast", "count": 1 },
+    { "battle": "c2-vision", "body": "shade-cantor", "count": 2 },
+    { "battle": "c3-proving", "body": "shade-beast", "count": 2 },
+    { "battle": "c3-proving", "body": "shade-cantor", "count": 1 },
+    { "battle": "c4-ledger", "body": "shade-beast", "count": 2 },
+    { "battle": "c4-ledger", "body": "shade-cantor", "count": 1 },
+    { "battle": "c4-parapet", "body": "parsed-warden", "count": 3 },
+    { "battle": "c5-raiders", "body": "peak-raider", "count": 4 },
+    { "battle": "c5-corvath", "body": "corvath", "count": 1 },
+    { "battle": "c6-drill", "body": "shade-beast", "count": 1 },
+    { "battle": "c6-drill", "body": "peak-raider", "count": 2 },
+    { "battle": "c6-limb", "body": "shade-cantor", "count": 1 },
+    { "battle": "c7-lanterns", "body": "parsed-warden", "count": 4 },
+    { "battle": "c8-mirror", "body": "mirror-serenya", "count": 1 },
+    { "battle": "c9-vault", "body": "shade-beast", "count": 1 },
+    { "battle": "c9-vault", "body": "shade-cantor", "count": 2 },
+    { "battle": "c10-moonrise", "body": "shade-beast", "count": 3 },
+    { "battle": "c10-moonrise", "body": "shade-cantor", "count": 1 },
+    { "battle": "c10-moonrise", "body": "corvath", "count": 1 },
+    { "battle": "c11-trial", "body": "shade-beast", "count": 3 },
+    { "battle": "c12-crack", "body": "shade-beast", "count": 4 },
+    { "battle": "c12-crack", "body": "shade-cantor", "count": 2 },
+    { "battle": "c12-commons", "body": "peak-raider", "count": 3 },
+    { "battle": "c12-commons", "body": "parsed-warden", "count": 2 },
+    { "battle": "c13-last-song", "body": "shade-cantor", "count": 2 },
+    { "battle": "c13-last-song", "body": "corvath", "count": 1 },
+    { "battle": "c14-ascend", "body": "shade-cantor", "count": 1 },
+    { "battle": "c14-ascend", "body": "corvath", "count": 1 },
+    { "battle": "c15-ash", "body": "shade-beast", "count": 3 },
+    { "battle": "c15-ash", "body": "shade-cantor", "count": 1 },
+    { "battle": "h1-west-shade", "body": "shade-beast", "count": 2 },
+    { "battle": "h2-peak-nest", "body": "peak-raider", "count": 3 },
+    { "battle": "h3-drill", "body": "straw-shade", "count": 2 },
+    { "battle": "h4-garland", "body": "shade-cantor", "count": 2 },
+    { "battle": "h5-echo", "body": "shade-cantor", "count": 2 },
+    { "battle": "h6-ridge", "body": "peak-raider", "count": 3 },
+    { "battle": "h7-crack", "body": "shade-beast", "count": 1 },
+    { "battle": "h7-crack", "body": "shade-cantor", "count": 2 },
+    { "battle": "h8-mirror-sea", "body": "shade-cantor", "count": 3 }
+  ]
+}

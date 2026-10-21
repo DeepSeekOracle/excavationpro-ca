@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Haven Rally: beat the ghost | Excavationpro</title>
+<meta name="description" content="Free HTML5 time-trial racer. Drift a lattice circuit, beat your ghost, post the card to this browser. No account.">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="theme-color" content="#070b12">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/games/haven-rally/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eternal Haven">
+<meta property="og:url" content="https://excavationpro.ca/games/haven-rally/">
+<meta property="og:title" content="Haven Rally, beat the ghost">
+<meta property="og:description" content="Arcade time-trial: sunset highways, slide-to-boost, circuits, endless run, drag vs AI. Free.">
+<meta property="og:image" content="https://excavationpro.ca/games/haven-rally/assets/apex-hero.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="Haven Rally, beat the ghost">
+<meta name="twitter:image" content="https://excavationpro.ca/games/haven-rally/assets/apex-hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./game.css?v=24">
+<link rel="stylesheet" href="/games/hub.css?v=2">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Haven Rally","url":"https://excavationpro.ca/games/haven-rally/","description":"Browser time-trial racer: Apex Mk I, lattice circuits, ghost, local ledger.","image":"https://excavationpro.ca/games/haven-rally/assets/apex-hero.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"genre":["Racing","Sports"],"gamePlatform":"Web browser","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"}}</script>
+<link rel="stylesheet" href="/games/lygo-gate.css?v=1">
+<script src="/games/lygo-gate.js?v=1" defer></script>
+</head>
+<body>
+<audio id="radioEl" preload="auto" volume="0.5"></audio>
+<div id="boot" class="boot">
+  <p class="kicker">Δ9Φ963 · Excavationpro</p>
+  <h1>Haven Rally</h1>
+  <p class="boot-msg">Warming the grid…</p>
+</div>
+
+<div id="app" class="app hidden">
+  <header class="top">
+    <a class="brand" href="/">chatagent.ca</a>
+    <a class="games-mini" href="/games/">All games</a>
+    <div class="phase-pill" id="lapPill">LAP 1/3</div>
+    <div class="hud-meta" id="hudMeta"></div>
+    <span class="grow"></span>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">PayPal</a>
+  </header>
+  <div class="stage">
+    <div class="viewport">
+      <canvas id="circuit" tabindex="0" aria-label="Rally circuit"></canvas>
+      <div class="boost-veil" id="boostVeil" aria-hidden="true"></div>
+      <div class="count-flash hidden" id="countFlash">3</div>
+      <div id="dragTree" class="drag-tree hidden" aria-label="Christmas tree">
+        <p class="tree-banner" id="treeBanner">READY</p>
+        <div class="tree-cols">
+        <div class="tree-col">
+          <span class="tree-bulb yellow sm" data-bulb="pre"></span>
+          <span class="tree-bulb yellow sm" data-bulb="stage"></span>
+          <span class="tree-bulb amber" data-bulb="a1"></span>
+          <span class="tree-bulb amber" data-bulb="a2"></span>
+          <span class="tree-bulb amber" data-bulb="a3"></span>
+          <span class="tree-bulb green" data-bulb="green"></span>
+          <span class="tree-bulb red" data-bulb="redL"></span>
+        </div>
+        <div class="tree-col">
+          <span class="tree-bulb yellow sm" data-bulb="pre"></span>
+          <span class="tree-bulb yellow sm" data-bulb="stage"></span>
+          <span class="tree-bulb amber" data-bulb="a1"></span>
+          <span class="tree-bulb amber" data-bulb="a2"></span>
+          <span class="tree-bulb amber" data-bulb="a3"></span>
+          <span class="tree-bulb green" data-bulb="green"></span>
+          <span class="tree-bulb red" data-bulb="redR"></span>
+        </div>
+        </div>
+      </div>
+      <div id="dragHud" class="drag-hud hidden">RT, · ET, · AI , </div>
+      <div class="pilot-plate" id="pilotPlate">
+        <img id="pilotImg" alt="Driver" src="./assets/d-mira.jpg">
+        <div class="pilot-meta">
+          <b id="pilotName">Mira Quinn</b>
+          <span id="pilotTag">Line cutter</span>
+          <em id="pilotCraft">Apex Mk I</em>
+        </div>
+      </div>
+      <div id="raceHud" class="race-hud">
+        <div class="rh-top">
+          <div class="rh-block rh-lapbox">
+            <span>LAP</span>
+            <b id="rhLap">1/3</b>
+            <em id="rhPos">P1</em>
+          </div>
+          <div class="rh-block rh-live">
+            <span id="rhBigLabel">CURRENT LAP</span>
+            <b id="rhLapT">0:00.000</b>
+            <span>SESSION <i id="rhSess">0:00.000</i></span>
+          </div>
+          <div class="rh-block rh-board">
+            <div class="rh-row"><span>BEST LAP</span><b id="rhBest">, </b></div>
+            <div class="rh-row"><span>LAST LAP</span><b id="rhLast">, </b></div>
+            <div class="rh-row"><span>TO BEAT</span><b id="rhBeat">, </b></div>
+            <div class="rh-delta" id="rhDelta">DELTA , </div>
+          </div>
+        </div>
+        <div class="rh-sectors" id="rhSectors">S1 □ · S2 □ · S3 □</div>
+        <div class="rh-dash">
+          <div class="rh-tacho-wrap">
+          <svg class="rh-tacho" viewBox="0 0 240 150" aria-hidden="true">
+            <path d="M28 128 A92 92 0 0 1 212 128" fill="none" stroke="#1e3a4a" stroke-width="14" stroke-linecap="round"/>
+            <path id="rhArc" d="M28 128 A92 92 0 0 1 212 128" fill="none" stroke="url(#rhGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"/>
+            <defs>
+              <linearGradient id="rhGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#5eead4"/>
+                <stop offset="70%" stop-color="#fbbf24"/>
+                <stop offset="100%" stop-color="#ef4444"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(120 128)">
+              <g id="rhNeedle" class="rh-needle">
+                <line x1="0" y1="0" x2="0" y2="-86" stroke="#e8eef5" stroke-width="2.4"/>
+                <circle cx="0" cy="0" r="6" fill="#fbbf24"/>
+              </g>
+            </g>
+          </svg>
+          <div class="rh-shift" id="rhShift"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="rh-core">
+            <div class="rh-gear" id="rhGear">N</div>
+            <div class="rh-spd"><b id="rhSpd">0</b><small id="rhUnit">MPH</small></div>
+            <div class="rh-rpm"><span id="rhRpm">0000</span> RPM</div>
+          </div>
+          <div class="rh-side">
+            <div class="rh-pedal"><span>THR</span><div><i id="rhThr"></i></div></div>
+            <div class="rh-pedal brk"><span>BRK</span><div><i id="rhBrk"></i></div></div>
+            <div class="rh-pedal bst"><span>BST</span><div><i id="rhBoost"></i></div></div>
+          </div>
+        </div>
+        <div class="rh-prog"><i id="rhProg"></i></div>
+      </div>
+      <div class="speedo hidden" id="speedo">0<small>YD/S</small></div>
+      <div class="boost-hud hidden"><div class="boost-fill" id="boostFill"></div></div>
+      <div id="arcadeHud" class="arcade-hud hidden" aria-live="polite">
+        <div class="arc-score-wrap">
+          <span>SCORE</span>
+          <b id="arcScore">0</b>
+        </div>
+        <div class="arc-mult" id="arcMult">x1</div>
+        <div class="arc-meta">
+          <em id="arcCombo">HOLD R-SHIFT</em>
+          <i id="arcKills">0 WRECKS</i>
+          <i id="arcBest">BEST 0</i>
+        </div>
+      </div>
+      <div id="arcPops" class="arc-pops"></div>
+      <div id="splitBar" class="split-bar hidden" aria-hidden="true"></div>
+      <div id="splitHud" class="split-hud hidden">
+        <div class="split-pane">
+          <div class="split-mini">
+            <em id="sp1Name">P1</em>
+            <b id="sp1Spd">0</b><small id="sp1Unit">MPH</small>
+            <span>GEAR <i id="sp1Gear">1</i> · LAP <i id="sp1Lap">1/24</i></span>
+            <div class="split-bst"><i id="sp1Bst"></i></div>
+          </div>
+        </div>
+        <div class="split-pane">
+          <div class="split-mini">
+            <em id="sp2Name">P2</em>
+            <b id="sp2Spd">0</b><small id="sp2Unit">MPH</small>
+            <span>GEAR <i id="sp2Gear">1</i> · LAP <i id="sp2Lap">1/24</i></span>
+            <div class="split-bst"><i id="sp2Bst"></i></div>
+          </div>
+        </div>
+        <div class="split-stand" id="splitStand"></div>
+      </div>
+      <div class="hint" id="hint">W throttle · Space brake · L-Shift drift · R-Shift boost/guns · F drag tree</div>
+      <div class="keys">C camera · V P2 cam · R-Shift boost+guns · R restart · Esc menu</div>
+    </div>
+    <aside class="rail">
+      <div class="panel">
+        <h3>Heat</h3>
+        <div class="card" id="heatCard">Grid.</div>
+      </div>
+      <div class="panel">
+        <h3>Sectors</h3>
+        <div class="card" id="secCard">, </div>
+      </div>
+      <div class="panel">
+        <h3 id="ghostHead">Ghost</h3>
+        <div class="card" id="ghostCard">No ghost yet. Finish a heat.</div>
+      </div>
+      <div class="panel">
+        <h3>Log</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </aside>
+  </div>
+  <footer class="dock">
+    <button type="button" class="btn ghost" id="btnHelp">How to play</button>
+    <button type="button" class="btn ghost" id="btnOptions">Options</button>
+    <button type="button" class="btn ghost" id="btnPaper">Whitepaper</button>
+    <button type="button" class="btn ghost" id="btnRestart">Restart</button>
+    <div id="radioDock" class="radio-inline">
+      <button type="button" id="radioPlay">Radio</button>
+      <button type="button" id="radioNext">Next</button>
+      <button type="button" id="radioMute">Mute</button>
+      <label class="radio-vol" title="Radio volume">
+        <input type="range" id="radioVol" min="0" max="100" step="1" value="50" aria-label="Radio volume">
+        <span id="radioVolPct">50%</span>
+      </label>
+      <span class="radio-title-inline" id="radioTitle">Idle</span>
+    </div>
+    <span class="grow" id="dockStatus">Hold W.</span>
+    <a class="games-mini" href="/games/">All games</a>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+    <button type="button" class="btn" id="btnMenu">Menu</button>
+  </footer>
+</div>
+<div id="overlay" class="overlay"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+<script src="./radio.js?v=3"></script>
+<script src="./sfx.js?v=4"></script>
+<script src="./carmodel.js?v=9"></script>
+<script src="./rally3d.js?v=31"></script>
+<script src="/games/arcade-ledger.js?v=5"></script>
+<script src="./game.js?v=64"></script>
+</body>
+</html>

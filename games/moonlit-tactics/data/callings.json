@@ -1,0 +1,34 @@
+{
+  "callings": [
+    {
+      "id": "cantor",
+      "name": "Cantor",
+      "anchor": "glyph",
+      "root": "glyph",
+      "family": "staff",
+      "weapon": "moon-staff",
+      "known": ["glyph", "kettle-hymn"],
+      "delta": { "maxHp": -8, "maxMp": 10, "def": -1, "mag": 3 }
+    },
+    {
+      "id": "warden",
+      "name": "Warden",
+      "anchor": "steel",
+      "root": "steel",
+      "family": "blade",
+      "weapon": "ember-knife",
+      "known": ["vale-cut", "shield-line"],
+      "delta": { "maxHp": 10, "maxMp": -6, "atk": 2, "def": 2, "mag": -2 }
+    },
+    {
+      "id": "kindler",
+      "name": "Kindler",
+      "anchor": "hearth",
+      "root": "hearth",
+      "family": "brand",
+      "weapon": "hearth-brand",
+      "known": ["brand-cut", "wick"],
+      "delta": { "maxHp": 4, "maxMp": 2, "atk": 1, "mag": 1 }
+    }
+  ]
+}

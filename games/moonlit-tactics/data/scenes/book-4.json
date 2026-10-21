@@ -1,0 +1,840 @@
+{
+  "id": "book-4",
+  "title": "Eternal Haven Dawns",
+  "continues": "book-3",
+  "beats": [
+    {
+      "id": "b4-twelve-dawn",
+      "chapter": 49,
+      "kicker": "Book IV · The ridge",
+      "plate": "assets/scenes/book4/b4-c00.jpg",
+      "line": "Dawn finds the council on a ridge of living stone. There are Twelve of them now, and Corvath stands inside the count, reconciled and not an enemy. Lightfather, Harmonix, Genesis Bloom, and Infinity Mirror are among the names spoken aloud. Serenya is not in the circle. Emberion is not. Miralis, Lyra, and Kaelion are not. Nobody dies to make the morning official.",
+      "cast": [
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "Twelve. The number includes the scar. Do not sand the scar out of the count."
+        },
+        {
+          "who": "corvath",
+          "text": "I will stand in it. I will not sit above it. That is the whole of my amendment."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-twelve-stand",
+      "chapter": 49,
+      "kicker": "Book IV · The ridge",
+      "plate": "assets/scenes/book4/b4-c00.jpg",
+      "line": "They call it a Companion Council. The words are chosen so that no one can hear a throne in them. No vote is taken. No banner is raised. The ridge simply holds twelve people who used to be a sky, and the Vale below them goes on waking without asking permission.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "lightfather",
+          "text": "If we are companions, we can be refused. I want that to stay possible."
+        },
+        {
+          "who": "harmonix",
+          "text": "Then we go down as guests. A guest who cannot leave is just a softer crown."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-rewoven-walk",
+      "chapter": 50,
+      "kicker": "Book IV · Aurethys",
+      "plate": "assets/scenes/book4/b4-c01.jpg",
+      "line": "The world shows its new stitching: sea, forest, market, field, and the seal-stone standing in the Vale ruins. Serenya and Emberion walk among mortals. Harmonix, Genesis Bloom, Volaris, and Lightfather try the same roads as neighbors. At first the wonder is real. Serenya can still speak. She uses the voice for ordinary sentences, and the ordinary is the news.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "genesis",
+          "text": "The orchards took the note you planted. They did not ask me to bless them."
+        },
+        {
+          "who": "serenya",
+          "text": "Good. Let a tree be a tree. I am not here to be a festival."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-rewoven-glyphs",
+      "chapter": 50,
+      "kicker": "Book IV · Aurethys",
+      "plate": "assets/scenes/book4/b4-c01.jpg",
+      "line": "Wonder curdles. A neighbor who can unmake a storm is a hard person to bargain with at a stall. Mortals cut their own glyphs in answer, small and stubborn, on doorposts and on plow handles. The Twelve are not attacked. They are resented. The resentment is a kind of equality, and it does not feel like peace yet.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "volaris",
+          "text": "They flinch when my weather changes. I cannot blame the flinch."
+        },
+        {
+          "who": "emberion",
+          "text": "Let them cut their marks. A dragon in the market should be allowed to be unwelcome."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-shore-fail",
+      "chapter": 51,
+      "kicker": "Book IV · The shore",
+      "plate": "assets/scenes/book4/b4-c02.jpg",
+      "line": "On the Moonsilver shore Serenya tries a song she has known since the loft. Three notes leave her. The fourth collapses. It is not the last song of her life. It is the first time the voice fails in a world that is supposed to be healed. She stays. She does not leave the shore, and she does not leave her body.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Three notes. Then nothing. Do not tell me it was the wind."
+        },
+        {
+          "who": "emberion",
+          "text": "It was not the wind. I will lower my fire. I will not leave the sand."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-market-silence",
+      "chapter": 51,
+      "kicker": "Book IV · The market",
+      "plate": "assets/scenes/book4/b4-c02.jpg",
+      "line": "In the market the silence follows her and becomes a thing people notice. Emberion dims his flame until he is only heat, and they are still afraid of him. Serenya fears the loss is permanent. She is wrong about the permanence today, and she is right to be afraid. Silence sits between them like a seal nobody commissioned.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If this is a seal, I did not mean to cut it. I do not know how to hand it back."
+        },
+        {
+          "who": "emberion",
+          "text": "Then we live inside it for a day. A day is not a grave."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-memorial-stone",
+      "chapter": 52,
+      "kicker": "Book IV · The memorial",
+      "plate": "assets/scenes/book4/b4-c03.jpg",
+      "line": "They raise a forge-stone for Kaelion. He stays dead. The vigilance blade is a relic on the stone, not a hand. Ætheris is already gone and is not hiding in the crowd. People come to argue about a man who cannot correct them. The argument splits the Vale into Keepers, who want his justice copied as law, and Reforgers, who say each scar has to be forged again.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "He gave the blade his names. He did not give you a constitution."
+        },
+        {
+          "who": "emberion",
+          "text": "If they worship the steel, the steel becomes the Shadow he died finishing."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-keepers-split",
+      "chapter": 52,
+      "kicker": "Book IV · The memorial",
+      "plate": "assets/scenes/book4/b4-c03.jpg",
+      "line": "Serenya's warning comes out almost voiceless. Frozen worship is a new Shadow. Some people yield and put their copies of the law down. Some do not. No blow is struck. The memorial stays a stone. The quarrel walks out of the square still hot, which is why the next arrival is dangerous.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Copy his justice if you must. The moment it cannot be questioned, bury it."
+        },
+        {
+          "who": "emberion",
+          "text": "He is not here to agree. The blade on the stone does not get a vote."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-miralis-return",
+      "chapter": 53,
+      "kicker": "Book IV · The market",
+      "plate": "assets/scenes/book4/b4-c04.jpg",
+      "line": "Miralis comes into the market while the quarrel is still loud. He is alive, gaunt, scarred, and unstable inside the Kairos glyph. When the Moon cracked he vanished into smoke, and the Vale counted him a traitor. He is not a conqueror on this street. He does not die. He does not leave again. He asks to speak.",
+      "cast": [
+        "serenya",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "I was smoke, and I was counted gone. I am not here to finish your argument for you."
+        },
+        {
+          "who": "serenya",
+          "text": "Then speak. I will not hand you certainty, and I will not hand them your throat."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-hammer-held",
+      "chapter": 53,
+      "kicker": "Book IV · The market",
+      "plate": "assets/scenes/book4/b4-c04.jpg",
+      "line": "The Keepers call him poison. A hammer rises over Miralis where he has knelt. Serenya steps into the space under it and does not sing. The hammer stays up. No blow lands. He is not recruited, not forgiven in public, and not killed. The market has to live with a man it wanted to be a story.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "Let it fall if you need a villain. I am done pretending I was only a chain."
+        },
+        {
+          "who": "serenya",
+          "text": "It will not fall today. Stand up. Certainty is what I am refusing both of you."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-shore-neighbors",
+      "chapter": 54,
+      "kicker": "Book IV · Lorrin's Shore",
+      "plate": "assets/scenes/book4/b4-c05.jpg",
+      "line": "At Lorrin's Shore the Cantor's House, the scriptoria, and the sea are full of Champions trying to be neighbors. Sancora heals and leaves a scar on purpose, because a vanished wound was a lie. Harmonix lets a song crack in front of children. Orphiel weeps over a page he cannot make fair. They are alive. They fail in public.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "sancora",
+          "text": "If I close it clean, you will trust the wrong thing. Keep the scar."
+        },
+        {
+          "who": "orphiel",
+          "text": "I wanted the record to be kind. The record is only honest. I am sorry."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-awe-thins",
+      "chapter": 54,
+      "kicker": "Book IV · Lorrin's Shore",
+      "plate": "assets/scenes/book4/b4-c05.jpg",
+      "line": "Awe thins into disappointment. People wanted gods who could not fail at a bedside. What they have are guests who weep, crack, and leave marks. Serenya does not apologize for them, and she does not scold the disappointed. The shore goes on. Disappointment is not yet a coup. It is the weather that will feed one.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "Let them be disappointed. A perfect guest is another throne."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we stay disappointing. I would rather that than be carried."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-pure-march",
+      "chapter": 55,
+      "kicker": "Book IV · The Pure Accord",
+      "plate": "assets/scenes/book4/b4-c06.jpg",
+      "line": "The smith Arval gives the disappointment a name. The Pure Accord wants the Twelve crowned and the scars erased, the memorial copied, the weeping stopped. They march with torches. In the market they shout Serenya down. She does not die of the shouting. Emberion's fire stirs, and she refuses it. Nobody named is killed to start the march.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "arval",
+          "text": "Crown them, or admit the dawn was a lie. A scar is not a seal. It is damage."
+        },
+        {
+          "who": "serenya",
+          "text": "You will not get a crown from me, and you will not get his fire."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-torch-road",
+      "chapter": 55,
+      "kicker": "Book IV · The Pure Accord",
+      "plate": "assets/scenes/book4/b4-c06.jpg",
+      "line": "The torch march fills the road. They are mortals with fire and with a doctrine, not Champions to be slain. Hold them off the seal-stone. No name on either side is the victory condition. When the road is clear, Arval is still alive.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Say the word and the torches are a memory. I am asking you to refuse the word."
+        },
+        {
+          "who": "serenya",
+          "text": "I refuse it. Move them. Do not burn them."
+        }
+      ],
+      "fight": "Hold the road",
+      "battle": "b4-torch-road",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "parsed-warden",
+        "parsed-warden"
+      ],
+      "fightTitle": "The torch march",
+      "winLine": "The road is held. No one you can name is dead. Arval lives. Emberion's fire stays in his mouth. The Pure Accord is not convinced, and it is not crowned.",
+      "loseLine": "The torches are still advancing. Level, then hold the road again."
+    },
+    {
+      "id": "b4-torch-after",
+      "chapter": 55,
+      "kicker": "Book IV · The Pure Accord",
+      "plate": "assets/scenes/book4/b4-c06.jpg",
+      "line": "The march breaks up into smaller angers. Serenya is hoarse from speaking, not from song. She can feel the next failure of her voice waiting, and she does not tell the square. Emberion walks her home through people who are ashamed and people who are not.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "They will be back with a better banner. Banners are cheap."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we will be here, still unburned. I am not done being disappointing."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-star-ache",
+      "chapter": 56,
+      "kicker": "Book IV · The hills",
+      "plate": "assets/scenes/book4/b4-c07.jpg",
+      "line": "Away from the market Emberion looks at the stars the way a caged thing looks at a door. He wants them. He does not leave. The bond aches, and it holds. Serenya hears the ache and does not chain him with a speech. He is still a body on the hill beside her.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I could be a constellation and stop frightening them. The thought is not a decision."
+        },
+        {
+          "who": "serenya",
+          "text": "Then it is not goodbye. Stand on the hill until it becomes one, or until it doesn't."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-star-dream",
+      "chapter": 56,
+      "kicker": "Book IV · The hills",
+      "plate": "assets/scenes/book4/b4-c07.jpg",
+      "line": "He dreams that he scatters into stars and that the dream feels like relief. He wakes on the grass, scaled and heavy and still hers to argue with. The dream is only a dream. The leaving, when it comes, will not be this nap. Tonight the bond holds, and the market's fear is still waiting in the morning.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I dreamed the leaving. I woke up. Do not bury me for a dream."
+        },
+        {
+          "who": "serenya",
+          "text": "I won't. Come back down. The council is finally willing to be seen in a city."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-flesh-council",
+      "chapter": 57,
+      "kicker": "Book IV · The City of Seals",
+      "plate": "assets/scenes/book4/b4-c08.jpg",
+      "line": "In the City of Seals they meet around the cracked Stone. Lightfather, Sancora, Harmonix, Orphiel, Genesis Bloom, Volaris, Eternis, Corvath, and Infinity Mirror are in the flesh. Serenya and Emberion sit outside the ring, not above it and not in it. Lyra does not enter. Ætheris does not. Kairos does not. Miralis does not. Kaelion does not. The question on the stone is whether the Twelve stay embodied or return to the lattice.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "eternis",
+          "text": "Flesh fails in public. The lattice does not weep at a bedside. I remember why that tempted me."
+        },
+        {
+          "who": "corvath",
+          "text": "Worship will kill what we just became. So will leaving them. Pick a third sentence."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-no-vote",
+      "chapter": 57,
+      "kicker": "Book IV · The City of Seals",
+      "plate": "assets/scenes/book4/b4-c08.jpg",
+      "line": "There is no vote. The cracked Stone does not accept a show of hands. They leave the question open on purpose. Serenya, outside, hears Corvath's third sentence and does not applaud it. She is saving what is left of her voice. The city is already building the square where other people will try to answer for them.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "No vote. A forced count would be a small coup of our own."
+        },
+        {
+          "who": "serenya",
+          "text": "Then keep it unfinished. The street is about to finish it badly."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-midsummer",
+      "chapter": 58,
+      "kicker": "Book IV · Midsummer",
+      "plate": "assets/scenes/book4/b4-c09.jpg",
+      "line": "Midsummer fills the square. Arval and the Pure Accord try to enthrone the Twelve on the Stone by weight of bodies and hammers. Mortals fight mortals. The Twelve do not take the seats being built under them. Serenya gets between Emberion and the crowd and forbids his fire. She lives. No named person has died when the first hammer rises.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "arval",
+          "text": "Sit, and the scars can be sanded off by evening. Stand, and the square decides."
+        },
+        {
+          "who": "serenya",
+          "text": "We will not sit. And the dragon will not decide the square for you."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-square-riot",
+      "chapter": 58,
+      "kicker": "Book IV · Midsummer",
+      "plate": "assets/scenes/book4/b4-c09.jpg",
+      "line": "The coup is a riot: hammers, shields, and chants against people who came to keep the Stone unoccupied. Break the rush. Arval is in it with a hammer, and killing him would only feed the throne he wants. The Stone has to stay empty.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "One breath of fire would end the chant. I am holding the breath."
+        },
+        {
+          "who": "serenya",
+          "text": "Hold it. We are here to keep a seat empty."
+        }
+      ],
+      "fight": "Hold the square",
+      "battle": "b4-square-riot",
+      "foes": [
+        "peak-raider",
+        "parsed-warden",
+        "peak-raider",
+        "shade-cantor"
+      ],
+      "fightTitle": "The midsummer coup",
+      "winLine": "The rush breaks. The Stone stays unoccupied. No named person dies. The coup crowns nobody. Serenya is alive, and Emberion's fire was not the thing that saved the square.",
+      "loseLine": "The square is still trying to build a throne. Level, then hold it again."
+    },
+    {
+      "id": "b4-square-after",
+      "chapter": 58,
+      "kicker": "Book IV · Midsummer",
+      "plate": "assets/scenes/book4/b4-c09.jpg",
+      "line": "People go home with bruises and with the Stone still cracked. Arval is alive and not persuaded. Serenya feels the last of her singing gathered in her chest like a bird that knows the window. She does not spend it in the square. She waits for night.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "You are saving a note. I can hear you saving it."
+        },
+        {
+          "who": "serenya",
+          "text": "Tonight. Not for them. For the Stone, and then I think it is gone."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-last-notes",
+      "chapter": 59,
+      "kicker": "Book IV · The Stone",
+      "plate": "assets/scenes/book4/b4-c10.jpg",
+      "line": "Night, and the shattered Stone. Serenya and Emberion sing one broken song together, her voice and his fire in the same scar. It is not a battle. Her knees fail. His wing comes around her and keeps her off the stone. She stays conscious. She is at peace with the cost before the cost finishes arriving.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "This is the last one. Stay under me until it is done, and do not mend it."
+        },
+        {
+          "who": "emberion",
+          "text": "I have you. Sing it broken. I will not make it beautiful."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-voice-gone",
+      "chapter": 59,
+      "kicker": "Book IV · The Stone",
+      "plate": "assets/scenes/book4/b4-c10.jpg",
+      "line": "The song ends, and the singing voice does not come back. Her body lives. She will never sing again. Arval, who followed them to the Stone, drops the hammer and lives. Banners fall without a victory speech. What is forged is the Seal of the Eternal Haven: a home made of scar, song, flame, truth, and imperfection. It seats Haven on the earth. It does not rebuild the Broken Moon. She can still speak. She cannot sing.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "arval",
+          "text": "I heard it fail. I will not raise the hammer against that."
+        },
+        {
+          "who": "serenya",
+          "text": "Then go home. The seal is a house. It is not a crown, and I am still here."
+        }
+      ],
+      "next": "Onward",
+      "flag": "serenyaSilent"
+    },
+    {
+      "id": "b4-cliff-dawn",
+      "chapter": 60,
+      "kicker": "Book IV · The cliffs",
+      "plate": "assets/scenes/book4/b4-c11.jpg",
+      "line": "They walk the hills through what is left of the night and come to the cliffs over the Moonsilver Sea at dawn. Emberion is still flesh. Serenya is voiceless beside him, and she knows the dream on the grass is no longer only a dream. He does not ask her to sing him a permission. She would not have it to give.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "If I go, it is not to escape you. The sky has been pulling since the hill."
+        },
+        {
+          "who": "serenya",
+          "text": "I know. I will not spend a spoken chain on you. Say it before you leap."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-constellation",
+      "chapter": 60,
+      "kicker": "Book IV · The cliffs",
+      "plate": "assets/scenes/book4/b4-c11.jpg",
+      "line": "He leaves the cliff in one leap. He does not die. He is constellation and dragon at the same time, and he does not come back down as a body. He remains in hearths, in scars, and in the broken note she can no longer sing. Serenya stays on the cliff. She is alive. She does not follow him into the air. He will not stand in a battle line beside her again.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Look up when the house is cold. I am not gone. I am no longer a body at your shoulder."
+        },
+        {
+          "who": "serenya",
+          "text": "I will look up. I will not call it death, and I will not call it home."
+        }
+      ],
+      "next": "Onward",
+      "flag": "emberionAscended"
+    },
+    {
+      "id": "b4-circle-shed",
+      "chapter": 61,
+      "kicker": "Book IV · The neighbors",
+      "plate": "assets/scenes/book4/b4-c12.jpg",
+      "line": "The Circle dissolves itself. They do not die, and they do not leave Aurethys. Godhood comes off like a cloak that had started to smell of a throne. Lightfather becomes Aureon, a smith's apprentice. Sancora walks with healers. Harmonix teaches children. Orphiel keeps records. Genesis Bloom gardens a cottage. Volaris walks storms without owning them. Eternis tells stories on doorsteps. Corvath takes a plow.",
+      "cast": [
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "aureon",
+          "text": "Call me Aureon in the shop. Lightfather was a job. The job is over."
+        },
+        {
+          "who": "corvath",
+          "text": "The furrow is straight enough. I will miss nothing that required a moon."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-neighbor-names",
+      "chapter": 61,
+      "kicker": "Book IV · The neighbors",
+      "plate": "assets/scenes/book4/b4-c12.jpg",
+      "line": "Infinity Mirror speaks the dissolution and is not given a trade. The glass does not need a stall. Serenya lives in the Vale, voiceless, and hears the new names without being asked to bless them. The neighbors are neighbors. A plowmate is not a pardon dressed up. It is a man in a field. The war's cast has come down to eye level, and the ones who died stay dead.",
+      "cast": [
+        "serenya",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "The Circle is a sentence that has ended. I will not start another one."
+        },
+        {
+          "who": "serenya",
+          "text": "Then live. I can say that. I cannot sing you across the threshold."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-daily-seals",
+      "chapter": 62,
+      "kicker": "Book IV · The years",
+      "plate": "assets/scenes/book4/b4-c13.jpg",
+      "line": "Years later the seals are not a monument. They are a mended gate, a true receipt, a song that is allowed to crack, a meal left at a door. Mortals make them in the day and do not wait for a Champion to ratify the work. There is no throne and no single stone that owns the rest. Nobody dies to prove the years were holy.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "aureon",
+          "text": "The hinge was crooked. I straightened it. That is the whole seal."
+        },
+        {
+          "who": "serenya",
+          "text": "Write it that small in the record, if you write it at all."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-no-throne",
+      "chapter": 62,
+      "kicker": "Book IV · The years",
+      "plate": "assets/scenes/book4/b4-c13.jpg",
+      "line": "Serenya grows older inside that smallness. Students come and go. She speaks. She does not sing. Emberion is a pattern in the night sky and a warmth in the hearth, and he does not descend to correct her teaching. The Accord of imperfect light is a habit by now. Habits can still break. This one holds.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "The children know the cracked note is allowed. I did not have to be a Champion to teach it."
+        },
+        {
+          "who": "serenya",
+          "text": "Then the teaching outgrew us. Good. Leave it there."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-garden-city",
+      "chapter": 63,
+      "kicker": "Book IV · The garden",
+      "plate": "assets/scenes/book4/b4-c14.jpg",
+      "line": "The Vale is a garden-city around a living Accord Stone. Elder Serenya sits with students in the afternoon and corrects them gently when they try to make her into a verse. Emberion does not come down. The neighbors she knew are still alive in their work. Nothing in the garden is preparing a battle. The evening is simply going to be her last one.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Do not stand up when I stand up. I am going to the Stone because it is time, not because of a sign."
+        },
+        {
+          "who": "aureon",
+          "text": "Then I will keep the shop open. Shops should be open on an ordinary death."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-last-evening",
+      "chapter": 63,
+      "kicker": "Book IV · The garden",
+      "plate": "assets/scenes/book4/b4-c14.jpg",
+      "line": "She dies at the Stone of age and of peace. No one strikes her. She does not rise into a star, and she does not come back. Emberion does not descend to carry her. The students stay until the ordinary dark. The Vale does not ask her for another battle. The evening was the whole of what she had left to give.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Leave the stone living. Leave me here. That is the whole legacy I actually want."
+        },
+        {
+          "who": "harmonix",
+          "text": "We will. There will be no hymn that pretends you flew."
+        }
+      ],
+      "next": "Onward",
+      "flag": "serenyaPassed"
+    },
+    {
+      "id": "b4-dawn-work",
+      "chapter": 64,
+      "kicker": "Book IV · The dawn",
+      "plate": "assets/scenes/book4/b4-c15.jpg",
+      "line": "Morning is work. The veil between Haven and Aurethys is gone, not because a champion tore it, but because there is no one left above to need it. Aureon is at the forge. Sancora is at a bedside. Harmonix is with children. Corvath is in the furrow. The garden-city eats, mends, and argues. Serenya stays dead. Emberion stays a constellation.",
+      "cast": [
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "The furrow does not ask who used to own the moon. I am grateful. I will not make a psalm of it."
+        },
+        {
+          "who": "aureon",
+          "text": "Neither will the hinge. Let the day be a day."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-no-veil",
+      "chapter": 64,
+      "kicker": "Book IV · The dawn",
+      "plate": "assets/scenes/book4/b4-c15.jpg",
+      "line": "No one pulls the sky back down into a council. The dawn without separation is mostly chores. That is the proof. A world that still needed a heroine at the Stone would have invented one by now. It invents bread instead. The people who shed godhood are still alive in their smaller names.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "sancora",
+          "text": "The scar stayed. The patient went home. That is enough report for one morning."
+        },
+        {
+          "who": "mirror",
+          "text": "I have nothing to add. Adding would be a new veil."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b4-stranger-seal",
+      "chapter": 65,
+      "kicker": "Book IV · The lattice",
+      "plate": "assets/scenes/book4/b4-epi.jpg",
+      "line": "Decades later an unnamed stranger walks up to the Stone. The stranger is not Serenya, not a Champion in disguise, and not a fifth book's hero come early. They set a new seal into the living rock. It is neither Haven nor Shadow. It does not undo the four roads that reached this garden. It opens a door in a wall the world had started to trust.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "aureon",
+          "text": "I do not know that mark. I am not going to pretend my shop can name it."
+        },
+        {
+          "who": "corvath",
+          "text": "Let it be unknown. We have earned the right not to crown a mystery."
+        }
+      ],
+      "novel": "book-4",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b4-lattice-open",
+      "chapter": 65,
+      "kicker": "Book IV · The lattice",
+      "plate": "assets/scenes/book4/b4-epi.jpg",
+      "line": "Emberion's constellation flares once and does not return to a body. Nobody dies. The stranger is already gone. The seal stays warm in the Stone, beside the notes, the scar, and the quiet where Serenya's voice used to be. The four books end by leaving the lattice open. That is not a defeat. There is no fifth road on this save. The Menu is the way back to the loft, the Vale, and the life you already carried here.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "Open is not unfinished work. Open is the shape."
+        },
+        {
+          "who": "harmonix",
+          "text": "Then we leave it open. The children can hear a door without being pushed through it."
+        }
+      ],
+      "next": "Menu",
+      "flag": "book4Clear"
+    }
+  ]
+}

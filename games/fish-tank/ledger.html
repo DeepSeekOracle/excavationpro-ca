@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fish Tank: Life hall | Excavationpro</title>
+<meta name="description" content="Fish Tank life hall. Longest lives first, in hours. Keeper, species, generation and DNA. Names only. No account.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://excavationpro.ca/games/fish-tank/ledger.html">
+<link rel="alternate" type="application/json" href="https://deepseekoracle-lattice-marines-ledger.hf.space/fish/ledger.json" title="Fish Tank life book (Space)">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:title" content="Fish Tank. Life hall">
+<meta property="og:description" content="Longest aquarium lives, in hours. Keeper, species, generation and DNA. Names only.">
+<meta property="og:image" content="https://excavationpro.ca/games/fish-tank/assets/og.jpg?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://excavationpro.ca/games/fish-tank/assets/og.jpg?v=2">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body { margin:0; background:#071018; color:#e8eef5; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:820px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#5eead4; font-size:.72rem; }
+h1 { font-family:Syne,sans-serif; }
+a { color:#5eead4; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #1e3a4a; border-radius:8px; text-decoration:none; color:#e8eef5; }
+.muted { color:#94a3b8; }
+.round { width:100%; text-align:left; background:#0c1622; color:#e8eef5; border:1px solid #1e3a4a; border-radius:10px; padding:.7rem .8rem; margin:.4rem 0 0; }
+.round.live { border-style:dashed; }
+.rtop { display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; }
+.rtop b { font-family:Syne,sans-serif; }
+.rank { font-family:"IBM Plex Mono",monospace; color:#5eead4; font-size:.78rem; white-space:nowrap; }
+.rank.live { color:#94a3b8; }
+.who { flex:1 1 auto; display:flex; flex-direction:column; gap:.05rem; min-width:0; }
+.who .sub { color:#94a3b8; font-size:.78rem; }
+.hrs { font-family:"IBM Plex Mono",monospace; color:#fbbf24; font-size:.95rem; white-space:nowrap; text-align:right; }
+.hrs i { font-style:normal; color:#64748b; font-size:.75rem; margin-left:.2rem; }
+.rmeta { color:#94a3b8; font-size:.82rem; }
+.rmeta b { color:#fbbf24; }
+.rmeta code { font-family:"IBM Plex Mono",monospace; color:#cbd5e1; }
+.tag { display:inline-block; border:1px solid #1e3a4a; border-radius:999px; padding:0 .4rem; color:#94a3b8; font-size:.72rem; }
+.empty { border:1px dashed #1e3a4a; border-radius:10px; background:#0a1420; padding:.9rem 1rem; margin-top:.4rem; }
+.empty h2 { font-family:Syne,sans-serif; font-size:1rem; margin:.1rem 0 .35rem; color:#fff8e8; }
+.empty p { margin:.2rem 0; }
+.hcaption { color:#94a3b8; font-size:.82rem; margin:.9rem 0 0; }
+.hint { color:#64748b; font-size:.78rem; margin:.5rem 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · life hall</p>
+  <h1>Fish Tank Life Hall</h1>
+  <p class="muted">Longest lives first, in hours lived: keeper, species, generation, DNA and the date the life was inscribed. Names only, no accounts. Empty beats a fake board, this is the cemetery hall grown up.</p>
+  <div class="row">
+    <a class="btn" href="./">Tank</a>
+    <a class="btn" href="/games/">Hub</a>
+    <a class="btn" href="/games/board.html">Live board</a>
+    <a class="btn" href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal</a>
+  </div>
+  <p class="muted" id="srcMeta">Loading lives…</p>
+  <div id="hall"></div>
+  <div id="mine"></div>
+  <p class="hint">Book: <a href="https://deepseekoracle-lattice-marines-ledger.hf.space/fish/ledger.json">Space /fish/ledger.json</a> · <a href="https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json">dataset mirror</a> · refresh ~40s</p>
+</div>
+<script>
+(function () {
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c];
+    });
+  }
+  function pick(r, keys) {
+    for (var i = 0; i < keys.length; i++) {
+      var v = r[keys[i]];
+      if (v !== undefined && v !== null && v !== "") return v;
+    }
+    return "";
+  }
+  function intHours(v) { var n = Number(v); return isFinite(n) && n > 0 ? Math.round(n) : 0; }
+  function dnaShort(d) { d = String(d || ""); return d.length > 10 ? d.slice(0, 8) + "…" : d; }
+  function fmtH(n) { return Number(n || 0).toLocaleString("en-US"); }
+  var THEMES = { river: "River garden", coral: "Coral shelf", bog: "Blackwater" };
+
+  // Row contract: {id, name (keeper), fish, species, event "life"|"tank", score (hours lived),
+  // hours, tankHours, gen, dna, theme, stage, date, iso}. Missing fields -> "" (never crash).
+  function norm(raw) {
+    var r = raw || {};
+    var event = r.event === "tank" ? "tank" : "life";
+    var score = intHours(pick(r, ["score", "hours"]));
+    var tankHours = intHours(r.tankHours);
+    var iso = pick(r, ["iso"]);
+    return {
+      id: pick(r, ["id"]),
+      keeper: pick(r, ["name"]),
+      fish: pick(r, ["fish"]),
+      species: pick(r, ["species"]),
+      event: event,
+      score: score,
+      tankHours: tankHours,
+      // The ranking number is the book's score: hours lived. A whole-tank row that has posted
+      // no life score yet falls back to its own age, labelled "h tank", never "h lived", so
+      // no number here claims to be a fish's life when it is not. A life row with no score
+      // shows no number at all rather than borrowing the tank's age.
+      hours: score > 0 ? score : (event === "tank" && tankHours > 0 ? tankHours : 0),
+      hoursFrom: score > 0 ? "score" : (event === "tank" && tankHours > 0 ? "tankHours" : ""),
+      gen: pick(r, ["gen"]),
+      dna: pick(r, ["dna"]),
+      theme: pick(r, ["theme"]),
+      stage: pick(r, ["stage"]),
+      date: pick(r, ["date"]) || (iso ? String(iso).slice(0, 10) : ""),
+      local: !!r.local
+    };
+  }
+
+  // The fish book first (fixed, live), then the combined board on the same Space, then the
+  // dataset mirror when the Space is down, then the schema fallback shipped with the site.
+  var FEEDS = [
+    { url: "https://deepseekoracle-lattice-marines-ledger.hf.space/fish/ledger.json", label: "space /fish/ledger.json" },
+    { url: "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json", label: "space /arcade.json" },
+    { url: "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json", label: "dataset mirror" },
+    { url: "./ledger.json", label: "local schema fallback" }
+  ];
+  function listOf(data) {
+    if (!data) return null;
+    var book = data.books && data.books["fish-tank"];
+    var fromBook = book && (book.rows || (book.key && book[book.key]));
+    if (fromBook) return fromBook;
+    if (data.lives) return data.lives;
+    return null;
+  }
+  // First feed that answers with valid JSON wins, even when its list is empty: an empty book
+  // is the real answer, not a reason to fall through to a lagging mirror.
+  function pull() {
+    var chain = Promise.reject();
+    FEEDS.forEach(function (feed) {
+      chain = chain.catch(function () {
+        return fetch(feed.url, { cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error(feed.url + " " + r.status); return r.json(); })
+          .then(function (data) {
+            var list = listOf(data);
+            if (!list) throw new Error(feed.url + " carries no fish book");
+            return { rows: list, src: feed.label, reachable: true };
+          });
+      });
+    });
+    return chain.catch(function () {
+      return { rows: [], src: "no feed reachable from this browser", reachable: false };
+    });
+  }
+
+  function localBook() {
+    var rows = [];
+    try {
+      var q = JSON.parse(localStorage.getItem("lygo-fish-tank-ledger-q") || "[]");
+      if (Array.isArray(q)) rows = rows.concat(q);
+      var save = JSON.parse(localStorage.getItem("lygo_fish_tank_v1") || "{}");
+      if (save && Array.isArray(save.cemetery)) rows = rows.concat(save.cemetery);
+    } catch (e) {}
+    return rows.map(norm).map(function (r) { r.local = true; return r; });
+  }
+
+  function liveTank() {
+    try {
+      var save = JSON.parse(localStorage.getItem("lygo_fish_tank_v1") || "{}");
+      if (!save || !save.openedAt) return null;
+      var lead = (save.fish || []).slice().sort(function (a, b) { return (a.born || 0) - (b.born || 0); })[0];
+      return {
+        keeper: save.owner || "Keeper",
+        fish: "Your tank" + (lead && lead.name ? " · " + lead.name : ""),
+        species: lead ? lead.species : "",
+        theme: THEMES[save.theme] || save.theme || "River garden",
+        tankHours: Math.round((Date.now() - save.openedAt) / 3600000),
+        fishHours: lead && lead.born ? Math.round((Date.now() - lead.born) / 3600000) : 0
+      };
+    } catch (e) { return null; }
+  }
+
+  function who(r) {
+    if (r.fish) return r.fish;
+    if (r.event === "tank") return r.keeper ? r.keeper + "'s tank" : "Tank";
+    return r.keeper || "Unnamed fish";
+  }
+
+  function rowHtml(r) {
+    var sub = [r.species, r.gen ? "gen " + r.gen : "", r.theme].filter(Boolean).join(" · ");
+    var bits = [];
+    if (r.keeper) bits.push("kept by <b>" + esc(r.keeper) + "</b>");
+    if (r.dna) bits.push("dna <code>" + esc(dnaShort(r.dna)) + "</code>");
+    if (r.date) bits.push(esc(r.date));
+    if (r.event === "tank") bits.push('<span class="tag">tank ' + fmtH(r.tankHours) + "h</span>");
+    if (r.local) bits.push('<span class="tag">unsynced</span>');
+    if (r.stage) bits.push(esc(r.stage));
+    return '<div class="round">' +
+      '<div class="rtop">' +
+        '<span class="rank">#' + r.rank + "</span>" +
+        '<span class="who"><b>' + esc(who(r)) + "</b>" +
+          '<span class="sub">' + esc(sub || (r.event === "tank" ? "whole tank" : "species not stated")) + "</span></span>" +
+        '<span class="hrs">' + (r.hours > 0
+          ? fmtH(r.hours) + "<i>" + (r.hoursFrom === "tankHours" ? "h tank" : "h lived") + "</i>"
+          : "<i>no hours posted</i>") + "</span>" +
+      "</div>" +
+      '<div class="rmeta">' + (bits.join(" · ") || "no metadata") + "</div>" +
+    "</div>";
+  }
+
+  function unreachableHtml(src) {
+    return '<div class="empty">' +
+      "<h2>The book did not answer</h2>" +
+      '<p class="muted">The public life book could not be reached from this browser (' + esc(src) + '). Nothing is hidden, there is simply no data on screen. It retries every 40 seconds.</p>' +
+      '<p class="muted">Read it directly: <a href="https://deepseekoracle-lattice-marines-ledger.hf.space/fish/ledger.json">Space /fish/ledger.json</a></p>' +
+    "</div>";
+  }
+
+  function emptyHtml(src) {
+    return '<div class="empty">' +
+      "<h2>No lives inscribed yet</h2>" +
+      '<p class="muted">The first keeper to inscribe a long life owns the hall. Every tank that is opened and every life that ends is posted to the public book, until the first one lands, this list is honestly empty.</p>' +
+      '<p class="muted">Ranking is hours lived, longest first: fish, keeper, species, generation, DNA, date. Keep one alive long enough and rank #1 is yours. Read straight from ' + esc(src) + '.</p>' +
+    "</div>";
+  }
+
+  function liveHtml(t) {
+    return '<p class="hcaption">Your tank, this browser only, not in the book yet</p>' +
+      '<div class="round live"><div class="rtop">' +
+        '<span class="rank live">live</span>' +
+        '<span class="who"><b>' + esc(t.fish) + "</b>" +
+          '<span class="sub">' + esc([t.species, t.theme, t.keeper ? "kept by " + t.keeper : ""].filter(Boolean).join(" · ")) + "</span></span>" +
+        '<span class="hrs">' + fmtH(t.fishHours) + "<i>h lived</i></span>" +
+      "</div>" +
+      '<div class="rmeta">Tank open ' + fmtH(t.tankHours) + "h · this hall ranks posted lives only</div></div>";
+  }
+
+  async function render() {
+    var meta = document.getElementById("srcMeta");
+    var hall = document.getElementById("hall");
+    var mine = document.getElementById("mine");
+    var got = await pull();
+
+    var rows = (got.rows || []).map(norm).concat(localBook()).filter(function (r) {
+      // keep a zero-hour life that still names someone; drop only anonymous junk
+      return r.hours > 0 || (r.id && (r.fish || r.keeper));
+    });
+    var seen = {};
+    rows = rows.filter(function (r) {
+      var k = [r.id, r.keeper, r.fish, r.hours, r.date, r.event].join("|");
+      if (seen[k]) return false;
+      seen[k] = 1;
+      return true;
+    });
+    // Longest life first. A whole tank with no posted life yet ranks below every real life,
+    // ordered by its own age, so rank #1 is always the longest life in the book.
+    rows.sort(function (a, b) {
+      return (b.hoursFrom === "score" ? 1 : 0) - (a.hoursFrom === "score" ? 1 : 0) ||
+        b.hours - a.hours ||
+        String(b.date).localeCompare(String(a.date)) ||
+        String(a.fish).localeCompare(String(b.fish));
+    });
+    var rank = 0, prev = null;
+    rows.forEach(function (r, i) {
+      if (prev === null || r.hours !== prev) rank = i + 1;
+      r.rank = rank;
+      prev = r.hours;
+    });
+
+    if (meta) {
+      meta.textContent = rows.length
+        ? (rows.length + (rows.length === 1 ? " life inscribed" : " lives inscribed") +
+           " · longest first · " + got.src)
+        : got.reachable === false
+          ? ("The book did not answer · " + got.src)
+          : ("No lives inscribed yet · the book is live and open · " + got.src);
+    }
+    hall.innerHTML = rows.length
+      ? rows.slice(0, 40).map(rowHtml).join("")
+      : (got.reachable === false ? unreachableHtml(got.src) : emptyHtml(got.src));
+    var t = liveTank();
+    mine.innerHTML = t ? liveHtml(t) : "";
+  }
+
+  render();
+  setInterval(render, 40000);
+})();
+</script>
+</body>
+</html>

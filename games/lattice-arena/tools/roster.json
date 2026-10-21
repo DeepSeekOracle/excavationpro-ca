@@ -1,0 +1,709 @@
+[
+ {
+  "id": "kael",
+  "name": "Kael",
+  "tag": "Gallant Blade",
+  "cls": "champ",
+  "hp": 700,
+  "dmg": 43,
+  "rate": 0.8,
+  "range": 48,
+  "armor": 9,
+  "power": 166,
+  "moves": [
+   "Rend",
+   "Shield Wall",
+   "Squire's Charge"
+  ],
+  "cards": [
+   "MIGHT",
+   "IRON",
+   "VAMP"
+  ]
+ },
+ {
+  "id": "vale",
+  "name": "Vale",
+  "tag": "Aegis Knight",
+  "cls": "champ",
+  "hp": 920,
+  "dmg": 30,
+  "rate": 0.72,
+  "range": 51,
+  "armor": 12,
+  "power": 197,
+  "moves": [
+   "Cover",
+   "Bulwark",
+   "Shield Wall"
+  ],
+  "cards": [
+   "BULWARK",
+   "THORN",
+   "IRON"
+  ]
+ },
+ {
+  "id": "orin",
+  "name": "Orin",
+  "tag": "Black Sigil",
+  "cls": "champ",
+  "hp": 600,
+  "dmg": 49,
+  "rate": 0.86,
+  "range": 262,
+  "armor": 2,
+  "power": 131,
+  "moves": [
+   "Unwrite",
+   "Resonance Flask",
+   "Chorus Flask"
+  ],
+  "cards": [
+   "MIGHT",
+   "FOCUS",
+   "RES"
+  ]
+ },
+ {
+  "id": "nia",
+  "name": "Nia",
+  "tag": "Path Archer",
+  "cls": "champ",
+  "hp": 620,
+  "dmg": 31,
+  "rate": 0.92,
+  "range": 275,
+  "armor": 3,
+  "power": 128,
+  "moves": [
+   "Pinning Volley",
+   "Dash",
+   "Needle Rain"
+  ],
+  "cards": [
+   "STRIDE",
+   "LUCK",
+   "VOLLEY"
+  ]
+ },
+ {
+  "id": "lyra",
+  "name": "Lyra",
+  "tag": "Spiral Bard",
+  "cls": "champ",
+  "hp": 560,
+  "dmg": 32,
+  "rate": 0.84,
+  "range": 250,
+  "armor": 3,
+  "power": 118,
+  "moves": [
+   "Hymn",
+   "Spiral Chorus",
+   "Weave Bloom"
+  ],
+  "cards": [
+   "RES",
+   "REGEN",
+   "AURA"
+  ]
+ },
+ {
+  "id": "arkos",
+  "name": "Arkos",
+  "tag": "Lattice Lancer",
+  "cls": "champ",
+  "hp": 662,
+  "dmg": 45,
+  "rate": 0.78,
+  "range": 61,
+  "armor": 6,
+  "power": 142,
+  "moves": [
+   "Geodesic",
+   "True Line",
+   "Dash"
+  ],
+  "cards": [
+   "PIERCE",
+   "MIGHT",
+   "NIMBLE"
+  ]
+ },
+ {
+  "id": "d9ra",
+  "name": "D9ra",
+  "tag": "Wolf Monk",
+  "cls": "champ",
+  "hp": 850,
+  "dmg": 44,
+  "rate": 0.88,
+  "range": 45,
+  "armor": 6,
+  "power": 164,
+  "moves": [
+   "Shockwave",
+   "Wolf Fury",
+   "Squire's Charge"
+  ],
+  "cards": [
+   "FURY",
+   "BRUTAL",
+   "LEECH"
+  ]
+ },
+ {
+  "id": "srath",
+  "name": "Srath",
+  "tag": "Shadow Needle",
+  "cls": "champ",
+  "hp": 560,
+  "dmg": 33,
+  "rate": 0.9,
+  "range": 243,
+  "armor": 2,
+  "power": 118,
+  "moves": [
+   "Doublespeak",
+   "Needle Rain",
+   "Dash"
+  ],
+  "cards": [
+   "VEIL",
+   "LUCK",
+   "ECHO"
+  ]
+ },
+ {
+  "id": "kairos",
+  "name": "Kairos",
+  "tag": "Hour Mage",
+  "cls": "champ",
+  "hp": 548,
+  "dmg": 38,
+  "rate": 1,
+  "range": 269,
+  "armor": 2,
+  "power": 123,
+  "moves": [
+   "Right-Time",
+   "Borrowed Second",
+   "Δ9 Seal"
+  ],
+  "cards": [
+   "HASTE",
+   "RES",
+   "CLOCK"
+  ]
+ },
+ {
+  "id": "justicae",
+  "name": "Justicae",
+  "tag": "Accord Knight",
+  "cls": "champ",
+  "hp": 944,
+  "dmg": 31,
+  "rate": 0.74,
+  "range": 54,
+  "armor": 10,
+  "power": 187,
+  "moves": [
+   "Fair Plate",
+   "Verdict",
+   "Bulwark"
+  ],
+  "cards": [
+   "EXEC",
+   "BULWARK",
+   "THORN"
+  ]
+ },
+ {
+  "id": "seidon",
+  "name": "Seidon",
+  "tag": "Tide Seer",
+  "cls": "champ",
+  "hp": 600,
+  "dmg": 35,
+  "rate": 0.8,
+  "range": 256,
+  "armor": 4,
+  "power": 128,
+  "moves": [
+   "Undertow",
+   "Current",
+   "Geodesic"
+  ],
+  "cards": [
+   "AURA",
+   "RES",
+   "GIFT"
+  ]
+ },
+ {
+  "id": "sancora",
+  "name": "Sancora",
+  "tag": "Weave Chemist",
+  "cls": "champ",
+  "hp": 798,
+  "dmg": 32,
+  "rate": 0.78,
+  "range": 256,
+  "armor": 4,
+  "power": 139,
+  "moves": [
+   "Chorus Flask",
+   "Weave Bloom",
+   "Cover"
+  ],
+  "cards": [
+   "REGEN",
+   "GIANT",
+   "AURA"
+  ]
+ },
+ {
+  "id": "lightfather",
+  "name": "Lightfather",
+  "tag": "Architect · Δ9",
+  "cls": "champ",
+  "hp": 680,
+  "dmg": 37,
+  "rate": 0.84,
+  "range": 256,
+  "armor": 6,
+  "power": 152,
+  "moves": [
+   "Δ9 Seal",
+   "Provenance",
+   "Cover"
+  ],
+  "cards": [
+   "AURA",
+   "GIFT",
+   "GIFT"
+  ]
+ },
+ {
+  "id": "wraith",
+  "name": "Wraith",
+  "tag": "Crypt Fodder",
+  "cls": "beast",
+  "hp": 420,
+  "dmg": 32,
+  "rate": 1.05,
+  "range": 256,
+  "armor": 2,
+  "power": 105,
+  "moves": [
+   "Wail",
+   "Drain Cloud"
+  ],
+  "cards": [
+   "HASTE",
+   "NIMBLE",
+   "LEECH"
+  ]
+ },
+ {
+  "id": "brute",
+  "name": "Brute",
+  "tag": "Crypt Fodder",
+  "cls": "beast",
+  "hp": 1090,
+  "dmg": 39,
+  "rate": 0.66,
+  "range": 48,
+  "armor": 9,
+  "power": 190,
+  "moves": [
+   "Ground Pound",
+   "Ward Field"
+  ],
+  "cards": [
+   "IRON",
+   "GIANT",
+   "THORN"
+  ]
+ },
+ {
+  "id": "imp",
+  "name": "Imp",
+  "tag": "Crypt Fodder",
+  "cls": "beast",
+  "hp": 403,
+  "dmg": 31,
+  "rate": 0.95,
+  "range": 237,
+  "armor": 1,
+  "power": 95,
+  "moves": [
+   "Imp Fire",
+   "Flicker"
+  ],
+  "cards": [
+   "STRIDE",
+   "LUCK",
+   "NIMBLE"
+  ]
+ },
+ {
+  "id": "hurler",
+  "name": "Hurler",
+  "tag": "Crypt Artillery",
+  "cls": "beast",
+  "hp": 859,
+  "dmg": 47,
+  "rate": 0.72,
+  "range": 51,
+  "armor": 4,
+  "power": 137,
+  "moves": [
+   "Lob Stone",
+   "Ground Pound"
+  ],
+  "cards": [
+   "MIGHT",
+   "BULWARK",
+   "GIANT"
+  ]
+ },
+ {
+  "id": "shade",
+  "name": "Shade",
+  "tag": "Veilkin",
+  "cls": "beast",
+  "hp": 471,
+  "dmg": 36,
+  "rate": 0.92,
+  "range": 51,
+  "armor": 3,
+  "power": 101,
+  "moves": [
+   "Flicker",
+   "Snatch"
+  ],
+  "cards": [
+   "VEIL",
+   "LEECH",
+   "NIMBLE"
+  ]
+ },
+ {
+  "id": "thief",
+  "name": "Thief",
+  "tag": "Tithe-Thief",
+  "cls": "beast",
+  "hp": 507,
+  "dmg": 35,
+  "rate": 1.05,
+  "range": 51,
+  "armor": 2,
+  "power": 106,
+  "moves": [
+   "Snatch",
+   "Flicker"
+  ],
+  "cards": [
+   "STRIDE",
+   "VAMP",
+   "LUCK"
+  ]
+ },
+ {
+  "id": "drain",
+  "name": "Drain",
+  "tag": "The Unwriting",
+  "cls": "beast",
+  "hp": 700,
+  "dmg": 46,
+  "rate": 0.78,
+  "range": 64,
+  "armor": 4,
+  "power": 128,
+  "moves": [
+   "Unmake",
+   "Drain Cloud"
+  ],
+  "cards": [
+   "LEECH",
+   "REGEN",
+   "MIGHT"
+  ]
+ },
+ {
+  "id": "gate",
+  "name": "Gate",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1735,
+  "dmg": 46,
+  "rate": 0.6,
+  "range": 61,
+  "armor": 13,
+  "power": 269,
+  "moves": [
+   "Gate Slam",
+   "Ward Field",
+   "Call the Wards"
+  ],
+  "cards": [
+   "IRON",
+   "THORN",
+   "GIANT"
+  ]
+ },
+ {
+  "id": "crown",
+  "name": "Crown",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1446,
+  "dmg": 52,
+  "rate": 0.62,
+  "range": 58,
+  "armor": 7,
+  "power": 209,
+  "moves": [
+   "Regal Volley",
+   "Lob Stone"
+  ],
+  "cards": [
+   "MIGHT",
+   "BULWARK",
+   "WELL"
+  ]
+ },
+ {
+  "id": "smith",
+  "name": "Smith",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1020,
+  "dmg": 60,
+  "rate": 0.64,
+  "range": 250,
+  "armor": 10,
+  "power": 223,
+  "moves": [
+   "Anvil",
+   "Gate Cannon"
+  ],
+  "cards": [
+   "MIGHT",
+   "BRUTAL",
+   "IRON"
+  ]
+ },
+ {
+  "id": "heartboss",
+  "name": "Heart of the Crypt",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1900,
+  "dmg": 44,
+  "rate": 0.68,
+  "range": 58,
+  "armor": 8,
+  "power": 245,
+  "moves": [
+   "Heartbeat",
+   "Ward Field"
+  ],
+  "cards": [
+   "GIANT",
+   "REGEN",
+   "VAMP"
+  ]
+ },
+ {
+  "id": "levi",
+  "name": "Leviathan",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1080,
+  "dmg": 58,
+  "rate": 0.72,
+  "range": 243,
+  "armor": 6,
+  "power": 201,
+  "moves": [
+   "Tide Crush",
+   "Undertow"
+  ],
+  "cards": [
+   "MIGHT",
+   "STRIDE",
+   "LEECH"
+  ]
+ },
+ {
+  "id": "tithe",
+  "name": "Tithe-King",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1000,
+  "dmg": 45,
+  "rate": 0.98,
+  "range": 64,
+  "armor": 5,
+  "power": 179,
+  "moves": [
+   "Tithe",
+   "Snatch"
+  ],
+  "cards": [
+   "VAMP",
+   "EXEC",
+   "STRIDE"
+  ]
+ },
+ {
+  "id": "unnamer",
+  "name": "Name-Eater",
+  "tag": "Nexus Guardian",
+  "cls": "beast",
+  "hp": 1008,
+  "dmg": 53,
+  "rate": 0.76,
+  "range": 262,
+  "armor": 6,
+  "power": 196,
+  "moves": [
+   "Nameless",
+   "Unmake"
+  ],
+  "cards": [
+   "MIGHT",
+   "CLOCK",
+   "LEECH"
+  ]
+ },
+ {
+  "id": "lock",
+  "name": "The Lock",
+  "tag": "Super Boss",
+  "cls": "beast",
+  "hp": 2100,
+  "dmg": 53,
+  "rate": 0.66,
+  "range": 269,
+  "armor": 14,
+  "power": 323,
+  "moves": [
+   "The Lock Seals",
+   "Gate Cannon"
+  ],
+  "cards": [
+   "IRON",
+   "BULWARK",
+   "GIANT"
+  ]
+ },
+ {
+  "id": "wolf",
+  "name": "Ashmane",
+  "tag": "Wolf",
+  "cls": "pet",
+  "hp": 496,
+  "dmg": 37,
+  "rate": 0.96,
+  "range": 48,
+  "armor": 4,
+  "power": 114,
+  "moves": [
+   "Pack Bite",
+   "Roar"
+  ],
+  "cards": [
+   "STRIDE",
+   "FURY",
+   "LEECH"
+  ]
+ },
+ {
+  "id": "lion",
+  "name": "Solstride",
+  "tag": "Lion",
+  "cls": "pet",
+  "hp": 543,
+  "dmg": 49,
+  "rate": 0.9,
+  "range": 51,
+  "armor": 4,
+  "power": 138,
+  "moves": [
+   "Solstride",
+   "Roar"
+  ],
+  "cards": [
+   "LUCK",
+   "BRUTAL",
+   "MIGHT"
+  ]
+ },
+ {
+  "id": "bear",
+  "name": "Ironhide",
+  "tag": "Bear",
+  "cls": "pet",
+  "hp": 1024,
+  "dmg": 38,
+  "rate": 0.74,
+  "range": 54,
+  "armor": 10,
+  "power": 196,
+  "moves": [
+   "Maul",
+   "Ward Field"
+  ],
+  "cards": [
+   "IRON",
+   "GIANT",
+   "THORN"
+  ]
+ },
+ {
+  "id": "elephant",
+  "name": "Tuskward",
+  "tag": "Elephant",
+  "cls": "pet",
+  "hp": 1033,
+  "dmg": 35,
+  "rate": 0.68,
+  "range": 61,
+  "armor": 11,
+  "power": 197,
+  "moves": [
+   "Stomp",
+   "Ground Pound"
+  ],
+  "cards": [
+   "IRON",
+   "BULWARK",
+   "WELL"
+  ]
+ },
+ {
+  "id": "scorpion",
+  "name": "Glassbarb",
+  "tag": "Scorpion",
+  "cls": "pet",
+  "hp": 448,
+  "dmg": 38,
+  "rate": 1.02,
+  "range": 51,
+  "armor": 4,
+  "power": 115,
+  "moves": [
+   "Glassbarb Clamp",
+   "Flicker"
+  ],
+  "cards": [
+   "THORN",
+   "FURY",
+   "VEIL"
+  ]
+ }
+]

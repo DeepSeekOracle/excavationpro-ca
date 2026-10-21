@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live board: excavationpro.ca games</title>
+<meta name="description" content="Autonomous live scoreboard for all excavationpro.ca games. Hugging Face writes arcade.json; this page reads it. No account.">
+<meta name="theme-color" content="#070b12">
+<link rel="canonical" href="https://excavationpro.ca/games/board.html">
+<link rel="alternate" type="application/json" href="https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json" title="Live arcade.json">
+<meta property="og:title" content="Live board, excavationpro.ca games">
+<meta property="og:description" content="Shared high-score halls. Names and match metadata only.">
+<meta property="og:image" content="https://excavationpro.ca/games/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/games/hub.css?v=8">
+</head>
+<body class="arcade-portal">
+<div class="portal-fx" aria-hidden="true">
+  <canvas id="portalCanvas"></canvas>
+  <div class="portal-grid"></div>
+  <div class="portal-scan"></div>
+</div>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">Excavationpro</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/games/">Games</a>
+      <a href="https://chatagent.ca/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/games/board.html" aria-current="page">Live board</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap prose">
+<nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a> · <a href="/games/">Games</a> · <span aria-current="page">Live board</span></nav>
+<article class="card">
+<div class="portal-hero">
+  <p class="kicker">Δ9Φ963 · autonomous board</p>
+  <h1>LIVE <em>BOARD</em></h1>
+  <p class="portal-lead">Hugging Face is the writer. The dataset file <a href="https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/blob/main/arcade.json">arcade.json</a> is the book. This page only reads. New titles plug in by posting <code>{"game":"slug",…}</code> to the Space, the snapshot grows. Empty is honest. Names and match metadata only.</p>
+</div>
+<p class="meta" data-board-stamp>Loading arcade.json…</p>
+<section class="portal-halls" data-games-halls data-live-board>
+  <div class="hall-grid">
+    <article class="hall" data-hall="marines">
+      <header><p class="gcard-kicker">public</p><h3>Lattice Marines</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/lattice-marines/ledger.html">Full ledger</a>
+    </article>
+    <article class="hall" data-hall="swarm">
+      <header><p class="gcard-kicker">public</p><h3>Lattice Swarm</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/lattice-swarm/ledger.html">Live hall</a>
+    </article>
+    <article class="hall" data-hall="smm">
+      <header><p class="gcard-kicker">public</p><h3>Stock Market Masters</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/stock-market-masters/ledger.html">TOP Cashout</a>
+    </article>
+    <article class="hall" data-hall="golf">
+      <header><p class="gcard-kicker">public</p><h3>Lattice Golf</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/lattice-golf/ledger.html">Live hall</a>
+    </article>
+    <article class="hall" data-hall="rally">
+      <header><p class="gcard-kicker">public</p><h3>Haven Rally</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/haven-rally/ledger.html">Live hall</a>
+    </article>
+    <article class="hall" data-hall="eternal">
+      <header><p class="gcard-kicker">public</p><h3>Eternal Lattice</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/eternal-lattice/ledger.html">Live ladder</a>
+    </article>
+    <article class="hall" data-hall="crypt">
+      <header><p class="gcard-kicker">public</p><h3>Lattice Crypt</h3></header>
+      <p class="hall-meta">Loading…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/lattice-crypt/ledger.html">Live hall</a>
+    </article>
+    <article class="hall" data-hall="arena">
+      <header><p class="gcard-kicker">public</p><h3>LYGO Arena</h3></header>
+      <p class="hall-meta">Loading lineups…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/lattice-arena/ledger.html">Live hall</a>
+    </article>
+    <article class="hall" data-hall="fish">
+      <header><p class="gcard-kicker">public</p><h3>Fish Tank · longest lives</h3></header>
+      <p class="hall-meta">Loading lives…</p>
+      <ol class="hall-rows"></ol>
+      <a class="btn" href="/games/fish-tank/ledger.html">Life hall</a>
+    </article>
+  </div>
+</section>
+<p class="meta">Feeds · <a href="https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json">dataset arcade.json</a> · <a href="https://deepseekoracle-lattice-marines-ledger.hf.space/fish/ledger.json">Space /fish/ledger.json</a> · <a href="https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json">Space /arcade.json</a> · <a href="/games/live.json">live.json</a> · refresh ~40s</p>
+</article>
+</div>
+<footer class="site">
+  <div class="wrap">
+    <p><a href="/games/">Hub</a> · <a href="/games/board.html">Live board</a> · <a href="/">Home</a></p>
+  </div>
+</footer>
+<script src="/games/arcade-ledger.js?v=5"></script>
+<script src="/games/hub.js?v=13" defer></script>
+</body>
+</html>

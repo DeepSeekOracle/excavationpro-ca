@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Haven Rally: Whitepaper v1.3 | Excavationpro</title>
+<meta name="description" content="Design canon for Haven Rally: four live chassis (Apex, Boxcut, Flick FWD, Sleet AWD), circuits, endless arcade, drag, ghost, local ledger.">
+<link rel="canonical" href="https://excavationpro.ca/games/haven-rally/whitepaper.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/games/hub.css">
+<style>
+body { margin:0; background:#070b12; color:#e8eef5; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:820px; margin:0 auto; padding:1.5rem 1.1rem 3.5rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#5eead4; font-size:.72rem; }
+h1,h2 { font-family:Syne,sans-serif; }
+h1 { font-size:clamp(1.8rem,4vw,2.6rem); margin:.2rem 0 .6rem; }
+h2 { font-size:1.15rem; letter-spacing:.06em; color:#fbbf24; margin:1.6rem 0 .45rem; }
+a { color:#5eead4; }
+p,li { line-height:1.55; color:#c5d0dc; }
+code { font-family:"IBM Plex Mono",monospace; font-size:.86em; color:#fbbf24; }
+kbd { font-family:"IBM Plex Mono",monospace; font-size:.86em; border:1px solid #1e3a4a; border-radius:4px; padding:.05rem .28rem; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #1e3a4a; border-radius:8px; text-decoration:none; color:#e8eef5; }
+table { width:100%; border-collapse:collapse; font-size:.88rem; }
+th,td { border-bottom:1px solid #1e3a4a; padding:.4rem .3rem; text-align:left; vertical-align:top; }
+th { color:#94a3b8; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · design canon</p>
+  <h1>Haven Rally v1.3</h1>
+  <p>Arcade racer in this browser. Four live chassis, three circuit highways, an endless start-to-finish run with traffic and guns, and a real drag strip. Ghost of your best heat. Local ledger. No account. This page is the spec the live client follows. RESOURCE on the public page; dual ledgers / Star Chart stay CANON.</p>
+  <div class="row">
+    <a class="btn" href="./">Play</a>
+    <a class="btn" href="/games/">Arcade</a>
+    <a class="btn" href="./ledger.html">Ledger</a>
+  </div>
+
+  <h2>1. Loop</h2>
+  <p><b>Circuits.</b> Countdown 3–2–1–GO (Options can skip). Full heats: Pine Coil 24 laps, Coral Coast 20, Singularity Ring 30. After the track pick: Solo ghost, 2P split-screen, vs AI (Reed / Mira / Kai), or 2P+AI. Pass sector gantries, then the start line. Slide charges boost. Beat the ghost in Solo for this circuit + craft.</p>
+  <p><b>Custom race.</b> Choose 1–60 laps and a seed (roll or type hex). The client builds a closed four-lane polar loop from that seed, same seed is the same ribbon. Then the same grid card (solo / split / AI). Ghosts key off <code>custom-&lt;seed&gt;|craft</code>.</p>
+  <p><b>Endless.</b> One seeded start-to-finish highway, ~28,000 yd (~16 mi), four lanes, checkpoints, tunnel, FINISH gantry. Light traffic as obstacles. Right Shift spends the boost bar for speed <em>and</em> front guns; empty bar fires nothing. Wrecks sip boost, add score, and raise an uncapped combo. Each combo point is +5 mph top speed. Ram a car or leave the asphalt and the chain (and the bonus speed) dumps. Boost trickles slowly on-track; drift still charges it. Original announcer vocals fire on the streak ladder. High score stays in this browser.</p>
+  <p><b>Drag.</b> Stage, READY, sportsman Christmas tree, AI in an inner lane. Trap speed and ET write to the local hall.</p>
+
+  <h2>2. Controls</h2>
+  <table>
+    <tr><th>Input</th><th>Action</th></tr>
+    <tr><td><code>W</code> / ↑</td><td>Throttle (solo). Split: P1 is <code>W</code> only; P2 is ↑</td></tr>
+    <tr><td><code>Space</code> / <code>S</code> / ↓</td><td>Brake. Split: P1 Space/<code>S</code>; P2 ↓</td></tr>
+    <tr><td><code>A</code> / ←</td><td>Steer left. Split: P1 <code>A</code>; P2 ←</td></tr>
+    <tr><td><code>D</code> / →</td><td>Steer right. Split: P1 <code>D</code>; P2 →</td></tr>
+    <tr><td>Left <code>Shift</code></td><td>E-brake / drift (kills grip, extra yaw, sparks)</td></tr>
+    <tr><td>Right <code>Shift</code></td><td>Boost (meter). Endless: also fires twin nose guns while the bar lasts</td></tr>
+    <tr><td><code>R</code></td><td>Restart heat / return to staging on drag</td></tr>
+    <tr><td><code>F</code></td><td>Drag: snap both lanes to the line and run the tree</td></tr>
+    <tr><td><code>C</code></td><td>Cycle P1 camera: Chase, Close, Hood, Bumper, Cockpit, TV</td></tr>
+    <tr><td><code>V</code></td><td>Split: cycle P2 camera</td></tr>
+    <tr><td>Gamepad</td><td>Left stick steer, RT throttle, LT brake, A throttle, B / LB e-brake, RB / Y boost. One pad is P2; two pads are P1 then P2</td></tr>
+    <tr><td><code>Esc</code></td><td>Close sheet, then menu</td></tr>
+  </table>
+  <p>Dock <b>Options</b> (and the title card) open the configuration sheet. Race clock freezes while any overlay is open. First pointer or key arms procedural SFX and announcer buffers.</p>
+  <p><b>Grid (circuits).</b> After picking Pine / Coral / Ring: Solo ghost, 2P split (left/right cameras), vs AI (Reed, Mira, Kai on stacked chassis + driver bonuses), or 2P+AI. Bots read curvature ahead, brake to a corner speed, cut an inside line, pass if blocked, and dump boost on the straight. Drag AI is a separate tree/shift model. Cars bump. Heat ends when every human has finished (18 s grace after the first human). Ghosts stay solo-only.</p>
+
+  <h2>3. Physics (math first)</h2>
+  <p>World yards; engine SI. Every craft is <code>craftNorm</code>’d so new cars only need stats. Apex Mk I is the GT baseline; Boxcut Mk I is the short-box truck.</p>
+  <p><b>Engine.</b> Torque curve (N·m) peaks at <code>tqRpm</code> from <code>torque</code> lb-ft. Fuel cut at <code>redline</code>. Wheel force <code>T × gear × final × η / r</code>. Aero top speed <code>v³ = P / (½ ρ Cd A)</code>, plus combo bonus on Endless.</p>
+  <p><b>Gears (launch pack).</b> Shared six-speed <code>[3.28, 2.08, 1.48, 1.16, 0.97, 0.84]</code>. 1–2–3 are the hole-shot: tall enough to stay in, extra drive so they slingshot (1st can light the rears; 2nd/3rd hook). Upshift ~96.5% redline in those three, with a small speed kick on the 1→2 and 2→3. 4th-on is the boat: softer torque, earlier shift (~91.5% redline), speed piles on instead of launching. Clutch open ~0.09–0.14 s on a shift. Downshift when RPM would sit under the torque peak.</p>
+  <p><b>Drive.</b> <code>rwd</code> / <code>fwd</code> / <code>awd</code> sets which axle gets torque. Traction <code>μ N_driven</code> with weight shift. If drive force exceeds that, <code>wheelSlip</code> rises: RWD yaws (spin), FWD pushes wide, AWD holds longer. Future HP upgrades without extra μ will spin.</p>
+  <p><b>Brake / slide.</b> <code>brakeMu × mass × g × 0.72</code>. E-brake is extra rear μ and a slide. Lateral: <code>vh</code> chases heading at a rate from μ. On-track slip charges boost; Right Shift spends it. Off-track is time-scaled dump, not a per-frame kill.</p>
+  <p><b>Boost.</b> Bar 0…<code>boostTank</code> (Apex 1.00, Sleet 1.15, Boxcut 1.42, Flick 1.85). Drain is the same rate, so Flick’s bar lasts longest. While Right Shift is down: extra torque <code>BOOST_TQ × boostPower</code> (0.78×), top-speed cap <code>× (1 + 0.28 × boostPower)</code>, and aero drag is scaled so that cap is reachable. Apex is the 1.00× baseline; Boxcut 1.25×; Flick 1.50×; Sleet 1.08×. Endless wrecks add ~0.11 tank (tractor wrecks ×4). On-road trickle is slow on Endless, faster on circuits.</p>
+  <p>Nearest-segment project onto the densified path gives along-track <code>s</code> and signed lateral. <code>|lat| &gt; width</code> is off-track. Every course is four lanes: half-width <code>2 × 4.4 yd</code>, painted dividers, yellow edges. Sectors fire when <code>s</code> crosses their fraction.</p>
+
+  <h2>4. Courses</h2>
+  <table>
+    <tr><th>Id</th><th>Feel</th></tr>
+    <tr><td>pine-coil</td><td>Parkland dusk highway, four lanes, flowing esses, ~0.9 mi lap</td></tr>
+    <tr><td>coral-coast</td><td>Four-lane coastal, long straights, water + hotels</td></tr>
+    <tr><td>singularity-ring</td><td>Night city ring, four lanes, neon walls</td></tr>
+    <tr><td>custom-*</td><td>Player-seeded closed circuit. Laps 1–60. Theme (parkland / coast / night) from the seed</td></tr>
+    <tr><td>ridge-*</td><td>Endless. Seeded point-to-point, ~28,000 yd, 3 checkpoints, traffic, guns, FINISH</td></tr>
+    <tr><td>drag-eighth</td><td>1/8 mile, 660 ft (220 yd). AI in an inner lane</td></tr>
+    <tr><td>drag-1000</td><td>1000 ft (NHRA Top Fuel trap length)</td></tr>
+    <tr><td>drag-quarter</td><td>1/4 mile, 1320 ft (440 yd)</td></tr>
+  </table>
+  <p>All courses: four lanes, guardrails, lamps, gantries, arcade dusk dress. Open paths do not wrap finish-to-start. Drag is a linear strip. Sportsman tree: READY (~2.15 s), pre, stage, three ambers at 0.5 s, then green. Foul only on ambers (not during READY). F restages both cars and runs the tree. AI launches on its reaction (rare red-light).</p>
+
+  <h2>5. Crafts</h2>
+  <p>Four live chassis. Same powertrain: set HP, torque, mass, drive, μ, gears, <code>boostTank</code>, <code>boostPower</code>, performance follows. Drive is the personality: RWD yaws on slip, FWD pushes, AWD holds. Old Mira/Reed/Kai saves map to Apex.</p>
+  <table>
+    <tr><th>Stat</th><th>Apex Mk I</th><th>Boxcut Mk I</th></tr>
+    <tr><td>Role</td><td>Lattice GT</td><td>Original short-box race truck (C10 short-fleetside stance, Haven lattice, not a licensed Chevy)</td></tr>
+    <tr><td>Layout</td><td>RWD · 6-spd · 1380 kg</td><td>RWD · 6-spd · 1520 kg</td></tr>
+    <tr><td>Power / torque</td><td>470 hp @ 7200 · 420 lb-ft @ 4200 · redline 7800</td><td>405 hp @ 6000 · 495 lb-ft @ 3600 · redline 6800</td></tr>
+    <tr><td>Final / wheel</td><td>3.73 · r 0.33 m</td><td>3.90 · r 0.35 m</td></tr>
+    <tr><td>Aero</td><td>Cd 0.52 · A 2.1 m²</td><td>Cd 0.62 · A 2.55 m² (slower top)</td></tr>
+    <tr><td>Grip / turn</td><td>μ 1.32 · turn 2.05</td><td>μ 1.40 · turn 2.22</td></tr>
+    <tr><td>Boost tank</td><td>1.00</td><td>1.42 (same drain, longer bar)</td></tr>
+    <tr><td>Boost hit</td><td>1.00×</td><td>1.25× on Right Shift</td></tr>
+    <tr><td>Studio</td><td>PBR loft GT</td><td>PBR short-box: cab, short bed, hoop, round lamps</td></tr>
+  </table>
+  <table>
+    <tr><th>Stat</th><th>Flick Mk I</th><th>Sleet Mk I</th></tr>
+    <tr><td>Role</td><td>Original FWD pocket hatch. Tightest circuits. Worst at the tree.</td><td>Original AWD rally coupe. Hooks. Rain/weather already has a home.</td></tr>
+    <tr><td>Layout</td><td>FWD · 6-spd · 1120 kg</td><td>AWD (40/60) · 6-spd · 1340 kg</td></tr>
+    <tr><td>Power / torque</td><td>355 hp @ 7100 · 318 lb-ft @ 4800 · redline 7600</td><td>438 hp @ 6400 · 468 lb-ft @ 3800 · redline 7200</td></tr>
+    <tr><td>Final / wheel</td><td>4.05 · r 0.31 m (short)</td><td>3.85 · r 0.33 m</td></tr>
+    <tr><td>Aero</td><td>Cd 0.37 · A 1.98 m²</td><td>Cd 0.48 · A 2.22 m²</td></tr>
+    <tr><td>Grip / turn</td><td>μ 1.38 · turn 2.42 (best)</td><td>μ 1.50 · turn 2.18</td></tr>
+    <tr><td>Boost tank</td><td>1.85 (largest)</td><td>1.15</td></tr>
+    <tr><td>Boost hit</td><td>1.50× (50% over Apex)</td><td>1.08×</td></tr>
+    <tr><td>Drive feel</td><td>Slip kills yaw (push). Front burnout marks.</td><td>Both axles share torque. Launch slip rarely lights. Almost no burnout theater.</td></tr>
+    <tr><td>Studio</td><td>PBR short hatch, tall cabin, steep tail</td><td>PBR flared coupe, hood/roof scoops, fogs</td></tr>
+  </table>
+  <p><code>upgHp</code> / <code>upgTq</code> add to the engine later; extra power without μ = wheelspin (RWD), push (FWD), or a late break (AWD).</p>
+
+  <h2>6. Endless arcade</h2>
+  <p>~24–64 traffic on the highway (dense in the first stretch): sedans, vans, box haulers, and a few slow <b>tractors</b>. Ram dumps speed and <b>breaks combo</b>. Guns (Right Shift + fuel) hitscan ~52 yd ahead. Wrecks are 100 × combo × type (tractor ×4). Tractor also refills 4× boost and takes many more hits. Combo has no cap. Each point adds 5 mph to top speed. Wall or ram: COMBO BREAK, bonus speed gone.</p>
+  <p><b>Announcer</b> (original Haven VO, not ripped samples). Fires on wreck:</p>
+  <table>
+    <tr><th>Streak</th><th>Call</th></tr>
+    <tr><td>1</td><td>FIRST BLOOD</td></tr>
+    <tr><td>2</td><td>DOUBLE KILL</td></tr>
+    <tr><td>3</td><td>MULTI KILL</td></tr>
+    <tr><td>4</td><td>MEGA KILL</td></tr>
+    <tr><td>5</td><td>ULTRA KILL</td></tr>
+    <tr><td>6</td><td>MONSTER KILL</td></tr>
+    <tr><td>7</td><td>LUDICROUS KILL</td></tr>
+    <tr><td>8</td><td>KILLING SPREE</td></tr>
+    <tr><td>9</td><td>RAMPAGE</td></tr>
+    <tr><td>10</td><td>DOMINATING</td></tr>
+    <tr><td>12</td><td>UNSTOPPABLE</td></tr>
+    <tr><td>15</td><td>GODLIKE</td></tr>
+    <tr><td>18</td><td>WICKED SICK</td></tr>
+    <tr><td>20, 25…</td><td>BEYOND GODLIKE</td></tr>
+    <tr><td>Break ≥3</td><td>SHUT DOWN</td></tr>
+  </table>
+  <p>Score, wrecks, and best chain write to <code>save.arcade</code> and the local ledger hall.</p>
+
+  <h2>7. Ghost + ledger</h2>
+  <p>Each heat records <code>{x,y,h,t}</code> samples. Best finish time per <code>circuit|craft</code> keeps the ghost; best <i>lap</i> keeps its sector splits under <code>save.bests</code> and feeds the live delta. A ghost is only trusted if its recording covers the heat distance. Endless also writes <code>save.arcade</code>: <code>bestScore</code>, <code>bestCombo</code>, last 20 wreck-runs. Ledger key <code>lygo-haven-rally-v1</code> in localStorage. RESOURCE on the public page; this browser is the hall. No fake global board.</p>
+
+  <h2>8. Studio + presentation</h2>
+  <p>Title screen matches Lattice Golf: full-bleed still of the selected craft, right panel, operator name, garage chip, mode cards, radio, PayPal.me/ExcavationPro + Patreon. Garage is a live 3D studio (drag to orbit) with four bays. 2.5D Three.js follow-cam; 2D top-down fallback if WebGL fails.</p>
+  <p><b>Cameras</b> (<kbd>C</kbd> or Options): Chase, Close, Hood, Bumper, Cockpit, TV. Chase distance/height sliders scale Chase and TV.</p>
+  <p><b>Weather</b> (Options): Clear, Dusk, Overcast, Rain, Storm. Skydome + fog + sun height change with the pick. Rain/storm wet the asphalt (more metal, darker) and cut μ. AWD (Sleet) keeps more of it. Storm flashes. Reduce-effects hides rain streaks.</p>
+  <p><b>World.</b> Gradient skydome, textured land, hill ring on the horizon. Trees are layered crowns + bushes. City tracks get windowed towers and roof caps; coast gets sand + water; parkland gets lodges.</p>
+  <p><b>FX.</b> Headlights and brake lamps. First-gear launch lays black burnout marks and spins the rears. Right Shift with fuel: tailpipe flames. The body leans on lateral g and pitches under power and braking. Reduce-effects hides sparks, gun tracers, extra lights, rain, and new skids.</p>
+  <p>HUD: commercial race cluster bottom-right (tach, gear, mph or km/h). Endless adds score, combo, wrecks, browser best.</p>
+
+  <h2>9. Options</h2>
+  <p>Persistent sheet. Schema is the <code>OPTIONS</code> list in <code>game.js</code>. Each row is <code>toggle</code>, <code>range</code>, or <code>soon</code>. Enhancements add a row; they do not rewrite the menu. Values live under <code>save.options</code>. Load merges defaults so old saves pick up new keys.</p>
+  <table>
+    <tr><th>Key</th><th>Group</th><th>Now</th></tr>
+    <tr><td><code>ghost</code></td><td>Race</td><td>Show best-heat ghost</td></tr>
+    <tr><td><code>countdown</code></td><td>Race</td><td>3–2–1 lights; off goes green immediately</td></tr>
+    <tr><td><code>invertSteer</code></td><td>Controls</td><td>Swap A/D and arrows</td></tr>
+    <tr><td><code>camView</code></td><td>Camera</td><td>Chase, Close, Hood, Bumper, Cockpit, TV. <kbd>C</kbd> cycles</td></tr>
+    <tr><td><code>camDist</code> / <code>camHeight</code></td><td>Camera</td><td>Chase / TV distance and height multipliers (2.5D)</td></tr>
+    <tr><td><code>showPilot</code> / <code>showHint</code></td><td>HUD</td><td>Pilot plate and on-track hint</td></tr>
+    <tr><td><code>metric</code></td><td>HUD</td><td>Speed: mph (off) or km/h (on)</td></tr>
+    <tr><td><code>reduceFx</code></td><td>Graphics</td><td>Hides drift sparks, underglow, extra lights, gun tracers</td></tr>
+    <tr><td>assist / abs / weather</td><td>, </td><td><code>soon</code> placeholders</td></tr>
+  </table>
+
+  <h2>10. Audio</h2>
+  <p>Procedural Web Audio (no sampled engines): RPM/throttle, gear clunk, tire band on slip, city bed that ducks when radio plays. Endless guns: noise bursts. Announcer: original OGG lines under <code>assets/vo/</code>. Radio is the on-page Excavationpro stream, same as Lattice Golf.</p>
+
+  <h2>11. Phase 10: Steward</h2>
+  <p><b>Lap origin.</b> A heat seeded its lap counter at s=0 while the car stood on the grid, and the start/finish seam of a closed lap is about equidistant to both of its ends, so the projected arc position flipped between s≈0 and s≈len from one frame to the next. The gate test compared the two numbers separately (<i>prev ≤ target &amp;&amp; now &gt; target</i>, else <i>prev ≤ target || now &gt; target</i>), and a flip in either direction reads as "past" all three gates at once. The log showed three sectors at 0:00.017, a 17 ms "best lap" and a heat that finished a lap short, and that short heat is what got saved as the ghost and posted to the hall. Three things changed: the grid now sits 11 yd behind the line so the first crossing <i>begins</i> lap 1 instead of ending it, the lap origin is derived from the grid geometry instead of a projection, and the crossing test measures the stretch actually covered (the target must lie inside the interval from prev to now, forward around the lap; anything over half a lap is a bad sample). A stationary car can no longer score anything, whatever the projector does.</p>
+  <p><b>Standing start.</b> Lap 1 is timed from the lights, as on a real grid. Open ribbons (Endless) keep the flush start, there is no road behind the first sample to stand on.</p>
+  <p><b>Readouts.</b> The rail renames itself per discipline (Ghost, Standings, Rival, Arcade) instead of calling a drag opponent a ghost, and the big timer is labelled to match (CURRENT LAP / ELAPSED / RUN TIME). The record lap and the split deltas live in the SECTORS card, and each sector pass flashes its delta against the record profile.</p>
+  <p><b>Presentation.</b> A boost veil, a soft radial sweep that a driver notices at speed and can switch off with Reduce effects, sells the boost, the drag tree is smaller and translucent so it stops blocking the strip, and the body leans and pitches on measured lateral and longitudinal g.</p>
+  <p><b>Ghosts.</b> Every ghost saved before this pass covers one lap less than the heat demands, which makes it unbeatable. On load a ghost is dropped unless its recorded path covers the heat distance, and the rail says so.</p>
+  <p><b>Barriers.</b> Contact used to scrub speed by a flat ~82%/s while engine thrust balanced at ~3 mph, so any clip became a trap, and in auto there was no way out, because the stop-clamp ate every inch of reverse. A hit now costs speed in proportion to how square it lands, then the car scrapes along on a light penalty with sparks; holding brake backs you out.</p>
+  <p><b>Record book.</b> Best lap per <code>circuit|craft</code> is kept with its sector splits. The rail shows live split deltas against that lap and the record time, the top bar shows your own best lap rather than the ghost's heat time, a new record flashes on the HUD, and the delta readout interpolates the record's own sectors instead of extrapolating a whole lap off the first 6% (which is where a "+359.072" came from).</p>
+  <p><b>Feedback.</b> Driving the ribbon backwards flashes WRONG WAY.</p>
+  <p><b>Cover.</b> <code>node tools/haven_rally_qa.js</code> lifts the lap/ghost maths out of <code>game.js</code> and runs it for real, record-profile interpolation and monotonicity, the phantom-lap crossing, ghost coverage, delta formatting, then checks the source invariants and that every <code>$()</code> id exists in the markup. <code>Rally3D.stats()</code> exposes fps, skid count and the car's attitude for the next pass.</p>
+
+  <h2>12. Phase 11: Studio pass: the ribbons, the scenery, the sheet</h2>
+  <p><b>Course designer.</b> The circuits used to be random polar loops: a dozen control points on a jittered radius, smoothed twice. They closed, they could be driven, and they were all the same idea with different noise, no straights worth the name, no corner you could learn by name, and a minimum radius that fell out of the dice. A circuit is now designed. The base is still a closed polar loop, because a base that is closed by construction can never be broken, but the shape comes from harmonics chosen per circuit (an oval squash for Coral Coast, a four-lobe for the ring) and the features are spliced into it between fixed anchors: a straight is the chord between two anchors with a blend whose slope vanishes at both ends (a plain chord leaves a curvature step, which is a kink), a slow corner is a pinch toward the local centroid, a fast sweeper is the same push outward, and a hairpin is a biarc solved between the anchors<code>'</code> own tangents. Anchors never move, so the ribbon stays shut and can never fold back on itself. A relaxation pass then rounds the splices, a curvature-limit pass raises any accidental kink, the closest self-approach is checked against the ribbon width, and the whole loop is scaled once to hit a target length, the old circuit<code>'</code>s length within about a percent, so existing lap records stay comparable.</p>
+  <p><b>What each circuit is now.</b> Pine Coil is 1564 yd (0.89 mi) of fast sweepers with an esse chain: six corners, two of them hairpins, minimum radius 34 yd. Coral Coast is 2003 yd (1.14 mi), the long-straight circuit the brief always described, with folded ends: six corners, three hairpins. Singularity Ring is 1431 yd (0.81 mi) of tight ninety-degree blocks: nine corners. The start straight is 150, 260 yd on every one of them, which the grid needs. Custom seeds now pick one of four archetypes, flow, technical, hairpin, ring, so "a new closed circuit every time" is true rather than a reshuffled blob.</p>
+  <p><b>Kerbs, paint, and furniture.</b> Curvature is read off the control polygon as a turn rate (ds/dtheta, circumradius is noise on a nearly straight sample) and matches the road: every corner now carries a red-and-white kerb on its inside edge, laid as a ribbon on the offset path. The start/finish is a real checkered line across the road instead of a teal strip, the grid bays are painted behind it, and a gantry with posts, beam and a light bar spans it. The three tightest corners get braking boards, apex cones and tyre walls, sized off their measured radius.</p>
+  <p><b>Scenery.</b> The horizon was thirty identical cones. It is now three layers, near hills, mid ridges, far peaks, each blended further toward the fog colour so distance reads as distance, with a sun disc and a cloud band in the sky and asphalt grain on the road surface. Palms are gated to the coast theme; they used to sprout on the parkland circuit regardless of the theme<code>'</code>s own trees.</p>
+  <p><b>UI.</b> The sheet is grouped into Heats, Arcade, and Garage &amp; info, and every circuit carries a layout thumbnail painted from its own generated geometry at runtime, so the preview cannot drift from the ribbon you drive. Each card states its real length, corner count and hairpin count.</p>
+  <p><b>Cover.</b> <code>node tools/haven_rally_qa.js</code> stays at 86 checks. All three circuits were driven in-browser after the pass with no console errors, and the designer was verified separately for closure, self-approach, minimum radius and length before any of it was rendered.</p>
+  <h2>13. Out of scope</h2>
+  <p>No multiplayer, no pay-to-win, no Palantir, no invented network scores, no Marines unless asked. No licensed automaker marks. Boxcut is a Haven original in a short-box stance.</p>
+</div>
+</body>
+</html>

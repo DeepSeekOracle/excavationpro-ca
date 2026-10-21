@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lattice Swarm: Live hall | Excavationpro</title>
+<meta name="description" content="Live Lattice Swarm high-score hall. Best scores post from the hex command client.">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-swarm/ledger.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/games/hub.css?v=5">
+<style>
+body { margin:0; background:#1A0B2E; color:#f3e8ff; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:820px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#c4b5fd; font-size:.72rem; }
+h1 { font-family:Syne,sans-serif; }
+a { color:#fbbf24; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #4c1d95; border-radius:8px; text-decoration:none; color:#f3e8ff; }
+.muted { color:#a78bfa; }
+.round { background:#2e1065; border:1px solid #5b21b6; border-radius:10px; padding:.7rem .8rem; margin:.4rem 0 0; }
+.rtop { display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap; }
+.rtop b { color:#fbbf24; font-family:"IBM Plex Mono",monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · live hall</p>
+  <h1>Lattice Swarm ledger</h1>
+  <p class="muted">Best scores from the hex command room post here. Names only. Beat your best to inscribe.</p>
+  <div class="row">
+    <a class="btn" href="./">Play</a>
+    <a class="btn" href="/games/">Hub</a>
+    <a class="btn" href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal</a>
+  </div>
+  <p class="muted" id="srcMeta">Loading live hall…</p>
+  <div id="hall"></div>
+</div>
+<script>
+(function(){
+  function esc(s){ return String(s||"").replace(/[<>]/g,""); }
+  var FEEDS = [
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/swarm/ledger.json",
+    "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/lattice-swarm.json",
+    "./ledger.json"
+  ];
+  async function pull(){
+    var rows = [];
+    var src = "this browser";
+    for (var i=0;i<FEEDS.length;i++){
+      try {
+        var r = await fetch(FEEDS[i], { cache:"no-store" });
+        if (!r.ok) continue;
+        var data = await r.json();
+        if (data && Array.isArray(data.scores)) { rows = data.scores.slice(); src = FEEDS[i].replace(/^https?:\/\//,""); break; }
+      } catch(e) {}
+    }
+    try {
+      var s = JSON.parse(localStorage.getItem("lattice-swarm-v1") || "{}");
+      var q = JSON.parse(localStorage.getItem("lygo-swarm-ledger-q") || "[]");
+      if (s.bestScore) rows.push({ name: "This browser", score: s.bestScore });
+      rows = rows.concat(q);
+    } catch(e) {}
+    var seen = {};
+    rows = rows.filter(function(x){
+      var k = (x.name||"")+"|"+(x.score||0)+"|"+(x.date||"");
+      if (seen[k]) return false;
+      seen[k] = 1;
+      return (x.score||0) > 0;
+    }).sort(function(a,b){ return (b.score||0)-(a.score||0); });
+    document.getElementById("srcMeta").textContent = rows.length + " scores · " + src;
+    document.getElementById("hall").innerHTML = rows.length ? rows.map(function(x,i){
+      return "<div class='round'><div class='rtop'><b>#"+(i+1)+" · "+(x.score||0)+"</b><span>"+esc(x.date||"")+"</span></div><p class='muted'>"+esc(x.name||"Operator")+"</p></div>";
+    }).join("") : "<p class='muted'>No scores yet. Survive a hex run to cut the first line.</p>";
+  }
+  pull();
+})();
+</script>
+</body>
+</html>

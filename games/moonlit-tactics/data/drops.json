@@ -1,0 +1,24 @@
+{
+  "continueFrom": {
+    "book": 1,
+    "chapters": [0, 15],
+    "nextChapter": 16,
+    "keeps": ["party", "bag", "equip", "embers", "measures", "taken", "flags", "stage", "found"]
+  },
+  "pages": {
+    "thicket": ["mend-salve"],
+    "c3-proving": ["echo-vial"],
+    "c4-ledger": ["smoke-chalk"],
+    "c6-limb": ["bronze-scale"],
+    "c8-mirror": ["haste-ash"],
+    "c10-moonrise": ["kairos-wheel-broken"],
+    "c12-crack": ["cracked-stone"],
+    "c13-song": ["skylark-rod"],
+    "c14-gate": ["ash-mantle"],
+    "b2-c1-fires": ["accord-shard"],
+    "b2-c4-forge": ["root-wrap"]
+  },
+  "equipIfEmpty": {
+    "ash-mantle": "serenya"
+  }
+}

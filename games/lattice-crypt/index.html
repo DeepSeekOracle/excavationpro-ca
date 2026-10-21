@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Crypt: jobs of the Accord | Excavationpro</title>
+<meta name="description" content="Free Accord co-op dungeon. Campaign, endless, and Survival: huge map, stacking power, wave bosses. Live hall.">
+<meta name="theme-color" content="#07080e">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-crypt/">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://excavationpro.ca/games/lattice-crypt/">
+<meta property="og:title" content="Lattice Crypt, jobs of the Accord">
+<meta property="og:description" content="Pixel dungeon co-op. Thirteen jobs, named specials, Lightfather. Smash the nexuses.">
+<meta property="og:image" content="https://excavationpro.ca/games/lattice-crypt/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lattice Crypt">
+<meta name="twitter:image" content="https://excavationpro.ca/games/lattice-crypt/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./game.css?v=22">
+<link rel="stylesheet" href="./tale.css?v=4">
+<link rel="stylesheet" href="/games/hub.css?v=2">
+<link rel="stylesheet" href="/games/lygo-gate.css?v=1">
+<script src="/games/lygo-gate.js?v=1" defer></script>
+</head>
+<body>
+<audio id="radioEl" preload="none"></audio>
+<div id="boot" class="boot">
+  <p class="kicker">Δ9Φ963 · Excavationpro</p>
+  <h1>Lattice Crypt</h1>
+  <p class="boot-msg">Carving the first floor…</p>
+</div>
+<div id="app" class="app hidden">
+  <header class="top">
+    <a class="brand" href="/">chatagent.ca</a>
+    <a class="games-mini" href="/games/">All games</a>
+    <div class="phase-pill" id="holePill">STONE 1</div>
+    <div class="hud-meta" id="hudMeta"></div>
+    <span class="grow"></span>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">PayPal</a>
+  </header>
+  <div class="stage">
+    <div class="viewport">
+      <canvas id="cryptBg" class="bg-canvas" aria-hidden="true"></canvas>
+      <canvas id="crypt" tabindex="0" aria-label="Lattice Crypt dungeon"></canvas>
+      <canvas id="cryptFx" class="fx-canvas" aria-hidden="true"></canvas>
+      <canvas id="cryptMap" class="map-canvas" aria-hidden="true"></canvas>
+      <div class="announce" id="announce"></div>
+      <div id="coach" class="coach hidden" aria-live="polite"></div>
+      <div class="pips" id="pips"></div>
+      <div id="studioHud" class="studio-hud hidden">
+        <div class="hud-top">
+          <div class="hud-wave"><span class="k" id="hudWaveLab">WAVE</span><b id="hudWave">1</b></div>
+          <div class="hud-xpwrap">
+            <div class="hud-xp"><i id="hudXpFill"></i></div>
+            <div class="hud-xp-lab" id="hudXpLab">LV 1</div>
+          </div>
+          <div class="hud-score"><span class="k">SCORE</span><b id="hudScore">0</b></div>
+        </div>
+        <div class="hud-clock" id="hudClock">0:00</div>
+        <div id="bossHud" class="boss-hud hidden">
+          <span id="bossName">Guardian</span>
+          <div class="boss-hp"><i id="bossHpFill"></i></div>
+        </div>
+        <div class="hud-left" id="hudPlayers"></div>
+        <div class="hud-right">
+          <div class="hud-kills" id="hudKills"></div>
+          <div class="hud-arms" id="hudArms"></div>
+          <div class="hud-pills" id="hudStats"></div>
+        </div>
+      </div>
+      <div id="cryptPad" class="crypt-pad hidden" aria-hidden="true">
+        <div class="pad-stick" id="padStick" role="application" aria-label="Move stick">
+          <i id="padKnob" class="pad-knob"></i>
+        </div>
+        <div class="pad-actions">
+          <button type="button" id="padMap">Map</button>
+          <button type="button" id="padDash">Dash</button>
+          <button type="button" id="padVial">Vial</button>
+          <button type="button" id="padFire">Fire</button>
+        </div>
+      </div>
+    </div>
+    <aside class="rail">
+      <div class="panel" id="holeCard"></div>
+      <div class="panel">
+        <h3>How</h3>
+        <p class="lore">Campaign, Endless, Survival, or Complete. Complete is a living realm: your company, no classes, turn-based clashes, towns that remember. Survival is a vast crypt. Sidestep with C. Phones get a stick. Don't shoot the flask.</p>
+      </div>
+      <div class="panel">
+        <h3>Log</h3>
+        <div class="log" id="log"></div>
+      </div>
+    </aside>
+  </div>
+  <footer class="dock">
+    <button type="button" class="btn ghost" id="btnHelp">How to play</button>
+    <button type="button" class="btn ghost" id="btnCredit">Credit / join</button>
+    <button type="button" class="btn ghost" id="btnAuto">Auto shot</button>
+    <button type="button" class="btn ghost" id="btnFull">Full</button>
+    <div id="radioDock" class="radio-inline">
+      <button type="button" id="radioPlay">Radio</button>
+      <button type="button" id="radioNext">Next</button>
+      <button type="button" id="radioMute">Mute</button>
+      <label class="radio-vol" title="Radio volume">
+        <span>Vol</span>
+        <input type="range" data-radio-vol min="0" max="100" value="55" aria-label="Radio volume">
+      </label>
+      <span class="radio-title-inline" id="radioTitle">Idle</span>
+    </div>
+    <span class="grow" id="dockStatus">Fire · vial · exit</span>
+    <a class="games-mini" href="./ledger.html">Live hall</a>
+    <a class="games-mini" href="/games/">Hub</a>
+    <a class="paypal-mini" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">Donate</a>
+    <button type="button" class="btn" id="btnMenu">Menu</button>
+  </footer>
+</div>
+<div id="pauseLayer" class="pause-layer hidden" role="dialog" aria-modal="true" aria-label="Paused">
+  <p class="kicker">Paused</p>
+  <h2>Hold the door.</h2>
+  <div class="modes">
+    <button type="button" class="btn gold" id="btnResume">Resume (P)</button>
+    <button type="button" class="btn" id="btnPauseOpt">Options</button>
+    <button type="button" class="btn" id="btnPauseMenu">Menu</button>
+  </div>
+</div>
+<div id="overlay" class="overlay"></div>
+<div id="tale" class="tale hidden"></div>
+<script src="./radio.js?v=3"></script>
+<script src="/games/arcade-ledger.js?v=5"></script>
+<script src="./campaign.js?v=10"></script>
+<script src="./studio.js?v=8"></script>
+<script src="./tale.js?v=3"></script>
+<script src="./game.js?v=72"></script>
+</body>
+</html>

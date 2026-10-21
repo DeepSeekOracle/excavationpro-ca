@@ -1,0 +1,1699 @@
+{
+  "id": "book-1-wheel",
+  "budgetNote": "Serenya can earn 27. c0-hearth pays 0. Roads pay 0.",
+  "anchors": [
+    {
+      "id": "glyph",
+      "name": "Glyph",
+      "x": 500,
+      "y": 76,
+      "calling": "cantor"
+    },
+    {
+      "id": "steel",
+      "name": "Steel",
+      "x": 867,
+      "y": 712,
+      "calling": "warden"
+    },
+    {
+      "id": "hearth",
+      "name": "Hearth",
+      "x": 133,
+      "y": 712,
+      "calling": "kindler"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "g-s1",
+      "name": "Quiet Measure",
+      "kind": "small",
+      "x": 500,
+      "y": 132,
+      "requires": [
+        "glyph",
+        "gs-1",
+        "hg-12"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "open-palm",
+      "name": "Open Palm",
+      "kind": "notable",
+      "x": 572,
+      "y": 160,
+      "requires": [
+        "g-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "g-s2",
+      "name": "Soft Count",
+      "kind": "small",
+      "x": 646,
+      "y": 200,
+      "requires": [
+        "open-palm"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "first-verse",
+      "name": "First Verse",
+      "kind": "notable",
+      "x": 706,
+      "y": 255,
+      "requires": [
+        "g-s2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 2
+        },
+        {
+          "op": "grantSkill",
+          "id": "lullaby"
+        }
+      ]
+    },
+    {
+      "id": "g-s3",
+      "name": "Second Breath",
+      "kind": "small",
+      "x": 748,
+      "y": 320,
+      "requires": [
+        "first-verse"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "kettle-depth",
+      "name": "Kettle Depth",
+      "kind": "notable",
+      "x": 771,
+      "y": 391,
+      "requires": [
+        "g-s3"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 6
+        }
+      ]
+    },
+    {
+      "id": "g-s4",
+      "name": "Low Hymn",
+      "kind": "small",
+      "x": 775,
+      "y": 461,
+      "requires": [
+        "kettle-depth"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hush-mark",
+      "name": "Hush Mark",
+      "kind": "notable",
+      "x": 763,
+      "y": 528,
+      "requires": [
+        "g-s4"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "hush-the-name"
+        }
+      ]
+    },
+    {
+      "id": "g-s5",
+      "name": "Still Water",
+      "kind": "small",
+      "x": 689,
+      "y": 449,
+      "requires": [
+        "hush-mark"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "moon-well",
+      "name": "Moon Well",
+      "kind": "notable",
+      "x": 654,
+      "y": 411,
+      "requires": [
+        "g-s5"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "moonwell"
+        }
+      ]
+    },
+    {
+      "id": "g-s6",
+      "name": "Last Count",
+      "kind": "small",
+      "x": 613,
+      "y": 387,
+      "requires": [
+        "moon-well"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "last-measure",
+      "name": "Last Measure",
+      "kind": "notable",
+      "x": 571,
+      "y": 377,
+      "requires": [
+        "g-s6"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "last-interval"
+        }
+      ]
+    },
+    {
+      "id": "closed-mouth",
+      "name": "Closed Mouth",
+      "kind": "keystone",
+      "x": 532,
+      "y": 380,
+      "requires": [
+        "last-measure"
+      ],
+      "ops": [
+        {
+          "op": "silenceExempt",
+          "id": "glyph"
+        }
+      ]
+    },
+    {
+      "id": "s-s1",
+      "name": "First Brace",
+      "kind": "small",
+      "x": 819,
+      "y": 684,
+      "requires": [
+        "steel",
+        "gs-12",
+        "sh-1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gate-brace",
+      "name": "Gate Brace",
+      "kind": "notable",
+      "x": 759,
+      "y": 733,
+      "requires": [
+        "s-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 3
+        }
+      ]
+    },
+    {
+      "id": "s-s2",
+      "name": "Shield Foot",
+      "kind": "small",
+      "x": 687,
+      "y": 777,
+      "requires": [
+        "gate-brace"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "def",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "shield-oath",
+      "name": "Shield Oath",
+      "kind": "notable",
+      "x": 609,
+      "y": 801,
+      "requires": [
+        "s-s2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "def",
+          "n": 2
+        },
+        {
+          "op": "stat",
+          "stat": "hum",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "s-s3",
+      "name": "Spear Thought",
+      "kind": "small",
+      "x": 532,
+      "y": 804,
+      "requires": [
+        "shield-oath"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "long-guard",
+      "name": "Long Guard",
+      "kind": "notable",
+      "x": 459,
+      "y": 789,
+      "requires": [
+        "s-s3"
+      ],
+      "ops": [
+        {
+          "op": "family",
+          "id": "spear"
+        }
+      ]
+    },
+    {
+      "id": "s-s4",
+      "name": "High Edge",
+      "kind": "small",
+      "x": 396,
+      "y": 758,
+      "requires": [
+        "long-guard"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "peak-edge",
+      "name": "Peak Edge",
+      "kind": "notable",
+      "x": 345,
+      "y": 714,
+      "requires": [
+        "s-s4"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "peak-rend"
+        }
+      ]
+    },
+    {
+      "id": "s-s5",
+      "name": "Crack Step",
+      "kind": "small",
+      "x": 449,
+      "y": 689,
+      "requires": [
+        "peak-edge"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "fracture-path",
+      "name": "Fracture Path",
+      "kind": "notable",
+      "x": 500,
+      "y": 678,
+      "requires": [
+        "s-s5"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "fracture-line"
+        }
+      ]
+    },
+    {
+      "id": "s-s6",
+      "name": "Held Beat",
+      "kind": "small",
+      "x": 541,
+      "y": 655,
+      "requires": [
+        "fracture-path"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hold-interval",
+      "name": "Hold the Interval",
+      "kind": "notable",
+      "x": 571,
+      "y": 623,
+      "requires": [
+        "s-s6"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "interval-hold"
+        }
+      ]
+    },
+    {
+      "id": "braced-cut",
+      "name": "Braced Cut",
+      "kind": "keystone",
+      "x": 588,
+      "y": 588,
+      "requires": [
+        "hold-interval"
+      ],
+      "ops": [
+        {
+          "op": "powerOverride",
+          "id": "vale-cut",
+          "n": 140
+        }
+      ]
+    },
+    {
+      "id": "h-s1",
+      "name": "First Coal",
+      "kind": "small",
+      "x": 181,
+      "y": 684,
+      "requires": [
+        "hearth",
+        "sh-12",
+        "hg-1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "coal-palm",
+      "name": "Coal Palm",
+      "kind": "notable",
+      "x": 169,
+      "y": 608,
+      "requires": [
+        "h-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 2
+        },
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "h-s2",
+      "name": "Bright Wick",
+      "kind": "small",
+      "x": 167,
+      "y": 523,
+      "requires": [
+        "coal-palm"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "wick-bright",
+      "name": "Wick Bright",
+      "kind": "notable",
+      "x": 185,
+      "y": 444,
+      "requires": [
+        "h-s2"
+      ],
+      "ops": [
+        {
+          "op": "powerOverride",
+          "id": "wick",
+          "n": 100
+        },
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "h-s3",
+      "name": "Hot Edge",
+      "kind": "small",
+      "x": 220,
+      "y": 376,
+      "requires": [
+        "wick-bright"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "brand-heat",
+      "name": "Brand Heat",
+      "kind": "notable",
+      "x": 270,
+      "y": 320,
+      "requires": [
+        "h-s3"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "h-s4",
+      "name": "Other Hand",
+      "kind": "small",
+      "x": 329,
+      "y": 281,
+      "requires": [
+        "brand-heat"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "either-hand",
+      "name": "Either Hand",
+      "kind": "notable",
+      "x": 393,
+      "y": 259,
+      "requires": [
+        "h-s4"
+      ],
+      "ops": [
+        {
+          "op": "family",
+          "id": "staff"
+        }
+      ]
+    },
+    {
+      "id": "h-s5",
+      "name": "Banked Heat",
+      "kind": "small",
+      "x": 361,
+      "y": 361,
+      "requires": [
+        "either-hand"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "warm-coal",
+      "name": "Warm Coal",
+      "kind": "notable",
+      "x": 346,
+      "y": 411,
+      "requires": [
+        "h-s5"
+      ],
+      "ops": [
+        {
+          "op": "grantSkill",
+          "id": "bank-the-coals"
+        }
+      ]
+    },
+    {
+      "id": "h-s6",
+      "name": "Twin Breath",
+      "kind": "small",
+      "x": 345,
+      "y": 459,
+      "requires": [
+        "warm-coal"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "mixed-breath",
+      "name": "Mixed Breath",
+      "kind": "notable",
+      "x": 358,
+      "y": 500,
+      "requires": [
+        "h-s6"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        },
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        },
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 4
+        }
+      ]
+    },
+    {
+      "id": "one-kettle",
+      "name": "One Kettle",
+      "kind": "keystone",
+      "x": 380,
+      "y": 532,
+      "requires": [
+        "mixed-breath"
+      ],
+      "ops": [
+        {
+          "op": "lockOffhand"
+        },
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 4
+        },
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "g-f1",
+      "name": "Palm Guard",
+      "kind": "small",
+      "x": 416,
+      "y": 162,
+      "requires": [
+        "g-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "res",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "g-f2",
+      "name": "Quicker Verse",
+      "kind": "small",
+      "x": 363,
+      "y": 220,
+      "requires": [
+        "g-f1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "spd",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "s-f1",
+      "name": "Lucky Steel",
+      "kind": "small",
+      "x": 835,
+      "y": 596,
+      "requires": [
+        "s-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "luck",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "s-f2",
+      "name": "Quicker Steel",
+      "kind": "small",
+      "x": 811,
+      "y": 522,
+      "requires": [
+        "s-f1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "spd",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "h-f1",
+      "name": "Coal Guard",
+      "kind": "small",
+      "x": 250,
+      "y": 742,
+      "requires": [
+        "h-s1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "res",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "h-f2",
+      "name": "Quicker Coal",
+      "kind": "small",
+      "x": 326,
+      "y": 759,
+      "requires": [
+        "h-f1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "spd",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-1",
+      "name": "Carried Note",
+      "kind": "small",
+      "x": 568,
+      "y": 81,
+      "requires": [
+        "glyph",
+        "gs-2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-2",
+      "name": "Long Breath",
+      "kind": "small",
+      "x": 634,
+      "y": 98,
+      "requires": [
+        "gs-1",
+        "gs-3"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-3",
+      "name": "Reed Hum",
+      "kind": "small",
+      "x": 697,
+      "y": 125,
+      "requires": [
+        "gs-2",
+        "gs-4"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "hum",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "gs-4",
+      "name": "Turned Edge",
+      "kind": "small",
+      "x": 755,
+      "y": 161,
+      "requires": [
+        "gs-3",
+        "gs-5"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-5",
+      "name": "Set Foot",
+      "kind": "small",
+      "x": 806,
+      "y": 206,
+      "requires": [
+        "gs-4",
+        "gs-6"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-6",
+      "name": "Quick Arc",
+      "kind": "small",
+      "x": 849,
+      "y": 259,
+      "requires": [
+        "gs-5",
+        "gs-7"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "spd",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-7",
+      "name": "Harder Cut",
+      "kind": "small",
+      "x": 883,
+      "y": 318,
+      "requires": [
+        "gs-6",
+        "gs-8"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-8",
+      "name": "Stone Brace",
+      "kind": "small",
+      "x": 907,
+      "y": 382,
+      "requires": [
+        "gs-7",
+        "gs-9"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "def",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-9",
+      "name": "Wool Hum",
+      "kind": "small",
+      "x": 921,
+      "y": 449,
+      "requires": [
+        "gs-8",
+        "gs-10"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "hum",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "gs-10",
+      "name": "Flint Edge",
+      "kind": "small",
+      "x": 924,
+      "y": 517,
+      "requires": [
+        "gs-9",
+        "gs-11"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-11",
+      "name": "Ash Lung",
+      "kind": "small",
+      "x": 915,
+      "y": 585,
+      "requires": [
+        "gs-10",
+        "gs-12"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "gs-12",
+      "name": "Sung Gate",
+      "kind": "small",
+      "x": 896,
+      "y": 650,
+      "requires": [
+        "gs-11",
+        "steel"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "accord",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sh-1",
+      "name": "Vein Cut",
+      "kind": "small",
+      "x": 828,
+      "y": 768,
+      "requires": [
+        "steel",
+        "sh-2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-2",
+      "name": "Warm Lung",
+      "kind": "small",
+      "x": 781,
+      "y": 817,
+      "requires": [
+        "sh-1",
+        "sh-3"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-3",
+      "name": "Cinder Hum",
+      "kind": "small",
+      "x": 727,
+      "y": 858,
+      "requires": [
+        "sh-2",
+        "sh-4"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "hum",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sh-4",
+      "name": "Brand Edge",
+      "kind": "small",
+      "x": 666,
+      "y": 890,
+      "requires": [
+        "sh-3",
+        "sh-5"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-5",
+      "name": "First Spark",
+      "kind": "small",
+      "x": 601,
+      "y": 912,
+      "requires": [
+        "sh-4",
+        "sh-6"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-6",
+      "name": "Coal Lung",
+      "kind": "small",
+      "x": 534,
+      "y": 923,
+      "requires": [
+        "sh-5",
+        "sh-7"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-7",
+      "name": "Wick Light",
+      "kind": "small",
+      "x": 466,
+      "y": 923,
+      "requires": [
+        "sh-6",
+        "sh-8"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-8",
+      "name": "Hot Steel",
+      "kind": "small",
+      "x": 399,
+      "y": 912,
+      "requires": [
+        "sh-7",
+        "sh-9"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-9",
+      "name": "Soot Bond",
+      "kind": "small",
+      "x": 334,
+      "y": 890,
+      "requires": [
+        "sh-8",
+        "sh-10"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "accord",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "sh-10",
+      "name": "Kiln Song",
+      "kind": "small",
+      "x": 273,
+      "y": 858,
+      "requires": [
+        "sh-9",
+        "sh-11"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-11",
+      "name": "Bellows",
+      "kind": "small",
+      "x": 219,
+      "y": 817,
+      "requires": [
+        "sh-10",
+        "sh-12"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "sh-12",
+      "name": "Mantle Bond",
+      "kind": "small",
+      "x": 172,
+      "y": 768,
+      "requires": [
+        "sh-11",
+        "hearth"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "accord",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hg-1",
+      "name": "Dusk Coal",
+      "kind": "small",
+      "x": 104,
+      "y": 650,
+      "requires": [
+        "hearth",
+        "hg-2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-2",
+      "name": "Tide Edge",
+      "kind": "small",
+      "x": 85,
+      "y": 585,
+      "requires": [
+        "hg-1",
+        "hg-3"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-3",
+      "name": "Pearl Hum",
+      "kind": "small",
+      "x": 76,
+      "y": 517,
+      "requires": [
+        "hg-2",
+        "hg-4"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "hum",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hg-4",
+      "name": "Chorus",
+      "kind": "small",
+      "x": 79,
+      "y": 449,
+      "requires": [
+        "hg-3",
+        "hg-5"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-5",
+      "name": "Lumen Well",
+      "kind": "small",
+      "x": 93,
+      "y": 382,
+      "requires": [
+        "hg-4",
+        "hg-6"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-6",
+      "name": "Luck Arc",
+      "kind": "small",
+      "x": 117,
+      "y": 318,
+      "requires": [
+        "hg-5",
+        "hg-7"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "luck",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hg-7",
+      "name": "Harbor Song",
+      "kind": "small",
+      "x": 151,
+      "y": 259,
+      "requires": [
+        "hg-6",
+        "hg-8"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-8",
+      "name": "Lantern Breath",
+      "kind": "small",
+      "x": 194,
+      "y": 206,
+      "requires": [
+        "hg-7",
+        "hg-9"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-9",
+      "name": "Accord Arc",
+      "kind": "small",
+      "x": 245,
+      "y": 161,
+      "requires": [
+        "hg-8",
+        "hg-10"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "accord",
+          "n": 2
+        }
+      ]
+    },
+    {
+      "id": "hg-10",
+      "name": "Night Measure",
+      "kind": "small",
+      "x": 303,
+      "y": 125,
+      "requires": [
+        "hg-9",
+        "hg-11"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-11",
+      "name": "Path Well",
+      "kind": "small",
+      "x": 366,
+      "y": 98,
+      "requires": [
+        "hg-10",
+        "hg-12"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hg-12",
+      "name": "Return Note",
+      "kind": "small",
+      "x": 432,
+      "y": 81,
+      "requires": [
+        "hg-11",
+        "glyph"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "g-c1",
+      "name": "Glyph Door",
+      "kind": "small",
+      "x": 519,
+      "y": 430,
+      "requires": [
+        "last-measure"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "g-c2",
+      "name": "Inner Glyph",
+      "kind": "small",
+      "x": 511,
+      "y": 459,
+      "requires": [
+        "g-c1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxMp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "s-c1",
+      "name": "Steel Door",
+      "kind": "small",
+      "x": 551,
+      "y": 551,
+      "requires": [
+        "hold-interval"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "s-c2",
+      "name": "Inner Steel",
+      "kind": "small",
+      "x": 530,
+      "y": 530,
+      "requires": [
+        "s-c1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "h-c1",
+      "name": "Hearth Door",
+      "kind": "small",
+      "x": 430,
+      "y": 519,
+      "requires": [
+        "mixed-breath"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "atk",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "h-c2",
+      "name": "Inner Hearth",
+      "kind": "small",
+      "x": 459,
+      "y": 511,
+      "requires": [
+        "h-c1"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "mag",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hub",
+      "name": "The Meeting",
+      "kind": "small",
+      "x": 500,
+      "y": 500,
+      "requires": [
+        "g-c2",
+        "s-c2",
+        "h-c2"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "accord",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "hub2",
+      "name": "Inner Meeting",
+      "kind": "small",
+      "x": 500,
+      "y": 524,
+      "requires": [
+        "hub"
+      ],
+      "ops": [
+        {
+          "op": "stat",
+          "stat": "maxHp",
+          "n": 1
+        }
+      ]
+    },
+    {
+      "id": "shared-coal",
+      "name": "Shared Coal",
+      "kind": "keystone",
+      "x": 500,
+      "y": 562,
+      "requires": [
+        "hub2"
+      ],
+      "ops": [
+        {
+          "op": "family",
+          "id": "staff"
+        },
+        {
+          "op": "family",
+          "id": "blade"
+        },
+        {
+          "op": "family",
+          "id": "brand"
+        }
+      ]
+    }
+  ],
+  "extensions": [
+    {
+      "id": "book-2",
+      "locked": false,
+      "nodes": [
+        {
+          "id": "b2-s1",
+          "name": "Ash Measure",
+          "kind": "small",
+          "x": 430,
+          "y": 640,
+          "requires": ["shared-coal"],
+          "ops": [{ "op": "stat", "stat": "maxHp", "n": 2 }]
+        },
+        {
+          "id": "b2-s2",
+          "name": "Open Coal",
+          "kind": "small",
+          "x": 500,
+          "y": 668,
+          "requires": ["b2-s1"],
+          "ops": [{ "op": "stat", "stat": "mag", "n": 1 }]
+        },
+        {
+          "id": "b2-s3",
+          "name": "Root Brace",
+          "kind": "small",
+          "x": 570,
+          "y": 640,
+          "requires": ["b2-s1"],
+          "ops": [{ "op": "stat", "stat": "def", "n": 1 }]
+        },
+        {
+          "id": "b2-s4",
+          "name": "Held Name",
+          "kind": "small",
+          "x": 430,
+          "y": 730,
+          "requires": ["b2-s2"],
+          "ops": [{ "op": "stat", "stat": "res", "n": 1 }]
+        },
+        {
+          "id": "b2-s5",
+          "name": "Second Interval",
+          "kind": "small",
+          "x": 570,
+          "y": 730,
+          "requires": ["b2-s3"],
+          "ops": [{ "op": "stat", "stat": "atk", "n": 1 }]
+        },
+        {
+          "id": "b2-s6",
+          "name": "Living Rim",
+          "kind": "small",
+          "x": 500,
+          "y": 790,
+          "requires": ["b2-s4", "b2-s5"],
+          "ops": [{ "op": "stat", "stat": "maxHp", "n": 2 }]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "cell": 64,
+  "cols": 8,
+  "names": {
+    "pet_wolf_0": 0,
+    "pet_wolf_1": 1,
+    "pet_wolf_2": 2,
+    "pet_wolf_3": 3,
+    "pet_lion_0": 4,
+    "pet_lion_1": 5,
+    "pet_lion_2": 6,
+    "pet_lion_3": 7,
+    "pet_bear_0": 8,
+    "pet_bear_1": 9,
+    "pet_bear_2": 10,
+    "pet_bear_3": 11,
+    "pet_elephant_0": 12,
+    "pet_elephant_1": 13,
+    "pet_elephant_2": 14,
+    "pet_elephant_3": 15,
+    "pet_scorpion_0": 16,
+    "pet_scorpion_1": 17,
+    "pet_scorpion_2": 18,
+    "pet_scorpion_3": 19
+  }
+}

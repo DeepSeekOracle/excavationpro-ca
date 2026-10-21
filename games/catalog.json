@@ -1,0 +1,332 @@
+{
+  "updated": "2026-10-18",
+  "paypal": "https://www.paypal.com/paypalme/ExcavationPro",
+  "listen": "https://asiancoastline.com/listen.html",
+  "note": "Source of truth for the arcade. Add a live title: folder /games/<slug>/ plus one object here. status: live | coming.",
+  "games": [
+    {
+      "id": "lattice-marines",
+      "slug": "lattice-marines",
+      "title": "Lattice Marines",
+      "tagline": "Isometric island war",
+      "blurb": "Place three HQs, branch build range, probe Battleship fog, and fight a never-ending campaign vs local AI or hot-seat. Δ9 commanders from this site.",
+      "status": "live",
+      "featured": true,
+      "order": 1,
+      "href": "/games/lattice-marines/",
+      "cover": "/games/lattice-marines/assets/og.jpg",
+      "coverAlt": "Lattice Marines island fortress",
+      "genre": ["strategy", "isometric"],
+      "players": "1 vs AI or 2 hot-seat",
+      "links": [
+        { "label": "Win ledger", "href": "/games/lattice-marines/ledger.html" }
+      ]
+    },
+    {
+      "id": "lattice-swarm",
+      "slug": "lattice-swarm",
+      "title": "Lattice Swarm",
+      "tagline": "Hex-grid command",
+      "blurb": "Hex command — Week 1: slower opening, undo, keys 1–6. Build, defend, keep entropy from unraveling the lattice.",
+      "status": "live",
+      "featured": true,
+      "order": 2,
+      "href": "/games/lattice-swarm/",
+      "cover": "/games/lattice-swarm/og.jpg",
+      "coverAlt": "Lattice Swarm hex command",
+      "genre": ["strategy", "hex"],
+      "players": "1",
+      "links": [
+        { "label": "Live hall", "href": "/games/lattice-swarm/ledger.html" }
+      ]
+    },
+    {
+      "id": "stock-market-masters",
+      "slug": "stock-market-masters",
+      "title": "Stock Market Masters",
+      "tagline": "Quotation floor",
+      "blurb": "Never-ending play-money quotation board. Two dice per turn. Cash out when you want — highest net worth ranks on the TOP Cashout hall.",
+      "status": "live",
+      "featured": true,
+      "order": 4,
+      "href": "/games/stock-market-masters/",
+      "cover": "/games/stock-market-masters/assets/og.jpg",
+      "coverAlt": "Stock Market Masters trading floor",
+      "genre": ["strategy", "market"],
+      "players": "1–4 plus optional AI",
+      "links": [
+        { "label": "TOP Cashout", "href": "/games/stock-market-masters/ledger.html" }
+      ]
+    },
+    {
+      "id": "eternal-lattice",
+      "slug": "eternal-lattice",
+      "title": "Eternal Lattice",
+      "tagline": "Δ9 champion cards",
+      "blurb": "Week 1: undo (Z), keys 1–8, How to play. Champion card battles — campaign, Deckwright, Lattice Forge.",
+      "status": "live",
+      "featured": true,
+      "order": 3,
+      "href": "/games/eternal-lattice/",
+      "cover": "/games/eternal-lattice/og.jpg",
+      "coverAlt": "Eternal Lattice playmat",
+      "genre": ["cards", "campaign"],
+      "players": "1",
+      "links": [
+        { "label": "Live ladder", "href": "/games/eternal-lattice/ledger.html" }
+      ]
+    },
+    {
+      "id": "lattice-golf",
+      "slug": "lattice-golf",
+      "title": "Lattice Golf",
+      "tagline": "Marker, club, wind",
+      "blurb": "2.5D course: plant a marker, read the wind pip, watch the ball fly. Pine Haven, Coral Lattice, Singularity Nine, endless, campaign vs AI. Live hall. Live lobby 1–4.",
+      "status": "live",
+      "featured": true,
+      "order": 5,
+      "href": "/games/lattice-golf/",
+      "cover": "/games/lattice-golf/assets/og.jpg",
+      "coverAlt": "Lattice Golf twilight course",
+      "genre": ["sports", "golf"],
+      "players": "1–4 live",
+      "links": [
+        { "label": "Live hall", "href": "/games/lattice-golf/ledger.html" }
+      ]
+    },
+    {
+      "id": "haven-rally",
+      "slug": "haven-rally",
+      "title": "Haven Rally",
+      "tagline": "Beat the ghost",
+      "blurb": "Time-trial lattice racer plus a full drag facility: 1/8 mile, 1000 ft, and 1/4 mile vs AI, Christmas tree, F to restage. Apex Mk I, ghost, live hall.",
+      "cover": "/games/haven-rally/assets/apex-hero.jpg",
+      "coverAlt": "Haven Rally Apex Mk I studio shot",
+      "status": "live",
+      "featured": true,
+      "order": 6,
+      "href": "/games/haven-rally/",
+      "genre": ["racing", "sports"],
+      "players": "1 vs ghost",
+      "links": [
+        { "label": "Live hall", "href": "/games/haven-rally/ledger.html" },
+        { "label": "Whitepaper", "href": "/games/haven-rally/whitepaper.html" }
+      ]
+    },
+    {
+      "id": "lattice-grand-prix",
+      "slug": "lattice-grand-prix",
+      "title": "Lattice Grand Prix",
+      "tagline": "Unity circuit racer",
+      "blurb": "Unity arcade racer. A 20-event career across 5 ranks, rival AI on their own lines, nitrous, and a pit lane. Free in the browser. No account.",
+      "cover": "/games/lattice-grand-prix/assets/og.jpg",
+      "coverAlt": "Orange open-wheel car on a dark twilight circuit",
+      "status": "live",
+      "featured": true,
+      "order": 6.5,
+      "href": "/games/lattice-grand-prix/",
+      "genre": ["racing"],
+      "players": "1"
+    },
+    {
+      "id": "lygo-dungeon",
+      "slug": "lygo-dungeon",
+      "title": "LYGO Dungeon Adventures",
+      "tagline": "Still-frame adventures",
+      "blurb": "Still-frame dungeon. Four locked characters, open d20 fights, and the same wolf picture stacked harder by area. Gear on top of level. Free in the browser. No account.",
+      "cover": "/games/lygo-dungeon/assets/og.jpg",
+      "coverAlt": "A wolf on a dusk forest path",
+      "status": "live",
+      "featured": true,
+      "order": 6.6,
+      "href": "/games/lygo-dungeon/",
+      "genre": ["dungeon", "rpg"],
+      "players": "1"
+    },
+    {
+      "id": "lattice-crypt",
+      "slug": "lattice-crypt",
+      "title": "Lattice Crypt",
+      "tagline": "Jobs of the Accord",
+      "blurb": "Jobs of the Accord. 24-floor campaign, endless, Survival with a level-first horde ramp. Fog-band spawns, live Hugging Face hall.",
+      "status": "live",
+      "featured": true,
+      "order": 7,
+      "href": "/games/lattice-crypt/",
+      "cover": "/games/lattice-crypt/assets/og.jpg",
+      "coverAlt": "Lattice Crypt dungeon gate",
+      "genre": ["action", "co-op", "dungeon"],
+      "players": "1–4 local, gamepad",
+      "links": [
+        { "label": "Live hall", "href": "/games/lattice-crypt/ledger.html" },
+        { "label": "Whitepaper", "href": "/games/lattice-crypt/whitepaper.html" }
+      ]
+    },
+    {
+      "id": "fish-tank",
+      "slug": "fish-tank",
+      "title": "Fish Tank",
+      "tagline": "Real-time aquarium",
+      "blurb": "Eighteen species, including rare marine fish and one octopus. Six ages. Adult in a day, a week unless you use pellets. Local save. Cemetery hall ranks the longest lives.",
+      "status": "live",
+      "featured": true,
+      "order": 8,
+      "href": "/games/fish-tank/",
+      "cover": "/games/fish-tank/assets/og.jpg?v=2",
+      "coverAlt": "Daylight aquarium with plants, stones, and driftwood",
+      "genre": ["sim"],
+      "players": "1, autonomous",
+      "links": [
+        { "label": "Cemetery hall", "href": "/games/fish-tank/ledger.html" }
+      ]
+    },
+    {
+      "id": "lattice-corridor",
+      "slug": "lattice-corridor",
+      "title": "Lattice Corridor",
+      "tagline": "PrBoom in the browser",
+      "blurb": "Freedoom Phase 1, Phase 2, and FreeDM, plus Lotan's Tomb, on a real PrBoom engine. Fast, respawn, and coop rules. Load a WAD you own, or the 1993 shareware episode. Unofficial.",
+      "status": "live",
+      "featured": true,
+      "order": 9,
+      "href": "/games/lattice-corridor/",
+      "cover": "/games/lattice-corridor/assets/og.jpg",
+      "coverAlt": "A dark stone corridor with amber lattice light in the floor",
+      "genre": ["action", "fps"],
+      "players": "1",
+      "links": [
+        { "label": "Engine source", "href": "/games/lattice-corridor/SOURCE.md" }
+      ]
+    },
+    {
+      "id": "moonlit-tactics",
+      "slug": "moonlit-tactics",
+      "title": "Vale Tactics",
+      "tagline": "Four books",
+      "blurb": "The Moonlit Slumber through Eternal Haven Dawns. Serenya wakes in the loft. Choose Cantor, Warden, or Kindler. Painted pages carry the road, and the grid opens when someone has to be faced. The story stays in this browser.",
+      "status": "live",
+      "featured": true,
+      "order": 10,
+      "href": "/games/moonlit-tactics/",
+      "cover": "/games/moonlit-tactics/assets/og.jpg",
+      "coverAlt": "Serenya and a small bronze-green dragon on a moonlit harbor balcony",
+      "genre": ["tactics", "story"],
+      "players": "1",
+      "links": [
+        { "label": "Hall", "href": "/games/moonlit-tactics/ledger.html" }
+      ]
+    },
+    {
+      "id": "haven-desk",
+      "slug": "haven-desk",
+      "title": "LYGO 98",
+      "tagline": "late-90s desk",
+      "blurb": "An unofficial LYGO desk. Teal field, gray windows, mail, pictures, and a saver you can boot from. Rook's papers hide a second trail into the public lattice. Not affiliated with Microsoft.",
+      "status": "live",
+      "featured": true,
+      "order": 11,
+      "href": "/games/haven-desk/",
+      "cover": "/games/haven-desk/assets/og.jpg?v=lygo98",
+      "coverAlt": "LYGO 98 on a teal field, with a gray window and a LYGO button",
+      "genre": ["desk", "retro"],
+      "players": "1",
+      "links": [
+        { "label": "Hall", "href": "/games/haven-desk/ledger.html" }
+      ]
+    },
+    {
+      "id": "lattice-arena",
+      "slug": "lattice-arena",
+      "title": "LYGO Arena",
+      "tagline": "Real-time team battles",
+      "blurb": "Two AI teams, one stone ring. Pick 1v1 to 5v5 from 33 real kits — champions, crypt creatures and the pack — then watch every move, card and cooldown play out on its own. Challengers are drawn blind.",
+      "status": "live",
+      "featured": true,
+      "order": 12,
+      "href": "/games/lattice-arena/",
+      "cover": "/games/lattice-arena/assets/og.jpg?v=ring",
+      "coverAlt": "Four fighters at a cyan lattice gate under the LYGO Arena wordmark",
+      "genre": ["battler", "spectate"],
+      "players": "1 (watch two AI teams)",
+      "links": [
+        { "label": "Whitepaper", "href": "/games/lattice-arena/whitepaper.html" },
+        { "label": "Live hall", "href": "/games/lattice-arena/ledger.html" }
+      ]
+    },
+    {
+      "id": "lattice-chess",
+      "slug": "lattice-chess",
+      "title": "Lattice Chess 3D",
+      "tagline": "Gothic 3D chess",
+      "blurb": "Sculpted stone chess in a gothic cathedral. Cinematic captures, stone shatter physics, and a local chess AI. Free in the browser.",
+      "status": "live",
+      "featured": false,
+      "order": 13,
+      "href": "/games/lattice-chess/",
+      "cover": "/games/lattice-chess/og.jpg",
+      "coverAlt": "Lattice Chess 3D stone pieces on a cathedral chessboard",
+      "genre": ["strategy", "chess"],
+      "players": "1 vs local AI",
+      "links": []
+    },
+    {
+      "id": "lattice-arcade",
+      "slug": "lattice-arcade",
+      "title": "Lattice Arcade",
+      "tagline": "Photo to 8-bit arena",
+      "blurb": "Turn two photos into pixel fighters, then run a neon retro maze. Local sprite generation, local AI, no account.",
+      "status": "live",
+      "featured": false,
+      "order": 14,
+      "href": "/games/lattice-arcade/",
+      "cover": "/games/lattice-arcade/og.jpg",
+      "coverAlt": "Lattice Arcade neon maze with two pixel fighters",
+      "genre": ["arcade", "generator"],
+      "players": "1 vs local AI",
+      "links": []
+    },
+    {
+      "id": "lattice-city",
+      "slug": "lattice-city",
+      "title": "Lattice City",
+      "tagline": "Isometric city, endless districts",
+      "blurb": "Build a living 16x16 pixel city, then expand into a 48x48 LYGO Endless district. 256 tiles, snapshot export, local legend score.",
+      "status": "live",
+      "featured": false,
+      "order": 15,
+      "href": "/games/lattice-city/",
+      "cover": "/games/lattice-city/og.jpg",
+      "coverAlt": "Lattice City isometric pixel city with roads and a canal",
+      "genre": ["builder", "endless"],
+      "players": "1",
+      "links": []
+    },
+    {
+      "id": "lattice-tennis",
+      "slug": "lattice-tennis",
+      "title": "Lattice Tennis",
+      "tagline": "3D arcade tennis, no camera",
+      "blurb": "3D arcade tennis with racket kinematics, expressive pilots, keyboard/mouse and controller play, and optional webcam motion. No camera required.",
+      "status": "live",
+      "featured": false,
+      "order": 16,
+      "href": "/games/lattice-tennis/",
+      "cover": "/games/lattice-tennis/og.jpg",
+      "coverAlt": "Lattice Tennis court with two pilots at the net",
+      "genre": ["sports", "tennis"],
+      "players": "1 vs local AI or 1v1",
+      "links": []
+    },
+    {
+      "id": "slot-next",
+      "slug": "",
+      "title": "More games coming",
+      "tagline": "Open slot",
+      "blurb": "New HTML5 titles drop into /games/<slug>/ and this catalog. The arcade reads one JSON file — no store, no account.",
+      "status": "coming",
+      "featured": false,
+      "order": 90,
+      "genre": ["upcoming"]
+    }
+  ]
+}

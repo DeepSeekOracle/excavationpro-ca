@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>LYGO Dungeon Adventures: Unity crawler | Excavationpro</title>
+    <meta name="description" content="LYGO Dungeon Adventures: a Unity still-frame crawler. Four locked characters, open d20 fights, and one wolf picture that gets harder by area. Free, no account.">
+    <meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+    <meta name="theme-color" content="#120e0a">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://excavationpro.ca/games/lygo-dungeon/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="chatagent.ca">
+    <meta property="og:url" content="https://excavationpro.ca/games/lygo-dungeon/">
+    <meta property="og:title" content="LYGO Dungeon Adventures. Unity crawler">
+    <meta property="og:description" content="Still-frame dungeon on the LYGO Lattice. Lock a character, walk the pictures, and fight on an open d20. Free in the browser.">
+    <meta property="og:image" content="https://excavationpro.ca/games/lygo-dungeon/assets/og.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Excavationpro">
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <style>
+      html, body { margin: 0; background: #120e0a; }
+      #lygoSiteBar {
+        position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 10000;
+        display: flex; align-items: center; gap: 14px; padding: 0 14px;
+        background: #120e0a; border-bottom: 1px solid rgba(220,180,90,.28);
+        color: #f3e6c8; font: 13px/40px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      #lygoSiteBar b { color: #e6c56a; letter-spacing: .06em; }
+      #lygoSiteBar a { color: #e6c56a; text-decoration: none; }
+      #lygoSiteBar a:hover { text-decoration: underline; }
+      #unity-container { left: 0 !important; top: 40px !important; transform: none !important; }
+      #unity-canvas { display: block !important; }
+      #lygo-radio-bar { top: 4px !important; z-index: 10001 !important; padding: 3px 9px !important; }
+    </style>
+  </head>
+  <body>
+    <div id="lygoSiteBar">
+      <b>LYGO DUNGEON ADVENTURES</b>
+      <span style="flex:1"></span>
+      <a href="/games/">&#8592; All games</a>
+    </div>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width="1280" height="720" tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">LYGO Dungeon Adventures</div>
+      </div>
+    </div>
+    <script>
+      var canvas = document.querySelector("#unity-canvas");
+
+      function unityShowBanner(msg, type) {
+        var warningBanner = document.querySelector("#unity-warning");
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+          setTimeout(function() {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "Build";
+      var loaderUrl = buildUrl + "/LYGODungeon.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/LYGODungeon.data.unityweb",
+        frameworkUrl: buildUrl + "/LYGODungeon.framework.js.unityweb",
+        codeUrl: buildUrl + "/LYGODungeon.wasm.unityweb",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "LYGO Lattice",
+        productName: "LYGO Dungeon Adventures",
+        productVersion: "0.1.0",
+        showBanner: unityShowBanner,
+        autoSyncPersistentDataPath: true,
+        // Percentage canvas CSS makes Unity resize the drawing buffer forever
+        // (Maximum call stack size exceeded). Keep the style size in pixels.
+        devicePixelRatio: 1
+      };
+
+      function fitCanvas() {
+        var w = Math.max(320, window.innerWidth | 0);
+        var h = Math.max(240, (window.innerHeight - 86) | 0);
+        var width = w + "px";
+        var height = h + "px";
+        if (canvas.style.width === width && canvas.style.height === height) return;
+        canvas.style.width = width;
+        canvas.style.height = height;
+      }
+
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.getElementsByTagName('head')[0].appendChild(meta);
+        document.querySelector("#unity-container").className = "unity-mobile";
+        canvas.className = "unity-mobile";
+      }
+      fitCanvas();
+      window.addEventListener("resize", fitCanvas);
+
+      document.querySelector("#unity-loading-bar").style.display = "block";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          document.querySelector("#unity-loading-bar").style.display = "none";
+          document.querySelector("#unity-fullscreen-button").onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+
+      document.body.appendChild(script);
+    </script>
+  <!-- LYGO_RADIO_PLAYER -->
+<audio id="radioEl" preload="auto" volume="0.5"></audio>
+<div id="lygo-radio-bar" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);
+     z-index:9999;display:flex;gap:8px;align-items:center;background:rgba(8,10,16,.72);
+     border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:7px 11px;
+     font:12px/1.2 system-ui,-apple-system,sans-serif;color:#dfe7f5;pointer-events:auto">
+  <button type="button" id="radioPlay" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#e7eefc;border-radius:7px;padding:4px 9px;font:inherit;cursor:pointer">Radio</button>
+  <button type="button" id="radioNext" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#e7eefc;border-radius:7px;padding:4px 9px;font:inherit;cursor:pointer">Next</button>
+  <button type="button" id="radioMute" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#e7eefc;border-radius:7px;padding:4px 9px;font:inherit;cursor:pointer">Mute</button>
+  <label style="display:flex;align-items:center;gap:6px">Vol
+    <input type="range" id="radioVol" min="0" max="100" step="1" value="50" style="width:88px">
+    <span id="radioVolPct">50%</span>
+  </label>
+  <span id="radioTitle" style="opacity:.75;max-width:230px;overflow:hidden;
+        text-overflow:ellipsis;white-space:nowrap">Idle</span>
+</div>
+<script src="radio.js?v=1"></script>
+<script>if (window.HavenRadio && HavenRadio.pause) HavenRadio.pause();</script>
+<script>
+    (function () {
+      var voices = [];
+      var readingVoices = false;
+      var maleNames = ["Google UK English Male", "Microsoft Guy", "Microsoft David", "Daniel", "Alex", "Microsoft Mark"];
+      var femaleNames = ["Google UK English Female", "Microsoft Aria", "Microsoft Zira", "Samantha", "Victoria", "Microsoft Jenny"];
+      function loadVoices() {
+        if (readingVoices || !window.speechSynthesis) return voices;
+        readingVoices = true;
+        try { voices = speechSynthesis.getVoices() || []; }
+        finally { readingVoices = false; }
+        return voices;
+      }
+      if (window.speechSynthesis) {
+        loadVoices();
+        speechSynthesis.addEventListener("voiceschanged", function () {
+          if (!readingVoices) loadVoices();
+        });
+      }
+      function named(list, names) {
+        for (var i = 0; i < names.length; i++) {
+          var needle = names[i].toLowerCase();
+          for (var j = 0; j < list.length; j++) {
+            if ((list[j].name || "").toLowerCase().indexOf(needle) !== -1) return list[j];
+          }
+        }
+        return null;
+      }
+      function pick(female) {
+        var list = voices.length ? voices : loadVoices();
+        var voice = named(list, female ? femaleNames : maleNames);
+        if (voice) return voice;
+        var hint = female ? /female|woman|aria|zira|samantha|victoria|jenny/i : /male|david|guy|daniel|\balex\b|mark/i;
+        for (var i = 0; i < list.length; i++) {
+          if (hint.test(list[i].name || "") && /^en/i.test(list[i].lang || "en")) return list[i];
+        }
+        return null;
+      }
+      var ducked = false;
+      function duck(on) {
+        var audio = document.getElementById("radioEl");
+        if (!audio) return;
+        if (on) {
+          var base = window.HavenRadio && HavenRadio.vol ? HavenRadio.vol() : audio.volume;
+          audio.volume = Math.max(0, base * 0.15);
+          ducked = true;
+        } else if (ducked) {
+          audio.volume = window.HavenRadio && HavenRadio.vol ? HavenRadio.vol() : 0.5;
+          ducked = false;
+        }
+      }
+      window.lygoSpeak = function (text, female) {
+        if (!text || !window.speechSynthesis) return;
+        var woman = female === true || female === 1 || female === "1";
+        try {
+          var u = new SpeechSynthesisUtterance(String(text));
+          var voice = pick(woman);
+          if (voice) {
+            u.voice = voice;
+            u.lang = voice.lang || "en-GB";
+            u.pitch = 1;
+            u.rate = 0.96;
+          } else {
+            u.lang = woman ? "en-GB" : "en-GB";
+            u.pitch = woman ? 1.12 : 0.82;
+            u.rate = woman ? 0.96 : 0.92;
+          }
+          u.onend = function () { duck(false); };
+          u.onerror = function () { duck(false); };
+          speechSynthesis.cancel();
+          if (speechSynthesis.paused) speechSynthesis.resume();
+          duck(true);
+          speechSynthesis.speak(u);
+          setTimeout(function () {
+            if (speechSynthesis.paused) speechSynthesis.resume();
+          }, 80);
+        } catch (err) {
+          duck(false);
+        }
+      };
+    })();
+</script>
+</body>
+</html>

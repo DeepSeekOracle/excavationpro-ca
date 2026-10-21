@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO Arena: whitepaper | Excavationpro</title>
+<meta name="description" content="How LYGO Arena works: 33 kits, a real-time AI arena engine, the balance ladder and what the measurements actually say.">
+<meta name="keywords" content="LYGO Arena whitepaper, arena battler design, kit design, balance harness, Lattice Crypt, chatagent.ca">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="theme-color" content="#07080e">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-arena/whitepaper.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="image_src" href="https://excavationpro.ca/games/lattice-arena/assets/og.jpg">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Eternal Haven">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://excavationpro.ca/games/lattice-arena/whitepaper.html">
+<meta property="og:title" content="LYGO Arena, the whitepaper">
+<meta property="og:description" content="33 kits, a real-time AI arena, the balance ladder, and the measurements behind every lever.">
+<meta property="og:image" content="https://excavationpro.ca/games/lattice-arena/assets/og.jpg">
+<meta property="og:image:secure_url" content="https://excavationpro.ca/games/lattice-arena/assets/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LYGO Arena key art: gold LYGO ARENA wordmark over four framed Lattice champions">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO Arena, the whitepaper">
+<meta name="twitter:description" content="How the arena works: 33 kits, autonomy rules, and the balance ladder that measures them.">
+<meta name="twitter:image" content="https://excavationpro.ca/games/lattice-arena/assets/og.jpg">
+<meta name="twitter:image:alt" content="LYGO Arena key art with the LYGO ARENA wordmark">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"LYGO Arena, whitepaper","url":"https://excavationpro.ca/games/lattice-arena/whitepaper.html","image":"https://excavationpro.ca/games/lattice-arena/assets/og.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"about":{"@type":"VideoGame","name":"LYGO Arena","url":"https://excavationpro.ca/games/lattice-arena/"},"inLanguage":"en-CA"}</script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#07080e; --panel:#0c1018; --line:#1e2a3a; --cyan:#5eead4; --gold:#fbbf24; --mute:#94a3b8; --text:#e8eef5; }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:"Source Sans 3",system-ui,sans-serif; line-height:1.55; }
+.wrap { max-width:1000px; margin:0 auto; padding:1.6rem 1.1rem 4rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:var(--cyan); font-size:.72rem; }
+h1,h2,h3 { font-family:Syne,sans-serif; line-height:1.15; }
+h1 { font-size:clamp(1.7rem,4vw,2.6rem); margin:.2rem 0 .3rem; }
+h2 { font-size:1.22rem; margin:2.1rem 0 .5rem; border-top:1px solid var(--line); padding-top:1.1rem; }
+h3 { font-size:1rem; margin:1.4rem 0 .3rem; color:var(--cyan); }
+p, li { color:#c9d5e2; }
+a { color:var(--cyan); }
+.lede { font-size:1.02rem; color:#dbe4ee; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0 1.4rem; }
+.btn { display:inline-flex; padding:.5rem .85rem; border:1px solid var(--line); border-radius:9px; text-decoration:none; color:var(--text); font-weight:600; font-size:.85rem; }
+.btn.gold { background:linear-gradient(180deg,#fde68a,#f59e0b); color:#1a1206; border-color:#f59e0b; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:.8rem .9rem; margin:.7rem 0; }
+.card h3 { margin-top:0; }
+table { width:100%; border-collapse:collapse; font-size:.78rem; margin:.6rem 0 1.2rem; }
+th, td { text-align:left; padding:.3rem .4rem; border-bottom:1px solid var(--line); vertical-align:top; }
+th { font-family:"IBM Plex Mono",monospace; font-size:.64rem; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); }
+td.n { font-family:"IBM Plex Mono",monospace; color:#cbd5e1; }
+td i { display:inline-block; font-style:normal; color:var(--mute); font-size:.7rem; }
+td em { font-style:normal; display:inline-block; margin:0 .18rem .18rem 0; font-size:.68rem; color:var(--cyan); background:#0d1a1c; border:1px solid #14343a; border-radius:5px; padding:.04rem .28rem; }
+td.cards i { color:#d8c9a3; background:#1a1508; border:1px solid #4a3a14; border-radius:5px; padding:.04rem .28rem; font-size:.63rem; margin:0 .18rem .18rem 0; }
+.stat { font-family:"IBM Plex Mono",monospace; color:var(--gold); }
+.muted { color:var(--mute); }
+.mode-stat { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:.5rem; margin:.6rem 0 1rem; }
+.mode-stat div { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:.55rem .6rem; }
+.mode-stat b { display:block; font-family:Syne,sans-serif; font-size:1.1rem; color:var(--gold); }
+.mode-stat span { font-size:.72rem; color:var(--mute); }
+code { font-family:"IBM Plex Mono",monospace; font-size:.8rem; background:#0f1720; border:1px solid var(--line); border-radius:5px; padding:.06rem .3rem; }
+.warn { border-left:3px solid var(--gold); padding-left:.7rem; }
+
+@media (max-width: 700px) {
+  body { overflow-x: hidden; }
+  .wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 560px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · studio doc</p>
+  <h1>LYGO Arena</h1>
+  <p class="lede">A real-time arena battler where nobody is driven. You choose a roster; two AI teams
+  then fight on a stone ring with their own kits, cooldowns and cards, and the fight resolves on its
+  own terms.</p>
+  <div class="row">
+    <a class="btn gold" href="./">Play the arena</a>
+    <a class="btn" href="./ledger.html">Live hall</a>
+    <a class="btn" href="/games/lattice-crypt/">Lattice Crypt</a>
+    <a class="btn" href="/games/">Hub</a>
+  </div>
+
+  <h2>1. What this is</h2>
+  <p>Lattice Crypt is a game you play with keys. LYGO Arena is the same world with the hands taken off
+  the wheel: a <b>real-time team battler</b> in which the interesting decision happens before the bell.
+  You pick the team, the challengers are drawn blind from the full roster, and then you watch a fight
+  nobody is steering, including you.</p>
+  <p>The design bet is that the kits are legible enough to be fun to read. A fighter is not a stat block
+  with a name: every one of the thirty-three carries its own stat line, three named moves and three draft
+  cards, derived from the numbers Lattice Crypt already gives it, shot, speed, magic, armour, melee,
+  brave and faith for the champions, the <code>FOE</code> table for the crypt creatures, the
+  <code>PETS</code> table for the pack.</p>
+
+  <h2>2. Modes and the shape of a match</h2>
+  <p>Four modes: <b>1v1</b>, <b>2v2</b>, <b>3v3</b> and <b>5v5</b>. Team size is the only rule that
+  changes; the arena, the kits and the AI are identical, so a 5v5 is not a different game so much as a
+  louder one. Between the count and the result the only inputs are the watch controls: pause, and
+  1× / 2× / 4× / 8× speed.</p>
+  <div class="mode-stat">
+    <div><b>26s</b><span>1v1 median</span></div>
+    <div><b>34s</b><span>2v2 median</span></div>
+    <div><b>41s</b><span>3v3 median</span></div>
+    <div><b>50s</b><span>5v5 median</span></div>
+  </div>
+  <p class="muted">Medians over 300 simulated battles in the balance harness (§6). Every match is
+  expected to land inside two minutes; the ring starts closing at 80 seconds so no two healers can
+  out-sustain the floor and leave a fight unresolved.</p>
+
+  <h2>3. The arena</h2>
+  <p>Each match builds a fresh map from the Lattice Crypt stone atlas: a symmetric tile field with a
+  realm family chosen by seed, walls mirrored so neither side inherits better ground, and both spawn
+  pockets flood-filled to guarantee that every tile a body can stand on is reachable from both ends.
+  The harness asserts this over 120 seeds, a map that strands a fighter is a bug, not a surprise.</p>
+  <p>There are five colosseums, and the seed picks both the ground and the realm it is cut from. The
+  layouts are kept whole in the code; in this build every ring is swept bare, no pillars, no walls, no
+  loose stone, while the brains are tuned, so that what a body does is the brain's doing and not the
+  walls'. The five are still built and still named, and cover comes back with one flag:</p>
+  <ul>
+    <li><b>Colosseum</b>, open sand with pillar knots on the diagonals. The centre is left empty on
+    purpose: the middle of a colosseum is where the fight should happen.</li>
+    <li><b>Gauntlet</b>, a spine down the middle with a mouth at each end and a shoulder on each flank.
+    The one arena that rewards holding a gap.</li>
+    <li><b>The Pit</b>, low cross-walls pierced by four single-tile doorways. Hold a door or lose the
+    middle.</li>
+    <li><b>Colonnade</b>, two broken rows of pillars. Lanes to run, columns to break a sight line
+    behind.</li>
+    <li><b>Ruin</b>, a court of three short walls and loose stone.</li>
+  </ul>
+  <p>Every one of them is deliberately nearly empty, 86% open sand, with nothing standing in it at all right now, because the obstacle a body
+  snags on is the obstacle that ruins the watch. What is left is placed to be <em>worth standing next
+  to</em>: cover to break a line of fire, a gap to hold, a lane to run. The harness builds 120 seeds and
+  asserts that both pockets can reach all ten spawn slots in every one of them.</p>
+  <p>Bodies move in continuous space, not on the grid. They walk with a measured feel for stone: a move
+  is judged by how much of the body would end up inside a wall rather than by a yes/no test, so a body
+  shoved into the border by a knockback can always push its way back out, the bug that once left a kit
+  frozen against the wall for the rest of a match. A body whose cell is stone walks straight to the
+  middle of the nearest open cell, through the collision test, because it is already in the wall. The
+  choice between the direct line and the route around cover is <em>held</em> for half a second: an enemy
+  stepping behind a pillar would otherwise flip that decision every few ticks and leave the body walking
+  on the spot.</p>
+
+  <h2>4. The brain</h2>
+  <p>Every kit fights like itself, because every kit makes its own decisions. Two layers produce that:
+  a <b>squad brain</b> per team on a slow clock, and a <b>task brain</b> per body on a fast one. The
+  squad brain reads the ground, not the fog: it counts who is alive, whose line is winning the
+  exchange, who is wounded, who shoots from far, who mends, and then it makes one call: who to kill,
+  and why. The body brain turns that call into one word of work, which is what the chip on its health
+  bar shows you while you watch.</p>
+  <p>The body brain works from a book of twelve tasks:</p>
+  <ul>
+    <li><b>press / advance</b>, close to the reach this kit's weapon actually wants, then stop there.</li>
+    <li><b>hold</b>, stay on ground that is already good: at your reach, facing the enemy, drifting
+    across its front.</li>
+    <li><b>overwatch</b>, step into cover while an enemy still has a line to you, and shoot from it.</li>
+    <li><b>choke</b>, for the kits whose job is to be in the way, stand in the doorway rather than in
+    the open, but only while the team is not the one pushing.</li>
+    <li><b>screen</b>, the bulwark and the brute put their body between the enemy and the ally who
+    cannot take the hit.</li>
+    <li><b>flank</b>, the assassins, hunters and skirmishers leave the squad's axis, take the long arc
+    round, and arrive from a bearing nobody is facing.</li>
+    <li><b>bait</b>, the kiters give ground in bursts: back off, fire, hold, back off again.</li>
+    <li><b>aid</b>, anybody carrying a mending move goes to whoever is bleeding worst and puts them
+    back together, standing on the side of the patient away from the enemy.</li>
+    <li><b>rally</b>, when the team is losing the exchange, fall back on the standard together instead
+    of dying apart.</li>
+    <li><b>withdraw</b>, break contact when outnumbered and nearly gone, into the nearest cover on the
+    way home. A last body standing never withdraws: there is no line left to fall back into, and two
+    sides both refusing to fight is not a tactic.</li>
+    <li><b>repair</b>, a body leaning on stone with somewhere to be walks to the middle of the arena
+    for a moment. The pockets between the border and a pillar are the one place wall-sliding cannot
+    reason its way out of.</li>
+    <li><b>no hits landing</b>, a body that has not landed a hit in six seconds stops holding its range
+    and walks in. Two teams that both like their range would otherwise stand at their bands behind cover
+    until the floor decided the match for them.</li>
+  </ul>
+  <p>Style is a doctrine, not a leash. The anchors and the chargers fight what the team called. The
+  killers go for the body that will die soonest, the ladder measures it, and the names hold: assassins
+  take the most-wounded enemy on 98% of their decisions, hunters on 96%, duelists on 80%. The kiters
+  deal with what is on them, the artillery hits whatever is bunched, the medics look after the line.
+  Nobody crosses the arena alone to do it: a target of your own choosing has to be within reach of your
+  own line.</p>
+  <p>Cards fire on hooks: <em>Second Wind</em> when a body first drops below 30%, <em>Name Recall</em> to
+  rise once more after being cut down, <em>Unwrite Ink</em> to shrug off the first stun, plus auras,
+  leech, thorns, echo rounds and executioner edges that modify every number passing through them.</p>
+
+  <h3>Fighting as a group</h3>
+  <ul>
+    <li>A body reads the fight it can see, not the scoreboard: enemies inside 210px
+      are counted against its own company there.</li>
+    <li>A knife with nobody standing with it does not walk into two or more bodies. It
+      circles at the edge of reach and waits for the line, or for one of them to step
+      out alone.</li>
+    <li>Contact kits dart in, break back out to the edge of their own reach, and come
+      again, the rhythm, not the longest walk in, is what keeps them alive.</li>
+    <li>A glass kit (the wolf, the imp, the thief) measures itself against the line and
+      only takes fights it has the numbers for.</li>
+    <li>Knives pile onto whoever a mate is already fighting, and take the straggler
+      when there is one, never the knot in the middle.</li>
+  </ul>
+
+  <h3>Answering a charge</h3>
+  <ul>
+    <li>Every kit that was losing carries something that stops a charge, a root, a stun,
+      a shove, a chill, a hush, and it is spent on the first body that arrives, not
+      saved. Charging three bodies at one gun only works if the gun has no answer for the
+      first one.</li>
+    <li>A body already held is not held twice: the second arrival is met with a different
+      answer, so a rush cannot be shut down by one tool on one cooldown.</li>
+    <li>The flavours belong to the kits: the imp's ember leaves a limp, the thief steals
+      your stride along with your coin, the wraith's cry nails feet to the floor, the wolf
+      hamstrings what it lands on and its roar throws the line back off its feet, the
+      shadow blinks onto you before you are ready to be hit, and the drain's
+      <em>Unmake</em> strikes the name out of the sentence, no moves, no stride, no
+      mending.</li>
+    <li><b>Wound.</b> Mending had no counter in the system, which is why the ladder was a
+      staircase with the medics on top. Five kits now carry a wound that will not close:
+      while it lasts, everything healed into that body lands short. A heal cut in half is
+      worth more than a hit that gets healed back, so a wound is spent on whoever is doing
+      the mending, never on the body that merely stands closest.</li>
+  </ul>
+  <h3>Getting there</h3>
+  <p>The brain decides, and for a while the movement underneath it quietly disbelieved it. A body
+  walking to a point that cannot be walked to, a retreat extrapolated from a body already against
+  the wall, or a cover cell picked without a stone test, grinds the border for the rest of the
+  match, which is what a spectator reads as a fighter standing in a corner with no idea what to do.
+  Every goal is now clamped into the ring and snapped out of stone in one place, so no call site has
+  to remember. A body told to hold, and pressed into the wall while it holds, used to swap its
+  shoulder back and forth forever: being stuck now outranks the plan and it walks clear first.
+  Targets are committed for 0.9 seconds instead of being re-chosen every frame, a body does not
+  change its mind about who to fight six times a second, while anything its style explicitly asked
+  for still lands at once, because that is doctrine and the knives live on it. Measured on identical
+  seeds: bodies standing alone against a border fell from 201 samples to 6–47 across runs. The
+  target-change rate, which looked like the same bug, was not: it is one change per body every six
+  seconds, a fighter picking its fight, not dithering.</p>
+
+  <h2>5. The roster: 33 real kits</h2>
+  <p>The numbers below are what the engine builds for an undrafted kit: base health, base damage, attacks
+  per second, reach in world units, flat armour, the three moves, the three cards, and the composite
+  <b>power</b> figure the menu shows while you draft. Power is a draft aid, not a promise, §6 says where
+  it lies.</p>
+
+  <h3>Champions: 13</h3>
+<table><thead><tr><th>Kit</th><th>HP</th><th>Damage</th><th>Rate</th><th>Reach</th><th>Armour</th><th>Three moves</th><th>Three cards</th><th>Power</th></tr></thead><tbody><tr><td><b>Kael</b><i>Gallant Blade</i></td><td class='n'>700</td><td class='n'>43</td><td class='n'>0.8</td><td class='n'>48</td><td class='n'>9</td><td class='kit'><em>Rend</em> <em>Shield Wall</em> <em>Squire&#x27;s Charge</em></td><td class='cards'><i>MIGHT</i> <i>IRON</i> <i>VAMP</i></td><td class='n'>166</td></tr><tr><td><b>Vale</b><i>Aegis Knight</i></td><td class='n'>920</td><td class='n'>30</td><td class='n'>0.72</td><td class='n'>51</td><td class='n'>12</td><td class='kit'><em>Cover</em> <em>Bulwark</em> <em>Shield Wall</em></td><td class='cards'><i>BULWARK</i> <i>THORN</i> <i>IRON</i></td><td class='n'>197</td></tr><tr><td><b>Orin</b><i>Black Sigil</i></td><td class='n'>600</td><td class='n'>49</td><td class='n'>0.86</td><td class='n'>262</td><td class='n'>2</td><td class='kit'><em>Unwrite</em> <em>Resonance Flask</em> <em>Chorus Flask</em></td><td class='cards'><i>MIGHT</i> <i>FOCUS</i> <i>RES</i></td><td class='n'>131</td></tr><tr><td><b>Nia</b><i>Path Archer</i></td><td class='n'>620</td><td class='n'>31</td><td class='n'>0.92</td><td class='n'>275</td><td class='n'>3</td><td class='kit'><em>Pinning Volley</em> <em>Dash</em> <em>Needle Rain</em></td><td class='cards'><i>STRIDE</i> <i>LUCK</i> <i>VOLLEY</i></td><td class='n'>128</td></tr><tr><td><b>Lyra</b><i>Spiral Bard</i></td><td class='n'>560</td><td class='n'>32</td><td class='n'>0.84</td><td class='n'>250</td><td class='n'>3</td><td class='kit'><em>Hymn</em> <em>Spiral Chorus</em> <em>Weave Bloom</em></td><td class='cards'><i>RES</i> <i>REGEN</i> <i>AURA</i></td><td class='n'>118</td></tr><tr><td><b>Arkos</b><i>Lattice Lancer</i></td><td class='n'>662</td><td class='n'>45</td><td class='n'>0.78</td><td class='n'>61</td><td class='n'>6</td><td class='kit'><em>Geodesic</em> <em>True Line</em> <em>Dash</em></td><td class='cards'><i>PIERCE</i> <i>MIGHT</i> <i>NIMBLE</i></td><td class='n'>142</td></tr><tr><td><b>D9ra</b><i>Wolf Monk</i></td><td class='n'>850</td><td class='n'>44</td><td class='n'>0.88</td><td class='n'>45</td><td class='n'>6</td><td class='kit'><em>Shockwave</em> <em>Wolf Fury</em> <em>Squire&#x27;s Charge</em></td><td class='cards'><i>FURY</i> <i>BRUTAL</i> <i>LEECH</i></td><td class='n'>164</td></tr><tr><td><b>Srath</b><i>Shadow Needle</i></td><td class='n'>560</td><td class='n'>33</td><td class='n'>0.9</td><td class='n'>243</td><td class='n'>2</td><td class='kit'><em>Doublespeak</em> <em>Needle Rain</em> <em>Dash</em></td><td class='cards'><i>VEIL</i> <i>LUCK</i> <i>ECHO</i></td><td class='n'>118</td></tr><tr><td><b>Kairos</b><i>Hour Mage</i></td><td class='n'>548</td><td class='n'>38</td><td class='n'>1</td><td class='n'>269</td><td class='n'>2</td><td class='kit'><em>Right-Time</em> <em>Borrowed Second</em> <em>Δ9 Seal</em></td><td class='cards'><i>HASTE</i> <i>RES</i> <i>CLOCK</i></td><td class='n'>123</td></tr><tr><td><b>Justicae</b><i>Accord Knight</i></td><td class='n'>944</td><td class='n'>31</td><td class='n'>0.74</td><td class='n'>54</td><td class='n'>10</td><td class='kit'><em>Fair Plate</em> <em>Verdict</em> <em>Bulwark</em></td><td class='cards'><i>EXEC</i> <i>BULWARK</i> <i>THORN</i></td><td class='n'>187</td></tr><tr><td><b>Seidon</b><i>Tide Seer</i></td><td class='n'>600</td><td class='n'>35</td><td class='n'>0.8</td><td class='n'>256</td><td class='n'>4</td><td class='kit'><em>Undertow</em> <em>Current</em> <em>Geodesic</em></td><td class='cards'><i>AURA</i> <i>RES</i> <i>GIFT</i></td><td class='n'>128</td></tr><tr><td><b>Sancora</b><i>Weave Chemist</i></td><td class='n'>798</td><td class='n'>32</td><td class='n'>0.78</td><td class='n'>256</td><td class='n'>4</td><td class='kit'><em>Chorus Flask</em> <em>Weave Bloom</em> <em>Cover</em></td><td class='cards'><i>REGEN</i> <i>GIANT</i> <i>AURA</i></td><td class='n'>139</td></tr><tr><td><b>Lightfather</b><i>Architect · Δ9</i></td><td class='n'>680</td><td class='n'>37</td><td class='n'>0.84</td><td class='n'>256</td><td class='n'>6</td><td class='kit'><em>Δ9 Seal</em> <em>Provenance</em> <em>Cover</em></td><td class='cards'><i>AURA</i> <i>GIFT</i> <i>GIFT</i></td><td class='n'>152</td></tr></tbody></table>
+  <h3>Crypt creatures: 15</h3>
+<table><thead><tr><th>Kit</th><th>HP</th><th>Damage</th><th>Rate</th><th>Reach</th><th>Armour</th><th>Three moves</th><th>Three cards</th><th>Power</th></tr></thead><tbody><tr><td><b>Wraith</b><i>Crypt Fodder</i></td><td class='n'>420</td><td class='n'>32</td><td class='n'>1.05</td><td class='n'>256</td><td class='n'>2</td><td class='kit'><em>Wail</em> <em>Drain Cloud</em></td><td class='cards'><i>HASTE</i> <i>NIMBLE</i> <i>LEECH</i></td><td class='n'>105</td></tr><tr><td><b>Brute</b><i>Crypt Fodder</i></td><td class='n'>1090</td><td class='n'>39</td><td class='n'>0.66</td><td class='n'>48</td><td class='n'>9</td><td class='kit'><em>Ground Pound</em> <em>Ward Field</em></td><td class='cards'><i>IRON</i> <i>GIANT</i> <i>THORN</i></td><td class='n'>190</td></tr><tr><td><b>Imp</b><i>Crypt Fodder</i></td><td class='n'>403</td><td class='n'>31</td><td class='n'>0.95</td><td class='n'>237</td><td class='n'>1</td><td class='kit'><em>Imp Fire</em> <em>Flicker</em></td><td class='cards'><i>STRIDE</i> <i>LUCK</i> <i>NIMBLE</i></td><td class='n'>95</td></tr><tr><td><b>Hurler</b><i>Crypt Artillery</i></td><td class='n'>859</td><td class='n'>47</td><td class='n'>0.72</td><td class='n'>51</td><td class='n'>4</td><td class='kit'><em>Lob Stone</em> <em>Ground Pound</em></td><td class='cards'><i>MIGHT</i> <i>BULWARK</i> <i>GIANT</i></td><td class='n'>137</td></tr><tr><td><b>Shade</b><i>Veilkin</i></td><td class='n'>471</td><td class='n'>36</td><td class='n'>0.92</td><td class='n'>51</td><td class='n'>3</td><td class='kit'><em>Flicker</em> <em>Snatch</em></td><td class='cards'><i>VEIL</i> <i>LEECH</i> <i>NIMBLE</i></td><td class='n'>101</td></tr><tr><td><b>Thief</b><i>Tithe-Thief</i></td><td class='n'>507</td><td class='n'>35</td><td class='n'>1.05</td><td class='n'>51</td><td class='n'>2</td><td class='kit'><em>Snatch</em> <em>Flicker</em></td><td class='cards'><i>STRIDE</i> <i>VAMP</i> <i>LUCK</i></td><td class='n'>106</td></tr><tr><td><b>Drain</b><i>The Unwriting</i></td><td class='n'>700</td><td class='n'>46</td><td class='n'>0.78</td><td class='n'>64</td><td class='n'>4</td><td class='kit'><em>Unmake</em> <em>Drain Cloud</em></td><td class='cards'><i>LEECH</i> <i>REGEN</i> <i>MIGHT</i></td><td class='n'>128</td></tr><tr><td><b>Gate</b><i>Nexus Guardian</i></td><td class='n'>1735</td><td class='n'>46</td><td class='n'>0.6</td><td class='n'>61</td><td class='n'>13</td><td class='kit'><em>Gate Slam</em> <em>Ward Field</em> <em>Call the Wards</em></td><td class='cards'><i>IRON</i> <i>THORN</i> <i>GIANT</i></td><td class='n'>269</td></tr><tr><td><b>Crown</b><i>Nexus Guardian</i></td><td class='n'>1446</td><td class='n'>52</td><td class='n'>0.62</td><td class='n'>58</td><td class='n'>7</td><td class='kit'><em>Regal Volley</em> <em>Lob Stone</em></td><td class='cards'><i>MIGHT</i> <i>BULWARK</i> <i>WELL</i></td><td class='n'>209</td></tr><tr><td><b>Smith</b><i>Nexus Guardian</i></td><td class='n'>1020</td><td class='n'>60</td><td class='n'>0.64</td><td class='n'>250</td><td class='n'>10</td><td class='kit'><em>Anvil</em> <em>Gate Cannon</em></td><td class='cards'><i>MIGHT</i> <i>BRUTAL</i> <i>IRON</i></td><td class='n'>223</td></tr><tr><td><b>Heart of the Crypt</b><i>Nexus Guardian</i></td><td class='n'>1900</td><td class='n'>44</td><td class='n'>0.68</td><td class='n'>58</td><td class='n'>8</td><td class='kit'><em>Heartbeat</em> <em>Ward Field</em></td><td class='cards'><i>GIANT</i> <i>REGEN</i> <i>VAMP</i></td><td class='n'>245</td></tr><tr><td><b>Leviathan</b><i>Nexus Guardian</i></td><td class='n'>1080</td><td class='n'>58</td><td class='n'>0.72</td><td class='n'>243</td><td class='n'>6</td><td class='kit'><em>Tide Crush</em> <em>Undertow</em></td><td class='cards'><i>MIGHT</i> <i>STRIDE</i> <i>LEECH</i></td><td class='n'>201</td></tr><tr><td><b>Tithe-King</b><i>Nexus Guardian</i></td><td class='n'>1000</td><td class='n'>45</td><td class='n'>0.98</td><td class='n'>64</td><td class='n'>5</td><td class='kit'><em>Tithe</em> <em>Snatch</em></td><td class='cards'><i>VAMP</i> <i>EXEC</i> <i>STRIDE</i></td><td class='n'>179</td></tr><tr><td><b>Name-Eater</b><i>Nexus Guardian</i></td><td class='n'>1008</td><td class='n'>53</td><td class='n'>0.76</td><td class='n'>262</td><td class='n'>6</td><td class='kit'><em>Nameless</em> <em>Unmake</em></td><td class='cards'><i>MIGHT</i> <i>CLOCK</i> <i>LEECH</i></td><td class='n'>196</td></tr><tr><td><b>The Lock</b><i>Super Boss</i></td><td class='n'>2100</td><td class='n'>53</td><td class='n'>0.66</td><td class='n'>269</td><td class='n'>14</td><td class='kit'><em>The Lock Seals</em> <em>Gate Cannon</em></td><td class='cards'><i>IRON</i> <i>BULWARK</i> <i>GIANT</i></td><td class='n'>323</td></tr></tbody></table>
+  <h3>Beasts: 5</h3>
+<table><thead><tr><th>Kit</th><th>HP</th><th>Damage</th><th>Rate</th><th>Reach</th><th>Armour</th><th>Three moves</th><th>Three cards</th><th>Power</th></tr></thead><tbody><tr><td><b>Ashmane</b><i>Wolf</i></td><td class='n'>496</td><td class='n'>37</td><td class='n'>0.96</td><td class='n'>48</td><td class='n'>4</td><td class='kit'><em>Pack Bite</em> <em>Roar</em></td><td class='cards'><i>STRIDE</i> <i>FURY</i> <i>LEECH</i></td><td class='n'>114</td></tr><tr><td><b>Solstride</b><i>Lion</i></td><td class='n'>543</td><td class='n'>49</td><td class='n'>0.9</td><td class='n'>51</td><td class='n'>4</td><td class='kit'><em>Solstride</em> <em>Roar</em></td><td class='cards'><i>LUCK</i> <i>BRUTAL</i> <i>MIGHT</i></td><td class='n'>138</td></tr><tr><td><b>Ironhide</b><i>Bear</i></td><td class='n'>1024</td><td class='n'>38</td><td class='n'>0.74</td><td class='n'>54</td><td class='n'>10</td><td class='kit'><em>Maul</em> <em>Ward Field</em></td><td class='cards'><i>IRON</i> <i>GIANT</i> <i>THORN</i></td><td class='n'>196</td></tr><tr><td><b>Tuskward</b><i>Elephant</i></td><td class='n'>1033</td><td class='n'>35</td><td class='n'>0.68</td><td class='n'>61</td><td class='n'>11</td><td class='kit'><em>Stomp</em> <em>Ground Pound</em></td><td class='cards'><i>IRON</i> <i>BULWARK</i> <i>WELL</i></td><td class='n'>197</td></tr><tr><td><b>Glassbarb</b><i>Scorpion</i></td><td class='n'>448</td><td class='n'>38</td><td class='n'>1.02</td><td class='n'>51</td><td class='n'>4</td><td class='kit'><em>Glassbarb Clamp</em> <em>Flicker</em></td><td class='cards'><i>THORN</i> <i>FURY</i> <i>VEIL</i></td><td class='n'>115</td></tr></tbody></table>
+  <h2>6. The balance ladder</h2>
+  <p>Feel is not a spreadsheet, but some things are. <code>tools/arena_check.js</code> loads the real
+  roster and the real engine in Node behind a stub DOM and runs the whole thing headless. It asserts what
+  a player would notice, and prints what a designer wants to argue about.</p>
+  <div class="card">
+    <h3>What the harness checks: 90 assertions, 90 battles per run</h3>
+    <ul>
+      <li>Roster shape: 33 fighters, unique ids, every sprite key present in its atlas, every move id
+      resolvable, three real cards per kit, a portrait for every champion, no two kits identical.</li>
+      <li>Built kits are playable: finite health, damage, rate and reach; a power spread that is a band
+      rather than a cliff.</li>
+      <li>Maps: 120 seeds, both pockets can reach all ten spawn slots; the ring floor is clear (0 interior stone tiles across 120 seeds).</li>
+      <li>Battles: every match ends with a winner, no <code>NaN</code> in any live body, nobody outside the
+      arena, both sides actually cast moves, and no kit ships without ever dealing damage.</li>
+      <li>Pacing: per-mode mean and median length against the two-minute target.</li>
+      <li>Usage: which moves the sim reaches for and which never fire, the fastest way to find a kit whose
+      third move is dead weight.</li>
+    </ul>
+  </div>
+  <p>The ladder produced four systemic fixes rather than thirty-three hand tweaks, which is the point of
+  building it:</p>
+  <ul>
+    <li><b>A melee walk-in tax.</b> Melee kits were being shot for free on approach. Every kit with reach
+    under 100 now gets +18% health and +1 armour before any card touches it.</li>
+    <li><b>Softer armour.</b> Flat reduction of 1.5× armour per hit made high-armour bodies near-immune to
+    low-damage kits; it is 1.1× now, floored at 3 damage.</li>
+    <li><b>A frustration timer.</b> Five seconds without landing a hit forces the charge in §4, which
+    turned the worst stalemate class into decisive fights.</li>
+    <li><b>A closing clock.</b> From three minutes every blow lands for a quarter more, climbing a step a
+    minute to double, so a match that drags is decided by who is landing hits. There is no shrinking floor:
+    an earlier version of this page claimed a ring that closed from eighty seconds and the sim has never
+    done that.</li>
+  </ul>
+  <p class="warn"><b>Where it stands today, honestly:</b> the ladder's last 420-match run prints a field
+  average of 47.5%, the table is a spread, not a score. The tails are real. Eight kits hold 25–37%: the
+  light creatures and the short-reach melee die two fights in three, because they are the body the pack
+  finishes first. The strongest seven sit at 64–75%, and the same fact explains them from the other end , 
+  the kits at the top die only 14–27% of the time, so it is no longer only the bosses: a body that fights
+  from eight tiles and never has to walk in owns the top of the table. Two members of the floor were not
+  weak at all, they were broken: the imp and the stone-hurler fought at bolt range carrying a melee punch,
+  so they stood outside their own reach for the whole match. That one was a defect, not a balance problem,
+  and it is fixed. The floor was then lifted a fourth time the only way this table allows, through
+  survivability, never damage: the five kits whose 95% interval sits wholly under 50% while they die
+  63–88% of the time took 1–2 armour and 8–10% health, armour-led, because a first pass at 14–21% health
+  pushed the harness' own mean 3v3 past its two-minute mark.</p>
+
+  <h2>7. The hall</h2>
+  <p>A callsign is optional and nothing else is collected. When a match ends and a call is set, the result
+  posts to the shared arcade book (mode, side that won, MVP, session wins) and the browser keeps a queue so
+  a failed post is retried later instead of being lost. The <a href="./ledger.html">live hall</a> reads the
+  same book and shows only this game's rows. Empty beats a fake board.</p>
+
+  <h2>8. Controls</h2>
+  <p><b>Space</b> pause · <b>1 2 3 4</b> speed 1× 2× 4× 8× · <b>M</b> mute · <b>R</b> rematch ·
+  <b>Esc</b> back to the menu. The donation-gate reminder is held shut for the length of a match and released
+  on the results board or the menu.</p>
+
+  <h2>9. Lineage and credits</h2>
+  <p>Art, atlases, roster lineage and the numeric DNA all come from <a href="/games/lattice-crypt/">Lattice
+  Crypt</a>; the arena engine, the kits and the harness are new. Built by Δ9Φ963 with the steward, Justin
+  Helmer. Lightfather. Everything runs in the browser with no build step: three scripts, a stylesheet and
+  one atlas pack.</p>
+  <p class="muted">Files: <code>roster.js</code> (33 kits, 26 cards, the move table) · <code>arena.js</code>
+  (the engine) · <code>brain.js</code> (the tasking brain) · <code>banter.js</code> (every spoken line) ·
+  <code>arena-ui.js</code> (menu, HUD, feed, caster, results) · <code>tools/arena_check.js</code> (90
+  assertions) · <code>tools/arena_ladder.js</code> (the field table).</p>
+</div>
+
+<section class="doc" id="voices">
+  <h2>The mouths, and the man with the microphone</h2>
+  <p>Two AI teams fighting in silence is a diagram. So every body in the ring now talks, and a
+  caster calls the fight from the side of the sand. Nothing either of them says is on a timer:
+  a line only exists because an event produced it. <code>banter.js</code> holds the library, 248
+  fighter lines across ten kinds (open, taunt, kill, die, hurt, crowd control, save, win, lose,
+  ace), personal lines for 22 kits, and 56 caster lines that are filled in from the event that
+  fired them: who killed whom, who was mended, which map just closed.</p>
+  <p>When a body dies, the caster names it. When somebody is dragged back from the floor by a
+  mender, he says so. When a body is rooted, stunned or slowed by a rival's crowd control, he
+  says that too. The engine emits the event and the caster says the line, which means the
+  commentary cannot drift away from the fight, checked by the harness, which fails if a single
+  caster line appears without an event behind it.</p>
+  <p>Everything spoken is also written: the feed under the characters carries the banter
+  (<em>0:35&nbsp; Lyra: Rooted. Eat it.</em>), a bubble rides the head of whoever said it, and
+  the caster's own panel sits under the challengers with his portrait and his last call. The
+  voices come from the browser's own speech engine, filtered to the human-sounding voices only , 
+  the joke voices some systems ship make a fight sound like a machine test, with a fixed
+  pitch and rate per kit, so the wolf always sounds like the wolf. Voices can be switched off
+  from the top bar.</p>
+  <p><b>One microphone.</b> More lines made the fight noisier, not clearer. <code>director.js</code>
+  holds the floor: the engine and the banter library <i>offer</i> lines, and the director decides
+  whether a line is said at all, when, and how long the speaker keeps the microphone. There is one
+  mouth at a time and the floor is held for the true length of the line, measured from the voice,
+  not estimated, so nothing can talk over anything. Between two lines there is a beat, 1.15
+  seconds, or half a second when the bell is waiting. A body may not speak twice inside six
+  seconds and the booth not inside 3.4. There is a budget: nine lines in any twenty-four seconds
+  and four in any ten. Over budget a line is dropped, not queued, and anything stale by 2.6
+  seconds is thrown away rather than said late, a report of a kill that happened four seconds ago
+  is worse than silence. The booth calls the fight and the bodies answer it; before that rule the
+  booth out-talked the ring ten to one, and now the two mouths split a match 36 to 42.</p>
+  <p><b>The intro is a programme, not a warm-up.</b> The count before a match is fifteen seconds
+  with nothing else in it. At half a second the caster names the ring; your team is read out by
+  name after that, then the challengers, then the bell, "Fight! Anybody's guess. Who's gonna
+  win?", and the room goes quiet for three to five seconds behind it, timed from the end of the
+  line rather than from the moment it was called for, so the silence is a silence. The announcer
+  reads at 1.22× because a five-name team takes five seconds to say and the countdown does not
+  stretch for anybody: if he runs long the bell preempts him. The bodies take their first lines
+  after the silence, not under it. Everything about the timeline is asserted headlessly before it
+  is ever watched: that every body is introduced by name before the bell, that the bell is the last
+  thing said and lands on the clock, that the room is quiet behind it, that no two lines ever
+  overlap, that a beat separates them, that neither mouth starves the other, and that most offered
+  lines go unsaid. Watched live at 1×: the count ran 14.98 to 0.19, the three intro lines landed
+  with gaps of 0.8, 2.5 and 1.8 seconds, and the bell took the panel to <code>ON AIR</code>.</p>
+  <p><b>The floor has an address.</b> A spectator can see who is talking without guessing: the
+  speaker's row is lit, the caster panel carries an <code>ON AIR</code> tag, the line is marked in
+  the feed, and the bubble over a head lasts exactly as long as the voice that owns it, scaled
+  with the match speed, so a line at 8× does not hang there after the voice has gone.</p>
+  <h2>How the balance is measured</h2>
+  <p>Every roster change is measured, not guessed. <code>tools/arena_check.js</code> runs 90
+  headless battles and asserts what a spectator would notice, 66 checks now, from "no fighter
+  ships with a dead kit" to "only one mouth talks at a time".
+  <code>tools/arena_ladder.js 420</code> runs the whole field through 420 matches and prints a
+  win rate, a death rate and a damage-per-match line for all 33 kits, each with its own 95%
+  interval. The floor of the roster, the kits that were losing more than two fights in three , 
+  has been raised four times off the back of that table.</p>
+  <p><b>Ninety battles is not a verdict.</b> That harness is marginal at its own sample: on the build
+  this page describes it passed 66 of 66 on one run, then tripped a different assertion on each of
+  the next two, once a battle that ended with nobody hurt, once a mean 3v3 of 113s against its own
+  110s mark, which read 62.7s on the following run after a 4% health change. A failed run is a reason
+  to re-run, not a reason to revert. The 420-match table, and a cause that can be named, are what
+  settle a question.</p>
+  <p><b>The table knows its own noise.</b> Teams are drawn at random, so the same build measured twice does
+  not produce the same table: two runs of 420 matches disagreed by up to sixteen points on a single kit (the
+  bulwark <em>gate</em> read 60% in one run and 76% in the next; the <em>smith</em> 43% and then 64%). The
+  ladder therefore prints a 95% interval beside every win rate and marks a <code>~</code> on each kit whose
+  interval covers 50%, that kit is average, not weak, and tuning it is tuning a coin toss. Only the tails
+  are stable between runs: the same handful sits at the top and the same handful at the bottom every time.</p>
+  <p><b>A win rate is an outcome, not a behaviour.</b> <code>tools/arena_doctrine.js</code> samples a battle
+  four times a second and reports what the bodies were actually doing rather than who won: how long each kit
+  spent fighting with no ally inside 200px, how long it spent closing on a longest-reach enemy whose shot was
+  loaded, how long the engine's own stuck counter was tripped, how often it shared a target with an ally,
+  which deaths were isolated, and ,  read straight off every plan's own reason line ,  a census of
+  what the whole field was thinking. On the shipped build it reports the picture this page had been missing:
+  across 144 controlled duels of the six shortest-reach kits against the six longest, the contact kits win a
+  third of them and spend a fifth of their health before they land a hit. A third of the deaths in the field
+  are bodies with no ally within 165px. Of thirteen withdrawals, not one body was still alive six seconds
+  later. There is no wall-grinding to fix: the stuck counter is tripped for zero seconds in every battle,
+  because the clamp-and-snap work holds. Three doctrine variants were written against those numbers , 
+  lead the walk toward where the target will be, wait out the reload window instead of walking into a loaded
+  gun, and take the middle of the arena away from a kiter so its only retreat is a wall. All three were
+  reverted. The census proves they fired, and the duel win rate did not move, which is a result and not a
+  failure: a 48px body in the open against a 269px rifle is losing to reach, and reach is not a thing a
+  better plan fixes.</p>
+  <p><b>A blow that deals nothing has to say so.</b> Play reported the basic attack passing
+  straight through a body with no number on it, and the report was half right and half a screen
+  that was lying: a hit that a <i>ward</i> swallowed whole returned zero and printed nothing at all,
+  so a defended body looked like a phantom. In twenty battles, forty blows were eaten by a ward
+  in complete silence. The same was true of a weak blow fully stopped by armour, and of an aimed
+  shot that slid past a strafing body and expired off the edge of the arena without a word. All
+  three now print what happened ,  <span style="color:#7dd3fc">ward</span>,
+  <span style="color:#94a3b8">block</span>, <span style="color:#94a3b8">miss</span> ,  and every
+  match counts them: melee swings, aimed shots fired, blows armour stopped, blows a ward ate, and
+  shots that arrived at nothing. Measured over the same twenty battles that is the honest split of
+  the complaint: the damage really was missing in those cases, and the screen was missing the
+  reason. Roughly one aimed shot in six (17%) arrives at nobody because the target moved, which
+  is a miss and is now labelled as one.</p>
+  <p><b>The committed step was measured two pixels short.</b> Every kit in the roster owns Close
+  ,  one committed step of 224px ,  and the engine would only spend it when the target stood
+  within 240px, a hardcoded sixteen pixels of margin. A rifle holds its band at ninety per cent of its
+  reach, and the longest guns hold at 247px: just outside that window. The one move written for crossing
+  open ground could not be spent on the one enemy it was written for, and the brute ,  no blink, so
+  Close is its only way in ,  ran three separate fights of two hundred seconds without ever landing a
+  hit. The check now measures to the reach of the body doing the stepping, which is the quantity that
+  always mattered, and it changes behaviour measurably: over 24 seeded battles, a third more melee swings
+  and seventeen per cent less time spent fighting alone. It does not move the duel win rate against the
+  guns, and the reason is worth writing down rather than hiding: Close is on a thirty-second clock, and a
+  rifle re-anchors its band with every shot. One step per half minute is not a way in. That is a
+  kit-design question, not an engine one.</p>
+  <p><b>A match where nobody fought is a match that did not happen.</b> The harness counts battles that
+  end with no damage dealt by either side and nobody down, and it was flagging about one battle in
+  ninety: two lines holding their bands, each waiting on the other, while withdrawal and leashing and
+  holding were each a reasonable order and the sum of them was a fight that never started. A plan is now
+  void after twelve seconds without a blow landing anywhere on the floor, which outranks every other rule
+  below it. The count is zero across the ninety battles since, and it was not zero before.</p>
+  <p>So every change here is made against a cause that can be named, never against a number: a kit whose
+  reach exceeds its attack (the imp, the hurler), a signature ability that decides maps on its own (the
+  vanguard's revive, now forty seconds and a 30% return), a body so light it dies before it arrives. Two
+  fixes that measured as net-negative were reverted rather than kept for the look of activity: a rule that
+  made light kits break off earlier lost more team fights than it saved (the kite fell from 53% to 33%), and
+  handing three hunter kits a heal-cut made them <em>worse</em>, a wound sends its owner after the enemy
+  mender, and an average body that dives at a protected back line does not come back.</p>
+</section>
+</body>
+</html>

@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lattice Arcade | Excavationpro</title>
+    <meta name="description" content="Turn two photos into 8-bit arcade fighters and play a retro maze game. Local pixel art, local AI, no account.">
+    <meta name="theme-color" content="#120a1a">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="canonical" href="https://excavationpro.ca/games/lattice-arcade/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="chatagent.ca">
+    <meta property="og:url" content="https://excavationpro.ca/games/lattice-arcade/">
+    <meta property="og:title" content="Lattice Arcade">
+    <meta property="og:description" content="Turn two photos into 8-bit arcade fighters and play a retro maze game. Local pixel art, local AI, no account.">
+    <meta property="og:image" content="https://excavationpro.ca/games/lattice-arcade/og.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Lattice Arcade retro maze with pixel fighters">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lattice Arcade">
+    <meta name="twitter:description" content="Turn two photos into 8-bit arcade fighters and play a retro maze game.">
+    <meta name="twitter:image" content="https://excavationpro.ca/games/lattice-arcade/og.jpg">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+        @font-face { font-family: 'Press Start 2P'; src: url('./fonts/press-start-2p.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+        @font-face { font-family: 'VT323'; src: url('./fonts/vt323.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+
+        /* Custom Retro Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+            background-color: transparent;
+        }
+        ::-webkit-scrollbar-track {
+            border: 2px solid #05d9e8;
+            background-color: rgba(0,0,0,0.2);
+        }
+        .light-mode ::-webkit-scrollbar-track {
+            border: 2px solid #333;
+            background-color: rgba(0,0,0,0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #ff2a6d;
+            border: 2px solid #05d9e8;
+        }
+        .light-mode ::-webkit-scrollbar-thumb {
+            background-color: #ff2a6d;
+            border: 2px solid #333;
+        }
+
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        /* CRT Screen Effect Classes */
+        .crt-overlay {
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 10;
+            opacity: 0.3;
+            animation: scanline 8s linear infinite;
+        }
+        
+        .light-mode .crt-overlay {
+            background: linear-gradient(rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.03));
+            background-size: 100% 3px, 3px 100%;
+            opacity: 0.15;
+        }
+
+        .retro-text-glow {
+            text-shadow: 0 0 8px rgba(5, 217, 232, 0.7);
+        }
+        .light-mode .retro-text-glow {
+            text-shadow: 0 0 2px rgba(5, 217, 232, 0.5);
+        }
+        
+        .retro-border-glow {
+             box-shadow: 0 0 15px rgba(255, 42, 109, 0.5), inset 0 0 15px rgba(255, 42, 109, 0.2);
+        }
+        .light-mode .retro-border-glow {
+             box-shadow: 0 0 10px rgba(255, 42, 109, 0.2);
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            touch-action: none; /* Prevents double-tap zoom and scroll on game controls */
+            overscroll-behavior: none;
+            background-color: #000; /* Fallback */
+        }
+        h1, h2, h3, h4, h5, h6, .font-retro {
+            font-family: 'Press Start 2P', cursive;
+        }
+    </style>
+
+  <script type="module" crossorigin src="./assets/index-CIrj-vVk.js"></script>
+</head>
+<body class="h-full">
+    <div id="root" class="h-full flex flex-col"></div>
+
+</body>
+</html>

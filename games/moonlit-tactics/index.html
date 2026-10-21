@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vale Tactics: The Moonlit Slumber | Excavationpro</title>
+  <meta name="description" content="Four books of The Eternal Haven. Serenya, Emberion, and three callings. Painted pages from the loft through Eternal Haven Dawns, then an 8×8 tactics grid. The story stays in this browser.">
+  <meta name="author" content="Justin Helmer / Excavationpro">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#071018">
+  <link rel="canonical" href="https://excavationpro.ca/games/moonlit-tactics/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="chatagent.ca">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:url" content="https://excavationpro.ca/games/moonlit-tactics/">
+  <meta property="og:title" content="Vale Tactics. The Moonlit Slumber">
+  <meta property="og:description" content="Serenya wakes in the loft. Choose Cantor, Warden, or Kindler. The same save runs through all four Eternal Haven books. The grid opens when someone has to be faced.">
+  <meta property="og:image" content="https://excavationpro.ca/games/moonlit-tactics/assets/og.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Serenya and a small bronze-green dragon on a moonlit harbor balcony">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Excavationpro">
+  <meta name="twitter:creator" content="@Excavationpro">
+  <meta name="twitter:title" content="Vale Tactics. The Moonlit Slumber">
+  <meta name="twitter:description" content="Painted pages and an 8×8 tactics grid. All four books stay in this browser.">
+  <meta name="twitter:image" content="https://excavationpro.ca/games/moonlit-tactics/assets/og.jpg">
+  <meta name="twitter:image:alt" content="Serenya and a small bronze-green dragon on a moonlit harbor balcony">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Vale Tactics",
+    "alternateName": "The Moonlit Slumber",
+    "url": "https://excavationpro.ca/games/moonlit-tactics/",
+    "description": "Four-book tactics tale. Three callings, painted pages, and an 8 by 8 fight grid. Local save. No account.",
+    "image": "https://excavationpro.ca/games/moonlit-tactics/assets/og.jpg",
+    "author": { "@type": "Person", "name": "Justin Helmer", "alternateName": "Excavationpro" },
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "operatingSystem": "Web browser",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="game.css?v=20261008-book2">
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <header class="top">
+    <a class="games-mini" href="/games/">All games</a>
+    <p class="mark">Book I · The Eternal Haven</p>
+    <div class="radio" id="radio">
+      <button type="button" id="radio-toggle" class="text-btn">Radio</button>
+      <span id="radio-title">Excavationpro</span>
+    </div>
+  </header>
+
+  <main id="stage">
+    <section id="title-card" class="title-card menu-screen">
+      <div class="menu-copy">
+        <p class="kicker">A tactics tale</p>
+        <h1>The Moonlit Slumber</h1>
+        <p class="sub">Serenya and Emberion. Three callings. One wheel. The fight window opens when a shade finds you.</p>
+      </div>
+      <div class="menu-panel">
+        <div class="menu-stick">
+          <nav class="menu-tabs" aria-label="Menu">
+            <button type="button" class="on" data-panel="menu-play">Play</button>
+            <button type="button" data-panel="menu-guide">Guide</button>
+            <button type="button" data-panel="menu-options">Options</button>
+          </nav>
+          <label class="opt-row opt-check credits-agree">
+            <input id="opt-credits" type="checkbox">
+            <span>I agree to the credits</span>
+          </label>
+          <p id="menu-lock" class="menu-note" hidden>Check the credits box, then pick a mode.</p>
+        </div>
+        <div id="menu-play">
+          <div class="credits-copy">
+            <p>Book I of <em>The Moonlit Slumber</em>. Serenya wakes in the loft before the bell. Emberion is still unnamed. The Vale is already listening, and the morning is not skipped to reach the war.</p>
+            <p>Choose Cantor, Warden, or Kindler. Painted pages carry the story. The grid opens when someone has to be faced. Measures buy the wheel. Embers keep the Hatchery. A loss sends you back to level, then to the same page. The slumber keeps the save. The same road continues through The Shattered Accord, The Ascension War, and Eternal Haven Dawns.</p>
+            <p>Painted by Justin Helmer. The figures, the ground, and the sound were made for this game. The radio is Excavationpro.</p>
+          </div>
+          <p class="menu-sec">New game</p>
+          <p class="menu-note">Build 6. One click reloads, wipes this save, and opens the loft.</p>
+          <div class="modes">
+            <button type="button" id="start-cantor" class="mode-card"><b>Start as Cantor</b><span>Sings. Replaces the save. The loft.</span></button>
+            <button type="button" id="start-warden" class="mode-card"><b>Start as Warden</b><span>Cuts. Replaces the save. The loft.</span></button>
+            <button type="button" id="start-kindler" class="mode-card"><b>Start as Kindler</b><span>Both. Replaces the save. The loft.</span></button>
+          </div>
+          <p class="menu-sec">Resume</p>
+          <div class="modes">
+            <button type="button" id="menu-continue" class="mode-card" disabled><b>Continue saved story</b><span id="menu-continue-note">No saved calling yet.</span></button>
+          </div>
+          <p class="menu-sec">Modes</p>
+          <div class="modes">
+            <button type="button" id="begin" class="mode-card"><b>Walk the Vale</b><span>The moonlit thicket. A shade waits in the grass. A saved card is used if you have one.</span></button>
+            <button type="button" id="title-hatchery" class="mode-card"><b>The Hatchery</b><span>Rest, trade, equip, the wheel, and respec.</span></button>
+            <button type="button" id="menu-fight" class="mode-card"><b>Practice fight</b><span>The thicket demo. Serenya, Emberion, and the shade. The card stays in the save.</span></button>
+            <button type="button" id="menu-drill" class="mode-card"><b>Shade drill</b><span>The tuned shade. Same demo party. Harder than the thicket.</span></button>
+            <button type="button" id="menu-armory" class="mode-card"><b>Armory</b><span>Look through weapons, armor, and acts. Nothing is saved.</span></button>
+          </div>
+        </div>
+        <div id="menu-guide" hidden>
+          <p class="menu-sec">How a chapter plays</p>
+          <ol class="how">
+            <li>Start as Cantor, Warden, or Kindler replaces the save and opens the loft. Continue saved story returns to the saved page. After the slumber, the same save continues through The Shattered Accord, The Ascension War, and Eternal Haven Dawns.</li>
+            <li>Walk the Vale with the arrow keys or a click. Stand next to the shade and the fight window opens.</li>
+            <li>In a fight, Move, then Act, then Wait. Gold tiles are steps you can take. A shield act puts Raise on your card and a ring on the figure until your next turn. Veil, oath, and haste leave their own rings. The practice fight uses Glyph, Claw Rend, and Fracture.</li>
+            <li>The wheel takes Measures, not levels. Spend them in the Hatchery or from the card on the road. Respec costs 30 Embers, once a chapter.</li>
+            <li>Leave a window with its button or Escape. The radio keeps playing. Options holds its volume.</li>
+          </ol>
+        </div>
+        <div id="menu-options" hidden>
+          <p class="menu-sec">This browser</p>
+          <label class="opt-row">Radio <input id="opt-music" type="range" min="0" max="100" value="60" aria-label="Radio volume"> <span id="opt-music-out">60%</span></label>
+          <label class="opt-row">Effects <input id="opt-sfx" type="range" min="0" max="100" value="80" aria-label="Effects volume"> <span id="opt-sfx-out">80%</span></label>
+          <label class="opt-row opt-check"><input id="opt-motion" type="checkbox"> Reduced motion</label>
+          <p class="menu-note">Radio and effects stay with the save. Reduced motion holds the title still. The fight still steps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="world" class="world" hidden>
+      <div class="battle-head">
+        <div>
+          <p class="kicker">Elysun Vale</p>
+          <h2>The moonlit path</h2>
+        </div>
+        <button type="button" id="world-menu" class="cmd">Menu</button>
+        <p id="world-note" class="dock-note">A shade waits in the grass.</p>
+      </div>
+      <div class="board-wrap world-board">
+        <canvas id="vale" width="1100" height="720"></canvas>
+      </div>
+    </section>
+
+    <section id="scene" class="scene" hidden>
+      <div class="scene-stage">
+        <img id="scene-plate" class="scene-plate" alt="">
+        <div id="scene-pet" class="scene-fig scene-pet">
+          <div class="scene-flip">
+            <img src="assets/scenes/figures/emberion.png?v=1" alt="">
+            <i class="blink"></i>
+          </div>
+        </div>
+        <div id="scene-hero" class="scene-fig scene-hero">
+          <div class="scene-flip">
+            <img src="assets/scenes/figures/serenya.png?v=1" alt="">
+            <i class="blink"></i>
+          </div>
+        </div>
+        <img id="scene-shade" class="scene-fig scene-shade" src="assets/scenes/figures/shade.png?v=2" alt="" hidden>
+        <img id="scene-bram" class="scene-fig scene-guest scene-bram" src="assets/scenes/figures/bram.png?v=1" alt="" hidden>
+        <img id="scene-lyra" class="scene-fig scene-guest scene-lyra" src="assets/scenes/figures/lyra.png?v=1" alt="" hidden>
+        <img id="scene-nessa" class="scene-fig scene-guest scene-nessa" src="assets/scenes/figures/nessa.png?v=1" alt="" hidden>
+        <img id="scene-miralis" class="scene-fig scene-guest scene-miralis" src="assets/scenes/figures/miralis.png?v=1" alt="" hidden>
+        <img id="scene-corvath" class="scene-fig scene-guest scene-corvath" src="assets/scenes/figures/corvath.png?v=1" alt="" hidden>
+        <div id="scene-bubbles" class="scene-bubbles"></div>
+      </div>
+      <div class="scene-bar">
+        <div class="scene-copy">
+          <p class="kicker" id="scene-banner" hidden>New story</p>
+          <p class="kicker" id="scene-kicker">The Hatchery</p>
+          <p id="scene-line"></p>
+          <a id="scene-read" class="scene-read" href="https://chatagent.ca/books/book-1/" target="_blank" rel="noopener" hidden>Read this chapter</a>
+        </div>
+        <div class="scene-actions">
+          <button type="button" id="scene-next" class="cmd">Onward</button>
+          <button type="button" id="scene-fight" class="cmd" hidden>Face it</button>
+          <button type="button" id="scene-level" class="cmd">Level</button>
+          <button type="button" id="scene-menu" class="cmd">Menu</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="battle" class="battle" hidden>
+      <div class="battle-head">
+        <div>
+          <p class="kicker" id="fight-kicker">Fight</p>
+          <h2 id="fight-title">The Thicket</h2>
+        </div>
+        <ol id="queue" class="queue"></ol>
+      </div>
+      <div class="battle-body">
+        <aside id="party" class="party roster"></aside>
+        <div class="board-wrap">
+          <canvas id="board" width="1100" height="720"></canvas>
+          <p id="float-log" class="float-log" aria-live="polite"></p>
+        </div>
+        <aside id="forecast" class="forecast roster">
+          <div id="foe-list" class="roster-list"></div>
+          <div class="look-card">
+            <p class="kicker" id="fc-kicker">Look</p>
+            <h3 id="fc-name">: </h3>
+            <p id="fc-body">Choose a tile.</p>
+          </div>
+        </aside>
+      </div>
+      <div class="dock">
+        <button type="button" id="cmd-move" class="cmd">Move</button>
+        <button type="button" id="cmd-strike" class="cmd">Strike</button>
+        <div id="act-list" class="act-list" hidden></div>
+        <button type="button" id="cmd-wait" class="cmd wait">Wait</button>
+        <p id="dock-note" class="dock-note"></p>
+      </div>
+    </section>
+
+    <section id="place-window" class="place-window" hidden>
+      <div class="battle-head">
+        <div>
+          <p class="kicker" id="place-kicker">Place</p>
+          <h2 id="place-title">Room</h2>
+        </div>
+      </div>
+      <div id="place-body" class="place-body"></div>
+      <div class="dock">
+        <button type="button" id="place-leave" class="cmd">Leave</button>
+        <p id="place-note" class="dock-note"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="end" class="gate" hidden>
+    <div class="gate-card">
+      <p class="kicker" id="end-kicker">The thicket</p>
+      <h2 id="end-title">The shade breaks</h2>
+      <p id="end-body"></p>
+      <button type="button" id="end-again" class="enter">Fight it again</button>
+      <button type="button" id="end-leave" class="enter" hidden>Return to the Vale</button>
+    </div>
+  </div>
+
+  <audio id="radioEl" preload="none"></audio>
+
+  <script>
+    window.__valeQueue = [];
+    function valeMenu(id) {
+      if (id.indexOf("start-") === 0) {
+        var calling = id.slice(6);
+        try { sessionStorage.setItem("moonlit-credits", "1"); } catch (err) {}
+        try { localStorage.removeItem("moonlit-tactics-save-v1"); } catch (err) {}
+        var next = new URL(location.href);
+        next.searchParams.set("new", calling);
+        location.assign(next.pathname + next.search);
+        return;
+      }
+      if (id === "menu-continue") window.__valeFreshLock = false;
+      var note = document.getElementById("menu-lock");
+      var mode = id.indexOf("tab:") !== 0;
+      if (note && mode) {
+        note.hidden = false;
+        note.textContent = "Opening…";
+      }
+      var box = document.getElementById("opt-credits");
+      if (box && mode) box.checked = true;
+      if (window.__valeStart) window.__valeStart(id);
+      else window.__valeQueue.push(id);
+    }
+    document.addEventListener("pointerdown", function (ev) {
+      var title = document.getElementById("title-card");
+      if (!title || title.hidden) return;
+      var panel = document.querySelector(".menu-panel");
+      if (!panel || !panel.contains(ev.target)) return;
+      var button = ev.target.closest("button");
+      if (!button || !panel.contains(button) || button.disabled) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      valeMenu(button.id || ("tab:" + button.dataset.panel));
+    }, true);
+  </script>
+  <script src="js/combat.js?v=20261007-click"></script>
+  <script type="module" src="js/main.js?v=20261008-books2"></script>
+</body>
+</html>

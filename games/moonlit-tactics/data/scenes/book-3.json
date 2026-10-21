@@ -1,0 +1,858 @@
+{
+  "id": "book-3",
+  "title": "The Ascension War",
+  "continues": "book-2",
+  "beats": [
+    {
+      "id": "b3-throne-rise",
+      "chapter": 33,
+      "kicker": "Book III · The broken moon",
+      "plate": "assets/scenes/book3/b3-c01.jpg",
+      "line": "The glyph in the ash is still warm when the Broken Moon answers it. Corvath stands on that moon as if it were a throne of Shadow and proclaims himself the Accord reborn. He does not kill to make the claim. He crowns silence. Illusions move through the Vale ruins and rewrite what people think they remember. Haven's name starts to leave their mouths.",
+      "cast": [
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "You wanted an Accord. I am the one that survived you. Kneel, or forget."
+        },
+        {
+          "who": "serenya",
+          "text": "The shard is dead stone. My vow is not. If he takes the past, I will forge what comes after."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-throne-vow",
+      "chapter": 33,
+      "kicker": "Book III · The broken moon",
+      "plate": "assets/scenes/book3/b3-c01.jpg",
+      "line": "Haven watches and does not descend. No one Serenya can name dies in the rewriting. What dies is a sentence: the one that used to call the sky a guardian. She says her vow where the survivors can hear it. It is the same seed she planted in the ash, and the moon does not get to own it.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "They are already forgetting the word Haven. Say it once more, while it is still a word."
+        },
+        {
+          "who": "serenya",
+          "text": "Haven. And the future, if the past is taken. I am not crowning either of them."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-seals-cut",
+      "chapter": 34,
+      "kicker": "Book III · The ruins",
+      "plate": "assets/scenes/book3/b3-c02.jpg",
+      "line": "On the third night Kaelion kneels in the ruined earth and cuts a seal that is not a hymn. It is justice made of loss and of steel, crude enough that a god would refuse it. He does not pretend it brings his names back. He does not die for the cutting. Other hands come after his and cut different things.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "If the sky will not seal us, the ground can learn. Mine is not pretty. It will hold a promise."
+        },
+        {
+          "who": "serenya",
+          "text": "Then let it be ugly and true. I will not sand it into a hymn."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-seals-follow",
+      "chapter": 34,
+      "kicker": "Book III · The ruins",
+      "plate": "assets/scenes/book3/b3-c02.jpg",
+      "line": "A healer cuts mercy into the same dirt. A farmer cuts endurance. None of the marks match, and that is the point. Mortals have started making seals. The war, when it reaches them, will be fought in those equations and not only in the sky. Emberion watches the cuts and does not burn them shut.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Small marks. If they fail, they fail in a language people can still read."
+        },
+        {
+          "who": "serenya",
+          "text": "Good. I am tired of languages that only the moon is allowed to speak."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-doubt-ten",
+      "chapter": 35,
+      "kicker": "Book III · Haven",
+      "plate": "assets/scenes/book3/b3-c03.jpg",
+      "line": "The Ten gather in the Circle of Resonance. Eternis is still seated. So are Sancora, Harmonix, Genesis Bloom, Lightfather, and Infinity Mirror. Corvath's laughter comes up from the void and does not need a chair. Eternis warns them: scars left unbound will birth new Shadows. No one stands up to leave.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "eternis",
+          "text": "You are letting mortals cut seals you did not license. Unbound scars make new darkness."
+        },
+        {
+          "who": "lightfather",
+          "text": "Or the mortals are teaching us. I have not decided which sentence I can live with."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-doubt-lesson",
+      "chapter": 35,
+      "kicker": "Book III · Haven",
+      "plate": "assets/scenes/book3/b3-c03.jpg",
+      "line": "The argument does not become a defection. Harmonix, still not whole, does not offer a perfect song to settle it. The Ten remain Ten. Below them the Vale keeps cutting. The doubt in the chamber is the news Serenya does not hear until the Order is already on the terraces again.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "I will not sing them into agreement. Agreement was the Accord, and the Accord broke."
+        },
+        {
+          "who": "mirror",
+          "text": "The count is still ten. Enjoy the number. It is not a promise."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-order-walk",
+      "chapter": 36,
+      "kicker": "Book III · The terraces",
+      "plate": "assets/scenes/book3/b3-c04.jpg",
+      "line": "Miralis comes back to the terraces alive. He was not freed from the chains. A silver fracture of Kairos's seal has bound him to Corvath, and he walks as if the binding were a vocation. He founds the Order of the Broken Seal in the open. Dragons and neighbors join Shadow because they are tired, not because he slaughters them. He is not killed. Serenya has no counter-song yet.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "Rest is what I am offering. Your glyph asks them to stay hurt. Count who follows."
+        },
+        {
+          "who": "serenya",
+          "text": "I can count. I still will not end you, and I still have no song that answers this."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-order-bind",
+      "chapter": 36,
+      "kicker": "Book III · The terraces",
+      "plate": "assets/scenes/book3/b3-c04.jpg",
+      "line": "The procession does not become a battle today. People step into the silver light because it promises sleep. Serenya lets them hear her refusal and does not drag them back by the collar. Miralis passes on, still a man, still bound, still not a member of her company. The ash of Elysun will be the field, and it will be soon.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "If we strike him in a parade, we become the story he is telling."
+        },
+        {
+          "who": "kaelion",
+          "text": "Let him walk. The seal in the dirt will still be here when the parade is over."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-ash-line",
+      "chapter": 37,
+      "kicker": "Book III · Elysun ashes",
+      "plate": "assets/scenes/book3/b3-c05.jpg",
+      "line": "The Order comes back with shadow-dragons and a sky full of illusions. Mortal glyphs answer from the ruins. Freed dragons stand with the villagers. Miralis takes a place apart from the line and does not strike. A false Lyra plays an old fight in the air. The woman herself stays dead. Serenya sings hope, because it is the only counter-song she has found.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Hope is a small word for this much ash. Sing it anyway."
+        },
+        {
+          "who": "miralis",
+          "text": "I am not your opponent on this field. Do not waste the hour pretending I am."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-ash-hold",
+      "chapter": 37,
+      "kicker": "Book III · Elysun ashes",
+      "plate": "assets/scenes/book3/b3-c05.jpg",
+      "line": "Hold the Vale until dusk. The board is the Order's steel, the shadow-dragons, and the illusion-sky made solid enough to cut. Miralis is not on it. Winning is the terraces still in living hands, not a body at his feet.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I will burn a dragon that serves the lie. I will not cross the gap to him."
+        },
+        {
+          "who": "kaelion",
+          "text": "The glyphs hold if we hold. That is the whole tactic."
+        }
+      ],
+      "fight": "Hold the ash",
+      "battle": "b3-ash-hold",
+      "foes": [
+        "shade-beast",
+        "peak-raider",
+        "parsed-warden",
+        "shade-cantor"
+      ],
+      "fightTitle": "The ashes of Elysun",
+      "winLine": "The illusions break. By dusk the Vale is still held. Emberion is blistered and grounded, and he is alive. Miralis was never the target. He leaves the field unstruck.",
+      "loseLine": "The ash is still being taken. Level, then hold it again."
+    },
+    {
+      "id": "b3-ash-dusk",
+      "chapter": 37,
+      "kicker": "Book III · Elysun ashes",
+      "plate": "assets/scenes/book3/b3-c05.jpg",
+      "line": "Night finds the ruins in mortal hands and not at peace. Emberion cannot fly. Serenya's hope-song has a crack in it and she does not hide the crack. Somewhere in Haven, a Champion is about to treat that crack as permission.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "We kept the ground. Keeping it is not the end of what they will do with our scars."
+        },
+        {
+          "who": "emberion",
+          "text": "Then let me heal on the stone I burned once. I am not leaving you."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-nine-break",
+      "chapter": 38,
+      "kicker": "Book III · Haven",
+      "plate": "assets/scenes/book3/b3-c06.jpg",
+      "line": "Eternis stands up in the Circle and breaks the Continuum seal with his own hand. He does not die. He leaves to join Ætheris, who is already Shadow's sword and already demanding that Haven itself be cut. They want a reset made out of collapse. Infinity Mirror says the quiet part: the Eleven became Ten, and the Ten become Nine.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "eternis",
+          "text": "Unbound scars will eat the world. I would rather break the Continuum than watch."
+        },
+        {
+          "who": "aetheris",
+          "text": "Good. Bring the clock. Judgment still needs a blade, and Haven is the thing to cut."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-nine-count",
+      "chapter": 38,
+      "kicker": "Book III · Haven",
+      "plate": "assets/scenes/book3/b3-c06.jpg",
+      "line": "Fallen, in this room, means gone over to Shadow. It does not mean a corpse. Two Champions are now Shadow's swords: Ætheris and Eternis. The Nine who remain are not crowned by surviving the count. Serenya, on the ash, does not see the chair empty. She will feel it when the road of crystal rises.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "Do not say they fell as heroes fall. They changed sides. The glass is precise."
+        },
+        {
+          "who": "sancora",
+          "text": "Then we are nine. I will not pretend the number is a plan."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-twelfth-name",
+      "chapter": 39,
+      "kicker": "Book III · The Nine",
+      "plate": "assets/scenes/book3/b3-c07.jpg",
+      "line": "What the Nine uncover is older than Corvath's throne. Shadow is the Twelfth Seal. It is imperfection: truth and scar together. The Eleven cut it out and called the silence holy. They did not destroy it. The thing on the moon is the exile they made, coming home with their own name in his mouth.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "lightfather",
+          "text": "We cut out the part that could not be perfected. It kept the shape we refused it."
+        },
+        {
+          "who": "harmonix",
+          "text": "Then every perfect hymn we sang was singing around a hole."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-twelfth-scar",
+      "chapter": 39,
+      "kicker": "Book III · The Nine",
+      "plate": "assets/scenes/book3/b3-c07.jpg",
+      "line": "The revelation does not end the war. It tells Serenya, when it reaches the Vale, why her small ugly seals frightened the Circle. Mortals might be about to sing the thing the Eleven refused. She is not ready to sing it. The refusal is the next page, and it is hers.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "They exiled the scar and named the exile a monster. I need a night before I answer that."
+        },
+        {
+          "who": "emberion",
+          "text": "Take the night. I am still on the stone with you."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-voice-fail",
+      "chapter": 40,
+      "kicker": "Book III · The terraces",
+      "plate": "assets/scenes/book3/b3-c08.jpg",
+      "line": "On the hollowed terraces her voice fails. The note that would have admitted imperfection will not leave her throat. She refuses to sing it. Emberion stays. He does not mock the silence and he does not finish the verse for her. No one dies of the refusal. It simply sits between them, honest and unfinished.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "I can see the ending. It has to be reconciliation, even with myself. I am not there."
+        },
+        {
+          "who": "emberion",
+          "text": "Then do not pretend you are. I would rather have the silence than a borrowed hymn."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-voice-truth",
+      "chapter": 40,
+      "kicker": "Book III · The terraces",
+      "plate": "assets/scenes/book3/b3-c08.jpg",
+      "line": "She walks the terraces without a song and the people do not flee her for it. The war is still above them. What changed is that she can no longer tell herself the next battle will be won by a cleaner voice. The cleaner voice was the Eleven's mistake.",
+      "cast": [
+        "serenya"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "My blade was made by losing names. Your silence might be the same kind of tool."
+        },
+        {
+          "who": "serenya",
+          "text": "Do not praise it yet. I am still afraid of it."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-bond-tear",
+      "chapter": 41,
+      "kicker": "Book III · The bond",
+      "plate": "assets/scenes/book3/b3-c09.jpg",
+      "line": "The bond tears where her refusal rubbed it. Emberion turns from reconciliation. He says they may already be lost. His fire scars the stone at his feet. He does not turn the fire on her. He does not die. He does not leave for good. The argument is the wound, and it stays open.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "You want to forgive the thing that unmade the sky. I am not ready to call that wisdom."
+        },
+        {
+          "who": "serenya",
+          "text": "I am not ready either. Do not fly so far that I cannot find the argument."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-bond-away",
+      "chapter": 41,
+      "kicker": "Book III · The bond",
+      "plate": "assets/scenes/book3/b3-c09.jpg",
+      "line": "He stands at the edge of the terrace until the fire in the stone cools to a black petal. Then he comes back close enough to hear her breathe. Nothing is settled. Both of them are alive, and the crystal road is already growing toward the Broken Moon.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I am angry. I am here. Do not make either of those into a speech."
+        },
+        {
+          "who": "serenya",
+          "text": "I won't. The road up there will not care whether we agree."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-crystal-road",
+      "chapter": 42,
+      "kicker": "Book III · The crystal road",
+      "plate": "assets/scenes/book3/b3-c10.jpg",
+      "line": "A host climbs from the Sunken Marches, from Aethelgard, and from the Crystal Coast. The road under them is crystal, and the illusions have become the ground itself. Fear is a drowning floor. Old oaths are glass in the air. Armies that were never mustered wear the faces of the dead. Kaelion climbs with Serenya and Emberion. He is still a living man, blade in hand, both feet on the crystal.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "If the dead wave at me, they are empty. I know that before I see their mouths."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we cut a path. We did not come up here to punish the moon. We came to be heard."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-moon-siege",
+      "chapter": 42,
+      "kicker": "Book III · The crystal road",
+      "plate": "assets/scenes/book3/b3-c10.jpg",
+      "line": "The siege is the road. Phantasmal ranks block the climb. Corvath is not on the stair. Kaelion is climbing with them. Break the ranks, and leave the stair clear for the living. The blade's last work is still above them.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Glass air still cuts. Stay under my wing on the narrow place."
+        },
+        {
+          "who": "serenya",
+          "text": "I will. When the stair is ours, we do not stop to mourn on it."
+        }
+      ],
+      "fight": "Take the stair",
+      "battle": "b3-moon-siege",
+      "foes": [
+        "shade-cantor",
+        "shade-beast",
+        "peak-raider",
+        "parsed-warden"
+      ],
+      "fightTitle": "The siege road",
+      "winLine": "The glass air cracks and the phantasmal ranks fail. The stair is clear. Kaelion is still alive on it. Corvath is not defeated, because he was never the target.",
+      "loseLine": "The road is still drowning. Level, then take the stair again."
+    },
+    {
+      "id": "b3-blade-unwind",
+      "chapter": 42,
+      "kicker": "Book III · The crystal road",
+      "plate": "assets/scenes/book3/b3-c10.jpg",
+      "line": "At the top of the cleared stair the illusions of Liana and Anya are waiting, and they are empty shells. Kaelion knows them and cannot say the names. He drives the vigilance blade into his own sacrifice. He unwinds into white light. The blade is finished. There is no body. The text of the hour is allowed to call him a dead man. Serenya and Emberion do not stop to mourn. The Nine, Lightfather and Harmonix among them, descend and live. Beyond a veil, a black-glass plain waits. Corvath, seeing them, is sorrowful. Serenya says they came to listen. The listening has not happened yet.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "The number was two. The blade can have the rest. Do not follow me into it."
+        },
+        {
+          "who": "serenya",
+          "text": "We came to listen. That is not a truce, and it is not a eulogy."
+        }
+      ],
+      "next": "Onward",
+      "flag": "kaelionFallen"
+    },
+    {
+      "id": "b3-obsidian-duel",
+      "chapter": 43,
+      "kicker": "Book III · The broken moon",
+      "plate": "assets/scenes/book3/b3-c11.jpg",
+      "line": "On obsidian and molten silver, Ætheris is waiting with the corrupted blade. He is Shadow's sword, not a rumor in Haven. The duel is his memory against theirs. Serenya and Emberion face him together. Kaelion is not behind them. The white light on the stair does not come back as a man.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "aetheris",
+          "text": "Judgment does not negotiate with a scar. Give me the memories, or I will take them."
+        },
+        {
+          "who": "serenya",
+          "text": "You can try. The seal I have left is not a clean one, and he is still with me."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-blade-splinter",
+      "chapter": 43,
+      "kicker": "Book III · The broken moon",
+      "plate": "assets/scenes/book3/b3-c11.jpg",
+      "line": "His blade unravels memory when it lands. Serenya's answer is a truth-seal, and Emberion's flame is the other half of it. Break the corrupted blade. What leaves him afterward is smoke, and the price is a face she will not be able to remember.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "If he reaches for your dead, burn the reaching. Not the grief."
+        },
+        {
+          "who": "serenya",
+          "text": "Lyra is already gone. He does not get to spend what is left of her."
+        }
+      ],
+      "fight": "Face Judgment",
+      "battle": "b3-blade-splinter",
+      "foes": [
+        "parsed-warden",
+        "shade-cantor",
+        "shade-beast",
+        "mirror-serenya"
+      ],
+      "fightTitle": "The sword of Judgment",
+      "winLine": "The corrupted blade splinters. His eyes clear, and then Shadow takes him back. His body becomes smoke. There is no corpse. Serenya lives, and Lyra's face, voice, and song are gone from her memory. The pain stays. Emberion lives. Lyra was not killed again.",
+      "loseLine": "The blade is still eating memory. Level, then face Judgment again."
+    },
+    {
+      "id": "b3-smoke-cost",
+      "chapter": 43,
+      "kicker": "Book III · The broken moon",
+      "plate": "assets/scenes/book3/b3-c11.jpg",
+      "line": "She knows she lost someone precious and cannot find the face. Emberion does not invent a portrait to comfort her. Ætheris is not restored and not lying on the glass. The duel is over. The moon is not.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I will not draw her for you. The missing is real. The woman is still dead."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we carry the missing. There is a song on this field that is not mine alone."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-imperfect-join",
+      "chapter": 44,
+      "kicker": "Book III · The plain",
+      "plate": "assets/scenes/book3/b3-c12.jpg",
+      "line": "Harmonix steps onto the same battlefield and does not defect. She joins the imperfect song: the one with the crack left in it. She does not die. Kill-strokes keep landing on phantoms and accomplishing nothing. Corvath is still the heart of the moon, and his laughter has started to falter.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "I will sing it wrong on purpose. Perfection is how we lost the Twelfth."
+        },
+        {
+          "who": "serenya",
+          "text": "Then sing it wrong with me. The phantoms are the only ranks left to shed."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-phantom-shed",
+      "chapter": 44,
+      "kicker": "Book III · The plain",
+      "plate": "assets/scenes/book3/b3-c12.jpg",
+      "line": "The choir is the tactic. The figures in front of you are perfect visions wearing armor. Shed them. A true strike against Corvath is not what this hour is for, and he is not standing in their rank.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "When the note cracks, the armor goes with it. Follow the crack."
+        },
+        {
+          "who": "emberion",
+          "text": "I hear it. Point me at the vision, not at the moon."
+        }
+      ],
+      "fight": "Shed the visions",
+      "battle": "b3-phantom-shed",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "mirror-serenya",
+        "shade-beast"
+      ],
+      "fightTitle": "The imperfect choir",
+      "winLine": "The perfect visions shed. Harmonix is still on the field, alive, and still with the song. Corvath remains. His laughter falters and does not become a surrender.",
+      "loseLine": "The visions are still perfect. Level, then shed them again."
+    },
+    {
+      "id": "b3-heart-plain",
+      "chapter": 45,
+      "kicker": "Book III · The heart",
+      "plate": "assets/scenes/book3/b3-c13.jpg",
+      "line": "They pass the veil onto the black-glass plain at the heart of the Broken Moon. The truth waiting there is simple enough to hurt. Corvath is not an invader. He is the exiled Twelfth, the scar the Eleven cut out and taught the world to fear. A killing blow would be the wrong ending. Emberion, who refused reconciliation yesterday, is the one who pulls Serenya toward the scar instead of the strike.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "If we cut him, we repeat the Eleven. I hate that sentence. It is still true."
+        },
+        {
+          "who": "corvath",
+          "text": "Now you know what I am. Knowing is not forgiveness. Do not rush the word."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-heart-listen",
+      "chapter": 45,
+      "kicker": "Book III · The heart",
+      "plate": "assets/scenes/book3/b3-c13.jpg",
+      "line": "The plain still throws phantoms, because a heart that was a prison does not become quiet in a minute. Clear them. Corvath is not among them. The win is that he recoils, and for the first time he listens. He does not surrender. He is not struck down.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "We came to listen. The shapes in the way are not the one we came to hear."
+        },
+        {
+          "who": "emberion",
+          "text": "Break the prison's habits. Leave the exile his feet."
+        }
+      ],
+      "fight": "Clear the heart",
+      "battle": "b3-heart-listen",
+      "foes": [
+        "shade-beast",
+        "shade-cantor",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The heart of Shadow",
+      "winLine": "The phantoms were the blow he expected, and they fail. Corvath recoils. He listens. He is not killed, and he has not surrendered. The killing stroke stays unmade.",
+      "loseLine": "The heart is still a prison. Level, then clear it again."
+    },
+    {
+      "id": "b3-new-song",
+      "chapter": 46,
+      "kicker": "Book III · The lattice",
+      "plate": "assets/scenes/book3/b3-c14.jpg",
+      "line": "The New Accord is not a document. It is sung: memory, scar, song, and flame in one verse that refuses to be perfect. Corvath does not die inside it. His scales change. Shadow weaves with light. The exile becomes a Seal again. Haven and Shadow fuse into one lattice. Nobody puts a crown on him. He stops being the thing outside.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "Leave the crack in the note. If we close it, we are back at the start."
+        },
+        {
+          "who": "corvath",
+          "text": "I hear you. I am not your enemy in this verse. Do not make me your king either."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-lattice-fuse",
+      "chapter": 46,
+      "kicker": "Book III · The lattice",
+      "plate": "assets/scenes/book3/b3-c14.jpg",
+      "line": "Serenya collapses when the verse ends, and she is alive. Emberion is alive. The Nine are not killed. Miralis is not redeemed and not slain. Eternis and Ætheris are not restored from smoke and absence. The lattice holds both Haven and Shadow, and it is not comfortable. It is true.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Stay down until your breath returns. The sky can wait one minute."
+        },
+        {
+          "who": "serenya",
+          "text": "It returned. Help me up. I want to see the moon before it decides what it is."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-crown-scars",
+      "chapter": 47,
+      "kicker": "Book III · The end of the war",
+      "plate": "assets/scenes/book3/b3-c15.jpg",
+      "line": "The moon breaks into shards of scar and of flame. The throne becomes a crown of scars and stops being a seat for one will. Haven touches Aurethys as an equal, not as a ceiling. Unnamed mortals are dead. Some of the living have lost pieces of memory. Serenya, Emberion, Corvath, and the Nine are all still breathing when the shards settle.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "I will bow. A bow is not a disappearance. Do not ask me for the second."
+        },
+        {
+          "who": "lightfather",
+          "text": "Then bow. The rest of us are done standing above them."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-war-quiet",
+      "chapter": 47,
+      "kicker": "Book III · The end of the war",
+      "plate": "assets/scenes/book3/b3-c15.jpg",
+      "line": "Corvath bows and lives. Serenya and Emberion live, scarred and still themselves. The Nine live, and they are humbled. The Ascension War ends on a claim small enough to trust: this is truth, not perfection. The Vale below them is still a ruin. It is also still a place where a stone can be planted.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Truth, then. I will not dress it as a happy ending."
+        },
+        {
+          "who": "emberion",
+          "text": "Good. Happy endings are how people start exiling things again."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b3-seed-stone",
+      "chapter": 48,
+      "kicker": "Book III · The seed",
+      "plate": "assets/scenes/book3/b3-epi.jpg",
+      "line": "In the ruins of Elysun Vale she plants a shard of the Moon as an Aurethys seal-stone. People come and add notes, not commandments. Lightfather releases command. He does not die. Champions bow and do not take the stone from her. A light that is neither Shadow nor Haven watches from somewhere unnamed. She does not give it a name. Emberion is alive beside the planting. This page is not his leaving.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "lightfather",
+          "text": "The command is down. If you need a guardian in the old shape, you will have to invent one."
+        },
+        {
+          "who": "serenya",
+          "text": "I need a stone and a note. The rest can learn to live at eye level."
+        }
+      ],
+      "novel": "book-3",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b3-seed-notes",
+      "chapter": 48,
+      "kicker": "Book III · The seed",
+      "plate": "assets/scenes/book3/b3-epi.jpg",
+      "line": "The notes gather. The war is over and the world is not finished. What comes next is not another throne. It is dawn on a world where the Twelve have to decide whether they can bear to be flesh. The save walks toward that dawn. Serenya can still speak. Emberion is still a body. Kaelion is still gone.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I will walk down with you. Do not thank the unnamed light. We do not know it."
+        },
+        {
+          "who": "serenya",
+          "text": "I won't. Tomorrow we find out whether peace can stand being ordinary."
+        }
+      ],
+      "next": "Onward",
+      "flag": "book3Clear"
+    }
+  ]
+}

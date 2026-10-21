@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eternal Lattice: Live ladder | Excavationpro</title>
+<meta name="description" content="Live Eternal Lattice ladder. Sealed names, rating, wins. Empty beats a fake board.">
+<link rel="canonical" href="https://excavationpro.ca/games/eternal-lattice/ledger.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/games/hub.css?v=5">
+<style>
+body { margin:0; background:#07080c; color:#e8eef5; font-family:"Source Sans 3",system-ui,sans-serif; }
+.wrap { max-width:820px; margin:0 auto; padding:1.4rem 1.1rem 3rem; }
+.kicker { letter-spacing:.2em; text-transform:uppercase; color:#fbbf24; font-size:.72rem; }
+h1 { font-family:Syne,sans-serif; }
+a { color:#fbbf24; }
+.row { display:flex; gap:.5rem; flex-wrap:wrap; margin:1rem 0; }
+.btn { display:inline-flex; padding:.5rem .8rem; border:1px solid #334155; border-radius:8px; text-decoration:none; color:#e8eef5; }
+.muted { color:#94a3b8; }
+.round { background:#10141c; border:1px solid #1e293b; border-radius:10px; padding:.7rem .8rem; margin:.4rem 0 0; }
+.rtop { display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap; }
+.rtop b { color:#fbbf24; font-family:"IBM Plex Mono",monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">Δ9Φ963 · live ladder</p>
+  <h1>Eternal Lattice ledger</h1>
+  <p class="muted">Seal a player name in the card client. Wins and rating post to this public ladder.</p>
+  <div class="row">
+    <a class="btn" href="./">Play</a>
+    <a class="btn" href="/games/">Hub</a>
+    <a class="btn" href="https://www.paypal.com/paypalme/ExcavationPro" rel="noopener">PayPal</a>
+  </div>
+  <p class="muted" id="srcMeta">Loading live ladder…</p>
+  <div id="hall"></div>
+</div>
+<script>
+(function(){
+  function esc(s){ return String(s||"").replace(/[<>]/g,""); }
+  var FEEDS = [
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/eternal/ledger.json",
+    "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/eternal-lattice.json",
+    "./ledger.json"
+  ];
+  async function pull(){
+    var rows = [];
+    var src = "this browser";
+    for (var i=0;i<FEEDS.length;i++){
+      try {
+        var r = await fetch(FEEDS[i], { cache:"no-store" });
+        if (!r.ok) continue;
+        var data = await r.json();
+        if (data && Array.isArray(data.ladder)) { rows = data.ladder.slice(); src = FEEDS[i].replace(/^https?:\/\//,""); break; }
+      } catch(e) {}
+    }
+    try {
+      var s = JSON.parse(localStorage.getItem("lygo-eternal-lattice-v1") || "{}");
+      var q = JSON.parse(localStorage.getItem("lygo-eternal-ledger-q") || "[]");
+      (s.leaderboard || []).forEach(function(x){ rows.push(x); });
+      if (s.playerName && s.games) {
+        rows.push({ name: s.playerName, rating: s.rating, wins: s.wins, losses: s.losses, games: s.games });
+      }
+      rows = rows.concat(q);
+    } catch(e) {}
+    var seen = {};
+    rows = rows.filter(function(x){
+      var k = (x.name||"")+"|"+(x.rating||0)+"|"+(x.wins||0);
+      if (!x.name || seen[k]) return false;
+      seen[k] = 1;
+      return true;
+    }).sort(function(a,b){ return (b.rating||0)-(a.rating||0) || (b.wins||0)-(a.wins||0); });
+    document.getElementById("srcMeta").textContent = rows.length + " sealed names · " + src;
+    document.getElementById("hall").innerHTML = rows.length ? rows.map(function(x,i){
+      return "<div class='round'><div class='rtop'><b>#"+(i+1)+" · "+(x.rating||1000)+" rt</b><span>"+esc(x.date||"")+"</span></div>"+
+        "<p class='muted'>"+esc(x.name)+" · "+(x.wins||0)+"W / "+(x.losses||0)+"L"+(x.games!=null?" · "+x.games+" games":"")+"</p></div>";
+    }).join("") : "<p class='muted'>No sealed names yet. Set a name and finish a match.</p>";
+  }
+  pull();
+})();
+</script>
+</body>
+</html>

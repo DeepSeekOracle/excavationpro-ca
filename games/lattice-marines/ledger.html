@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lattice Marines: Eternal Ledger</title>
+<meta name="description" content="Eternal vs-AI win ledger for Lattice Marines. Commander names, scores, seeds, and match metadata inscribed automatically when you take the island from the adaptive AI.">
+<meta name="theme-color" content="#070b12">
+<link rel="canonical" href="https://excavationpro.ca/games/lattice-marines/ledger.html">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lattice Marines. Eternal Ledger">
+<meta property="og:description" content="Public hall of records. Only victories against the adaptive AI are inscribed.">
+<meta property="og:image" content="https://excavationpro.ca/games/lattice-marines/assets/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Syne:wght@600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#070b12; --cyan:#22d3ee; --gold:#fbbf24; --mute:#94a3b8; --line:#1e3a4c; --text:#e8eef7; --enemy:#c084fc; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: "Source Sans 3", system-ui, sans-serif; }
+a { color: var(--cyan); }
+.hero {
+  min-height: 38vh; position: relative; display: grid; place-items: end start;
+  background: #070b12;
+}
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+.hero-fade { position: absolute; inset: 0; background: linear-gradient(180deg, #070b1288 0%, #070b12 88%); }
+.hero-copy { position: relative; padding: 2.2rem 1.4rem 1.4rem; max-width: 1100px; }
+.kicker { letter-spacing: .22em; text-transform: uppercase; color: var(--cyan); font-size: .72rem; margin: 0 0 .4rem; }
+h1 { font-family: Syne, sans-serif; font-size: clamp(2rem, 5vw, 3.4rem); margin: 0 0 .35rem; letter-spacing: .05em; }
+.lead { color: #dbe7f3; max-width: 46rem; font-size: 1.05rem; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 1.2rem 3rem; }
+.row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.btn {
+  display: inline-flex; align-items: center; background: #132033; color: var(--text); text-decoration: none;
+  border: 1px solid #334155; border-radius: 9px; padding: .55rem .9rem; font: 650 0.85rem Syne, sans-serif;
+}
+.btn:hover { border-color: var(--cyan); }
+.btn.gold { background: var(--gold); color: #111; border-color: var(--gold); }
+.paypal { background: #0070ba; color: #fff !important; border-color: #0070ba; }
+.grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1rem; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+.card {
+  background: #0b1522; border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem;
+}
+.card h2 { font-family: Syne, sans-serif; font-size: 1.05rem; letter-spacing: .08em; text-transform: uppercase; color: var(--cyan); margin: 0 0 .5rem; }
+.card p, .card li { color: #cbd5e1; line-height: 1.5; }
+.meta { font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--mute); }
+.controls { display: flex; flex-wrap: wrap; gap: .45rem; align-items: center; margin: 0 0 .7rem; }
+input, select {
+  background: #0b1220; color: var(--text); border: 1px solid #334155; border-radius: 8px;
+  padding: .45rem .6rem; font: inherit;
+}
+table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+th, td { text-align: left; padding: .4rem .45rem; border-bottom: 1px solid #1e293b; }
+th { color: var(--cyan); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+tr:hover td { background: #101c2c; }
+.score { color: var(--gold); font-weight: 800; font-family: "IBM Plex Mono", monospace; }
+.empty { color: var(--mute); padding: 1rem 0; }
+footer { margin-top: 1.5rem; color: var(--mute); font-size: .8rem; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <img src="./assets/menu.jpg" alt="">
+  <div class="hero-fade"></div>
+  <div class="hero-copy">
+    <p class="kicker">Δ9Φ963 · Eternal hall of records</p>
+    <h1>Eternal Ledger</h1>
+    <p class="lead">Beat the adaptive AI and your commander name, score, seed, and island metadata are inscribed automatically. Hot-seat duels stay local. This page is the public book.</p>
+    <div class="row">
+      <a class="btn gold" href="./">Play Lattice Marines</a>
+      <a class="btn" href="/games/">All games</a>
+      <a class="btn" href="https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins" target="_blank" rel="noopener">HF dataset</a>
+      <a class="btn paypal" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">PayPal.me/ExcavationPro</a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="grid">
+    <section class="card">
+      <h2>How a win is inscribed</h2>
+      <ol>
+        <li>Set a commander name on the title screen.</li>
+        <li>Play <b>vs Adaptive AI</b> (not hot-seat).</li>
+        <li>Level all three enemy Command Centres.</li>
+        <li>The game posts the match to the Hugging Face ledger. If the Space is waking up, the win sits in a local queue and retries by itself.</li>
+      </ol>
+      <p>Score = wrecked buildings × 10 + units × 2 + surviving kit × 5 + economy − 8 per turn, plus a win bonus, then prestige. Long wars pay a time tax.</p>
+    </section>
+    <section class="card">
+      <h2>Game</h2>
+      <p>Isometric three-phase island war: deploy three HQs, fortify in command range, probe Battleship fog, then watch the salvo. Maps 32×32 to 192×192. AI doctrines: Aggressor, Turtle, Economist, Intelligence.</p>
+      <p class="meta" id="srcMeta">Loading ledger…</p>
+      <p><a href="https://deepseekoracle-lattice-marines-ledger.hf.space" target="_blank" rel="noopener">Write API Space</a> ·
+         <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener">Listen portal</a></p>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:1rem">
+    <h2>Hall of records</h2>
+    <div class="controls">
+      <input id="q" placeholder="Filter commander…" maxlength="18">
+      <select id="df">
+        <option value="">All difficulties</option>
+        <option value="easy">Easy</option>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
+        <option value="insane">Insane</option>
+      </select>
+      <select id="ms">
+        <option value="">All maps</option>
+        <option value="32">32</option><option value="40">40</option><option value="48">48</option>
+        <option value="64">64</option><option value="80">80</option><option value="128">128</option>
+        <option value="192">192</option>
+      </select>
+      <span class="meta" id="count"></span>
+    </div>
+    <div style="overflow:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th><th>Commander</th><th>Score</th><th>Diff</th><th>Map</th>
+            <th>Turns</th><th>AI</th><th>Seed</th><th>Island</th><th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="rows"><tr><td colspan="10" class="empty">Fetching eternal ledger…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+  <footer>Lattice Marines · Excavationpro · eternalhaven.ca · Hugging Face dataset DeepSeekOracle/lattice-marines-wins. Names and match metadata only, no accounts.</footer>
+</main>
+<script>
+const GETS = [
+  "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/ledger.json",
+  "https://deepseekoracle-lattice-marines-ledger.hf.space/ledger.json",
+  "./ledger.json"
+];
+let WINS = [];
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+async function pull() {
+  for (const url of GETS) {
+    try {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) continue;
+      const data = await r.json();
+      if (data && Array.isArray(data.wins)) {
+        WINS = data.wins.slice();
+        document.getElementById("srcMeta").textContent =
+          (data.updated ? ("Updated " + data.updated + " · ") : "") +
+          WINS.length + " inscribed AI wins · source " + url.replace(/^https?:\/\//, "");
+        paint();
+        return;
+      }
+    } catch (_) {}
+  }
+  document.getElementById("srcMeta").textContent = "Ledger unreachable, try again in a minute (the HF Space may be waking).";
+  document.getElementById("rows").innerHTML = '<tr><td colspan="10" class="empty">No rows yet. Win an AI match to cut the first line.</td></tr>';
+}
+function paint() {
+  const q = (document.getElementById("q").value || "").trim().toLowerCase();
+  const df = document.getElementById("df").value;
+  const ms = document.getElementById("ms").value;
+  const list = WINS.filter((w) => {
+    if (q && String(w.name || "").toLowerCase().indexOf(q) < 0) return false;
+    if (df && w.diff !== df) return false;
+    if (ms && String(w.mapN) !== ms) return false;
+    return true;
+  });
+  document.getElementById("count").textContent = list.length + " shown";
+  document.getElementById("rows").innerHTML = list.length
+    ? list.map((w, i) => `<tr>
+        <td>${i + 1}</td>
+        <td>${esc(w.name)}</td>
+        <td class="score">${esc(w.score)}</td>
+        <td>${esc(w.diff)}</td>
+        <td>${esc(w.mapN)}×${esc(w.mapN)}</td>
+        <td>${esc(w.turns)}</td>
+        <td>${esc(w.profile)}</td>
+        <td>${esc(w.seed)}</td>
+        <td>${esc(w.mapNote || ", ")}</td>
+        <td>${esc(w.date || "")}</td>
+      </tr>`).join("")
+    : '<tr><td colspan="10" class="empty">No inscribed AI wins match this filter.</td></tr>';
+}
+["q", "df", "ms"].forEach((id) => document.getElementById(id).addEventListener("input", paint));
+document.getElementById("df").addEventListener("change", paint);
+document.getElementById("ms").addEventListener("change", paint);
+pull();
+setInterval(pull, 90000);
+</script>
+</body>
+</html>

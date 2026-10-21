@@ -1,0 +1,1086 @@
+{
+  "id": "book-2",
+  "title": "The Shattered Accord",
+  "continues": "book-1",
+  "beats": [
+    {
+      "id": "b2-c0-circle",
+      "chapter": 16,
+      "novel": "book-2",
+      "read": true,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c00.jpg",
+      "line": "The Circle is still standing, and the Accord Stone at its heart is not. The seats argue over fire, waiting, and a blade on the floor. Serenya is not in this room. The save is. What broke here is doubt, and the next page is still hers.",
+      "cast": [],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "She is not in the Circle. The argument reaches the Vale anyway."
+        }
+      ]
+    },
+    {
+      "id": "b2-c0-eye",
+      "chapter": 16,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c00.jpg",
+      "line": "The rivers of memory overhead blink once. The moon, already cracked, opens an eye of shadow. Corvath was not destroyed in the slumber. He was hidden, and the hiding has worn through. Nobody in the Circle is crowned by saying so.",
+      "cast": [],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "He does not enter. The moon says his name for him."
+        }
+      ]
+    },
+    {
+      "id": "b2-c1-ridge",
+      "chapter": 17,
+      "novel": "book-2",
+      "read": true,
+      "kicker": "Book II · The ridge",
+      "plate": "assets/scenes/book2/b2-c01.jpg",
+      "line": "Serenya stands over what is left of the Stone. The pieces flicker and do not sing. False fire walks the valley without heat. Emberion's flame answers like ash. Lyra is still gone. The shard in Serenya's hand is small enough to close a fist around, and it is still beating.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Flame feels like ash. Tell me what a dragon is for, if not that."
+        },
+        {
+          "who": "serenya",
+          "text": "You carried the last flight. That is still a use. The fires below are not."
+        }
+      ]
+    },
+    {
+      "id": "b2-c1-fires",
+      "chapter": 17,
+      "kicker": "Book II · The ridge",
+      "plate": "assets/scenes/book2/b2-c01.jpg",
+      "line": "Three shapes stand in the false fire. They do not burn the stone. They burn the memory of who was standing on it. Clear them. The shard stays. Miralis is not in this fight, and neither is a crown.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade",
+        "bram",
+        "nessa"
+      ],
+      "fight": "Face the false fire",
+      "battle": "b2-c1-fires",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "False fire",
+      "winLine": "The fire goes out without smoke. The shard is still in her hand.",
+      "loseLine": "The names slip. Level, then face the fire again.",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "It looks like flame. It is not. Cut the shape, not the story."
+        },
+        {
+          "who": "nessa",
+          "text": "If a name leaves your mouth, step back and say it again."
+        }
+      ]
+    },
+    {
+      "id": "b2-c2-terraces",
+      "chapter": 18,
+      "novel": "book-2",
+      "read": true,
+      "kicker": "Book II · The Vale",
+      "plate": "assets/scenes/book2/b2-c02.jpg",
+      "line": "Elysun's terraces used to answer one song. Now one side begs Haven to come down, and the other says Haven already left. Dragons hesitate at the reins. Serenya comes down the steps with Emberion behind her. She does not pick a faction. She stands where the two cries meet.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "bram",
+        "nessa"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "I will not shout for a throne, and I will not shout against the people still on the stone."
+        },
+        {
+          "who": "nessa",
+          "text": "Then say it once, and let the square hear the same sentence."
+        }
+      ]
+    },
+    {
+      "id": "b2-c2-split",
+      "chapter": 18,
+      "kicker": "Book II · The Vale",
+      "plate": "assets/scenes/book2/b2-c02.jpg",
+      "line": "The argument finds weapons. Riders and wardens close on the broken amphitheater. This is a split, not a war to be won by emptying the Vale. Stop the ones who have already drawn. Leave the people who are only shouting.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "bram",
+        "nessa",
+        "shade"
+      ],
+      "fight": "Hold the terraces",
+      "battle": "b2-c2-split",
+      "foes": [
+        "peak-raider",
+        "peak-raider",
+        "parsed-warden",
+        "parsed-warden"
+      ],
+      "fightTitle": "The split",
+      "winLine": "The terraces go quiet enough to talk. Neither cry is crowned.",
+      "loseLine": "The square is still tearing. Level, then hold it again.",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "Blades first. The shouting can wait until the blades are down."
+        }
+      ]
+    },
+    {
+      "id": "b2-c3-chains",
+      "chapter": 19,
+      "novel": "book-2",
+      "read": true,
+      "kicker": "Book II · The Vale",
+      "plate": "assets/scenes/book2/b2-c03.jpg",
+      "line": "The air changes before anyone agrees to listen. Miralis comes out of the smoke in chains that are not metal. He was taken at Moonrise. He is not returned, and he is not a corpse. His eyes are silver and far. He tells the Vale the Accord was a cage. Serenya knows the walk. She does not know the voice.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis",
+        "nessa"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "Haven is not your guardian. Look at the stone and say that again if you can."
+        },
+        {
+          "who": "serenya",
+          "text": "I know your feet. I do not know this sentence. You are not free, and I will not finish you."
+        }
+      ]
+    },
+    {
+      "id": "b2-c3-hold",
+      "chapter": 19,
+      "kicker": "Book II · The Vale",
+      "plate": "assets/scenes/book2/b2-c03.jpg",
+      "line": "The chains pull a choir of shades into the terraces. Miralis stays where he spoke. He is not the target. Clear the choir. When the board is empty he is still in the chains, and still not yours to keep.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis",
+        "shade",
+        "bram"
+      ],
+      "fight": "Hold the choir",
+      "battle": "b2-c3-hold",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "shade-beast"
+      ],
+      "fightTitle": "The chained choir",
+      "winLine": "The choir breaks. Miralis is still chained, and still alive.",
+      "loseLine": "The chains keep time. Level, then hold the choir again.",
+      "speak": [
+        {
+          "who": "bram",
+          "text": "The boy in the chains is not the one we cut. The shades are."
+        }
+      ]
+    },
+    {
+      "id": "b2-c4-climb",
+      "chapter": 20,
+      "novel": "book-2",
+      "read": true,
+      "kicker": "Book II · The peaks",
+      "plate": "assets/scenes/book2/b2-c04.jpg",
+      "line": "The shard pulls toward the peaks. Kaelion climbs with them, a smith whose dragon is gone and whose hammer is not. The path used to be a pilgrimage. It is a trespass now. Lyra's voice is in the wind once, and thunder takes it. They are not going to Haven. They are going to a forge that remembers an older accord.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "I still have the hammer. I do not have the fire that used to sit beside it."
+        },
+        {
+          "who": "emberion",
+          "text": "The peaks remember. Walk. Do not ask the storm to be kind."
+        }
+      ]
+    },
+    {
+      "id": "b2-c4-forge",
+      "chapter": 20,
+      "kicker": "Book II · The forge",
+      "plate": "assets/scenes/book2/b2-c04.jpg",
+      "line": "The Sanctuary of Roots is a cavern with a living anvil, not a market and not a throne. The shard goes hot against her chest. This is where an accord was sung before the Circle learned to argue. She does not repair the Stone tonight. She takes what the roots will give, and she does not call it a crown.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "A forge for a true thing. Not a seat. Not a war."
+        },
+        {
+          "who": "kaelion",
+          "text": "Then we leave it lit, and we do not pretend the Vale is finished."
+        }
+      ]
+    },
+    {
+      "id": "b2-c4-echoes",
+      "chapter": 20,
+      "kicker": "A side trail",
+      "plate": "assets/scenes/book2/b2-c04.jpg",
+      "line": "Old hymns cling to the shelf outside the cavern. Two cantors made of storm-light will fight if you stay. The forge does not depend on them. You can pass.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "fight": "Side trail",
+      "next": "Pass it",
+      "battle": "b2-c4-echoes",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "Shelf echoes",
+      "winLine": "The shelf goes back to weather.",
+      "loseLine": "The hymns can wait. Level, or pass them.",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "They are echoes. The forge is already behind us if we choose."
+        }
+      ]
+    },
+    {
+      "id": "b2-c4-lit",
+      "chapter": 20,
+      "kicker": "Book II · The forge",
+      "plate": "assets/scenes/book2/b2-c04.jpg",
+      "line": "The first forge is lit. The shard is kept. Miralis is still in chains and still alive. Lyra is still gone. Emberion is not a king. The high passes below the anvil are already moving, full of faces that were never mustered. The road does not stop here.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "next": "Onward",
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "Let the forge stay lit. The passes will not wait while we admire it."
+        },
+        {
+          "who": "emberion",
+          "text": "Then we go down. One wing can still tell the wind the truth."
+        }
+      ]
+    },
+    {
+      "id": "b2-pass-high",
+      "chapter": 21,
+      "kicker": "Book II · The passes",
+      "plate": "assets/scenes/book2/b2-c05.jpg",
+      "line": "They leave the lit forge and take the high passes down. Kaelion walks. Emberion's wing is already stiff from the climb. Below them a warband that was never mustered rides the switchbacks: riders cut from shadow, dragons braided out of smoke. Haven is still untouched. The moon stays broken, and a shape on it only watches.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "I can count them. I cannot tell you which one was ever alive."
+        },
+        {
+          "who": "emberion",
+          "text": "Keep to the rock. If I leave the ground, the smoke will try to be my wing."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-pass-warband",
+      "chapter": 21,
+      "kicker": "Book II · The passes",
+      "plate": "assets/scenes/book2/b2-c05.jpg",
+      "line": "The pass narrows. Puppet riders and smoke-dragons fill it. Lightfather is on the stone for a moment, bright enough to hurt, and then he is gone. Nothing here is a throne. The people on the ridges only watch. What fills the pass has to come apart.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "He came and he left. The pass is still ours to clear."
+        },
+        {
+          "who": "lightfather",
+          "text": "I will not stay to be worshipped for a minute of light."
+        }
+      ],
+      "fight": "Face the warband",
+      "battle": "b2-pass-warband",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor",
+        "peak-raider"
+      ],
+      "fightTitle": "The illusion warband",
+      "winLine": "The warband comes apart. Emberion's wing is torn, and he is alive. No named person dies on the pass. The Accord cracks a little deeper. The shard is still in her fist.",
+      "loseLine": "The smoke keeps the pass. Level, then face the warband again."
+    },
+    {
+      "id": "b2-pass-after",
+      "chapter": 21,
+      "kicker": "Book II · The passes",
+      "plate": "assets/scenes/book2/b2-c05.jpg",
+      "line": "The witnesses split before anyone asks them to. Some kneel where Lightfather stood. Some will not look at Serenya at all. Corvath did not come down. The moon watched, and the watching was enough to keep the fear. Haven is as it was. The mixed shard is still hers.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "They can be afraid of us. I will not spend that fear as a crown."
+        },
+        {
+          "who": "kaelion",
+          "text": "Then we walk. Fear is a poor map, and the Vale is still below."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-mirror-room",
+      "chapter": 22,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c06.jpg",
+      "line": "The Circle of Resonance watches that pass inside the Infinity Mirror. Ætheris, Sancora, Lightfather, and the rest of the Eleven are in the room. Serenya is not. Emberion is not. Corvath is a voice in the glass, not a body in a chair. Nobody here is hurt, freed, killed, or crowned.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "The Vale fought a warband that was never mustered. Look, or look away."
+        },
+        {
+          "who": "lightfather",
+          "text": "I stood on that rock and I left. Do not make the leaving into a victory."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-mirror-split",
+      "chapter": 22,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c06.jpg",
+      "line": "The Eleven do not agree on what the mirror owed them. Lightfather is left inside the doubt he carried up the pass. The rivers of memory dim. Harmonix stands. She will go down and mend what the Vale's song has started to tear. The Accord is breaking from inside the room.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "If the mirror can show the wound, I can still walk to it."
+        },
+        {
+          "who": "corvath",
+          "text": "He does not take a seat. The glass laughs once, and the laugh is not a crown."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-camp-mend",
+      "chapter": 23,
+      "kicker": "Book II · The camps",
+      "plate": "assets/scenes/book2/b2-c07.jpg",
+      "line": "Refugee camps crowd the Elysun terraces. Harmonix comes down as she promised. Her hands close Emberion's torn wing enough to carry him. Villagers breathe. Dragons at the edge of the camp lower their heads. Then the song changes key without her consent. A mouth like Lyra's opens in the air. Chains like Miralis's answer it. Neither of them is here.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "The first verse is mercy. If the second is not mine, cover your ears."
+        },
+        {
+          "who": "serenya",
+          "text": "That second voice is not Lyra. The moon is borrowing her name."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-camp-beasts",
+      "chapter": 23,
+      "kicker": "Book II · The camps",
+      "plate": "assets/scenes/book2/b2-c07.jpg",
+      "line": "The turned song calls beasts up out of the hearing itself. Ears bleed. Phantom blades ring where nobody drew steel. Harmonix is still in the air, and the song is using her. Put the made beasts down. She has to be standing when the terraces go quiet.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "Cut the sound that grew teeth. Do not cut the woman who came to mend."
+        },
+        {
+          "who": "emberion",
+          "text": "I can still stand. Point me at the beasts, not at her."
+        }
+      ],
+      "fight": "Face the choir",
+      "battle": "b2-camp-beasts",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor",
+        "shade-cantor"
+      ],
+      "fightTitle": "The fractured choir",
+      "winLine": "The made beasts fall. Harmonix fades out of the camp, broken and not dead. She will return later, still not whole. The climb that remains points at the Forge of Ætheris.",
+      "loseLine": "The song still has teeth. Level, then face the choir again."
+    },
+    {
+      "id": "b2-camp-after",
+      "chapter": 23,
+      "kicker": "Book II · The camps",
+      "plate": "assets/scenes/book2/b2-c07.jpg",
+      "line": "The camp cannot agree on what it heard. Some say a Champion healed them. Some say she tried to unmake them. Serenya does not pick the telling. Corvath spoke through the song and did not show himself. They pack what the terraces can spare and climb toward a black forge that is not the Sanctuary of Roots.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "I know that mountain. It is black, and it is not a pilgrimage."
+        },
+        {
+          "who": "emberion",
+          "text": "The wing will hold for the climb. Do not ask it to hold for a hymn."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-anvil-black",
+      "chapter": 24,
+      "kicker": "Book II · The black forge",
+      "plate": "assets/scenes/book2/b2-c08.jpg",
+      "line": "The Forge of Ætheris is a cavern in a black mountain, not the sanctuary where the first fire was lit. Ætheris is not here in any body they could touch. The anvil is. Kaelion sets his hammer down and does not ask Serenya to sing the blow. Emberion stays at the cave mouth, where dragon-fire would only insult the work.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "What goes into this blade has to come out of me. Do not help, and do not stop me."
+        },
+        {
+          "who": "serenya",
+          "text": "Then I will witness it. Witnessing is not the same thing as mercy."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-anvil-hollow",
+      "chapter": 24,
+      "kicker": "Book II · The black forge",
+      "plate": "assets/scenes/book2/b2-c08.jpg",
+      "line": "He strikes until the names of his wife and his child leave his mouth and do not come back. The vigilance blade takes the shape of that loss. He lives. He is hollow. He can hold the steel and he cannot say who it was for. Serenya does not hand the names back. They were not hers. Below the mountain, Miralis turns toward the Vale.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "There were two people. I still know the number. The names are gone."
+        },
+        {
+          "who": "emberion",
+          "text": "The mountain heard him. The Vale is about to hear something worse."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-dusk-order",
+      "chapter": 25,
+      "kicker": "Book II · Elysun",
+      "plate": "assets/scenes/book2/b2-c09.jpg",
+      "line": "Dusk hits the terraces as the Order of the Broken Seal comes up them. Miralis walks in the living chains, ahead of corrupted dragons and riders made of panic. Hollow Kaelion is beside Serenya, and the new blade hums at a pitch he does not know. Haven does not come. For this hour the Vale's heart is still a place where people live.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "You kept a shard and called it hope. I brought the chains you would not look at."
+        },
+        {
+          "who": "serenya",
+          "text": "I will not cut you out of the world to quiet them. The fight is the army behind you."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-dusk-assault",
+      "chapter": 25,
+      "kicker": "Book II · Elysun",
+      "plate": "assets/scenes/book2/b2-c09.jpg",
+      "line": "Glyph-zealots, phantom riders, and dragons that used to answer reins close on the terraces. Miralis stands in the smoke. The chains are the only thing holding him here, and a last blow will neither free him nor bury him. Emberion's flank tears. Serenya's throat tastes of iron. Break the assault. He has to fail on his own.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "The Order drew steel. He did not. Keep that difference when the lane fills."
+        },
+        {
+          "who": "emberion",
+          "text": "If I burn, I burn the riders off the doors. I do not burn him."
+        }
+      ],
+      "fight": "Hold the terraces",
+      "battle": "b2-dusk-assault",
+      "foes": [
+        "peak-raider",
+        "parsed-warden",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The fall of Elysun",
+      "winLine": "The assault breaks. Miralis dissolves into silver mist, still chained to whatever holds him, still not dead. Emberion burns the terraces to drive the rest off. The Vale's heart is ash. People are still in it.",
+      "loseLine": "The terraces are still being taken. Level, then hold them again."
+    },
+    {
+      "id": "b2-dusk-ash",
+      "chapter": 25,
+      "kicker": "Book II · Elysun",
+      "plate": "assets/scenes/book2/b2-c09.jpg",
+      "line": "Survivors stand in the burn and do not thank him with one voice. A few zealots wake as if from a dream and drop their blades. Serenya cannot sing ash back into orchards. The shard is fainter. The Order will keep moving in the north. The twin moons are already too close, and the road that remains runs to the Sanctum of Eternis.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "I burned their homes to keep the riders out of the doors. Say that plainly."
+        },
+        {
+          "who": "serenya",
+          "text": "I will. And I will not call the ash a victory."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-sea-chamber",
+      "chapter": 26,
+      "kicker": "Book II · The sanctum",
+      "plate": "assets/scenes/book2/b2-c10.jpg",
+      "line": "Dreams cross Aurethys before the chamber does. Silver Selunis and gold Aurion draw toward one line. Under the Moonsilver Sea, the Sanctum of Eternis is a room built for a Champion who does not enter it. Serenya, wounded Emberion, and Kaelion go in. Vale survivors wait at the edge. Corvath speaks from the moon. Lyra is a memory in the water, not a woman on the stone.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If Eternis is going to answer, this is the hour. I will not invent the answer."
+        },
+        {
+          "who": "kaelion",
+          "text": "The blade knows this room. I do not. That is the wrong way for a tool to lead."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-sea-phantoms",
+      "chapter": 26,
+      "kicker": "Book II · The sanctum",
+      "plate": "assets/scenes/book2/b2-c10.jpg",
+      "line": "The Seal of Time flares, and the panic steadies for one breath. Then it goes dark and refuses them. The illusions return worse: doors onto the Vale as it was, faces that promise the dead are only late. They are phantoms. Clear them. There is no Champion in this water to defeat.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "Do not walk through a door that gives you a dead year back."
+        },
+        {
+          "who": "serenya",
+          "text": "The seal had its chance to hold. These shapes do not get a second vote."
+        }
+      ],
+      "fight": "Face the dreams",
+      "battle": "b2-sea-phantoms",
+      "foes": [
+        "shade-cantor",
+        "shade-cantor",
+        "shade-beast",
+        "shade-beast"
+      ],
+      "fightTitle": "The refused seal",
+      "winLine": "The dream-phantoms thin. The Seal of Time stays dark. Eternis never entered. Some of the survivors still trust the false doors. Nobody named is dead.",
+      "loseLine": "The false doors are still open. Level, then face the dreams again."
+    },
+    {
+      "id": "b2-sea-after",
+      "chapter": 26,
+      "kicker": "Book II · The sanctum",
+      "plate": "assets/scenes/book2/b2-c10.jpg",
+      "line": "They climb out of the sea with less than they carried down. The shard is quieter. Word of a refused sanctum will reach Haven, and Ætheris will decide the Accord has already failed him. Serenya does not have a new companion and does not have a corpse. She has a road back toward a gate that is starting to forget its own shape.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "A seal that will not open is still an answer. It is a cruel one."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we take the cruelty with us. I will not decorate it."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-circle-crack",
+      "chapter": 27,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c11.jpg",
+      "line": "Harmonix's seat in the Circle is empty. Infinity Mirror, Ætheris, Sancora, Lightfather, Genesis Bloom, Orphiel, Volaris, and Eternis are still in the room. Serenya is discussed and is not there. One blow of Ætheris's heel cracks the floor. He refuses the Accord, names himself Judgment, takes Shadow as a tool, and vanishes into it. He is not killed. He is not crowned.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "aetheris",
+          "text": "I will not mend a song that refuses the blade. Call me Judgment, or call me nothing."
+        },
+        {
+          "who": "sancora",
+          "text": "Then the count is ten. Say the count. Do not say he died."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-circle-ten",
+      "chapter": 27,
+      "kicker": "Book II · Haven",
+      "plate": "assets/scenes/book2/b2-c11.jpg",
+      "line": "The Eleven have become the Ten. Corvath's laughter sits in the crack and nowhere else. The chamber will not close cleanly over the missing seat. Far below, Serenya is already walking toward a ruined amphitheater, and she has not heard the new name yet. The next thing the Vale meets is Miralis, still in the chains.",
+      "cast": [],
+      "speak": [
+        {
+          "who": "mirror",
+          "text": "Eleven, then ten. The glass can count. It cannot make the tenth come back."
+        },
+        {
+          "who": "lightfather",
+          "text": "Judgment walked into Shadow with his eyes open. Remember that when the Vale asks."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-arch-lies",
+      "chapter": 28,
+      "kicker": "Book II · The amphitheater",
+      "plate": "assets/scenes/book2/b2-c12.jpg",
+      "line": "The amphitheater is a bowl of broken seats. Miralis waits in the chains, and for a moment the voice is almost the one who left at Moonrise. A Lyra stands in the arch and is a lie. Kaelion waits at the outer arch with a blade that cannot name its own dead. Serenya does not bow to either shape. Emberion is alive beside her.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis"
+      ],
+      "speak": [
+        {
+          "who": "miralis",
+          "text": "You have seen me almost stop. You will not see me stop."
+        },
+        {
+          "who": "serenya",
+          "text": "Then I will break what you are showing me. I will not make you a grave."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-arch-wounds",
+      "chapter": 28,
+      "kicker": "Book II · The amphitheater",
+      "plate": "assets/scenes/book2/b2-c12.jpg",
+      "line": "The wounds he will not carry walk onto the sand: a false singer, a Vale already burning, a dragon already dead, and lesser shadow-riders behind them. Emberion is breathing at Serenya's shoulder. The dead dragon on the sand is only a picture of him. Break the pictures. Miralis goes when they do.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "miralis",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "If it wears a dead face, it is still a target. He is not."
+        },
+        {
+          "who": "emberion",
+          "text": "That carcass is not me. Burn the picture. Leave the man to his mist."
+        }
+      ],
+      "fight": "Break the visions",
+      "battle": "b2-arch-wounds",
+      "foes": [
+        "shade-cantor",
+        "shade-beast",
+        "mirror-serenya",
+        "peak-raider"
+      ],
+      "fightTitle": "The duel of illusions",
+      "winLine": "The false singer, the false burning, and the false dragon go out. Miralis scatters into broken time. He is not freed, not killed, and not returned. He promises to come back. Kaelion is scorched and alive. The shard is faint.",
+      "loseLine": "The lies are still standing. Level, then break them again."
+    },
+    {
+      "id": "b2-arch-ash",
+      "chapter": 28,
+      "kicker": "Book II · The amphitheater",
+      "plate": "assets/scenes/book2/b2-c12.jpg",
+      "line": "Gate glyphs along the ruined rim powder into ash under her hand. Haven's Gate has started to break. Serenya is too tired to chase a man who is already mist. Emberion sets his head near her shoulder and does not offer her a throne. The night above them is gathering into one scar.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "The gate is forgetting itself. So are we, a little. Keep the part that still answers."
+        },
+        {
+          "who": "kaelion",
+          "text": "I am still here. That is as much name as I have tonight."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-bond-jam",
+      "chapter": 29,
+      "kicker": "Book II · The Gate",
+      "plate": "assets/scenes/book2/b2-c13.jpg",
+      "line": "The crack reaches every road. In Haven the Ten feel the Gate fail. On Aurethys, dragon and rider stop understanding each other. Maddened dragons throw the people they love and burn villages without malice, because the reins no longer mean a promise. Serenya, Emberion, and Kaelion are in the Vale's ash. Corvath is a voice. Haven begins to drift. It is not fully gone.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "sancora",
+          "text": "The bonds are not betraying you. They are forgetting. Get the people out from under the fire."
+        },
+        {
+          "who": "kaelion",
+          "text": "I can still stand between a child and a frightened dragon. I cannot make it remember."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-bond-fire",
+      "chapter": 29,
+      "kicker": "Book II · The Gate",
+      "plate": "assets/scenes/book2/b2-c13.jpg",
+      "line": "This is not an enemy army. Panicked dragons and loose fire are in the lanes. Turn aside the shapes that will not turn themselves, and leave the people a way through. There is no Champion waiting at the end of the lane. There is only fire that has forgotten its rider.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "They are afraid. Afraid can still kill. Move the fire, and do not name a villain for it."
+        },
+        {
+          "who": "emberion",
+          "text": "I know what a frightened dragon does. I will not add my fire to theirs."
+        }
+      ],
+      "fight": "Clear the lanes",
+      "battle": "b2-bond-fire",
+      "foes": [
+        "shade-beast",
+        "shade-beast",
+        "shade-beast",
+        "shade-cantor"
+      ],
+      "fightTitle": "The drifting Gate",
+      "winLine": "The lanes clear. No one you can name is dead on them. The shard dies down to an ember. The Gate is cracked, and Haven is drifting, still not severed.",
+      "loseLine": "The fire is still in the lanes. Level, then clear them again."
+    },
+    {
+      "id": "b2-bond-drift",
+      "chapter": 29,
+      "kicker": "Book II · The Gate",
+      "plate": "assets/scenes/book2/b2-c13.jpg",
+      "line": "Riders who survived being thrown do not know who to blame. Serenya does not give them a face. Above the ash the twin moons draw into one scar. The night that is coming will not fit in a lane, and it will not wait for the Gate to finish breaking.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "If the sky is going to open, I would rather meet it on my feet."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we meet it. The ember is small. It is still in my hand."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-scar-open",
+      "chapter": 30,
+      "kicker": "Book II · The scar",
+      "plate": "assets/scenes/book2/b2-c14.jpg",
+      "line": "The moons align, and Haven's memory-light falls on every road at once. Corvath comes out of the lunar scar as dragon and as void. He is free. He is not crowned. He is not killed. Lightfather, Sancora, and the still-broken Harmonix descend. Ætheris does not. He is already in Shadow. On the ground, Serenya, Emberion, and hollow Kaelion hold what is left of a line.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "You hid me in a moon and called the hiding peace. I am done being your quiet."
+        },
+        {
+          "who": "serenya",
+          "text": "Then stand where we can see you. I did not come to kneel, and I did not come to end you."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-scar-field",
+      "chapter": 30,
+      "kicker": "Book II · The scar",
+      "plate": "assets/scenes/book2/b2-c14.jpg",
+      "line": "Illusions, shadow-taken dragons, and mortals driven by faces that are not theirs fill the field. Corvath hangs in the scar above them. Hold the ground under that sky. This is defiance. Morning will not be able to call it a clean victory.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath",
+        "shade"
+      ],
+      "speak": [
+        {
+          "who": "harmonix",
+          "text": "I can still break a false note. I cannot promise the true one."
+        },
+        {
+          "who": "emberion",
+          "text": "Stay on me. If the bond holds, the bleeding is just bleeding."
+        }
+      ],
+      "fight": "Hold the field",
+      "battle": "b2-scar-field",
+      "foes": [
+        "shade-beast",
+        "shade-cantor",
+        "peak-raider",
+        "parsed-warden"
+      ],
+      "fightTitle": "The moonlit field",
+      "winLine": "The field holds for the night. Unnamed dragons die, join Shadow, or burn their own riders. Emberion bleeds, and the bond holds. No named Champion dies. Corvath is still free above them.",
+      "loseLine": "The field is still folding. Level, then hold it again."
+    },
+    {
+      "id": "b2-scar-night",
+      "chapter": 30,
+      "kicker": "Book II · The scar",
+      "plate": "assets/scenes/book2/b2-c14.jpg",
+      "line": "The moon's prison is open. Clearing the field does not end the night. The same darkness runs on into collapse, and the collapse has one more thing to do with a throne.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "lightfather",
+          "text": "We came down. Coming down is not the same as closing the scar."
+        },
+        {
+          "who": "serenya",
+          "text": "Then stay on the ground with the rest of us until it finishes."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-throne-scar",
+      "chapter": 31,
+      "kicker": "Book II · The shattered night",
+      "plate": "assets/scenes/book2/b2-c15.jpg",
+      "line": "Corvath enthrones himself on the lunar scar and puts the crown on with his own hands. The Ten watch. Watching does not stop him. Harmonix is among them, still broken. In the blackened Vale, Serenya, a limping Emberion, and Kaelion stand with the survivors. Miralis is absent. His Order spreads in the north. Lyra stays dead. No new companion walks out of the ash.",
+      "cast": [
+        "serenya",
+        "emberion",
+        "corvath"
+      ],
+      "speak": [
+        {
+          "who": "corvath",
+          "text": "The Accord you sang is a story I have finished. Remember the throne."
+        },
+        {
+          "who": "lightfather",
+          "text": "We see you. Seeing is not consent. It is also not a rescue."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-throne-cold",
+      "chapter": 31,
+      "kicker": "Book II · The shattered night",
+      "plate": "assets/scenes/book2/b2-c15.jpg",
+      "line": "The Accord vanishes. Haven's Gate shatters. Haven drifts free of the world it was meant to guard. The shard goes cold in Serenya's hand. The names she loves are the same names she had at dusk. What she says over the ash is only a seed, and a seed does not have to look like hope to be one.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "serenya",
+          "text": "If the past can be taken, I will forge a future that still knows it was hurt."
+        },
+        {
+          "who": "emberion",
+          "text": "I heard you. The ash heard you. Do not ask the moon to applaud."
+        }
+      ],
+      "next": "Onward"
+    },
+    {
+      "id": "b2-glyph-weeks",
+      "chapter": 32,
+      "kicker": "Book II · A new glyph",
+      "plate": "assets/scenes/book2/b2-epi.jpg",
+      "line": "Weeks later the shattered Stone is only a place to stand, so people stand there. Farmers come. A young acolyte with no banner comes. A few of Miralis's followers come and do not draw. Somewhere past the ridge, unbound dragons answer a human song and do not become subjects. The Ten listen from Haven and do not step in. Corvath watches from the throne and does not laugh. He notices the scars.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "kaelion",
+          "text": "The blade hummed once when they sang. I still cannot say the names it ate."
+        },
+        {
+          "who": "serenya",
+          "text": "Then the mark we cut has to be true without those names."
+        }
+      ],
+      "novel": "book-2",
+      "read": true,
+      "next": "Onward"
+    },
+    {
+      "id": "b2-glyph-warm",
+      "chapter": 32,
+      "kicker": "Book II · A new glyph",
+      "plate": "assets/scenes/book2/b2-epi.jpg",
+      "line": "Serenya and Emberion carve a small mortal glyph into the scorched stone. Survivors feed it with names and with songs. It is warm. It is not a restored Stone. The old Accord stays shattered. Some resist the Order. Kaelion stays hollow, and he stays. The Ascension War has not begun. This save is already walking toward it.",
+      "cast": [
+        "serenya",
+        "emberion"
+      ],
+      "speak": [
+        {
+          "who": "emberion",
+          "text": "A warm mark in ash will not hold a moon. It can hold us for the next step."
+        },
+        {
+          "who": "serenya",
+          "text": "Then we take the next step. I will not call this peace."
+        }
+      ],
+      "next": "Onward",
+      "flag": "book2Clear"
+    }
+  ]
+}

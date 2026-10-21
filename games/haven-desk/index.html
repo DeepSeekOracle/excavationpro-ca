@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO 98: a late-90s desk | Excavationpro</title>
+<meta name="description" content="LYGO 98 is Justin Helmer's unofficial late-90s desk. Teal field, gray windows, a LYGO menu, pictures, mail, and the chatagent games. Not affiliated with Microsoft.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#008080">
+<link rel="canonical" href="https://excavationpro.ca/games/haven-desk/">
+<link rel="image_src" href="https://excavationpro.ca/games/haven-desk/assets/og.jpg?v=lygo98">
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="chatagent.ca">
+<meta property="og:locale" content="en_CA">
+<meta property="og:url" content="https://excavationpro.ca/games/haven-desk/">
+<meta property="og:title" content="LYGO 98, a late-90s desk">
+<meta property="og:description" content="An unofficial LYGO desk. Teal field, gray windows, mail, pictures, and a saver you can boot from. Not affiliated with Microsoft.">
+<meta property="og:image" content="https://excavationpro.ca/games/haven-desk/assets/og.jpg?v=lygo98">
+<meta property="og:image:secure_url" content="https://excavationpro.ca/games/haven-desk/assets/og.jpg?v=lygo98">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="LYGO 98 on a teal field, with a gray window and a LYGO button">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:creator" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO 98, a late-90s desk">
+<meta name="twitter:description" content="An unofficial LYGO desk. Teal field, gray windows, mail, pictures, and a saver you can boot from. Not affiliated with Microsoft.">
+<meta name="twitter:image" content="https://excavationpro.ca/games/haven-desk/assets/og.jpg?v=lygo98">
+<meta name="twitter:image:alt" content="LYGO 98 on a teal field, with a gray window and a LYGO button">
+<link rel="stylesheet" href="./desk.css?v=20261008-desk11">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "LYGO 98",
+  "alternateName": "late-90s desk",
+  "url": "https://excavationpro.ca/games/haven-desk/",
+  "description": "An unofficial late-90s desk by Justin Helmer. Teal field, gray windows, programs, and chatagent games opened in windows. Not affiliated with Microsoft.",
+  "genre": ["Desk", "Casual"],
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web",
+  "softwareVersion": "LYGO 98",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "image": "https://excavationpro.ca/games/haven-desk/assets/og.jpg?v=lygo98",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+  "author": {
+    "@type": "Person",
+    "name": "Justin Helmer",
+    "alternateName": ["Excavationpro", "Lightfather"],
+    "url": "https://chatagent.ca/about.html"
+  }
+}
+</script>
+</head>
+<body>
+<div id="boot">
+  <p>LYGO 98 BIOS</p>
+  <p id="boot-line">CPU Lattice-90 &nbsp; memory 640K OK</p>
+  <p>Floppy A: not ready &nbsp; Hearth Line waiting</p>
+  <p>LYGO 98</p>
+  <p class="hint">Click to sit down.</p>
+  <p><a class="games-mini" href="/games/">All games</a></p>
+</div>
+
+<div id="desk" hidden>
+  <div id="stage">
+    <div id="desktop"></div>
+    <div id="windows"></div>
+  </div>
+  <nav id="taskbar" aria-label="Desk bar">
+    <button id="desk-btn" class="raised" type="button" aria-haspopup="true" aria-expanded="false">
+      <svg viewBox="0 0 18 18" aria-hidden="true">
+        <rect x="1" y="1" width="16" height="16" fill="#071018" stroke="#d4b483"/>
+        <path d="M5 4 H8 V10 H13 V13 H5 Z" fill="#5eead4"/>
+      </svg>
+      <span>LYGO</span>
+    </button>
+    <div id="tasks"></div>
+    <a class="games-mini" href="/games/">All games</a>
+    <button id="vol-btn" class="raised tray" type="button" aria-label="Volume">Vol</button>
+    <button id="power-btn" class="raised tray" type="button" aria-label="Power off">Off</button>
+    <button id="clock" class="sunken" type="button"></button>
+    <div id="vol-pop" class="raised" hidden>
+      <input id="vol-slider" type="range" min="0" max="100" value="70" aria-label="Volume">
+    </div>
+  </nav>
+  <div id="desk-menu" class="raised" hidden role="menu"></div>
+</div>
+
+<div id="off" hidden>
+  <canvas id="saver"></canvas>
+  <div class="saver-copy">
+    <p class="lygo-mark" aria-hidden="true">L</p>
+    <p class="lygo-brand">LYGO 98</p>
+    <h1>It is now safe to leave the desk.</h1>
+    <p id="saver-word"></p>
+    <p><button id="on-again" class="raised" type="button">Boot the desk</button></p>
+    <p><a class="games-mini" href="/games/">All games</a></p>
+  </div>
+</div>
+
+<script src="./desk.js?v=20261008-desk11"></script>
+<script src="./desk-more.js?v=20261008-desk9"></script>
+<script src="./desk-lore.js?v=20261008-desk5"></script>
+</body>
+</html>
