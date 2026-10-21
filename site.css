@@ -10,6 +10,7 @@
   --gold: #7a5c16;
 }
 * { box-sizing: border-box; }
+html, body { overflow-x: hidden; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
