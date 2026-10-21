@@ -219,6 +219,7 @@
       "</div>" +
       '<div class="tv-bar">' +
         '<button type="button" class="tv-zap" data-dir="-1" aria-label="Previous channel">Prev</button>' +
+        '<select class="tv-channel" aria-label="Choose live channel"></select>' +
         '<p class="tv-meta">Channel</p>' +
         '<button type="button" class="tv-zap" data-dir="1" aria-label="Next channel">Next</button>' +
         '<button type="button" class="tv-zap tv-sound" data-sound aria-pressed="false"' +
@@ -227,6 +228,19 @@
       '<p class="tv-meta tv-hint" data-sound-hint hidden style="font-size:.78em;opacity:.78"></p>';
 
     const list = ROOMS.slice();
+    const picker = host.querySelector(".tv-channel");
+    if (picker) {
+      ROOMS.forEach(function (c, n) {
+        const o = document.createElement("option");
+        o.value = String(n);
+        o.textContent = c.title;
+        picker.appendChild(o);
+      });
+      picker.addEventListener("change", function () {
+        gesture = true;
+        play(parseInt(picker.value, 10));
+      });
+    }
     const seen = {};
     list.forEach(function (c) { if (c.url) seen[c.url] = 1; });
     let i = rumbleIndex(list);
@@ -270,6 +284,8 @@
       if (!list.length) return;
       i = (n + list.length) % list.length;
       const ch = list[i];
+      const roomIndex = ROOMS.findIndex(function (c) { return c.id === ch.id; });
+      if (picker && roomIndex >= 0) picker.value = String(roomIndex);
       const kind = kindOf(ch);
       const src = embed(ch);
       const safe = urlAllowed(src, kind);
