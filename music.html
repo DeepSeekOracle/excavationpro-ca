@@ -327,6 +327,7 @@ audio { width:100%; height:36px; }
 
 @media (max-width:640px){ .player-wave canvas{height:150px} .dock-inner{padding:8px 12px 10px} .now{font-size:.82rem} }
 </style>
+<link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=8">
 </head>
 <body id="top">
 
@@ -354,6 +355,27 @@ audio { width:100%; height:36px; }
     <a class="paypal-btn" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate via PayPal</a>
   </div>
 </header>
+
+<section class="tv-band" id="lygo-tv" aria-label="LYGO TV live channels">
+  <div class="wrap tv-band-inner">
+    <div class="tv-band-head">
+      <p class="tv-kicker">LYGO TV · LIVE CHANNELS</p>
+      <h2>Watch the room.</h2>
+      <p class="tv-sub">Starts on <strong>Excavationpro Rumble LIVE</strong>. Prev / Next walks the full public LYGO channel pool.</p>
+    </div>
+    <div data-lygo-tv></div>
+  </div>
+</section>
+<style>
+.tv-band { margin:0 0 1.4rem; padding:1.1rem 0 1.35rem; border-top:1px solid rgba(212,175,55,.18); border-bottom:1px solid rgba(212,175,55,.18); background:linear-gradient(180deg,rgba(18,18,31,.72),rgba(7,7,15,.18)); }
+.tv-band-inner { max-width:1120px; margin:0 auto; padding:0 16px; }
+.tv-band-head { max-width:78ch; margin:0 0 .8rem; }
+.tv-kicker { margin:0 0 .35rem; color:var(--gold); font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.67rem; letter-spacing:.16em; }
+.tv-band h2 { margin:0 0 .35rem; color:#fff; font-size:clamp(1.35rem,2.6vw,2rem); font-family:Georgia,"Times New Roman",serif; font-weight:500; }
+.tv-sub { margin:0; color:var(--muted); font-size:.9rem; line-height:1.6; }
+.tv-sub strong { color:#e8d79a; }
+</style>
+
 
 <div class="wrap">
   <div class="ad-region" id="ad-top" aria-label="Advertisement">
@@ -1918,5 +1940,6 @@ rebuildFilter();
   start();
 })();
 </script>
+<script src="https://chatagent.ca/assets/lygo-tv-ninja.js?v=8" defer></script>
 </body>
 </html>
