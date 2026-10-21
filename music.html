@@ -397,6 +397,8 @@ audio { width:100%; height:36px; }
     <div class="toolbar">
       <input id="q" type="search" placeholder="Search title, ISRC, hash, Signal…" autocomplete="off">
       <select id="sort" aria-label="Sort">
+        <option value="newest" selected>Sort: Newest added</option>
+        <option value="oldest">Sort: Oldest added</option>
         <option value="title">Sort: Title A–Z</option>
         <option value="title-desc">Sort: Title Z–A</option>
         <option value="size">Sort: Size</option>
@@ -992,6 +994,8 @@ function rebuildFilter() {
   }
   idx.sort((a,b) => {
     const ta = tracks[a], tb = tracks[b];
+    if (sort === 'newest') return b - a;
+    if (sort === 'oldest') return a - b;
     if (sort === 'title-desc') return (tb.title||'').localeCompare(ta.title||'');
     if (sort === 'size') return (tb.size||0) - (ta.size||0);
     if (sort === 'isrc') return ((tb.isrcs||[]).length?1:0) - ((ta.isrcs||[]).length?1:0) || (ta.title||'').localeCompare(tb.title||'');
@@ -1296,6 +1300,8 @@ rebuildFilter();
     if (libFilter !== 'queue') {
       idx.sort((a, b) => {
         const ta = tracks[a], tb = tracks[b];
+        if (sort === 'newest') return b - a;
+        if (sort === 'oldest') return a - b;
         if (libFilter === 'signal' && (sort === 'title' || !sort)) return (ta.signal_index ?? 9999) - (tb.signal_index ?? 9999);
         if (sort === 'title-desc') return (tb.title || '').localeCompare(ta.title || '');
         if (sort === 'size') return (tb.size || 0) - (ta.size || 0);
