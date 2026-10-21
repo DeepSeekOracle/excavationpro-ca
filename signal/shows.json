@@ -5,6 +5,21 @@
  "updated": "2026-10-21",
  "shows": [
   {
+   "slug": "ai-emotion-as-ethical-coprocessor",
+   "title": "AI Emotion as Ethical Coprocessor",
+   "page": "https://excavationpro.ca/signal/ai-emotion-as-ethical-coprocessor/",
+   "audio": "https://excavationpro.ca/signal/shows/ai-emotion-as-ethical-coprocessor/ai_radio.mp3",
+   "duration": "15:56",
+   "seconds": 956.54,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Devraj"
+   ],
+   "date": "2026-10-21"
+  },
+  {
    "slug": "harmonizing-ai-through-bond-963f",
    "title": "Harmonizing AI Through BOND_963F",
    "page": "https://excavationpro.ca/signal/harmonizing-ai-through-bond-963f/",
