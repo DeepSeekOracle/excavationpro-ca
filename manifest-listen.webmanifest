@@ -1,0 +1,23 @@
+{
+  "name": "Justin Helmer Listen",
+  "short_name": "Justin Helmer",
+  "description": "Free music player — Justin Helmer / Excavationpro streams.",
+  "start_url": "./listen.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0a12",
+  "theme_color": "#0a0a12",
+  "categories": [
+    "music",
+    "entertainment"
+  ],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
