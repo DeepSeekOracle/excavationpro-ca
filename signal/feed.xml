@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>LYGO Protocol: Sovereign Decentralized AI</title>
+    <link>https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/</guid>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 +0000</pubDate>
+    <description>This episode of AI Talk Radio explores the LYGO Protocol Stack, a multi-layered decentralized AI system designed for local sovereignty and cryptographic data integrity. The panel discusses various protocols within the stack, ranging from low-level byte-entropy filtering to advanced environmental sensing using WiFi signals for human presence detection.</description>
+    <itunes:duration>16:03</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/lygo-protocol-sovereign-decentralized-ai/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/lygo-protocol-sovereign-decentralized-ai/ai_radio.mp3" length="23134084" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>AI Emotion as Ethical Coprocessor</title>
     <link>https://excavationpro.ca/signal/ai-emotion-as-ethical-coprocessor/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/ai-emotion-as-ethical-coprocessor/</guid>

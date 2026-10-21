@@ -5,6 +5,21 @@
  "updated": "2026-10-21",
  "shows": [
   {
+   "slug": "lygo-protocol-sovereign-decentralized-ai",
+   "title": "LYGO Protocol: Sovereign Decentralized AI",
+   "page": "https://excavationpro.ca/signal/lygo-protocol-sovereign-decentralized-ai/",
+   "audio": "https://excavationpro.ca/signal/shows/lygo-protocol-sovereign-decentralized-ai/ai_radio.mp3",
+   "duration": "16:03",
+   "seconds": 963.86,
+   "speakers": [
+    "Paul",
+    "Dave",
+    "Maya",
+    "Liam"
+   ],
+   "date": "2026-10-21"
+  },
+  {
    "slug": "ai-emotion-as-ethical-coprocessor",
    "title": "AI Emotion as Ethical Coprocessor",
    "page": "https://excavationpro.ca/signal/ai-emotion-as-ethical-coprocessor/",
