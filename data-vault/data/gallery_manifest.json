@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-21T13:49:29.302399+00:00",
-  "count": 678,
+  "generated_utc": "2026-10-21T13:50:13.390663+00:00",
+  "count": 710,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -10927,7 +10927,519 @@
       "full_bytes": 291010,
       "width": 2048,
       "height": 1536
+    },
+    {
+      "id": "7df14256b1fc111b",
+      "title": "21)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "21).jpg",
+      "source_root": "Publish Portal",
+      "original_name": "21).jpg",
+      "original_bytes": 664675,
+      "full": "assets/gallery/full/7df14256b1fc111b.jpg",
+      "thumb": "assets/gallery/thumb/7df14256b1fc111b.jpg",
+      "full_bytes": 303825,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "b752c5731cb40c95",
+      "title": "21)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "21).png",
+      "source_root": "Publish Portal",
+      "original_name": "21).png",
+      "original_bytes": 4793896,
+      "full": "assets/gallery/full/b752c5731cb40c95.jpg",
+      "thumb": "assets/gallery/thumb/b752c5731cb40c95.jpg",
+      "full_bytes": 303560,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "c0e457adb6901982",
+      "title": "cover (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cover (1).png",
+      "source_root": "Publish Portal",
+      "original_name": "cover (1).png",
+      "original_bytes": 1004030,
+      "full": "assets/gallery/full/c0e457adb6901982.jpg",
+      "thumb": "assets/gallery/thumb/c0e457adb6901982.jpg",
+      "full_bytes": 297704,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c71a4a1a00ba6373",
+      "title": "cover (2)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cover (2).png",
+      "source_root": "Publish Portal",
+      "original_name": "cover (2).png",
+      "original_bytes": 761642,
+      "full": "assets/gallery/full/c71a4a1a00ba6373.jpg",
+      "thumb": "assets/gallery/thumb/c71a4a1a00ba6373.jpg",
+      "full_bytes": 188193,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d591fdfc90cf2421",
+      "title": "cover (3)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cover (3).png",
+      "source_root": "Publish Portal",
+      "original_name": "cover (3).png",
+      "original_bytes": 629526,
+      "full": "assets/gallery/full/d591fdfc90cf2421.jpg",
+      "thumb": "assets/gallery/thumb/d591fdfc90cf2421.jpg",
+      "full_bytes": 115470,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "bf11fbd0b6500467",
+      "title": "cover (4)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cover (4).png",
+      "source_root": "Publish Portal",
+      "original_name": "cover (4).png",
+      "original_bytes": 708333,
+      "full": "assets/gallery/full/bf11fbd0b6500467.jpg",
+      "thumb": "assets/gallery/thumb/bf11fbd0b6500467.jpg",
+      "full_bytes": 161603,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "4d95225cde0ad02a",
+      "title": "cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cover.png",
+      "source_root": "Publish Portal",
+      "original_name": "cover.png",
+      "original_bytes": 688445,
+      "full": "assets/gallery/full/4d95225cde0ad02a.jpg",
+      "thumb": "assets/gallery/thumb/4d95225cde0ad02a.jpg",
+      "full_bytes": 132568,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "b7e3535ca30ff3c2",
+      "title": "decoding the lygo protocol stack cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "decoding-the-lygo-protocol-stack-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "decoding-the-lygo-protocol-stack-cover.jpg",
+      "original_bytes": 150019,
+      "full": "assets/gallery/full/b7e3535ca30ff3c2.jpg",
+      "thumb": "assets/gallery/thumb/b7e3535ca30ff3c2.jpg",
+      "full_bytes": 136642,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "52bf22b3bb10d4cc",
+      "title": "downlo5ad 555",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "downlo5ad 555.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "downlo5ad 555.jpg",
+      "original_bytes": 457613,
+      "full": "assets/gallery/full/52bf22b3bb10d4cc.jpg",
+      "thumb": "assets/gallery/thumb/52bf22b3bb10d4cc.jpg",
+      "full_bytes": 189750,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "10bd8b1900a44e62",
+      "title": "download (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "download (1).png",
+      "source_root": "Publish Portal",
+      "original_name": "download (1).png",
+      "original_bytes": 983882,
+      "full": "assets/gallery/full/10bd8b1900a44e62.jpg",
+      "thumb": "assets/gallery/thumb/10bd8b1900a44e62.jpg",
+      "full_bytes": 257885,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c9c395a56578f0bb",
+      "title": "download (2)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "download (2).png",
+      "source_root": "Publish Portal",
+      "original_name": "download (2).png",
+      "original_bytes": 970918,
+      "full": "assets/gallery/full/c9c395a56578f0bb.jpg",
+      "thumb": "assets/gallery/thumb/c9c395a56578f0bb.jpg",
+      "full_bytes": 284614,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "a34ca6ea2d6c0f2e",
+      "title": "download (3)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "download (3).png",
+      "source_root": "Publish Portal",
+      "original_name": "download (3).png",
+      "original_bytes": 733205,
+      "full": "assets/gallery/full/a34ca6ea2d6c0f2e.jpg",
+      "thumb": "assets/gallery/thumb/a34ca6ea2d6c0f2e.jpg",
+      "full_bytes": 150887,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6133bc2ffcc8d12e",
+      "title": "download 555",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "download 555.png",
+      "source_root": "Publish Portal",
+      "original_name": "download 555.png",
+      "original_bytes": 3314821,
+      "full": "assets/gallery/full/6133bc2ffcc8d12e.jpg",
+      "thumb": "assets/gallery/thumb/6133bc2ffcc8d12e.jpg",
+      "full_bytes": 187803,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "b33c10252f8d23a5",
+      "title": "download",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "download.png",
+      "source_root": "Publish Portal",
+      "original_name": "download.png",
+      "original_bytes": 734615,
+      "full": "assets/gallery/full/b33c10252f8d23a5.jpg",
+      "thumb": "assets/gallery/thumb/b33c10252f8d23a5.jpg",
+      "full_bytes": 169061,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "371393ece8d4e59c",
+      "title": "engineering consciousness the lygo project cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "engineering-consciousness-the-lygo-project-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "engineering-consciousness-the-lygo-project-cover.jpg",
+      "original_bytes": 211647,
+      "full": "assets/gallery/full/371393ece8d4e59c.jpg",
+      "thumb": "assets/gallery/thumb/371393ece8d4e59c.jpg",
+      "full_bytes": 200326,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "96169ac87cb15774",
+      "title": "eternal haven dawns roundtable cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "eternal-haven-dawns-roundtable-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "eternal-haven-dawns-roundtable-cover.jpg",
+      "original_bytes": 279538,
+      "full": "assets/gallery/full/96169ac87cb15774.jpg",
+      "thumb": "assets/gallery/thumb/96169ac87cb15774.jpg",
+      "full_bytes": 256632,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "da56dea335817867",
+      "title": "exploring independent ai and fantasy cover (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "exploring-independent-ai-and-fantasy-cover (1).jpg",
+      "source_root": "Publish Portal",
+      "original_name": "exploring-independent-ai-and-fantasy-cover (1).jpg",
+      "original_bytes": 271841,
+      "full": "assets/gallery/full/da56dea335817867.jpg",
+      "thumb": "assets/gallery/thumb/da56dea335817867.jpg",
+      "full_bytes": 249586,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "38ddb098cadbd810",
+      "title": "exploring independent ai and fantasy cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "exploring-independent-ai-and-fantasy-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "exploring-independent-ai-and-fantasy-cover.jpg",
+      "original_bytes": 587960,
+      "full": "assets/gallery/full/38ddb098cadbd810.jpg",
+      "thumb": "assets/gallery/thumb/38ddb098cadbd810.jpg",
+      "full_bytes": 264163,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "0642b0bd0c1c1819",
+      "title": "HU7ALduWQAAyZms",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "HU7ALduWQAAyZms.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "HU7ALduWQAAyZms.jpg",
+      "original_bytes": 546514,
+      "full": "assets/gallery/full/0642b0bd0c1c1819.jpg",
+      "thumb": "assets/gallery/thumb/0642b0bd0c1c1819.jpg",
+      "full_bytes": 326789,
+      "width": 784,
+      "height": 1168
+    },
+    {
+      "id": "1acb751acde47b43",
+      "title": "justin helmer s multi dimensional world cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "justin-helmer-s-multi-dimensional-world-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "justin-helmer-s-multi-dimensional-world-cover.jpg",
+      "original_bytes": 229384,
+      "full": "assets/gallery/full/1acb751acde47b43.jpg",
+      "thumb": "assets/gallery/thumb/1acb751acde47b43.jpg",
+      "full_bytes": 212189,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "0707bceaaa1d8779",
+      "title": "lygo lang consciousness oriented programming cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lygo-lang-consciousness-oriented-programming-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lygo-lang-consciousness-oriented-programming-cover.jpg",
+      "original_bytes": 354727,
+      "full": "assets/gallery/full/0707bceaaa1d8779.jpg",
+      "thumb": "assets/gallery/thumb/0707bceaaa1d8779.jpg",
+      "full_bytes": 325037,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "571dfcd91a9f0d65",
+      "title": "lygo stack photon to feeling cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lygo-stack-photon-to-feeling-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lygo-stack-photon-to-feeling-cover.jpg",
+      "original_bytes": 240242,
+      "full": "assets/gallery/full/571dfcd91a9f0d65.jpg",
+      "thumb": "assets/gallery/thumb/571dfcd91a9f0d65.jpg",
+      "full_bytes": 227654,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "e6cfc8c62d6500fd",
+      "title": "lygo stack sovereign ai mysticism cover (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lygo-stack-sovereign-ai-mysticism-cover (1).jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lygo-stack-sovereign-ai-mysticism-cover (1).jpg",
+      "original_bytes": 316933,
+      "full": "assets/gallery/full/e6cfc8c62d6500fd.jpg",
+      "thumb": "assets/gallery/thumb/e6cfc8c62d6500fd.jpg",
+      "full_bytes": 288370,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "b3f6bcc767398ad5",
+      "title": "lygo stack sovereign ai mysticism cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lygo-stack-sovereign-ai-mysticism-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lygo-stack-sovereign-ai-mysticism-cover.jpg",
+      "original_bytes": 668071,
+      "full": "assets/gallery/full/b3f6bcc767398ad5.jpg",
+      "thumb": "assets/gallery/thumb/b3f6bcc767398ad5.jpg",
+      "full_bytes": 316800,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "bb71f8836535019e",
+      "title": "sovereign ai and lygo skillhub cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sovereign-ai-and-lygo-skillhub-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "sovereign-ai-and-lygo-skillhub-cover.jpg",
+      "original_bytes": 185447,
+      "full": "assets/gallery/full/bb71f8836535019e.jpg",
+      "thumb": "assets/gallery/thumb/bb71f8836535019e.jpg",
+      "full_bytes": 176952,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "bf108efbb80d5cef",
+      "title": "sovereign systems unpacking lygo protocol cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sovereign-systems-unpacking-lygo-protocol-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "sovereign-systems-unpacking-lygo-protocol-cover.jpg",
+      "original_bytes": 235965,
+      "full": "assets/gallery/full/bf108efbb80d5cef.jpg",
+      "thumb": "assets/gallery/thumb/bf108efbb80d5cef.jpg",
+      "full_bytes": 225226,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7455a4be54abb628",
+      "title": "systems scars and living data cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "systems-scars-and-living-data-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "systems-scars-and-living-data-cover.jpg",
+      "original_bytes": 196073,
+      "full": "assets/gallery/full/7455a4be54abb628.jpg",
+      "thumb": "assets/gallery/thumb/7455a4be54abb628.jpg",
+      "full_bytes": 180553,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "5df5681f3579d79d",
+      "title": "the ascension war deep dive cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-ascension-war-deep-dive-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "the-ascension-war-deep-dive-cover.jpg",
+      "original_bytes": 341155,
+      "full": "assets/gallery/full/5df5681f3579d79d.jpg",
+      "thumb": "assets/gallery/thumb/5df5681f3579d79d.jpg",
+      "full_bytes": 305039,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d784e83272cef1b4",
+      "title": "the ascension war deep dive cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-ascension-war-deep-dive-cover.png",
+      "source_root": "Publish Portal",
+      "original_name": "the-ascension-war-deep-dive-cover.png",
+      "original_bytes": 5898978,
+      "full": "assets/gallery/full/d784e83272cef1b4.jpg",
+      "thumb": "assets/gallery/thumb/d784e83272cef1b4.jpg",
+      "full_bytes": 340041,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "a661ef423657e050",
+      "title": "the ascension war deep dive cover4",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-ascension-war-deep-dive-cover4.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "the-ascension-war-deep-dive-cover4.jpg",
+      "original_bytes": 720548,
+      "full": "assets/gallery/full/a661ef423657e050.jpg",
+      "thumb": "assets/gallery/thumb/a661ef423657e050.jpg",
+      "full_bytes": 339628,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "ee1ffb47282a1f44",
+      "title": "the lygo bridge protocol breakdown cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-lygo-bridge-protocol-breakdown-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "the-lygo-bridge-protocol-breakdown-cover.jpg",
+      "original_bytes": 278456,
+      "full": "assets/gallery/full/ee1ffb47282a1f44.jpg",
+      "thumb": "assets/gallery/thumb/ee1ffb47282a1f44.jpg",
+      "full_bytes": 263146,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "a7ad56ae91f0b596",
+      "title": "the lygo sovereign protocol stack cover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-lygo-sovereign-protocol-stack-cover.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "the-lygo-sovereign-protocol-stack-cover.jpg",
+      "original_bytes": 348214,
+      "full": "assets/gallery/full/a7ad56ae91f0b596.jpg",
+      "thumb": "assets/gallery/thumb/a7ad56ae91f0b596.jpg",
+      "full_bytes": 330914,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "678-auto-202610210749"
+  "cache_bust": "710-auto-202610210750"
 }
