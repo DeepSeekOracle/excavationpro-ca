@@ -502,6 +502,20 @@ html,body{overflow-x:hidden}
   .bpm-number { font-size:58px; }
 }
 
+
+/* ===== REAL ANALYSER DECK ===== */
+.wave-deck { position:relative; z-index:2; margin:0 18px 10px; height:190px; border-radius:16px; overflow:hidden; border:1px solid rgba(94,234,212,.20); background:linear-gradient(180deg,#04070e,#02050a); box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 36px rgba(0,0,0,.28); }
+#liveWave { display:block; width:100%; height:100%; }
+.wave-deck-head { position:absolute; z-index:2; inset:9px 12px auto; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; pointer-events:none; }
+.wave-deck-head p { margin:0; color:rgba(190,215,235,.55); font:600 9px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.15em; }
+.wave-deck-head p b { color:var(--viz-c); margin-left:5px; letter-spacing:.1em; }
+.wave-live-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#ff5d7a; box-shadow:0 0 10px rgba(255,93,122,.8); margin-right:4px; animation:livePulse 2.2s ease-in-out infinite; }
+.wave-modes { display:flex; flex-wrap:wrap; gap:4px; justify-content:flex-end; pointer-events:auto; }
+.wave-modes button { cursor:pointer; border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:4px 8px; color:rgba(200,220,240,.58); background:rgba(4,9,18,.72); font:600 8px/1 ui-monospace,monospace; letter-spacing:.04em; }
+.wave-modes button.on { border-color:var(--viz-a); color:#dffcf7; background:rgba(94,234,212,.13); }
+.wave-modes button:hover { border-color:var(--viz-c); color:var(--viz-c); }
+@media (max-width:640px) { .wave-deck { margin:0 9px 8px; height:155px; } .wave-deck-head { inset:8px 9px auto; } .wave-modes button { padding:3px 6px; font-size:7px; } }
+
 </style>
 <link rel="stylesheet" href="https://chatagent.ca/assets/lygo-tv-ninja.css?v=8">
 </head>
@@ -555,10 +569,6 @@ html,body{overflow-x:hidden}
 
 
 <div class="wrap">
-  <div class="ad-region" id="ad-top" aria-label="Advertisement">
-    <div class="ad-label">Advertisement</div>
-    <div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
-  </div>
 
   <div class="tabs" role="tablist">
     <button type="button" class="active" data-tab="player">Player</button>
@@ -641,6 +651,20 @@ html,body{overflow-x:hidden}
         </div>
       </aside>
     </div>
+
+    <div class="wave-deck" id="wave-deck" aria-label="Live audio wave visualizer">
+      <canvas id="liveWave" width="1600" height="180"></canvas>
+      <div class="wave-deck-head">
+        <p><span class="wave-live-dot"></span> LIVE WAVE <b id="waveModeName">Mirror</b></p>
+        <div class="wave-modes" role="group" aria-label="Wave visualizer mode">
+          <button type="button" data-wave-mode="0" class="on">Mirror</button>
+          <button type="button" data-wave-mode="1">Radial</button>
+          <button type="button" data-wave-mode="2">Bars</button>
+          <button type="button" data-wave-mode="3">Orbit</button>
+          <button type="button" data-wave-mode="4">Ribbon</button>
+        </div>
+      </div>
+    </div>
     <div class="dock">
   <div class="dock-inner">
     <div class="controls">
@@ -677,14 +701,10 @@ html,body{overflow-x:hidden}
     </div>
     <div class="sleep-bar" id="sleep-bar"><i id="sleep-fill"></i></div>
 
-    <audio id="audio" controls preload="none"></audio>
+    <audio id="audio" controls preload="none" crossorigin="anonymous"></audio>
   </div>
 </div>
   </div>
-    <div class="ad-region" id="ad-mid" aria-label="Advertisement" style="margin-top:16px">
-      <div class="ad-label">Advertisement</div>
-      <div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
-    </div>
   </div>
 
   <div id="panel-ledger" class="panel hidden">
@@ -787,10 +807,6 @@ html,body{overflow-x:hidden}
   <h2>No account, no upload</h2>
   <p>You do not need a signup. Favorites and queue are stored in your browser, not on an account. The player does not upload your files or build a listening profile. If you clear site data, the local favorites clear with it.</p>
 </article>
-<div class="ad-region" id="ad-about" aria-label="Advertisement">
-  <div class="ad-label">Advertisement</div>
-  <div class="ad-box"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins></div>
-</div>
 
 <article class="card">
   <h2>What to do first</h2>
@@ -2734,6 +2750,202 @@ if (!detect) {
   setStatus('BPM engine failed to load. Check your connection and refresh.', true);
   fileInput.disabled = true; tapBtn.disabled = true;
 }
+</script>
+
+
+<script>
+/* ===== LIVE WAVE — real Web Audio analyser deck ===== */
+(function () {
+  const deck = document.getElementById('wave-deck');
+  const canvas = document.getElementById('liveWave');
+  const audio = document.getElementById('audio');
+  const stage = document.getElementById('live-stage');
+  if (!deck || !canvas || !audio) return;
+  const ctx = canvas.getContext('2d');
+  const MODES = ['Mirror', 'Radial', 'Bars', 'Orbit', 'Ribbon'];
+  const buttons = [...deck.querySelectorAll('[data-wave-mode]')];
+  const modeName = document.getElementById('waveModeName');
+  let mode = 0;
+  let actx = null, analyser = null, source = null;
+  let freq = null, time = null;
+  let dpr = 1, W = 1, H = 1, last = 0;
+  let level = 0;
+
+  function hash(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function setMode(n, auto) {
+    mode = ((n % MODES.length) + MODES.length) % MODES.length;
+    if (modeName) modeName.textContent = MODES[mode].toUpperCase();
+    buttons.forEach((b) => b.classList.toggle('on', +b.dataset.waveMode === mode));
+    deck.dataset.mode = String(mode);
+  }
+  function initAudio() {
+    if (analyser) {
+      if (actx && actx.state === 'suspended') actx.resume().catch(() => {});
+      return;
+    }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    try {
+      actx = new AC();
+      analyser = actx.createAnalyser();
+      analyser.fftSize = 2048;
+      analyser.smoothingTimeConstant = 0.82;
+      source = actx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(actx.destination);
+      freq = new Uint8Array(analyser.frequencyBinCount);
+      time = new Uint8Array(analyser.fftSize);
+      window.__LYGO_WAVE = {
+        analyser,
+        get level() { return level; },
+        get mode() { return MODES[mode]; },
+        get contextState() { return actx ? actx.state : 'none'; }
+      };
+    } catch (e) {
+      analyser = null;
+    }
+  }
+  audio.addEventListener('play', function () { initAudio(); if (actx && actx.state === 'suspended') actx.resume().catch(() => {}); });
+  document.addEventListener('pointerdown', function () {
+    if (!actx) return;
+    if (actx.state === 'suspended') actx.resume().catch(() => {});
+  }, { passive: true });
+  buttons.forEach((b) => b.addEventListener('click', function () { setMode(+b.dataset.waveMode, false); }));
+  window.addEventListener('lygo:track', function (e) {
+    const key = (e.detail && (e.detail.key || e.detail.title)) || 'idle';
+    if (key === 'idle') return;
+    setMode(hash(key), true);
+  });
+  function resize() {
+    const r = deck.getBoundingClientRect();
+    dpr = Math.min(1.6, window.devicePixelRatio || 1);
+    W = Math.max(280, r.width);
+    H = Math.max(140, r.height);
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+  }
+  function colors() {
+    const cs = getComputedStyle(stage);
+    return {
+      a: cs.getPropertyValue('--viz-a').trim() || '#5eead4',
+      b: cs.getPropertyValue('--viz-b').trim() || '#a78bfa',
+      c: cs.getPropertyValue('--viz-c').trim() || '#f4c76a'
+    };
+  }
+  function rgba(hex, alpha) {
+    const n = parseInt(String(hex).replace('#', ''), 16);
+    return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + alpha + ')';
+  }
+  function idle(c) {
+    ctx.strokeStyle = rgba(c.a, .28);
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(0, H * .55); ctx.lineTo(W, H * .55); ctx.stroke();
+    ctx.fillStyle = rgba(c.c, .42);
+    ctx.font = '600 9px ui-monospace,monospace';
+    ctx.fillText('PLAY A TRACK TO WAKE THE ANALYSER', 16, H - 14);
+  }
+  function mirror(c) {
+    const n = time.length;
+    const base = H * .54;
+    const g = ctx.createLinearGradient(0, 0, W, 0);
+    g.addColorStop(0, c.a); g.addColorStop(.5, c.b); g.addColorStop(1, c.c);
+    for (let layer = 0; layer < 2; layer++) {
+      ctx.beginPath();
+      for (let i = 0; i < n; i += 2) {
+        const x = (i / (n - 1)) * W;
+        const v = (time[i] - 128) / 128;
+        const y = base + v * H * (.22 + layer * .08);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = g; ctx.globalAlpha = layer ? .26 : .78; ctx.lineWidth = layer ? 5 : 1.5;
+      ctx.shadowColor = c.a; ctx.shadowBlur = layer ? 20 : 10; ctx.stroke();
+      ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+    }
+    ctx.beginPath(); ctx.moveTo(0, base); ctx.lineTo(W, base); ctx.strokeStyle = rgba(c.a, .2); ctx.lineWidth = 1; ctx.stroke();
+  }
+  function radial(c) {
+    const cx = W * .53, cy = H * .54;
+    const n = 82;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+      const v = freq[i * 2] / 255;
+      const r0 = 28 + v * 8;
+      const r1 = r0 + 5 + v * Math.min(W, H) * .29;
+      ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); ctx.lineTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1);
+      ctx.strokeStyle = rgba(i % 3 ? c.a : c.c, .18 + v * .7); ctx.lineWidth = 1.1 + v * 2; ctx.stroke();
+    }
+    ctx.beginPath(); ctx.arc(cx, cy, 24, 0, Math.PI * 2); ctx.strokeStyle = rgba(c.c, .5); ctx.lineWidth = 1; ctx.stroke();
+  }
+  function bars(c) {
+    const n = 72;
+    const bw = W / n;
+    for (let i = 0; i < n; i++) {
+      const v = Math.max(freq[i] / 255, .015);
+      const bh = v * H * .72;
+      const x = i * bw + 1;
+      const y = H * .62 - bh;
+      const g = ctx.createLinearGradient(0, y, 0, H * .65);
+      g.addColorStop(0, i % 4 === 0 ? c.c : c.a); g.addColorStop(1, rgba(c.b, .08));
+      ctx.fillStyle = g; ctx.fillRect(x, y, Math.max(1, bw - 2), bh);
+      ctx.fillStyle = rgba(c.c, .28); ctx.fillRect(x, H * .62 + 2, Math.max(1, bw - 2), Math.min(10, bh * .2));
+    }
+  }
+  function orbit(c) {
+    const cx = W * .52, cy = H * .54;
+    ctx.beginPath();
+    for (let i = 0; i < time.length; i += 3) {
+      const v = (time[i] - 128) / 128;
+      const phase = i * .021;
+      const x = cx + Math.sin(phase + v * 1.6) * (W * .22 + v * W * .12);
+      const y = cy + Math.cos(phase * 1.13 + v * 1.1) * (H * .27 + v * H * .16);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = rgba(c.a, .55); ctx.lineWidth = 1.2; ctx.shadowColor = c.b; ctx.shadowBlur = 16; ctx.stroke(); ctx.shadowBlur = 0;
+    ctx.beginPath(); ctx.arc(cx, cy, 3 + level * 18, 0, Math.PI * 2); ctx.fillStyle = rgba(c.c, .55); ctx.fill();
+  }
+  function ribbon(c) {
+    const n = 96;
+    for (let layer = 0; layer < 3; layer++) {
+      ctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const v = freq[i * 2 + layer * 2] / 255;
+        const x = (i / (n - 1)) * W;
+        const y = H * (.66 - layer * .055) - v * H * (.28 + layer * .04);
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = rgba([c.a, c.b, c.c][layer], .22 + layer * .13); ctx.lineWidth = 1 + layer * .7; ctx.shadowColor = c.a; ctx.shadowBlur = 9; ctx.stroke(); ctx.shadowBlur = 0;
+    }
+  }
+  function draw(now) {
+    requestAnimationFrame(draw);
+    if (now - last < 1000 / 30) return;
+    last = now;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    const c = colors();
+    if (!analyser) { idle(c); return; }
+    analyser.getByteFrequencyData(freq);
+    analyser.getByteTimeDomainData(time);
+    let sum = 0;
+    for (let i = 0; i < freq.length; i++) sum += freq[i];
+    level = Math.min(1, sum / (freq.length * 90));
+    if (audio.paused && level < .01) idle(c);
+    else if (mode === 0) mirror(c);
+    else if (mode === 1) radial(c);
+    else if (mode === 2) bars(c);
+    else if (mode === 3) orbit(c);
+    else ribbon(c);
+  }
+  resize(); setMode(0, false);
+  if (window.ResizeObserver) new ResizeObserver(resize).observe(deck); else window.addEventListener('resize', resize);
+  requestAnimationFrame(draw);
+})();
 </script>
 
 </body>
