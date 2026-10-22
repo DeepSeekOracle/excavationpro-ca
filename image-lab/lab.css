@@ -1,0 +1,101 @@
+/* Creative Lab — local ASCII + Resonance modules for Image Studio */
+.creative-lab{
+  --lab-bg:#080a12;--lab-panel:#0d111c;--lab-line:rgba(126,150,198,.22);
+  --lab-ink:#e9eef7;--lab-muted:#95a2b8;--lab-cyan:#8de8ff;--lab-gold:#e4c27a;
+  --lab-violet:#b79cff;--lab-ok:#84e6b0;--lab-danger:#ff8b9c;
+  max-width:1400px;margin:2.6rem auto 0;color:var(--lab-ink);
+  border:1px solid var(--lab-line);border-radius:18px;background:
+    radial-gradient(900px 420px at 12% 0%,rgba(72,167,255,.10),transparent 58%),
+    radial-gradient(700px 360px at 92% 8%,rgba(215,180,106,.08),transparent 55%),
+    var(--lab-bg);
+  overflow:hidden;position:relative
+}
+.creative-lab *{box-sizing:border-box}
+.creative-lab [hidden]{display:none !important}
+.creative-lab .lab-head{padding:2rem 2rem 0;max-width:62rem}
+.creative-lab .lab-kicker{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lab-gold);margin:0 0 .5rem}
+.creative-lab h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1.08;margin:0 0 .55rem;color:var(--lab-ink)}
+.creative-lab .lab-sub{color:var(--lab-muted);max-width:58rem;margin:0 0 1.2rem;font-family:system-ui,sans-serif;font-size:.95rem;line-height:1.65}
+.creative-lab .lab-tabs{display:flex;gap:.4rem;padding:0 2rem;border-bottom:1px solid var(--lab-line);flex-wrap:wrap}
+.creative-lab .lab-tab{appearance:none;border:1px solid transparent;border-bottom:0;background:transparent;color:var(--lab-muted);padding:.7rem 1rem .65rem;border-radius:10px 10px 0 0;font:600 .86rem/1.2 system-ui,sans-serif;cursor:pointer;position:relative;top:1px}
+.creative-lab .lab-tab:hover{color:var(--lab-ink)}
+.creative-lab .lab-tab[aria-selected="true"]{background:var(--lab-panel);border-color:var(--lab-line);color:var(--lab-cyan)}
+.creative-lab .lab-panel{padding:1.5rem 2rem 2rem}
+.creative-lab .lab-panel[hidden]{display:none}
+.creative-lab .lab-note{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;color:var(--lab-muted);margin:.8rem 0 0;line-height:1.6}
+.creative-lab .lab-note strong{color:var(--lab-gold);font-weight:500}
+.creative-lab .lab-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:1rem;align-items:start}
+.creative-lab .lab-panelbox{border:1px solid var(--lab-line);border-radius:14px;background:rgba(255,255,255,.018);padding:1rem}
+.creative-lab .lab-panelbox h3{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lab-cyan);margin:0 0 .8rem;font-weight:500}
+.creative-lab .lab-drop{border:1.5px dashed rgba(141,232,255,.36);border-radius:12px;background:rgba(141,232,255,.035);padding:1.1rem .8rem;text-align:center;cursor:pointer;transition:.15s ease;margin-bottom:.9rem}
+.creative-lab .lab-drop:hover,.creative-lab .lab-drop.is-drag{border-color:var(--lab-gold);background:rgba(228,194,122,.07)}
+.creative-lab .lab-drop strong{display:block;color:var(--lab-cyan);font:600 .9rem/1.3 system-ui,sans-serif;margin-bottom:.2rem}
+.creative-lab .lab-drop span{display:block;color:var(--lab-muted);font-size:.76rem;line-height:1.45}
+.creative-lab .lab-drop .lab-pick{display:inline-block;margin-top:.55rem;border:1px solid var(--lab-line);border-radius:999px;padding:.28rem .65rem;font-size:.7rem;color:var(--lab-ink);background:rgba(255,255,255,.04)}
+.creative-lab .lab-fields{display:grid;gap:.55rem}
+.creative-lab .lab-field{display:grid;gap:.2rem;font-size:.76rem;color:var(--lab-muted)}
+.creative-lab .lab-field>span{display:flex;justify-content:space-between;gap:.5rem}
+.creative-lab .lab-field output{color:var(--lab-ink);font-family:"IBM Plex Mono",monospace;font-size:.7rem}
+.creative-lab select,.creative-lab input[type=text],.creative-lab input[type=range]{width:100%}
+.creative-lab select,.creative-lab input[type=text]{background:#070a12;border:1px solid var(--lab-line);color:var(--lab-ink);border-radius:8px;padding:.48rem .55rem;font:inherit;font-size:.78rem}
+.creative-lab input[type=range]{accent-color:var(--lab-cyan);height:1.1rem}
+.creative-lab .lab-check{display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:var(--lab-muted);margin:.1rem 0}
+.creative-lab .lab-check input{accent-color:var(--lab-cyan)}
+.creative-lab .lab-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.creative-lab button.lab-btn{appearance:none;border:1px solid var(--lab-line);background:rgba(141,232,255,.08);color:var(--lab-ink);border-radius:9px;padding:.5rem .7rem;font:600 .74rem/1.2 system-ui,sans-serif;cursor:pointer}
+.creative-lab button.lab-btn:hover{border-color:rgba(141,232,255,.55);color:var(--lab-cyan)}
+.creative-lab button.lab-btn.primary{background:linear-gradient(135deg,rgba(125,0,255,.42),rgba(0,240,255,.26));border-color:rgba(141,232,255,.42);color:#fff}
+.creative-lab button.lab-btn.ghost{background:transparent}
+.creative-lab button.lab-btn:disabled{opacity:.45;cursor:not-allowed}
+.creative-lab .lab-status{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--lab-muted);min-height:1.2em;margin-top:.55rem}
+.creative-lab .lab-status.ok{color:var(--lab-ok)}.creative-lab .lab-status.err{color:var(--lab-danger)}
+.creative-lab .lab-out-head{display:flex;justify-content:space-between;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.6rem}
+.creative-lab .lab-out-head h3{margin:0}
+.creative-lab .lab-meta{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--lab-muted)}
+.creative-lab .ascii-stage{border:1px solid var(--lab-line);border-radius:10px;background:#02040a;min-height:320px;max-height:min(68vh,720px);overflow:auto;position:relative}
+.creative-lab .ascii-stage.is-empty{display:grid;place-items:center;padding:2rem;color:var(--lab-muted);font-size:.85rem;text-align:center}
+.creative-lab pre.lab-ascii{margin:0;padding:.8rem;font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-size:8px;line-height:1.05;white-space:pre;color:#cfe8ff;user-select:text}
+.creative-lab pre.lab-ascii span{font-weight:500}
+.creative-lab .lab-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.6rem}
+.creative-lab .lab-thumbs figure{margin:0;border:1px solid var(--lab-line);border-radius:8px;overflow:hidden;background:#05070f}
+.creative-lab .lab-thumbs canvas,.creative-lab .lab-thumbs img{display:block;width:100%;height:82px;object-fit:contain;background:#000}
+.creative-lab .lab-thumbs figcaption{font-size:.64rem;color:var(--lab-muted);text-align:center;padding:.25rem}
+.creative-lab .res-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:1rem;align-items:start}
+.creative-lab .res-preview{border:1px solid var(--lab-line);border-radius:10px;background:#02040a;overflow:hidden;margin-bottom:.7rem}
+.creative-lab .res-preview canvas{display:block;width:100%;height:180px;object-fit:contain}
+.creative-lab .res-empty{padding:2rem 1rem;text-align:center;color:var(--lab-muted);font-size:.8rem}
+.creative-lab .res-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;margin:.6rem 0}
+.creative-lab .res-metric{border:1px solid var(--lab-line);border-radius:8px;padding:.42rem .5rem;background:rgba(255,255,255,.02)}
+.creative-lab .res-metric b{display:block;font-family:"IBM Plex Mono",monospace;font-size:.82rem;color:var(--lab-ink);font-weight:500}
+.creative-lab .res-metric span{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--lab-muted);margin-top:.1rem}
+.creative-lab .res-dna{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;margin:.7rem 0}
+.creative-lab .res-cell{border:1px solid var(--lab-line);border-radius:9px;padding:.55rem .6rem;background:rgba(255,255,255,.02)}
+.creative-lab .res-cell.wide{grid-column:1/-1}
+.creative-lab .res-cell span{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;color:var(--lab-muted);margin-bottom:.18rem}
+.creative-lab .res-cell strong{display:block;font-size:.84rem;line-height:1.35;color:var(--lab-ink);font-weight:600}
+.creative-lab .res-prompt{border:1px solid var(--lab-line);border-radius:9px;padding:.6rem .7rem;background:#070a12;margin:.55rem 0}
+.creative-lab .res-prompt header{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.35rem}
+.creative-lab .res-prompt header span{font-family:"IBM Plex Mono",monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--lab-gold)}
+.creative-lab .res-prompt p{margin:0;color:var(--lab-muted);font:400 .78rem/1.55 system-ui,sans-serif;white-space:pre-wrap}
+.creative-lab .res-copy{border:1px solid var(--lab-line);border-radius:6px;background:transparent;color:var(--lab-muted);font:500 .62rem/1 system-ui,sans-serif;padding:.3rem .45rem;cursor:pointer}
+.creative-lab .res-copy:hover{color:var(--lab-cyan);border-color:rgba(141,232,255,.45)}
+.creative-lab .lab-empty{border:1px dashed var(--lab-line);border-radius:10px;padding:1.2rem;color:var(--lab-muted);font-size:.8rem;line-height:1.55}
+.creative-lab .lab-link{color:var(--lab-cyan);text-decoration:underline;text-underline-offset:2px}
+.creative-lab .lab-foot{padding:0 2rem 1.4rem;font-family:"IBM Plex Mono",monospace;font-size:.65rem;color:var(--lab-muted);line-height:1.6}
+.creative-lab .lab-foot a{color:var(--lab-muted);text-decoration:underline;text-underline-offset:2px}
+@media(max-width:960px){
+  .creative-lab .lab-grid,.creative-lab .res-grid{grid-template-columns:1fr}
+  .creative-lab .lab-head,.creative-lab .lab-tabs,.creative-lab .lab-panel{padding-left:1rem;padding-right:1rem}
+  .creative-lab .lab-foot{padding-left:1rem;padding-right:1rem}
+  .creative-lab .lab-panel{padding-top:1rem;padding-bottom:1.2rem}
+  .creative-lab .ascii-stage{max-height:58vh;min-height:260px}
+}
+@media(max-width:520px){
+  .creative-lab{margin-top:1.7rem;border-radius:12px}
+  .creative-lab .lab-head{padding-top:1.3rem}
+  .creative-lab .lab-tab{font-size:.78rem;padding:.6rem .7rem}
+  .creative-lab .res-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .creative-lab .res-dna{grid-template-columns:1fr}
+  .creative-lab .res-cell.wide{grid-column:auto}
+  .creative-lab .lab-panelbox{padding:.8rem}
+}

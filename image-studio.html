@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Image Studio — BYOK AI images | Excavationpro</title>
-<meta name="description" content="A full-size BYOK image and video studio from Excavationpro. Check every provider before you generate, keep your own key in your browser, and use a tool built for honest testing.">
+<title>Image Studio — BYOK images, ASCII & Resonance | Excavationpro</title>
+<meta name="description" content="A full-size BYOK image and video studio from Excavationpro, plus local ASCII art and image-to-Resonance creative tools. Check every provider before you generate; keys and images stay in your browser.">
 <meta name="author" content="Justin Helmer / Excavationpro">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <link rel="canonical" href="https://excavationpro.ca/image-studio.html">
@@ -16,6 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/site-kit.css">
 <link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/image-lab/lab.css">
 <meta name="google-adsense-account" content="ca-pub-0646320966060599">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
 <meta property="og:type" content="website">
@@ -121,6 +122,7 @@
     <div class="cta-row">
       <a class="btn primary" href="#run">Launch the studio</a>
       <a class="btn ghost" href="#how">How the health check works</a>
+      <a class="btn ghost" href="#creative-lab">Try the Creative Lab</a>
       <a class="btn ghost" href="/music.html">Listen to the catalog</a>
     </div>
     <p class="trust">No account · no uploads · keys stay in your browser</p>
@@ -151,6 +153,142 @@
     <iframe class="studio-frame" src="/lattice/image-studio-app.html" title="Excavationpro Image Studio — full provider portal" loading="lazy" referrerpolicy="no-referrer" allow="clipboard-write"></iframe>
     <p class="studio-caption">If the health panel says <strong>key needed</strong>, paste your own key into the app. If it says <strong>proxy needed</strong>, the provider is blocking direct browser requests; add a CORS proxy URL in the app's Settings.</p>
   </section>
+
+<section class="creative-lab" id="creative-lab" aria-labelledby="creative-lab-title">
+  <div class="lab-head">
+    <p class="lab-kicker">Creative Lab · local modules</p>
+    <h2 id="creative-lab-title">Turn an image into text, a profile, or a soundscape.</h2>
+    <p class="lab-sub">Two tools from the LYGO stack are installed here directly. The ASCII converter and the Resonance profile run in this browser: the image is read from your device, never uploaded to Excavationpro. The full Python Resonance engine is linked at the end.</p>
+  </div>
+  <div class="lab-tabs" role="tablist" aria-label="Creative Lab tools">
+    <button type="button" class="lab-tab" role="tab" id="tab-ascii" aria-controls="panel-ascii" aria-selected="true" data-lab-tab="ascii">ASCII Art Studio</button>
+    <button type="button" class="lab-tab" role="tab" id="tab-resonance" aria-controls="panel-resonance" aria-selected="false" data-lab-tab="resonance">Resonance Engine</button>
+  </div>
+
+  <div class="lab-panel" id="panel-ascii" role="tabpanel" aria-labelledby="tab-ascii" data-lab-panel="ascii">
+    <div class="lab-grid">
+      <div class="lab-panelbox">
+        <h3>Photo → letters</h3>
+        <div class="lab-drop" id="asciiDrop" role="button" tabindex="0" aria-label="Choose or drop an image for ASCII conversion">
+          <strong>Drop a photo here</strong>
+          <span>JPG · PNG · WebP · GIF · BMP<br>or paste from the clipboard</span>
+          <span class="lab-pick">Choose image</span>
+          <input id="asciiFile" type="file" accept="image/*" hidden>
+        </div>
+        <div class="lab-fields">
+          <label class="lab-field">Character set
+            <select id="asciiCharset">
+              <option value="standard">Standard · @%#*+=-:.</option>
+              <option value="simple">Simple · @#*+=-:.</option>
+              <option value="blocks">Blocks · █▓▒░</option>
+              <option value="binary">Binary · 10</option>
+              <option value="dots">Dots · ●•·</option>
+              <option value="lygo">LYGO · █ΞΔΦλ9#*+=-·</option>
+              <option value="matrix">Matrix · アカサタナ…</option>
+              <option value="custom">Custom ramp</option>
+            </select>
+          </label>
+          <label class="lab-field" id="asciiCustomWrap" hidden>Custom characters
+            <input id="asciiCustom" type="text" value="@%#*+=-:. " maxlength="40" autocomplete="off">
+          </label>
+          <label class="lab-field"><span>Columns <output id="asciiColsVal">100</output></span>
+            <input id="asciiCols" type="range" min="40" max="220" step="1" value="100">
+          </label>
+          <label class="lab-field"><span>Brightness <output id="asciiBriVal">0</output></span>
+            <input id="asciiBrightness" type="range" min="-80" max="80" step="1" value="0">
+          </label>
+          <label class="lab-field"><span>Contrast <output id="asciiConVal">1.00</output></span>
+            <input id="asciiContrast" type="range" min="40" max="220" step="1" value="100">
+          </label>
+          <label class="lab-field"><span>Preview font <output id="asciiFontVal">8px</output></span>
+            <input id="asciiFont" type="range" min="5" max="14" step="1" value="8">
+          </label>
+          <label class="lab-field">Color mode
+            <select id="asciiColor">
+              <option value="mono">Mono · clean text</option>
+              <option value="color">Source color</option>
+              <option value="phosphor">Phosphor · green</option>
+              <option value="lygo">LYGO spectrum</option>
+            </select>
+          </label>
+          <label class="lab-check"><input id="asciiInvert" type="checkbox"> Invert brightness</label>
+          <label class="lab-check"><input id="asciiEdges" type="checkbox"> Edge boost</label>
+          <label class="lab-check"><input id="asciiDither" type="checkbox"> Dither (Floyd–Steinberg)</label>
+          <label class="lab-check"><input id="asciiMirror" type="checkbox"> Mirror horizontally</label>
+        </div>
+        <div class="lab-actions">
+          <button type="button" class="lab-btn primary" id="asciiCopy">Copy text</button>
+          <button type="button" class="lab-btn" id="asciiTxt">Download .txt</button>
+          <button type="button" class="lab-btn" id="asciiPng">Download .png</button>
+          <button type="button" class="lab-btn ghost" id="asciiClear">Clear</button>
+        </div>
+        <div class="lab-status" id="asciiStatus" role="status">Load a photo to begin.</div>
+        <div class="lab-thumbs">
+          <figure><canvas id="asciiThumbSrc" width="320" height="140"></canvas><figcaption>Source thumbnail</figcaption></figure>
+        </div>
+      </div>
+      <div class="lab-panelbox">
+        <div class="lab-out-head">
+          <h3>ASCII preview</h3>
+          <span class="lab-meta" id="asciiMeta">No image loaded</span>
+        </div>
+        <div class="ascii-stage is-empty" id="asciiStage">
+          <div id="asciiEmpty">Drop a photo, paste one, or choose an image.<br>The conversion stays in this browser.</div>
+          <pre class="lab-ascii" id="asciiOut" hidden aria-live="polite"></pre>
+        </div>
+        <p class="lab-note"><strong>Local-only:</strong> the original photo is decoded in this tab and never sent to a server. Download the text or a PNG when it looks right. Mirrors the LYGO ASCII Art Studio at <a class="lab-link" href="https://eternalhaven.ca/lygo-ascii-art.html" target="_blank" rel="noopener">eternalhaven.ca/lygo-ascii-art.html</a>.</p>
+        <img id="asciiSourceImg" hidden alt="">
+        <canvas id="asciiWork" hidden></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-panel" id="panel-resonance" role="tabpanel" aria-labelledby="tab-resonance" data-lab-panel="resonance" hidden>
+    <div class="res-grid">
+      <div class="lab-panelbox">
+        <h3>Image → musical DNA</h3>
+        <div class="lab-drop" id="resDrop" role="button" tabindex="0" aria-label="Choose or drop an image for Resonance analysis">
+          <strong>Drop an image here</strong>
+          <span>JPG · PNG · WebP · GIF · BMP<br>analysis and audio stay local</span>
+          <span class="lab-pick">Choose image</span>
+          <input id="resFile" type="file" accept="image/*" hidden>
+        </div>
+        <div class="res-preview">
+          <canvas id="resPreview" width="640" height="360"></canvas>
+          <div class="res-empty" id="resEmpty">No image loaded yet.</div>
+        </div>
+        <div class="lab-actions">
+          <button type="button" class="lab-btn primary" id="resAnalyze">Analyze image</button>
+          <button type="button" class="lab-btn" id="resPlay" disabled>Play 12s</button>
+          <button type="button" class="lab-btn" id="resStop" disabled>Stop</button>
+          <button type="button" class="lab-btn" id="resWav">Render .wav</button>
+          <button type="button" class="lab-btn ghost" id="resJson">Profile .json</button>
+        </div>
+        <div class="lab-status" id="resStatus" role="status">Load an image to analyze locally.</div>
+        <p class="lab-note"><strong>Browser preview:</strong> the profile formulas follow the LYGO Profile Generator. The 12-second WAV is a local Web Audio interpretation, not the full Python Resonance Engine render. The original Space is linked below.</p>
+      </div>
+      <div class="lab-panelbox">
+        <div class="lab-out-head">
+          <h3>Resonance profile</h3>
+          <span class="lab-meta">Local analysis</span>
+        </div>
+        <div id="resContent" hidden>
+          <div class="res-metrics" id="resMetrics"></div>
+          <div class="res-dna" id="resDna"></div>
+          <div id="resPrompts"></div>
+          <p class="lab-note"><strong>Full engine:</strong> for the original stereo WAV, stems, MIDI, batch mode, and video resonance, open the <a class="lab-link" href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" target="_blank" rel="noopener">LYGO Resonance Engine Space on Hugging Face</a>. This module is an installable browser preview, not a replacement for that Python engine.</p>
+        </div>
+        <div class="lab-empty" id="resEmptyPanel">Analyze an image to see color, structure, key, BPM, genre, and copy-ready prompts.</div>
+        <img id="resSourceImg" hidden alt="">
+      </div>
+    </div>
+  </div>
+
+  <div class="lab-foot">
+    Local modules installed from the LYGO stack · ASCII mirror: <a href="https://eternalhaven.ca/lygo-ascii-art.html" target="_blank" rel="noopener">Eternal Haven</a> · Resonance source: <a href="https://huggingface.co/spaces/DeepSeekOracle/LYGO-Resonance-Engine" target="_blank" rel="noopener">Hugging Face Space</a> · no image upload · no account.
+  </div>
+</section>
+
 
   <div class="ad-slot">
     <div class="ad-label">Advertisement</div>
@@ -220,5 +358,6 @@
 </div>
 <script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
 <script src="/assets/site-kit.js" defer></script>
+<script src="/image-lab/lab.js" defer></script>
 </body>
 </html>
