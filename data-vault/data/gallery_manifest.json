@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-21T15:07:52.534333+00:00",
-  "count": 711,
+  "generated_utc": "2026-10-22T01:34:47.837820+00:00",
+  "count": 713,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -11455,7 +11455,39 @@
       "full_bytes": 64517,
       "width": 679,
       "height": 456
+    },
+    {
+      "id": "9df553971d180cc3",
+      "title": "HVMq4hZa0AAldu7",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "HVMq4hZa0AAldu7.png",
+      "source_root": "Publish Portal",
+      "original_name": "HVMq4hZa0AAldu7.png",
+      "original_bytes": 40398,
+      "full": "assets/gallery/full/9df553971d180cc3.jpg",
+      "thumb": "assets/gallery/thumb/9df553971d180cc3.jpg",
+      "full_bytes": 27556,
+      "width": 524,
+      "height": 365
+    },
+    {
+      "id": "a1c974d2376b05d6",
+      "title": "HVMrPOLasAAKsgB",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "HVMrPOLasAAKsgB.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "HVMrPOLasAAKsgB.jpg",
+      "original_bytes": 245506,
+      "full": "assets/gallery/full/a1c974d2376b05d6.jpg",
+      "thumb": "assets/gallery/thumb/a1c974d2376b05d6.jpg",
+      "full_bytes": 245465,
+      "width": 1264,
+      "height": 832
     }
   ],
-  "cache_bust": "711-auto-202610210907"
+  "cache_bust": "713-auto-202610211934"
 }
