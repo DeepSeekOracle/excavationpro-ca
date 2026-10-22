@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-22T04:55:29.846072+00:00",
-  "count": 836,
+  "generated_utc": "2026-10-22T06:35:03.128511+00:00",
+  "count": 837,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -13455,7 +13455,23 @@
       "full_bytes": 213273,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "10a4e4b8ddc7e0a4",
+      "title": "Inside the LYGO Data Vault",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Inside the LYGO Data Vault.png",
+      "source_root": "Publish Portal",
+      "original_name": "Inside the LYGO Data Vault.png",
+      "original_bytes": 699656,
+      "full": "assets/gallery/full/10a4e4b8ddc7e0a4.jpg",
+      "thumb": "assets/gallery/thumb/10a4e4b8ddc7e0a4.jpg",
+      "full_bytes": 155831,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "836-auto-202610212255"
+  "cache_bust": "837-auto-202610220035"
 }
