@@ -5,6 +5,22 @@
  "updated": "2026-10-22",
  "shows": [
   {
+   "slug": "the-lygo-skillhub-ecosystem",
+   "title": "The LYGO SkillHub Ecosystem",
+   "page": "https://excavationpro.ca/signal/the-lygo-skillhub-ecosystem/",
+   "audio": "https://excavationpro.ca/signal/shows/the-lygo-skillhub-ecosystem/ai_radio.mp3",
+   "duration": "16:28",
+   "seconds": 988.54,
+   "speakers": [
+    "Paul",
+    "Dave",
+    "Elena",
+    "Marcus",
+    "Priya"
+   ],
+   "date": "2026-10-22"
+  },
+  {
    "slug": "inside-the-lygo-data-vault",
    "title": "Inside the LYGO Data Vault",
    "page": "https://excavationpro.ca/signal/inside-the-lygo-data-vault/",

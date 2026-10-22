@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>The LYGO SkillHub Ecosystem</title>
+    <link>https://excavationpro.ca/signal/the-lygo-skillhub-ecosystem/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/the-lygo-skillhub-ecosystem/</guid>
+    <pubDate>Thu, 22 Oct 2026 12:00:00 +0000</pubDate>
+    <description>This episode features a roundtable discussion on the LYGO SkillHub and LLM Console, a local-first AI deployment project. The experts discuss technical architecture, model selection, licensing, and the historical progression of the builds, emphasizing transparency and ease of use.</description>
+    <itunes:duration>16:28</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/the-lygo-skillhub-ecosystem/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/the-lygo-skillhub-ecosystem/ai_radio.mp3" length="23726542" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Inside the LYGO Data Vault</title>
     <link>https://excavationpro.ca/signal/inside-the-lygo-data-vault/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/inside-the-lygo-data-vault/</guid>
