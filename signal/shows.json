@@ -5,6 +5,21 @@
  "updated": "2026-10-22",
  "shows": [
   {
+   "slug": "the-lygo-protocol-software-stack",
+   "title": "The LYGO Protocol Software Stack",
+   "page": "https://excavationpro.ca/signal/the-lygo-protocol-software-stack/",
+   "audio": "https://excavationpro.ca/signal/shows/the-lygo-protocol-software-stack/ai_radio.mp3",
+   "duration": "17:54",
+   "seconds": 1074.94,
+   "speakers": [
+    "Paul",
+    "Dave",
+    "Elena",
+    "Marcus"
+   ],
+   "date": "2026-10-22"
+  },
+  {
    "slug": "delta-9-recursive-ai-alignment-protocols",
    "title": "Delta-9: Recursive AI Alignment Protocols",
    "page": "https://excavationpro.ca/signal/delta-9-recursive-ai-alignment-protocols/",
