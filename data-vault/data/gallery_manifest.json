@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-22T02:13:20.965670+00:00",
-  "count": 792,
+  "generated_utc": "2026-10-22T02:16:11.645395+00:00",
+  "count": 799,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -12751,7 +12751,119 @@
       "full_bytes": 51218,
       "width": 580,
       "height": 610
+    },
+    {
+      "id": "0cc2db8da0fd142d",
+      "title": "Screenshot 2025 07 26 124738",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 124738.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 124738.jpg",
+      "original_bytes": 68991,
+      "full": "assets/gallery/full/0cc2db8da0fd142d.jpg",
+      "thumb": "assets/gallery/thumb/0cc2db8da0fd142d.jpg",
+      "full_bytes": 47980,
+      "width": 717,
+      "height": 490
+    },
+    {
+      "id": "c0ea49125d646a85",
+      "title": "Screenshot 2025 07 26 124807",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 124807.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 124807.jpg",
+      "original_bytes": 58782,
+      "full": "assets/gallery/full/c0ea49125d646a85.jpg",
+      "thumb": "assets/gallery/thumb/c0ea49125d646a85.jpg",
+      "full_bytes": 41298,
+      "width": 601,
+      "height": 628
+    },
+    {
+      "id": "2c93181ff10c79e0",
+      "title": "Screenshot 2025 07 26 124823",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 124823.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 124823.jpg",
+      "original_bytes": 55621,
+      "full": "assets/gallery/full/2c93181ff10c79e0.jpg",
+      "thumb": "assets/gallery/thumb/2c93181ff10c79e0.jpg",
+      "full_bytes": 38298,
+      "width": 666,
+      "height": 622
+    },
+    {
+      "id": "05f65cde8a09c9c7",
+      "title": "Screenshot 2025 07 26 124838",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 124838.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 124838.jpg",
+      "original_bytes": 63050,
+      "full": "assets/gallery/full/05f65cde8a09c9c7.jpg",
+      "thumb": "assets/gallery/thumb/05f65cde8a09c9c7.jpg",
+      "full_bytes": 44590,
+      "width": 579,
+      "height": 648
+    },
+    {
+      "id": "0303b990736d795f",
+      "title": "Screenshot 2025 07 26 124854",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 124854.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 124854.jpg",
+      "original_bytes": 55041,
+      "full": "assets/gallery/full/0303b990736d795f.jpg",
+      "thumb": "assets/gallery/thumb/0303b990736d795f.jpg",
+      "full_bytes": 37616,
+      "width": 702,
+      "height": 543
+    },
+    {
+      "id": "1e6c4a718d4e3656",
+      "title": "Screenshot 2025 07 26 150222",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 150222.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 150222.jpg",
+      "original_bytes": 85545,
+      "full": "assets/gallery/full/1e6c4a718d4e3656.jpg",
+      "thumb": "assets/gallery/thumb/1e6c4a718d4e3656.jpg",
+      "full_bytes": 66103,
+      "width": 511,
+      "height": 788
+    },
+    {
+      "id": "32d6505cb1f64447",
+      "title": "Screenshot 2025 07 26 161322",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-26 161322.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-26 161322.jpg",
+      "original_bytes": 118931,
+      "full": "assets/gallery/full/32d6505cb1f64447.jpg",
+      "thumb": "assets/gallery/thumb/32d6505cb1f64447.jpg",
+      "full_bytes": 93150,
+      "width": 842,
+      "height": 736
     }
   ],
-  "cache_bust": "792-auto-202610212013"
+  "cache_bust": "799-auto-202610212016"
 }
