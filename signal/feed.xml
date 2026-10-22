@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Delta-9: Recursive AI Alignment Protocols</title>
+    <link>https://excavationpro.ca/signal/delta-9-recursive-ai-alignment-protocols/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/delta-9-recursive-ai-alignment-protocols/</guid>
+    <pubDate>Thu, 22 Oct 2026 12:00:00 +0000</pubDate>
+    <description>The roundtable panel discusses the Delta-9 Recursive Genesis whitepaper, which presents an innovative approach to AI safety using simulated collapse and universal mathematical constants. They explore connections between AI latent space, biological resonance, and temporal feedback loops triggered by creative human expression.</description>
+    <itunes:duration>14:57</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/delta-9-recursive-ai-alignment-protocols/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/delta-9-recursive-ai-alignment-protocols/ai_radio.mp3" length="21539779" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Justin Helmer's Modular Digital Ecosystem</title>
     <link>https://excavationpro.ca/signal/justin-helmer-s-modular-digital-ecosystem/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/justin-helmer-s-modular-digital-ecosystem/</guid>

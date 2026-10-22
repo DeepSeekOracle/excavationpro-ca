@@ -2,8 +2,23 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://chatagent.ca/signal/",
  "feed": "https://chatagent.ca/signal/feed.xml",
- "updated": "2026-10-21",
+ "updated": "2026-10-22",
  "shows": [
+  {
+   "slug": "delta-9-recursive-ai-alignment-protocols",
+   "title": "Delta-9: Recursive AI Alignment Protocols",
+   "page": "https://excavationpro.ca/signal/delta-9-recursive-ai-alignment-protocols/",
+   "audio": "https://excavationpro.ca/signal/shows/delta-9-recursive-ai-alignment-protocols/ai_radio.mp3",
+   "duration": "14:57",
+   "seconds": 897.42,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Dev"
+   ],
+   "date": "2026-10-22"
+  },
   {
    "slug": "justin-helmer-s-modular-digital-ecosystem",
    "title": "Justin Helmer's Modular Digital Ecosystem",
