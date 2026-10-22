@@ -5,6 +5,21 @@
  "updated": "2026-10-22",
  "shows": [
   {
+   "slug": "inside-the-lygo-data-vault",
+   "title": "Inside the LYGO Data Vault",
+   "page": "https://excavationpro.ca/signal/inside-the-lygo-data-vault/",
+   "audio": "https://excavationpro.ca/signal/shows/inside-the-lygo-data-vault/ai_radio.mp3",
+   "duration": "15:02",
+   "seconds": 902.5,
+   "speakers": [
+    "Paul",
+    "Dan",
+    "Maya",
+    "Liam"
+   ],
+   "date": "2026-10-22"
+  },
+  {
    "slug": "the-lygo-protocol-software-stack",
    "title": "The LYGO Protocol Software Stack",
    "page": "https://excavationpro.ca/signal/the-lygo-protocol-software-stack/",

@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Inside the LYGO Data Vault</title>
+    <link>https://excavationpro.ca/signal/inside-the-lygo-data-vault/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/inside-the-lygo-data-vault/</guid>
+    <pubDate>Thu, 22 Oct 2026 12:00:00 +0000</pubDate>
+    <description>Paul and guests discuss the LYGO Multi-AI Seal Archive, exploring its cryptographic validation and the 'rule of three' process across different AI models. They delve into the specific failsafe protocols and identity protections designed to preserve human legacy through autonomous digital stacks.</description>
+    <itunes:duration>15:02</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/inside-the-lygo-data-vault/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/inside-the-lygo-data-vault/ai_radio.mp3" length="21661405" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>The LYGO Protocol Software Stack</title>
     <link>https://excavationpro.ca/signal/the-lygo-protocol-software-stack/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/the-lygo-protocol-software-stack/</guid>
