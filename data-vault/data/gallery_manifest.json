@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-22T02:16:11.645395+00:00",
-  "count": 799,
+  "generated_utc": "2026-10-22T02:16:51.422352+00:00",
+  "count": 814,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -12863,7 +12863,247 @@
       "full_bytes": 93150,
       "width": 842,
       "height": 736
+    },
+    {
+      "id": "63eac9beb8cf2a07",
+      "title": "IMG 3725",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3725.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3725.JPG",
+      "original_bytes": 388342,
+      "full": "assets/gallery/full/63eac9beb8cf2a07.jpg",
+      "thumb": "assets/gallery/thumb/63eac9beb8cf2a07.jpg",
+      "full_bytes": 201267,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "31d17eec57a25b94",
+      "title": "kOlL4II5 400x400",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "kOlL4II5_400x400.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "kOlL4II5_400x400.jpg",
+      "original_bytes": 49056,
+      "full": "assets/gallery/full/31d17eec57a25b94.jpg",
+      "thumb": "assets/gallery/thumb/31d17eec57a25b94.jpg",
+      "full_bytes": 48260,
+      "width": 400,
+      "height": 400
+    },
+    {
+      "id": "25dc37b9fefe3398",
+      "title": "Screenshot 2025 07 23 191954",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-23 191954.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-23 191954.jpg",
+      "original_bytes": 71842,
+      "full": "assets/gallery/full/25dc37b9fefe3398.jpg",
+      "thumb": "assets/gallery/thumb/25dc37b9fefe3398.jpg",
+      "full_bytes": 52527,
+      "width": 972,
+      "height": 581
+    },
+    {
+      "id": "306680b4e24fbe37",
+      "title": "Screenshot 2025 07 23 192838",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-23 192838.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-23 192838.jpg",
+      "original_bytes": 94916,
+      "full": "assets/gallery/full/306680b4e24fbe37.jpg",
+      "thumb": "assets/gallery/thumb/306680b4e24fbe37.jpg",
+      "full_bytes": 73721,
+      "width": 573,
+      "height": 879
+    },
+    {
+      "id": "e99be4fd9615fc22",
+      "title": "Screenshot 2025 07 24 032719",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-24 032719.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-24 032719.jpg",
+      "original_bytes": 122566,
+      "full": "assets/gallery/full/e99be4fd9615fc22.jpg",
+      "thumb": "assets/gallery/thumb/e99be4fd9615fc22.jpg",
+      "full_bytes": 95459,
+      "width": 493,
+      "height": 923
+    },
+    {
+      "id": "ef6043b80afe9d15",
+      "title": "Screenshot 2025 07 24 061353",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-24 061353.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-24 061353.jpg",
+      "original_bytes": 46433,
+      "full": "assets/gallery/full/ef6043b80afe9d15.jpg",
+      "thumb": "assets/gallery/thumb/ef6043b80afe9d15.jpg",
+      "full_bytes": 36640,
+      "width": 360,
+      "height": 485
+    },
+    {
+      "id": "e65fe5994a3f12b9",
+      "title": "Screenshot 2025 07 24 091836",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-24 091836.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-24 091836.jpg",
+      "original_bytes": 32997,
+      "full": "assets/gallery/full/e65fe5994a3f12b9.jpg",
+      "thumb": "assets/gallery/thumb/e65fe5994a3f12b9.jpg",
+      "full_bytes": 25039,
+      "width": 502,
+      "height": 254
+    },
+    {
+      "id": "0fc351a7bd0df679",
+      "title": "Screenshot 2025 07 24 093244",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-24 093244.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-24 093244.jpg",
+      "original_bytes": 50267,
+      "full": "assets/gallery/full/0fc351a7bd0df679.jpg",
+      "thumb": "assets/gallery/thumb/0fc351a7bd0df679.jpg",
+      "full_bytes": 36038,
+      "width": 889,
+      "height": 573
+    },
+    {
+      "id": "214ad7e9f66117f7",
+      "title": "Screenshot 2025 07 24 100630",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-24 100630.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-24 100630.jpg",
+      "original_bytes": 72693,
+      "full": "assets/gallery/full/214ad7e9f66117f7.jpg",
+      "thumb": "assets/gallery/thumb/214ad7e9f66117f7.jpg",
+      "full_bytes": 56998,
+      "width": 499,
+      "height": 561
+    },
+    {
+      "id": "59220934581efafd",
+      "title": "Screenshot 2025 07 25 032419",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 032419.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 032419.jpg",
+      "original_bytes": 65712,
+      "full": "assets/gallery/full/59220934581efafd.jpg",
+      "thumb": "assets/gallery/thumb/59220934581efafd.jpg",
+      "full_bytes": 48332,
+      "width": 643,
+      "height": 718
+    },
+    {
+      "id": "163f87526b160e3f",
+      "title": "Screenshot 2025 07 25 080526",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 080526.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 080526.jpg",
+      "original_bytes": 62406,
+      "full": "assets/gallery/full/163f87526b160e3f.jpg",
+      "thumb": "assets/gallery/thumb/163f87526b160e3f.jpg",
+      "full_bytes": 43033,
+      "width": 904,
+      "height": 514
+    },
+    {
+      "id": "546c5f8701f8c69f",
+      "title": "Screenshot 2025 07 25 094947",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 094947.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 094947.jpg",
+      "original_bytes": 37294,
+      "full": "assets/gallery/full/546c5f8701f8c69f.jpg",
+      "thumb": "assets/gallery/thumb/546c5f8701f8c69f.jpg",
+      "full_bytes": 25802,
+      "width": 849,
+      "height": 320
+    },
+    {
+      "id": "e62f640fbb3373a5",
+      "title": "Screenshot 2025 07 25 100953",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 100953.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 100953.jpg",
+      "original_bytes": 75834,
+      "full": "assets/gallery/full/e62f640fbb3373a5.jpg",
+      "thumb": "assets/gallery/thumb/e62f640fbb3373a5.jpg",
+      "full_bytes": 51166,
+      "width": 1049,
+      "height": 688
+    },
+    {
+      "id": "20b1540ba786af0f",
+      "title": "Screenshot 2025 07 25 123541",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 123541.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 123541.jpg",
+      "original_bytes": 49583,
+      "full": "assets/gallery/full/20b1540ba786af0f.jpg",
+      "thumb": "assets/gallery/thumb/20b1540ba786af0f.jpg",
+      "full_bytes": 37005,
+      "width": 550,
+      "height": 522
+    },
+    {
+      "id": "023f3b719df6e8d6",
+      "title": "Screenshot 2025 07 25 124923",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Screenshot 2025-07-25 124923.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Screenshot 2025-07-25 124923.jpg",
+      "original_bytes": 94492,
+      "full": "assets/gallery/full/023f3b719df6e8d6.jpg",
+      "thumb": "assets/gallery/thumb/023f3b719df6e8d6.jpg",
+      "full_bytes": 74094,
+      "width": 517,
+      "height": 879
     }
   ],
-  "cache_bust": "799-auto-202610212016"
+  "cache_bust": "814-auto-202610212016"
 }
