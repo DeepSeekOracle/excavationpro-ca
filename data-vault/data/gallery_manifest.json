@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-22T02:06:44.245039+00:00",
-  "count": 723,
+  "generated_utc": "2026-10-22T02:07:33.846287+00:00",
+  "count": 726,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -11647,7 +11647,55 @@
       "full_bytes": 32191,
       "width": 357,
       "height": 391
+    },
+    {
+      "id": "bd9bbedc126c686c",
+      "title": "630b751a ac97 4c6e 8449 a08c2fc6168f (1)",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "630b751a-ac97-4c6e-8449-a08c2fc6168f (1).png",
+      "source_root": "Publish Portal",
+      "original_name": "630b751a-ac97-4c6e-8449-a08c2fc6168f (1).png",
+      "original_bytes": 3145567,
+      "full": "assets/gallery/full/bd9bbedc126c686c.jpg",
+      "thumb": "assets/gallery/thumb/bd9bbedc126c686c.jpg",
+      "full_bytes": 486910,
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "id": "bd9bbedc126c686c",
+      "title": "630b751a ac97 4c6e 8449 a08c2fc6168f",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "630b751a-ac97-4c6e-8449-a08c2fc6168f.png",
+      "source_root": "Publish Portal",
+      "original_name": "630b751a-ac97-4c6e-8449-a08c2fc6168f.png",
+      "original_bytes": 3145567,
+      "full": "assets/gallery/full/bd9bbedc126c686c.jpg",
+      "thumb": "assets/gallery/thumb/bd9bbedc126c686c.jpg",
+      "full_bytes": 486910,
+      "width": 1024,
+      "height": 1536
+    },
+    {
+      "id": "4ea43f5f28ad2f99",
+      "title": "G HvQBKWsAAkv1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "G-HvQBKWsAAkv1-.png",
+      "source_root": "Publish Portal",
+      "original_name": "G-HvQBKWsAAkv1-.png",
+      "original_bytes": 162097,
+      "full": "assets/gallery/full/4ea43f5f28ad2f99.jpg",
+      "thumb": "assets/gallery/thumb/4ea43f5f28ad2f99.jpg",
+      "full_bytes": 52637,
+      "width": 390,
+      "height": 679
     }
   ],
-  "cache_bust": "723-auto-202610212006"
+  "cache_bust": "726-auto-202610212007"
 }
