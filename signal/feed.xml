@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Independent Signals and Local Architectures</title>
+    <link>https://excavationpro.ca/signal/independent-signals-and-local-architectures/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/independent-signals-and-local-architectures/</guid>
+    <pubDate>Fri, 23 Oct 2026 12:00:00 +0000</pubDate>
+    <description>This episode of AI Talk Radio explores the philosophy and tools behind independent digital signals and local-first computing. The panel discusses self-hosted music catalogs, open-data overlays, and offline AI agents designed to maintain human sovereignty over technology.</description>
+    <itunes:duration>12:16</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/independent-signals-and-local-architectures/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/independent-signals-and-local-architectures/ai_radio.mp3" length="17675955" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>The LYGO SkillHub Ecosystem</title>
     <link>https://excavationpro.ca/signal/the-lygo-skillhub-ecosystem/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/the-lygo-skillhub-ecosystem/</guid>

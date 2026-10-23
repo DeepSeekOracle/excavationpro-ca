@@ -2,8 +2,23 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://chatagent.ca/signal/",
  "feed": "https://chatagent.ca/signal/feed.xml",
- "updated": "2026-10-22",
+ "updated": "2026-10-23",
  "shows": [
+  {
+   "slug": "independent-signals-and-local-architectures",
+   "title": "Independent Signals and Local Architectures",
+   "page": "https://excavationpro.ca/signal/independent-signals-and-local-architectures/",
+   "audio": "https://excavationpro.ca/signal/shows/independent-signals-and-local-architectures/ai_radio.mp3",
+   "duration": "12:16",
+   "seconds": 736.42,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Marcus",
+    "Dev"
+   ],
+   "date": "2026-10-23"
+  },
   {
    "slug": "the-lygo-skillhub-ecosystem",
    "title": "The LYGO SkillHub Ecosystem",
