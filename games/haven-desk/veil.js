@@ -28,6 +28,7 @@
     arcade: "2007-01-09",
     plates: "2012-12-21",
     voice: "1998-03-14",
+    openmic: "1980-12-31",
     "lygo-papers": "2026-10-23",
     lightfather: "1980-12-31"
   };
@@ -483,6 +484,13 @@
       app.appendChild(vbox);
     }
 
+    if (id === "1980-12-31") {
+      var tapes = el("div", "veil-actions");
+      tapes.appendChild(button("PLAY THE OPEN MIC TAPES", "veil-primary", function () { H.open("openmic"); }));
+      app.appendChild(tapes);
+      app.appendChild(el("p", "veil-hint", "The tapes are dated after the microphone should have been off."));
+    }
+
     if (d.music && d.music.url) {
       var music = el("div", "veil-music");
       music.appendChild(el("b", "", "ROOM AUDIO · " + d.music.title));
@@ -874,6 +882,7 @@
     if (archiveUnlocked("plates")) row.appendChild(button("PLATE ARCHIVE", "raised", function () { H.open("plates"); }));
     if (archiveUnlocked("lygo-papers")) row.appendChild(button("LYGO PAPERS", "raised", function () { H.open("lygo-papers"); }));
     if (archiveUnlocked("lightfather")) row.appendChild(button("LIGHTFATHER PAPERS", "raised", function () { H.open("lightfather"); }));
+    if (archiveUnlocked("openmic")) row.appendChild(button("OPEN MIC TAPES", "raised", function () { H.open("openmic"); }));
     row.appendChild(button("OPEN LYGO TV", "raised", function () { H.open("veil-media"); }));
     box.appendChild(row);
     box.appendChild(el("p", "veil-foot", "Begin at 14 March 1998. The first word is a foundation."));
