@@ -1,0 +1,8 @@
+{
+  "name": "haven-desk",
+  "profile": "web-2d",
+  "kind": "web",
+  "mode": "2D",
+  "engine": "Canvas 2D or Phaser/PixiJS",
+  "harness": "0.2"
+}

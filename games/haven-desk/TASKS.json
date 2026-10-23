@@ -1,0 +1,438 @@
+{
+  "project": "haven-desk",
+  "profile": "web-2d",
+  "tasks": [
+    {
+      "id": "INTAKE-01",
+      "phase": "intake",
+      "title": "Brief",
+      "owner": "producer",
+      "description": "Write GAME.md: pitch, audience, platform, target machine, scope and non-goals.",
+      "acceptance": [
+        "GAME.md exists",
+        "non-goals are explicit",
+        "target hardware is named"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": []
+    },
+    {
+      "id": "INTAKE-02",
+      "phase": "intake",
+      "title": "Constraints",
+      "owner": "producer",
+      "description": "Record time, team, engine, offline/online and low-end constraints in DECISIONS.md.",
+      "acceptance": [
+        "constraints are testable",
+        "one low-end target is named"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "INTAKE-01"
+      ]
+    },
+    {
+      "id": "INTAKE-03",
+      "phase": "intake",
+      "title": "References",
+      "owner": "game-director",
+      "description": "Collect 3-5 reference games/art with what to learn and what not to copy.",
+      "acceptance": [
+        "references are linked",
+        "no asset copying"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "INTAKE-02"
+      ]
+    },
+    {
+      "id": "CONCEPT-01",
+      "phase": "concept",
+      "title": "Core Loop",
+      "owner": "game-designer",
+      "description": "Define the 30-second loop, 5-minute loop and session loop in verbs.",
+      "acceptance": [
+        "three loops are explicit",
+        "failure and reward are named"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "INTAKE-03"
+      ]
+    },
+    {
+      "id": "CONCEPT-02",
+      "phase": "concept",
+      "title": "Pillars",
+      "owner": "game-director",
+      "description": "Write three pillars and a non-goal for each.",
+      "acceptance": [
+        "pillars fit on one page",
+        "each pillar has a test"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "CONCEPT-01"
+      ]
+    },
+    {
+      "id": "CONCEPT-03",
+      "phase": "concept",
+      "title": "Slice Scope",
+      "owner": "producer",
+      "description": "Define the vertical slice: what is in, what is out, how it is tested.",
+      "acceptance": [
+        "slice is one playable scene/level",
+        "acceptance is observable"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "CONCEPT-02"
+      ]
+    },
+    {
+      "id": "GDD-01",
+      "phase": "gdd",
+      "title": "GDD Core",
+      "owner": "game-designer",
+      "description": "Write GDD.md: player fantasy, controls, camera, combat/loop, progression, content, UI.",
+      "acceptance": [
+        "no placeholder sections",
+        "controls and camera are explicit"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "CONCEPT-03"
+      ]
+    },
+    {
+      "id": "GDD-02",
+      "phase": "gdd",
+      "title": "Numbers",
+      "owner": "systems-designer",
+      "description": "Define HP, damage, speed, economy, drop rates and progression formulas.",
+      "acceptance": [
+        "formulas and ranges are shown",
+        "one balance test is defined"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "GDD-01"
+      ]
+    },
+    {
+      "id": "GDD-03",
+      "phase": "gdd",
+      "title": "Narrative",
+      "owner": "narrative-designer",
+      "description": "Write premise, cast, barks and the story delivery rules.",
+      "acceptance": [
+        "story is skippable",
+        "canon sheet exists"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "GDD-02"
+      ]
+    },
+    {
+      "id": "ART-01",
+      "phase": "art",
+      "title": "Art Bible",
+      "owner": "art-director",
+      "description": "Write ART_BIBLE.md: silhouettes, palette, lighting, camera, VFX and UI language.",
+      "acceptance": [
+        "palette and lighting are explicit",
+        "references are licensed/original"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "GDD-03"
+      ]
+    },
+    {
+      "id": "ART-02",
+      "phase": "art",
+      "title": "Asset Plan",
+      "owner": "asset-scout",
+      "description": "Write ASSET_PLAN.md with every asset, source, licence, format, budget and status.",
+      "acceptance": [
+        "every row has a licence",
+        "no unknown-source asset"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "ART-01"
+      ]
+    },
+    {
+      "id": "ART-03",
+      "phase": "art",
+      "title": "Licence Audit",
+      "owner": "producer",
+      "description": "Audit all assets and references; remove anything not compatible.",
+      "acceptance": [
+        "licence manifest complete",
+        "credits file started"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "ART-02"
+      ]
+    },
+    {
+      "id": "TECH-01",
+      "phase": "tech",
+      "title": "Tech Spec",
+      "owner": "technical-artist",
+      "description": "Write TECH_SPEC.md: engine, scene structure, data, input, save, audio, build and tests.",
+      "acceptance": [
+        "architecture is explicit",
+        "test hooks are named"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "ART-03"
+      ]
+    },
+    {
+      "id": "TECH-02",
+      "phase": "tech",
+      "title": "Budget",
+      "owner": "performance-engineer",
+      "description": "Set measurable low-end budgets for FPS, draw calls, triangles, texture memory and build size.",
+      "acceptance": [
+        "numbers are in TECH_SPEC.md",
+        "measurement method is named"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "TECH-01"
+      ]
+    },
+    {
+      "id": "TECH-03",
+      "phase": "tech",
+      "title": "Risk List",
+      "owner": "producer",
+      "description": "List technical/content risks with owner and mitigation.",
+      "acceptance": [
+        "each risk has a trigger and fallback"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "TECH-02"
+      ]
+    },
+    {
+      "id": "SLICE-01",
+      "phase": "slice",
+      "title": "Core Build",
+      "owner": "game-designer",
+      "description": "Implement the core loop in the slice with placeholder art.",
+      "acceptance": [
+        "input works",
+        "loop is playable",
+        "no console errors"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "TECH-03"
+      ]
+    },
+    {
+      "id": "SLICE-02",
+      "phase": "slice",
+      "title": "HUD/Onboarding",
+      "owner": "art-director",
+      "description": "Add readable HUD and teach controls without a manual.",
+      "acceptance": [
+        "first action is obvious",
+        "HUD is legible at 1280x720"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "SLICE-01"
+      ]
+    },
+    {
+      "id": "SLICE-03",
+      "phase": "slice",
+      "title": "Slice Test",
+      "owner": "qa-lead",
+      "description": "Run and record a full slice test; fix blockers.",
+      "acceptance": [
+        "QA.md updated",
+        "screenshot/evidence recorded"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "SLICE-02"
+      ]
+    },
+    {
+      "id": "PRODUCTION-01",
+      "phase": "production",
+      "title": "Content Batch",
+      "owner": "game-designer",
+      "description": "Build the next content batch from PLAN.md; no broad rewrites.",
+      "acceptance": [
+        "task matches plan",
+        "acceptance met",
+        "evidence recorded"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "SLICE-03"
+      ]
+    },
+    {
+      "id": "PRODUCTION-02",
+      "phase": "production",
+      "title": "Feel Pass",
+      "owner": "game-designer",
+      "description": "Improve feedback, timing, camera and audio within the task scope.",
+      "acceptance": [
+        "before/after evidence",
+        "no new scope"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "PRODUCTION-01"
+      ]
+    },
+    {
+      "id": "PRODUCTION-03",
+      "phase": "production",
+      "title": "Asset Pass",
+      "owner": "asset-scout",
+      "description": "Replace placeholders with licensed, budget-compliant assets.",
+      "acceptance": [
+        "ASSET_PLAN updated",
+        "licence recorded"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "PRODUCTION-02"
+      ]
+    },
+    {
+      "id": "QA-01",
+      "phase": "qa",
+      "title": "Test Matrix",
+      "owner": "qa-lead",
+      "description": "Write and run the desktop/browser/mobile test matrix for the low-end preset.",
+      "acceptance": [
+        "all critical paths tested",
+        "results recorded"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "PRODUCTION-03"
+      ]
+    },
+    {
+      "id": "QA-02",
+      "phase": "qa",
+      "title": "Performance",
+      "owner": "performance-engineer",
+      "description": "Measure and fix budget failures on the low-end machine.",
+      "acceptance": [
+        "numbers recorded",
+        "blockers fixed or listed"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "QA-01"
+      ]
+    },
+    {
+      "id": "QA-03",
+      "phase": "qa",
+      "title": "Playtest",
+      "owner": "game-director",
+      "description": "Run a first-time-player test and log drift from the pillars.",
+      "acceptance": [
+        "notes recorded",
+        "decisions updated"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "QA-02"
+      ]
+    },
+    {
+      "id": "RELEASE-01",
+      "phase": "release",
+      "title": "Build",
+      "owner": "producer",
+      "description": "Produce a reproducible build and a run instruction.",
+      "acceptance": [
+        "build exists",
+        "version and hash recorded"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "QA-03"
+      ]
+    },
+    {
+      "id": "RELEASE-02",
+      "phase": "release",
+      "title": "Credits",
+      "owner": "producer",
+      "description": "Complete licences, credits and attribution.",
+      "acceptance": [
+        "third-party notices complete",
+        "no unlicensed asset"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "RELEASE-01"
+      ]
+    },
+    {
+      "id": "RELEASE-03",
+      "phase": "release",
+      "title": "Release Check",
+      "owner": "qa-lead",
+      "description": "Run the release checklist and record the final verdict.",
+      "acceptance": [
+        "blockers zero",
+        "known issues listed"
+      ],
+      "evidence": [],
+      "status": "pending",
+      "depends_on": [
+        "RELEASE-02"
+      ]
+    }
+  ]
+}

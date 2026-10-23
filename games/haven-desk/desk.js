@@ -1482,10 +1482,12 @@
     if (!canvas) return;
     if (word) word.textContent = "";
     var ctx = canvas.getContext("2d");
-    var stars = [];
-    var dust = [];
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var motes = [];
     var i;
-    var banner = "LYGO 98    ·    a late-90s desk    ·    Truth Is. Light Becomes.    ·    ";
+    var YEARS = [1969, 1980, 1998, 2026, 2038, 2045];
+    var banner = "LYGO TEMPORAL ARCHIVE    ·    SLEEP MODE    ·    THE DESK IS STILL AWAKE    ·    ";
+    for (i = 0; i < 54; i++) motes.push({ x: Math.random(), y: Math.random(), v: 0.00008 + Math.random() * 0.00020, p: Math.random() * 6.28 });
     function fit() {
       var host = canvas.parentElement;
       var nextW = host ? host.clientWidth : window.innerWidth;
@@ -1498,102 +1500,152 @@
       }
     }
     fit();
-    for (i = 0; i < 180; i++) {
-      stars.push({
-        x: Math.random(),
-        y: Math.random(),
-        z: Math.random(),
-        tint: i % 7 === 0 ? "#d4b483" : (i % 3 === 0 ? "#5eead4" : "#d7fff8")
-      });
-    }
-    for (i = 0; i < 40; i++) dust.push({ x: Math.random(), y: Math.random(), v: 0.00015 + Math.random() * 0.00035 });
-    var t0 = Date.now();
-    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    function ring(cx, cy, radius, count, spin, color) {
+    function tickRing(cx, cy, radius, count, spin, color, years) {
       var n;
-      var pts = [];
-      for (n = 0; n < count; n++) {
-        var a = spin + (Math.PI * 2 * n) / count;
-        pts.push([cx + Math.cos(a) * radius, cy + Math.sin(a) * radius * 0.62]);
-      }
-      ctx.beginPath();
-      pts.forEach(function (p, idx) {
-        if (idx === 0) ctx.moveTo(p[0], p[1]);
-        else ctx.lineTo(p[0], p[1]);
-      });
-      ctx.closePath();
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(spin);
       ctx.strokeStyle = color;
       ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath();
+      ctx.arc(0, 0, radius, 0, Math.PI * 2);
       ctx.stroke();
-      pts.forEach(function (p) {
-        ctx.fillStyle = color;
-        ctx.fillRect(p[0] - 2, p[1] - 2, 4, 4);
-      });
+      for (n = 0; n < count; n++) {
+        var a = (Math.PI * 2 * n) / count;
+        var long = n % 5 === 0;
+        ctx.beginPath();
+        ctx.moveTo(Math.cos(a) * radius, Math.sin(a) * radius);
+        ctx.lineTo(Math.cos(a) * (radius + (long ? 9 : 4)), Math.sin(a) * (radius + (long ? 9 : 4)));
+        ctx.stroke();
+
+      }
+      ctx.restore();
     }
     function frame() {
       fit();
       var w = canvas.width;
       var h = canvas.height;
-      var now = Date.now() - t0;
-      var sky = ctx.createRadialGradient(w / 2, h * 0.42, 40, w / 2, h / 2, Math.max(w, h) * 0.72);
-      sky.addColorStop(0, "#062c32");
-      sky.addColorStop(0.45, "#021018");
-      sky.addColorStop(1, "#000008");
+      var now = Date.now();
+      var motion = reduce ? 0.18 : 1;
+      var cx = w / 2;
+      var cy = h * 0.47;
+      var base = Math.min(w, h);
+      var sky = ctx.createRadialGradient(cx, cy, 10, cx, cy, Math.max(w, h) * 0.78);
+      sky.addColorStop(0, "#0b2420");
+      sky.addColorStop(0.42, "#05120f");
+      sky.addColorStop(1, "#000402");
       ctx.fillStyle = sky;
       ctx.fillRect(0, 0, w, h);
-      var motion = reduce ? 0.55 : 1;
-      stars.forEach(function (s) {
-        s.z -= 0.014 * motion;
-        if (s.z <= 0) { s.x = Math.random(); s.y = Math.random(); s.z = 1; }
-        var k = (1 - s.z) * 2.4;
-        var x = (s.x - 0.5) * k * w + w / 2;
-        var y = (s.y - 0.5) * k * h + h / 2;
-        var size = 1 + (1 - s.z) * 2.2;
-        ctx.globalAlpha = 0.35 + (1 - s.z) * 0.65;
-        ctx.fillStyle = s.tint;
-        ctx.fillRect(x, y, size, size);
-      });
-      ctx.globalAlpha = 0.45;
-      dust.forEach(function (d) {
-        d.x += d.v * 8 * motion;
-        if (d.x > 1) d.x = 0;
-        ctx.fillStyle = "#7ee0d0";
-        ctx.fillRect(d.x * w, d.y * h, 1.5, 1.5);
-      });
-      ctx.globalAlpha = 0.7;
-      var cx = w / 2;
-      var cy = h * 0.46;
-      var pulse = Math.sin(now / 700) * 14 * motion;
-      ring(cx, cy, Math.min(w, h) * 0.34 + pulse, 18, now / 1400 * motion, "rgba(212,180,131,0.9)");
-      ring(cx, cy, Math.min(w, h) * 0.22, 11, -now / 900 * motion, "rgba(94,234,212,0.95)");
-      var spark;
-      ctx.globalAlpha = 1;
-      for (spark = 0; spark < 8; spark++) {
-        var ang = now / 700 * motion + spark * 0.8;
-        var rad = Math.min(w, h) * (0.16 + (spark % 4) * 0.07);
-        ctx.fillStyle = spark % 2 ? "#d4b483" : "#5eead4";
-        ctx.fillRect(cx + Math.cos(ang) * rad - 3, cy + Math.sin(ang) * rad * 0.62 - 3, 6, 6);
+
+      // A very quiet 1998 grid, like a monitor that has forgotten the cursor.
+      ctx.globalAlpha = 0.16;
+      ctx.strokeStyle = "#3a8c7c";
+      ctx.lineWidth = 1;
+      for (var gx = 0; gx < w; gx += 48) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
       }
-      ctx.globalAlpha = 0.35;
-      ctx.strokeStyle = "#5eead4";
-      ctx.lineWidth = 2;
+      for (var gy = 0; gy < h; gy += 48) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+      }
+
+      // Slow drifting data motes.
+      ctx.globalAlpha = 0.55;
+      motes.forEach(function (m) {
+        m.y -= m.v * 30 * motion;
+        if (m.y < -0.02) { m.y = 1.02; m.x = Math.random(); }
+        var mx = m.x * w;
+        var my = m.y * h;
+        ctx.fillStyle = m.p > 4.2 ? "#d4a64d" : "#72e0d1";
+        ctx.fillRect(mx, my, 1.5, 1.5);
+      });
+
+      // Three calendar rings. The inner ring is the private year.
+      tickRing(cx, cy, base * 0.30, 48, (now / 90000) * motion, "rgba(114,224,209,0.62)", YEARS);
+      tickRing(cx, cy, base * 0.205, 36, -(now / 62000) * motion, "rgba(224,179,90,0.62)", YEARS);
+      tickRing(cx, cy, base * 0.115, 24, (now / 41000) * motion, "rgba(114,224,209,0.50)", null);
+      // One label per year, outside the rings. Repetition was visual noise.
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.font = "700 10px 'Courier New', monospace";
+      for (var yi = 0; yi < YEARS.length; yi++) {
+        var ya = -Math.PI / 2 + (Math.PI * 2 * yi) / YEARS.length;
+        var yr = base * 0.345;
+        ctx.globalAlpha = yi === 1 ? 0.95 : 0.62;
+        ctx.fillStyle = yi === 1 ? "#e0b35a" : "#8fd4c6";
+        ctx.fillText(String(YEARS[yi]), cx + Math.cos(ya) * yr, cy + Math.sin(ya) * yr + 3);
+      }
+      ctx.restore();
+
+      // Candle glow: the hidden date is a room, not a countdown.
+      var flicker = 0.82 + Math.sin(now / 230) * 0.10 + Math.sin(now / 77) * 0.035;
+      var candleY = cy + base * 0.12;
+      var glow = ctx.createRadialGradient(cx, candleY, 1, cx, candleY, base * 0.15 * flicker);
+      glow.addColorStop(0, "rgba(255,208,120,0.36)");
+      glow.addColorStop(0.45, "rgba(224,150,60,0.13)");
+      glow.addColorStop(1, "rgba(224,150,60,0)");
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = glow;
+      ctx.fillRect(cx - base * 0.2, candleY - base * 0.2, base * 0.4, base * 0.4);
+      ctx.fillStyle = "#f4c875";
+      ctx.fillRect(cx - 1, candleY - 8, 2, 8);
+      ctx.fillStyle = "rgba(255,244,203,0.9)";
+      ctx.fillRect(cx - 1, candleY - 11, 2, 4);
+
+      // Oscilloscope signal.
+      ctx.globalAlpha = 0.5;
+      ctx.strokeStyle = "#72e0d1";
+      ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.ellipse(cx, cy, Math.min(w, h) * 0.16, Math.min(w, h) * 0.1, now / 2200 * motion, 0, Math.PI * 1.35);
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-      ctx.font = "13px Tahoma, Verdana, sans-serif";
-      ctx.fillStyle = "rgba(232,255,251,0.72)";
-      var bw = ctx.measureText(banner).width;
-      var shift = (now / 22 * motion) % bw;
-      var bx = -shift;
-      while (bx < w) {
-        ctx.fillText(banner, bx, h - 22);
-        bx += bw;
+      for (var wx = 0; wx < w; wx += 4) {
+        var wy = h * 0.78 + Math.sin(wx / 54 + now / 900 * motion) * 5 + Math.sin(wx / 17 - now / 300 * motion) * 2;
+        if (wx === 0) ctx.moveTo(wx, wy); else ctx.lineTo(wx, wy);
       }
-      if (word && (reduce || now > 3200)) word.textContent = saverWord;
+      ctx.stroke();
+
+      // Top/bottom archival labels.
+      ctx.globalAlpha = 0.55;
+      ctx.fillStyle = "rgba(232,255,251,0.72)";
+      ctx.font = "10px 'Courier New', monospace";
+      ctx.textAlign = "left";
+      ctx.fillText("LYGO TEMPORAL ARCHIVE / SLEEP MODE", 18, 24);
+      ctx.textAlign = "right";
+      ctx.fillText("SIGNAL KEPT · 1969—2045", w - 18, 24);
+      ctx.textAlign = "center";
+      ctx.globalAlpha = 0.30;
+      ctx.fillText("THE CALENDAR IS STILL COUNTING", cx, h - 42);
+
+      // CRT scanlines and a slow scan bar.
+      ctx.globalAlpha = 0.10;
+      ctx.fillStyle = "#8ff8e7";
+      for (var sy = 0; sy < h; sy += 4) ctx.fillRect(0, sy, w, 1);
+      ctx.globalAlpha = 0.06;
+      var scanY = (now / 90 * motion) % (h + 160) - 80;
+      ctx.fillStyle = "#b9fff3";
+      ctx.fillRect(0, scanY, w, 70);
+
+      // Vignette.
+      var vg = ctx.createRadialGradient(cx, cy, base * 0.30, cx, cy, Math.max(w, h) * 0.74);
+      vg.addColorStop(0, "rgba(0,0,0,0)");
+      vg.addColorStop(1, "rgba(0,0,0,0.82)");
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Footer banner, slow.
+      ctx.globalAlpha = 0.38;
+      ctx.font = "12px 'Courier New', monospace";
+      ctx.fillStyle = "#b8e8dd";
+      ctx.textAlign = "left";
+      var bw = ctx.measureText(banner).width;
+      var shift = (now / 32 * motion) % bw;
+      var bx = -shift;
+      while (bx < w) { ctx.fillText(banner, bx, h - 18); bx += bw; }
+      ctx.globalAlpha = 1;
+      if (word && (reduce || now > 2400)) word.textContent = saverWord;
       saverRAF = requestAnimationFrame(frame);
     }
-    saverResize = function () { frame(); };
+    saverResize = function () { fit(); };
     window.addEventListener("resize", saverResize);
     frame();
   }
