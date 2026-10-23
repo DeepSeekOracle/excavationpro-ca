@@ -1,0 +1,122 @@
+[
+  {
+    "title": "HTML Tags Proposed",
+    "epigraph": "A simple language for linking documents across a global network.",
+    "body": [
+      "Tim Berners-Lee outlined eleven elements to describe structure and reference. The proposal carried no fees and claimed no patent.",
+      "The memo circulated through CERN's internal networks, unseen by the outside world."
+    ],
+    "doc": "The original 1990 proposal described HTML as a markup language for hypertext. Eleven tags were sufficient to link any document anywhere.",
+    "question": "How many tags did the original HTML specification include?",
+    "answer": "ELEVEN",
+    "clue": "eleven elements to describe structure and reference"
+  },
+  {
+    "title": "HTTP Request Laid Down",
+    "epigraph": "The first command sent across a socket would change communication forever.",
+    "body": [
+      "A GET request traveled from one machine to another with no body, only a path. The server replied with text that appeared on a screen.",
+      "No one predicted the method would outlive the laboratory where it was born."
+    ],
+    "doc": "The first HTTP specification defined methods for retrieving resources. GET was the method that started it all, returning stateless text to the caller.",
+    "question": "What HTTP method was defined in the first specification?",
+    "answer": "GET",
+    "clue": "The first method defined was GET"
+  },
+  {
+    "title": "Browser Without Pictures",
+    "epigraph": "Text reigned until an image tag proved the world was ready for more.",
+    "body": [
+      "The first browser rendered only fonts and whitespace. Tables arranged layout. Images required a separate viewer and appeared as placeholders.",
+      "The world grew accustomed to reading before it learned to see."
+    ],
+    "doc": "Early 1990s browsers prioritized text delivery. The IMG element was added mid-1993 after the initial proposal, changing visual communication forever.",
+    "question": "What did early browsers render before images were supported?",
+    "answer": "TEXT ONLY",
+    "clue": "Fonts and whitespace only"
+  },
+  {
+    "title": "CERN Server Room Cooling",
+    "epigraph": "Machines generated heat that the room could not tolerate indefinitely.",
+    "body": [
+      "The first web server filled a rack and hummed day and night. Operators monitored temperature on a dial that crept upward.",
+      "The building's ventilation system struggled to keep the prototypes from overheating during long debugging sessions."
+    ],
+    "doc": "The original web server ran nonstop from late 1990 through 1993. Hardware ran warm, but the idea ran hotter, spreading through corridors and across continents.",
+    "question": "What problem did the first web server hardware face?",
+    "answer": "HEAT",
+    "clue": "Operators monitored temperature on a dial"
+  },
+  {
+    "title": "NeXT Step Toward the Web",
+    "epigraph": "A different computer architecture carried the idea beyond the laboratory walls.",
+    "body": [
+      "Tim Berners-Lee used a NeXT workstation to build the first browser and server. The object-oriented environment made the code easier to shape and reshape.",
+      "The purple-hued screen became a familiar sight in the early days of the web."
+    ],
+    "doc": "NeXT computers provided the development platform for the first web tools. The combination of Objective-C and Unix made the early code portable and extensible.",
+    "question": "What computer did Tim Berners-Lee use to build the first web tools?",
+    "answer": "NEXT",
+    "clue": "NeXT workstation"
+  },
+  {
+    "title": "First Web Address Book",
+    "epigraph": "Names translated to numbers in a directory no one expected to need.",
+    "body": [
+      "Before DNS was universal, numeric addresses connected early adopters. A text file mapped names to numbers, updated by hand each month.",
+      "The list grew quietly as more hosts came online, each entry a pact between administrator and user."
+    ],
+    "doc": "The early internet used HOSTS.TXT files distributed by Stanford Research Institute. Before the domain name system, every computer knew its numeric address by heart.",
+    "question": "What system mapped names to numbers before DNS existed?",
+    "answer": "HOSTS.TXT",
+    "clue": "Numeric addresses connected early adopters"
+  },
+  {
+    "title": "Markup Language Compromise",
+    "epigraph": "What looked like chaos to some was structure to others.",
+    "body": [
+      "The HTML proposal borrowed from SGML but stripped away complexity. The result was a minimal syntax that could be parsed by hand or by machine.",
+      "Purists wanted full SGML compliance. Practitioners wanted to get pages up by Friday."
+    ],
+    "doc": "HTML was designed to be a simplified subset of SGML. The compromise meant fewer rules, easier authoring, and faster adoption across heterogeneous hardware.",
+    "question": "What did HTML simplify from SGML?",
+    "answer": "SYNTAX",
+    "clue": "Fewer rules, easier authoring"
+  },
+  {
+    "title": "Link Rot Already Beginning",
+    "epigraph": "Addresses change, and the web remembers only what is copied anew.",
+    "body": [
+      "Early page authors discovered that links broke when machines were taken offline. The practice of quoting sources became essential, not optional.",
+      "Mailing lists preserved discussions, but the original URLs faded into silence."
+    ],
+    "doc": "The ephemeral nature of early network addresses meant that link rot appeared within months of publication. Archival effort was required to preserve the first generation of web content.",
+    "question": "What problem did early page authors face with links?",
+    "answer": "LINK ROT",
+    "clue": "Links broke when machines were taken offline"
+  },
+  {
+    "title": "CERN Public Announcement 1991",
+    "epigraph": "A note posted to a newsgroup reached beyond the laboratory fence.",
+    "body": [
+      "In 1991 the web was declared free for all. A posting to alt.hypertext announced the software and invited collaboration.",
+      "The response came from universities and research centers worldwide, each asking how they could join."
+    ],
+    "doc": "CERN placed the web software in the public domain on April 30, 1993. The 1991 newsgroup post marked the first public invitation to use and improve the system.",
+    "question": "What newsgroup carried the first public web announcement?",
+    "answer": "ALT.HYPERTEXT",
+    "clue": "Posting to alt.hypertext announced the software"
+  },
+  {
+    "title": "Line-Mode Browser Debut",
+    "epigraph": "The first browser to run anywhere, not just on a workstation.",
+    "body": [
+      "The Line-Mode Browser rendered HTML on terminals without a graphical display. Users typed URLs and read structured text on dumb terminals across the network.",
+      "Portability mattered more than prettiness. The browser proved the web could reach any connected device."
+    ],
+    "doc": "Written in C by Tim Berners-Lee and Nicola Pellow, the Line-Mode Browser was the first publicly available web browser. It ran on any system with a TCP stack, expanding the web beyond workstations and research labs.",
+    "question": "What allowed the Line-Mode Browser to run on any connected device?",
+    "answer": "TCP STACK",
+    "clue": "Ran on any system with a TCP stack"
+  }
+]

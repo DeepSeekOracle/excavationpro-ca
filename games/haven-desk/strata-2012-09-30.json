@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Neural Dust Settles on Server Racks",
+    "epigraph": "The machine dreamed in gradients no human hand had drawn.",
+    "body": [
+      "The log shows training loss dropping past 0.4 on day forty-seven. Someone circled the number in red ballpoint, wrote \"impossible\" in the margin.",
+      "By morning the GPU fans had fallen silent. The checkpoint file weighed 233 megabytes, larger than the operating system itself."
+    ],
+    "doc": "Recovered from a sticky note on the monitor bezel: The weights remember what we forgot to teach them. Layer seven holds the shape of a cat's ear. Do not delete.",
+    "question": "What geometric form did the seventh layer learn to recognize without supervision?",
+    "answer": "CAT",
+    "clue": "Layer seven holds the shape of a cat's ear"
+  },
+  {
+    "title": "ImageNet Falls to Eight Layers Deep",
+    "epigraph": "Fifteen percent error became the new horizon line.",
+    "body": [
+      "The submission email timestamp reads 03:41 AM. The attachment name: alexnet_final.pkl. No message body, just the file.",
+      "Reviewer comments returned forty-eight hours later: \"Reproducible. Unprecedented. We cannot explain layer six.\""
+    ],
+    "doc": "Printed on thermal paper, curled at edges: The top-five metric dropped to sixteen point four. Krizhevsky's name appears three times in the author list. The dropout rate was point five.",
+    "question": "What regularization technique kept the deep network from memorizing the training set?",
+    "answer": "DROPOUT",
+    "clue": "The dropout rate was point five"
+  },
+  {
+    "title": "Two GPUs Whisper in the Night",
+    "epigraph": "Parallel paths converged on a single truth no textbook predicted.",
+    "body": [
+      "GTX 580s, three gigabytes each. The model split across them like a corpus callosum. Communication overhead: thirteen percent.",
+      "Night shift operator found the temperature warning blinking at eighty-three Celsius. He opened the case, blew dust from the fins, left the side panel off."
+    ],
+    "doc": "Handwritten on the back of a pizza receipt: Model parallelism across two cards. Each GPU owns half the filters. Synchronization at the fully connected layers. Batch size one twenty-eight.",
+    "question": "How many graphics cards hosted the winning architecture?",
+    "answer": "TWO",
+    "clue": "Model parallelism across two cards"
+  },
+  {
+    "title": "ReLU Lights the Hidden Pathways",
+    "epigraph": "Negative values died; the network learned to ignore darkness.",
+    "body": [
+      "Sigmoid saturated. Tanh stalled. The rectified linear unit passed gradient like water through open sluice gates.",
+      "Training time dropped from weeks to days. The loss curve smoothed into something resembling a straight line."
+    ],
+    "doc": "Margin annotation in the printed paper, blue ballpoint: ReLU outperforms sigmoid by factor of six. No vanishing gradient. Sparse activation emerges naturally. Sparsity equals efficiency.",
+    "question": "What activation function replaced sigmoid in the breakthrough architecture?",
+    "answer": "RELU",
+    "clue": "ReLU outperforms sigmoid by factor of six"
+  },
+  {
+    "title": "Data Augmentation Blooms from Crops",
+    "epigraph": "One image became two thousand through reflection and theft.",
+    "body": [
+      "Random crops, horizontal flips, color jitter. The dataset multiplied in memory without touching disk.",
+      "Test-time averaging: ten crops per image, five scales, mirrored. The prediction stabilized like a photograph developing."
+    ],
+    "doc": "Sticky note on the keyboard: 2048 augmented samples per epoch. PCA color jitter with sigma zero point one. Principal components computed on the full training set.",
+    "question": "What statistical technique generated color variations during training?",
+    "answer": "PCA",
+    "clue": "PCA color jitter with sigma zero point one"
+  },
+  {
+    "title": "Local Response Normalization Fades",
+    "epigraph": "Lateral inhibition borrowed from biology, discarded by history.",
+    "body": [
+      "The paper insists on it. Later implementations remove it and accuracy rises. The authors never explain why it helped at all.",
+      "A comment in the source code: \"LRN layer — kept for reproducibility. Delete if training from scratch.\""
+    ],
+    "doc": "Email fragment recovered from server backup: Subject: LRN ablation. Body: Removing local response normalization improves top-1 by zero point three percent. Alex says keep it for the paper. Ship date immutable.",
+    "question": "What normalization technique was later found to be unnecessary?",
+    "answer": "LRN",
+    "clue": "Removing local response normalization improves top-1"
+  },
+  {
+    "title": "Three Million Two Hundred Thousand Parameters",
+    "epigraph": "Sixty million weights fit in a shoebox of silicon.",
+    "body": [
+      "The model card lists sixty million parameters. Compressed: two hundred thirty-three megabytes. Uncompressed in memory: four hundred eighty.",
+      "A single forward pass: one point four billion floating point operations. The GTX 580 delivers fifteen hundred gigaflops. Theory meets practice in sixty milliseconds."
+    ],
+    "doc": "Whiteboard photograph, enhanced: 60M params. 5 conv layers. 3 FC layers. 4096-4096-1000. Input 224x224x3. Output 1000 classes. Softmax temperature one.",
+    "question": "How many neurons in each of the first two fully connected layers?",
+    "answer": "4096",
+    "clue": "4096-4096-1000"
+  },
+  {
+    "title": "Krizhevsky Sutskever Hinton Submit",
+    "epigraph": "Three names on a paper that rewrote the century's second decade.",
+    "body": [
+      "The author order: Alex, Ilya, Geoffrey. Alphabetical would have placed Hinton first. He insisted on last.",
+      "NeurIPS 2012 acceptance email printed and pinned to a corkboard. Pushpin through the 'C' in 'Congratulations.'"
+    ],
+    "doc": "Conference badge lanyard found in a drawer: NIPS 2012 — Lake Tahoe. Handwritten on the back: Alex presented. Twelve minute talk. Standing ovation. Geoffrey did not speak.",
+    "question": "Which author presented the paper at the conference?",
+    "answer": "ALEX",
+    "clue": "Alex presented"
+  },
+  {
+    "title": "Error Rate Halved in Single Bound",
+    "epigraph": "Twenty-six percent became sixteen; the field tilted on its axis.",
+    "body": [
+      "Previous best: twenty-six point two top-five error. AlexNet: sixteen point four. The gap wider than all prior years combined.",
+      "Second place: twenty-six point one. Third: twenty-seven. The distribution collapsed into outlier and pack."
+    ],
+    "doc": "Results table torn from proceedings: Team | Top-5 Error. SuperVision | 16.4. ISI | 26.1. Oxford | 27.0. XRCE | 27.1. UvA | 28.2. Margin note: \"SuperVision\" equals Alex plus two.",
+    "question": "What was the winning team's top-five error rate?",
+    "answer": "16.4",
+    "clue": "SuperVision | 16.4"
+  },
+  {
+    "title": "Checkpoint Saved Before the Storm",
+    "epigraph": "Power failed at epoch ninety; the weights survived in a temp file.",
+    "body": [
+      "Uninterruptible power supply lasted forty minutes. The training script wrote checkpoints every ten epochs. Epoch ninety landed three minutes before blackout.",
+      "When power restored, the loss curve resumed from 1.64. Final convergence at epoch ninety-five: 1.59."
+    ],
+    "doc": "Terminal scrollback captured by screen logger: [Epoch 90/95] loss: 1.6423 acc: 0.5821 lr: 0.0001 checkpoint saved to /mnt/scratch/alexnet_epoch90.pkl — POWER FAILURE — [Epoch 91/95] loss: 1.6389",
+    "question": "At which epoch did the power failure interrupt training?",
+    "answer": "NINETY",
+    "clue": "[Epoch 90/95] loss: 1.6423"
+  }
+]

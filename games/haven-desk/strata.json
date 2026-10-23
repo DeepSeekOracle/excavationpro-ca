@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Mosaic Dawn",
+    "epigraph": "The world widened on a Tuesday in April.",
+    "body": [
+      "NCSA Mosaic 1.0 slipped into the wild on 1993-04-22, the first browser to marry text and images in a single window.",
+      "Campus labs hummed with the new grammar of <img> and <a>, and the web ceased being a physicist's notebook."
+    ],
+    "doc": "Recovered log shows Mosaic 1.0 compiled on SGI Indigo; Marc Andreessen noted the build passed at 03:14 UTC.",
+    "question": "What tag let pictures live beside words?",
+    "answer": "IMG",
+    "clue": "the new grammar of <img> and <a>"
+  },
+  {
+    "title": "Hypercard Ghost",
+    "epigraph": "Before the browser, there was the stack.",
+    "body": [
+      "HyperCard on Macintosh taught a generation that cards could link to cards, a metaphor Mosaic borrowed for the web.",
+      "The stack metaphor survived in Mosaic's hotlist, a personal map of discovered territory."
+    ],
+    "doc": "Apple donated HyperCard source to the Mosaic team in March 1993; the hotlist code bears its fingerprint.",
+    "question": "What Macintosh program lent its soul to the hotlist?",
+    "answer": "HYPERCARD",
+    "clue": "HyperCard on Macintosh taught a generation"
+  },
+  {
+    "title": "Server Whisper",
+    "epigraph": "CERN's daemon answered before the world knew to ask.",
+    "body": [
+      "The CERN httpd 3.0 daemon served Mosaic's first images, a 28 KB GIF of the CERN label.",
+      "Bandwidth was measured in kilobaud; every byte was a negotiation."
+    ],
+    "doc": "Tim Berners-Lee's log records the first image request at 14:22 UTC on 1993-04-22 from an SGI at NCSA.",
+    "question": "What format wore the crown of the first served image?",
+    "answer": "GIF",
+    "clue": "a 28 KB GIF of the CERN label"
+  },
+  {
+    "title": "Unix Cradle",
+    "epigraph": "X windows birthed the browser; Windows followed later.",
+    "body": [
+      "Mosaic launched on Unix first -- SGI IRIX, IBM AIX, SunOS, DEC Ultrix -- each port a negotiation with Motif.",
+      "The Windows port arrived months later, carried by a team that had never seen the Unix source."
+    ],
+    "doc": "Spyglass licensed the Unix codebase in August 1993; the Windows port team worked from screen captures.",
+    "question": "Which window system held Mosaic's first pixels?",
+    "answer": "X",
+    "clue": "Mosaic launched on Unix first"
+  },
+  {
+    "title": "FTP Fossil",
+    "epigraph": "The old protocol still carried the new world.",
+    "body": [
+      "Mosaic 1.0 distributed via ftp.ncsa.uiuc.edu, anonymous login, directory /Mosaic/Unix/binaries.",
+      "Mirror sites bloomed: ftp.funet.fi, src.doc.ic.ac.uk, ftp.uu.net -- each a lifeline for slow links."
+    ],
+    "doc": "Transfer logs show 4,000 downloads in the first week; the SGI binary alone weighed 1.2 MB.",
+    "question": "What protocol ferried Mosaic to the first users?",
+    "answer": "FTP",
+    "clue": "distributed via ftp.ncsa.uiuc.edu"
+  },
+  {
+    "title": "Forms Embryo",
+    "epigraph": "Input arrived before the spec was written.",
+    "body": [
+      "Mosaic 2.0 alpha introduced <input> and <form> in October 1993, months before RFC 1866.",
+      "The first search boxes, guestbooks, and order forms bloomed in those untamed tags."
+    ],
+    "doc": "Andreessen's mail to www-talk reveals forms were coded in a weekend to demo at the MIT X Consortium meeting.",
+    "question": "What weekend project became the web's first commerce engine?",
+    "answer": "FORMS",
+    "clue": "forms were coded in a weekend"
+  },
+  {
+    "title": "Color War",
+    "epigraph": "256 colors were a battlefield; 16 million a dream.",
+    "body": [
+      "Mosaic dithered images to 8-bit palettes on Sun and SGI; the Netscape palette of 216 safe colors did not yet exist.",
+      "Designers learned to count colors like scribes counting ink."
+    ],
+    "doc": "A recovered style guide from NCSA warns: 'Exceed 200 colors and the colormap flashes on 8-bit displays.'",
+    "question": "How many colors did the safe palette eventually standardize?",
+    "answer": "216",
+    "clue": "the Netscape palette of 216 safe colors"
+  },
+  {
+    "title": "Cookie Seed",
+    "epigraph": "State was a bug before it became a feature.",
+    "body": [
+      "Mosaic had no cookies; each request stood alone, Stateless as a telegraph.",
+      "Netscape 0.9 baked the first cookie in February 1994, a magic header named after fortune cookies."
+    ],
+    "doc": "Lou Montulli's notebook entry: 'Persistent client state -- call it cookie, like the UNIX fortune program.'",
+    "question": "What UNIX program inspired the name of the web's memory?",
+    "answer": "FORTUNE",
+    "clue": "like the UNIX fortune program"
+  },
+  {
+    "title": "Bookmark Relic",
+    "epigraph": "The hotlist was a personal atlas before it was a cloud.",
+    "body": [
+      "Mosaic's hotlist.html lived in ~/.mosaic/, a flat file of <dt><a href=> entries edited by hand.",
+      "Users traded hotlist files on floppy disks, curating the web for each other."
+    ],
+    "doc": "A recovered hotlist from April 1994 contains 47 links; 39 now return 404.",
+    "question": "Where did Mosaic store its map of the known web?",
+    "answer": "HOTLIST",
+    "clue": "Mosaic's hotlist.html lived in ~/.mosaic/"
+  },
+  {
+    "title": "Source Covenant",
+    "epigraph": "Code belonged to the university until the company formed.",
+    "body": [
+      "NCSA claimed ownership of Mosaic; the developers left to form Mosaic Communications, later Netscape.",
+      "The source license forbade commercial use -- a clause that birthed the browser wars."
+    ],
+    "doc": "University of Illinois board minutes record the license terms: 'No fee, no commercial redistribution without written consent.'",
+    "question": "What clause in the NCSA license sparked the first browser company?",
+    "answer": "COMMERCIAL",
+    "clue": "forbade commercial use"
+  }
+]

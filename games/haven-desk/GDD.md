@@ -58,6 +58,8 @@ This is a **fictionalized story built around a real public creative life**. Just
 
 ## Content structure
 
+**Hard cap:** 3,000 levels. The authored spine is 60 anchor dates; the Echo Vault supplies the volume layer (20 authored lenses per anchor plus validated Forge worker strata).
+
 ```text
 1969 Moon          1977 Golden Record   1984 Macintosh
 1989 Wall          1991 Public Web      1995 Start

@@ -671,3 +671,27 @@
 .veil-mapwrap { min-height: 510px; max-height: 510px; }
 @media (max-width: 900px) { .veil-mapwrap { min-height: 500px; max-height: 500px; } }
 
+
+/* echo vault + atlas gates */
+.veil-echo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 5px; margin: 6px 0; }
+.veil-echo-card { text-align: left; padding: 6px 8px; background: #0d1b16; border: 1px solid #355246; color: #dce9e2; font: 11px Tahoma, "MS Sans Serif", Verdana, sans-serif; }
+.veil-echo-card:hover { border-color: #e0b35a; background: #17271e; }
+.veil-echo-card strong { display: block; color: #f0ead7; margin: 2px 0; font-size: 12px; }
+.veil-echo-card small { display: block; color: #839b8d; font-size: 9px; line-height: 1.3; }
+.veil-echo-card.is-done { border-color: #b2873d; background: #211b0d; }
+.veil-echo-card.is-done small { color: #d9b86a; }
+.veil-lights { display: grid; grid-template-columns: repeat(3, 42px); gap: 3px; margin: 0 0 9px; }
+.veil-light { width: 42px; height: 38px; background: #0b1712; border: 2px solid #4d6a5c; border-right-color: #17251d; border-bottom-color: #17251d; }
+.veil-light.is-on { background: #d4a64d; border-color: #ffe4a1; box-shadow: 0 0 12px rgba(224,179,90,.5); }
+.veil-memory { display: grid; grid-template-columns: repeat(2, minmax(90px, 1fr)); gap: 5px; max-width: 420px; margin-bottom: 7px; }
+.veil-memorypad { padding: 10px; border: 2px solid #5b7b6b; background: #10231b; color: #e5e0cd; font: 700 10px "Courier New", Courier, monospace; letter-spacing: .08em; }
+.veil-memorypad.amber.is-flash, .veil-memorypad.amber.is-hit { background: #e0b35a; color: #171006; }
+.veil-memorypad.cyan.is-flash, .veil-memorypad.cyan.is-hit { background: #72e0d1; color: #07110f; }
+.veil-memorypad.green.is-flash, .veil-memorypad.green.is-hit { background: #9fe58c; color: #07110f; }
+.veil-memorypad.violet.is-flash, .veil-memorypad.violet.is-hit { background: #b8a2e8; color: #07110f; }
+.veil-echo-grid .veil-node-date { color: #72e0d1; }
+
+#win-echoes .titlebar { background: #1b2b25; color: #e9e2cf; }
+#win-echoes .body { background: #0a1210; padding: 0; margin: 3px; overflow: hidden; }
+#win-echoes .veil-app { padding-top: 10px; }
+#win-echoes .veil-input { background: #07100c; color: #e9e2cf; border: 2px solid #596f62; border-right-color: #d8d0b0; border-bottom-color: #d8d0b0; padding: 4px 6px; min-width: 210px; }

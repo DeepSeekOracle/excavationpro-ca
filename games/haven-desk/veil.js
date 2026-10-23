@@ -174,9 +174,12 @@
     ["1969—1995 · ORIGINS", "1998—2016 · SIGNAL", "2019—2045 · FUTURE"].forEach(function (t) { era.appendChild(el("span", "", t)); });
     wrap.appendChild(era);
     var map = el("div", "veil-map");
+    var rows = Math.max(5, Math.ceil(Object.keys(D.days).length / 5));
+    var mapH = 50 + rows * 92;
+    map.style.height = mapH + "px";
     var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("class", "veil-edges");
-    svg.setAttribute("viewBox", "0 0 860 510");
+    svg.setAttribute("viewBox", "0 0 860 " + mapH);
     svg.setAttribute("preserveAspectRatio", "none");
     svg.setAttribute("aria-hidden", "true");
     D.threads.forEach(function (t) {
@@ -533,6 +536,67 @@
       box.appendChild(el("p", "veil-hint", gate.hint ? "Hint: " + gate.hint : "The first, second and third line."));
     } else if (gate.kind === "game") {
       box.appendChild(signalRun(id, d && d.game ? d.game : gate));
+    } else if (gate.kind === "lights") {
+      var lgrid = el("div", "veil-lightgrid");
+      var lval = "000000000";
+      for (var li = 0; li < 9; li++) {
+        (function (index) {
+          var lb = button("", "veil-light", function () {
+            var arr = lval.split("");
+            arr[index] = arr[index] === "1" ? "0" : "1";
+            lval = arr.join("");
+            lb.classList.toggle("is-on", arr[index] === "1");
+          });
+          lgrid.appendChild(lb);
+        })(li);
+      }
+      box.appendChild(lgrid);
+      box.appendChild(button("SEND PATTERN", "veil-primary", function () {
+        if (lval === gate.target) success();
+        else fail("The pattern is " + lval + ". The room expects a different shape.");
+      }));
+      box.appendChild(el("p", "veil-hint", gate.hint ? "Hint: " + gate.hint : "Nine lamps. One pattern."));
+    } else if (gate.kind === "memory") {
+      var pads = ["AMBER", "CYAN", "GREEN", "VIOLET"];
+      var mseq = gate.sequence || ["AMBER", "CYAN", "GREEN"];
+      var at = 0;
+      var mgrid = el("div", "veil-memory");
+      var mstatus = el("p", "veil-hint", "WATCH THE ROOM");
+      pads.forEach(function (name) {
+        var pb = button(name, "veil-memorypad " + name.toLowerCase(), function () {
+          if (mseq[at] === name) {
+            at++;
+            pb.classList.add("is-hit");
+            setTimeout(function () { pb.classList.remove("is-hit"); }, 180);
+            if (at >= mseq.length) success();
+          } else {
+            at = 0;
+            fail("The room resets. Watch again.");
+            playMemory();
+          }
+        });
+        mgrid.appendChild(pb);
+      });
+      function playMemory() {
+        mstatus.textContent = "WATCH THE ROOM";
+        var i = 0;
+        function step() {
+          if (i >= mseq.length) { mstatus.textContent = "REPEAT THE PATTERN"; return; }
+          var name = mseq[i++];
+          var elp = mgrid.querySelector("." + name.toLowerCase());
+          if (elp) {
+            elp.classList.add("is-flash");
+            setTimeout(function () { elp.classList.remove("is-flash"); }, 350);
+          }
+          setTimeout(step, 500);
+        }
+        setTimeout(step, 300);
+      }
+      box.appendChild(mgrid);
+      box.appendChild(mstatus);
+      box.appendChild(button("REPLAY PATTERN", "raised", playMemory));
+      playMemory();
+      box.appendChild(el("p", "veil-hint", gate.hint ? "Hint: " + gate.hint : "The room is a pattern."));
     } else if (gate.kind === "birthday") {
       var bday = el("div", "veil-birthday");
       bday.appendChild(el("div", "veil-stars", "1969 · 1980 · 1998 · 2026 · 2038 · 2045"));
