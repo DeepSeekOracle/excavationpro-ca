@@ -395,7 +395,7 @@
       var heroLeft = d.tone === "gold" ? ".70" : ".86";
       var heroRight = d.tone === "gold" ? ".02" : ".14";
       hero.style.backgroundImage = "linear-gradient(90deg, rgba(3,9,7," + heroLeft + "), rgba(3,9,7," + heroRight + ")), url(" + d.image + ")";
-      hero.style.backgroundPosition = d.tone === "gold" ? "center 66%" : "center";
+      hero.style.backgroundPosition = d.tone === "gold" ? "center 48%" : "center";
     }
     hero.appendChild(el("span", "veil-kicker", d.epigraph || ""));
     hero.appendChild(el("h1", "", d.title));
@@ -974,5 +974,6 @@
   // A first-visit nudge in the taskbar/saver is not intrusive; the desk itself
   // remains the existing LYGO 98 room.
 })();
+
 
 

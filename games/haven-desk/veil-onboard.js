@@ -19,17 +19,27 @@
 
   var WALLS = [
     { id: "classic", title: "Classic Teal", src: "", note: "The desk as it was found." },
-    { id: "desk", title: "The Desk", src: "assets/veil/desk-hero.jpg", note: "A room left on." },
-    { id: "signal", title: "Signal Room", src: "assets/plates/plate-001.svg", note: "A recovered plate." },
-    { id: "packet", title: "Packet Rain", src: "assets/plates/plate-017.svg", note: "The archive under load." },
-    { id: "corridor", title: "Long Corridor", src: "assets/plates/plate-003.svg", note: "A room with a bad hinge." },
-    { id: "archive", title: "The Archive", src: "assets/plates/plate-300.svg", note: "The last plate." }
+    { id: "desk", title: "The Desk", src: "assets/backgrounds/desk.jpg", note: "A room left on." },
+    { id: "signal", title: "Signal Room", src: "assets/backgrounds/signal.jpg", note: "A recovered signal." },
+    { id: "packet", title: "Packet Rain", src: "assets/backgrounds/packet.jpg", note: "The archive under load." },
+    { id: "corridor", title: "Long Corridor", src: "assets/backgrounds/corridor.jpg", note: "A room with a bad hinge." },
+    { id: "archive", title: "The Archive", src: "assets/backgrounds/archive.jpg", note: "The last room." }
   ];
 
   function scheme(key) { return SCHEMES[key] || SCHEMES.teal; }
+  function normalizeBackground(src) {
+    var map = {
+      "assets/plates/plate-001.svg": "assets/backgrounds/signal.jpg",
+      "assets/plates/plate-017.svg": "assets/backgrounds/packet.jpg",
+      "assets/plates/plate-003.svg": "assets/backgrounds/corridor.jpg",
+      "assets/plates/plate-300.svg": "assets/backgrounds/archive.jpg"
+    };
+    return map[src] || src;
+  }
   function applyDesktop(config) {
     config = config || {};
     var theme = scheme(config.theme);
+    var background = normalizeBackground(config.background || "");
     var root = document.documentElement;
     root.style.setProperty("--teal", theme.field);
     root.style.setProperty("--navy", theme.navy);
@@ -40,13 +50,13 @@
     var stage = document.getElementById("stage");
     if (stage) {
       stage.style.backgroundColor = theme.field;
-      stage.style.backgroundImage = config.background ? 'url("' + config.background + '")' : "";
+      stage.style.backgroundImage = background ? 'url("' + background + '")' : "";
       stage.style.backgroundSize = "cover";
       stage.style.backgroundPosition = "center";
       stage.style.backgroundRepeat = "no-repeat";
       stage.style.backgroundBlendMode = "multiply";
     }
-    V.desktop = { background: config.background || "", theme: config.theme || "teal" };
+    V.desktop = { background: background, theme: config.theme || "teal" };
     H.save();
   }
   function setBackground(src) {
@@ -122,7 +132,7 @@
     screen.appendChild(el("p", "veil-bsod-bottom", "Press any key to continue"));
     overlay.appendChild(screen);
     var reset = btn("PRESS HERE TO RESET", "veil-bsod-reset", function () {
-      complete("VISITOR", "assets/veil/desk-hero.jpg", "teal", true);
+      complete("VISITOR", "assets/backgrounds/desk.jpg", "teal", true);
     });
     reset.hidden = true;
     overlay.appendChild(reset);
