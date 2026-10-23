@@ -695,3 +695,52 @@
 #win-echoes .body { background: #0a1210; padding: 0; margin: 3px; overflow: hidden; }
 #win-echoes .veil-app { padding-top: 10px; }
 #win-echoes .veil-input { background: #07100c; color: #e9e2cf; border: 2px solid #596f62; border-right-color: #d8d0b0; border-bottom-color: #d8d0b0; padding: 4px 6px; min-width: 210px; }
+
+/* arcade cabinets, minigames, plate archive */
+#win-arcade .titlebar, #win-plates .titlebar { background: #1b2b25; color: #e9e2cf; }
+#win-arcade .body, #win-plates .body { background: #0a1210; padding: 0; margin: 3px; overflow: hidden; }
+#win-arcade .veil-app, #win-plates .veil-app { padding-top: 10px; }
+.veil-arcade-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 5px; margin: 6px 0; }
+.veil-arcade-card { text-align: left; padding: 6px 8px; min-height: 58px; background: #0d1b16; border: 1px solid #355246; color: #dce9e2; font: 11px Tahoma, "MS Sans Serif", Verdana, sans-serif; }
+.veil-arcade-card:hover { border-color: #e0b35a; background: #17271e; }
+.veil-arcade-card strong { display: block; color: #f0ead7; margin: 2px 0; font-size: 12px; }
+.veil-arcade-card small { display: block; color: #839b8d; font-size: 9px; line-height: 1.3; }
+.veil-arcade-card.is-done { border-color: #b2873d; background: #211b0d; }
+.veil-arcade-card.is-done small { color: #d9b86a; }
+.veil-mini-host { margin: 8px 0; border: 1px solid #355246; background: #06100c; padding: 9px; }
+.veil-mini { max-width: 520px; }
+.veil-mini-status { font: 11px "Courier New", Courier, monospace; color: #9fb8aa; margin: 8px 0 0; min-height: 16px; }
+.veil-mini-status.is-win { color: #d9b86a; }
+.veil-mini-status.is-fail { color: #e8785e; }
+.veil-mini-hint { font: 10px "Courier New", Courier, monospace; color: #8fa79a; margin: 5px 0; }
+.veil-catchgrid { display: grid; grid-template-columns: repeat(3, 62px); gap: 4px; margin: 7px 0; }
+.veil-catchcell { width: 62px; height: 48px; background: #0b1712; border: 2px solid #49685a; border-right-color: #16261e; border-bottom-color: #16261e; }
+.veil-catchcell.is-target { background: #d4a64d; border-color: #ffe4a1; box-shadow: 0 0 14px rgba(224,179,90,.45); }
+.veil-tuner { width: 100%; max-width: 420px; accent-color: #e0b35a; margin: 8px 0; }
+.veil-timingbar { position: relative; height: 24px; background: #07110d; border: 2px inset #4f6658; margin: 9px 0; overflow: hidden; }
+.veil-timingzone { position: absolute; top: 0; bottom: 0; background: rgba(159,229,140,.3); border-left: 1px solid #9fe58c; border-right: 1px solid #9fe58c; }
+.veil-timingmarker { position: absolute; top: 0; bottom: 0; width: 3px; background: #e0b35a; box-shadow: 0 0 8px #e0b35a; }
+.veil-plate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 5px; margin: 6px 0; }
+.veil-plate-card { padding: 3px; background: #0d1b16; border: 1px solid #355246; color: #dce9e2; text-align: left; font: 10px Tahoma, "MS Sans Serif", Verdana, sans-serif; }
+.veil-plate-card:hover { border-color: #e0b35a; }
+.veil-plate-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin-bottom: 3px; }
+.veil-plate-card strong { display: block; color: #f0ead7; font-size: 10px; }
+.veil-plate-card small { display: block; color: #839b8d; font-size: 8px; }
+.veil-plate-frame { border: 2px inset #5a7166; background: #030706; margin: 8px 0; }
+.veil-plate-frame img { display: block; width: 100%; height: auto; }
+.veil-plate-nav { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.veil-plate-nav .veil-hint { margin: 0 auto; }
+#win-arcade .tbar, #win-plates .tbar, #win-echoes .tbar { background: #1b2b25; color: #e9e2cf; }
+
+@media (max-width: 700px) {
+  #win-echoes, #win-arcade, #win-plates {
+    left: 2px !important; top: 2px !important;
+    width: calc(100vw - 4px) !important;
+    height: calc(100vh - 54px) !important;
+    max-width: none !important;
+  }
+  .veil-arcade-grid, .veil-plate-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .veil-echo-grid { grid-template-columns: 1fr; }
+  .veil-top { flex-wrap: wrap; gap: 4px; }
+  .veil-echo-card, .veil-arcade-card, .veil-plate-card { min-width: 0; }
+}

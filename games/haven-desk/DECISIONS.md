@@ -3,7 +3,7 @@
 | Date | Decision | Why | Alternatives | Owner |
 |---|---|---|---|---|
 | 2026-10-23 | Keep LYGO 98 as the host and add a time layer | The desk is the identity; a separate shell would lose the fantasy | New full-page game | producer |
-| 2026-10-23 | Use 24 recovered date rooms | A real web of dates, not a linear level list | 6-room demo | designer |
+| 2026-10-23 | Use 60 recovered anchor dates | A real web of dates, not a linear level list | 6-room demo | designer |
 | 2026-10-23 | Hide 1980-12-31 behind 1998 + 2026 + 2038 | It is the private anchor; it should be earned | Show it from the start | designer |
 | 2026-10-23 | Five gate types | Variety without turning the game into a puzzle app | All codes | designer |
 | 2026-10-23 | Generated hero; CSS-only rooms elsewhere | Quality per asset and no copied media | 24 generated images | art |

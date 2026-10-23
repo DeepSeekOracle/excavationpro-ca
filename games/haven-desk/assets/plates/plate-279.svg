@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="The Open Room, archive plate 279">
+<defs><linearGradient id="g279" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#080b14"/><stop offset=".62" stop-color="#111d2e"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g279)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#8cb9e8" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#e8785e" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#e8785e" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#8cb9e8" font-family="Courier New, monospace" font-size="9">PLATE 279</text>
+<polyline points="300,216 308,199 316,181 324,165 332,152 340,145 348,146 356,153 364,167 372,184 380,201 388,218 396,230 404,235 412,234 420,225 428,211 436,193 444,176 452,160 460,149 468,145 476,147 484,157 492,171 500,189 508,206 516,222 524,232 532,235 540,232 548,221 556,206 564,189 572,171 580,156 588,147 596,145 604,149 612,161 620,176" fill="none" stroke="#8cb9e8" stroke-width="2" stroke-opacity=".55"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#8cb9e8" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e7ecf2" font-family="Courier New, monospace" font-size="12" opacity=".9">THE OPEN ROOM</text>
+<text x="592" y="322" text-anchor="end" fill="#e8785e" font-family="Courier New, monospace" font-size="10">1997-04-28</text>
+</svg>

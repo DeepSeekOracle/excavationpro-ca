@@ -50,7 +50,7 @@ This is a **fictionalized story built around a real public creative life**. Just
 | Unlocks | `solved` days add their `gate.unlocks` to `unlocked` |
 | Flags | `birthdayFound`, `birthdayChoice` |
 | Gates | code, 8-bit byte, sequence, canvas packet game, birthday choice |
-| Map | 24 rooms, chronological snake grid, spiderweb edges |
+| Map | 60 anchors, chronological snake grid, spiderweb edges |
 | Month | Real calendar grid; only signal dates open |
 | Casebook | Every solved room and its recovered docs |
 | Sources | Public links, audio, TV, fiction/fact rule |
@@ -58,7 +58,7 @@ This is a **fictionalized story built around a real public creative life**. Just
 
 ## Content structure
 
-**Hard cap:** 3,000 levels. The authored spine is 60 anchor dates; the Echo Vault supplies the volume layer (20 authored lenses per anchor plus validated Forge worker strata).
+**Hard cap:** 3,000 levels. The authored spine is 60 anchor dates; the Echo Vault supplies the volume layer (20 authored lenses + 29 arcade strata per anchor + validated worker strata).
 
 ```text
 1969 Moon          1977 Golden Record   1984 Macintosh
@@ -77,7 +77,7 @@ This is a **fictionalized story built around a real public creative life**. Just
 - First 10 minutes: boot, intro, first foundation, map opens.
 - First 30 minutes: 4–6 rooms, one branch, at least one non-code gate.
 - 60 minutes: 8–10 rooms, the public Signal room, the birthday recovery clue chain.
-- Completionist: all 24 rooms, both birthday choices observed, casebook read.
+- Completionist: all 60 anchors, both birthday choices observed, casebook read.
 
 ## Non-goals
 

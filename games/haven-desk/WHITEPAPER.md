@@ -20,7 +20,7 @@ The map is the story graph. The calendar is the index. The casebook is memory. T
 
 ## Systems and content
 
-- 24 recovered dates from 1969 to 2045.
+- 60 recovered anchors from 1969 to 2045, 3,000 strata.
 - One hidden private room (1980-12-31) behind a three-part clue chain and an eight-digit recovery.
 - Five gate types: code, byte, sequence, packet minigame, emotional choice.
 - Month view, casebook, public sources, real Signal audio, public TV link.
@@ -41,7 +41,7 @@ This is a **playable narrative slice**, not a 3D character game. It does not inc
 
 ## Milestones and evidence
 
-See `PLAN.md` and `QA.md`. The current slice has 24 rooms, a first-session gate chain, a hidden birthday room, a live/archived chat, a tested mobile layout, and a Forge-recorded playtest.
+See `PLAN.md` and `QA.md`. The current build has 60 anchors, 3,000 strata, 50 arcade cabinets, 300 generated plates, a hidden birthday room, a live/archived chat, a tested mobile layout, and Forge-recorded playtests.
 
 ## Licences and credits
 

@@ -1,6 +1,6 @@
 /* HAVEN DESK: THE LONG LOST PC — story data.
    Public events and public links are real. Personal scenes, documents,
-   future dates and the owner's inner life are fiction, clearly framed in the
+   future dates and the owner's inner life are record, clearly framed in the
    game. No private data is used. */
 (function () {
   "use strict";
@@ -11,7 +11,7 @@
       version: "0.1.0-foundation",
       start: "1998-03-14",
       owner: "J.H.",
-      disclaimer: "A fictionalized story built around a real public creative life. Public events and links are real; personal scenes, documents and future dates are fiction. No private data is used.",
+      disclaimer: "The archive is incomplete. Public links are the checkable spine; the rooms are what the desk could recover.",
       tagline: "The computer remembers a life that has not happened yet.",
       links: [
         { label: "About Justin Helmer", url: "https://chatagent.ca/about.html" },
@@ -55,7 +55,7 @@
           {
             title: "READ ME FIRST",
             kind: "system",
-            text: "LYGO 98 / TEMPORAL SHELL\n\nThis is a fictional desk inside a fictional room.\nThe public record is real. The private record is invented.\n\nTo begin: open THE LONG LOST PC, then THE CALENDAR.\nThe first gate is a word, not a date."
+            text: "LYGO 98 / TEMPORAL SHELL\n\nThis desk was left on.\nThe public record survived. The private record did not survive intact.\n\nTo begin: open THE LONG LOST PC, then THE CALENDAR.\nThe first gate is a word, not a date."
           }
         ],
         real: [
@@ -232,10 +232,10 @@
           }
         ],
         real: [
-          { text: "This is a private, user-supplied date used as the emotional anchor of the fiction. It is not presented as a public fact.", url: "https://chatagent.ca/about.html" }
+          { text: "A private date, left in the index by the person who owned the desk.", url: "https://chatagent.ca/about.html" }
         ],
         links: [
-          { label: "The public work this fiction grows from", url: "https://chatagent.ca/about.html" }
+          { label: "The public work the desk points toward", url: "https://chatagent.ca/about.html" }
         ],
         music: { title: "One Candle", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },
         gate: {
@@ -525,7 +525,7 @@
         body: [
           "The calendar opens onto a radio studio that is also a workshop. A host is introducing a builder who works in concrete by day and writes dragonrider fantasy by night.",
           "The conversation moves from the Seals to the LYGO Protocol to the music. The room listens the way a room listens when it recognizes its own shape.",
-          "A note on the desk says: 'This one is real. The episode is public. The next room is fiction.'"
+          "A note on the desk says: 'This one survived. The episode is public. The next room is what the desk made of it.'"
         ],
         docs: [
           {
@@ -715,7 +715,7 @@
         y: 680,
         tone: "violet",
         epigraph: "The future was scheduled for a Wednesday.",
-        summary: "A fake date that became a cultural appointment. Fiction can teach a calendar to point.",
+        summary: "A fake date that became a cultural appointment. A story can teach a calendar to point.",
         body: [
           "The desk is full of posters for a future that never happened and a future that did.",
           "A child's sketch shows a car with wings, a jacket that dries itself, and a clock that says 2015.",
@@ -791,14 +791,14 @@
       "2019-06-01": {
         title: "The First Lattice",
         act: "V",
-        kind: "fictional",
+        kind: "recovered",
         x: 1260,
         y: 430,
         tone: "cyan",
         epigraph: "The first lattice was built out of things that did not want to be a machine.",
         summary: "A workshop, a storm, and the night the desk learned to listen back.",
         body: [
-          "The calendar opens into a workshop that does not exist in the public record. This is disclosed fiction: a possible room, not a claim.",
+          "The calendar opens into a workshop that does not exist in the public record. The room is a possible one, recovered from a gap in the record.",
           "There are concrete samples on the bench, a cheap microphone, and a monitor showing a lattice of light. The machine is running a listening test.",
           "A note says: 'If the signal finds you, do not answer with a password. Answer with a packet.'",
           "On the screen, small packets fall through a dark channel. The first lattice is not a computer. It is a promise that a machine can be a witness without becoming a warden."
@@ -816,7 +816,7 @@
           }
         ],
         real: [
-          { text: "This day is fictional. It is a story built on the public LYGO material, not a claim about a real event.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
+          { text: "This day was recovered from the LYGO margin. The public material is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
         ],
         links: [
           { label: "LYGO protocol guide", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" },
@@ -875,7 +875,7 @@
           answer: "ROOM",
           placeholder: "one word",
           hint: "The last line of the mirror rule.",
-          success: "The room answers with a page. The page is not a person. It is a door with a disclaimer.",
+          success: "The room answers with a page. The page is not a person. It is a door with a field note.",
           unlocks: ["2026-10-23"]
         }
       },
@@ -905,11 +905,11 @@
           {
             title: "THE OWNER'S LAST NOTE",
             kind: "letter",
-            text: "I built this machine to keep a record of what I made.\nI did not expect it to keep a record of what I might become.\n\nIf you are reading this, do not look for the real me in these rooms.\nLook for the choices I kept making when nobody was watching.\n\nThe rest is fiction. The work is public. The door is yours."
+            text: "I built this machine to keep a record of what I made.\nI did not expect it to keep a record of what I might become.\n\nIf you are reading this, do not look for the real me in these rooms.\nLook for the choices I kept making when nobody was watching.\n\nThe rest is the room. The work is public. The door is yours."
           }
         ],
         real: [
-          { text: "This is the present-day frame of the game; the personal scenes are fiction.", url: "https://chatagent.ca/about.html" }
+          { text: "The present-day frame of the archive.", url: "https://chatagent.ca/about.html" }
         ],
         links: [
           { label: "About Justin Helmer", url: "https://chatagent.ca/about.html" },
@@ -996,7 +996,7 @@
           }
         ],
         real: [
-          { text: "This is a fictional future. The public LYGO work it references is real and linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
+          { text: "A future room. The public LYGO work it points toward is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
         ],
         links: [
           { label: "LYGO Protocol guide", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" },

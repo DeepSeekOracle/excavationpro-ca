@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Private Date, archive plate 175">
+<defs><linearGradient id="g175" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07110f"/><stop offset=".62" stop-color="#0f2a24"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g175)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#72e0d1" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#e0b35a" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#e0b35a" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#72e0d1" font-family="Courier New, monospace" font-size="9">PLATE 175</text>
+<polyline points="300,154 308,167 316,185 324,202 332,218 340,230 348,235 356,233 364,225 372,210 380,193 388,176 396,160 404,149 412,145 420,147 428,157 436,172 444,190 452,207 460,222 468,232 476,235 484,232 492,221 500,205 508,188 516,171 524,156 532,147 540,145 548,150 556,161 564,177 572,194 580,212 588,226 596,234 604,235 612,229 620,217" fill="none" stroke="#72e0d1" stroke-width="2" stroke-opacity=".55"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#72e0d1" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e9e2cf" font-family="Courier New, monospace" font-size="12" opacity=".9">PRIVATE DATE</text>
+<text x="592" y="322" text-anchor="end" fill="#e0b35a" font-family="Courier New, monospace" font-size="10">2039-08-08</text>
+</svg>

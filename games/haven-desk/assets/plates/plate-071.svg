@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="The Second Visitor, archive plate 071">
+<defs><linearGradient id="g71" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b120b"/><stop offset=".62" stop-color="#1d2c1a"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g71)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#9fe58c" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#d4a64d" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#d4a64d" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#9fe58c" font-family="Courier New, monospace" font-size="9">PLATE 071</text>
+<polyline points="300,233 308,224 316,210 324,192 332,175 340,159 348,149 356,145 364,148 372,158 380,173 388,190 396,207 404,223 412,232 420,235 428,231 436,221 444,205 452,188 460,170 468,156 476,147 484,145 492,150 500,162 508,178 516,195 524,212 532,226 540,234 548,235 556,229 564,216 572,200 580,182 588,165 596,152 604,145 612,145 620,153" fill="none" stroke="#9fe58c" stroke-width="2" stroke-opacity=".55"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#9fe58c" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e7eedb" font-family="Courier New, monospace" font-size="12" opacity=".9">THE SECOND VISITOR</text>
+<text x="592" y="322" text-anchor="end" fill="#d4a64d" font-family="Courier New, monospace" font-size="10">2004-12-16</text>
+</svg>

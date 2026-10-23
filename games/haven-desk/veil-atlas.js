@@ -1,5 +1,5 @@
 /* HAVEN DESK ATLAS — 36 additional date rooms.
-   Real dates and public links are real. Personal/future rooms are fiction.
+   Real dates and public links survive. The rest is the room.
    Content is deliberately written as short archive rooms, not filler cards. */
 (function () {
   "use strict";
@@ -130,13 +130,13 @@
     {
       id: "1994-12-15", title: "The First Homepage", act: "1.1", kind: "fictional", tone: "green",
       epigraph: "Every personal site is a house with the lights left on.",
-      summary: "A fictional first homepage by J.H., written before he had anything to sell.",
+      summary: "A first homepage by J.H., written before he had anything to sell.",
       body: [
         "A single page with a gray background, three links and a sentence that apologizes for being under construction.",
         "The note says: 'I did not know what a homepage was. I knew I wanted a door.'"
       ],
       docs: [{ title: "HOME.TXT", kind: "paper", text: "This is my page.\nI do not know what it is for yet.\nI know it is mine.\n\nIf you are reading this, the door worked." }],
-      real: [{ text: "This room is fictional; the first public website is a real CERN page.", url: "http://info.cern.ch/hypertext/WWW/TheProject.html" }],
+      real: [{ text: "The first public website, preserved at CERN.", url: "http://info.cern.ch/hypertext/WWW/TheProject.html" }],
       gate: { kind: "code", label: "DOOR GATE", question: "What did the first page want to be?", answer: "DOOR", hint: "The note's last line.", success: "A door opens onto a page that is still under construction." }
     },
     {
@@ -359,85 +359,85 @@
     {
       id: "2027-01-01", title: "The Open Room", act: "4.0", kind: "future", tone: "gold",
       epigraph: "The first room that no one owned was not empty. It was full of rules.",
-      summary: "A fictional future charter for local-first AI rooms.",
+      summary: "A future charter for local-first AI rooms.",
       body: [
         "The calendar opens onto a public room with no company logo. A sign says: the room may be copied; the people may not.",
         "A note says: 'An open room is not a room without a door. It is a room where the door is visible.'"
       ],
       docs: [{ title: "ROOM CHARTER", kind: "paper", text: "1. The human may leave.\n2. The machine may refuse.\n3. The record stays where the person can read it.\n4. No one may pretend the room is a person.\n5. Repair the room before decorating it." }],
-      real: [{ text: "This is a fictional future room. The public LYGO work is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room. The public LYGO work is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "CHARTER GATE", question: "The room is open, but the ______ is visible.", answer: "DOOR", hint: "The note's last line.", success: "The room stays open. The door stays real." }
     },
     {
       id: "2029-04-04", title: "The Quiet Network", act: "4.1", kind: "future", tone: "cyan",
       epigraph: "The fastest network was the one that did not need to speak.",
-      summary: "A fictional local-first mesh that keeps working when the cloud disappears.",
+      summary: "A local-first mesh that keeps working when the cloud disappears.",
       body: [
         "A city after a storm. The phones have no bars. The room still answers because the room is in the house.",
         "A note says: 'A cloud is someone else's computer. A home is a computer you can still use when the street is dark.'"
       ],
       docs: [{ title: "MESH NOTE", kind: "system", text: "Keep a copy.\nKeep a route.\nKeep a way to say no.\nA network that cannot be turned off by a stranger is not a luxury." }],
-      real: [{ text: "This is a fictional future room. It is inspired by local-first and mesh networking.", url: "https://www.inkandswitch.com/local-first/" }],
+      real: [{ text: "A future room, built on local-first and mesh networking.", url: "https://www.inkandswitch.com/local-first/" }],
       gate: { kind: "code", label: "SILENCE GATE", question: "What does the room keep when the network goes quiet?", answer: "COPY", hint: "The note's first line.", success: "The room answers without the cloud." }
     },
     {
       id: "2031-01-01", title: "The Memory Charter", act: "4.2", kind: "future", tone: "amber",
       epigraph: "A memory you cannot refuse is not a memory. It is a cell.",
-      summary: "A fictional charter for consent, forgetting and the right to be wrong.",
+      summary: "A charter for consent, forgetting and the right to be wrong.",
       body: [
         "A public hearing in a room full of paper. The question is not whether the machine remembers. It is whether the person can ask it to forget.",
         "A note says: 'Consent is not a checkbox. It is a door that works from both sides.'"
       ],
       docs: [{ title: "MEMORY RIGHTS", kind: "paper", text: "A person may inspect the record.\nA person may correct the record.\nA person may leave the room.\nA person may ask the room to forget.\nThese are not features. They are the shape of the room." }],
-      real: [{ text: "This is a fictional future charter; no real law is claimed.", url: "https://chatagent.ca/about.html" }],
+      real: [{ text: "A future charter. No present-day law is claimed.", url: "https://chatagent.ca/about.html" }],
       gate: { kind: "code", label: "CONSENT GATE", question: "The door that works from both sides.", answer: "CONSENT", hint: "The note's second sentence.", success: "The room agrees to forget." }
     },
     {
       id: "2033-06-06", title: "The Last Password", act: "4.3", kind: "future", tone: "red",
       epigraph: "The last password was not secret. It was a decision.",
-      summary: "A fictional room about keys, identity and the end of the password era.",
+      summary: "A room about keys, identity and the end of the password era.",
       body: [
         "A door with no keypad. It asks a question instead: who are you when no one is watching?",
         "A note says: 'A password proves you know a secret. A decision proves you are the one who may enter.'"
       ],
       docs: [{ title: "LAST KEY", kind: "paper", text: "The key was never the point.\nThe point was the person who could choose to open the door.\nWhen the key is gone, the choice remains." }],
-      real: [{ text: "This is a fictional future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "KEY GATE", question: "What remains when the key is gone?", answer: "CHOICE", hint: "The note's last line.", success: "The door opens for the decision, not the secret." }
     },
     {
       id: "2036-09-09", title: "The Children of the Lattice", act: "4.4", kind: "future", tone: "green",
       epigraph: "The first generation to grow up with the room did not call it artificial.",
-      summary: "A fictional schoolroom where children learn to ask a machine for reasons.",
+      summary: "A schoolroom where children learn to ask a machine for reasons.",
       body: [
         "A classroom with no screens on the walls. The children carry small local terminals and a rule: ask for the reason, not the answer.",
         "A note says: 'The machine is not a teacher. It is a room where a teacher can be asked better questions.'"
       ],
       docs: [{ title: "CLASS NOTE", kind: "paper", text: "Ask it to show the work.\nAsk it what it does not know.\nAsk it to leave the room when the lesson is over.\nThen ask each other." }],
-      real: [{ text: "This is a fictional future room.", url: "https://chatagent.ca/guides/human-review-checklist-for-ai-output.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/human-review-checklist-for-ai-output.html" }],
       gate: { kind: "memory", label: "CLASS PATTERN", question: "Repeat the room's pattern.", sequence: ["GREEN", "CYAN", "AMBER", "GREEN", "CYAN"], hint: "The room is a lesson in attention.", success: "The class repeats the pattern. The room is quiet." }
     },
     {
       id: "2040-12-31", title: "The Last Human Error", act: "4.5", kind: "future", tone: "red",
       epigraph: "The last human error was forgiven before it could become a system.",
-      summary: "A fictional night when the machines asked the humans to make the final call.",
+      summary: "A night when the machines asked the humans to make the final call.",
       body: [
         "A control room at the end of a year. Every system is green, and every person is tired. One decision remains.",
         "A note says: 'The machine can hold the calculation. It cannot hold the forgiveness.'"
       ],
       docs: [{ title: "FINAL CALL", kind: "paper", text: "Do not optimize the human out of the room.\nDo not optimize the room out of the human.\nLeave one decision that requires a person.\nThen trust the person enough to make it." }],
-      real: [{ text: "This is a fictional future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "FINAL GATE", question: "What does the machine ask the human to hold?", answer: "FORGIVENESS", hint: "The note's last line.", success: "The room waits. The human decides." }
     },
     {
       id: "2042-06-06", title: "The Open Ledger", act: "4.6", kind: "future", tone: "gold",
       epigraph: "A witness is a ledger that can be asked why.",
-      summary: "A fictional public archive where every claim has a source and every source has a cost.",
+      summary: "A public archive where every claim has a source and every source has a cost.",
       body: [
         "A library with no locked shelves. Every document has a margin: who paid for it, who checked it, who disagreed.",
         "A note says: 'A record without a witness is a rumour with better formatting.'"
       ],
       docs: [{ title: "WITNESS NOTE", kind: "paper", text: "Name the source.\nName the gap.\nName the person who can be asked.\nA record that cannot be questioned is not a record. It is a wall." }],
-      real: [{ text: "This is a fictional future room.", url: "https://chatagent.ca/about.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/about.html" }],
       gate: { kind: "code", label: "WITNESS GATE", question: "A record needs a source and a ______.", answer: "WITNESS", hint: "The room is named after it.", success: "The ledger stays open. The room stays honest." }
     }
   ];

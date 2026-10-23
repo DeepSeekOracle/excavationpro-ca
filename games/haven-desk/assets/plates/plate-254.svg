@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="The Last Console, archive plate 254">
+<defs><linearGradient id="g254" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d0b08"/><stop offset=".62" stop-color="#251b0d"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g254)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#e0b35a" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#9fe58c" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#9fe58c" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#e0b35a" font-family="Courier New, monospace" font-size="9">PLATE 254</text>
+<rect x="314" y="90" width="276" height="16" fill="#e0b35a" opacity="0.08"/><rect x="321" y="117" width="262" height="16" fill="#e0b35a" opacity="0.11"/><rect x="328" y="144" width="248" height="16" fill="#e0b35a" opacity="0.13"/><rect x="335" y="171" width="234" height="16" fill="#e0b35a" opacity="0.16"/><rect x="342" y="198" width="220" height="16" fill="#e0b35a" opacity="0.18"/><rect x="349" y="225" width="206" height="16" fill="#e0b35a" opacity="0.21"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#e0b35a" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#f4efe0" font-family="Courier New, monospace" font-size="12" opacity=".9">THE LAST CONSOLE</text>
+<text x="592" y="322" text-anchor="end" fill="#9fe58c" font-family="Courier New, monospace" font-size="10">1976-03-03</text>
+</svg>

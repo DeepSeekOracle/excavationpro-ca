@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Archive Ring, archive plate 143">
+<defs><linearGradient id="g143" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b120b"/><stop offset=".62" stop-color="#1d2c1a"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g143)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#9fe58c" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#d4a64d" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#d4a64d" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#9fe58c" font-family="Courier New, monospace" font-size="9">PLATE 143</text>
+<polyline points="300,145 308,149 316,160 324,176 332,193 340,211 348,225 356,234 364,235 372,230 380,218 388,201 396,184 404,167 412,153 420,146 428,145 436,152 444,165 452,182 460,199 468,216 476,228 484,235 492,234 500,227 508,213 516,196 524,179 532,162 540,150 548,145 556,146 564,155 572,169 580,187 588,204 596,220 604,231 612,235 620,233" fill="none" stroke="#9fe58c" stroke-width="2" stroke-opacity=".55"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#9fe58c" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e7eedb" font-family="Courier New, monospace" font-size="12" opacity=".9">ARCHIVE RING</text>
+<text x="592" y="322" text-anchor="end" fill="#d4a64d" font-family="Courier New, monospace" font-size="10">1969-12-04</text>
+</svg>

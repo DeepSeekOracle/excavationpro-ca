@@ -143,10 +143,10 @@
       return "the calendar is an index, not a time machine. solve a room and the next dates light up.";
     }
     if (/owner|justin|helmer|lightfather|who/.test(m)) {
-      return "the owner is a fictionalized version of a real public creator. the work is linked in Sources. the private rooms are fiction.";
+      return "the owner is the person who left the desk on. the work is linked in Sources. the rest is the room.";
     }
     if (/lygo|lattice|signal|tv/.test(m)) {
-      return "LYGO is the public body of work this fiction grows from. the sources tab has the real links; the TV room opens the public feed.";
+      return "LYGO is the public body of work the desk points toward. the sources tab has the links; the TV room opens the public feed.";
     }
     if (/cat|marrow|picnic|rook|1998/.test(m)) {
       return "the old desk is still here. the cat is not a password. the new trail starts at The Long Lost PC.";

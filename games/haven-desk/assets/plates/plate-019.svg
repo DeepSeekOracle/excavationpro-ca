@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Deep Blue Board, archive plate 019">
+<defs><linearGradient id="g19" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#07110f"/><stop offset=".62" stop-color="#0f2a24"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g19)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#72e0d1" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#e0b35a" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#e0b35a" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#72e0d1" font-family="Courier New, monospace" font-size="9">PLATE 019</text>
+<rect x="300" y="197" width="18" height="121" fill="#72e0d1" opacity="0.12"/><rect x="334" y="160" width="18" height="158" fill="#72e0d1" opacity="0.18"/><rect x="368" y="273" width="18" height="45" fill="#72e0d1" opacity="0.24"/><rect x="402" y="236" width="18" height="82" fill="#72e0d1" opacity="0.12"/><rect x="436" y="199" width="18" height="119" fill="#72e0d1" opacity="0.18"/><rect x="470" y="162" width="18" height="156" fill="#72e0d1" opacity="0.24"/><rect x="504" y="275" width="18" height="43" fill="#72e0d1" opacity="0.12"/><rect x="538" y="238" width="18" height="80" fill="#72e0d1" opacity="0.18"/><rect x="572" y="201" width="18" height="117" fill="#72e0d1" opacity="0.24"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#72e0d1" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e9e2cf" font-family="Courier New, monospace" font-size="12" opacity=".9">DEEP BLUE BOARD</text>
+<text x="592" y="322" text-anchor="end" fill="#e0b35a" font-family="Courier New, monospace" font-size="10">2025-08-20</text>
+</svg>

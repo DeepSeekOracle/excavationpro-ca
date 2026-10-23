@@ -967,7 +967,7 @@
     var head = document.createElement("h2");
     head.textContent = "The Night Wire";
     view.appendChild(head);
-    addP(view, "A fictional 1998 browser on Rook's desk. The line number is a story.");
+    addP(view, "A 1998 browser on Rook's desk. The line number is a story.");
     duck.addEventListener("click", function () {
       if (!needLine(state)) return;
       var q = input.value.trim();
@@ -1034,7 +1034,7 @@
   H.register("swap", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Night Swap is a pretend song board. It is not Napster. These tones were written for this desk. Nothing here is someone else's record.";
+    note.textContent = "Night Swap is a song board. It is not Napster. These tones were written for this desk. Nothing here is someone else's record.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = modem.up ? "connected at 28800" : "on the hook";
@@ -1110,7 +1110,7 @@
   H.register("lime", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Lime Line is a pretend file wire. It is not LimeWire. The files are jokes and original tones. Quarantine means the desk refuses to run them.";
+    note.textContent = "Lime Line is a file wire. It is not LimeWire. The files are jokes and original tones. Quarantine means the desk refuses to run them.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = modem.up ? "connected at 28800" : "on the hook";
@@ -1195,7 +1195,7 @@
   H.register("oldlines", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Before the pretend song boards, files moved in older ways. Harbor Board is a direct phone call. The other rooms need the internet from Dial Tone. These are desk fictions, not those old networks.";
+    note.textContent = "Before the song boards, files moved in older ways. Harbor Board is a direct phone call. The other rooms need the internet from Dial Tone. These are desk records, not those old networks.";
     var list = document.createElement("div");
     list.className = "page-view sunken";
     [
@@ -1225,7 +1225,7 @@
   H.register("bbs", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Harbor Board is a pretend local bulletin board. Calling it uses the phone by itself, so the internet drops. It does not carry anyone else's game or records.";
+    note.textContent = "Harbor Board is a local bulletin board. Calling it uses the phone by itself, so the internet drops. It does not carry anyone else's game or records.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = lineLabel();
@@ -1296,7 +1296,7 @@
       var cmd = input.value.trim().toLowerCase();
       input.value = "";
       if (cmd === "n" || cmd === "notes") {
-        write("NOTES\nLin: the cat is still not a password.\nRook: I left the lamp on in the gate.\nSysop: files are desk fiction. Take one with get.");
+        write("NOTES\nLin: the cat is still not a password.\nRook: I left the lamp on in the gate.\nSysop: files are desk records. Take one with get.");
         return;
       }
       if (cmd === "f" || cmd === "files") {
@@ -1363,7 +1363,7 @@
   H.register("ftp", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "File Pier is a pretend file-transfer directory. The folders are fiction on this desk. Nothing is fetched from a university or a company.";
+    note.textContent = "File Pier is a file-transfer directory. The folders live on this desk. Nothing is fetched from a university or a company.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = lineLabel();
@@ -1468,7 +1468,7 @@
   H.register("news", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "News Spool is a pretend public note system. The posts were written for this desk. The split file is three lines of text, not someone else's program.";
+    note.textContent = "News Spool is a public note system. The posts were written for this desk. The split file is three lines of text, not someone else's program.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = lineLabel();
@@ -1564,7 +1564,7 @@
   H.register("relay", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Relay Room is a pretend chat. The shelf bot only has original desk tones. It is not a real relay network.";
+    note.textContent = "Relay Room is a chat. The shelf bot only has original desk tones. It is not a real relay network.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = lineLabel();
@@ -1642,7 +1642,7 @@
   H.register("discs", function (body) {
     var note = document.createElement("p");
     note.className = "honest";
-    note.textContent = "Basement Discs is a pretend artist page. The file comes from this one site. It is not a peer board, and it is not a real archive from that decade. The tones were written for this desk.";
+    note.textContent = "Basement Discs is an artist page. The file comes from this one site. It is not a peer board, and it is not a real archive from that decade. The tones were written for this desk.";
     var state = document.createElement("p");
     state.dataset.modemState = "1";
     state.textContent = lineLabel();

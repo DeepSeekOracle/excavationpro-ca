@@ -68,7 +68,7 @@ No server-side account. A save is local to the browser.
 - Target 60fps; measured 61–62fps on the test desktop.
 - No WebGL, no web fonts, no heavy framework.
 - One generated hero JPEG (74 KB) + host assets.
-- Map: SVG lines + DOM nodes; 24 rooms.
+- Map: SVG lines + DOM nodes; 60 anchors.
 - Minigame: one 480×260 canvas, capped dt.
 
 ## Compatibility

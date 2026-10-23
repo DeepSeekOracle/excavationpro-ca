@@ -6,7 +6,7 @@
 
 ## Current work
 
-- 24 recovered date rooms.
+- 60 recovered anchors.
 - One hidden private room (1980-12-31).
 - Calendar map, month, casebook, sources.
 - Four gate types + packet minigame.
@@ -24,7 +24,7 @@
 | Art | bible/assets | done |
 | Tech | spec/budget | done |
 | Slice | playable | done |
-| Production | 24 rooms | done for slice |
+| Production | 60 anchors / 3,000 strata / 50 cabinets / 300 plates | done |
 | QA | verified | web pass |
 | Release | pushed | pending final test |
 

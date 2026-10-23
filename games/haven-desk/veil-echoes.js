@@ -36,9 +36,10 @@
 
   var anchors = Object.keys(D.days).sort();
   var ECHOES = {};
+  var ARCADE = (window.VEIL_ARCADE && window.VEIL_ARCADE.games) || [];
   anchors.forEach(function (date) {
     var d = D.days[date];
-    ECHOES[date] = LENSES.map(function (lens, i) {
+    var base = LENSES.map(function (lens, i) {
       return {
         id: "echo:" + date + ":" + lens.key,
         anchor: date,
@@ -59,6 +60,30 @@
         links: d.links || []
       };
     });
+    // 29 Forge Arcade strata per anchor: 20 + 29 = 49. The remaining slot
+    // (up to the 3,000 cap) is filled by validated worker-generated rooms.
+    var minis = ARCADE.slice(0, 29).map(function (g, j) {
+      return {
+        id: "arcade:" + date + ":" + g.id,
+        anchor: date,
+        anchorTitle: d.title,
+        index: base.length + j + 1,
+        title: g.title + " · " + date,
+        epigraph: g.epigraph,
+        body: [
+          "A Forge Arcade cabinet installed in the " + date + " room. The game is not decoration; it is the room's test.",
+          "Cabinet " + String(g.number).padStart(2, "0") + " / 50 · " + g.mech + ". Clear it to seal this stratum."
+        ],
+        doc: "CABINET RECORD\n" + g.title + "\nMechanic: " + g.mech + "\nAnchor: " + date + "\nThe cabinet does not unlock the date. It proves you can stay in the room long enough to understand it.",
+        question: "Clear the cabinet.",
+        answer: "",
+        clue: "Play the cabinet. The room is the reward.",
+        gate: { kind: "minigame", game: g },
+        real: d.real || [],
+        links: d.links || []
+      };
+    });
+    ECHOES[date] = base.concat(minis);
   });
 
   // Hard cap: the vault must never exceed 3,000 levels.
@@ -126,7 +151,7 @@
       }
       function renderAnchors() {
         app.innerHTML = "";
-        bar("THE FORGE ECHO VAULT", "60 ANCHORS × 20 STRATA · GENERATED ARCHIVE LAYERS");
+        bar("THE FORGE ECHO VAULT", "60 ANCHORS · RECOVERED ARCHIVE LAYERS");
         app.appendChild(port());
         var tools = element("div", "veil-actions");
         input.value = state.q || "";
@@ -138,7 +163,7 @@
         var q = input.value.trim().toLowerCase();
         anchors.forEach(function (date) {
           var d = D.days[date];
-          var count = Object.keys(V.echoes).filter(function (k) { return k.indexOf("echo:" + date + ":") === 0 || k.indexOf("worker:" + date + ":") === 0; }).length;
+          var count = Object.keys(V.echoes).filter(function (k) { return k.indexOf("echo:" + date + ":") === 0 || k.indexOf("worker:" + date + ":") === 0 || k.indexOf("arcade:" + date + ":") === 0; }).length;
           if (q && (date + " " + d.title + " " + d.summary).toLowerCase().indexOf(q) === -1) return;
           var card = btn("", "veil-echo-card" + (count === LENSES.length ? " is-done" : ""), function () {
             state = { view: "strata", anchor: date, current: null };
@@ -182,7 +207,7 @@
         var hero = element("div", "veil-hero " + (D.days[e.anchor].tone || "amber"));
         hero.appendChild(element("span", "veil-kicker", e.epigraph));
         hero.appendChild(element("h1", "", e.title));
-        hero.appendChild(element("p", "veil-summary", "A generated echo around " + e.anchor + " · " + e.anchorTitle));
+        hero.appendChild(element("p", "veil-summary", "An echo around " + e.anchor + " · " + e.anchorTitle));
         app.appendChild(hero);
         e.body.forEach(function (line) { app.appendChild(element("p", "veil-prose", line)); });
         var doc = element("details", "veil-doc");
@@ -202,6 +227,22 @@
             }
           }));
           app.appendChild(done);
+          return;
+        }
+        if (e.gate && e.gate.kind === "minigame") {
+          var gwrap = element("div", "veil-gate");
+          gwrap.appendChild(element("div", "veil-gate-label", "FORGE CABINET"));
+          gwrap.appendChild(element("p", "veil-question", "The room will not open until the cabinet is clear."));
+          var ghost = element("div", "veil-mini-host");
+          gwrap.appendChild(ghost);
+          gwrap.appendChild(element("p", "veil-hint", "This is one of 50 playable cabinets. It does not unlock a date."));
+          app.appendChild(gwrap);
+          if (window.VEIL_ARCADE && window.VEIL_ARCADE.mount) {
+            window.VEIL_ARCADE.mount(ghost, e.gate.game, function () {
+              mark(e.id);
+              renderDetail();
+            });
+          }
           return;
         }
         var gate = element("div", "veil-gate");

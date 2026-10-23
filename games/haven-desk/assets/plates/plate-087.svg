@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Lattice Fragment, archive plate 087">
+<defs><linearGradient id="g87" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#080b14"/><stop offset=".62" stop-color="#111d2e"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g87)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#8cb9e8" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#e8785e" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#e8785e" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#8cb9e8" font-family="Courier New, monospace" font-size="9">PLATE 087</text>
+<polyline points="300,153 308,166 316,183 324,200 332,217 340,229 348,235 356,234 364,226 372,212 380,194 388,177 396,161 404,150 412,145 420,147 428,156 436,171 444,188 452,205 460,221 468,232 476,235 484,232 492,222 500,207 508,190 516,172 524,157 532,147 540,145 548,149 556,160 564,176 572,193 580,210 588,225 596,233 604,235 612,230 620,218" fill="none" stroke="#8cb9e8" stroke-width="2" stroke-opacity=".55"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#8cb9e8" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#e7ecf2" font-family="Courier New, monospace" font-size="12" opacity=".9">LATTICE FRAGMENT</text>
+<text x="592" y="322" text-anchor="end" fill="#e8785e" font-family="Courier New, monospace" font-size="10">2039-04-04</text>
+</svg>

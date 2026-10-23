@@ -117,7 +117,7 @@ window.VEIL_WORKER_ROOMS = [
     "title": "The Hashtag That Came Later",
     "epigraph": "A pound sign turned a shout into a channel.",
     "body": [
-      "The hashtag was not in the first version. It was invented by a user and adopted by the platform. The room learned a new grammar.",
+      "The hashtag was not in the first version. It was left in the margin by a user and adopted by the platform. The room learned a new grammar.",
       "A note says: the best features are not designed. They are noticed."
     ],
     "doc": "Recovered blog comment: The hashtag was proposed by a user in two thousand seven, a year after the first tweet. On March twenty-first, two thousand six, there were no channels, only a single public line.",
@@ -145,7 +145,7 @@ window.VEIL_WORKER_ROOMS = [
     "title": "The First Personal Homepage",
     "epigraph": "December 15, 1994, a room opened on the World Wide Web.",
     "body": [
-      "On 1994-12-15 the first personal homepage went live, a fictional room built of hypertext.",
+      "On 1994-12-15 the first personal homepage went live, a recovered room built of hypertext.",
       "Visitors arrived through http://info.cern.ch/hypertext/WWW/TheProject.html, the public anchor of the early web.",
       "Each link was a door, each page a room in an archive without walls."
     ],
@@ -175,7 +175,7 @@ window.VEIL_WORKER_ROOMS = [
     "title": "Angle-Bracket Bones",
     "epigraph": "Tags in angle brackets formed the skeleton of every page.",
     "body": [
-      "HTML gave structure to the fictional room.",
+      "HTML gave structure to the recovered room.",
       "Headings, paragraphs, and anchors stacked like timbers.",
       "The first personal homepage leaned on these bones."
     ],
@@ -660,7 +660,7 @@ window.VEIL_WORKER_ROOMS = [
     "title": "The Name From the Sky",
     "epigraph": "A name can be borrowed from the sky.",
     "body": [
-      "The name Altair came from a star in the constellation Aquila. It was short, pronounceable, and already carried a science-fiction echo that the hobby liked.",
+      "The name Altair came from a star in the constellation Aquila. It was short, pronounceable, and already carried a science-record echo that the hobby liked.",
       "MITS did not need the name to mean anything technical. It only needed to be memorable on a cover, and it was."
     ],
     "doc": "Curator's label, typed 1997. The name came from a star in the constellation Aquila, not from an acronym. Visitors ask about it constantly.",
@@ -1109,12 +1109,12 @@ window.VEIL_WORKER_ROOMS = [
     "epigraph": "A calculator is a door that does not know it is a door.",
     "body": [
       "The buyer wanted arithmetic. The machine wanted to become a computer. Neither of them said so plainly.",
-      "A note says: the future was not invented. It was left in the margin and found later."
+      "A note says: the future was not left in the margin. It was left in the margin and found later."
     ],
-    "doc": "The buyer wanted arithmetic. The machine wanted to become a computer. The future was not invented. It was left in the margin and found later.",
+    "doc": "The buyer wanted arithmetic. The machine wanted to become a computer. The future was not left in the margin. It was left in the margin and found later.",
     "question": "What was left in the margin and found later?",
     "answer": "FUTURE",
-    "clue": "The future was not invented.",
+    "clue": "The future was not left in the margin.",
     "anchor": "1971-11-15",
     "id": "worker:1971-11-15:10"
   }

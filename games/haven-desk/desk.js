@@ -26,7 +26,7 @@
     "",
     "This copy of the desk was left on by Rook Pell,",
     "a night archivist who invented the notes.",
-    "The scraps are fiction. Poke around."
+    "The scraps are the desk. Poke around."
   ].join("\n");
 
   var FILES = [

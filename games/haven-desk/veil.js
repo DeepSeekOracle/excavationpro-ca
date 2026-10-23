@@ -325,8 +325,8 @@
 
   function renderSources() {
     var box = el("div", "veil-sources");
-    box.appendChild(el("p", "veil-kicker", "THE REAL SHELF · PUBLIC LINKS"));
-    box.appendChild(el("p", "", "The story uses a real public creative life. These links are the checkable part. The private documents and future rooms are fiction."));
+    box.appendChild(el("p", "veil-kicker", "THE PUBLIC SHELF · LINKS THAT SURVIVED"));
+    box.appendChild(el("p", "", "Some of these links are still live. The desk does not ask you to trust the rest; it asks you to check."));
     D.meta.links.forEach(function (l) {
       var a = el("a", "veil-source");
       a.href = l.url; a.target = "_blank"; a.rel = "noopener";
@@ -334,7 +334,7 @@
       box.appendChild(a);
     });
     var rule = el("div", "veil-rule");
-    rule.appendChild(el("b", "", "FICTION / FACT"));
+    rule.appendChild(el("b", "", "FIELD NOTE"));
     rule.appendChild(el("span", "", D.meta.disclaimer));
     box.appendChild(rule);
     var media = el("div", "veil-actions");
@@ -736,13 +736,13 @@
     if (!V.seen) {
       app.classList.add("veil-app-hero");
       app.innerHTML = "";
-      topBar("THE LONG LOST PC", "FIRST BOOT · A FICTIONALIZED ARCHIVE");
+      topBar("THE LONG LOST PC", "FIRST BOOT · A RECOVERED ARCHIVE");
       var introBox = el("div", "veil-intro");
       introBox.appendChild(el("p", "veil-kicker", "A STORY ABOUT A COMPUTER, A CALENDAR, AND THE THINGS WE LEAVE ON"));
       introBox.appendChild(el("h1", "", "It was already warm when you found it."));
-      introBox.appendChild(el("p", "", "The desk says 14 March 1998. The note says the calendar works. You are the visitor. The owner is a fictionalized version of a real public creator; the dates and links are real; the private rooms are invented."));
+      introBox.appendChild(el("p", "", "The desk says 14 March 1998. The note says the calendar works. You are the visitor. The owner left more than a computer, and less than a confession."));
       var rule = el("div", "veil-rule");
-      rule.appendChild(el("b", "", "FICTION / FACT"));
+      rule.appendChild(el("b", "", "FIELD NOTE"));
       rule.appendChild(el("span", "", D.meta.disclaimer));
       introBox.appendChild(rule);
       var row = el("div", "veil-actions");
@@ -764,11 +764,13 @@
     var box = el("div", "veil-intro short");
     box.appendChild(el("p", "veil-kicker", "THE DESK WAS LEFT ON FOR A REASON"));
     box.appendChild(el("h1", "", "A life is a room. A calendar is a door."));
-    box.appendChild(el("p", "", "Open the calendar to travel between recovered dates. Each room is sealed by a puzzle, a story, or a minigame. Some are real history; some are invented future. The public work is linked. The private life is fiction."));
+    box.appendChild(el("p", "", "Open the calendar to travel between recovered dates. Each room is sealed by a puzzle, a story, or a minigame. Follow the links where they survived. The rest is the room."));
     var row = el("div", "veil-actions");
     row.appendChild(button("OPEN THE CALENDAR", "veil-primary", function () { H.open("calendar"); }));
+    row.appendChild(button("ECHO VAULT", "raised", function () { H.open("echoes"); }));
+    row.appendChild(button("FORGE ARCADE", "raised", function () { H.open("arcade"); }));
+    row.appendChild(button("PLATE ARCHIVE", "raised", function () { H.open("plates"); }));
     row.appendChild(button("OPEN LYGO TV", "raised", function () { H.open("veil-media"); }));
-    row.appendChild(button("READ SOURCES", "raised", function () { H.open("calendar"); }));
     box.appendChild(row);
     box.appendChild(el("p", "veil-foot", "Begin at 14 March 1998. The first word is a foundation."));
     app.appendChild(box);
@@ -776,7 +778,7 @@
 
   function mediaApp(body) {
     setApp(body);
-    topBar("LYGO TV / SIGNAL ROOM", "REAL PUBLIC FEEDS · FICTION FRAME");
+    topBar("LYGO TV / SIGNAL ROOM", "PUBLIC FEEDS · OPEN ROOM");
     var intro = el("p", "veil-kicker", "WATCH / LISTEN / RETURN");
     app.appendChild(intro);
     var row = el("div", "veil-actions");

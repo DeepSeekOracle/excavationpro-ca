@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Afterimage, archive plate 152">
+<defs><linearGradient id="g152" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d0b08"/><stop offset=".62" stop-color="#251b0d"/><stop offset="1" stop-color="#030706"/></linearGradient></defs>
+<rect width="640" height="360" fill="url(#g152)"/>
+<rect x="24" y="24" width="592" height="312" fill="none" stroke="#e0b35a" stroke-opacity=".28"/>
+<rect x="36" y="36" width="568" height="288" fill="none" stroke="#9fe58c" stroke-opacity=".12"/>
+<text x="48" y="58" fill="#9fe58c" font-family="Courier New, monospace" font-size="9" letter-spacing="3">LYGO TEMPORAL ARCHIVE</text>
+<text x="592" y="58" text-anchor="end" fill="#e0b35a" font-family="Courier New, monospace" font-size="9">PLATE 152</text>
+<rect x="300" y="52" width="300" height="246" fill="none" stroke="#e0b35a" stroke-opacity=".27"/><rect x="314" y="66" width="272" height="218" fill="none" stroke="#9fe58c" stroke-opacity=".15"/>
+<line x1="48" y1="302" x2="592" y2="302" stroke="#e0b35a" stroke-opacity=".3"/>
+<text x="48" y="322" fill="#f4efe0" font-family="Courier New, monospace" font-size="12" opacity=".9">AFTERIMAGE</text>
+<text x="592" y="322" text-anchor="end" fill="#9fe58c" font-family="Courier New, monospace" font-size="10">2032-09-13</text>
+</svg>
