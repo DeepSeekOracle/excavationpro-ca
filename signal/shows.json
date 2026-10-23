@@ -5,6 +5,21 @@
  "updated": "2026-10-23",
  "shows": [
   {
+   "slug": "deep-dive-lygo-data-vault",
+   "title": "Deep Dive: LYGO Data Vault",
+   "page": "https://excavationpro.ca/signal/deep-dive-lygo-data-vault/",
+   "audio": "https://excavationpro.ca/signal/shows/deep-dive-lygo-data-vault/ai_radio.mp3",
+   "duration": "10:11",
+   "seconds": 611.9,
+   "speakers": [
+    "Paul",
+    "Elena",
+    "Devon",
+    "Sanjay"
+   ],
+   "date": "2026-10-23"
+  },
+  {
    "slug": "independent-signals-and-local-architectures",
    "title": "Independent Signals and Local Architectures",
    "page": "https://excavationpro.ca/signal/independent-signals-and-local-architectures/",
