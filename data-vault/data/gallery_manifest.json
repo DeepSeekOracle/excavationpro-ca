@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-23T17:35:41.605342+00:00",
-  "count": 838,
+  "generated_utc": "2026-10-23T17:37:56.204462+00:00",
+  "count": 873,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -13487,7 +13487,567 @@
       "full_bytes": 23155,
       "width": 311,
       "height": 323
+    },
+    {
+      "id": "28d137854ad929b3",
+      "title": "Excavationpro Breaker of Codes",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Excavationpro-Breaker of Codes.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "Excavationpro-Breaker of Codes.jpg",
+      "original_bytes": 933878,
+      "full": "assets/gallery/full/28d137854ad929b3.jpg",
+      "thumb": "assets/gallery/thumb/28d137854ad929b3.jpg",
+      "full_bytes": 159510,
+      "width": 1080,
+      "height": 1080
+    },
+    {
+      "id": "543623802cbf40d9",
+      "title": "IMG 1602",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_1602.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_1602.JPG",
+      "original_bytes": 1432736,
+      "full": "assets/gallery/full/543623802cbf40d9.jpg",
+      "thumb": "assets/gallery/thumb/543623802cbf40d9.jpg",
+      "full_bytes": 564019,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "1d9069fa21ade8d7",
+      "title": "IMG 1603",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_1603.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_1603.JPG",
+      "original_bytes": 438228,
+      "full": "assets/gallery/full/1d9069fa21ade8d7.jpg",
+      "thumb": "assets/gallery/thumb/1d9069fa21ade8d7.jpg",
+      "full_bytes": 284290,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "72bb205a8f96a2c3",
+      "title": "IMG 1894",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_1894.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_1894.JPG",
+      "original_bytes": 1301500,
+      "full": "assets/gallery/full/72bb205a8f96a2c3.jpg",
+      "thumb": "assets/gallery/thumb/72bb205a8f96a2c3.jpg",
+      "full_bytes": 475582,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "98eb33fbb584d28f",
+      "title": "IMG 2183",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2183.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2183.JPG",
+      "original_bytes": 880073,
+      "full": "assets/gallery/full/98eb33fbb584d28f.jpg",
+      "thumb": "assets/gallery/thumb/98eb33fbb584d28f.jpg",
+      "full_bytes": 312600,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "4e84399851507233",
+      "title": "IMG 2186",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2186.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2186.JPG",
+      "original_bytes": 1343644,
+      "full": "assets/gallery/full/4e84399851507233.jpg",
+      "thumb": "assets/gallery/thumb/4e84399851507233.jpg",
+      "full_bytes": 527731,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "21903409ac775f01",
+      "title": "IMG 2686",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2686.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2686.JPG",
+      "original_bytes": 421833,
+      "full": "assets/gallery/full/21903409ac775f01.jpg",
+      "thumb": "assets/gallery/thumb/21903409ac775f01.jpg",
+      "full_bytes": 277331,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "ac8f7e20186b5d51",
+      "title": "IMG 2714",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2714.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2714.JPG",
+      "original_bytes": 466705,
+      "full": "assets/gallery/full/ac8f7e20186b5d51.jpg",
+      "thumb": "assets/gallery/thumb/ac8f7e20186b5d51.jpg",
+      "full_bytes": 267188,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "50d52343257e36a6",
+      "title": "IMG 2896",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2896.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2896.JPG",
+      "original_bytes": 291265,
+      "full": "assets/gallery/full/50d52343257e36a6.jpg",
+      "thumb": "assets/gallery/thumb/50d52343257e36a6.jpg",
+      "full_bytes": 156910,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "8a6abd0d2fe4c154",
+      "title": "IMG 2900",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_2900.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_2900.JPG",
+      "original_bytes": 314553,
+      "full": "assets/gallery/full/8a6abd0d2fe4c154.jpg",
+      "thumb": "assets/gallery/thumb/8a6abd0d2fe4c154.jpg",
+      "full_bytes": 172638,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7450ee840bc89a45",
+      "title": "IMG 3210",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3210.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3210.JPG",
+      "original_bytes": 1087453,
+      "full": "assets/gallery/full/7450ee840bc89a45.jpg",
+      "thumb": "assets/gallery/thumb/7450ee840bc89a45.jpg",
+      "full_bytes": 361617,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "22bef2e39ba09867",
+      "title": "IMG 3337",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3337.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3337.JPG",
+      "original_bytes": 749749,
+      "full": "assets/gallery/full/22bef2e39ba09867.jpg",
+      "thumb": "assets/gallery/thumb/22bef2e39ba09867.jpg",
+      "full_bytes": 236683,
+      "width": 2048,
+      "height": 2048
+    },
+    {
+      "id": "edf5221c9d9d148e",
+      "title": "IMG 3406",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3406.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3406.JPG",
+      "original_bytes": 378117,
+      "full": "assets/gallery/full/edf5221c9d9d148e.jpg",
+      "thumb": "assets/gallery/thumb/edf5221c9d9d148e.jpg",
+      "full_bytes": 199812,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "af68321194dfe6b0",
+      "title": "IMG 3483",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3483.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3483.JPG",
+      "original_bytes": 174176,
+      "full": "assets/gallery/full/af68321194dfe6b0.jpg",
+      "thumb": "assets/gallery/thumb/af68321194dfe6b0.jpg",
+      "full_bytes": 98666,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "188791406da320bd",
+      "title": "IMG 3485",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3485.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3485.JPG",
+      "original_bytes": 186863,
+      "full": "assets/gallery/full/188791406da320bd.jpg",
+      "thumb": "assets/gallery/thumb/188791406da320bd.jpg",
+      "full_bytes": 102537,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "63b5b26fc1f7d50a",
+      "title": "IMG 3487",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3487.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3487.JPG",
+      "original_bytes": 227107,
+      "full": "assets/gallery/full/63b5b26fc1f7d50a.jpg",
+      "thumb": "assets/gallery/thumb/63b5b26fc1f7d50a.jpg",
+      "full_bytes": 123920,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "619a80c317d6bb7a",
+      "title": "IMG 3488",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3488.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3488.JPG",
+      "original_bytes": 236812,
+      "full": "assets/gallery/full/619a80c317d6bb7a.jpg",
+      "thumb": "assets/gallery/thumb/619a80c317d6bb7a.jpg",
+      "full_bytes": 123146,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d126fd17c853de5e",
+      "title": "IMG 3491",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3491.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3491.JPG",
+      "original_bytes": 211284,
+      "full": "assets/gallery/full/d126fd17c853de5e.jpg",
+      "thumb": "assets/gallery/thumb/d126fd17c853de5e.jpg",
+      "full_bytes": 114096,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "1e44e0058683807f",
+      "title": "IMG 3493",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3493.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3493.JPG",
+      "original_bytes": 227243,
+      "full": "assets/gallery/full/1e44e0058683807f.jpg",
+      "thumb": "assets/gallery/thumb/1e44e0058683807f.jpg",
+      "full_bytes": 118582,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "399727583b113817",
+      "title": "IMG 3495",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3495.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3495.JPG",
+      "original_bytes": 198361,
+      "full": "assets/gallery/full/399727583b113817.jpg",
+      "thumb": "assets/gallery/thumb/399727583b113817.jpg",
+      "full_bytes": 104228,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c18c1806d7a8d868",
+      "title": "IMG 3497",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3497.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3497.JPG",
+      "original_bytes": 190575,
+      "full": "assets/gallery/full/c18c1806d7a8d868.jpg",
+      "thumb": "assets/gallery/thumb/c18c1806d7a8d868.jpg",
+      "full_bytes": 98072,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "af2659da0094a4d9",
+      "title": "IMG 3504",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3504.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3504.JPG",
+      "original_bytes": 232283,
+      "full": "assets/gallery/full/af2659da0094a4d9.jpg",
+      "thumb": "assets/gallery/thumb/af2659da0094a4d9.jpg",
+      "full_bytes": 123163,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d5f38d215e4582e7",
+      "title": "IMG 3512",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3512.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3512.JPG",
+      "original_bytes": 242632,
+      "full": "assets/gallery/full/d5f38d215e4582e7.jpg",
+      "thumb": "assets/gallery/thumb/d5f38d215e4582e7.jpg",
+      "full_bytes": 127639,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d478b5b128f050c6",
+      "title": "IMG 3516",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3516.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3516.JPG",
+      "original_bytes": 277355,
+      "full": "assets/gallery/full/d478b5b128f050c6.jpg",
+      "thumb": "assets/gallery/thumb/d478b5b128f050c6.jpg",
+      "full_bytes": 150218,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f40f6a477db98fe2",
+      "title": "IMG 3519",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3519.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3519.JPG",
+      "original_bytes": 202271,
+      "full": "assets/gallery/full/f40f6a477db98fe2.jpg",
+      "thumb": "assets/gallery/thumb/f40f6a477db98fe2.jpg",
+      "full_bytes": 106931,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "56f89a6e78c817d7",
+      "title": "IMG 3561",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3561.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3561.JPG",
+      "original_bytes": 283622,
+      "full": "assets/gallery/full/56f89a6e78c817d7.jpg",
+      "thumb": "assets/gallery/thumb/56f89a6e78c817d7.jpg",
+      "full_bytes": 159212,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6024b1a49d00549f",
+      "title": "IMG 3562",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3562.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3562.JPG",
+      "original_bytes": 342931,
+      "full": "assets/gallery/full/6024b1a49d00549f.jpg",
+      "thumb": "assets/gallery/thumb/6024b1a49d00549f.jpg",
+      "full_bytes": 174363,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "ca5aa3d63969cb23",
+      "title": "IMG 3606",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3606.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3606.JPG",
+      "original_bytes": 328136,
+      "full": "assets/gallery/full/ca5aa3d63969cb23.jpg",
+      "thumb": "assets/gallery/thumb/ca5aa3d63969cb23.jpg",
+      "full_bytes": 178203,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6982c164ac77b6f3",
+      "title": "IMG 3627",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3627.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3627.JPG",
+      "original_bytes": 616533,
+      "full": "assets/gallery/full/6982c164ac77b6f3.jpg",
+      "thumb": "assets/gallery/thumb/6982c164ac77b6f3.jpg",
+      "full_bytes": 409812,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "48b45ca72b2db99f",
+      "title": "IMG 3633",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3633.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3633.JPG",
+      "original_bytes": 325800,
+      "full": "assets/gallery/full/48b45ca72b2db99f.jpg",
+      "thumb": "assets/gallery/thumb/48b45ca72b2db99f.jpg",
+      "full_bytes": 183219,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "9295f4a62493dfa1",
+      "title": "IMG 3642",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3642.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3642.JPG",
+      "original_bytes": 251232,
+      "full": "assets/gallery/full/9295f4a62493dfa1.jpg",
+      "thumb": "assets/gallery/thumb/9295f4a62493dfa1.jpg",
+      "full_bytes": 131264,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "9b9338aa2677141c",
+      "title": "IMG 3644",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3644.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3644.JPG",
+      "original_bytes": 314989,
+      "full": "assets/gallery/full/9b9338aa2677141c.jpg",
+      "thumb": "assets/gallery/thumb/9b9338aa2677141c.jpg",
+      "full_bytes": 167265,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "b5cde65f082f245a",
+      "title": "IMG 3646",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3646.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3646.JPG",
+      "original_bytes": 348932,
+      "full": "assets/gallery/full/b5cde65f082f245a.jpg",
+      "thumb": "assets/gallery/thumb/b5cde65f082f245a.jpg",
+      "full_bytes": 183657,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "2d1d8d65958abec1",
+      "title": "IMG 3647",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3647.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3647.JPG",
+      "original_bytes": 290216,
+      "full": "assets/gallery/full/2d1d8d65958abec1.jpg",
+      "thumb": "assets/gallery/thumb/2d1d8d65958abec1.jpg",
+      "full_bytes": 158392,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6075b857b5941409",
+      "title": "IMG 3714",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "IMG_3714.JPG",
+      "source_root": "Publish Portal",
+      "original_name": "IMG_3714.JPG",
+      "original_bytes": 482918,
+      "full": "assets/gallery/full/6075b857b5941409.jpg",
+      "thumb": "assets/gallery/thumb/6075b857b5941409.jpg",
+      "full_bytes": 258661,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "838-auto-202610231135"
+  "cache_bust": "873-auto-202610231137"
 }
