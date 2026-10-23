@@ -1,0 +1,14 @@
+{
+  "id": "portal-2045-hum",
+  "path": "assets/sfx/extra-f7.wav",
+  "bytes": 185264,
+  "sha256": "7a5f5334086b30b8efbd1d2f052c03cd12b449599a8fa29a5c3eaeb5dbdae879",
+  "kind": "sfx",
+  "preset": "portal",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 4.2,
+  "engine": "forge-synth",
+  "text": null
+}

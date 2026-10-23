@@ -1,0 +1,14 @@
+{
+  "id": "extra-b3",
+  "path": "assets/voice/extra-b3.wav",
+  "bytes": 230164,
+  "sha256": "a73161dce0030b50b1043f05aa3011604d2ce2f70b62cc0a3607672a7c81ffc7",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 5.218,
+  "engine": "piper",
+  "text": "They sold the song by the piece and called it freedom. The store was never the enemy; the lock was."
+}

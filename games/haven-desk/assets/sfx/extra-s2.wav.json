@@ -1,0 +1,14 @@
+{
+  "id": "extra-s2",
+  "path": "assets/sfx/extra-s2.wav",
+  "bytes": 61782,
+  "sha256": "f418f3bb339f1f7628b00e821b3a814310d603ce4fd2226738d01b02f3373715",
+  "kind": "sfx",
+  "preset": "unseal",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 1.4,
+  "engine": "forge-synth",
+  "text": null
+}

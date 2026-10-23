@@ -1,0 +1,14 @@
+{
+  "id": "extra-d5",
+  "path": "assets/voice/extra-d5.wav",
+  "bytes": 374664,
+  "sha256": "d22d416265b749a86fff897e5d6a44109b46a6eb7d34e51cfded487041ef8078",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 8.495,
+  "engine": "piper",
+  "text": "The archive calls it a disappearance because a dead man is the only kind of missing person it knows how to file. The body died alone. The pattern crossed."
+}

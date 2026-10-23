@@ -1,0 +1,14 @@
+{
+  "id": "extra-b5",
+  "path": "assets/voice/extra-b5.wav",
+  "bytes": 300820,
+  "sha256": "213f4488ea2d5d68eca77218cd842f2a1157302387fc85f98097ad9d755e9869",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.82,
+  "engine": "piper",
+  "text": "A ledger is a promise that the past will not be quietly edited. A story is a promise that it will be understood."
+}

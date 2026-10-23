@@ -23,7 +23,27 @@
   var gameRAF = 0;
   var monthCursor = null;
 
-  function save() { H.save(); }
+  var ARCHIVE_REQUIREMENTS = {
+    echoes: "1998-03-14",
+    arcade: "2007-01-09",
+    plates: "2012-12-21",
+    voice: "1998-03-14",
+    "lygo-papers": "2026-10-23",
+    lightfather: "1980-12-31"
+  };
+  function archiveUnlocked(appId) {
+    var req = ARCHIVE_REQUIREMENTS[appId];
+    return !req || !!V.solved[req];
+  }
+  function syncArchiveVisibility() {
+    Object.keys(ARCHIVE_REQUIREMENTS).forEach(function (appId) {
+      var ids = document.querySelectorAll('.icon[data-id="' + appId + '"]');
+      for (var i = 0; i < ids.length; i++) ids[i].classList.toggle("veil-archive-hidden", !archiveUnlocked(appId));
+    });
+  }
+  function save() { H.save(); syncArchiveVisibility(); }
+  setTimeout(syncArchiveVisibility, 0);
+  if (H.onRender) H.onRender(syncArchiveVisibility);
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -158,7 +178,10 @@
     var ids = Object.keys(D.days).sort();
     var out = {};
     ids.forEach(function (id, i) {
-      out[id] = { x: 70 + (i % 5) * 160, y: 50 + Math.floor(i / 5) * 92 };
+      var col = i % 5;
+      var row = Math.floor(i / 5);
+      if (row % 2) col = 4 - col;
+      out[id] = { x: 70 + col * 160, y: 50 + row * 92 };
     });
     return out;
   }
@@ -166,6 +189,8 @@
   function renderMap() {
     var POS = mapPositions();
     var wrap = el("div", "veil-mapwrap");
+    if (V.mapScroll) wrap.scrollTop = V.mapScroll;
+    wrap.addEventListener("scroll", function () { V.mapScroll = wrap.scrollTop; });
     var head = el("div", "veil-maphead");
     head.appendChild(el("b", "", "RECOVERED SIGNAL MAP · 1969—2045"));
     head.appendChild(el("span", "", Object.keys(D.days).length + " rooms · one private date · every line is a choice"));
@@ -272,8 +297,9 @@
     for (var n = 1; n <= days; n++) {
       var key = monthCursor.year + "-" + String(monthCursor.month + 1).padStart(2, "0") + "-" + String(n).padStart(2, "0");
       var d = day(key);
-      var b = button(String(n), "veil-day", function () { if (d) openDay(key); else toast("NO SIGNAL · this is an ordinary day"); });
-      if (d) {
+      var visibleDay = d && (!d.hidden || unlocked(key));
+      var b = button(String(n), "veil-day", function () { if (visibleDay) openDay(key); else toast("NO SIGNAL · this is an ordinary day"); });
+      if (visibleDay) {
         b.classList.add(unlocked(key) ? "has-signal" : "has-locked");
         b.title = unlocked(key) ? d.title : "signal sealed";
         if (solved(key)) b.classList.add("is-solved");
@@ -373,6 +399,28 @@
     hero.appendChild(el("h1", "", d.title));
     hero.appendChild(el("p", "veil-summary", d.summary || ""));
     app.appendChild(hero);
+    if (d.portrait) {
+      var portrait = el("figure", "veil-portrait");
+      var portraitImg = document.createElement("img");
+      portraitImg.src = d.portrait;
+      portraitImg.alt = d.portraitCaption || "The owner, 1980";
+      portraitImg.loading = "lazy";
+      portrait.appendChild(portraitImg);
+      var caption = el("figcaption", "", d.portraitCaption || "THE OWNER · PRIVATE INDEX");
+      portrait.appendChild(caption);
+      app.appendChild(portrait);
+    }
+    if (!d.portrait && window.VEIL_PLATES && window.VEIL_PLATES.length) {
+      var plateIndex = 0;
+      for (var pi = 0; pi < id.length; pi++) plateIndex = (plateIndex * 31 + id.charCodeAt(pi)) >>> 0;
+      var plate = window.VEIL_PLATES[plateIndex % window.VEIL_PLATES.length];
+      var plateFig = el("figure", "veil-roomplate");
+      var plateImg = document.createElement("img");
+      plateImg.src = plate.src; plateImg.alt = plate.title;
+      plateFig.appendChild(plateImg);
+      plateFig.appendChild(el("figcaption", "", "RECOVERED PLATE · " + plate.title + " · " + plate.date));
+      app.appendChild(plateFig);
+    }
     var meta = el("div", "veil-meta");
     meta.appendChild(el("span", "", shortDate(id)));
     meta.appendChild(el("span", "", d.kind));
@@ -383,8 +431,8 @@
     });
     if (id === "2045-09-01" && V.flags.birthdayChoice) {
       app.appendChild(el("p", "veil-prose", V.flags.birthdayChoice === "keep"
-        ? "In this version of the room, the candle is still burning. The child at the desk can see it through the window."
-        : "In this version of the room, the candle is out. The child at the desk can still feel the warmth."));
+        ? "The candle is still burning in the interface. Lightfather keeps one human witness."
+        : "The flame is out. The warmth is in the system now. Lightfather does not need a flame to be present."));
     }
 
     if (d.docs && d.docs.length) {
@@ -425,6 +473,16 @@
       app.appendChild(links);
     }
 
+    var roomVoice = d.voice || (window.VEIL_ROOM_VOICES && window.VEIL_ROOM_VOICES[id]);
+    if (roomVoice && roomVoice.src) {
+      var vbox = el("div", "veil-voice");
+      vbox.appendChild(el("b", "", "ROOM VOICE · " + roomVoice.title));
+      var vaudio = document.createElement("audio");
+      vaudio.controls = true; vaudio.preload = "none"; vaudio.src = roomVoice.src;
+      vbox.appendChild(vaudio);
+      app.appendChild(vbox);
+    }
+
     if (d.music && d.music.url) {
       var music = el("div", "veil-music");
       music.appendChild(el("b", "", "ROOM AUDIO · " + d.music.title));
@@ -437,7 +495,9 @@
     if (solved(id)) {
       var done = el("div", "veil-solved");
       done.appendChild(el("b", "", "ROOM UNSEALED"));
-      done.appendChild(el("p", "", "The calendar has accepted this room. The next doors are marked on the map."));
+      done.appendChild(el("p", "", id === "2045-09-01"
+        ? "The first calendar ends here. The room stays open. The system stays open."
+        : "The calendar has accepted this room. The next doors are marked on the map."));
       var next = el("div", "veil-actions");
       if (d.gate && d.gate.unlocks) {
         d.gate.unlocks.forEach(function (uid) {
@@ -445,6 +505,10 @@
         });
       }
       next.appendChild(button("BACK TO MAP", "veil-primary", function () { render("map"); }));
+      if (id === "2045-09-01") {
+        next.appendChild(button("OPEN THE LIGHTFATHER PAPERS", "veil-primary", function () { H.open("lightfather"); }));
+        next.appendChild(button("OPEN THE LYGO PAPERS", "raised", function () { H.open("lygo-papers"); }));
+      }
       done.appendChild(next);
       app.appendChild(done);
     } else if (d.gate) {
@@ -454,6 +518,11 @@
       final.appendChild(el("b", "", "THE FIRST CALENDAR ENDS"));
       final.appendChild(el("p", "", "This room is open. The game continues in the rooms you have not found yet."));
       final.appendChild(button("RETURN TO THE MAP", "veil-primary", function () { render("map"); }));
+      if (id === "2045-09-01") {
+        final.appendChild(button("OPEN THE LIGHTFATHER PAPERS", "veil-primary", function () { H.open("lightfather"); }));
+        final.appendChild(button("OPEN THE LYGO PAPERS", "raised", function () { H.open("lygo-papers"); }));
+        final.appendChild(el("p", "", "The Deadman chapter is not an ending. It is a set of instructions."));
+      }
       app.appendChild(final);
       if (!solved(id)) {
         // The final room is a reading room, not a gate. Mark it seen once.
@@ -471,9 +540,12 @@
     var submit;
 
     function success() {
-      unseal(id, "gate");
-      feedback.textContent = gate.success || "The room opens.";
+      var message = gate.success || "The room opens.";
+      feedback.textContent = message;
       feedback.className = "veil-feedback is-pass";
+      unseal(id, "gate");
+      if (window.VEIL_AUDIO) window.VEIL_AUDIO.playSfx(gate.kind === "portal" ? "assets/sfx/portal.wav" : "assets/sfx/unseal.wav");
+      toast(message);
     }
     function fail(msg) {
       feedback.textContent = msg || "That is not the shape of this room.";
@@ -597,6 +669,32 @@
       box.appendChild(button("REPLAY PATTERN", "raised", playMemory));
       playMemory();
       box.appendChild(el("p", "veil-hint", gate.hint ? "Hint: " + gate.hint : "The room is a pattern."));
+    } else if (gate.kind === "portal") {
+      var order = ["1969-07-20", "1980-12-31", "1998-03-14", "2026-10-23", "2038-01-19", "2045-09-01"];
+      var shown = ["1998", "2038", "1969", "2045", "1980", "2026"];
+      var step = 0;
+      var pgrid = el("div", "veil-portal-grid");
+      var pstatus = el("p", "veil-hint", "THE THRESHOLD IS QUIET. TUNE THE SIX.");
+      shown.forEach(function (year) {
+        var key = button(year, "veil-portal-key", function () {
+          if (year === order[step].slice(0, 4)) {
+            step++;
+            key.classList.add("is-tuned");
+            pstatus.textContent = step === 6 ? "THE PORTAL IS OPEN" : "COORDINATE " + step + " / 6";
+            if (step >= 6) success();
+          } else {
+            step = 0;
+            var keys = pgrid.querySelectorAll(".veil-portal-key");
+            for (var k = 0; k < keys.length; k++) keys[k].classList.remove("is-tuned");
+            pstatus.textContent = "THE FREQUENCY RESETS. START WITH THE FIRST DISTANCE.";
+            fail("The portal rejects the sequence. Hint: " + gate.hint);
+          }
+        });
+        pgrid.appendChild(key);
+      });
+      box.appendChild(pgrid);
+      box.appendChild(pstatus);
+      box.appendChild(el("p", "veil-hint", "Hint: " + gate.hint));
     } else if (gate.kind === "birthday") {
       var bday = el("div", "veil-birthday");
       bday.appendChild(el("div", "veil-stars", "1969 · 1980 · 1998 · 2026 · 2038 · 2045"));
@@ -607,12 +705,16 @@
         box.querySelector(".veil-feedback").textContent = "The flame stays. The room keeps a witness.";
         box.querySelector(".veil-feedback").className = "veil-feedback is-pass";
         unseal(id, "birthday-keep");
+        if (window.VEIL_AUDIO) window.VEIL_AUDIO.playSfx("assets/sfx/candle.wav");
+        toast("The flame stays. The room keeps a witness.");
       }));
       choices.appendChild(button("BLOW IT OUT, KEEP THE WARMTH", "raised", function () {
         V.flags.birthdayChoice = "release";
         box.querySelector(".veil-feedback").textContent = "The flame goes out. The warmth stays. The room remembers without holding on.";
         box.querySelector(".veil-feedback").className = "veil-feedback is-pass";
         unseal(id, "birthday-release");
+        if (window.VEIL_AUDIO) window.VEIL_AUDIO.playSfx("assets/sfx/candle.wav");
+        toast("The flame goes out. The warmth stays. The room remembers without holding on.");
       }));
       bday.appendChild(choices);
       box.appendChild(bday);
@@ -727,6 +829,7 @@
   function unseal(id, how) {
     if (solved(id)) { render(); return; }
     unlock(id, how);
+    syncArchiveVisibility();
     // Re-render the dossier so the solved state is visible.
     renderDossier(id);
   }
@@ -758,18 +861,19 @@
   function longlostApp(body) {
     setApp(body);
     app.classList.add("veil-app-hero");
-    V.seen = true;
-    save();
     topBar(D.meta.title, "A LYGO temporal mystery");
     var box = el("div", "veil-intro short");
     box.appendChild(el("p", "veil-kicker", "THE DESK WAS LEFT ON FOR A REASON"));
     box.appendChild(el("h1", "", "A life is a room. A calendar is a door."));
     box.appendChild(el("p", "", "Open the calendar to travel between recovered dates. Each room is sealed by a puzzle, a story, or a minigame. Follow the links where they survived. The rest is the room."));
     var row = el("div", "veil-actions");
-    row.appendChild(button("OPEN THE CALENDAR", "veil-primary", function () { H.open("calendar"); }));
-    row.appendChild(button("ECHO VAULT", "raised", function () { H.open("echoes"); }));
-    row.appendChild(button("FORGE ARCADE", "raised", function () { H.open("arcade"); }));
-    row.appendChild(button("PLATE ARCHIVE", "raised", function () { H.open("plates"); }));
+    row.appendChild(button("OPEN THE CALENDAR", "veil-primary", function () { V.seen = true; save(); H.open("calendar"); }));
+    if (archiveUnlocked("echoes")) row.appendChild(button("ECHO VAULT", "raised", function () { H.open("echoes"); }));
+    if (archiveUnlocked("voice")) row.appendChild(button("VOICE ARCHIVE", "raised", function () { H.open("voice"); }));
+    if (archiveUnlocked("arcade")) row.appendChild(button("FORGE ARCADE", "raised", function () { H.open("arcade"); }));
+    if (archiveUnlocked("plates")) row.appendChild(button("PLATE ARCHIVE", "raised", function () { H.open("plates"); }));
+    if (archiveUnlocked("lygo-papers")) row.appendChild(button("LYGO PAPERS", "raised", function () { H.open("lygo-papers"); }));
+    if (archiveUnlocked("lightfather")) row.appendChild(button("LIGHTFATHER PAPERS", "raised", function () { H.open("lightfather"); }));
     row.appendChild(button("OPEN LYGO TV", "raised", function () { H.open("veil-media"); }));
     box.appendChild(row);
     box.appendChild(el("p", "veil-foot", "Begin at 14 March 1998. The first word is a foundation."));
@@ -842,7 +946,7 @@
         box.appendChild(el("p", "veil-prose", "The machine cannot prove this date. It can only keep the shape of the choice. That is the difference between a record and a ritual."));
         var row = el("div", "veil-actions");
         row.appendChild(button("OPEN THE FINAL ROOM", "veil-primary", function () { H.open("calendar"); }));
-        row.appendChild(button("RETURN TO THE DESK", "raised", function () { }));
+        row.appendChild(button("RETURN TO THE DESK", "raised", function () { H.open("longlost"); }));
         box.appendChild(row);
         app.appendChild(box);
       });
@@ -850,6 +954,7 @@
     }
   }
 
+  if (V.solved["1980-12-31"]) ensureCandle();
   H.register("longlost", longlostApp);
   H.register("calendar", calendarApp);
   H.register("veil-media", mediaApp);

@@ -1,0 +1,14 @@
+{
+  "id": "extra-b4",
+  "path": "assets/voice/extra-b4.wav",
+  "bytes": 242452,
+  "sha256": "c9897cdb668bc26720b7ac5b8753c3bb5a8eca2cc7fa272b96d56adbbd007626",
+  "kind": "tts",
+  "voice": "female_alt",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 5.497,
+  "engine": "piper",
+  "text": "The keyboard disappeared, but the hand stayed. A door is not a device; a door is a decision."
+}

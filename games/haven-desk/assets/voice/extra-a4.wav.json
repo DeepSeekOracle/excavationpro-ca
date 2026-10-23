@@ -1,0 +1,14 @@
+{
+  "id": "extra-a4",
+  "path": "assets/voice/extra-a4.wav",
+  "bytes": 283412,
+  "sha256": "2a5507e203147f06920443fa65597ed12fcb0310c9e49a52fe1d61efce7b4d5b",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.426,
+  "engine": "piper",
+  "text": "A wall is a door that has forgotten its hinge. The desk remembers which walls were meant to become passages."
+}

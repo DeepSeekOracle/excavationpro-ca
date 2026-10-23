@@ -1,0 +1,14 @@
+{
+  "id": "extra-a6",
+  "path": "assets/voice/extra-a6.wav",
+  "bytes": 347924,
+  "sha256": "aa60b9b742e76343e164dd41e5caadb4c517f5f8733fb3af93a5b7195568cd91",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 7.888,
+  "engine": "piper",
+  "text": "Every new interface promises the old one was never alive. The desk keeps the first start button as proof that beginning is a physical act."
+}

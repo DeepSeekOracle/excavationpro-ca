@@ -1,0 +1,14 @@
+{
+  "id": "extra-a5",
+  "path": "assets/voice/extra-a5.wav",
+  "bytes": 351508,
+  "sha256": "549638a383474af92605095384c113d42424109c7e045d4e42672b0242960281",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 7.97,
+  "engine": "piper",
+  "text": "A link is a promise that another page exists. The desk keeps at least one door open when everything else becomes a conveyor belt."
+}

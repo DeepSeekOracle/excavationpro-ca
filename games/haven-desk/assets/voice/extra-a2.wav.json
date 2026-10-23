@@ -1,0 +1,14 @@
+{
+  "id": "extra-a2",
+  "path": "assets/voice/extra-a2.wav",
+  "bytes": 450324,
+  "sha256": "ffcda7975894dd87ac9873369d51d2fe81165b693263449e4db4f24db7ebd0c8",
+  "kind": "tts",
+  "voice": "female",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 10.21,
+  "engine": "piper",
+  "text": "A civilization is what it chooses to send into the dark. The desk is another golden record, small and deliberate, addressed to whoever arrives next."
+}

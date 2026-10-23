@@ -113,7 +113,7 @@
       var app = document.createElement("div");
       app.className = "veil-app";
       body.appendChild(app);
-      var state = { view: "anchors", anchor: "", current: null, q: "" };
+      var state = { view: "anchors", anchor: "", current: null, q: "", expanded: false };
       var input = document.createElement("input");
       input.className = "veil-input";
       input.placeholder = "search dates / titles";
@@ -165,8 +165,8 @@
           var d = D.days[date];
           var count = Object.keys(V.echoes).filter(function (k) { return k.indexOf("echo:" + date + ":") === 0 || k.indexOf("worker:" + date + ":") === 0 || k.indexOf("arcade:" + date + ":") === 0; }).length;
           if (q && (date + " " + d.title + " " + d.summary).toLowerCase().indexOf(q) === -1) return;
-          var card = btn("", "veil-echo-card" + (count === LENSES.length ? " is-done" : ""), function () {
-            state = { view: "strata", anchor: date, current: null };
+          var card = btn("", "veil-echo-card" + (count === ECHOES[date].length ? " is-done" : ""), function () {
+            state = { view: "strata", anchor: date, current: null, expanded: false };
             renderStrata();
           });
           card.appendChild(element("span", "veil-node-date", date));
@@ -179,11 +179,14 @@
       function renderStrata() {
         app.innerHTML = "";
         var d = D.days[state.anchor];
-        bar(d.title, "ANCHOR " + state.anchor + " · " + ECHOES[state.anchor].length + " STRATA");
+        var all = ECHOES[state.anchor];
+        var featured = [0, 7, 15, 20, 21].map(function (i) { return all[i]; }).filter(function (e) { return !!e; });
+        var visible = state.expanded ? all : featured;
+        bar(d.title, "ANCHOR " + state.anchor + " · " + (state.expanded ? all.length + " STRATA" : "5 FEATURED · " + all.length + " DEEP"));
         app.appendChild(port());
-        app.appendChild(btn("← ANCHORS", "veil-back", function () { state = { view: "anchors", anchor: "", current: null }; renderAnchors(); }));
+        app.appendChild(btn("← ANCHORS", "veil-back", function () { state = { view: "anchors", anchor: "", current: null, q: state.q, expanded: false }; renderAnchors(); }));
         var list = element("div", "veil-echo-grid");
-        ECHOES[state.anchor].forEach(function (e) {
+        visible.forEach(function (e) {
           var done = !!V.echoes[e.id];
           var card = btn("", "veil-echo-card" + (done ? " is-done" : ""), function () {
             state = { view: "detail", anchor: state.anchor, current: e };
@@ -195,6 +198,16 @@
           list.appendChild(card);
         });
         app.appendChild(list);
+        if (!state.expanded) {
+          app.appendChild(btn("OPEN DEEP ARCHIVE · " + (all.length - visible.length) + " MORE STRATA", "veil-primary", function () {
+            state.expanded = true; renderStrata();
+          }));
+          app.appendChild(element("p", "veil-hint", "The five featured strata are the room's public face. The deep archive holds the rest."));
+        } else {
+          app.appendChild(btn("← SHOW FEATURED ONLY", "raised", function () {
+            state.expanded = false; renderStrata();
+          }));
+        }
       }
       function renderDetail() {
         app.innerHTML = "";

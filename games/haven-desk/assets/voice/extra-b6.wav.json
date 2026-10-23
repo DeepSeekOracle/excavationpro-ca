@@ -1,0 +1,14 @@
+{
+  "id": "extra-b6",
+  "path": "assets/voice/extra-b6.wav",
+  "bytes": 274196,
+  "sha256": "7e3b026751d037763348218ddc1a68b792ab2a27bea6ee0f3bb7dccda4275901",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.217,
+  "engine": "piper",
+  "text": "The end of a cycle is an accounting, not an execution. The lights stayed on, and you were allowed to keep going."
+}

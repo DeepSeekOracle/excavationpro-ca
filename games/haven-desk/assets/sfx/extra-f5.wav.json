@@ -1,0 +1,14 @@
+{
+  "id": "server-2038-hum",
+  "path": "assets/sfx/extra-f5.wav",
+  "bytes": 396944,
+  "sha256": "fd6cc2168a6e2c4ea814c6acd92e7c8b842be9abf31a7dc61afc5d45e2e6dfb1",
+  "kind": "sfx",
+  "preset": "room-hum",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 9.0,
+  "engine": "forge-synth",
+  "text": null
+}

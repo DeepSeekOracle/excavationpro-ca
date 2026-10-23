@@ -1,0 +1,14 @@
+{
+  "id": "extra-a1",
+  "path": "assets/voice/extra-a1.wav",
+  "bytes": 368404,
+  "sha256": "ce26ca1f9ce7b740ef13ab153b7e7f2011b03be9f94d578ab22ed5a0f15d8aff",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 8.353,
+  "engine": "piper",
+  "text": "The first room that is not Earth is a mirror held at a distance. The desk keeps the signal delay as a promise that someone stepped out and looked back."
+}

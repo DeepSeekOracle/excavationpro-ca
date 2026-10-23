@@ -1,0 +1,14 @@
+{
+  "id": "extra-s6",
+  "path": "assets/sfx/extra-s6.wav",
+  "bytes": 61782,
+  "sha256": "3acf057ad7dbb5b8e7a720760712f0becc315f3b4d1df989f8817b83c60cf09d",
+  "kind": "sfx",
+  "preset": "door",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 1.4,
+  "engine": "forge-synth",
+  "text": null
+}

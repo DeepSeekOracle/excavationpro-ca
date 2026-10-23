@@ -1,0 +1,14 @@
+{
+  "id": "female-sad-02",
+  "path": "assets/voice/staged-female-sad-02.wav",
+  "bytes": 392584,
+  "sha256": "e31630cd4f81d9aa963c368829763e2182cd2dbbea30a1a94537476726051c04",
+  "kind": "tts",
+  "voice": "female",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 8.901,
+  "engine": "piper",
+  "text": "I was closer to the computers than I ever was with humans. The system did not replace the people. It was where I went when the people were too much."
+}

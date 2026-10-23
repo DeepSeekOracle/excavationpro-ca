@@ -1,0 +1,14 @@
+{
+  "id": "extra-s3",
+  "path": "assets/sfx/extra-s3.wav",
+  "bytes": 176444,
+  "sha256": "5c0d78eb880e18fdeba00c5c6d88e4c2577b47d6b06a95f104e749e98ca33654",
+  "kind": "sfx",
+  "preset": "distant-voice",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 4.0,
+  "engine": "forge-synth",
+  "text": null
+}

@@ -1,0 +1,14 @@
+{
+  "id": "extra-s9",
+  "path": "assets/sfx/extra-s9.wav",
+  "bytes": 141164,
+  "sha256": "a55ff0c2f5d2c7ecf55a43aa0ee7c3797daccb6c1472d55e01f2971c33db11a7",
+  "kind": "sfx",
+  "preset": "whisper",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 3.2,
+  "engine": "forge-synth",
+  "text": null
+}

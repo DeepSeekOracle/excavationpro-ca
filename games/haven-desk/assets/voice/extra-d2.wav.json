@@ -1,0 +1,14 @@
+{
+  "id": "extra-d2",
+  "path": "assets/voice/extra-d2.wav",
+  "bytes": 561544,
+  "sha256": "03a668278c603e6461c87dda43322170d908ae8c987a9f23b75211ccdf45c5a4",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 12.732,
+  "engine": "piper",
+  "text": "At 03:14:07 on the nineteenth of January, 2038, a signed thirty-two-bit clock runs out of numbers. Nothing falls. You replace the clock before it lies, and the work goes on."
+}

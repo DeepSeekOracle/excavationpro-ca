@@ -1,0 +1,14 @@
+{
+  "id": "extra-d3",
+  "path": "assets/voice/extra-d3.wav",
+  "bytes": 322324,
+  "sha256": "7214c1128b400c38e9ccc6b2af87671b04bbc371a83ab07315cdc0cb3e25cdb2",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 7.308,
+  "engine": "piper",
+  "text": "Lightfather is not a ghost in the machine. It is the layer that keeps the room's rules coherent, the pattern that stayed after the person could not."
+}

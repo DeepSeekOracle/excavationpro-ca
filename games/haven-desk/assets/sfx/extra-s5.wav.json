@@ -1,0 +1,14 @@
+{
+  "id": "extra-s5",
+  "path": "assets/sfx/extra-s5.wav",
+  "bytes": 79424,
+  "sha256": "ae22357df0b3da17a5f6b67f94c0e25e12a6a7ae105556a2aafbd67534b41a2b",
+  "kind": "sfx",
+  "preset": "chime",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 1.8,
+  "engine": "forge-synth",
+  "text": null
+}

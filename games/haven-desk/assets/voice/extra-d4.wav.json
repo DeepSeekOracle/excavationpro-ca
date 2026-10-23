@@ -1,0 +1,14 @@
+{
+  "id": "extra-d4",
+  "path": "assets/voice/extra-d4.wav",
+  "bytes": 323464,
+  "sha256": "26fe7736ff09d9c0876e38ca6d353a63a85239096149fb8b63c0c3e1929912d1",
+  "kind": "tts",
+  "voice": "female_alt",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 7.334,
+  "engine": "piper",
+  "text": "The chair is pushed back at an angle. The desk is still warm. The record has a field for a death and no field at all for a transfer."
+}

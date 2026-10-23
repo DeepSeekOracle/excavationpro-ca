@@ -1,0 +1,14 @@
+{
+  "id": "extra-b2",
+  "path": "assets/voice/extra-b2.wav",
+  "bytes": 275220,
+  "sha256": "394330ff88c39cf8fc7acf1f2078e70892de78202bcc76e072907f63d766293a",
+  "kind": "tts",
+  "voice": "female",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.24,
+  "engine": "piper",
+  "text": "The clock was never the problem. The story we told about the clock was, and we told it all the way to midnight."
+}

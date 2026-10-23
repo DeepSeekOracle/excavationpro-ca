@@ -1,0 +1,14 @@
+{
+  "id": "archivist-2038-01",
+  "path": "assets/voice/staged-archivist-2038-01.wav",
+  "bytes": 274708,
+  "sha256": "380a2f35d28f43c881539a1817ea0f85ff897b9dc579443f21425b3eaaae6b3b",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.228,
+  "engine": "piper",
+  "text": "The clock is not the enemy. The clock is a promise that someone will still be here when the number changes."
+}

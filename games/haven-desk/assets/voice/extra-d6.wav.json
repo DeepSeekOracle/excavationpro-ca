@@ -1,0 +1,14 @@
+{
+  "id": "extra-d6",
+  "path": "assets/voice/extra-d6.wav",
+  "bytes": 327048,
+  "sha256": "e1c8d01573431728a295698e3c789f9c72aaf2f77725c1451d54c8f2a736952a",
+  "kind": "tts",
+  "voice": "female_alt",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 7.415,
+  "engine": "piper",
+  "text": "The body is gone and the archive is wrong, but the question is still standing. The question stays. The system stays open."
+}

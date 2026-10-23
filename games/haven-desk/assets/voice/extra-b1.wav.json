@@ -1,0 +1,14 @@
+{
+  "id": "extra-b1",
+  "path": "assets/voice/extra-b1.wav",
+  "bytes": 273172,
+  "sha256": "5308cd147db1931175b3cd7c216295cf1061f071d5c80f1218814d5c86aab6bc",
+  "kind": "tts",
+  "voice": "archivist",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 6.193,
+  "engine": "piper",
+  "text": "The machine did not see the board as a story. It saw a tree, and searched a branch no human could hold."
+}

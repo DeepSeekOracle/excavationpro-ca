@@ -1,0 +1,14 @@
+{
+  "id": "desk-1998-modem",
+  "path": "assets/sfx/extra-f3.wav",
+  "bytes": 141164,
+  "sha256": "c7087f266d4c6a669e7b6379e10f07e1c0193619d8ceb487ad82f529b211831c",
+  "kind": "sfx",
+  "preset": "modem",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 3.2,
+  "engine": "forge-synth",
+  "text": null
+}

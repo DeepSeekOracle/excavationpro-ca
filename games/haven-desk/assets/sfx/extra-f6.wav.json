@@ -1,0 +1,14 @@
+{
+  "id": "server-2038-glitch",
+  "path": "assets/sfx/extra-f6.wav",
+  "bytes": 52964,
+  "sha256": "67d7033adfa37bd9b937def7782c88cf8f6e7802552df8d43fc1f04f0959fe0e",
+  "kind": "sfx",
+  "preset": "glitch",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 1.2,
+  "engine": "forge-synth",
+  "text": null
+}

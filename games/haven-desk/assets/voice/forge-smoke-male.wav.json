@@ -1,0 +1,14 @@
+{
+  "id": "forge-smoke-male",
+  "path": "assets/voice/forge-smoke-male.wav",
+  "bytes": 164000,
+  "sha256": "2719e500c51cb67286595de0b51807c6e3bd041013387099997b3fc7cc8f628c",
+  "kind": "tts",
+  "voice": "male",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 3.718,
+  "engine": "piper",
+  "text": "The Forge renders audio without asking a language model to lie about it."
+}

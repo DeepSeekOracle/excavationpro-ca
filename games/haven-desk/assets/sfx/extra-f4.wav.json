@@ -1,0 +1,14 @@
+{
+  "id": "desk-1998-static",
+  "path": "assets/sfx/extra-f4.wav",
+  "bytes": 220544,
+  "sha256": "34a5a595d01854c430edf62a9a335a129ba22646a06126c2b812cbf5bdda4a76",
+  "kind": "sfx",
+  "preset": "static",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 5.0,
+  "engine": "forge-synth",
+  "text": null
+}

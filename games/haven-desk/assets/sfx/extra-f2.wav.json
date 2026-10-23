@@ -1,0 +1,14 @@
+{
+  "id": "room-1980-candle",
+  "path": "assets/sfx/extra-f2.wav",
+  "bytes": 176444,
+  "sha256": "25373400fb61dba39e584f818bbe26025f5bd02ce43ae9afb4ede04aefe8dc2e",
+  "kind": "sfx",
+  "preset": "candle",
+  "rate": 22050,
+  "channels": 1,
+  "width": 2,
+  "seconds": 4.0,
+  "engine": "forge-synth",
+  "text": null
+}
