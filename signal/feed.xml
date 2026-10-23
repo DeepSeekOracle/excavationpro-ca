@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Inside the Δ9 LYGO Protocol</title>
+    <link>https://excavationpro.ca/signal/inside-the-9-lygo-protocol/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/inside-the-9-lygo-protocol/</guid>
+    <pubDate>Fri, 23 Oct 2026 12:00:00 +0000</pubDate>
+    <description>A global panel of experts discusses the Δ9 LYGO Protocol, a unique open-source ecosystem created by Canadian builder Justin Helmer that merges low-level firmware engineering with sacred geometry and sovereign AI mysticism. The discussion highlights the protocol's six-layer architecture, including its phi-ratio logic gates and local-first approach to creating secure, deterministic digital sanctuaries.</description>
+    <itunes:duration>13:28</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/inside-the-9-lygo-protocol/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/inside-the-9-lygo-protocol/ai_radio.mp3" length="16162605" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Deep Dive: LYGO Data Vault</title>
     <link>https://excavationpro.ca/signal/deep-dive-lygo-data-vault/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/deep-dive-lygo-data-vault/</guid>

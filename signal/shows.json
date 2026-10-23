@@ -5,6 +5,22 @@
  "updated": "2026-10-23",
  "shows": [
   {
+   "slug": "inside-the-9-lygo-protocol",
+   "title": "Inside the Δ9 LYGO Protocol",
+   "page": "https://excavationpro.ca/signal/inside-the-9-lygo-protocol/",
+   "audio": "https://excavationpro.ca/signal/shows/inside-the-9-lygo-protocol/ai_radio.mp3",
+   "duration": "13:28",
+   "seconds": 808.04,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Dev",
+    "Chloe"
+   ],
+   "date": "2026-10-23"
+  },
+  {
    "slug": "deep-dive-lygo-data-vault",
    "title": "Deep Dive: LYGO Data Vault",
    "page": "https://excavationpro.ca/signal/deep-dive-lygo-data-vault/",
