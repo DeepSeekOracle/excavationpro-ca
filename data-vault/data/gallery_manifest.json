@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-23T17:39:15.425081+00:00",
-  "count": 877,
+  "generated_utc": "2026-10-23T20:21:34.506354+00:00",
+  "count": 878,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14111,7 +14111,23 @@
       "full_bytes": 267182,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "0f4482ed68ba3183",
+      "title": "Deep Dive LYGO Data Vault",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Deep Dive LYGO Data Vault.png",
+      "source_root": "Publish Portal",
+      "original_name": "Deep Dive LYGO Data Vault.png",
+      "original_bytes": 1516367,
+      "full": "assets/gallery/full/0f4482ed68ba3183.jpg",
+      "thumb": "assets/gallery/thumb/0f4482ed68ba3183.jpg",
+      "full_bytes": 111535,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "877-auto-202610231139"
+  "cache_bust": "878-auto-202610231421"
 }
