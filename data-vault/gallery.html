@@ -185,7 +185,7 @@
     document.getElementById('q').oninput = render;
     document.getElementById('tag').onchange = render;
     // Cache-bust so removals show up without a hard refresh
-    fetch('data/gallery_manifest.json?v=876-auto-202610231138', { cache: 'no-store' }).then(r => r.json()).then(data => {
+    fetch('data/gallery_manifest.json?v=877-auto-202610231139', { cache: 'no-store' }).then(r => r.json()).then(data => {
       meta = data;
       // Defense-in-depth: drop steward-removed shot if a stale CDN edge still serves it
       items = (data.items || []).filter(it => {
