@@ -29,6 +29,7 @@
     plates: "2012-12-21",
     voice: "1998-03-14",
     openmic: "1980-12-31",
+    gallery: "1998-03-14",
     "lygo-papers": "2026-10-23",
     lightfather: "1980-12-31"
   };
@@ -883,6 +884,7 @@
     if (archiveUnlocked("lygo-papers")) row.appendChild(button("LYGO PAPERS", "raised", function () { H.open("lygo-papers"); }));
     if (archiveUnlocked("lightfather")) row.appendChild(button("LIGHTFATHER PAPERS", "raised", function () { H.open("lightfather"); }));
     if (archiveUnlocked("openmic")) row.appendChild(button("OPEN MIC TAPES", "raised", function () { H.open("openmic"); }));
+    if (archiveUnlocked("gallery")) row.appendChild(button("PHOTO JOURNAL", "raised", function () { H.open("gallery"); }));
     row.appendChild(button("OPEN LYGO TV", "raised", function () { H.open("veil-media"); }));
     box.appendChild(row);
     box.appendChild(el("p", "veil-foot", "Begin at 14 March 1998. The first word is a foundation."));
