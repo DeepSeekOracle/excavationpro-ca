@@ -94,10 +94,11 @@
     return keys[Math.floor(hash2(rx * 7 + 3, ry * 11 + 5) * keys.length) % keys.length];
   }
 
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument"];
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
+    dock: "c08_river_quay_dock",
   };
   const SVC_RULE = {
     park: { radius: 4, value: 4, upkeep: 2 },
@@ -106,6 +107,7 @@
     power: { radius: 10, upkeep: 14 },
     school: { radius: 8, value: 10, upkeep: 12 },
     monument: { radius: 12, value: 30, upkeep: 20 },
+    dock: { radius: 0, upkeep: 6 },
   };
 
   const TOOLS = [
@@ -116,6 +118,7 @@
     { id: "park", name: "Park", cost: 120, hint: "+ land value", service: "park", unlock: 1 },
     { id: "water", name: "Water mill", cost: 480, hint: "water radius", service: "water" },
     { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
+    { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
     { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -320,7 +323,7 @@
       const name = SVC[r.svc[i]];
       if (!name) continue;
       const rule = SVC_RULE[name];
-      if (!rule || !rule.value) continue;
+      if (!rule || !rule.value || !rule.radius) continue;
       const tx = i % RS, ty = (i / RS) | 0, rad = rule.radius;
       for (let y = Math.max(0, ty - rad); y <= Math.min(RS - 1, ty + rad); y++) {
         for (let x = Math.max(0, tx - rad); x <= Math.min(RS - 1, tx + rad); x++) {
@@ -363,15 +366,30 @@
       if (e) {
         let n = 0;
         for (let y = 0; y < RS; y++) if (r.road[y * RS + (RS - 1)] && e.road[y * RS]) n++;
-        if (n) S.links.push({ a: r, b: e, strength: n });
+        if (n) S.links.push({ a: r, b: e, strength: n, kind: "road" });
       }
       const s = byKey[regionKey(r.rx, r.ry + 1)];
       if (s) {
         let n = 0;
         for (let x = 0; x < RS; x++) if (r.road[(RS - 1) * RS + x] && s.road[x]) n++;
-        if (n) S.links.push({ a: r, b: s, strength: n });
+        if (n) S.links.push({ a: r, b: s, strength: n, kind: "road" });
       }
     });
+    // ferry routes: two neighbouring regions that both have a dock are joined by
+    // water as well as by road, so a harbour town can feed a landlocked one
+    list.forEach((r) => {
+      r.docks = 0;
+      for (let i = 0; i < RS * RS; i++) if (SVC[r.svc[i]] === "dock") r.docks++;
+    });
+    list.forEach((r) => {
+      [[1, 0], [0, 1]].forEach(([dx, dy]) => {
+        const nb = byKey[regionKey(r.rx + dx, r.ry + dy)];
+        if (!nb || !r.docks || !nb.docks) return;
+        if (S.links.some((l) => (l.a === r && l.b === nb) || (l.a === nb && l.b === r))) return;
+        S.links.push({ a: r, b: nb, strength: 5, kind: "ferry" });
+      });
+    });
+
     list.forEach((r) => { r.access = r.jobs; });
     S.links.forEach((l) => {
       const share = 0.75 * Math.min(1, l.strength / 6);
@@ -487,7 +505,7 @@
     const lines = [
       S.pop + " people across " + n + " region" + (n === 1 ? "" : "s") + " · " + S.jobs + " jobs · mood " + Math.round(S.mood) + "%.",
       "The world holds " + S.pop + " people and " + money(S.cash) + ".",
-      S.rain > 0.35 ? "Rain over the district. The streets are thinner." : S.links.length ? S.links.length + " border connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
+      S.rain > 0.35 ? "Rain over the district. The streets are thinner." : S.links.length ? S.links.length + " connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
     ];
     return lines[S.day % lines.length];
   }
@@ -589,6 +607,29 @@
     };
   }
 
+  function dockCentres() {
+    const out = [];
+    claimedList().forEach((r) => {
+      let sx = 0, sy = 0, n = 0;
+      for (let i = 0; i < RS * RS; i++) {
+        if (SVC[r.svc[i]] === "dock") { sx += i % RS; sy += (i / RS) | 0; n++; }
+      }
+      if (n) out.push({ r, x: r.rx * RS + sx / n, y: r.ry * RS + sy / n, n });
+    });
+    return out;
+  }
+
+  function spawnFerry() {
+    const docks = dockCentres();
+    if (docks.length < 2) return null;
+    const pair = S.links.filter((l) => l.kind === "ferry");
+    if (!pair.length) return null;
+    const link = pair[(Math.random() * pair.length) | 0];
+    const a = docks.find((d) => d.r === link.a), b = docks.find((d) => d.r === link.b);
+    if (!a || !b) return null;
+    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.05, 0.09) };
+  }
+
   function spawnBoat() {
     const water = S.waterSpots || [];
     if (water.length < 4) return null;
@@ -636,6 +677,15 @@
       if (!b) break;
       S.boats.push(b);
     }
+    S.ferries = S.ferries || [];
+    const wantFerries = S.links.filter((l) => l.kind === "ferry").length;
+    let ferryGuard = 0;
+    while (S.ferries.length < wantFerries && ferryGuard++ < 12) {
+      const f = spawnFerry();
+      if (!f) break;
+      S.ferries.push(f);
+    }
+    if (S.ferries.length > wantFerries) S.ferries.length = wantFerries;
     if (S.peds.length > wantPeds) S.peds.length = wantPeds;
     if (S.cars.length > wantCars) S.cars.length = wantCars;
     if (S.boats.length > wantBoats) S.boats.length = wantBoats;
@@ -764,6 +814,13 @@
         }
       });
     }
+    if (S.ferries) {
+      S.ferries.forEach((f) => {
+        f.t += dt * sim * f.speed * f.dir;
+        if (f.t > 1) { f.t = 1; f.dir = -1; }
+        if (f.t < 0) { f.t = 0; f.dir = 1; }
+      });
+    }
     if (S.smoke) {
       for (let i = S.smoke.length - 1; i >= 0; i--) {
         const p = S.smoke[i];
@@ -792,7 +849,7 @@
         if (!t) {
           const s0 = tileToScreen(gx, gy);
           const c0x = Math.round(s0.x + zw / 2), c0y = Math.round(s0.y + zh / 2);
-          drawDiamond(c0x, c0y, zw + 2, zh + 2, ((gx + gy) & 1) ? "#161512" : "#131210");
+          drawDiamond(c0x, c0y, zw + 2, zh + 2, ((gx + gy) & 1) ? "#1c2618" : "#182114");
           continue;
         }
         const reg = t.r, i = t.i;
@@ -958,6 +1015,37 @@
       ctx.restore();
     });
 
+    // ferry routes: a dotted line between the two docks, so the water link is visible
+    S.links.filter((l) => l.kind === "ferry").forEach((l) => {
+      const docks = dockCentres();
+      const a = docks.find((d) => d.r === l.a), b = docks.find((d) => d.r === l.b);
+      if (!a || !b) return;
+      const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
+      ctx.save();
+      ctx.setLineDash([6 * cam.zoom, 6 * cam.zoom]);
+      ctx.strokeStyle = "rgba(114,224,209,.45)";
+      ctx.lineWidth = Math.max(1, 1.6 * cam.zoom);
+      ctx.beginPath();
+      ctx.moveTo(pa.x + zw / 2, pa.y + zh / 2);
+      ctx.lineTo(pb.x + zw / 2, pb.y + zh / 2);
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    (S.ferries || []).forEach((f) => {
+      const x = f.ax + (f.bx - f.ax) * f.t, y = f.ay + (f.by - f.ay) * f.t;
+      const s0 = tileToScreen(x, y);
+      const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
+      const L = Math.max(6, 16 * cam.zoom), W = Math.max(3, 6 * cam.zoom);
+      ctx.fillStyle = "rgba(10,25,35,.5)";
+      ctx.beginPath(); ctx.ellipse(cx, cy + W * 0.5, L * 0.7, W * 0.6, 0, 0, 6.28); ctx.fill();
+      ctx.fillStyle = "#e9e3d2";
+      ctx.fillRect(cx - L / 2, cy - W / 2, L, W);
+      ctx.fillStyle = "#3c5568";
+      ctx.fillRect(cx - L * 0.1, cy - W * 1.5, L * 0.42, W);
+      if (night > 0.2) { ctx.fillStyle = "rgba(255,220,140,.95)"; ctx.fillRect(cx - L * 0.3, cy - W * 1.3, Math.max(1, 1.6 * cam.zoom), Math.max(1, 1.6 * cam.zoom)); }
+    });
+
     (S.boats || []).forEach((b) => {
       const s0 = tileToScreen(b.x, b.y);
       const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
@@ -1058,12 +1146,14 @@
     S.links.forEach((l) => {
       const ax = MM_PAD + l.a.rx * cw, ay = MM_PAD + l.a.ry * ch;
       const bx = MM_PAD + l.b.rx * cw, by = MM_PAD + l.b.ry * ch;
-      mctx.strokeStyle = "rgba(242,193,78,.9)";
+      mctx.strokeStyle = l.kind === "ferry" ? "rgba(114,224,209,.95)" : "rgba(242,193,78,.9)";
       mctx.lineWidth = 2;
+      if (l.kind === "ferry") mctx.setLineDash([3, 3]);
       mctx.beginPath();
       mctx.moveTo(ax + cw / 2, ay + ch / 2);
       mctx.lineTo(bx + cw / 2, by + ch / 2);
       mctx.stroke();
+      mctx.setLineDash([]);
     });
     const center = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);
     const crx = clamp(Math.floor(center.gx / RS), 0, GW - 1);
@@ -1096,6 +1186,7 @@
     const terr = r.terrain[i];
     if (t.id === "road") return terr !== TERRAIN.WATER;
     if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
+    if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
     if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
     return true;
   }
@@ -1130,6 +1221,7 @@
       did = true;
     } else if (t.service) {
       if (r.svc[i]) return false;
+      if (t.service === "dock" && r.terrain[i] !== TERRAIN.WATER) return false;
       r.svc[i] = SVC.indexOf(t.service);
       recomputeRegion(r);
       sfx("place");
@@ -1463,7 +1555,7 @@
         S.regions[regionKey(r.rx, r.ry)] = reg;
         recomputeRegion(reg);
       });
-      S.peds = []; S.cars = []; S.boats = []; S.smoke = [];
+      S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = [];
       S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
       refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
