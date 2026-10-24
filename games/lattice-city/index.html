@@ -29,7 +29,8 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./city.css">
   <style>
-    .event-log { position: absolute; bottom: 120px; left: 12px; right: 12px; max-height: 150px; overflow-y: auto; background: rgba(10,9,8,.9); border: 1px solid rgba(242,193,78,.3); border-radius: 4px; padding: 6px 8px; font: 11px/1.4 monospace; color: #e8dcc8; z-index: 10; pointer-events: none; }
+    .event-log { position: absolute; bottom: 120px; left: 12px; right: 12px; max-height: 150px; overflow-y: auto; background: rgba(10,9,8,.9); border: 1px solid rgba(242,193,78,.3); border-radius: 4px; padding: 6px 8px; font: 11px/1.4 monospace; color: #e8dcc8; z-index: 10; pointer-events: none; display: none; }
+    .event-log:not(:empty) { display: block; }
     .event-entry { margin: 2px 0; padding: 2px 6px; border-radius: 3px; animation: fadeIn 0.3s; }
     .event-entry.emergency { background: rgba(226,88,60,.25); border-left: 3px solid #e2583c; }
     .event-entry.high { background: rgba(242,193,78,.2); border-left: 3px solid #f2c14e; }

@@ -3769,7 +3769,8 @@
 
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   function loadSprites() {
-    return fetch("assets/tiles/manifest.json").then((r) => r.json()).then((man) => {
+      const manifestUrl = "assets/tiles/manifest.json?v=" + Date.now();
+      return fetch(manifestUrl).then((r) => r.json()).then((man) => {
       const jobs = [];
       Object.keys(man).forEach((key) => {
         if (key === "unknown") return;
