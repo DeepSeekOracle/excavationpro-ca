@@ -36,6 +36,7 @@
 
   const TABS = [
     { id: "channel", label: "Channel" },
+    { id: "all", label: "All wired" },
     { id: "fast", label: "FAST" },
     { id: "lists", label: "Lists" },
     { id: "topics", label: "Topics" },
@@ -99,6 +100,7 @@
     channels: [],
     pool: [],
     poolBusy: false,
+    current: null,
     i: -1,
     filter: "",
     group: "",
@@ -390,12 +392,16 @@
 
   function mergePool(chs) {
     if (!chs || !chs.length) return;
+    const POOL_MAX = 12000;
+    if (st.pool.length >= POOL_MAX) {
+      paintZap();
+      return;
+    }
     const seen = {};
     let i;
     for (i = 0; i < st.pool.length; i++) {
       if (st.pool[i].url) seen[st.pool[i].url] = 1;
     }
-    const POOL_MAX = 12000;
     for (i = 0; i < chs.length; i++) {
       const c = chs[i];
       if (!c || !c.url || seen[c.url]) continue;
@@ -403,6 +409,10 @@
       seen[c.url] = 1;
       st.pool.push(c);
       if (st.pool.length >= POOL_MAX) break;
+    }
+    if (st.tab === "all") {
+      st.channels = st.pool.slice();
+      paintList();
     }
     paintZap();
   }
@@ -595,6 +605,7 @@
       });
       return;
     }
+    st.current = ch;
     st.i = st.channels.indexOf(ch);
     $("now").textContent = ch.title;
     paintZap();
@@ -632,7 +643,7 @@
   function next(dir, fromSkip) {
     const list = walkable();
     if (!list.length) return;
-    const cur = st.channels[st.i];
+    const cur = st.current || st.channels[st.i];
     let idx = list.indexOf(cur);
     if (idx < 0) idx = 0;
     else idx = idx + dir;
@@ -640,9 +651,9 @@
   }
 
   function retry() {
-    if (st.i < 0 || !st.channels[st.i]) return;
+    if (!st.current && (st.i < 0 || !st.channels[st.i])) return;
     const list = visible();
-    const idx = list.indexOf(st.channels[st.i]);
+    const idx = list.indexOf(st.current || st.channels[st.i]);
     if (idx >= 0) playAt(idx, false);
   }
 
@@ -659,6 +670,7 @@
       el.setAttribute("aria-pressed", st.tab === t.id ? "true" : "false");
       el.title = locked ? "Agree to Terms to open public lists" : t.label;
       el.addEventListener("click", function () {
+        if (t.id === "all") { showAll(); return; }
         st.tab = t.id;
         paintTabs();
         paintChips();
@@ -677,6 +689,7 @@
   function paintChips() {
     const box = $("chips");
     box.innerHTML = "";
+    if (st.tab === "all") return;
     if (st.tab === "saved") {
       const n = loadFavs().length;
       const chip = document.createElement("button");
@@ -692,7 +705,7 @@
       (st.catalog.live || []).forEach(function (room) {
         const chip = document.createElement("button");
         chip.type = "button";
-        chip.className = "chip chip-room" + (st.channels[st.i] && st.channels[st.i].id === room.id ? " on" : "");
+        chip.className = "chip chip-room" + (st.current && st.current.id === room.id ? " on" : "");
         chip.dataset.room = room.id;
         chip.textContent = ROOM_CHIP[room.id] || room.group || room.title;
         chip.title = room.title;
@@ -731,7 +744,7 @@
   function paintFavBtn() {
     const btn = $("fav");
     if (!btn) return;
-    const ch = st.channels[st.i];
+    const ch = st.current || st.channels[st.i];
     if (!ch) { btn.textContent = "☆ Save"; return; }
     btn.textContent = isFav(ch.url) ? "★ Saved" : "☆ Save";
   }
@@ -745,12 +758,13 @@
     const nAdult = st.channels.filter(function (c) { return ratingOf(c) === "adult"; }).length;
     const extra = st.httpSkipped ? (" · " + st.httpSkipped + " HTTP skipped") : "";
     const shelf = st.audience === "kids" ? "Kids shelf" : (st.audience === "adult" ? "Adult shelf" : "All ages");
-    $("count").textContent = list.length + " on " + shelf + " · " + nAll + " all ages · " + nKids + " Kids · " + nAdult + " Adult held" + extra;
+    $("count").textContent = list.length + " on " + shelf + " · " + nAll + " all ages · " + nKids + " Kids · " + nAdult + " Adult held" + extra
+      + " · " + st.pool.length + " wired";
     paintZap();
     list.forEach(function (ch, n) {
       const li = document.createElement("li");
       const rowClass = [];
-      if (st.channels[st.i] === ch) rowClass.push("on");
+      if ((st.current || st.channels[st.i]) === ch) rowClass.push("on");
       if (ch.rating === "adult") rowClass.push("adult-row");
       if (ch.rating === "kids") rowClass.push("kids-row");
       if (ch.kind && EMBED_KINDS[ch.kind]) rowClass.push("kind-" + ch.kind);
@@ -834,6 +848,30 @@
     setIdle(true);
   }
 
+  function showAll() {
+    if (!termsOk()) {
+      st.tab = "all";
+      paintTabs();
+      needTerms();
+      return;
+    }
+    st.tab = "all";
+    st.bouquet = "all";
+    st.group = "";
+    st.filter = "";
+    st.audience = "all";
+    if ($("q")) $("q").value = "";
+    st.channels = st.pool.slice();
+    st.i = st.current ? st.channels.indexOf(st.current) : -1;
+    paintTabs();
+    paintChips();
+    paintAudience();
+    paintList();
+    hashSet();
+    setStatus(st.pool.length + " wired channels loaded. Use Next or the list.");
+    fillPool();
+  }
+
   function loadLive(preferId) {
     st.bouquet = "live";
     st.tab = "channel";
@@ -866,6 +904,9 @@
       ? "Excavationpro Channel — Kick, Rumble, Twitch, YouTube."
       : "Channel rooms are open. Agree to Terms to unlock public TV lists.");
     let start = 0;
+    const wanted = preferId || "rumble_live";
+    const foundWanted = st.channels.findIndex(function (c) { return c.id === wanted; });
+    if (foundWanted >= 0) start = foundWanted;
     if (preferId) {
       const found = st.channels.findIndex(function (c) { return c.id === preferId; });
       if (found >= 0) start = found;
@@ -881,7 +922,7 @@
         const rumble = st.channels.filter(function (c) { return c.id === "rumble_live"; })[0];
         if (!href || !rumble) return;
         rumble.url = href;
-        if (st.channels[st.i] === rumble) playAt(visible().indexOf(rumble), false);
+        if (st.current === rumble) playAt(visible().indexOf(rumble), false);
         else paintList();
       })
       .catch(function () {});
@@ -980,7 +1021,7 @@
     const meta = $("zap-meta");
     if (!meta) return;
     const list = walkable();
-    const cur = st.channels[st.i];
+    const cur = st.current || st.channels[st.i];
     const idx = list.indexOf(cur);
     const n = list.length;
     const title = cur && cur.title ? cur.title : "—";
@@ -1303,24 +1344,13 @@
       st.termsOk = termsOk();
       if ($("terms-ok")) $("terms-ok").addEventListener("click", acceptTerms);
       if (openFromHash()) return;
-      let last = null;
-      try { last = JSON.parse(localStorage.getItem(LAST_KEY) || "null"); } catch (e) {}
-      if (last && last.bouquet && last.bouquet !== "live" && last.bouquet !== "saved") {
-        if (!termsOk()) {
-          loadLive("");
-          return;
-        }
-        const b = (j.bouquets || []).filter(function (x) { return x.id === last.bouquet; })[0];
-        if (b) { loadBouquet(b, false); return; }
-      }
-      const id = j.default_bouquet || "live";
-      if (id === "live" && (j.live || []).length) {
-        loadLive();
+      if ((j.live || []).length) {
+        loadLive("rumble_live");
         return;
       }
+      const id = j.default_bouquet || "live";
       const b = (j.bouquets || []).filter(function (x) { return x.id === id; })[0] || (j.bouquets || [])[0];
       if (b) loadBouquet(b, false);
-      else if ((j.live || []).length) loadLive();
       else setStatus("No lists in catalog.", "bad");
     })
     .catch(function () { setStatus("Could not load the channel catalog.", "bad"); });

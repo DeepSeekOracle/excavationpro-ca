@@ -61,10 +61,38 @@ a:hover { color: #bae6fd; }
 .zap { display: none; }
 .stage {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 352px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   flex: 1;
   min-height: 0;
   overflow: hidden;
+}
+.stage > .screen {
+  height: auto;
+  min-height: 0;
+  flex: none;
+  overflow: hidden;
+}
+.stage > .screen > .player-box {
+  flex: none;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: none;
+  min-height: 0;
+}
+.stage > .side {
+  border-left: 0;
+  border-top: 1px solid var(--line);
+  height: auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.stage > .side > .catalog {
+  flex: 0 1 auto;
+  overflow: visible;
+}
+.stage > .side .list {
+  max-height: 30rem;
 }
 @media (max-width: 900px), (max-height: 640px) {
   .stage {
