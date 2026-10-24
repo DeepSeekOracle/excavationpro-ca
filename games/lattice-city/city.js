@@ -301,11 +301,13 @@
     { id: "park", name: "Park", cost: 120, hint: "+ land value", service: "park", unlock: 1 },
     { id: "water", name: "Water mill", cost: 480, hint: "water radius", service: "water" },
     { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
-    { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
-    { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
+        { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
+        { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
         { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
         { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
-    { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
+        { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "school", unlock: 1 },
+        { id: "police", name: "Police station", cost: 1200, hint: "law enforcement", service: "fire", unlock: 2 },
+        { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
     { id: "bulldoze", name: "Bulldoze", cost: 6, hint: "remove" },
@@ -812,38 +814,44 @@
   }
 
   function dispatchToFire(fire) {
-    const stations = getFireStations();
-    if (!stations.length) {
-      logEvent("fire", "NO FIRE STATIONS AVAILABLE - Structure fire uncontrolled!", { gx: fire.gx, gy: fire.gy }, "emergency", "Alert! No fire stations in the city. The fire burns unchecked.");
-      return;
+      const stations = getFireStations();
+      if (!stations.length) {
+        if (!fire.noStationsLogged) {
+          fire.noStationsLogged = true;
+          logEvent("fire", "NO FIRE STATIONS AVAILABLE - Structure fire uncontrolled!", { gx: fire.gx, gy: fire.gy }, "emergency", "Alert! No fire stations in the city. The fire burns unchecked.");
+        }
+        return;
+      }
+      let bestStation = null, bestDist = Infinity, bestPath = null;
+      for (const station of stations) {
+        const idle = countIdleTrucks(station);
+        if (idle <= 0) continue;
+        const path = findRoadPath(station.gx, station.gy, fire.gx, fire.gy);
+        if (!path) continue;
+        const dist = path.length;
+        if (dist < bestDist) { bestDist = dist; bestStation = station; bestPath = path; }
+      }
+      if (!bestStation) {
+        if (!fire.noTrucksLogged) {
+          fire.noTrucksLogged = true;
+          logEvent("fire", "All fire trucks committed - no units available!", { gx: fire.gx, gy: fire.gy }, "emergency", "All fire units committed. Mutual aid requested.");
+        }
+        return;
+      }
+      const numTrucks = Math.min(fire.severity, countIdleTrucks(bestStation), 2);
+      const trucksToSend = []; for (let i = 0; i < numTrucks; i++) { const t = dispatchVehicle("fireTruck", bestStation.gx, bestStation.gy, fire.gx, fire.gy, fire.id, stationId(bestStation)); if (t) trucksToSend.push(t); }
+      if (trucksToSend.length === 0) return;
+      const travelTime = bestDist / EMERGENCY.fireSpeed;
+      const etaMinutes = Math.ceil(travelTime / 60 * 10) / 10;
+      trucksToSend.forEach((truck, idx) => {
+        truck.state = "responding"; truck.targetFire = fire.id; truck.route = bestPath; truck.routeIdx = 0;
+        truck.dispatchedAt = S.hour * 3600 + S.day * 86400; truck.eta = truck.dispatchedAt + travelTime;
+      });
+      fire.assignedTrucks.push(...trucksToSend.map(t => t.id));
+      const stationName = bestStation.region.name || "Region " + bestStation.region.rx + "," + bestStation.region.ry;
+      const truckNames = trucksToSend.map(t => "Engine " + t.id).join(", ");
+      logEvent("dispatch", truckNames + " dispatched from " + stationName + " - ETA " + etaMinutes + " minutes", { gx: fire.gx, gy: fire.gy }, "emergency", truckNames + " responding from " + stationName + ". Structure fire at " + fire.gx + "," + fire.gy + ". ETA " + etaMinutes + " minutes.");
     }
-    let bestStation = null, bestDist = Infinity, bestPath = null;
-    for (const station of stations) {
-      const idle = countIdleTrucks(station);
-      if (idle <= 0) continue;
-      const path = findRoadPath(station.gx, station.gy, fire.gx, fire.gy);
-      if (!path) continue;
-      const dist = path.length;
-      if (dist < bestDist) { bestDist = dist; bestStation = station; bestPath = path; }
-    }
-    if (!bestStation) {
-      logEvent("fire", "All fire trucks committed - no units available!", { gx: fire.gx, gy: fire.gy }, "emergency", "All fire units committed. Mutual aid requested.");
-      return;
-    }
-    const numTrucks = Math.min(fire.severity, countIdleTrucks(bestStation), 2);
-    const trucksToSend = []; for (let i = 0; i < numTrucks; i++) { const t = dispatchVehicle("fireTruck", bestStation.gx, bestStation.gy, fire.gx, fire.gy, fire.id, stationId(bestStation)); if (t) trucksToSend.push(t); }
-    if (trucksToSend.length === 0) return;
-    const travelTime = bestDist / EMERGENCY.fireSpeed;
-    const etaMinutes = Math.ceil(travelTime / 60 * 10) / 10;
-    trucksToSend.forEach((truck, idx) => {
-      truck.state = "responding"; truck.targetFire = fire.id; truck.route = bestPath; truck.routeIdx = 0;
-      truck.dispatchedAt = S.hour * 3600 + S.day * 86400; truck.eta = truck.dispatchedAt + travelTime;
-    });
-    fire.assignedTrucks.push(...trucksToSend.map(t => t.id));
-    const stationName = bestStation.region.name || "Region " + bestStation.region.rx + "," + bestStation.region.ry;
-    const truckNames = trucksToSend.map(t => "Engine " + t.id).join(", ");
-    logEvent("dispatch", truckNames + " dispatched from " + stationName + " - ETA " + etaMinutes + " minutes", { gx: fire.gx, gy: fire.gy }, "emergency", truckNames + " responding from " + stationName + ". Structure fire at " + fire.gx + "," + fire.gy + ". ETA " + etaMinutes + " minutes.");
-  }
 
   function startFire(region, tileIdx) {
     const gx = region.rx * RS + (tileIdx % RS);
@@ -999,59 +1007,63 @@
     }
 
     function dispatchAmbulance(call) {
-      const clinics = getClinics();
-      if (!clinics.length) {
-        logEvent("medical", "NO MEDICAL FACILITIES - Patient without care!", { gx: call.gx, gy: call.gy }, "emergency", "No medical facilities available. Patient awaiting transport.");
-        return;
-      }
-      let bestClinic = null, bestDist = Infinity, bestPath = null;
-      for (const clinic of clinics) {
-        const idle = countIdleAmbulances(clinic);
-        if (idle <= 0) continue;
-        const path = findRoadPath(clinic.gx, clinic.gy, call.gx, call.gy);
-        if (!path || path.length > MEDICAL.responseRadius) continue;
-        if (path.length < bestDist) { bestDist = path.length; bestClinic = clinic; bestPath = path; }
-      }
-      if (!bestClinic) {
-        logEvent("medical", "All ambulances committed or out of range!", { gx: call.gx, gy: call.gy }, "high");
-        return;
-      }
-      const amb = dispatchVehicle("ambulance", bestClinic.gx, bestClinic.gy, call.gx, call.gy, call.id, clinicId(bestClinic));
-      if (!amb) return;
-      const travelTime = bestDist / MEDICAL.ambulanceSpeed;
-      const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
-      amb.state = "responding"; amb.targetCall = call.id; amb.route = bestPath; amb.routeIdx = 0;
-      amb.dispatchedAt = S.hour * 3600 + S.day * 86400; amb.eta = amb.dispatchedAt + travelTime;
-      amb.clinicId = clinicId(bestClinic);
-      call.assignedAmbulance = amb.id; call.status = "enroute";
-      const clinicName = bestClinic.region.name || "Clinic " + bestClinic.region.rx + "," + bestClinic.region.ry;
-      logEvent("dispatch", "Ambulance " + amb.id + " from " + clinicName + " - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high", "Ambulance " + amb.id + " responding from " + clinicName + ". " + call.label + " at " + call.gx + "," + call.gy + ". ETA " + etaMin + " minutes.");
-    }
+          const clinics = getClinics();
+          if (!clinics.length) {
+            if (!call.noFacilitiesLogged) {
+              call.noFacilitiesLogged = true;
+              logEvent("medical", "NO MEDICAL FACILITIES - Patient without care!", { gx: call.gx, gy: call.gy }, "emergency", "No medical facilities available. Patient awaiting transport.");
+            }
+            return;
+          }
+          let bestClinic = null, bestDist = Infinity, bestPath = null;
+          for (const clinic of clinics) {
+            const idle = countIdleAmbulances(clinic);
+            if (idle <= 0) continue;
+            const path = findRoadPath(clinic.gx, clinic.gy, call.gx, call.gy);
+            if (!path || path.length > MEDICAL.responseRadius) continue;
+            if (path.length < bestDist) { bestDist = path.length; bestClinic = clinic; bestPath = path; }
+          }
+          if (!bestClinic) {
+            logEvent("medical", "All ambulances committed or out of range!", { gx: call.gx, gy: call.gy }, "high");
+            return;
+          }
+          const amb = dispatchVehicle("ambulance", bestClinic.gx, bestClinic.gy, call.gx, call.gy, call.id, clinicId(bestClinic));
+          if (!amb) return;
+          const travelTime = bestDist / MEDICAL.ambulanceSpeed;
+          const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
+          amb.state = "responding"; amb.targetCall = call.id; amb.route = bestPath; amb.routeIdx = 0;
+          amb.dispatchedAt = S.hour * 3600 + S.day * 86400; amb.eta = amb.dispatchedAt + travelTime;
+          amb.clinicId = clinicId(bestClinic);
+          call.assignedAmbulance = amb.id; call.status = "enroute";
+          const clinicName = bestClinic.region.name || "Clinic " + bestClinic.region.rx + "," + bestClinic.region.ry;
+          logEvent("dispatch", "Ambulance " + amb.id + " from " + clinicName + " - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high", "Ambulance " + amb.id + " responding from " + clinicName + ". " + call.label + " at " + call.gx + "," + call.gy + ". ETA " + etaMin + " minutes.");
+        }
 
     function updateMedicalCalls(dt) {
-      const gameSeconds = dt * (S.speed || 1) * 86400;
-      for (let i = medicalCalls.length - 1; i >= 0; i--) {
-        const call = medicalCalls[i];
-        if (call.status === "waiting") {
-          if (Math.random() < gameSeconds / 30) dispatchAmbulance(call);
-        } else if (call.status === "enroute") {
-          const amb = ambulances.find(a => a.id === call.assignedAmbulance);
-          if (amb && amb.state === "on_scene") {
-            call.status = "transporting";
-            amb.state = "returning";
-            amb.route = null;
-            logEvent("medical", "Patient loaded - transporting to hospital", { gx: call.gx, gy: call.gy }, "normal");
-          }
-        } else if (call.status === "transporting") {
-          const amb = ambulances.find(a => a.id === call.assignedAmbulance);
-          if (amb && amb.state === "idle") {
-            call.status = "resolved";
-            logEvent("medical", call.label + " resolved - patient treated", { gx: call.gx, gy: call.gy }, "normal");
-            medicalCalls.splice(i, 1);
+          const gameSeconds = dt * (S.speed || 1) * 86400;
+          for (let i = medicalCalls.length - 1; i >= 0; i--) {
+            const call = medicalCalls[i];
+            if (call.status === "waiting") {
+              // Only retry dispatch every 60 game seconds, not every 30
+              if (Math.random() < gameSeconds / 60) dispatchAmbulance(call);
+            } else if (call.status === "enroute") {
+              const amb = ambulances.find(a => a.id === call.assignedAmbulance);
+              if (amb && amb.state === "on_scene") {
+                call.status = "transporting";
+                amb.state = "returning";
+                amb.route = null;
+                logEvent("medical", "Patient loaded - transporting to hospital", { gx: call.gx, gy: call.gy }, "normal");
+              }
+            } else if (call.status === "transporting") {
+              const amb = ambulances.find(a => a.id === call.assignedAmbulance);
+              if (amb && amb.state === "idle") {
+                call.status = "resolved";
+                logEvent("medical", call.label + " resolved - patient treated", { gx: call.gx, gy: call.gy }, "normal");
+                medicalCalls.splice(i, 1);
+              }
+            }
           }
         }
-      }
-    }
 
     // ---------------------------------------------------------------- Police / Law Enforcement
     const POLICE = {
@@ -1095,50 +1107,63 @@
     }
 
     function dispatchPolice(call) {
-      const stations = getPoliceStations();
-      if (!stations.length) return;
-      let bestStation = null, bestDist = Infinity, bestPath = null;
-      for (const station of stations) {
-        const idle = policeCars.filter(c => c.stationId === station.region.rx + "," + station.region.ry + "," + station.tile && c.state === "idle").length;
-        if (idle <= 0) continue;
-        const path = findRoadPath(station.gx, station.gy, call.gx, call.gy);
-        if (!path) continue;
-        if (path.length < bestDist) { bestDist = path.length; bestStation = station; bestPath = path; }
-      }
-      if (!bestStation) return;
-      const unit = policeCars.find(c => c.stationId === bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile && c.state === "idle");
-      if (!unit) return;
-      const travelTime = bestDist / POLICE.policeSpeed;
-      const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
-      unit.state = "responding"; unit.targetCall = call.id; unit.route = bestPath; unit.routeIdx = 0;
-      unit.dispatchedAt = S.hour * 3600 + S.day * 86400; unit.eta = unit.dispatchedAt + travelTime;
-      unit.stationId = bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile;
-      call.assignedUnit = unit.id; call.status = "enroute";
-      logEvent("dispatch", "Unit " + unit.id + " responding - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high");
-    }
+          const stations = getPoliceStations();
+          if (!stations.length) {
+            if (!call.noStationsLogged) {
+              call.noStationsLogged = true;
+              logEvent("police", "NO POLICE STATIONS - Incident unreported!", { gx: call.gx, gy: call.gy }, "high", "No police stations in the city.");
+            }
+            return;
+          }
+          let bestStation = null, bestDist = Infinity, bestPath = null;
+          for (const station of stations) {
+            const idle = policeCars.filter(c => c.stationId === station.region.rx + "," + station.region.ry + "," + station.tile && c.state === "idle").length;
+            if (idle <= 0) continue;
+            const path = findRoadPath(station.gx, station.gy, call.gx, call.gy);
+            if (!path) continue;
+            if (path.length < bestDist) { bestDist = path.length; bestStation = station; bestPath = path; }
+          }
+          if (!bestStation) {
+            if (!call.noUnitsLogged) {
+              call.noUnitsLogged = true;
+              logEvent("police", "All police units committed!", { gx: call.gx, gy: call.gy }, "high");
+            }
+            return;
+          }
+          const unit = policeCars.find(c => c.stationId === bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile && c.state === "idle");
+          if (!unit) return;
+          const travelTime = bestDist / POLICE.policeSpeed;
+          const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
+          unit.state = "responding"; unit.targetCall = call.id; unit.route = bestPath; unit.routeIdx = 0;
+          unit.dispatchedAt = S.hour * 3600 + S.day * 86400; unit.eta = unit.dispatchedAt + travelTime;
+          unit.stationId = bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile;
+          call.assignedUnit = unit.id; call.status = "enroute";
+          logEvent("dispatch", "Unit " + unit.id + " responding - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high");
+        }
 
     function updatePoliceCalls(dt) {
-      const gameSeconds = dt * (S.speed || 1) * 86400;
-      for (let i = policeCalls.length - 1; i >= 0; i--) {
-        const call = policeCalls[i];
-        if (call.status === "waiting") {
-          if (Math.random() < gameSeconds / 30) dispatchPolice(call);
-        } else if (call.status === "enroute") {
-          const unit = policeCars.find(c => c.id === call.assignedUnit);
-          if (unit && unit.state === "on_scene") {
-            call.status = "resolving";
-            unit.state = "returning";
-            logEvent("police", call.label + " - situation contained", { gx: call.gx, gy: call.gy }, "normal");
-          }
-        } else if (call.status === "resolving") {
-          const unit = policeCars.find(c => c.id === call.assignedUnit);
-          if (unit && unit.state === "idle") {
-            call.status = "resolved";
-            policeCalls.splice(i, 1);
+          const gameSeconds = dt * (S.speed || 1) * 86400;
+          for (let i = policeCalls.length - 1; i >= 0; i--) {
+            const call = policeCalls[i];
+            if (call.status === "waiting") {
+              // Only retry dispatch every 60 game seconds
+              if (Math.random() < gameSeconds / 60) dispatchPolice(call);
+            } else if (call.status === "enroute") {
+              const unit = policeCars.find(c => c.id === call.assignedUnit);
+              if (unit && unit.state === "on_scene") {
+                call.status = "resolving";
+                unit.state = "returning";
+                logEvent("police", call.label + " - situation contained", { gx: call.gx, gy: call.gy }, "normal");
+              }
+            } else if (call.status === "resolving") {
+              const unit = policeCars.find(c => c.id === call.assignedUnit);
+              if (unit && unit.state === "idle") {
+                call.status = "resolved";
+                policeCalls.splice(i, 1);
+              }
+            }
           }
         }
-      }
-    }
 
     function updateEventLogUI() {
       const container = document.getElementById("event-log");
