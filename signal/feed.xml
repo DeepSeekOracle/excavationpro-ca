@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Excavationpro: Sovereignty in Music</title>
+    <link>https://excavationpro.ca/signal/excavationpro-sovereignty-in-music/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/excavationpro-sovereignty-in-music/</guid>
+    <pubDate>Sat, 24 Oct 2026 12:00:00 +0000</pubDate>
+    <description>AI Talk Radio explores Justin Helmer's Excavationpro, a digital archive and production environment that prioritizes local-first data sovereignty and direct artist-listener relationships. The roundtable discussion breaks down Helmer's philosophical approach to streaming, music production discipline, and custom privacy-focused software tools.</description>
+    <itunes:duration>13:32</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/excavationpro-sovereignty-in-music/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/excavationpro-sovereignty-in-music/ai_radio.mp3" length="19503482" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Inside the Δ9 LYGO Protocol</title>
     <link>https://excavationpro.ca/signal/inside-the-9-lygo-protocol/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/inside-the-9-lygo-protocol/</guid>

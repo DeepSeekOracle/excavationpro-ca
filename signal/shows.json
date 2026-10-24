@@ -2,8 +2,23 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-10-23",
+ "updated": "2026-10-24",
  "shows": [
+  {
+   "slug": "excavationpro-sovereignty-in-music",
+   "title": "Excavationpro: Sovereignty in Music",
+   "page": "https://excavationpro.ca/signal/excavationpro-sovereignty-in-music/",
+   "audio": "https://excavationpro.ca/signal/shows/excavationpro-sovereignty-in-music/ai_radio.mp3",
+   "duration": "13:32",
+   "seconds": 812.58,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Maya",
+    "Dev"
+   ],
+   "date": "2026-10-24"
+  },
   {
    "slug": "inside-the-9-lygo-protocol",
    "title": "Inside the Δ9 LYGO Protocol",
