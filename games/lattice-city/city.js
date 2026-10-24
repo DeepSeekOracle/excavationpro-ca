@@ -641,39 +641,95 @@
   let eventIdCounter = 0;
 
   let ttsEnabled = true;
-  let ttsVoice = null;
-  let ttsQueue = [];
-  let ttsSpeaking = false;
+    let ttsVoice = null;
+    let ttsQueue = [];
+    let ttsSpeaking = false;
+    let ttsBroadcastTimer = null;
+    let ttsPendingBroadcasts = [];
 
-  function initTTS() {
-    if ("speechSynthesis" in window) {
-      const voices = speechSynthesis.getVoices();
-      ttsVoice = voices.find(v => v.name.includes("Google") && v.lang === "en-US") ||
-                 voices.find(v => v.lang === "en-US" && v.name.includes("Male")) ||
-                 voices[0];
-      const test = new SpeechSynthesisUtterance(" ");
-      test.volume = 0;
-      speechSynthesis.speak(test);
+    function initTTS() {
+      if ("speechSynthesis" in window) {
+        const voices = speechSynthesis.getVoices();
+        // Prefer UK male voice for news anchor style
+        ttsVoice = voices.find(v => v.lang === "en-GB" && v.name.includes("Male")) ||
+                   voices.find(v => v.lang === "en-GB") ||
+                   voices.find(v => v.lang === "en-US" && v.name.includes("Male")) ||
+                   voices[0];
+        const test = new SpeechSynthesisUtterance(" ");
+        test.volume = 0;
+        speechSynthesis.speak(test);
+        // Start periodic news broadcast
+        startTTSBroadcast();
+      }
     }
-  }
 
-  function speak(text, priority = "normal") {
-    if (!ttsEnabled || !("speechSynthesis" in window)) return;
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.voice = ttsVoice;
-    utter.rate = priority === "emergency" ? 1.1 : 1.0;
-    utter.pitch = priority === "emergency" ? 1.05 : 1.0;
-    utter.volume = 0.8 * (OPT.master / 100);
-    utter.onend = () => { ttsSpeaking = false; processTTSQueue(); };
-    ttsQueue.push(utter);
-    processTTSQueue();
-  }
+    function startTTSBroadcast() {
+      if (ttsBroadcastTimer) clearInterval(ttsBroadcastTimer);
+      // Broadcast every 45 seconds
+      ttsBroadcastTimer = setInterval(() => {
+        if (ttsPendingBroadcasts.length > 0 && ttsEnabled) {
+          const batch = ttsPendingBroadcasts.splice(0, ttsPendingBroadcasts.length);
+          broadcastNews(batch);
+        }
+      }, 45000);
+    }
 
-  function processTTSQueue() {
-    if (ttsSpeaking || ttsQueue.length === 0) return;
-    ttsSpeaking = true;
-    speechSynthesis.speak(ttsQueue.shift());
-  }
+    function queueBroadcast(text, priority = "normal") {
+      if (!ttsEnabled) return;
+      ttsPendingBroadcasts.push({ text, priority, time: Date.now() });
+    }
+
+    function broadcastNews(items) {
+      if (!items.length) return;
+      if (!("speechSynthesis" in window)) return;
+    
+      // News anchor intro
+      const hour = new Date().getHours();
+      const timeStr = hour === 0 ? "midnight" : hour === 12 ? "noon" : 
+                      hour > 12 ? (hour - 12) + " PM" : hour + " AM";
+    
+      let broadcastText = "Lattice City News at " + timeStr + ". ";
+    
+      if (items.length === 1) {
+        broadcastText += items[0].text;
+      } else {
+        broadcastText += "Multiple incidents reported. " + 
+          items.map((item, i) => (i + 1) + ". " + item.text).join(" ") + ".";
+      }
+    
+      broadcastText += " All units responding. Stay informed.";
+    
+      const utter = new SpeechSynthesisUtterance(broadcastText);
+      utter.voice = ttsVoice;
+      utter.rate = 0.95; // Slightly slower for news anchor feel
+      utter.pitch = 0.95;
+      utter.volume = 0.7 * (OPT.master / 100);
+      utter.lang = "en-GB";
+      speechSynthesis.speak(utter);
+    }
+
+    function speak(text, priority = "normal") {
+      if (!ttsEnabled || !("speechSynthesis" in window)) return;
+      // For immediate high-priority, speak directly; otherwise queue for broadcast
+      if (priority === "emergency") {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.voice = ttsVoice;
+        utter.rate = 1.05;
+        utter.pitch = 1.0;
+        utter.volume = 0.8 * (OPT.master / 100);
+        utter.lang = "en-GB";
+        speechSynthesis.speak(utter);
+      } else {
+        queueBroadcast(text, priority);
+      }
+    }
+
+    function processTTSQueue() {
+      // Legacy queue processor - kept for compatibility
+      if (ttsSpeaking || ttsQueue.length === 0) return;
+      ttsSpeaking = true;
+      speechSynthesis.speak(ttsQueue.shift());
+    }
 
   function logEvent(type, message, location = null, priority = "normal", speakText = null) {
     const id = ++eventIdCounter;
