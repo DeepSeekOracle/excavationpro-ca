@@ -145,7 +145,7 @@
     regions: new Array(GW * GH).fill(null),
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
-    links: [], peds: [], cars: [], boats: [], smoke: [],
+    links: [], peds: [], cars: [], boats: [], smoke: [], clouds: [],
     rain: 0, rainTarget: 0, weatherTimer: 0, lastAnnounce: -99,
     event: null, nextEventDay: 26, eventHistory: [],
   };
@@ -860,6 +860,24 @@
     S.waterSpots = water.slice(0, 4000);
   }
 
+  function seedClouds() {
+    S.clouds = [];
+    for (let i = 0; i < 7; i++) {
+      S.clouds.push({ gx: rnd(0, WORLD_W), gy: rnd(0, WORLD_H), r: rnd(6, 16), vx: rnd(0.12, 0.34), vy: rnd(-0.05, 0.05) });
+    }
+  }
+
+  function stepClouds(dt) {
+    (S.clouds || []).forEach((c) => {
+      c.gx += c.vx * dt * (S.speed ? 1 : 0.15);
+      c.gy += c.vy * dt * (S.speed ? 1 : 0.15);
+      if (c.gx > WORLD_W + 20) c.gx = -20;
+      if (c.gx < -20) c.gx = WORLD_W + 20;
+      if (c.gy > WORLD_H + 20) c.gy = -20;
+      if (c.gy < -20) c.gy = WORLD_H + 20;
+    });
+  }
+
   function updatePeds() {
     if (!S.homes || S.day % 3 === 0) refreshSpots();
     // the streets empty at night: commuters are at home, not on the road
@@ -1182,7 +1200,16 @@
     const r = visibleRange();
     const zw = TW * cam.zoom, zh = TH * cam.zoom;
     const now = performance.now();
-    const night = Math.max(0, Math.cos((S.hour / 24) * Math.PI * 2)) * 0.28;
+    // A real sky: darkness ramps across dawn and dusk, and the low sun warms the
+    // whole map for a short while on either side of it.
+    const hourNow = S.hour;
+    let dark = 0;
+    if (hourNow >= 20 || hourNow < 4.5) dark = 1;
+    else if (hourNow >= 16.5) dark = (hourNow - 16.5) / 3.5;
+    else if (hourNow < 8.5) dark = (8.5 - hourNow) / 4;
+    dark = clamp(dark, 0, 1);
+    const warm = Math.min(1, Math.exp(-Math.pow((hourNow - 6.6) / 1.5, 2)) + Math.exp(-Math.pow((hourNow - 18.4) / 1.7, 2)));
+    const night = dark * 0.28;
 
     for (let vsum = r.x0 + r.y0; vsum <= r.x1 + r.y1; vsum++) {
       const vxStart = Math.max(r.x0, vsum - r.y1), vxEnd = Math.min(r.x1, vsum - r.y0);
@@ -1576,9 +1603,38 @@
       ctx.stroke();
     }
 
-    if (night > 0.01 && OPT.night) {
-      ctx.fillStyle = "rgba(8,12,28," + night.toFixed(3) + ")";
-      ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    if (OPT.night) {
+      if (warm > 0.02 && dark < 0.85) {
+        ctx.fillStyle = "rgba(255,146,64," + (0.20 * warm * (1 - dark * 0.6)).toFixed(3) + ")";
+        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      }
+      if (dark > 0.01) {
+        ctx.fillStyle = "rgba(10,16,42," + (dark * 0.42).toFixed(3) + ")";
+        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        // a colder cast deep in the night, so the two ends of it differ
+        ctx.fillStyle = "rgba(40,60,120," + (dark * 0.10).toFixed(3) + ")";
+        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      }
+      // cloud shadows: multiplied over everything, so they pass across roofs too
+      const cloudAlpha = 0.16 * (1 - dark * 0.55);
+      if (cloudAlpha > 0.02) {
+        ctx.save();
+        ctx.globalCompositeOperation = "multiply";
+        (S.clouds || []).forEach((c) => {
+          const p = tileToScreen(c.gx, c.gy);
+          const cx = p.x + zw / 2, cy = p.y + zh / 2;
+          const rad = c.r * TW * cam.zoom * 0.6;
+          if (cx + rad < 0 || cx - rad > canvas.clientWidth || cy + rad < 0 || cy - rad > canvas.clientHeight) return;
+          const grad = ctx.createRadialGradient(cx, cy, rad * 0.15, cx, cy, rad);
+          grad.addColorStop(0, "rgba(150,150,168," + cloudAlpha.toFixed(3) + ")");
+          grad.addColorStop(1, "rgba(255,255,255,0)");
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, rad, rad * 0.55, 0, 0, 6.28);
+          ctx.fill();
+        });
+        ctx.restore();
+      }
     }
 
     if (performance.now() - lastMini > 200) { lastMini = performance.now(); drawMinimap(); }
@@ -1811,7 +1867,9 @@
     el("ui-pop").textContent = S.pop.toLocaleString();
     el("ui-jobs").textContent = S.jobs.toLocaleString();
     el("ui-mood").textContent = Math.round(S.mood) + "%";
-    el("ui-date").textContent = "Day " + (S.day + 1) + " · " + String(Math.floor(S.hour)).padStart(2, "0") + ":00";
+    const hh = Math.floor(S.hour);
+    const phase = (hh >= 5 && hh < 8) ? "dawn" : (hh >= 8 && hh < 17) ? "day" : (hh >= 17 && hh < 20) ? "dusk" : "night";
+    el("ui-date").textContent = "Day " + (S.day + 1) + " · " + String(hh).padStart(2, "0") + ":00 · " + phase;
     el("ui-region").textContent = "Region " + claimedList().length + "/" + (GW * GH);
     const ev = S.event;
     const evEl = el("ui-event");
@@ -2201,6 +2259,7 @@
         recomputeRegion(reg);
       });
       S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = []; S.trains = [];
+      if (!S.clouds || !S.clouds.length) seedClouds();
       S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
       refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
@@ -2273,6 +2332,7 @@
     recalcWorld();
     updateDemand();
     focusRegion(r);
+    seedClouds();
     toast("New world · " + (GW * GH) + " regions of " + RS + "×" + RS);
   }
 
