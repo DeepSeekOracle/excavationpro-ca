@@ -23,7 +23,7 @@
       '<p style="margin:0 0 .7rem;max-width:70ch;color:#cbd5e1;font-size:1rem;line-height:1.65;">The studio runs in your browser; the finished archive lives on Signal. Start with Studio Broadcast for the live desk, or Soundboard FX if you want to build the sound first. Every control has a job. If you only want to listen, open the Signal archive and skip the desk.</p>' +
       '<div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;">' +
       '<a href="/signal/" style="display:inline-block;padding:.55rem .8rem;border-radius:8px;background:#f59e0b;color:#0b0e14;font-weight:700;text-decoration:none;font-size:.85rem;">Browse the Signal archive</a>' +
-      '<a href="https://chatagent.ca/guides/" style="display:inline-block;padding:.55rem .8rem;border-radius:8px;border:1px solid #334155;color:#e2e8f0;font-weight:600;text-decoration:none;font-size:.85rem;">Operator guides</a>' +
+      '<a href="https://excavationpro.ca/guides/" style="display:inline-block;padding:.55rem .8rem;border-radius:8px;border:1px solid #334155;color:#e2e8f0;font-weight:600;text-decoration:none;font-size:.85rem;">Operator guides</a>' +
       '<a href="/talk-radio/disclaimer.html" style="display:inline-block;padding:.55rem .8rem;border-radius:8px;border:1px solid #334155;color:#e2e8f0;font-weight:600;text-decoration:none;font-size:.85rem;">Studio disclaimer</a>' +
       "</div>" +
       '<div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid #1e293b;">' +

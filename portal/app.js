@@ -115,7 +115,7 @@
       "3) Click Connect. The model id is filled for you.\n" +
       "4) Then type in chat. Champions and browser tools are already on this page (toggle in Skills).\n\n" +
       "Now selected: " + p.label + ".\n" +
-      "Need GGUF / folders / USB? Local console: https://chatagent.ca/lygo-llm-console.html"
+      "Need GGUF / folders / USB? Local console: https://excavationpro.ca/lygo-llm-console.html"
     );
   }
 
@@ -413,7 +413,7 @@
       "The human is the publisher. Assist; never replace them. Dual ledgers / Haven Star Chart = CANON. This chat = RESOURCE. " +
       "P0: no OS wipe, no secrets in notes, no fabricated receipts. " +
       "You have real browser limbs (call them; do not describe calling): wiki_search, wiki_summary, web_search, fetch_page, web_fetch, http_json, weather, geocode, world_pulse, now, calc, hash_text, base64, uuid, json_pretty, champion, skill_list, skill_read, skill_enable, skill_disable, hn_search, arxiv_search, github_search, github_repo, wayback, clawhub_search, skillhub_list, hf_search, npm_search, pypi_search, so_search, define, currency, crypto_price, quake, eonet, iss, book_search, pubmed, lattice_handshake, site_card, whoami, kernel_status, soul_read, identity_read, memory_read, remember, memory_recall, notepad_read, notepad_write, todo_add, todo_list, p0_gate, geolocate (asks permission), clipboard_write/read (asks permission), image_generate (make a picture from a prompt - the picture is SHOWN to the human in this chat; it needs a picture route, which the Image generation suite at the bottom of this page names honestly). Skills are already on this page — toggle on/off. Never tell the human to install or download a skill for this portal. " +
-      "If they want disk/skills/local GGUF, send them to https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel and https://chatagent.ca/lygo-llm-console.html — this page is API-only. " +
+      "If they want disk/skills/local GGUF, send them to https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel and https://excavationpro.ca/lygo-llm-console.html — this page is API-only. " +
       "Never invent github.com/user/repo. Real org https://github.com/DeepSeekOracle · HF https://huggingface.co/DeepSeekOracle.";
     if (invoked) s += " Champion lens: " + invoked + ". Observed / Inferred / Unknown.";
     s += "\n\n=== SOUL.md ===\n" + (DOCS.soul || "").slice(0, 2500);
@@ -929,9 +929,9 @@
   document.querySelectorAll("[data-limb]").forEach(function (b) {
     b.onclick = async function () {
       const n = b.getAttribute("data-limb");
-      if (n === "skillhub") window.open("https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel", "_blank", "noopener");
+      if (n === "skillhub") window.open("https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel", "_blank", "noopener");
       else if (n === "howto") window.open("/guides/how-to-lygo-llm-portal.html", "_blank", "noopener");
-      else if (n === "kit") window.open("https://chatagent.ca/lygo-llm-console.html", "_blank", "noopener");
+      else if (n === "kit") window.open("https://excavationpro.ca/lygo-llm-console.html", "_blank", "noopener");
       else {
         const map = { wiki: "wiki_search", weather: "weather", now: "now", hn: "hn_search", github: "github_search", handshake: "lattice_handshake", whoami: "whoami", iss: "iss", quake: "quake" };
         const tool = map[n] || n;
@@ -1031,7 +1031,7 @@
       paintSkills();
     })
     .catch(function () {});
-  fetch("https://chatagent.ca/data/lygoskillhub_catalog.json", { cache: "no-store" })
+  fetch("https://excavationpro.ca/data/lygoskillhub_catalog.json", { cache: "no-store" })
     .then(function (r) { return r.json(); })
     .then(function (j) {
       const extra = (j.skills || []).filter(function (s) { return s && s.slug && s.kind !== "page"; }).slice(0, 50);
@@ -2045,7 +2045,7 @@
   // image_generate limb both call lygoImageGenerate() below, so a picture the visitor asks for and a
   // picture the agent asks for come from the same routes with the same honest metadata.
   //
-  // MEASURED 2026-09-23 from https://chatagent.ca with an OPTIONS preflight (asking a server what it
+  // MEASURED 2026-09-23 from https://excavationpro.ca with an OPTIONS preflight (asking a server what it
   // will allow a browser costs no key):
   //   BROWSER-OK : gemini (generateContent), openrouter, siliconflow, novita, fireworks, huggingface
   //   NO CORS    : xai, openai, deepinfra, hyperbolic, groq (403) - a web page cannot call them at all

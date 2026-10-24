@@ -17,9 +17,9 @@
     ]
   },
   "surfaces": {
-    "site": "https://chatagent.ca/witness/",
+    "site": "https://excavationpro.ca/witness/",
     "mirror": "https://eternalhaven.ca/witness/",
-    "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+    "skillhub_full": "https://excavationpro.ca/lygoskillhub.html#full-lygo",
     "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-witness",
     "star_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
     "anchors": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",

@@ -1,9 +1,9 @@
 (() => {
   const HUB = "https://asiancoastline.com/listen.html";
-  const TV = "https://chatagent.ca/sources/";
+  const TV = "https://excavationpro.ca/sources/";
   const PLAYLISTS = [
     "https://asiancoastline.com/data/public_stream_playlist.json",
-    "https://chatagent.ca/games/lattice-crypt/radio.json",
+    "https://excavationpro.ca/games/lattice-crypt/radio.json",
     "https://deepseekoracle.github.io/Excavationpro/data/public_stream_playlist.json",
   ];
   const $ = (id) => document.getElementById(id);

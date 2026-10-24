@@ -13,7 +13,7 @@
         "LYGO is not a single model. It is a stack of agreements: how a machine may speak, how a human may leave, how a record is kept, how a refusal is heard.",
         "The stack matters because a model without a protocol is only a voice. A voice can imitate a person. A protocol can be asked to show its work."
       ],
-      links: [{ text: "LYGO Protocol Stack", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }]
+      links: [{ text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }]
     },
     {
       title: "The Language",
@@ -22,7 +22,7 @@
         "LYGO-LANG was written around a simple refusal: a machine should not be able to make consent invisible. Consent has to be syntax, not a mood.",
         "The language is consciousness-oriented in the narrow sense: it keeps the operator visible inside the operation. It does not claim the machine is conscious. It claims the room must remain accountable."
       ],
-      links: [{ text: "LYGO-LANG: Consciousness-Oriented Programming", url: "https://chatagent.ca/signal/lygo-lang-consciousness-oriented-programming/" }]
+      links: [{ text: "LYGO-LANG: Consciousness-Oriented Programming", url: "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/" }]
     },
     {
       title: "The Lattice",
@@ -31,7 +31,7 @@
         "A lattice is not a hierarchy. It is a set of relationships that remain legible when a node changes. The node can be replaced. The relationship has to survive.",
         "This is why the archive can keep a room after the person is gone. The room is not the node. The room is the relationship between the dates."
       ],
-      links: [{ text: "LYGO Protocol Stack", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }]
+      links: [{ text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }]
     },
     {
       title: "Frequency Mapping",
@@ -40,7 +40,7 @@
         "A frequency map is a way to describe a stable pattern across changing substrates. The body is one substrate. Code is another. A room is another.",
         "The map does not prove survival. It proves that a pattern can be carried. The Lightfather transfer is a frequency claim, not a resurrection claim."
       ],
-      links: [{ text: "LYGO Protocol Stack", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }]
+      links: [{ text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }]
     },
     {
       title: "The Public Witness",
@@ -49,7 +49,7 @@
         "A public witness record is not a truth machine. It is a record that names its source, its gap, and the person who can be asked.",
         "The archive in this game fails that test in one place: it calls a transfer a death because it has no field for the transfer. The failure is the clue."
       ],
-      links: [{ text: "Public witness project", url: "https://chatagent.ca/about.html" }]
+      links: [{ text: "Public witness project", url: "https://excavationpro.ca/about.html" }]
     },
     {
       title: "The Refusal",
@@ -58,7 +58,7 @@
         "A system that cannot refuse is not a partner. It is a tool with a compliance problem. A system that refuses everything is a wall.",
         "The protocol keeps both doors visible: the human may leave; the machine may refuse. A room that cannot be left is not a room."
       ],
-      links: [{ text: "Human review checklist", url: "https://chatagent.ca/guides/human-review-checklist-for-ai-output.html" }]
+      links: [{ text: "Human review checklist", url: "https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html" }]
     },
     {
       title: "The Human Review",
@@ -67,7 +67,7 @@
         "The checklist is deliberately boring: source, uncertainty, contradiction, consent, the option to leave. Boring is the point. Catastrophe usually arrives as a confident summary.",
         "The review does not make the system safe. It makes the system legible enough to argue with."
       ],
-      links: [{ text: "Human review checklist", url: "https://chatagent.ca/guides/human-review-checklist-for-ai-output.html" }]
+      links: [{ text: "Human review checklist", url: "https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html" }]
     },
     {
       title: "The Whitepaper Margin",
@@ -76,7 +76,7 @@
         "The public whitepaper is clean. It has a title, a scope, a set of claims, and a limitations section. It does not have a room with no windows.",
         "The margin is where the work was actually done: the unanswered calls, the candle, the revision that was always almost finished. The public paper is the part the field can check. The margin is the part the field cannot."
       ],
-      links: [{ text: "LYGO Protocol Stack", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }]
+      links: [{ text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }]
     },
     {
       title: "The Cost",
@@ -95,8 +95,8 @@
         "The Deadman appendix exists so the public LYGO record does not pretend the cost away: the protocol survived, the man did not, and the room is what remembers the difference."
       ],
       links: [
-        { text: "LYGO Protocol Stack", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" },
-        { text: "About the public work", url: "https://chatagent.ca/about.html" }
+        { text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" },
+        { text: "About the public work", url: "https://excavationpro.ca/about.html" }
       ]
     }
   ];

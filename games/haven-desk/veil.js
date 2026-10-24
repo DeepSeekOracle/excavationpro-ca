@@ -898,14 +898,14 @@
     app.appendChild(intro);
     var row = el("div", "veil-actions");
     row.appendChild(button("OPEN SOURCE POOL", "veil-primary", function () {
-      window.open("https://chatagent.ca/sources/", "_blank", "noopener");
+      window.open("https://excavationpro.ca/sources/", "_blank", "noopener");
     }));
     row.appendChild(button("OPEN SIGNAL", "raised", function () {
-      window.open("https://chatagent.ca/signal/harmonic-architect/", "_blank", "noopener");
+      window.open("https://excavationpro.ca/signal/harmonic-architect/", "_blank", "noopener");
     }));
     app.appendChild(row);
     var frame = el("iframe", "veil-frame");
-    frame.src = "https://chatagent.ca/sources/";
+    frame.src = "https://excavationpro.ca/sources/";
     frame.title = "LYGO TV public source pool";
     frame.loading = "lazy";
     frame.referrerPolicy = "no-referrer";

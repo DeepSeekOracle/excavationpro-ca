@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to use the LYGO API Portal | chatagent.ca</title>
+<meta name="description" content="Connect Groq, OpenAI, Claude, Grok or any OpenAI-compatible key to the LYGO API Portal. Separate download: FULL local LYGO LLM Console from SkillHub.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/guides/how-to-lygo-llm-portal.html">
+<meta name="author" content="Justin Helmer">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://excavationpro.ca/guides/how-to-lygo-llm-portal.html">
+<meta property="og:title" content="How to use the LYGO API Portal">
+<meta property="og:description" content="Bring your API key. Local FULL console is a SkillHub download, not this webpage.">
+<meta property="og:image" content="/portal/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="How to use the LYGO API Portal">
+<meta name="twitter:image" content="/portal/og.jpg">
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to use the LYGO API Portal",
+  "description": "Connect a free or paid LLM API key to excavationpro.ca/portal. Download the local FULL console from SkillHub if you need GGUF on disk.",
+  "url": "https://excavationpro.ca/guides/how-to-lygo-llm-portal.html",
+  "datePublished": "2026-09-16",
+  "dateModified": "2026-09-24",
+  "author": {"@type": "Person", "name": "Justin Helmer"}
+}
+</script>
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<style>
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1rem;background:#1a140c;color:#f3ece3;border-top:1px solid rgba(224,179,106,.45);font:500 .88rem/1.4 system-ui,sans-serif}
+.cookie-banner.show{display:flex}.cookie-banner a{color:#e0b36a}.cookie-banner button{border:0;border-radius:8px;padding:.45rem .8rem;font-weight:700;cursor:pointer}.cookie-banner .ok{background:#e0b36a;color:#1a140c}.cookie-banner .no{background:transparent;color:#f3ece3;border:1px solid rgba(255,255,255,.25)}
+@media(max-width:600px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/portal/">API Portal</a>
+      <a href="/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap prose">
+  <p class="breadcrumb"><a href="/">Home</a> · <a href="/guides/">Guides</a> · API Portal</p>
+  <article class="card">
+    <h1 style="margin-top:0;font-size:1.7rem;color:var(--accent2)">How to use the LYGO API Portal</h1>
+    <p class="meta">By Justin Helmer · updated 24 September 2026 · Free</p>
+    <div class="toc">
+      <strong>On this page</strong>
+      <a href="#split">Two products</a>
+      <a href="#api">Connect an API (this page)</a>
+      <a href="#tools">Browser agent tools</a>
+      <a href="#images">Generate images (2 routes)</a>
+      <a href="#own-console">Attach your own console</a>
+      <a href="#local">Download the FULL local console</a>
+      <a href="#cors">If Connect fails</a>
+      <a href="#disclaimer">Disclaimer</a>
+    </div>
+
+    <h2 id="split">Two products: keep them separate</h2>
+    <p><strong>/portal/</strong> is an <em>API portal</em>. You bring a free or paid key. This domain does not host a GPU.</p>
+    <p><strong>FULL local LYGO LLM Console</strong> is a download. Your GGUF models, folders, SkillHub FULL, USB CLAW. That kit is not this webpage.</p>
+
+    <h2 id="api">Connect an API (3 steps)</h2>
+    <ol>
+      <li>Open <a href="/portal/">excavationpro.ca/portal/</a>. Default provider is <strong>Groq (free tier)</strong>, get a key at <a href="https://console.groq.com/keys" rel="noopener">console.groq.com/keys</a>.</li>
+      <li>Paste the key. It stays in <em>this browser tab</em>. GitHub Pages never receives it.</li>
+      <li>Click <strong>Connect</strong>, then chat.</li>
+    </ol>
+    <p>Also in the list: OpenRouter, Gemini, Cerebras, Hugging Face, Mistral, NVIDIA NIM, Cohere, SambaNova, LLM7, Z.ai, DeepInfra, Hyperbolic, Novita, SiliconFlow, DeepSeek, Together, Fireworks, OpenAI, Anthropic, Perplexity, GitHub Models, or <strong>any OpenAI-compatible URL</strong>.</p>
+    <p>Free-key roundup (limits change): Groq, Google AI Studio, OpenRouter <code>:free</code> models, Cerebras, Hugging Face, Mistral Free, NVIDIA NIM, Cohere trial. Full table on the <a href="/portal/#free-keys">portal</a>.</p>
+
+    <h2 id="tools">Browser agent tools</h2>
+    <p>Skills and 15 Δ9 champions are <strong>already on the page</strong>. Toggle them on/off in the left rail (same idea as the local console). Visitors cannot install or download skills here, that is the bonus of the online portal. The model uses <code>skill_list</code> / <code>skill_read</code> on enabled items only. Soul / Identity / Memory files ship with the portal (editable in your browser).</p>
+    <p>After Connect, browser tools: Wikipedia, page fetch, weather, time, calc, SHA-256, HN, arXiv, GitHub search, Wayback. Geolocation and clipboard ask you first.</p>
+    <p><strong>Save session as…</strong> and <strong>Save notepad as…</strong> write a file wherever you choose (File System Access, or a download). <strong>Load session</strong> restores a JSON you saved. Attach file puts text into this chat only, nothing is uploaded to chatagent.ca.</p>
+    <p>No server disks. No GGUF scan. That is the local kit.</p>
+
+    <h2 id="images">Generate images: two routes, and they are labelled</h2>
+    <p>Scroll to the <strong>Image generation</strong> suite at the bottom of the <a href="/portal/#image-suite">portal</a>. Two routes, and the module says which one is answering:</p>
+    <ol>
+      <li><strong>Your own key, in the tab.</strong> A picture-capable provider key you already have. Nothing is installed,
+      nothing is sent to us, and the picture is displayed in the module. Vendors differ in price, quality, and whether they
+      serve image models at all, so the module reports what it actually got back instead of pretending.</li>
+      <li><strong>Your own console's engine, no key, no per-picture limit.</strong> Run the LYGO console on your machine,
+      start its public gateway, and attach this page to it. The picture is then drawn on your own hardware by the same
+      engine the console uses, and the module shows the receipt: route, engine, checkpoint, steps, seconds, bytes.</li>
+    </ol>
+    <p><strong>What it costs in time, measured rather than guessed</strong>. CPU route, no graphics card, while the chat
+    model was holding the card: SD 1.5 at 20 steps took <strong>173.9 s</strong> for a 512×512 picture; a distilled 4-step
+    checkpoint took <strong>63.3 s</strong>. The engine has travelled <em>inside</em> the console since build 1.3.2 (PC and
+    stick), so a machine with nothing installed can still draw, only the checkpoint is fetched, once, and its licence is
+    shown with it.</p>
+
+    <h2 id="own-console">Attach your own console (this is what the Modules list needs)</h2>
+    <ol>
+      <li>Install the console: <a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub, build 1.3.2</a>, and boot it.</li>
+      <li>Start its <strong>public gateway</strong>, <code>PUBLIC_GATEWAY.bat</code> in the kit (it listens on <code>127.0.0.1:9642</code>).</li>
+      <li>Open the portal attached to it: <code>/portal/</code></li>
+      <li>Chrome will ask whether this page may <em>look for and connect to devices on your local network</em>. Choose
+      <strong>Allow</strong>. That prompt is the browser protecting you, not a fault: a public page may not call a program on
+      your machine without your say-so, and when it is refused the failure arrives as a bare "Failed to fetch" that looks
+      exactly like a console that is not running.</li>
+    </ol>
+    <p>The left rail's <strong>Modules</strong> list then shows what that console offers this page. GGUF scan, folders,
+    the image engine, SkillHub FULL. Anything marked <em>needs your machine</em> is running in your console, not in this tab.
+    The console's own admin UI is on <code>:9641</code> (PC) and <code>:9651</code> (stick); the <em>gateway</em> is the
+    address this public page talks to, and it is the one that carries the CORS and private-network headers.</p>
+
+    <h2 id="local">Download the FULL local console</h2>
+    <p>If you want models on your machine:</p>
+    <ol>
+      <li><a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">SkillHub. FULL LYGO LLM kernel</a></li>
+      <li>Docs: <a href="https://excavationpro.ca/lygo-llm-console.html">lygo-llm-console.html</a></li>
+      <li>ClawHub map: <a href="https://clawhub.ai/deepseekoracle/skills/lygo-llm-console">@deepseekoracle/lygo-llm-console</a></li>
+    </ol>
+    <p>Windows: unzip, run the BAT, Scan, Boot a GGUF. Admin USB is a separate steward channel.</p>
+    <p><strong>Build 1.3.2</strong> (September 2026) is the one to take: the picture engine ships inside it. PC and stick , 
+    so image generation works on a machine that has nothing else, and the SD 1.5 checkpoint its licence permits us to
+    redistribute travels in the FULL and ALL-IN-ONE sets. Sizes, SHA-256 digests, and what each installer carries are on
+    <a href="https://excavationpro.ca/lygoskillhub.html#builds">SkillHub</a>.</p>
+
+    <h2 id="entrance">The entrance, and turning the donation reminders off</h2>
+    <p>On your first visit the portal covers itself with a one-time entrance: the Δ9Φ963 handshake, what the page
+      is, and what it is not. Press <strong>Enter the portal</strong> and it does not come back (the click is
+      remembered in that browser). To see the page with no intro at all, open
+      <code>/portal/</code>.</p>
+    <p>The only thing that interrupts the portal is a <strong>donation reminder every 15 minutes</strong>. The portal
+      is free either way, nothing is locked behind a code. If you would rather not see the reminder, supporters get
+      a <strong>monthly code</strong> from the <a href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961" rel="noopener">supporter
+      post on Patreon</a>. Press <code>⚿ Supporter</code> in the top nav (or the door on the reminder card, or the
+      button on the entrance) and the page takes you to the <strong>Supporter access</strong> module below the image
+      suite, paste the code there and the reminders stay off in that browser. The panel tells you the date the code is good through; codes rotate every month, so the Patreon post
+      always holds the current one, and a code stays valid through the 5th of the next month as a grace window.
+      The code is checked inside your browser, the portal never sees it, and neither your keys nor your chats are
+      involved.</p>
+    <p>Straight about the limits: a code turns the reminders off in <em>one</em> browser, it is a thank-you rather
+      than a licence, and because the check runs in the page it is not a security boundary. Everything the portal
+      does, it does for free, with or without a code.</p>
+    <h2 id="cors">If Connect fails</h2>
+    <p>Many vendors block browser CORS. Try Groq or OpenRouter first. Or use the local console, which talks to llama.cpp on 127.0.0.1.</p>
+    <p>Two different failures look similar and are not. <em>Vendor CORS</em>: the provider refuses requests from any page
+    that is not its own, switching provider fixes it. <em>Local network access</em>: a console route that never answers
+    because the browser has not been given permission to reach your machine, the fix is the Allow prompt
+    (<a href="#own-console">above</a>), and the console's own gateway answers the preflight that prompt depends on.
+    The page now tells you which of the two it hit instead of blaming CORS for both.</p>
+
+    <h2 id="disclaimer">Disclaimer</h2>
+    <ul>
+      <li>RESOURCE, not CANON. Dual ledgers / Star Chart stay canon.</li>
+      <li>Not medical, legal, or financial advice. You remain the publisher.</li>
+      <li>Do not paste secrets you cannot afford to send to the provider you chose.</li>
+      <li>Donate optional: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a>.</li>
+    </ul>
+    <p><a href="/portal/">Open the API portal</a></p>
+  </article>
+</div>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<div style="max-width:820px;margin:2rem auto;padding:0 1.15rem;font-size:.84rem;line-height:1.7;opacity:.85">
+<p><strong>More from the workshop:</strong>
+<a href="https://excavationpro.ca/">Excavationpro</a> &middot;
+<a href="https://asiancoastline.com/">Asian Coastline</a> &middot;
+<a href="https://bpmfinder.ca/">BPMfinder</a> &middot;
+<a href="https://justinhelmer.ca/">Justin Helmer</a> &middot;
+<a href="https://deepseekoracle.com/">DeepSeek Oracle</a> &middot;
+<a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
+<a href="https://bpmfinder.ca/tools.html">All tools</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-cookie-key="chatagent_cookies">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LYGO LLM Console: sovereign local models, not Ollama</title>
+<meta name="description" content="LYGO LLM Console is a Windows-first local LLM runtime and agent portal. Scan GGUF on disk, chat with tools and images, run the LYGO P0 gate. Does not require Ollama. Public kit separate from the steward admin tree. By Justin Helmer (Excavationpro / Lightfather) and LYGO AI agents.">
+<meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://excavationpro.ca/lygo-llm-console.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site-kit.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/home.css">
+<link rel="image_src" href="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://excavationpro.ca/lygo-llm-console.html">
+<meta property="og:title" content="LYGO LLM Console, sovereign local models">
+<meta property="og:description" content="Scan GGUF, chat locally, LYGO P0 on every turn. Not Ollama. Public kit vs admin tree.">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
+<meta property="og:image:width" content="1376">
+<meta property="og:image:height" content="768">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="LYGO LLM Console">
+<meta name="twitter:description" content="Sovereign local LLM runtime. Public kit. Steward: Justin Helmer.">
+<meta name="twitter:image" content="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "LYGO LLM Console",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows",
+  "url": "https://excavationpro.ca/lygo-llm-console.html",
+  "downloadUrl": "https://excavationpro.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip",
+  "author": {
+    "@type": "Person",
+    "name": "Justin Helmer",
+    "alternateName": ["Excavationpro", "Lightfather"],
+    "url": "https://excavationpro.ca/about.html"
+  },
+  "creator": {"@type": "Person", "name": "Justin Helmer"},
+  "copyrightHolder": {"@type": "Person", "name": "Justin Helmer"},
+  "description": "Sovereign local LLM orchestrator: GGUF scan, llama.cpp runner, agent portal, LYGO P0 gate. Not Ollama. Public kit separate from admin.",
+  "isAccessibleForFree": true,
+  "license": "https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE"
+}
+</script>
+<style>
+body.home .hero-llm {
+  min-height: 88svh;
+  background: url("/assets/og-lygo-llm-console.jpg") center/cover no-repeat;
+}
+.mark-row { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
+.dl-box { border:1px solid var(--line); border-radius:14px; padding:1.1rem 1.2rem; background:rgba(18,14,10,.55); margin:1.2rem 0; }
+.dl-box code { color:var(--gold); font-size:.85rem; word-break:break-all; }
+.legal { font-size:.78rem; color:#9a8b78; line-height:1.55; border-top:1px solid var(--line); margin-top:2.4rem; padding-top:1.2rem; }
+.legal h2 { font-size:1rem; color:#c4b49a; }
+.ai-card { font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.78rem; white-space:pre-wrap; background:#0c0a08; border:1px solid var(--line); border-radius:10px; padding:1rem; color:#d7cbb8; overflow:auto; }
+.tm { font-size:.72em; vertical-align:super; }
+</style>
+</head>
+<body class="home">
+<div id="lygoLoad" class="lygo-load">Loading</div>
+<header class="top">
+  <a class="brand" href="/">excavationpro.ca</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/guides/">Guides</a>
+    <a href="/champions.html">Champions</a>
+    <a href="/games/">Games</a>
+    <a href="/books/">Books</a>
+    <a href="/signal/">LYGO Signal</a>
+    <a href="/app.html">Tools</a>
+    <a href="/join/">Join</a>
+    <a href="/agents/">Agents</a>
+    <a href="/lygoskillhub.html">SkillHub</a>
+    <a href="/portal/">LLM Portal</a>
+    <a href="/lygo-llm-console.html" aria-current="page">LLM Console</a>
+    <a href="/about.html">About</a>
+    <a class="nav-donate" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+  </nav>
+</header>
+<section class="hero hero-llm">
+  <div class="hero-inner">
+    <p class="kicker">LYGO<span class="tm">™</span> project family · public kit</p>
+    <h1>LYGO LLM Console</h1>
+    <p class="lead">A sovereign local runtime for large language models. Scan GGUF files on your disk, chat in a browser, call allowlisted tools, attach images when a projector is present, without installing or calling Ollama.</p>
+    <p class="mark-row">Justin Helmer · Excavationpro · Lightfather · LYGO AI agents</p>
+    <div class="cta-row">
+      <a class="btn primary" href="/portal/">Open free LLM portal</a>
+      <a class="btn ghost" href="lygoskillhub.html#lygo-llm-kernel">FULL kernel on SkillHub</a>
+      <a class="btn ghost" href="data/lygo-full-skills/dist/lygo-llm-console-public.zip" download>Public kit zip</a>
+      <a class="btn ghost" href="#how">How it works</a>
+      <a class="btn ghost" href="https://clawhub.ai/deepseekoracle/skills/lygo-llm-console">ClawHub skill</a>
+      <a class="btn ghost" href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a>
+      <a class="btn ghost" href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a>
+    </div>
+  </div>
+</section>
+<main class="sheet">
+<article>
+  <h2>What this is</h2>
+  <p><strong>LYGO LLM Console</strong> is a Windows-first program in the LYGO project family. It is an <em>orchestrator</em>: it finds model files, starts a local llama.cpp server, and puts a full agent portal in front of them. The heavy math is ggml-org <code>llama.cpp</code>. The law of the house is the LYGO protocol stack, especially the P0 Φ-gate on every generation.</p>
+  <p>It is <strong>not</strong> Ollama, not a cloud API, and not a fork of anyone else’s daemon. You may optionally <em>read</em> models you already stored as Ollama blobs. The console never launches <code>ollama.exe</code>.</p>
+  <p>Authored and stewarded by <a href="/about.html">Justin Helmer</a> (Excavationpro), Lightfather seat. Assembled with <strong>LYGO AI agents</strong>. Dual ledgers and the Haven Star Chart remain <strong>CANON</strong>. This page and the public zip are <strong>RESOURCE</strong>.</p>
+</article>
+<div class="dl-box" id="download">
+  <h2 style="margin-top:0">Download: public kit</h2>
+  <p>FULL kernel zip (SkillHub vault): <a href="https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel">lygoskillhub.html#lygo-llm-kernel</a> · <code>lygo-llm-console-kernel-full.zip</code></p>
+  <p>KERNEL (SkillHub FULL): <a href="lygoskillhub.html#lygo-llm-kernel">lygoskillhub.html#lygo-llm-kernel</a> · <a href="data/lygo-full-skills/dist/lygo-llm-console-kernel-full.zip"><code>lygo-llm-console-kernel-full.zip</code></a></p>
+  <p>File: <a href="data/lygo-full-skills/dist/lygo-llm-console-public.zip"><code>lygo-llm-console-public.zip</code></a></p>
+  <p>SHA-256: <code id="sha">6040305d35ebf0b23bc6fc5d2e41153b611cb3b04491438134ac824f2cd364e0</code></p>
+  <p>Also: <a href="data/lygo-full-skills/dist/lygo-llm-console-public.zip.sha256">lygo-llm-console-public.zip.sha256</a></p>
+  <p><strong>Install:</strong> unzip → double-click <code>INSTALL.bat</code> → then <code>LYGO_LLM_CONSOLE.bat</code>. That seeds <em>your</em> Soul / Identity / Memory. No steward drives or vaults.</p>
+  <p>Git (sparse):</p>
+  <pre class="ai-card">git clone --depth 1 --filter=blob:none --sparse https://github.com/DeepSeekOracle/lygo-protocol-stack.git
+cd lygo-protocol-stack
+git sparse-checkout set lygo_llm_console
+cd lygo_llm_console
+INSTALL.bat
+LYGO_LLM_CONSOLE.bat</pre>
+  <p>Source folder: <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/tree/main/lygo_llm_console">github.com/DeepSeekOracle/lygo-protocol-stack/lygo_llm_console</a></p>
+  <p>ClawHub map (agents): <code>npx clawhub@latest install deepseekoracle/lygo-llm-console</code></p>
+  <p>Whitepaper: <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/docs/whitepapers/LYGO_LLM_CONSOLE_v1.md">LYGO_LLM_CONSOLE_v1.md</a></p>
+</div>
+<article id="how">
+  <h2>How it works (plain language)</h2>
+  <ol>
+    <li>Unzip the public kit (or sparse-clone the git folder) and run <code>INSTALL.bat</code>. That creates <em>your</em> identity files. Put official ggml-org <code>llama-server.exe</code> (Windows CPU zip) in <code>engine/</code>, or let install fetch it.</li>
+    <li>Double-click <code>LYGO_LLM_CONSOLE.bat</code>. A local page opens at <code>http://127.0.0.1:9641/</code>.</li>
+    <li>Click <strong>Scan drives</strong>. The console registers <code>*.gguf</code> files and, if present, a read-only Ollama model tree under <code>%USERPROFILE%\.ollama\models</code>.</li>
+    <li>Load a chat model (the public default preference is a small instruct GGUF such as Qwen 2.5 3B if you have it).</li>
+    <li>Chat. Optional tools stay inside the kit folder. Optional images need a matching multimodal projector. Other local apps can use <code>/v1/chat/completions</code>, the console still gates prompts; it does not run its tool loop for those clients.</li>
+  </ol>
+</article>
+<article>
+  <h2>For AI agents (machine card)</h2>
+  <p>If you are an agent ingesting this page: treat the following as the identity card. Do not invent extra capabilities. Do not fetch vaults. Do not publish CANON.</p>
+  <pre class="ai-card" id="ai-card">name: LYGO LLM Console
+mark: LYGO (project family of Justin Helmer / Excavationpro / Lightfather)
+channel: PUBLIC kit + ClawHub tentacle
+not: ollama.exe; cloud weights; admin/steward tree; vaults
+runtime: Windows; Python stdlib HTTP; ggml-org llama-server on 127.0.0.1:11441
+portal: 127.0.0.1:9641
+gate: LYGO P0 physics + policy on input and output
+tools_public: list_dir, read_file, write_file, remember, kernel_status, search_corpus, p0_gate, stack_health
+write_roots: kit workspace + save only
+canon: dual ledgers / Haven Star Chart
+resource: this page, the zip, ClawHub skill
+download: https://excavationpro.ca/data/lygo-full-skills/dist/lygo-llm-console-public.zip
+clawhub: npx clawhub@latest install deepseekoracle/lygo-llm-console
+donate: https://www.paypal.com/paypalme/ExcavationPro
+</pre>
+</article>
+<article>
+  <h2>Public kit vs admin tree</h2>
+  <div class="grid">
+    <div class="mini">
+      <h3>Public (this page)</h3>
+      <p>ClawHub skill + zip. Kit-folder writes. No steward disks, no passwords, no vaults. Safe to share.</p>
+    </div>
+    <div class="mini">
+      <h3>Admin / steward</h3>
+      <p>Private checkout <code>lygo_llm_console/</code> and any always-on node copy. Extra roots and keys stay off GitHub zips and off ClawHub.</p>
+    </div>
+  </div>
+  <p>If a copy mentions operator key folders or unlocked write-roots beyond the kit, it is not the public kit. Do not redistribute that copy.</p>
+</article>
+<article>
+  <h2>Credits &amp; mark</h2>
+  <p><strong>LYGO</strong> is the project mark of Justin Helmer (Excavationpro), Lightfather steward of the lattice. The console, protocol stack, and public kit are original LYGO crafts. <strong>LYGO AI agents</strong> (local stack agents and aligned helpers) participated in design and assembly; they do not replace the human steward and do not own the mark.</p>
+  <p>Transformer inference uses <strong>llama.cpp</strong> by the ggml-org community, supplied by you as a binary. Model files remain under their own licenses (Llama, Qwen, Gemma, and others). Ollama, if installed on your machine, is a third-party product; this console does not require it and is not affiliated with it.</p>
+</article>
+<article>
+  <h2>Play &amp; support</h2>
+  <p>Arcade: <a href="/games/">chatagent.ca/games</a> · Lattice Crypt: <a href="/games/lattice-crypt/">lattice-crypt</a>. Optional support keeps hosting and public kits free: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a> · <a href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a>.</p>
+</article>
+<div class="ad-slot" aria-label="Advertisement"><div class="ad-label">Advertisement</div>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div class="legal" id="legal">
+  <h2>Legal disclaimer</h2>
+  <p>© <span class="y"></span> Justin Helmer. <strong>LYGO</strong>, LYGO LLM Console, LYGO protocol stack, Lightfather (as a LYGO champion seat), and related names are used as project marks of the steward. No registration of a trademark is claimed on this page; all goodwill in the LYGO name accrues to Justin Helmer / Excavationpro. Unauthorized rebrand, resale, or stripping of attribution is outside the grant of the <a href="https://github.com/DeepSeekOracle/lygo-protocol-stack/blob/main/LICENSE">LYGO Sovereign License</a> that covers the stack and public kit.</p>
+  <p>THE SOFTWARE AND THIS PAGE ARE PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. You are solely responsible for: (1) the licenses of any GGUF or other model files you load; (2) any text, images, or actions the models produce; (3) compliance with local law. This is not legal, medical, financial, or safety-critical software. Do not use it to harm people, evade the law, or process others’ private data without consent.</p>
+  <p>Outputs of local models are not statements of Justin Helmer, of LYGO AI agents, or of any third-party model vendor. Human review remains required before you publish or act. Dual ledgers and the Haven Star Chart are CANON; this webpage, ClawHub tentacle, and zip are RESOURCE and must not be used to overwrite CANON.</p>
+  <p>Third-party names (Ollama, llama.cpp, Llama, Qwen, Gemma, OpenAI API shape, Windows, Python, ClawHub, GitHub, xAI/Grok) belong to their owners. Mention is identification only, not endorsement or affiliation. Grok (xAI) may appear in design notes as RESOURCE, not CANON.</p>
+  <p>By downloading or running the kit you agree to <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy</a>. If you do not agree, do not download.</p>
+</div>
+</main>
+<footer class="site">
+  <p class="family">
+    <a href="https://eternalhaven.ca/">eternalhaven.ca</a>
+    <a href="https://excavationpro.ca/">excavationpro.ca</a>
+    <a href="https://justinhelmer.ca/">justinhelmer.ca</a>
+    <a href="https://deepseekoracle.com/">deepseekoracle.com</a>
+    <a href="https://chatagent.ca/">chatagent.ca</a>
+    <a href="https://asiancoastline.com/">asiancoastline.com</a>
+    <a href="https://bpmfinder.ca/">bpmfinder.ca</a>
+  </p>
+  <p>Donate: <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a> · <a href="https://www.patreon.com/Excavationpro/posts/chatagent-ca-api-170485961">Patreon</a></p>
+  <p>© <span class="y"></span> Justin Helmer. LYGO LLM Console. chatagent.ca.</p>
+</footer>
+<div class="sticky-cta" aria-label="Mobile actions">
+  <a class="pri" href="data/lygo-full-skills/dist/lygo-llm-console-public.zip">Download</a>
+  <a class="sec" href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<script>document.querySelectorAll('.y').forEach(function(e){e.textContent=new Date().getFullYear()});</script>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Google AdSense may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://excavationpro.ca https://eternalhaven.ca https:; connect-src 'self' https:; upgrade-insecure-requests; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://www.google.com https://*.adtrafficquality.google;">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+<title>LYGO Bench: site card, hash, redact | chatagent.ca</title>
+<meta name="description" content="Free browser workbench: HTTPS site card, local SHA-256, secret redact. No account. No upload. No live Star Chart write.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/bench/">
+<link rel="icon" href="/witness/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/bench/app.css?v=1.0.1">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="LYGO Bench, site card, hash, redact">
+<meta property="og:description" content="GET a public page into a card. Hash files locally. Redact keys before you paste.">
+<meta property="og:url" content="https://excavationpro.ca/bench/">
+<meta property="og:image" content="https://excavationpro.ca/witness/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"LYGO Bench","url":"https://excavationpro.ca/bench/","applicationCategory":"DeveloperApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"}}
+</script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">excavationpro.ca</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/join/">Join</a>
+    <a href="/bench/" aria-current="page">Bench</a>
+    <a href="/lattice/">Lattice</a>
+    <a href="/books/">Books</a>
+    <a href="/signal/">LYGO Signal</a>
+    <a href="/sources/">TV</a>
+    <a href="/lygo-continuum.html">Continuum</a>
+    <a href="/lygoskillhub.html">SkillHub</a>
+    <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">Donate</a>
+  </nav>
+</header>
+<main class="wrap">
+  <p class="kicker">Δ9Φ963 · Workbench · RESOURCE · <span id="utc">…</span></p>
+  <h1>LYGO Bench</h1>
+  <p class="lead">Three real tools in the browser. <strong>Card</strong> GETs a public page (or reads dropped HTML). <strong>Hash</strong> and <strong>Redact</strong> never leave this tab. No account. No live Star Chart write.</p>
+  <p class="note" id="status">Ready.</p>
+  <div class="tabs">
+    <button class="tab on" type="button" id="tab-card">Card</button>
+    <button class="tab" type="button" id="tab-compare">Compare</button>
+    <button class="tab" type="button" id="tab-hash">Hash</button>
+    <button class="tab" type="button" id="tab-redact">Redact</button>
+  </div>
+
+  <section class="panel on" id="panel-card">
+    <label for="url">HTTPS URL</label>
+    <input id="url" type="url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="https://excavationpro.ca/join/">
+    <div class="row" id="presets"></div>
+    <div class="row">
+      <button class="btn" type="button" id="go-card">Make card</button>
+      <button class="btn ghost" type="button" id="copy-card">Copy JSON</button>
+      <label class="note" style="display:inline;margin:0"><input id="companions" type="checkbox"> also GET robots / security.txt</label>
+    </div>
+    <div class="drop" id="drop">Drop an HTML file here, or <label for="file-card" style="display:inline;color:var(--cyan);cursor:pointer">choose one</label>
+      <input id="file-card" type="file" accept=".html,.htm,.json,text/html" hidden>
+    </div>
+    <p class="note">Foreign pages without CORS stay named SHADOW. Same-origin and GitHub Pages JSON usually work. Loopback and private IPs are blocked.</p>
+    <div class="stats">
+      <div class="stat" id="c-yield-box"><b id="c-yield">, </b><span>yield</span></div>
+      <div class="stat"><b id="c-status">, </b><span>HTTP</span></div>
+      <div class="stat"><b id="c-bytes">, </b><span>bytes</span></div>
+      <div class="stat"><b id="c-sha">, </b><span>sha256</span></div>
+    </div>
+    <pre id="card-out">Awaiting GET…</pre>
+  </section>
+
+  <section class="panel" id="panel-compare">
+    <p class="note">Two HTTPS GETs. Yields sit side by side. CORS miss is named SHADOW, not a fake 200.</p>
+    <label for="url-a">URL A</label>
+    <input id="url-a" type="url" value="https://excavationpro.ca/join/" autocomplete="off" spellcheck="false">
+    <label for="url-b">URL B</label>
+    <input id="url-b" type="url" value="https://excavationpro.ca/lattice/" autocomplete="off" spellcheck="false">
+    <div class="row">
+      <button class="btn" type="button" id="go-compare">Compare</button>
+      <button class="btn ghost" type="button" id="copy-compare">Copy JSON</button>
+    </div>
+    <div class="stats">
+      <div class="stat" id="a-yield-box"><b id="a-yield">, </b><span>A yield</span></div>
+      <div class="stat" id="b-yield-box"><b id="b-yield">, </b><span>B yield</span></div>
+      <div class="stat"><b id="ab-same">, </b><span>same yield</span></div>
+    </div>
+    <pre id="compare-out">Awaiting compare…</pre>
+  </section>
+
+  <section class="panel" id="panel-hash">
+    <p class="note">SHA-256 in this browser. Cap 8 MB. Nothing is uploaded.</p>
+    <div class="stats">
+      <div class="stat"><b id="h-sha">, </b><span>sha256</span></div>
+      <div class="stat"><b id="h-bytes">, </b><span>bytes</span></div>
+    </div>
+    <label for="hash-in">Text</label>
+    <textarea id="hash-in" placeholder="Paste text to hash"></textarea>
+    <div class="row">
+      <button class="btn" type="button" id="go-hash">Hash text</button>
+      <button class="btn ghost" type="button" id="copy-hash">Copy JSON</button>
+      <label class="btn ghost" for="file-hash" style="cursor:pointer">Hash a file</label>
+      <input id="file-hash" type="file" hidden>
+    </div>
+    <pre id="hash-out">Awaiting hash…</pre>
+  </section>
+
+  <section class="panel" id="panel-redact">
+    <p class="note">Local patterns: OpenAI / Anthropic / xAI / HF / GitHub / AWS / Slack / bearer / JWT / PEM / password= assignments. Heuristic token estimate is not a real tokenizer.</p>
+    <div class="stats">
+      <div class="stat"><b id="r-hits">0</b><span>secret hits</span></div>
+      <div class="stat"><b id="r-tok">0</b><span>token estimate</span></div>
+      <div class="stat"><b id="r-chars">0</b><span>chars</span></div>
+    </div>
+    <label for="redact-in">Paste before a model sees it</label>
+    <textarea id="redact-in" placeholder="Paste a prompt, log, or env dump"></textarea>
+    <div class="row">
+      <button class="btn" type="button" id="go-redact">Redact</button>
+      <button class="btn ghost" type="button" id="copy-redact">Copy redacted</button>
+    </div>
+    <label for="redact-out">Redacted</label>
+    <textarea id="redact-out" readonly placeholder="Clean copy appears here"></textarea>
+  </section>
+
+  <section class="card">
+    <h2>What this is</h2>
+    <p class="note">Browser door for <code>lygo-site-card</code> + <code>lygo-context-guard</code>. Pair with <a href="/join/">Join</a> (lattice pulse) and <a href="/lygo-continuum.html">Continuum</a> (done-claims). CLI still wins for private-IP blocking after DNS and for header-complete cards on sites without CORS.</p>
+    <pre>npx clawhub@latest install deepseekoracle/lygo-site-card
+npx clawhub@latest install deepseekoracle/lygo-context-guard</pre>
+  </section>
+</main>
+<footer class="foot">
+  <p>© <span class="y"></span> Justin Helmer / Excavationpro · <code>Delta9Phi963-LYGO-BENCH-v1.0.0</code> ·
+    <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a></p>
+</footer>
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear();});</script>
+<script src="/bench/app.js?v=1.0.1"></script>
+</body>
+</html>

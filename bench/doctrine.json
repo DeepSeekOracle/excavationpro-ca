@@ -1,0 +1,15 @@
+{
+  "signature": "Delta9Phi963-LYGO-BENCH-v1.0.0",
+  "name": "LYGO Bench",
+  "version": "1.0.0",
+  "class": "RESOURCE",
+  "live_star_chart_ingest": false,
+  "doctrine": {
+    "is": "Browser workbench: site card (HTTPS GET or dropped HTML), local SHA-256, local secret redact.",
+    "rule": "No POST. No egg plant. No live Star Chart write. CORS miss is named SHADOW. Hash and redact never leave this tab."
+  },
+  "skills": {
+    "site_card": "npx clawhub@latest install deepseekoracle/lygo-site-card",
+    "context_guard": "npx clawhub@latest install deepseekoracle/lygo-context-guard"
+  }
+}

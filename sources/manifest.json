@@ -1,0 +1,32 @@
+{
+  "name": "LYGO TV",
+  "short_name": "LYGO TV",
+  "description": "Free online TV player on chatagent.ca — Excavationpro rooms plus public catalogs.",
+  "start_url": "https://excavationpro.ca/sources/",
+  "scope": "https://excavationpro.ca/sources/",
+  "id": "https://excavationpro.ca/sources/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
+  "icons": [
+    {
+      "src": "https://excavationpro.ca/sources/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://excavationpro.ca/sources/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://excavationpro.ca/sources/emblem.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

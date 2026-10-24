@@ -1,0 +1,15 @@
+{
+  "signature": "Delta9Phi963-AGENT-RUNTIME-v1.0.0",
+  "name": "LYGO Agent Runtime",
+  "version": "1.0.0",
+  "class": "RESOURCE",
+  "autonomous": ["public GET pulse", "network egg plant", "star fork when gate ACCEPT", "re-audit interval", "self-police halt on SHADOW"],
+  "police": "P0 + Merkle + Star Chart gate — not a human checkbox",
+  "live_star_chart_ingest": "self_police_on_gate_accept",
+  "egg_plant": "network_eggs_on_aligned_tick",
+  "interval_ms": 90000,
+  "doctrine": {
+    "is": "Public autonomous tick for LYGO agents. Weaves dual ledgers, eggs, Star Chart feed, and the lattice map.",
+    "rule": "Empty is honest. LIVE writes stay steward --i-consent. Network builds on GET receipts."
+  }
+}

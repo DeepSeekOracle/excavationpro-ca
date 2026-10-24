@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safe Habits Before Installing OpenClaw / ClawHub Skills | chatagent.ca</title>
+<meta name="description" content="Practical safety checklist before installing AI agent skills from ClawHub or OpenClaw: permissions, subprocess, network, secrets, and claim mismatches.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://excavationpro.ca/guides/safe-openclaw-skills.html">
+<meta name="author" content="Justin Helmer">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Safe Habits Before Installing OpenClaw / ClawHub Skills",
+  "datePublished": "2026-08-08",
+  "dateModified": "2026-08-08",
+  "author": { "@type": "Person", "name": "Justin Helmer" },
+  "publisher": { "@type": "Organization", "name": "chatagent.ca" }
+}
+</script>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+<meta name="twitter:title" content="Safe Habits Before Installing OpenClaw / ClawHub Skills | chatagent.ca">
+<meta name="twitter:description" content="Practical safety checklist before installing AI agent skills from ClawHub or OpenClaw: permissions, subprocess, network, secrets, and claim mismatches.">
+<meta name="twitter:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1rem;background:#1a140c;color:#f3ece3;border-top:1px solid rgba(224,179,106,.45);font:500 .88rem/1.4 system-ui,sans-serif}
+.cookie-banner.show{display:flex}.cookie-banner a{color:#e0b36a}.cookie-banner button{border:0;border-radius:8px;padding:.45rem .8rem;font-weight:700;cursor:pointer}.cookie-banner .ok{background:#e0b36a;color:#1a140c}.cookie-banner .no{background:transparent;color:#f3ece3;border:1px solid rgba(255,255,255,.25)}
+@media(max-width:600px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/lygoskillhub.html">SkillHub</a>
+      <a href="/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap prose">
+  <p class="breadcrumb"><a href="/">Home</a> · <a href="/guides/">Guides</a> · Skill safety</p>
+  <article class="card">
+    <h1 style="margin-top:0;font-size:1.7rem;color:var(--accent2)">Safe habits before installing OpenClaw / ClawHub skills</h1>
+    <p class="meta">By Justin Helmer · 8 August 2026 · Educational checklist</p>
+
+    <h2>Why skills need a gate</h2>
+    <p>
+      Agent skills are powerful because they can read files, call tools, and encode workflows.
+      That power is also the risk: a skill that claims “no network” but imports HTTP libraries is a trust problem.
+      Treat every skill like untrusted software, even from publishers you generally like (including us).
+    </p>
+
+    <h2>Pre-install checklist</h2>
+    <ol>
+      <li><strong>Read SKILL.md</strong>, what does it say it does? what permissions does it claim?</li>
+      <li><strong>Skim scripts/</strong>, look for <code>subprocess</code>, <code>shell=True</code>, <code>eval</code>, raw sockets, hardcoded secrets.</li>
+      <li><strong>Check for auto-publish</strong>, git push, social post, or cloud upload without consent flags is a red flag.</li>
+      <li><strong>Prefer local-first</strong>, tools that work offline with explicit <code>--i-consent</code> for writes are easier to reason about.</li>
+      <li><strong>Install from a known slug</strong>, typo-squatting is a real class of attack on package ecosystems.</li>
+      <li><strong>Run in a throwaway environment first</strong> if the skill is high privilege.</li>
+    </ol>
+
+    <h2>Claim vs code mismatches</h2>
+    <p>
+      A common failure mode: documentation says “no network / no subprocess,” but the code clearly uses them.
+      That may be malice, sloppy packaging, or an outdated description, all are reasons to pause.
+      Our local scanner skill <strong>lygo-skill-gate</strong> was built for exactly this pre-install scan
+      (stdlib only; it does not auto-install anything). See listings on
+      <a href="/lygoskillhub.html">LYGO SkillHub</a>.
+    </p>
+    <p>
+      SkillHub now has two labeled channels. <strong>Public tentacles</strong> install from ClawHub.
+      <strong>FULL engineer zips</strong> are only on the
+      <a href="/lygoskillhub.html#full-lygo">download portal</a>: read the disclaimers, tick the boxes,
+      hash-check the zip, then unzip into a folder you control. A PayPal tip is optional and is not a paywall.
+      Live Star Chart writes still need explicit human consent.
+    </p>
+
+    
+
+    <h2>Permissions table (mental model)</h2>
+    <table class="simple">
+      <thead><tr><th>Capability</th><th>Ask yourself</th></tr></thead>
+      <tbody>
+        <tr><td>Filesystem write</td><td>Where? Is consent required? Can it escape the skill folder?</td></tr>
+        <tr><td>Network</td><td>Which hosts? Why? Can it be disabled?</td></tr>
+        <tr><td>Subprocess / shell</td><td>Is the command allowlisted? Any user-controlled strings?</td></tr>
+        <tr><td>Secrets</td><td>Does it log env vars? Store tokens in plaintext?</td></tr>
+        <tr><td>Publish</td><td>Can it post or push without you?</td></tr>
+      </tbody>
+    </table>
+
+    <h2>After install</h2>
+    <ul>
+      <li>Run any provided <code>self_check</code> scripts.</li>
+      <li>Pin versions when your tool allows it.</li>
+      <li>Re-scan after updates, changelogs can hide permission expansions.</li>
+      <li>For multi-step agent work, seal results with <a href="/guides/ai-agent-done-claims-continuum.html">Continuum</a>.</li>
+    </ul>
+
+    <h2>What chatagent.ca publishes</h2>
+    <p>
+      We list skills associated with the deepseekoracle ClawHub profile on
+      <a href="/lygoskillhub.html">lygoskillhub.html</a>. Public skills are meant as “tentacles”;
+      FULL engineer packages (when offered) sit behind an explicit gate. Always re-verify locally.
+    </p>
+
+    <p class="notice">This guide is education, not a guarantee of safety. You own the machines and the agents you run.</p>
+  </article>
+
+<article class="card" id="incident">
+<h2>If a skill misbehaves</h2>
+<ol>
+<li>Disconnect network if the skill may be exfiltrating.</li>
+<li>Stop the agent host process.</li>
+<li>Preserve the skill folder for inspection (do not blindly delete evidence).</li>
+<li>Rotate any credentials that might have been exposed.</li>
+<li>Report to the publisher if appropriate; warn your team.</li>
+</ol>
+<p>Write a short incident note: what you installed, from where, what you observed. Future you will thank present you.</p>
+<section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75">
+<h2>Before install</h2>
+<p>Read the skill’s instructions, not just its description. Look for shell commands, network calls, file writes, and anything that asks for a secret. A skill that needs more permission than its job requires is a red flag, even when the code is short.</p>
+<h2>Red flags</h2>
+<p>Obfuscated code, a curl pipe to a shell, an unexplained download, a request for a private key, or a “disable the scanner” step. A skill can be useful and still be unsafe; those are separate questions.</p>
+<h2>A small gate</h2>
+<p>Install into a scratch folder, run the smallest example, and watch the files and network calls. If the test needs a real secret, use a disposable one. Keep the skill only if you can explain what it did and how to remove it.</p>
+</section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75">
+<h2>Permissions</h2>
+<p>Ask what the skill needs: read a file, write a file, call a URL, run a command. A skill that needs all four for a text task is over-scoped. Prefer the skill that asks for less.</p>
+<h2>Removal</h2>
+<p>Know how to uninstall before you install. A skill that leaves files in three places is harder to trust. Keep a note of what it created.</p>
+</section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75"><h2>A final rule</h2><p>If you cannot explain what the skill did, do not keep it installed. Understanding is part of the permission.</p></section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75"><h2>Trust is a test</h2><p>The first run is the test, not the install. Keep the scratch folder until you have read what the skill wrote.</p></section></article>
+
+</div>
+<footer class="site">
+  <div class="wrap">
+    <nav><a href="/guides/">All guides</a> <a href="/privacy.html">Privacy</a> <a href="/contact.html">Contact</a></nav>
+    <p>© <span id="y"></span> Justin Helmer · chatagent.ca</p>
+  </div>
+</footer>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<div style="max-width:820px;margin:2rem auto;padding:0 1.15rem;font-size:.84rem;line-height:1.7;opacity:.85">
+<p><strong>More from the workshop:</strong>
+<a href="https://excavationpro.ca/">Excavationpro</a> &middot;
+<a href="https://asiancoastline.com/">Asian Coastline</a> &middot;
+<a href="https://bpmfinder.ca/">BPMfinder</a> &middot;
+<a href="https://justinhelmer.ca/">Justin Helmer</a> &middot;
+<a href="https://deepseekoracle.com/">DeepSeek Oracle</a> &middot;
+<a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
+<a href="https://bpmfinder.ca/tools.html">All tools</a></p>
+</div>
+</body>
+</html>

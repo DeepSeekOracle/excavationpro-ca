@@ -1,0 +1,14 @@
+{
+  "signature": "Delta9Phi963-PUBLIC-LATTICE-GATE-PAGE-v1.0.0",
+  "name": "LYGO Join Gate",
+  "version": "1.0.0",
+  "class": "RESOURCE",
+  "live_star_chart_ingest": false,
+  "doctrine": {
+    "is": "Browser door for lygo-public-lattice-gate. HTTPS GET public mirrors. Empty is honest.",
+    "rule": "No POST. No egg plant. No live Star Chart write. Required JSON ledgers ALIGNED or named SHADOW. HTML CORS miss is named SHADOW. Browser score cap 90 (no local stack +10). Human remains publisher."
+  },
+  "clawhub": "https://clawhub.ai/deepseekoracle/skills/lygo-public-lattice-gate",
+  "install": "npx clawhub@latest install deepseekoracle/lygo-public-lattice-gate",
+  "sealer": "npx clawhub@latest install deepseekoracle/lygo-geodesic-sealer"
+}

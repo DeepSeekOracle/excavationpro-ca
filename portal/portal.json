@@ -5,7 +5,7 @@
   "hf_model": "Qwen/Qwen2.5-1.5B-Instruct",
   "local_console": "http://127.0.0.1:9641",
   "page": "https://excavationpro.ca/portal/",
-  "docs": "https://chatagent.ca/lygo-llm-console.html",
-  "skillhub": "https://chatagent.ca/lygoskillhub.html",
+  "docs": "https://excavationpro.ca/lygo-llm-console.html",
+  "skillhub": "https://excavationpro.ca/lygoskillhub.html",
   "donate": "https://www.paypal.com/paypalme/ExcavationPro"
 }

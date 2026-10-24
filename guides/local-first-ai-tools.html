@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local-First AI Tools: Why We Prefer Offline Defaults | chatagent.ca</title>
+<meta name="description" content="Why chatagent.ca and LYGO tools default to local-first: privacy, cost, consent, and how to choose when cloud is worth it.">
+<meta name="author" content="Justin Helmer">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/guides/local-first-ai-tools.html">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:title" content="Local-First AI Tools. Why We Prefer Offline Defaults | chatagent.ca">
+<meta property="og:description" content="Why chatagent.ca and LYGO tools default to local-first: privacy, cost, consent, and how to choose when cloud is worth it.">
+<meta property="og:url" content="https://excavationpro.ca/guides/local-first-ai-tools.html">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1rem;background:#1a140c;color:#f3ece3;border-top:1px solid rgba(224,179,106,.45);font:500 .88rem/1.4 system-ui,sans-serif}
+.cookie-banner.show{display:flex}.cookie-banner a{color:#e0b36a}.cookie-banner button{border:0;border-radius:8px;padding:.45rem .8rem;font-weight:700;cursor:pointer}.cookie-banner .ok{background:#e0b36a;color:#1a140c}.cookie-banner .no{background:transparent;color:#f3ece3;border:1px solid rgba(255,255,255,.25)}
+@media(max-width:600px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Local-First AI Tools. Why We Prefer Offline Defaults | chatagent.ca", "description": "Why chatagent.ca and LYGO tools default to local-first: privacy, cost, consent, and how to choose when cloud is worth it.", "url": "https://excavationpro.ca/guides/local-first-ai-tools.html", "isPartOf": {"@type": "WebSite", "name": "Chatagent", "url": "https://excavationpro.ca"}}</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/app.html">Tools</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap prose">
+
+<p class="breadcrumb"><a href="/">Home</a> · <a href="/guides/">Guides</a> · Local-first</p>
+<article class="card">
+<p class="kicker">Philosophy in practice</p>
+<h1 style="margin-top:0;font-size:1.7rem;color:var(--accent2)">Local-first AI tools (and when cloud still wins)</h1>
+<p class="meta">By Justin Helmer · 8 August 2026</p>
+<p>Local-first does not mean “never use a network.” It means the default path works on your machine, with explicit consent for anything that leaves. That default is how we design Continuum, skill gates, and many ClawHub utilities.</p>
+<h2>Benefits you can feel</h2>
+<ul>
+<li><strong>Privacy</strong>, fewer accidental secret uploads.</li>
+<li><strong>Cost</strong>, hashing a file locally is free; stuffing logs into a paid API is not.</li>
+<li><strong>Reproducibility</strong>, stdlib scripts behave the same offline.</li>
+<li><strong>Consent clarity</strong>, flags like <code>--i-consent</code> make writes intentional.</li>
+</ul>
+
+
+
+<h2>When cloud is the right tool</h2>
+<p>Use hosted models for broad knowledge, multimodal leaps, or collaboration you cannot run locally. Be explicit: paste only redacted context; keep source of truth on disk; seal results.</p>
+<h2>A decision table</h2>
+<table class="simple">
+<thead><tr><th>Job</th><th>Prefer local</th><th>Prefer cloud</th></tr></thead>
+<tbody>
+<tr><td>File hash / claim verify</td><td>yes</td><td>no need</td></tr>
+<tr><td>Skill risk scan</td><td>yes</td><td>optional second opinion</td></tr>
+<tr><td>Creative brainstorm</td><td>small models ok</td><td>frontier models shine</td></tr>
+<tr><td>Public search synthesis</td><td>limited</td><td>often better</td></tr>
+</tbody>
+</table>
+<p>chatagent.ca itself is a static educational site: content is public, tools that touch your files explain that they run in-browser or as local scripts.</p>
+<div class="related"><h3>Related</h3><ul>
+<li><a href="/guides/safe-openclaw-skills.html">Safe skills</a></li>
+<li><a href="/guides/ai-agent-done-claims-continuum.html">Continuum</a></li>
+<li><a href="/editorial-standards.html">Editorial standards</a></li>
+</ul></div>
+<section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75">
+<h2>What local-first means</h2>
+<p>Local-first means the model, the file, or the index can live on a machine you control, and the tool still works when the network is slow or absent. It does not mean “no network ever”; it means the network is an option, not the only copy of your work.</p>
+<h2>The trade-offs</h2>
+<p>Local tools cost disk, memory, and setup time. They can be slower than a hosted model and harder to update. The benefit is control: you can read the code, keep the data, and decide when to share. A local tool that hides its data path is not local-first; it is a hosted tool with a local icon.</p>
+<h2>A simple test</h2>
+<p>Turn off the network and open the tool. If it can still read your files and produce a result, it is local-first for that job. If it shows a login screen, it is not. The test is crude and it catches most of the marketing.</p>
+</section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75">
+<h2>What to keep local</h2>
+<p>Keep the source files, the index, and anything private on the machine you control. The model can be remote if the inputs are not. The useful question is not “is the model local?” but “where does the data go?”</p>
+<h2>A practical setup</h2>
+<p>Start with a small local model for private drafts, a hosted model for public brainstorming, and a shared folder for the files that matter. Write down which tool sees which data. That note is more valuable than a bigger model.</p>
+</section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75"><h2>A note on privacy</h2><p>Local-first is a data-boundary choice, not a personality. A local model can still log a prompt; a hosted model can still be private if the inputs are public. The question is always what leaves the machine, not where the icon lives.</p></section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75"><h2>The smallest useful setup</h2><p>One local model for private drafts, one hosted model for public work, and one folder that holds the files. The setup is small on purpose; a larger stack is harder to audit.</p></section><section style="max-width:820px;margin:2rem auto;padding:0 1.15rem;line-height:1.75"><h2>The real test</h2><p>Unplug the network and try the job. If it still works, the setup is local-first for that job.</p></section></article>
+
+
+<div class="author-box">
+  <img src="/assets/champions/lightfather.jpg?v=20260907" alt="Publisher portrait" width="72" height="72" loading="lazy">
+  <div>
+    <strong>Justin Helmer</strong>
+    <p>Publisher of chatagent.ca · known as Excavationpro / Lightfather in LYGO projects. Writes practical guides on AI personas, agent handoffs, and free local-first tools. <a href="/about.html">About</a> · <a href="/contact.html">Contact</a></p>
+  </div>
+</div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/editorial-standards.html">Editorial standards</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </nav>
+    <p class="site-footer-blurb">chatagent.ca is an independent educational site by Justin Helmer (Excavationpro). Free guides and tools. Optional ads support hosting when approved.</p>
+    <p>© <span class="y"></span> Justin Helmer · chatagent.ca</p>
+  </div>
+</footer>
+<script>document.querySelectorAll('.y').forEach(function(e){e.textContent=new Date().getFullYear()});</script>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<div style="max-width:820px;margin:2rem auto;padding:0 1.15rem;font-size:.84rem;line-height:1.7;opacity:.85">
+<p><strong>More from the workshop:</strong>
+<a href="https://excavationpro.ca/">Excavationpro</a> &middot;
+<a href="https://asiancoastline.com/">Asian Coastline</a> &middot;
+<a href="https://bpmfinder.ca/">BPMfinder</a> &middot;
+<a href="https://justinhelmer.ca/">Justin Helmer</a> &middot;
+<a href="https://deepseekoracle.com/">DeepSeek Oracle</a> &middot;
+<a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
+<a href="https://bpmfinder.ca/tools.html">All tools</a></p>
+</div>
+</body>
+</html>

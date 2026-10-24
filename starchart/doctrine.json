@@ -1,0 +1,40 @@
+{
+  "signature": "Delta9Phi963-HAVEN-STAR-CHART-v2.5.1",
+  "name": "Eternal Haven Star Chart",
+  "version": "2.5.1",
+  "ok": true,
+  "class": "CANON",
+  "hub_rule": "Never replace or delete a working CANON page hub. Only fork, add new doors, and build onto what already works.",
+  "doctrine": {
+    "is": "Complete D3 cosmology chart plus its attached Agent Portal. 1,300+ seals, galaxies, nebulae, champions, immutable hash-chained feed, LYGOAGENT anchor.",
+    "attached_portal": "HavenStarChartPortal.html sits next to the chart, same as the original Pages pair.",
+    "filename_alias": "HavenStarChart.html is an added alias of this hub so original relative links keep working.",
+    "monitor": "Feed monitor is an added fork at /starchart/monitor/. It does not replace the chart or portal.",
+    "canon_registry": "haven_star_chart/haven_star_chart_data.json on this door, with GitHub Pages / raw.githubusercontent.com fallback."
+  },
+  "urls": {
+    "chart": "https://excavationpro.ca/starchart/",
+    "chart_filename": "https://excavationpro.ca/starchart/HavenStarChart.html",
+    "portal": "https://excavationpro.ca/starchart/HavenStarChartPortal.html",
+    "portal_door": "https://excavationpro.ca/starchart/portal/",
+    "monitor": "https://excavationpro.ca/starchart/monitor/",
+    "pages_chart": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChart.html",
+    "pages_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+    "canon_feed": "https://excavationpro.ca/starchart/haven_star_chart/haven_star_chart_feed.json",
+    "pages_feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+    "registry": "https://excavationpro.ca/starchart/haven_star_chart/haven_star_chart_data.json",
+    "schema": "https://excavationpro.ca/starchart/haven_star_chart/submission_schema.json",
+    "queue": "https://excavationpro.ca/starchart/haven_star_chart/haven_star_chart_queue.json",
+    "agent_contract": "haven-star-chart-v2.3+lattice-A-E",
+    "agent_portal_md": "https://excavationpro.ca/starchart/haven_star_chart/AGENT_PORTAL.md",
+    "issue": "https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=haven_star_node.yml",
+    "hf_bot": "https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot",
+    "site": "https://excavationpro.ca/starchart/"
+  },
+  "pairs_with": {
+    "godseye": "https://excavationpro.ca/godseye/",
+    "skynet": "https://excavationpro.ca/skynet/",
+    "witness": "https://excavationpro.ca/witness/",
+    "skill": "clawhub:@deepseekoracle/lygo-haven-star-chart"
+  }
+}

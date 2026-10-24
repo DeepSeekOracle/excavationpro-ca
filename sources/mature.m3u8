@@ -1,0 +1,10 @@
+#EXTM3U
+# LYGO TV — 18+ entertainment, not XXX. Public official streams/embeds only.
+#EXTINF:-1 tvg-id="AdultSwim.us" group-title="18+ entertainment",Adult Swim official stream
+https://media.cdn.adultswim.com/streams/playlists/live-stream.primary.v2.m3u8
+#EXTINF:-1 group-title="18+ entertainment",Adult Swim YouTube LIVE
+https://www.youtube-nocookie.com/embed/live_stream?channel=UCgPClNr5VSYC3syrDUIlzLw
+#EXTINF:-1 group-title="18+ entertainment",Adult Swim YouTube videos
+https://www.youtube-nocookie.com/embed/videoseries?list=UUgPClNr5VSYC3syrDUIlzLw
+#EXTINF:-1 group-title="18+ entertainment",Comedy Central YouTube videos
+https://www.youtube-nocookie.com/embed/videoseries?list=UUUsN5ZwHx2kILm84-jPDeXw

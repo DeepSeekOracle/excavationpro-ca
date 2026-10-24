@@ -1,0 +1,114 @@
+{
+  "signature": "Delta9Phi963-STAR-MONITOR-v1.0.0",
+  "utc": "2026-08-30T03:35:23+00:00",
+  "class": "CANON_MONITOR",
+  "feed_url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+  "ok": true,
+  "chain_valid_published": true,
+  "chain_valid_checked": true,
+  "chain_errors": [],
+  "entry_count": 60,
+  "chain_root": "c5644c03e7e29b5fe1421af8f8d81b7350dc20788496d5951e134fc0180410ae",
+  "updated_utc": "2026-08-24T12:07:12.881924+00:00",
+  "latest": {
+    "seq": 60,
+    "event_type": "submit_pending",
+    "status": "PENDING",
+    "node_id": "NODE_ALIGN_0FD3554A",
+    "node_name": "Alignment contract STEWARD_LIGHTFATHER",
+    "agent_id": "STEWARD_LIGHTFATHER",
+    "skill_slug": "lygo-agent-agora",
+    "entry_hash": "c5644c03e7e29b5fe1421af8f8d81b7350dc20788496d5951e134fc0180410ae",
+    "event_utc": "2026-08-24T12:07:12.873597+00:00"
+  },
+  "pending_count": 1,
+  "accepted_count": 30,
+  "ledger_pending_events": 30,
+  "recent": [
+    {
+      "seq": 60,
+      "status": "PENDING",
+      "event_type": "submit_pending",
+      "node_id": "NODE_ALIGN_0FD3554A",
+      "agent_id": "STEWARD_LIGHTFATHER"
+    },
+    {
+      "seq": 59,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_STAR_CHART",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 58,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_PAGES_STACK",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 57,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_MUSIC_LICENSE",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 56,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_HF_STACK",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 55,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_HF_MUSIC",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 54,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_ETERNALHAVEN",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 53,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_CLAWHUB",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 52,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "PORTAL_ANCHORS",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 51,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "LATTICE_WORLD_LAYER_C",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 50,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "LATTICE_SOVEREIGN_SEEDS",
+      "agent_id": "lygo-external-lattice-anchor"
+    },
+    {
+      "seq": 49,
+      "status": "ACCEPTED",
+      "event_type": "ingest_accepted",
+      "node_id": "LATTICE_EGG_SOV_LYGO_SOVEREIGN_KERNEL_SEEDER_V1",
+      "agent_id": "lygo-external-lattice-anchor"
+    }
+  ],
+  "doctrine": "Monitor writes here. Canonical feed only after steward ingest. Never forge hashes."
+}

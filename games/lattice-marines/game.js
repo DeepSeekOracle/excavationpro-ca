@@ -2796,7 +2796,7 @@
         <select id="cmdPick" style="flex:1;min-width:0">${opts}</select>
         <button class="btn" type="button" id="cmdNext">▶</button>
       </div>
-      <p class="sel-meta">Pick before you lock 3 HQs. 15 Haven champions · <a href="https://chatagent.ca/app.html" target="_blank" rel="noopener">chatagent.ca</a></p>`}
+      <p class="sel-meta">Pick before you lock 3 HQs. 15 Haven champions · <a href="https://excavationpro.ca/app.html" target="_blank" rel="noopener">chatagent.ca</a></p>`}
     `;
     if (locked) return;
     const refresh = () => { const p = $("cmdPanel"); if (p) p.dataset.k = ""; paintPortrait(); };
@@ -3097,7 +3097,7 @@
       <p><b>Population:</b> City Squares mint 1 People per turn. Spend 50 People on a Forum. Each standing Forum auras Chebyshev 3 (Mk2→4, Mk3→5) and stacks +50%: Ordnance (missile/ICBM damage from pads inside), Bastion (defense + guns/AA), Mint (econ credits), Depot (fuel), Grid (power). Overlap is the point — clustered Forums go unfair; misplaced ones waste the census.</p>
       <p><b>Reclaim:</b> 50c Reclaim Pads drop on water, turn the tile into a pontoon deck, and extend command range by 2. Click a pad with another building selected to occupy that deck. Chain pads + relays to hop the sea when the island runs out of land.</p>
       <p><b>Stipend:</b> 150 credits every turn even with no economy, so a wrecked island can always raise a new Economic Centre.</p>
-      <p><b>Council:</b> pick one of the 15 Δ9 champions from <a href="https://chatagent.ca/app.html" target="_blank" rel="noopener">chatagent.ca</a>. Each carries Haven lore and a small island bonus. Cycle from the right-rail portrait or the title menu.</p>
+      <p><b>Council:</b> pick one of the 15 Δ9 champions from <a href="https://excavationpro.ca/app.html" target="_blank" rel="noopener">chatagent.ca</a>. Each carries Haven lore and a small island bonus. Cycle from the right-rail portrait or the title menu.</p>
       <p><b>Fog:</b> queued missiles stay in the black until they hit. Probes paint a 5×5 on impact. Living units keep their vision disc every turn — hills add +1 sight, forest cuts it. Interior forest still blocks radar; the canopy edge does not. Stale scans fade after a few turns but leave a ghost.</p>
       <p><b>Salvo:</b> silos and ICBMs rearm every turn (one rocket per live pad). Hangar and factory sorties stay in the field until they die, then that pad waits one full turn to rearm. Airstrikes also cost a hangar a full-turn rearm. One EMP per tower. Each AA fires once per incoming wave and also shoots grounded jets/drones.</p>
       <p><b>Win:</b> level all three enemy Command Centres. <b>Lose:</b> yours fall. Score rewards wreckage, surviving kit, and a brisk economy; long wars pay a time tax. Wins unlock scouts, drones, tanks, hovercraft, howitzers, jets, shields, ICBMs, EMP, airstrikes, and the spy satellite. After 10 wins you prestige for a score multiplier.</p>

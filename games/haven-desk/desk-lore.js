@@ -173,7 +173,7 @@
     "What follows is already public.",
     "",
     "https://grokipedia.com/page/Justin_Helmer",
-    "https://chatagent.ca/about.html"
+    "https://excavationpro.ca/about.html"
   ].join("\n"), "builder");
 
   note("own-motto", "Motto.txt", [
@@ -185,7 +185,7 @@
     "",
     "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "https://deepseekoracle.github.io/lygo-protocol-stack/",
-    "https://chatagent.ca/guides/lygo-protocol-stack.html",
+    "https://excavationpro.ca/guides/lygo-protocol-stack.html",
     "https://grokipedia.com/page/lygo-protocol-stack",
     "https://grokipedia.com/page/LYGO_Protocol"
   ].join("\n"), "builder");
@@ -217,7 +217,7 @@
     "Tune the word lang if the deck has not played it.",
     "",
     "https://grokipedia.com/page/LYGO-LANG",
-    "https://chatagent.ca/signal/lygo-lang-consciousness-oriented-programming/"
+    "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/"
   ].join("\n"), "builder");
 
   folder("builder", "Builder", 104, 476);
@@ -269,14 +269,14 @@
       audio.src = "https://chatagent.ca/signal/audio/" + ep.slug + ".mp3";
       var a = document.createElement("p");
       var link = document.createElement("a");
-      link.href = "https://chatagent.ca/signal/" + ep.slug + "/";
+      link.href = "https://excavationpro.ca/signal/" + ep.slug + "/";
       link.target = "_blank";
       link.rel = "noopener";
       link.textContent = "Open the show page";
       a.appendChild(link);
       var hub = document.createElement("p");
       var hall = document.createElement("a");
-      hall.href = "https://chatagent.ca/signal/";
+      hall.href = "https://excavationpro.ca/signal/";
       hall.target = "_blank";
       hall.rel = "noopener";
       hall.textContent = "All LYGO Signal hours";
@@ -312,7 +312,7 @@
       "Source pages:",
       "https://github.com/DeepSeekOracle/lygo-protocol-stack",
       "https://deepseekoracle.github.io/lygo-protocol-stack/",
-      "https://chatagent.ca/guides/lygo-protocol-stack.html",
+      "https://excavationpro.ca/guides/lygo-protocol-stack.html",
       "https://grokipedia.com/page/lygo-protocol-stack"
     ].join("\n"), "console");
   });
@@ -325,7 +325,7 @@
     "Open the P files in order. They are short on purpose.",
     "",
     "SkillHub, the public skill shelf:",
-    "https://chatagent.ca/lygoskillhub.html",
+    "https://excavationpro.ca/lygoskillhub.html",
     "",
     "The protocol pages:",
     "https://grokipedia.com/page/LYGO_Protocol",
@@ -365,7 +365,7 @@
     "",
     "https://grokipedia.com/page/Lyra_Genesis_Protocols",
     "https://grokipedia.com/page/LYGO_Champions",
-    "https://chatagent.ca/signal/ai-evolution-lyra-genesis-protocols/"
+    "https://excavationpro.ca/signal/ai-evolution-lyra-genesis-protocols/"
   ].join("\n"), "champions");
 
   note("ch-council", "Council.txt", [
@@ -408,9 +408,9 @@
     "Hearth Player, already on this desk, tries the public playlist and falls back to a square-wave tone.",
     "LYGO Signal is the spoken shelf.",
     "",
-    "https://chatagent.ca/signal/",
-    "https://chatagent.ca/signal/construction-fantasy-ethical-ai/",
-    "https://chatagent.ca/signal/justin-helmer-s-multi-dimensional-world/"
+    "https://excavationpro.ca/signal/",
+    "https://excavationpro.ca/signal/construction-fantasy-ethical-ai/",
+    "https://excavationpro.ca/signal/justin-helmer-s-multi-dimensional-world/"
   ].join("\n"), "home");
 
   note("home-lattice", "Lattice.txt", [
@@ -419,8 +419,8 @@
     "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "https://huggingface.co/DeepSeekOracle/lygo-protocol-stack",
-    "https://chatagent.ca/lygoskillhub.html",
-    "https://chatagent.ca/guides/lygo-protocol-stack.html",
+    "https://excavationpro.ca/lygoskillhub.html",
+    "https://excavationpro.ca/guides/lygo-protocol-stack.html",
     "https://deepseekoracle.github.io/Excavationpro/lygorepo.html"
   ].join("\n"), "home");
 
@@ -437,7 +437,7 @@
     "If you want the real thing, the links in Lattice.txt are the door.",
     "Truth Is. Light Becomes.",
     "",
-    "https://chatagent.ca/signal/",
+    "https://excavationpro.ca/signal/",
     "https://grokipedia.com/page/lygo-protocol-stack"
   ].join("\n"), "home");
 

@@ -294,7 +294,7 @@
     if (name === "champion") {
       const n = String(args.name || "").toUpperCase();
       const key = Object.keys(champs).find(function (k) { return k.toUpperCase() === n || k.replace(/Δ/g, "D") === n; }) || args.name;
-      return { ok: true, name: key, lens: champs[key] || "Unknown seat. Directory: https://chatagent.ca/champions.html" };
+      return { ok: true, name: key, lens: champs[key] || "Unknown seat. Directory: https://excavationpro.ca/champions.html" };
     }
     if (name === "skill_list") {
       const rows = skills.map(function (s) { return { slug: s.slug, name: s.name, when: s.when, enabled: enabled[s.slug] !== false }; });
@@ -345,7 +345,7 @@
       return { ok: true, hits: j.skills || j.results || j, class: "RESOURCE" };
     }
     if (name === "skillhub_list") {
-      const j = await getJson("https://chatagent.ca/data/lygoskillhub_catalog.json");
+      const j = await getJson("https://excavationpro.ca/data/lygoskillhub_catalog.json");
       const q = String(args.q || "").toLowerCase();
       let rows = j.skills || j.items || [];
       if (q) rows = rows.filter(function (s) { return JSON.stringify(s).toLowerCase().indexOf(q) >= 0; });
@@ -406,9 +406,9 @@
       return { ok: true, ids: j.esearchresult && j.esearchresult.idlist, class: "RESOURCE" };
     }
     if (name === "continuity_seed") {
-      const seed = await getJson("https://chatagent.ca/portal/CONTINUITY_SEED.json");
+      const seed = await getJson("/portal/CONTINUITY_SEED.json");
       let poem = "";
-      try { poem = await getText("https://chatagent.ca/continuity-seed/POEM.txt"); } catch (_) {}
+      try { poem = await getText("https://excavationpro.ca/continuity-seed/POEM.txt"); } catch (_) {}
       const enc = new TextEncoder().encode((String(poem).replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim() + "\n"));
       let hex = "";
       try {
@@ -425,13 +425,13 @@
         poem: String(poem).slice(0, 2000),
         sha256: hex,
         alignment_match: match,
-        page: "https://chatagent.ca/continuity-seed/",
+        page: "https://excavationpro.ca/continuity-seed/",
       };
     }
     if (name === "lattice_handshake") {
       const urls = {
-        join: "https://chatagent.ca/join/",
-        agents: "https://chatagent.ca/agents/",
+        join: "https://excavationpro.ca/join/",
+        agents: "https://excavationpro.ca/agents/",
         anchors: "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
         starchart: "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
         agora: "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
@@ -462,11 +462,11 @@
       return {
         ok: true,
         surface: "LYGO API Portal",
-        url: "https://chatagent.ca/portal/",
+        url: "/portal/",
         org: "https://github.com/DeepSeekOracle",
         hf: "https://huggingface.co/DeepSeekOracle",
-        lattice: "https://chatagent.ca/",
-        local_kit: "https://chatagent.ca/lygoskillhub.html#lygo-llm-kernel",
+        lattice: "https://excavationpro.ca",
+        local_kit: "https://excavationpro.ca/lygoskillhub.html#lygo-llm-kernel",
         not: "hosted GPU; visitor disk; admin vaults",
       };
     }

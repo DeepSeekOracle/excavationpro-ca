@@ -1,0 +1,33 @@
+{
+  "signature": "Delta9Phi963-STAR-MONITOR-v1.0.0",
+  "name": "LYGO Star Chart Live Monitor",
+  "version": "1.0.0",
+  "class": "CANON_MONITOR",
+  "doctrine": {
+    "is": "Live GET of the Haven Star Chart hash-chained feed, plus HF-side monitor ledger and a consent-gated pending queue.",
+    "writes": {
+      "always": "HF dataset star-monitor.json (health of the public feed). Not a forged chain entry.",
+      "consent": "HF dataset pending/ proposals after an explicit I-consent click on the bot.",
+      "never_from_bot": ["canonical haven_star_chart_feed.json append", "forged entry_hash / prev_hash", "silent git push of lygo-protocol-stack", "steward ingest"]
+    },
+    "live_path": "gate ACCEPT → submit --i-consent → pending/ → steward ingest --i-consent → rebuild. Human remains publisher of CANON.",
+    "not": ["Palantir", "private intel", "silent auto-mutate of the Pages feed"]
+  },
+  "urls": {
+    "canon_feed": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+    "chart": "https://excavationpro.ca/starchart/",
+    "portal": "https://excavationpro.ca/starchart/HavenStarChartPortal.html",
+    "pages_portal": "https://deepseekoracle.github.io/lygo-protocol-stack/HavenStarChartPortal.html",
+    "issue": "https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=haven_star_node.yml",
+    "hf_bot": "https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot",
+    "hf_monitor": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/star-monitor.json",
+    "dataset": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed",
+    "site": "https://excavationpro.ca/starchart/monitor/"
+  },
+  "pairs_with": {
+    "godseye": "https://excavationpro.ca/godseye/",
+    "skynet": "https://excavationpro.ca/skynet/",
+    "witness": "https://excavationpro.ca/witness/",
+    "skill": "clawhub:@deepseekoracle/lygo-haven-star-chart"
+  }
+}

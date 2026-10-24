@@ -148,7 +148,7 @@ function paint() {
   const read = $("scene-read");
   if (read) {
     const novel = beat.novel || novelFor(beat.chapter || 0);
-    read.href = "https://chatagent.ca/books/" + novel + "/";
+    read.href = "https://excavationpro.ca/books/" + novel + "/";
     read.hidden = !beat.read;
   }
   const banner = $("scene-banner");

@@ -17,7 +17,7 @@
  "summary": "The LYGO Join Gate explained: a public GET request that audits an agent against the dual ledgers, scores browser alignment out of ninety and issues a Restore Card, and still waits for a human steward to consent.",
  "source": {
   "title": "LYGO Join Gate",
-  "path": "https://chatagent.ca/join/",
+  "path": "https://excavationpro.ca/join/",
   "steward": "Justin Helmer / Lightfather / Excavationpro"
  },
  "chapters": [

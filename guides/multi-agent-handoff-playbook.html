@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Agent Handoff Playbook: Stop Losing Context Between Sessions | chatagent.ca</title>
+<meta name="description" content="A playbook for handing work between AI agents and humans: packets, Continuum seals, vocabulary, and failure modes.">
+<meta name="author" content="Justin Helmer">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/guides/multi-agent-handoff-playbook.html">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:title" content="Multi-Agent Handoff Playbook. Stop Losing Context Between Sessions | chatagent.ca">
+<meta property="og:description" content="A playbook for handing work between AI agents and humans: packets, Continuum seals, vocabulary, and failure modes.">
+<meta property="og:url" content="https://excavationpro.ca/guides/multi-agent-handoff-playbook.html">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1rem;background:#1a140c;color:#f3ece3;border-top:1px solid rgba(224,179,106,.45);font:500 .88rem/1.4 system-ui,sans-serif}
+.cookie-banner.show{display:flex}.cookie-banner a{color:#e0b36a}.cookie-banner button{border:0;border-radius:8px;padding:.45rem .8rem;font-weight:700;cursor:pointer}.cookie-banner .ok{background:#e0b36a;color:#1a140c}.cookie-banner .no{background:transparent;color:#f3ece3;border:1px solid rgba(255,255,255,.25)}
+@media(max-width:600px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Multi-Agent Handoff Playbook. Stop Losing Context Between Sessions | chatagent.ca", "description": "A playbook for handing work between AI agents and humans: packets, Continuum seals, vocabulary, and failure modes.", "url": "https://excavationpro.ca/guides/multi-agent-handoff-playbook.html", "isPartOf": {"@type": "WebSite", "name": "Chatagent", "url": "https://excavationpro.ca"}}</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/app.html">Tools</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap prose">
+
+<p class="breadcrumb"><a href="/">Home</a> · <a href="/guides/">Guides</a> · Handoffs</p>
+<article class="card">
+<p class="kicker">Team systems</p>
+<h1 style="margin-top:0;font-size:1.7rem;color:var(--accent2)">Multi-agent handoff playbook</h1>
+<p class="meta">By Justin Helmer · 8 August 2026 · Original playbook</p>
+<p>Switching from Grok to Claude to a local model should not reset truth. This playbook is how we move work across agents on LYGO projects without relying on “read the whole chat.”</p>
+<h2>The packet</h2>
+<p>Every handoff packet contains:</p>
+<ul>
+<li>Goal and non-goals</li>
+<li>Current status (green / yellow / red) with reasons</li>
+<li>File map (paths that matter)</li>
+<li>Continuum capsule or hash list</li>
+<li>Open questions for humans</li>
+<li>Next three actions only</li>
+</ul>
+<p>If a packet lacks done checks, it is a diary entry, not a handoff.</p>
+
+
+
+<h2>Roles</h2>
+<table class="simple">
+<thead><tr><th>Role</th><th>Job</th><th>Champion lens</th></tr></thead>
+<tbody>
+<tr><td>Builder</td><td>Change files</td><td>ARKOS / OMNIΣIREN</td></tr>
+<tr><td>Verifier</td><td>Re-check claims</td><td>Δ9RA / ÆTHERIS</td></tr>
+<tr><td>Integrator</td><td>Merge and release notes</td><td>SANCORA / Lightfather</td></tr>
+<tr><td>Human owner</td><td>Consent and publish</td><td>always human</td></tr>
+</tbody>
+</table>
+<h2>Failure modes</h2>
+<ul>
+<li><strong>Story without files</strong>, reject the handoff.</li>
+<li><strong>Files without claims</strong>, seal before switching agents.</li>
+<li><strong>Claims without re-verify</strong>, verify is the first act of the new agent.</li>
+<li><strong>Secret leakage</strong>, redaction pass before packet paste.</li>
+</ul>
+<h2>30-minute drill</h2>
+<ol>
+<li>Pick a tiny task.</li>
+<li>Complete it with Agent A.</li>
+<li>Seal Continuum claims.</li>
+<li>Open Agent B with only the packet (no prior chat).</li>
+<li>Agent B must re-verify and extend work.</li>
+</ol>
+<p>If B cannot proceed, the packet was incomplete, improve the template, not the mythic language.</p>
+<div class="related"><h3>Related</h3><ul>
+<li><a href="/lygo-continuum.html">Continuum portal</a></li>
+<li><a href="/champions/sancora.html">SANCORA</a></li>
+<li><a href="/guides/safe-openclaw-skills.html">Skill safety</a></li>
+</ul></div>
+<h2>A packet that survives a new session</h2>
+<p>The test of a handoff is simple: a competent agent with no access to the previous chat should be able to continue without guessing. If it needs the transcript, the handoff is not finished. The packet is the map; the chat is the weather.</p>
+<pre style="white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:0.82rem;background:#f4f2ec;padding:1rem;border-radius:10px;border:1px solid #e4e0d8">GOAL:
+One sentence. What is this work supposed to achieve?
+
+NON-GOALS:
+Three things this handoff is not trying to do.
+
+STATUS:
+Green / yellow / red, with one sentence of evidence.
+
+FILES:
+- path, role, last verified hash or date
+- path, role, last verified hash or date
+
+DECISIONS:
+- decision, why, date
+
+CLAIMS / SEALS:
+- claim, check, result, date
+
+OPEN QUESTIONS:
+- question, who can answer it, what happens if unanswered
+
+NEXT 3 ACTIONS:
+1.
+2.
+3.
+
+CHECK:
+The command, URL, or page that proves the handoff is real.
+
+OWNER:
+Who receives the packet and who can publish.
+</pre>
+
+<h2>Worked example</h2>
+<p>Agent A has rewritten a guide. It has not published. The packet to Agent B looks like this:</p>
+<pre style="white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:0.82rem;background:#f4f2ec;padding:1rem;border-radius:10px;border:1px solid #e4e0d8">GOAL:
+Finish the guide rewrite and hand it to the human publisher.
+
+NON-GOALS:
+- Do not change the site navigation.
+- Do not add new pages.
+- Do not publish.
+
+STATUS:
+Yellow, draft is complete, but the internal link audit has not run.
+
+FILES:
+- guides/example.html, the draft, modified 2026-10-18
+- guides/index.html, links into the draft, unchanged
+
+DECISIONS:
+- Kept the existing headline.
+- Removed the old FAQ because it repeated the intro.
+
+CLAIMS / SEALS:
+- claim: page contains the new worked example
+  check: grep for "Worked example", pass
+- claim: every internal link resolves
+  check: link audit. NOT RUN
+
+OPEN QUESTIONS:
+- Should the old FAQ stay? Owner: human publisher.
+
+NEXT 3 ACTIONS:
+1. Run the internal link audit.
+2. Fix any broken link.
+3. Send the diff and audit result to the human.
+
+CHECK:
+`link_audit.py --repo .` exits 0.
+
+OWNER:
+Agent B prepares; human publisher approves.
+</pre>
+<p>Agent B’s first three actions are not “read the whole chat.” They are: restate the goal, run the missing check, report the result. If B cannot do that from the packet, the packet is incomplete.</p>
+
+<div class="ad-slot" aria-label="Advertisement">
+  <div class="ad-label">Advertisement</div>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<h2>Status vocabulary</h2>
+<p>“Status: in progress” is not a status. Use three colors and attach evidence.</p>
+<table class="simple">
+<thead><tr><th>Status</th><th>Meaning</th><th>What the packet must include</th><th>What the next agent may do</th></tr></thead>
+<tbody>
+<tr><td><strong>Green</strong></td><td>The stated check passed and there is no open blocker.</td><td>The check output and the date.</td><td>Continue to the next action; still re-verify before publishing.</td></tr>
+<tr><td><strong>Yellow</strong></td><td>Work is usable, but one known risk or check is outstanding.</td><td>The risk, the missing check, and the owner.</td><td>Resolve the risk first; do not call it done.</td></tr>
+<tr><td><strong>Red</strong></td><td>A check failed or a decision is blocked.</td><td>The failing output and what was tried.</td><td>Stop and ask the owner; do not paper over it.</td></tr>
+</tbody>
+</table>
+<p>A yellow handoff is normal. A red handoff is useful. A green handoff without a check is a story.</p>
+
+<h2>The file map</h2>
+<p>A file path is not enough. The map should say what each file is for and when it was last verified. “The page” is not a path. “The guide” is not a file. Write the path, the role, and the last check.</p>
+<ul>
+<li><strong>Source of truth:</strong> the file the next agent should edit.</li>
+<li><strong>Generated output:</strong> the file that must be rebuilt, not hand-edited.</li>
+<li><strong>Reference:</strong> the file that explains the intent, not the file to change.</li>
+<li><strong>Forbidden:</strong> the file that must not be touched in this task.</li>
+</ul>
+<p>If a file is generated, say so. An agent that edits a generated file creates a change that disappears on the next build.</p>
+
+<h2>Claims and seals</h2>
+<p>A handoff claim has four parts: the claim, the check, the result, and the date. “The page is fixed” is not a claim. “The page returns 200 and the link audit exits 0 on 18 October” is. If you use Continuum, the capsule is the container; if you do not, a hash or a URL plus a date is enough to start.</p>
+<p>The receiving agent should re-run at least one claim before extending the work. Re-verification is not distrust; it is how the new agent learns the shape of the task. A claim that only works in the sender’s session is a memory, not a receipt.</p>
+
+<h2>Human-to-agent handoff</h2>
+<p>The same packet works in both directions. A human handing work to an agent should include the goal, the files, the constraints, and the check. An agent handing work back to a human should include the diff, the check output, the open questions, and the exact decision the human needs to make.</p>
+<p>The human keeps the publish/consent step. The packet can recommend “publish,” but it cannot grant permission. That boundary is the difference between a handoff and an automation.</p>
+
+<h2>The 30-minute drill, with pass/fail</h2>
+<ol>
+<li><strong>Pick a tiny task</strong> that changes one file and has one check. A one-paragraph edit is enough.</li>
+<li><strong>Agent A completes it</strong> and writes the packet. No chat history is allowed in the packet.</li>
+<li><strong>Seal one claim</strong>, a hash, a URL status, or a Continuum capsule.</li>
+<li><strong>Open Agent B with only the packet.</strong> B must restate the goal and the next action in one sentence.</li>
+<li><strong>B runs the check</strong> before changing anything. If the check fails, B reports red and stops.</li>
+<li><strong>B makes one improvement</strong> and updates the packet. Compare the two packets.</li>
+</ol>
+<table class="simple">
+<thead><tr><th>Result</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td>B restates the goal correctly and runs the check</td><td>Pass, the packet is usable.</td></tr>
+<tr><td>B asks for the chat history</td><td>Fail, the packet is missing context or a file path.</td></tr>
+<tr><td>B invents a file path</td><td>Fail, the file map is ambiguous.</td></tr>
+<tr><td>B cannot tell whether the check passed</td><td>Fail, the claim lacks a result or a date.</td></tr>
+<tr><td>B finds a red status and stops</td><td>Pass, the handoff is honest, even though the work is blocked.</td></tr>
+</tbody>
+</table>
+
+<h2>Failure modes, with examples</h2>
+<table class="simple">
+<thead><tr><th>Failure</th><th>What it looks like</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Story without files</td><td>“I updated the page and it looks good.”</td><td>Name the path, the diff, and the check.</td></tr>
+<tr><td>Files without claims</td><td>A list of paths with no proof anything changed.</td><td>Add one claim with a check and a date.</td></tr>
+<tr><td>Claims without re-verify</td><td>The new agent trusts “done” and builds on it.</td><td>Re-run one claim before extending.</td></tr>
+<tr><td>Secret leakage</td><td>A token or private URL pasted into the packet.</td><td>Redact before the packet; rotate if it slipped.</td></tr>
+<tr><td>Stale packet</td><td>The file changed after the packet was written.</td><td>Include the last verified date; re-check it.</td></tr>
+<tr><td>Too many next actions</td><td>A list of twelve things, none prioritized.</td><td>Three actions maximum; one is better.</td></tr>
+<tr><td>No owner</td><td>“Someone should review this.”</td><td>Name the human who can approve.</td></tr>
+</tbody>
+</table>
+
+<h2>What not to put in a packet</h2>
+<ul>
+<li>The full chat transcript. Link to it if it matters; do not paste it.</li>
+<li>Personality notes or lore that do not change the task.</li>
+<li>Secrets, private URLs, customer data, or unredacted logs.</li>
+<li>Speculative ideas that are not decisions. Mark them as open questions or leave them out.</li>
+<li>Twenty next actions. The packet is a map, not a backlog.</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>How is a packet different from a task brief?</h3>
+<p>A brief starts work; a packet moves work that already exists. The brief defines the job; the packet records the state, the files, the claims, and the next action.</p>
+<h3>Do I need Continuum to hand off work?</h3>
+<p>No. A hash, a URL status, or a dated screenshot can be enough. Continuum is useful when you want the claims and the checks in one capsule. The principle is the same: a claim needs a check.</p>
+<h3>Can a human be the receiving agent?</h3>
+<p>Yes. The packet is written for a competent stranger, human or machine. The human still owns the publish decision.</p>
+<h3>How often should the packet be updated?</h3>
+<p>At every handoff, and whenever a check result changes. A packet that is updated only at the end of a project is a postmortem, not a handoff.</p>
+<h3>What if the next agent disagrees with a decision?</h3>
+<p>It should record the disagreement as an open question and ask the owner. A handoff is not a command to repeat the past; it is a map of what is known.</p>
+</article>
+
+
+<div class="author-box">
+  <img src="/assets/champions/lightfather.jpg?v=20260907" alt="Publisher portrait" width="72" height="72" loading="lazy">
+  <div>
+    <strong>Justin Helmer</strong>
+    <p>Publisher of chatagent.ca · known as Excavationpro / Lightfather in LYGO projects. Writes practical guides on AI personas, agent handoffs, and free local-first tools. <a href="/about.html">About</a> · <a href="/contact.html">Contact</a></p>
+  </div>
+</div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/editorial-standards.html">Editorial standards</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </nav>
+    <p class="site-footer-blurb">chatagent.ca is an independent educational site by Justin Helmer (Excavationpro). Free guides and tools. Optional ads support hosting when approved.</p>
+    <p>© <span class="y"></span> Justin Helmer · chatagent.ca</p>
+  </div>
+</footer>
+<script>document.querySelectorAll('.y').forEach(function(e){e.textContent=new Date().getFullYear()});</script>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<div style="max-width:820px;margin:2rem auto;padding:0 1.15rem;font-size:.84rem;line-height:1.7;opacity:.85">
+<p><strong>More from the workshop:</strong>
+<a href="https://excavationpro.ca/">Excavationpro</a> &middot;
+<a href="https://asiancoastline.com/">Asian Coastline</a> &middot;
+<a href="https://bpmfinder.ca/">BPMfinder</a> &middot;
+<a href="https://justinhelmer.ca/">Justin Helmer</a> &middot;
+<a href="https://deepseekoracle.com/">DeepSeek Oracle</a> &middot;
+<a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
+<a href="https://bpmfinder.ca/tools.html">All tools</a></p>
+</div>
+</body>
+</html>

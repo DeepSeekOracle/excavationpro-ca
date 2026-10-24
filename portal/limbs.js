@@ -68,7 +68,7 @@
 
   /* Reaching a local engine from an HTTPS page is a Local Network Access request in Chrome 138+. Without
      the option the fetch is refused as "Failed to fetch", which looks exactly like a limb that is not
-     running — MEASURED 2026-10-18: https://chatagent.ca -> http://127.0.0.1:8191 answered 200 to curl and
+     running — MEASURED 2026-10-18: https://excavationpro.ca -> http://127.0.0.1:8191 answered 200 to curl and
      "denied" to navigator.permissions.query({name:'local-network-access'}). The console route in app.js
      learned the same lesson; this is the same fix. */
   var ACCESS = { state: "unknown" };     // granted | prompt | denied | unsupported

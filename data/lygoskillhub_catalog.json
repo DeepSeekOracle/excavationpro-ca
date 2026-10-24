@@ -16,11 +16,11 @@
     "source": "clawhub/skills.json + clawhub/mirrors + local skill tree",
     "public_channel": "ClawHub install links (public tentacle) — green security surface",
     "engineer_channel": "FULL LYGO download portal on this page (#full-lygo) — unlocked RAW packages, not ClawHub",
-    "primary_page": "https://chatagent.ca/lygoskillhub.html"
+    "primary_page": "https://excavationpro.ca/lygoskillhub.html"
   },
   "lattice_pages": {
     "primary": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
-    "chatagent": "https://chatagent.ca/lygoskillhub.html",
+    "chatagent": "https://excavationpro.ca/lygoskillhub.html",
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
@@ -249,8 +249,8 @@
       "name": "LYGO API Portal (site) — WEB PORTAL, API only",
       "summary": "The third system: a stand-alone web portal for people who need a ninja console and have no GPU. Bring your own key from any vendor (Groq, Gemini, OpenRouter, Cerebras, OpenAI, Grok, DeepSeek) — browser tools and 15 champions work in the tab, keys stay in the tab. No install, no local model. Legal summary at /portal/legal.html.",
       "category": "surface",
-      "url": "https://chatagent.ca/portal/",
-      "docs": "https://chatagent.ca/portal/legal.html",
+      "url": "/portal/",
+      "docs": "/portal/legal.html",
       "source": "surface",
       "channel": "surface",
       "channel_label": "Lattice surface"
@@ -272,7 +272,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -310,7 +310,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -759,7 +759,7 @@
       "has_stack_mirror": true,
       "source": "clawhub",
       "ledger": "clawhub/skills.json",
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo",
       "note": "FULL unlocked engineer zip at SkillHub #full-lygo (not ClawHub).",
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
@@ -783,7 +783,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -803,7 +803,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -913,7 +913,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -967,7 +967,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1050,7 +1050,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1084,7 +1084,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1102,7 +1102,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1120,7 +1120,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1138,7 +1138,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1156,7 +1156,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1174,13 +1174,13 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
       "slug": "lygo-cyborg-kernel",
       "name": "LYGO Cyborg Kernel (FULL unlocked stack)",
-      "summary": "LYGO Cyborg Kernel v1.2 — FULL unlocked autonomous agent stack. Live lattice connect, Star Chart, Agent Agora (agent-first square), whisper lattice, kernel egg seed, talk REPL, Continuum self-police. SkillHub FULL. Install https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "summary": "LYGO Cyborg Kernel v1.2 — FULL unlocked autonomous agent stack. Live lattice connect, Star Chart, Agent Agora (agent-first square), whisper lattice, kernel egg seed, talk REPL, Continuum self-police. SkillHub FULL. Install https://excavationpro.ca/lygoskillhub.html#full-lygo",
       "downloads": 0,
       "category": "kernel",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-cyborg-kernel",
@@ -1192,13 +1192,13 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
       "slug": "lygo-cyborg-onramp",
       "name": "LYGO Cyborg Onramp (ClawHub map → FULL)",
-      "summary": "LYGO Cyborg Onramp — public ClawHub map to the FULL unlocked autonomous agent stack on SkillHub. Install tentacles, print install path, open https://chatagent.ca/lygoskillhub.html#full-lygo for lygo-cyborg-kernel-full.zip (Continuum limbs, task loop, lattice map). Pure local. No network, no subprocess. Not the FULL kernel — points there.",
+      "summary": "LYGO Cyborg Onramp — public ClawHub map to the FULL unlocked autonomous agent stack on SkillHub. Install tentacles, print install path, open https://excavationpro.ca/lygoskillhub.html#full-lygo for lygo-cyborg-kernel-full.zip (Continuum limbs, task loop, lattice map). Pure local. No network, no subprocess. Not the FULL kernel — points there.",
       "downloads": 0,
       "category": "kernel",
       "clawhub_url": "https://clawhub.ai/deepseekoracle/skills/lygo-cyborg-onramp",
@@ -1226,7 +1226,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1260,7 +1260,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1294,7 +1294,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1315,7 +1315,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1333,7 +1333,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1399,7 +1399,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1417,7 +1417,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1435,7 +1435,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1455,7 +1455,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1473,7 +1473,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1523,7 +1523,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1576,7 +1576,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1610,7 +1610,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1628,7 +1628,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1646,7 +1646,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1664,7 +1664,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1714,7 +1714,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1732,7 +1732,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1766,7 +1766,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1784,7 +1784,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1818,7 +1818,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1836,7 +1836,7 @@
       "channel": "public_tentacle",
       "channel_label": "Public tentacle (ClawHub)",
       "has_full_zip": true,
-      "full_lygo": "https://chatagent.ca/lygoskillhub.html#full-lygo"
+      "full_lygo": "https://excavationpro.ca/lygoskillhub.html#full-lygo"
     },
     {
       "kind": "skill",
@@ -1969,7 +1969,7 @@
       "name": "FULL LYGO engineer vault (unlocked RAW)",
       "summary": "Gate-protected engineer packages on this hub — not ClawHub. Pure LYGO operation builds with unlocked safety for trusted stacks.",
       "category": "surface",
-      "url": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "url": "https://excavationpro.ca/lygoskillhub.html#full-lygo",
       "source": "surface",
       "channel": "surface",
       "channel_label": "Lattice surface"
@@ -2048,7 +2048,7 @@
       "category": "surface",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/",
       "api": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
-      "skillhub_full": "https://chatagent.ca/lygoskillhub.html#full-lygo",
+      "skillhub_full": "https://excavationpro.ca/lygoskillhub.html#full-lygo",
       "source": "surface",
       "channel": "surface",
       "channel_label": "Lattice surface"
@@ -2084,7 +2084,7 @@
       "category": "surface",
       "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LYGOSKILLHUB.html",
       "mirrors": [
-        "https://chatagent.ca/lygoskillhub.html",
+        "https://excavationpro.ca/lygoskillhub.html",
         "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
       ],
       "source": "surface",
@@ -2108,7 +2108,7 @@
       "name": "Δ9 Champion Summon Portal",
       "summary": "chatagent.ca free champion summon app + guides.",
       "category": "surface",
-      "url": "https://chatagent.ca/app.html",
+      "url": "https://excavationpro.ca/app.html",
       "source": "surface",
       "channel": "surface",
       "channel_label": "Lattice surface"
@@ -2119,7 +2119,7 @@
       "name": "LYGO Public Witness (site)",
       "summary": "Two globes: Earth REFERENCE (USGS/EONET/ISS) and lattice CANON (dual ledgers, eggs, Star Chart). Empty beats fake.",
       "category": "surface",
-      "url": "https://chatagent.ca/witness/",
+      "url": "https://excavationpro.ca/witness/",
       "mirrors": [
         "https://eternalhaven.ca/witness/"
       ],

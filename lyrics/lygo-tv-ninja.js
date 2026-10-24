@@ -3,7 +3,7 @@
    are remote data and are URL-checked before anything is framed or played (see urlAllowed below). */
 (function () {
   "use strict";
-  const TV_PAGE = "https://chatagent.ca/sources/";
+  const TV_PAGE = "https://excavationpro.ca/sources/";
   const HLS_SRC = "https://cdn.jsdelivr.net/npm/hls.js@1.5.18/dist/hls.min.js";
   // Pinned with Subresource Integrity, so a swapped or tampered copy at the CDN fails to run instead of
   // executing in the visitor's browser. The hash is of the file npm publishes for 1.5.18 (verified against

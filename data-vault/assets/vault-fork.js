@@ -38,7 +38,7 @@
   const footer = document.createElement("footer");
   footer.className = "fork-footer";
   footer.innerHTML = `<div><strong>Excavationpro Vault</strong> · forked from the LYGO Data Vault · <a href="privacy.html">privacy</a> · <a href="https://excavationpro.ca/">domain home ↗</a></div>
-    <div class="fork-domains"><a href="https://eternalhaven.ca">eternalhaven.ca</a><a href="https://excavationpro.ca">excavationpro.ca</a><a href="https://deepseekoracle.com">deepseekoracle.com</a><a href="https://chatagent.ca">chatagent.ca</a><a href="https://asiancoastline.com">asiancoastline.com</a><a href="https://bpmfinder.ca">bpmfinder.ca</a></div>`;
+    <div class="fork-domains"><a href="https://eternalhaven.ca">eternalhaven.ca</a><a href="https://excavationpro.ca">excavationpro.ca</a><a href="https://deepseekoracle.com">deepseekoracle.com</a><a href="https://excavationpro.ca">chatagent.ca</a><a href="https://asiancoastline.com">asiancoastline.com</a><a href="https://bpmfinder.ca">bpmfinder.ca</a></div>`;
   document.body.appendChild(footer);
 
   const ad2 = document.createElement("div");

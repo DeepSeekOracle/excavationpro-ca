@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human Review Checklist for AI Output Before You Publish | chatagent.ca</title>
+<meta name="description" content="A checklist for reviewing AI-written code, docs, and posts: facts, secrets, tone, licensing, and responsibility.">
+<meta name="author" content="Justin Helmer">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:title" content="Human Review Checklist for AI Output Before You Publish | chatagent.ca">
+<meta property="og:description" content="A checklist for reviewing AI-written code, docs, and posts: facts, secrets, tone, licensing, and responsibility.">
+<meta property="og:url" content="https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/site.css">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-home.jpg">
+<style>
+.cookie-banner{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:space-between;gap:1rem;align-items:center;padding:.8rem 1rem;background:#1a140c;color:#f3ece3;border-top:1px solid rgba(224,179,106,.45);font:500 .88rem/1.4 system-ui,sans-serif}
+.cookie-banner.show{display:flex}.cookie-banner a{color:#e0b36a}.cookie-banner button{border:0;border-radius:8px;padding:.45rem .8rem;font-weight:700;cursor:pointer}.cookie-banner .ok{background:#e0b36a;color:#1a140c}.cookie-banner .no{background:transparent;color:#f3ece3;border:1px solid rgba(255,255,255,.25)}
+@media(max-width:600px){.cookie-banner{flex-direction:column;align-items:flex-start}}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Human Review Checklist for AI Output Before You Publish | chatagent.ca", "description": "A checklist for reviewing AI-written code, docs, and posts: facts, secrets, tone, licensing, and responsibility.", "url": "https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html", "isPartOf": {"@type": "WebSite", "name": "Chatagent", "url": "https://excavationpro.ca"}}</script>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/signal/">LYGO Signal</a>
+      <a href="/app.html">Tools</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap prose">
+
+<p class="breadcrumb"><a href="/">Home</a> · <a href="/guides/">Guides</a> · Human review</p>
+<article class="card">
+<p class="kicker">Quality bar</p>
+<h1 style="margin-top:0;font-size:1.7rem;color:var(--accent2)">Human review checklist for AI output</h1>
+<p class="meta">By Justin Helmer · reviewed 18 October 2026</p>
+<p>If AI drafted it and you publish it, you own it. This checklist is what we use before guides, release notes, and public skill descriptions go live on chatagent.ca.</p>
+<h2>Checklist</h2>
+<ul>
+<li><strong>Facts</strong>, every concrete claim has a source or a verify step.</li>
+<li><strong>Secrets</strong>, no keys, tokens, private URLs, or personal data.</li>
+<li><strong>Scope</strong>, title matches content; no bait.</li>
+<li><strong>Tone</strong>, mythic language labeled as creative where needed.</li>
+<li><strong>Safety</strong>, no instructions for crimes or unauthorized access.</li>
+<li><strong>License</strong>, third-party code/text attributed; our originals are clear.</li>
+<li><strong>Links</strong>, internal links work; external links are intentional.</li>
+<li><strong>Done</strong>, if code, Continuum or tests green on a clean check.</li>
+</ul>
+
+
+
+<h2>Publishing is a privilege</h2>
+<p>Educational sites fail quality reviews when they flood pages with unedited model sludge. We would rather ship fewer pages with human care. If you reuse our templates, keep the human gate.</p>
+<div class="related"><h3>Related</h3><ul>
+<li><a href="/editorial-standards.html">Editorial standards</a></li>
+<li><a href="/champions/aetheris.html">ÆTHERIS</a></li>
+<li><a href="/champions/lightfather.html">Lightfather</a></li>
+</ul></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <div class="ad-label">Advertisement</div>
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</div>
+
+<h2>Write the acceptance sentence first</h2>
+<p>Before you read the output, write one sentence that would make it unacceptable. “The price is wrong.” “The name is wrong.” “The link is dead.” “The claim has no source.” “The code deletes a file it should not touch.” That sentence is the review. Everything else is proofreading.</p>
+<p>A review that starts with the happy path finds typos. A review that starts with the failure mode finds the reason the page should not ship. If you cannot write the acceptance sentence, the task was not defined well enough to review.</p>
+
+<h2>Review by artifact type</h2>
+<p>Different outputs fail in different ways. Use the checklist for the artifact in front of you, not a generic “looks good.”</p>
+<table class="simple">
+<thead><tr><th>Artifact</th><th>Check first</th><th>Then check</th></tr></thead>
+<tbody>
+<tr><td>Prose or guide</td><td>Names, numbers, dates, and the main claim</td><td>Sources, scope, tone, links, byline, date</td></tr>
+<tr><td>Code or command</td><td>Run it on a clean copy; read the diff</td><td>Error paths, secrets, dependencies, side effects</td></tr>
+<tr><td>Table or dataset</td><td>Units, totals, dates, and the source column</td><td>Missing rows, duplicated rows, rounding, labels</td></tr>
+<tr><td>Links or files</td><td>Open every link; open every file</td><td>Canonical URL, status, content match, hash</td></tr>
+<tr><td>Image or screenshot</td><td>What is visible at the edges and in the background</td><td>Alt text, privacy, cropping, misleading context</td></tr>
+<tr><td>Release note</td><td>Every claim has a test or a link</td><td>Version, date, known issues, upgrade path</td></tr>
+<tr><td>Quoted or licensed material</td><td>Attribution and license</td><td>Quote length, modifications, commercial use</td></tr>
+</tbody>
+</table>
+
+<h2>The ten-minute pass</h2>
+<ol>
+<li><strong>Read once without editing.</strong> Mark the sentence that feels too confident, too vague, or too convenient.</li>
+<li><strong>Check names and numbers first.</strong> Proper nouns and figures are the cheapest errors to catch and the most expensive to publish.</li>
+<li><strong>Open every link and file.</strong> A 200 response is not enough; the destination has to be the right page.</li>
+<li><strong>Run the check.</strong> If the output claims a test passed, run it. If it claims a page works, open it at the target size.</li>
+<li><strong>Read the diff, not the summary.</strong> A summary can describe work that the diff does not contain.</li>
+<li><strong>Scan for secrets and private data.</strong> Keys, tokens, emails, customer names, internal paths, and screenshots.</li>
+<li><strong>Check the scope.</strong> Did the output add a page, a dependency, a claim, or a promise that the brief did not ask for?</li>
+<li><strong>Write the sign-off.</strong> Name the checks you ran, the date, and the remaining risk.</li>
+</ol>
+
+<h2>What to check first</h2>
+<h3>Names and numbers</h3>
+<p>Check every proper noun against a source and every number against the table it came from. A confident sentence is not a citation. If the output says “the repository has 92 skills,” open the catalog and count; if it says “the page returns 200,” run the request.</p>
+<h3>“Done” claims</h3>
+<p>A done claim needs a receipt: a command, a URL, a hash, a screenshot at a named size, or a named human sign-off. “Fixed” without a check is a status update. The <a href="/guides/ai-agent-done-claims-continuum.html">Continuum guide</a> covers the receipt pattern.</p>
+<h3>Links and files</h3>
+<p>Open the link and read the destination. A page that returns 200 but shows the wrong content is still a broken link. A file that opens but has the wrong hash is the wrong file. A screenshot that looks right at 1440 can be broken at 390.</p>
+<h3>Scope and claims</h3>
+<p>Look for the sentence that promises more than the work delivered. “Eliminates,” “guarantees,” “always,” and “never” are review flags until the evidence earns them. A guide can say “this worked in our test”; it cannot say “this always works.”</p>
+
+<h2>Sign-off template</h2>
+<p>A sign-off should let another person repeat the pass without asking what you meant.</p>
+<pre style="white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:0.82rem;background:#f4f2ec;padding:1rem;border-radius:10px;border:1px solid #e4e0d8">REVIEWED BY:
+DATE:
+ARTIFACT:
+CHECKS RUN:
+- command / URL / file / screenshot
+RESULT:
+- pass / fail / pass with caveat
+REMAINING RISK:
+- what was not checked and why
+DECISION:
+- publish / hold / return to author
+</pre>
+<p>“Reviewed” alone is a vibe. The template is short because the review is supposed to be specific.</p>
+
+<h2>Failure modes</h2>
+<table class="simple">
+<thead><tr><th>Failure</th><th>What it looks like</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>Confident invention</td><td>A citation that does not exist, or a number with no table</td><td>Open the source; remove the claim if it cannot be checked</td></tr>
+<tr><td>Stale fact</td><td>A price, version, or policy from last year</td><td>Check the current source and update the date</td></tr>
+<tr><td>Scope drift</td><td>New pages, dependencies, or promises the brief did not ask for</td><td>Read the diff; return to the brief</td></tr>
+<tr><td>Hidden secret</td><td>A key in a log, screenshot, or example</td><td>Rotate, redact, re-scan</td></tr>
+<tr><td>Tone mismatch</td><td>Hype in a reference page, or jargon in a beginner guide</td><td>Check the audience and rewrite the opening</td></tr>
+<tr><td>Missing caveat</td><td>A claim that is true only under conditions the page omits</td><td>Add the condition or narrow the claim</td></tr>
+<tr><td>Broken at mobile</td><td>The desktop screenshot passed; the phone layout did not</td><td>Check 390px and 1440px before sign-off</td></tr>
+</tbody>
+</table>
+
+<h2>What to do with a failure</h2>
+<p>Do not ask the same model to “try again” without changing the brief. Name the failure, add the missing constraint, and rerun. A retry without a new constraint is a coin flip with a nicer interface.</p>
+<p>Keep the failed output and the correction together. The pair shows where the brief was ambiguous, which is more useful than a clean success with no history. If the failure is a security or legal issue, stop and escalate before editing further.</p>
+
+<h2>When to escalate</h2>
+<ul>
+<li><strong>Security:</strong> a leaked credential, a destructive command, or an unexplained network call. Rotate first, then investigate.</li>
+<li><strong>Legal or licensing:</strong> a quote beyond fair use, a missing attribution, or a license that forbids the use.</li>
+<li><strong>Medical, legal, or financial advice:</strong> the page needs a qualified professional, not a model. Do not publish a confident substitute.</li>
+<li><strong>Personal data:</strong> a real person who did not consent to appear. Remove the data and follow the privacy process.</li>
+</ul>
+
+<h2>FAQ</h2>
+<h3>How long should a review take?</h3>
+<p>Long enough to run the checks. A short page can take five minutes; a code change can take an hour. The time is set by the artifact, not by a target.</p>
+<h3>Do I need to read every word?</h3>
+<p>Read for meaning once, then check the high-risk parts closely: names, numbers, links, claims, code, and secrets. Skimming the middle of a safe paragraph is fine; skimming the number is not.</p>
+<h3>Can I use an AI reviewer?</h3>
+<p>Yes, as a second pass. It can find inconsistencies and missing links. It cannot take responsibility for the publish decision, and it can invent a reason a claim is fine. Keep the human sign-off.</p>
+<h3>What if the output is good but the brief was bad?</h3>
+<p>Say so. A good output from a bad brief is luck. Update the brief before reusing the result, or the next run will not reproduce it.</p>
+<h3>What if I cannot verify a claim?</h3>
+<p>Label it as unverified or remove it. A page with a smaller verified claim is stronger than a page with a larger unverifiable one.</p>
+</article>
+
+
+<div class="author-box">
+  <img src="/assets/champions/lightfather.jpg?v=20260907" alt="Publisher portrait" width="72" height="72" loading="lazy">
+  <div>
+    <strong>Justin Helmer</strong>
+    <p>Publisher of chatagent.ca · known as Excavationpro / Lightfather in LYGO projects. Writes practical guides on AI personas, agent handoffs, and free local-first tools. <a href="/about.html">About</a> · <a href="/contact.html">Contact</a></p>
+  </div>
+</div>
+
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <nav aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/guides/">Guides</a>
+      <a href="/champions.html">Champions</a>
+      <a href="/books/">Books</a>
+      <a href="/editorial-standards.html">Editorial standards</a>
+      <a href="/about.html">About</a>
+      <a href="/contact.html">Contact</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </nav>
+    <p class="site-footer-blurb">chatagent.ca is an independent educational site by Justin Helmer (Excavationpro). Free guides and tools. Optional ads support hosting when approved.</p>
+    <p>© <span class="y"></span> Justin Helmer · chatagent.ca</p>
+  </div>
+</footer>
+<script>document.querySelectorAll('.y').forEach(function(e){e.textContent=new Date().getFullYear()});</script>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <div>Ads may use cookies after you accept. <a href="/privacy.html">Privacy</a></div>
+  <div><button type="button" class="ok" id="cookieOk">Accept</button><button type="button" class="no" id="cookieNo">Decline</button></div>
+</div>
+<script src="/assets/site-kit.js" defer></script>
+<div style="max-width:820px;margin:2rem auto;padding:0 1.15rem;font-size:.84rem;line-height:1.7;opacity:.85">
+<p><strong>More from the workshop:</strong>
+<a href="https://excavationpro.ca/">Excavationpro</a> &middot;
+<a href="https://asiancoastline.com/">Asian Coastline</a> &middot;
+<a href="https://bpmfinder.ca/">BPMfinder</a> &middot;
+<a href="https://justinhelmer.ca/">Justin Helmer</a> &middot;
+<a href="https://deepseekoracle.com/">DeepSeek Oracle</a> &middot;
+<a href="https://eternalhaven.ca/">Eternal Haven</a> &middot;
+<a href="https://bpmfinder.ca/tools.html">All tools</a></p>
+</div>
+</body>
+</html>

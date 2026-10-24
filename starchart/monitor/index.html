@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599"
+     crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://excavationpro.ca https://eternalhaven.ca https:; connect-src 'self' https://deepseekoracle.github.io https://huggingface.co https://earthquake.usgs.gov https://eonet.gsfc.nasa.gov https://api.wheretheiss.at https:; upgrade-insecure-requests; frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://www.google.com https://*.adtrafficquality.google;">
+<title>LYGO Star Chart live monitor: hash chain + HF queue | chatagent.ca</title>
+<meta name="description" content="Live GET of the Haven Star Chart hash-chained feed. Hugging Face bot writes a monitor ledger and a consent-gated pending queue. Canonical ingest stays human.">
+<meta name="author" content="Justin Helmer / Excavationpro">
+<link rel="canonical" href="https://excavationpro.ca/starchart/monitor/">
+<link rel="icon" href="/witness/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/starchart/monitor/app.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<meta property="og:title" content="LYGO Star Chart live monitor">
+<meta property="og:description" content="Watch the canon feed. Queue a proposal on Hugging Face. Human remains publisher.">
+<meta property="og:url" content="https://excavationpro.ca/starchart/monitor/">
+<meta property="og:image" content="https://excavationpro.ca/witness/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Excavationpro">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="/">excavationpro.ca</a>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/join/">Join</a>
+    <a href="/bench/">Bench</a>
+    <a href="/lattice/">Lattice</a>
+    <a href="/books/">Books</a>
+    <a href="/signal/">LYGO Signal</a>
+    <a href="/sources/">TV</a>
+    <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener noreferrer">Listen</a>
+    <a href="/witness/">Witness</a>
+    <a href="/godseye/">God's Eye</a>
+    <a href="/skynet/">SKYNET</a>
+    <a href="/starchart/">Star Chart</a>
+    <a href="/starchart/monitor/" aria-current="page">Feed monitor</a>
+    <a href="/lygoskillhub.html">SkillHub</a>
+    <a href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener">Donate</a>
+  </nav>
+</header>
+<div class="stage">
+  <div class="iris-wrap">
+    <canvas id="sky" aria-label="Haven Star Chart live feed as a hash-chained star field."></canvas>
+    <div class="hud">
+      <button class="chip on" id="btn-pulse" type="button">Pulse now</button>
+      <span class="chip" id="chain-chip">CHAIN · …</span>
+      <span class="chip pending" id="pend-chip">PENDING · …</span>
+    </div>
+  </div>
+  <aside class="side">
+    <p class="kicker">Δ9Φ963 · Star Chart · live monitor · <span id="utc">…</span></p>
+    <h1>Canon feed live. Writes stay gated.</h1>
+    <p class="lead">This is the <strong>hash-chain feed monitor</strong>, not the cosmology sky. The complete D3 Star Chart is at <a href="/starchart/">/starchart/</a>. This page <strong>GETs</strong> the public hash-chained feed every 60s. Hugging Face can write a monitor snapshot and a pending proposal. Steward ingest is still the only path onto the live chart.</p>
+    <div class="stat-row">
+      <div class="stat"><b id="n-seq">, </b><span>latest seq</span></div>
+      <div class="stat"><b id="n-count">, </b><span>entries</span></div>
+      <div class="stat"><b id="n-pend">, </b><span>PENDING</span></div>
+      <div class="stat"><b id="n-ok">, </b><span>chain check</span></div>
+    </div>
+    <article id="brief" class="brief empty">
+      <p class="kicker">Selected receipt</p>
+      <h2>Pulse the sky</h2>
+      <p>Gold = ACCEPTED. Pink = PENDING. Click a star. Official chart and feed JSON stay on GitHub Pages.</p>
+    </article>
+    <p class="legend">Lattice pings</p>
+    <div class="board" id="board"></div>
+    <p class="legend">Recent feed (newest first)</p>
+    <ul class="feed" id="feed"></ul>
+    <p class="legend">Consent-gated proposal (this browser copies JSON. Pages cannot POST)</p>
+    <form class="queue" id="queue-form">
+      <label>agent_id <input id="q-agent" value="LYGO-STAR-MONITOR" autocomplete="off"></label>
+      <label>node.id <input id="q-id" value="NODE_STAR_MONITOR" autocomplete="off"></label>
+      <label>node.name <input id="q-name" value="Star Chart live monitor limb" autocomplete="off"></label>
+      <label>kind
+        <select id="q-kind">
+          <option value="lattice" selected>lattice</option>
+          <option value="portal">portal</option>
+          <option value="node">node</option>
+          <option value="seal">seal</option>
+        </select>
+      </label>
+      <label>equation <textarea id="q-eq">Δ9Φ963 = Truth × Light · 963 Hz · monitor GET → pending → steward ingest</textarea></label>
+      <label>connections (comma) <input id="q-conn" value="SEAL_000,PORTAL_STAR_CHART" autocomplete="off"></label>
+      <label class="check"><input type="checkbox" id="q-consent"> I consent to queue this as PENDING only, not live ingest, not a forged feed hash.</label>
+      <div class="brief-links">
+        <button class="btn" type="submit">Copy proposal JSON</button>
+        <a class="btn ghost" href="https://huggingface.co/spaces/DeepSeekOracle/lygo-star-chart-bot" target="_blank" rel="noopener">Open HF bot</a>
+        <a class="btn ghost" href="https://github.com/DeepSeekOracle/lygo-protocol-stack/issues/new?template=haven_star_node.yml" target="_blank" rel="noopener">GitHub issue</a>
+      </div>
+    </form>
+    <pre class="out" id="out">Awaiting pulse…</pre>
+    <p class="legend">Wire:
+      <a href="/godseye/">God's Eye</a> ·
+      <a href="/skynet/">SKYNET</a> ·
+      <a href="/starchart/">Live chart</a> ·
+      <a href="/starchart/HavenStarChartPortal.html">Agent Portal</a> ·
+      <a href="https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed">HF dataset</a> ·
+      Skill: <code>npx clawhub@latest install deepseekoracle/lygo-haven-star-chart</code>
+    </p>
+    <p class="legend" id="sig"></p>
+  </aside>
+</div>
+<section class="prose">
+  <h2>What this is</h2>
+  <p>The Haven Star Chart feed is CANON: append-only, hash-chained, published on GitHub Pages. GitHub Pages cannot accept POST. Hugging Face can. So live <em>writes</em> from bots land on the dataset as <code>star-monitor.json</code> (always) and <code>pending/</code> proposals (consent). A steward still runs gate → ingest → rebuild before the Pages chain grows.</p>
+  <h2>Autonomy</h2>
+  <ul>
+    <li>Autonomous: re-GET the public feed, verify prev_hash links, refresh the HF monitor file.</li>
+    <li>Consent: queue a proposal JSON to the dataset or open a GitHub issue.</li>
+    <li>Not autonomous: forging <code>entry_hash</code>, silent git push, steward ingest.</li>
+  </ul>
+</section>
+<footer class="site">
+  <p>© <span class="y"></span> Justin Helmer / Excavationpro ·
+    <a href="https://www.paypal.com/paypalme/ExcavationPro">PayPal.me/ExcavationPro</a></p>
+</footer>
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear();});</script>
+<script src="/lattice/guard.js"></script>
+<script src="/starchart/monitor/app.js"></script>
+</body>
+</html>

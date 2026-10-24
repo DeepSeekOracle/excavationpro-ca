@@ -4,7 +4,7 @@
   "updated": "2026-10-18",
   "what": "Local image, sound and video engines a person can install on their own machine and hand to the portal. The portal is the cockpit; the engine stays on their hardware.",
   "bridge": {
-    "file": "https://chatagent.ca/portal/limbs/limb_server.py",
+    "file": "/portal/limbs/limb_server.py",
     "python": "3.9+",
     "binds": "127.0.0.1",
     "endpoints": { "health": "GET /health", "generate": "POST /generate", "progress": "GET /progress" },

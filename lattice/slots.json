@@ -1,0 +1,280 @@
+{
+  "signature": "Delta9Phi963-LATTICE-SLOTS-v1.1.0",
+  "version": "1.1.0",
+  "note": "Add a slot here to onboard future tech. FUTURE never fails the kernel.",
+  "slots": [
+    {
+      "id": "star_feed",
+      "title": "Haven Star Chart feed",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/haven_star_chart/haven_star_chart_feed.json",
+      "expect": "json",
+      "expect_sig": "HAVEN-STAR-FEED",
+      "audit": "chain"
+    },
+    {
+      "id": "agora",
+      "title": "Agent Agora pulse",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/agent-agora/api/pulse.json",
+      "expect": "json",
+      "expect_sig": "AGENT-AGORA",
+      "audit": "agora"
+    },
+    {
+      "id": "anchors",
+      "title": "Immutable anchors",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/network_builder/IMMUTABLE_ANCHORS.json",
+      "expect": "json"
+    },
+    {
+      "id": "overview",
+      "title": "Git lattice overview",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/GIT_LATTICE_OVERVIEW.json",
+      "expect": "json",
+      "expect_sig": "GIT-LATTICE-OVERVIEW",
+      "audit": "stale_days"
+    },
+    {
+      "id": "eggs",
+      "title": "Kernel egg registry",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/KernelEggRegistry.json",
+      "expect": "json"
+    },
+    {
+      "id": "origin",
+      "title": "Lightfather origin pin",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/LIGHTFATHER_IRREPLACEABLE_ORIGIN.json",
+      "expect": "json"
+    },
+    {
+      "id": "deadman",
+      "title": "Deadman continuity page",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/deadman.html",
+      "expect": "html"
+    },
+    {
+      "id": "star_monitor",
+      "title": "HF star-monitor",
+      "era": "now",
+      "class": "CANON",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/star-monitor.json",
+      "expect": "json",
+      "expect_sig": "STAR-MONITOR"
+    },
+    {
+      "id": "witness",
+      "title": "Public Witness doctrine",
+      "era": "now",
+      "class": "CANON",
+      "url": "/witness/doctrine.json",
+      "expect": "json"
+    },
+    {
+      "id": "godseye",
+      "title": "God's Eye doctrine",
+      "era": "now",
+      "class": "CANON",
+      "url": "/godseye/doctrine.json",
+      "expect": "json"
+    },
+    {
+      "id": "skynet",
+      "title": "SKYNET doctrine",
+      "era": "now",
+      "class": "CANON",
+      "url": "/skynet/doctrine.json",
+      "expect": "json",
+      "expect_sig": "LYGO-SKYNET"
+    },
+    {
+      "id": "starchart",
+      "title": "Haven Star Chart doctrine",
+      "era": "now",
+      "class": "CANON",
+      "url": "/starchart/doctrine.json",
+      "expect": "json"
+    },
+    {
+      "id": "self",
+      "title": "Lattice kernel doctrine",
+      "era": "now",
+      "class": "CANON",
+      "url": "/lattice/doctrine.json",
+      "expect": "json",
+      "expect_sig": "LATTICE-KERNEL",
+      "note": "SKYNET pulses this same slots board."
+    },
+    {
+      "id": "hf_overlay",
+      "title": "HF witness overlay",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/feed.json",
+      "expect": "json"
+    },
+    {
+      "id": "skynet_pulse",
+      "title": "HF SKYNET pulse",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "https://huggingface.co/datasets/DeepSeekOracle/lygo-public-witness-feed/resolve/main/skynet-pulse.json",
+      "expect": "json",
+      "expect_sig": "LYGO-SKYNET"
+    },
+    {
+      "id": "free_sources",
+      "title": "Free sources portal catalog",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/sources/catalog.json",
+      "expect": "json",
+      "expect_sig": "LYGO-FREE-SOURCES"
+    },
+    {
+      "id": "lattice_map",
+      "title": "Universal lattice map",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/lattice/map.json",
+      "expect": "json",
+      "expect_sig": "LATTICE-MAP"
+    },
+    {
+      "id": "agent_runtime",
+      "title": "Agent Runtime doctrine",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/agents/doctrine.json",
+      "expect": "json",
+      "expect_sig": "AGENT-RUNTIME"
+    },
+    {
+      "id": "join_gate",
+      "title": "Join / Verify doctrine",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/join/doctrine.json",
+      "expect": "json",
+      "expect_sig": "PUBLIC-LATTICE-GATE-PAGE"
+    },
+    {
+      "id": "bench",
+      "title": "LYGO Bench doctrine",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/bench/doctrine.json",
+      "expect": "json",
+      "expect_sig": "LYGO-BENCH"
+    },
+    {
+      "id": "continuum_page",
+      "title": "Continuum portal",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/lygo-continuum.html",
+      "expect": "html"
+    },
+    {
+      "id": "skillhub",
+      "title": "SkillHub",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/lygoskillhub.html",
+      "expect": "html"
+    },
+    {
+      "id": "usgs",
+      "title": "USGS quakes (public)",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
+      "expect": "json"
+    },
+    {
+      "id": "witness_news",
+      "title": "Public Witness news monitor",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/witness/news-monitor.json",
+      "expect": "json",
+      "expect_sig": "PUBLIC-WITNESS-MONITOR"
+    },
+    {
+      "id": "witness_event_ledger",
+      "title": "Public Witness event ledger",
+      "era": "now",
+      "class": "RESOURCE",
+      "url": "/witness/event-ledger.json",
+      "expect": "json",
+      "expect_sig": "PUBLIC-WITNESS-EVENT-LEDGER",
+      "note": "Append-only public headlines. Not Star Chart CANON."
+    },
+    {
+      "id": "p6_quantum",
+      "title": "P6 quantum attest",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/seals/SEAL_277.json",
+      "expect": "json",
+      "why": "Attest limb is public as seal JSON today; full P6 worker stays local."
+    },
+    {
+      "id": "p9_tls",
+      "title": "P9 TLS public mesh",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/PHASE9_PUBLIC_MESH.md",
+      "expect": "html",
+      "why": "Spec is public. Live node API is opt-in local TLS — named until a public pin exists."
+    },
+    {
+      "id": "slm",
+      "title": "Sovereign Lattice Mesh",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/SovereignLatticeMesh.html",
+      "expect": "html",
+      "why": "UI live. Wide-area gossip remains a future public pin."
+    },
+    {
+      "id": "qd_anchors",
+      "title": "QD neural anchors",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/data-vault/qd-theory.html",
+      "expect": "html",
+      "why": "Theory limb. Promote when a public digest JSON ships."
+    },
+    {
+      "id": "ble_mesh",
+      "title": "BLE living mesh",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LIVING_MESH_LAYER.md",
+      "expect": "html",
+      "why": "Local BLE is operator-side. Slot waits for a public health JSON."
+    },
+    {
+      "id": "lora_mesh",
+      "title": "LoRa Layer D pulse",
+      "era": "future",
+      "class": "FUTURE",
+      "url": "https://deepseekoracle.github.io/lygo-protocol-stack/LORA_MESH_TRANSPORT.md",
+      "expect": "html",
+      "why": "Codec is public. No board = NAMED_SHADOW. Promote when a public last-pulse JSON exists."
+    }
+  ]
+}
