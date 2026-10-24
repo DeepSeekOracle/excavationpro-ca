@@ -11,6 +11,14 @@
   const TW = 128, TH = 64, HALF_W = TW / 2, HALF_H = TH / 2;
   const GROUND_OFFSET = 63;
   const CLAIM_COST = 15000;
+  // The city lives on the player's clock: no pause, no fast forward. The economy
+  // still needs a beat, so one "district day" passes every TICK_SECONDS of real
+  // time, whether or not the tab is in front.
+  const TICK_SECONDS = 7;
+  function localHour() {
+    const d = new Date();
+    return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
+  }
   const SAVE_KEY = "latticeCity.save.v3";
 
   // ---------------------------------------------------------------- art tables
@@ -153,7 +161,7 @@
 
   // ---------------------------------------------------------------- options
   const OPT_KEY = "latticeCity.opts.v1";
-  const OPT_DEFAULT = { master: 80, music: 55, sfx: 80, ambience: 70, weather: true, grid: false, night: true, autosave: true, reduceMotion: false };
+  const OPT_DEFAULT = { master: 80, music: 55, sfx: 80, ambience: 70, weather: true, grid: false, night: true, autosave: true, reduceMotion: false, clock24: true };
   const OPT = Object.assign({}, OPT_DEFAULT);
   try {
     const saved = JSON.parse(localStorage.getItem(OPT_KEY) || "{}");
@@ -552,6 +560,20 @@
     }
   }
 
+  let lastTickWall = Date.now();
+  function pumpTicks() {
+    const now = Date.now();
+    let n = 0;
+    while (now - lastTickWall >= TICK_SECONDS * 1000 && n < 12) {
+      lastTickWall += TICK_SECONDS * 1000;
+      tick();
+      n++;
+    }
+    // a tab that slept for hours replays a bounded stretch, same as a load
+    const maxGap = TICK_SECONDS * 1000 * 80;
+    if (now - lastTickWall > maxGap) lastTickWall = now - maxGap;
+  }
+
   function tick() {
     S.day++;
     // the hour advances in the frame loop; a tick only marks the day
@@ -869,8 +891,8 @@
 
   function stepClouds(dt) {
     (S.clouds || []).forEach((c) => {
-      c.gx += c.vx * dt * (S.speed ? 1 : 0.15);
-      c.gy += c.vy * dt * (S.speed ? 1 : 0.15);
+      c.gx += c.vx * dt;
+      c.gy += c.vy * dt;
       if (c.gx > WORLD_W + 20) c.gx = -20;
       if (c.gx < -20) c.gx = WORLD_W + 20;
       if (c.gy > WORLD_H + 20) c.gy = -20;
@@ -1145,13 +1167,9 @@
   function drawFrame(ts) {
     const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
     last = ts;
-    if (S.speed > 0) {
-      acc += dt * S.speed;
-      const dayLen = 2.6;
-      while (acc > dayLen) { acc -= dayLen; tick(); }
-      S.hour = (S.hour + dt * S.speed * (24 / dayLen)) % 24;
-    }
-    const sim = S.speed || 1;
+    S.hour = localHour();
+    pumpTicks();
+    const sim = 1;
     advance(S.peds, dt * sim);
     advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
     if (S.boats) {
@@ -1867,9 +1885,14 @@
     el("ui-pop").textContent = S.pop.toLocaleString();
     el("ui-jobs").textContent = S.jobs.toLocaleString();
     el("ui-mood").textContent = Math.round(S.mood) + "%";
-    const hh = Math.floor(S.hour);
+    const now = new Date();
+    const hh = now.getHours(), mm = now.getMinutes();
+    const clock = document.getElementById("ui-clock");
+    if (clock) clock.textContent = (OPT.clock24 ? String(hh).padStart(2, "0") : String(((hh + 11) % 12) + 1)) + ":" + String(mm).padStart(2, "0");
     const phase = (hh >= 5 && hh < 8) ? "dawn" : (hh >= 8 && hh < 17) ? "day" : (hh >= 17 && hh < 20) ? "dusk" : "night";
-    el("ui-date").textContent = "Day " + (S.day + 1) + " · " + String(hh).padStart(2, "0") + ":00 · " + phase;
+    const ph = document.getElementById("ui-phase");
+    if (ph) ph.textContent = "live · " + phase;
+    el("ui-date").textContent = now.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" }) + " · beat " + (S.day + 1);
     el("ui-region").textContent = "Region " + claimedList().length + "/" + (GW * GH);
     const ev = S.event;
     const evEl = el("ui-event");
@@ -2166,17 +2189,11 @@
     canvas.addEventListener("contextmenu", (e) => e.preventDefault());
     canvas.addEventListener("wheel", (e) => {
       e.preventDefault();
-      const before = screenToTile(e.offsetX, e.offsetY);
-      const f = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-      cam.zoom = clamp(cam.zoom * f, 0.16, 2.4);
-      const after = screenToTile(e.offsetX, e.offsetY);
-      cam.x += (after.gx - before.gx) * HALF_W * cam.zoom;
-      cam.y += (after.gy - before.gy) * HALF_H * cam.zoom;
+      zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     }, { passive: false });
     window.addEventListener("keydown", (e) => {
       if (e.code === "Space") { spaceDown = true; canvas.style.cursor = "grab"; }
       if (e.key === "Escape") { el("modal").classList.add("hidden"); el("inspector").classList.add("hidden"); }
-      if (["1", "2", "3", "4"].includes(e.key)) setSpeed([0, 1, 2, 4][Number(e.key) - 1]);
       if (e.key === "q" || e.key === "Q") rotateCamera(-1);
       if (e.key === "e" || e.key === "E") rotateCamera(1);
       if (e.key === "+" || e.key === "=") zoomBy(1.25);
@@ -2187,9 +2204,9 @@
     window.addEventListener("resize", resize);
   }
 
-  function setSpeed(s) {
-    S.speed = s;
-    [...document.querySelectorAll("#ui-speeds button")].forEach((b) => b.classList.toggle("on", Number(b.dataset.speed) === s));
+  function setSpeed() {
+    // kept for callers that used to change pace; the city runs on real time now
+    return false;
   }
 
   // ---------------------------------------------------------------- save / load
@@ -2223,8 +2240,8 @@
         bldg: rle(r.bldg), svc: rle(r.svc),
       });
     });
-    const data = { v: 3, seed: S.seed, cash: S.cash, day: S.day, hour: S.hour, unlocked: S.unlocked, regions,
-      cam: { x: cam.x, y: cam.y, zoom: cam.zoom } };
+    const data = { v: 3, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
+      savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom } };
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(data));
       toast("World saved · " + regions.length + " region" + (regions.length === 1 ? "" : "s"));
@@ -2237,7 +2254,8 @@
     try {
       const d = JSON.parse(raw);
       S.regions = new Array(GW * GH).fill(null);
-      S.seed = d.seed; S.cash = d.cash; S.day = d.day; S.hour = d.hour; S.unlocked = d.unlocked || 0;
+      S.seed = d.seed; S.cash = d.cash; S.day = d.day || 0; S.unlocked = d.unlocked || 0;
+      S.hour = localHour();   // the sky belongs to the player's clock, not the save
       d.regions.forEach((r) => {
         const reg = makeRegion(r.rx, r.ry);
         reg.claimed = true;
@@ -2269,7 +2287,14 @@
         const c = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);
         if (!regionOf(c.gx, c.gy)) focusCity();
       } else focusCity();
-      toast("World loaded · day " + (S.day + 1));
+      // while you were away the city kept its own time: replay a bounded stretch
+      const away = Math.floor((Date.now() - (d.savedAt || Date.now())) / (TICK_SECONDS * 1000));
+      const catchUp = clamp(away, 0, 80);
+      for (let i = 0; i < catchUp; i++) tick();
+      lastTickWall = Date.now();
+      toast(catchUp > 4
+        ? "World loaded · " + catchUp + " beats of city life caught up"
+        : "World loaded · " + claimedList().length + " regions");
       return true;
     } catch (e) { toast("That save could not be read"); return false; }
   }
@@ -2355,6 +2380,7 @@
     toggle("grid", "Tile grid", "faint lines on the ground");
     toggle("autosave", "Autosave", "every 10 days to this browser");
     toggle("reduceMotion", "Reduce motion", "no water shimmer, no bobbing");
+    toggle("clock24", "24-hour clock", "off for am/pm");
 
     modal("Options", '<div class="optlist">' + rows.join("") + "</div>" +
       '<div class="row"><button id="opt-reset" class="wide">Reset to defaults</button>' +
@@ -2375,19 +2401,19 @@
     if (close) close.onclick = () => el("modal").classList.add("hidden");
   }
 
+  function zoomAt(sx, sy, factor) {
+    // hold the point under the cursor: world position before, same position after
+    const wx = (sx - cam.x) / cam.zoom;
+    const wy = (sy - cam.y) / cam.zoom;
+    cam.zoom = clamp(cam.zoom * factor, 0.16, 2.4);
+    cam.x = sx - wx * cam.zoom;
+    cam.y = sy - wy * cam.zoom;
+  }
   function zoomBy(f) {
-    const c = screenToView(canvas.clientWidth / 2, canvas.clientHeight / 2);
-    cam.zoom = clamp(cam.zoom * f, 0.16, 2.4);
-    const after = screenToView(canvas.clientWidth / 2, canvas.clientHeight / 2);
-    cam.x += (after.gx - c.gx) * HALF_W * cam.zoom;
-    cam.y += (after.gy - c.gy) * HALF_H * cam.zoom;
+    zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, f);
   }
 
   function bindUi() {
-    el("ui-speeds").addEventListener("click", (e) => {
-      const b = e.target.closest("button"); if (!b) return;
-      setSpeed(Number(b.dataset.speed));
-    });
     el("ui-sound").onclick = () => {
       audioOn = !audioOn;
       el("ui-sound").classList.toggle("off", !audioOn);
@@ -2404,7 +2430,7 @@
       "<li><b>Connections</b> happen where a road on one border meets a road on the other. Connected regions share jobs, so people can live in one town and work in another.</li>",
       "<li><b>Milestones</b> at 120, 600, 2,500 and 8,000 people unlock parks, plazas, libraries and monuments.</li>",
       "</ul>",
-      "<p>The <b>Music</b> panel under Build is the LYGO listen portal — 80+ tracks from the catalogue, plus birdsong and traffic from the game itself. Playing music ducks the game ambience.</p><p><kbd>1</kbd>–<kbd>4</kbd> speed · <kbd>Space</kbd>+drag or right-drag to pan · wheel to zoom · inspect to read a tile.</p>",
+      "<p><p><b>Time is yours, not the game's:</b> the sky, the shops and the night follow your local clock, and the city takes one beat every seven seconds with no pause and no fast forward. Close the tab and it keeps living; come back and it catches up.</p><p>The <b>Music</b> panel under Build is the LYGO listen portal — 80+ tracks from the catalogue, plus birdsong and traffic from the game itself. Playing music ducks the game ambience.</p><p><kbd>Space</kbd>+drag or right-drag to pan · wheel to zoom · inspect to read a tile.</p>",
     ].join(""));
     el("modal-close").onclick = () => el("modal").classList.add("hidden");
     el("ins-close").onclick = () => el("inspector").classList.add("hidden");

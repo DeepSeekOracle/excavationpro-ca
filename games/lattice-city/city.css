@@ -225,3 +225,12 @@ body {
 }
 #topbar { flex-wrap: nowrap; }
 #topbar .brand.small { white-space: nowrap; }
+
+/* ---------------- live clock (the city runs on your time) ---------------- */
+.liveclock {
+  display: flex; align-items: baseline; gap: 6px;
+  padding: 4px 10px; border: 1px solid #f2c14e55; border-radius: 6px;
+  background: #241f1b;
+}
+.liveclock b { font-size: 15px; letter-spacing: .06em; color: var(--amber); font-variant-numeric: tabular-nums; }
+.liveclock span { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
