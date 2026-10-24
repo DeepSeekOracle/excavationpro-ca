@@ -330,6 +330,296 @@
     event: null, nextEventDay: 26, eventHistory: [],
   };
 
+
+
+  // ---------------------------------------------------------------- Unified Movement System
+  // Single source of truth for all vehicle movement physics
+
+  const MOVEMENT = {
+    // Speeds in tiles per game second
+    speeds: {
+      pedestrian: 1.0,
+      car: 1.8,
+      bus: 1.4,
+      truck: 1.3,
+      fireTruck: 2.5,
+      ambulance: 3.0,
+      policeCar: 3.5,
+      train: 0.085,    // tiles per game second along track
+      ferry: 0.07,     // tiles per game second on water
+      boat: 0.05,      // wandering boats
+    },
+    // Acceleration/deceleration (tiles/s^2)
+    accel: 0.5,
+    decel: 0.8,
+    // Turn rate (radians per second)
+    turnRate: Math.PI / 2,
+  };
+
+  // Path following state machine
+  const VehicleState = {
+    IDLE: "idle",
+    PATHING: "pathing",      // computing path
+    MOVING: "moving",        // following route
+    WAITING: "waiting",      // at waypoint/stop
+    ARRIVED: "arrived",      // at destination
+    RETURNING: "returning",  // going back to depot
+  };
+
+  // Unified vehicle structure
+  function createVehicle(type, x, y, homeX, homeY, depotId) {
+    return {
+      id: 0,  // assigned by fleet manager
+      type: type,
+      x: x, y: y,
+      homeX: homeX, homeY: homeY,
+      depotId: depotId,
+      state: VehicleState.IDLE,
+      route: null,      // array of {x, y} waypoints
+      routeIndex: 0,
+      target: null,     // {x, y} or entity id
+      speed: MOVEMENT.speeds[type] || 1.0,
+      heading: 0,       // radians
+      waitTimer: 0,
+      dispatchedAt: 0,
+      eta: 0,
+    };
+  }
+
+  // Fleet manager for each vehicle type
+  const fleets = {
+    cars: [],
+    fireTrucks: [],
+    ambulances: [],
+    policeCars: [],
+    trains: [],
+    ferries: [],
+    boats: [],
+  };
+
+  function getFleet(type) {
+    const map = {
+      car: "cars", bus: "cars", truck: "cars",
+      fireTruck: "fireTrucks",
+      ambulance: "ambulances",
+      policeCar: "policeCars",
+      train: "trains",
+      ferry: "ferries",
+      boat: "boats",
+    };
+    return fleets[map[type] || "cars"];
+  }
+
+  // Unified path request
+  function requestPath(startX, startY, goalX, goalY, vehicleType) {
+    // Use appropriate pathfinder based on vehicle type
+    if (vehicleType === "train") return findRailPath(startX, startY, goalX, goalY);
+    if (vehicleType === "ferry") return findWaterPath(startX, startY, goalX, goalY);
+    if (vehicleType === "boat") return findWaterPath(startX, startY, goalX, goalY);
+    return findRoadPath(startX, startY, goalX, goalY);
+  }
+
+  // Rail pathfinding - follows rail tiles
+  function findRailPath(startX, startY, goalX, goalY) {
+    // A* on rail tiles only
+    const open = [];
+    const cameFrom = new Map();
+    const gScore = new Map();
+    const fScore = new Map();
+    const key = (x, y) => x + "," + y;
+    const startKey = key(startX, startY);
+    const goalKey = key(goalX, goalY);
+    gScore.set(startKey, 0);
+    fScore.set(startKey, Math.abs(startX - goalX) + Math.abs(startY - goalY));
+    open.push({ key: startKey, x: startX, y: startY, f: fScore.get(startKey) });
+
+    while (open.length > 0) {
+      let bestIdx = 0;
+      for (let i = 1; i < open.length; i++) if (open[i].f < open[bestIdx].f) bestIdx = i;
+      const current = open.splice(bestIdx, 1)[0];
+      if (current.key === goalKey) {
+        const path = [];
+        let curr = current.key;
+        while (cameFrom.has(curr)) {
+          const [x, y] = curr.split(",").map(Number);
+          path.unshift({ x, y });
+          curr = cameFrom.get(curr);
+        }
+        const [sx, sy] = curr.split(",").map(Number);
+        path.unshift({ x: sx, y: sy });
+        return path;
+      }
+      const dirs = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+      for (const [dx, dy] of dirs) {
+        const nx = current.x + dx, ny = current.y + dy;
+        const nKey = key(nx, ny);
+        const tile = regionOf(nx, ny);
+        if (!tile || !tile.r.rail[tile.i]) continue;
+        const tentativeG = gScore.get(current.key) + 1;
+        if (!gScore.has(nKey) || tentativeG < gScore.get(nKey)) {
+          cameFrom.set(nKey, current.key);
+          gScore.set(nKey, tentativeG);
+          fScore.set(nKey, tentativeG + Math.abs(nx - goalX) + Math.abs(ny - goalY));
+          if (!open.some(o => o.key === nKey)) open.push({ key: nKey, x: nx, y: ny, f: fScore.get(nKey) });
+        }
+      }
+    }
+    return null;
+  }
+
+  // Water pathfinding - follows water tiles
+  function findWaterPath(startX, startY, goalX, goalY) {
+    const open = [];
+    const cameFrom = new Map();
+    const gScore = new Map();
+    const fScore = new Map();
+    const key = (x, y) => x + "," + y;
+    const startKey = key(startX, startY);
+    const goalKey = key(goalX, goalY);
+    gScore.set(startKey, 0);
+    fScore.set(startKey, Math.abs(startX - goalX) + Math.abs(startY - goalY));
+    open.push({ key: startKey, x: startX, y: startY, f: fScore.get(startKey) });
+
+    while (open.length > 0) {
+      let bestIdx = 0;
+      for (let i = 1; i < open.length; i++) if (open[i].f < open[bestIdx].f) bestIdx = i;
+      const current = open.splice(bestIdx, 1)[0];
+      if (current.key === goalKey) {
+        const path = [];
+        let curr = current.key;
+        while (cameFrom.has(curr)) {
+          const [x, y] = curr.split(",").map(Number);
+          path.unshift({ x, y });
+          curr = cameFrom.get(curr);
+        }
+        const [sx, sy] = curr.split(",").map(Number);
+        path.unshift({ x: sx, y: sy });
+        return path;
+      }
+      const dirs = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+      for (const [dx, dy] of dirs) {
+        const nx = current.x + dx, ny = current.y + dy;
+        const nKey = key(nx, ny);
+        const tile = regionOf(nx, ny);
+        if (!tile || tile.r.terrain[tile.i] !== TERRAIN.WATER) continue;
+        const tentativeG = gScore.get(current.key) + 1;
+        if (!gScore.has(nKey) || tentativeG < gScore.get(nKey)) {
+          cameFrom.set(nKey, current.key);
+          gScore.set(nKey, tentativeG);
+          fScore.set(nKey, tentativeG + Math.abs(nx - goalX) + Math.abs(ny - goalY));
+          if (!open.some(o => o.key === nKey)) open.push({ key: nKey, x: nx, y: ny, f: fScore.get(nKey) });
+        }
+      }
+    }
+    return null;
+  }
+
+  // Unified vehicle update - call once per frame for all fleets
+  function updateAllVehicles(dt) {
+    const gameSeconds = dt * (S.speed || 1) * 86400;
+    
+    Object.values(fleets).forEach(fleet => {
+      fleet.forEach(v => {
+        if (v.state === VehicleState.MOVING && v.route && v.route.length > 1) {
+          moveAlongRoute(v, gameSeconds);
+        } else if (v.state === VehicleState.WAITING) {
+          v.waitTimer -= gameSeconds;
+          if (v.waitTimer <= 0) v.state = VehicleState.MOVING;
+        } else if (v.state === VehicleState.RETURNING) {
+          returnToDepot(v, gameSeconds);
+        }
+      });
+    });
+  }
+
+  function moveAlongRoute(v, dt) {
+    const speed = MOVEMENT.speeds[v.type] || 1.0;
+    const dist = speed * dt;
+    
+    // Move along route
+    let remaining = dist;
+    while (remaining > 0 && v.routeIndex < v.route.length - 1) {
+      const curr = v.route[v.routeIndex];
+      const next = v.route[v.routeIndex + 1];
+      const dx = next.x - curr.x;
+      const dy = next.y - curr.y;
+      const segLen = Math.hypot(dx, dy);
+      
+      if (segLen <= remaining) {
+        remaining -= segLen;
+        v.routeIndex++;
+        v.x = next.x;
+        v.y = next.y;
+        v.heading = Math.atan2(dy, dx);
+      } else {
+        // Move partway along segment
+        const ratio = remaining / segLen;
+        v.x = curr.x + dx * ratio;
+        v.y = curr.y + dy * ratio;
+        v.heading = Math.atan2(dy, dx);
+        remaining = 0;
+      }
+    }
+    
+    // Check arrival
+    if (v.routeIndex >= v.route.length - 1) {
+      v.state = VehicleState.ARRIVED;
+      onVehicleArrived(v);
+    }
+  }
+
+  function returnToDepot(v, dt) {
+    if (!v.route) {
+      // Compute return path
+      v.route = requestPath(Math.round(v.x), Math.round(v.y), v.homeX, v.homeY, v.type);
+      v.routeIndex = 0;
+      if (!v.route || v.route.length < 2) {
+        v.state = VehicleState.IDLE;
+        v.x = v.homeX; v.y = v.homeY;
+        return;
+      }
+    }
+    moveAlongRoute(v, dt);
+    if (v.state === VehicleState.ARRIVED) {
+      v.state = VehicleState.IDLE;
+      v.route = null;
+    }
+  }
+
+  function onVehicleArrived(v) {
+    if (v.type === "fireTruck" && v.target) {
+      const fire = activeFires.find(f => f.id === v.target);
+      if (fire) fire.assignedTrucks.push(v.id);
+    } else if (v.type === "ambulance" && v.target) {
+      const call = medicalCalls.find(c => c.id === v.target);
+      if (call) { call.status = "transporting"; v.state = VehicleState.RETURNING; }
+    } else if (v.type === "policeCar" && v.target) {
+      const call = policeCalls.find(c => c.id === v.target);
+      if (call) call.status = "resolving";
+    }
+  }
+
+  // Dispatch helpers using unified system
+  function dispatchVehicle(type, startX, startY, goalX, goalY, target, depotId) {
+    const fleet = getFleet(type);
+    const idle = fleet.find(v => v.state === VehicleState.IDLE);
+    if (!idle) return null;
+    
+    const path = requestPath(startX, startY, goalX, goalY, type);
+    if (!path) return null;
+    
+    idle.state = VehicleState.MOVING;
+    idle.route = path;
+    idle.routeIndex = 0;
+    idle.target = target;
+    idle.dispatchedAt = S.hour * 3600 + S.day * 86400;
+    const dist = path.length;
+    idle.eta = idle.dispatchedAt + dist / (MOVEMENT.speeds[type] || 1.0);
+    
+    return idle;
+  }
+
+
   // ---------------------------------------------------------------- Emergency Response
   // Real logistics: fire trucks, ambulances, police with actual pathfinding,
   // real-time movement, ETA calculation, and TTS dispatch announcements.
@@ -485,7 +775,7 @@
       return;
     }
     const numTrucks = Math.min(fire.severity, countIdleTrucks(bestStation), 2);
-    const trucksToSend = fireTrucks.filter(t => t.stationId === stationId(bestStation) && t.state === "idle").slice(0, numTrucks);
+    const trucksToSend = []; for (let i = 0; i < numTrucks; i++) { const t = dispatchVehicle("fireTruck", bestStation.gx, bestStation.gy, fire.gx, fire.gy, fire.id, stationId(bestStation)); if (t) trucksToSend.push(t); }
     if (trucksToSend.length === 0) return;
     const travelTime = bestDist / EMERGENCY.fireSpeed;
     const etaMinutes = Math.ceil(travelTime / 60 * 10) / 10;
@@ -670,7 +960,7 @@
         logEvent("medical", "All ambulances committed or out of range!", { gx: call.gx, gy: call.gy }, "high");
         return;
       }
-      const amb = ambulances.find(a => a.clinicId === clinicId(bestClinic) && a.state === "idle");
+      const amb = dispatchVehicle("ambulance", bestClinic.gx, bestClinic.gy, call.gx, call.gy, call.id, clinicId(bestClinic));
       if (!amb) return;
       const travelTime = bestDist / MEDICAL.ambulanceSpeed;
       const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
@@ -1862,7 +2152,7 @@
     advance(S.peds, dt * sim);
     advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
     updateFires(dt);
-        updateEmergencyVehicles(dt);
+        updateAllVehicles(dt);
         spawnMedicalEmergency();
         spawnPoliceCall();
         updateMedicalCalls(dt);
