@@ -47,7 +47,7 @@ a { color: var(--cyan); }
 a:hover { color: #bae6fd; }
 .top {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
-  padding: max(.45rem, env(safe-area-inset-top, 0px)) 1.1rem .45rem;
+  padding: max(.45rem, env(safe-area-inset-top, 0px)) clamp(12px, 3vw, 32px) .45rem;
   border-bottom: 1px solid rgba(212, 160, 23, .45);
   background: linear-gradient(180deg, #0b1220, #080d18);
   z-index: 20; flex-wrap: wrap; flex: none;
@@ -70,6 +70,10 @@ a:hover { color: #bae6fd; }
 .zap { display: none; }
 .stage {
   display: block;
+  width: 100%;
+  max-width: 1640px;
+  margin: 0 auto;
+  padding: 0 clamp(12px, 3vw, 32px) 24px;
   flex: none;
   min-height: 0;
   overflow: visible;
@@ -92,6 +96,7 @@ a:hover { color: #bae6fd; }
   border-top: 1px solid var(--line);
   height: auto;
   min-height: 0;
+  padding: 1rem 0 1.5rem;
   overflow-y: auto;
 }
 .stage > .side > .catalog {
@@ -578,10 +583,12 @@ input[type="search"]:focus, input[type="url"]:focus {
 .gate-links { font-size: .82rem; }
 /* --- LYGO TV mobile flow + ad slots --- */
 .ad-slot {
-  display: none; margin: 12px 0; padding: 8px;
+  display: none; margin: 12px auto; padding: 8px;
+  width: 100%; max-width: 970px;
   border: 1px solid var(--line); border-radius: 10px;
   background: rgba(0, 0, 0, .18); text-align: center; min-height: 90px;
 }
+.side > .ad-slot { margin-left: auto; margin-right: auto; }
 .ad-slot.ads-visible { display: block; }
 .ad-slot:has(ins.adsbygoogle[data-ad-status="unfilled"]),
 .ad-slot:has(ins.adsbygoogle[data-ad-status="unfill-optimized"]),
