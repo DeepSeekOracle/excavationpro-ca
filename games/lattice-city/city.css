@@ -164,3 +164,16 @@ body {
   #ticker { left: 6px; right: 6px; margin-left: 0; }
   #inspector { left: 6px; right: 6px; width: auto; top: auto; bottom: 40px; max-height: 40vh; }
 }
+
+/* ---------------- world map ---------------- */
+#minimap-wrap {
+  position: absolute; right: 10px; bottom: 44px; width: 188px; padding: 6px 6px 2px;
+  background: rgba(14, 13, 12, .92); border: 1px solid var(--line); border-radius: 10px;
+}
+#minimap { display: block; width: 176px; height: 176px; cursor: pointer; }
+#minimap-label { text-align: center; font-size: 9px; letter-spacing: .18em; color: var(--mute); padding: 2px 0 4px; }
+@media (max-width: 820px) {
+  #minimap-wrap { width: 118px; right: 6px; bottom: auto; top: 6px; padding: 4px; }
+  #minimap { width: 110px; height: 110px; }
+  #minimap-label { display: none; }
+}

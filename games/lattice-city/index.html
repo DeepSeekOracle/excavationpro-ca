@@ -38,6 +38,7 @@
     <div class="stat"><span>JOBS</span><b id="ui-jobs">0</b></div>
     <div class="stat"><span>MOOD</span><b id="ui-mood">—</b></div>
     <div class="clock" id="ui-date">Day 1</div>
+    <div class="clock" id="ui-region">Region 1/1</div>
     <div class="spacer"></div>
     <div class="demand" title="Demand: homes · shops · industry">
       <span class="lbl">DEMAND</span>
@@ -70,13 +71,13 @@
       </div>
       <h3>Next milestone</h3>
       <p id="ui-goal" class="goal">Reach 50 people to unlock parks.</p>
-      <div class="row"><button id="ui-expand" class="wide" title="Buy the next ring of land">Expand district · $4,000</button></div>
+      <div class="row"><button id="ui-claim" class="wide" title="Open the world map and claim a neighbouring region">Claim a region · $15,000</button></div>
       <div class="row">
         <button id="ui-save" class="wide">Save</button>
         <button id="ui-load" class="wide">Load</button>
         <button id="ui-new" class="wide">New map</button>
       </div>
-      <p class="hint">Drag to paint · Space+drag or middle-drag to pan · wheel to zoom</p>
+      <p class="hint">Drag to paint · Space+drag or middle-drag to pan · wheel to zoom · regions connect where their roads meet</p>
     </aside>
 
     <aside id="inspector" class="hidden">
@@ -84,6 +85,11 @@
       <div id="ins-body"></div>
       <button id="ins-close" class="wide">Close</button>
     </aside>
+
+    <div id="minimap-wrap" title="World map — click a region to jump, click the edges to claim">
+      <canvas id="minimap" width="180" height="180"></canvas>
+      <div id="minimap-label">WORLD</div>
+    </div>
 
     <div id="ticker"><span id="ticker-text">The district is quiet. Lay a road.</span></div>
     <div id="toast"></div>
@@ -99,7 +105,7 @@
 
   <section id="about">
     <h3>About Lattice City</h3>
-    <p>Lattice City is an endless isometric city builder in the browser. Zone land for homes, shops and workshops, connect it with roads, keep power and water flowing, and the district grows on its own: buildings rise, people move in, and the budget starts to matter. The map starts at 96×96 tiles and can be expanded ring by ring, so a hamlet can become a sprawl. Everything runs locally: your city saves in this browser, and a snapshot gives you a PNG of the district.</p>
+    <p>Lattice City is an endless isometric city builder in the browser. Zone land for homes, shops and workshops, connect it with roads, keep power and water flowing, and the district grows on its own: buildings rise, people move in, and the budget starts to matter. The world is a grid of 160×160 regions, and regions join wherever their border roads meet, so a hamlet can become a sprawl of connected towns. Everything runs locally: your city saves in this browser, and a snapshot gives you a PNG of the district.</p>
     <p>Built by <a href="https://excavationpro.ca/about.html">Justin Helmer</a> · part of the <a href="https://excavationpro.ca/games/">Excavationpro games</a> shelf · also try <a href="https://excavationpro.ca/games/lattice-arena/">Lattice Arena</a> and <a href="https://excavationpro.ca/games/lattice-crypt/">Lattice Crypt</a>.</p>
   </section>
 </div>
