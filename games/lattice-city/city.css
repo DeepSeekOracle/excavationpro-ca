@@ -177,3 +177,26 @@ body {
   #minimap { width: 110px; height: 110px; }
   #minimap-label { display: none; }
 }
+
+/* ---------------- the LYGO listen portal ---------------- */
+.radio-dock { display: grid; gap: 5px; padding: 7px 8px; margin: 0 0 10px; border: 1px solid var(--line); border-radius: 8px; background: #14120f; }
+.radio-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 9px; letter-spacing: .16em; color: var(--amber); }
+.radio-head a { color: var(--mute); text-decoration: none; letter-spacing: .06em; }
+.radio-head a:hover { color: var(--amber); }
+.radio-dock.collapsed .radio-row, .radio-dock.collapsed input, .radio-dock.collapsed .radio-title, .radio-dock.collapsed .radio-link { display: none; }
+.radio-row { display: flex; gap: 5px; }
+.radio-row .wide { padding: 5px 6px; font-size: 10px; }
+#radioVol { width: 100%; accent-color: var(--amber); height: 14px; }
+.radio-title {
+  margin: 0; font-size: 10px; line-height: 1.35; color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.radio-link { font-size: 9.5px; color: var(--mute); text-decoration: none; letter-spacing: .06em; }
+.radio-link:hover { color: var(--amber); }
+.radio-head { flex-wrap: wrap; }
+.radio-head .radio-dsp {
+  flex: 1 0 100%; margin: 3px 0 0; font-size: 8.5px; line-height: 1.5;
+  letter-spacing: .03em; color: var(--mute); text-transform: none;
+}
+.radio-head .radio-dsp a { color: var(--mute); text-decoration: none; }
+.radio-head .radio-dsp a:hover { color: var(--amber); }

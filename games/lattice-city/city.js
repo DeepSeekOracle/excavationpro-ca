@@ -510,10 +510,7 @@
     S.rain += (S.rainTarget - S.rain) * 0.06;
     checkMilestones();
     updatePeds();
-    if (ambient && ambient.traffic) {
-      const target = clamp(S.pop / 900, 0, 0.05) * (S.hour > 6 && S.hour < 20 ? 1 : 0.25);
-      ambient.traffic.gain.value += (target - ambient.traffic.gain.value) * 0.2;
-    }
+    balanceAudio();
     if (S.day % 7 === 0) log(weekLine());
     refreshHud();
   }
@@ -1329,12 +1326,12 @@
       if (r.road[i]) return false;
       r.road[i] = 1; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0;
       r.zoneDirty = true;
-      sfx("place");
+      sfx("road");
       did = true;
     } else if (t.zone) {
       if (r.zone[i] === t.zone) return false;
       r.zone[i] = t.zone; r.zoneDirty = true;
-      sfx("place");
+      sfx("zone");
       did = true;
     } else if (t.service) {
       if (r.svc[i]) return false;
@@ -1476,7 +1473,9 @@
     toastT = setTimeout(() => n.classList.remove("on"), 2800);
   }
   function deny(text) { toast(text); sfx("deny"); }
-  function log(text) { el("ticker-text").innerHTML = text; }
+  function log(text) {
+    el("ticker-text").innerHTML = text;
+  }
 
   // ---------------------------------------------------------------- sound
   let audio = null, audioOn = false, ambient = null;
@@ -1526,18 +1525,90 @@
     };
     chirp();
   }
+  // ---------------------------------------------------------------- sound bank
+  // Small synthesised set: a tone for the pitch, a noise burst for the texture.
+  // No audio files, so nothing to load and nothing to license.
+  let noiseBuf = null;
+  function noiseBuffer(ac) {
+    if (noiseBuf && noiseBuf.sampleRate === ac.sampleRate) return noiseBuf;
+    const len = Math.floor(ac.sampleRate * 0.4);
+    noiseBuf = ac.createBuffer(1, len, ac.sampleRate);
+    const d = noiseBuf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    return noiseBuf;
+  }
+  function tone(ac, when, f0, f1, dur, gain, type) {
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || "triangle";
+    o.frequency.setValueAtTime(f0, when);
+    if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), when + dur);
+    g.gain.setValueAtTime(0.0001, when);
+    g.gain.linearRampToValueAtTime(gain, when + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    o.connect(g); g.connect(ac.destination);
+    o.start(when); o.stop(when + dur + 0.03);
+  }
+  function burst(ac, when, dur, cutoff, gain) {
+    const src = ac.createBufferSource();
+    src.buffer = noiseBuffer(ac);
+    const filt = ac.createBiquadFilter();
+    filt.type = "lowpass";
+    filt.frequency.value = cutoff;
+    const g = ac.createGain();
+    g.gain.setValueAtTime(gain, when);
+    g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+    src.connect(filt); filt.connect(g); g.connect(ac.destination);
+    src.start(when); src.stop(when + dur + 0.02);
+  }
   function sfx(kind) {
     if (!audioOn) return;
     const ac = initAudio(); if (!ac) return;
-    const o = ac.createOscillator(), g = ac.createGain(), now = ac.currentTime;
-    const map = { place: [440, 0.05, 0.05], clear: [180, 0.09, 0.06], grow: [660, 0.05, 0.07], deny: [110, 0.12, 0.06], milestone: [880, 0.18, 0.12] };
-    const [f, dur, vol] = map[kind] || map.place;
-    o.type = kind === "deny" ? "square" : "triangle";
-    o.frequency.value = f;
-    g.gain.value = vol;
-    g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-    o.connect(g); g.connect(ac.destination);
-    o.start(now); o.stop(now + dur + 0.02);
+    const t0 = ac.currentTime + 0.002;
+    switch (kind) {
+      case "place":            // a stone set down: soft thump, bright tick
+        burst(ac, t0, 0.05, 1800, 0.05);
+        tone(ac, t0, 523, 659, 0.07, 0.05, "triangle");
+        break;
+      case "road":             // gravel under a boot
+        burst(ac, t0, 0.11, 2400, 0.07);
+        tone(ac, t0, 150, 110, 0.08, 0.04, "sine");
+        break;
+      case "zone":             // planning, not building
+        tone(ac, t0, 392, 523, 0.09, 0.035, "sine");
+        break;
+      case "clear":            // demolition: rubble falling
+        burst(ac, t0, 0.22, 700, 0.09);
+        tone(ac, t0, 180, 70, 0.2, 0.05, "sawtooth");
+        break;
+      case "grow":             // a building appears
+        tone(ac, t0, 523, 523, 0.06, 0.035, "triangle");
+        tone(ac, t0 + 0.07, 784, 784, 0.09, 0.03, "triangle");
+        break;
+      case "milestone":        // a town becomes a city
+        [523, 659, 784, 1047].forEach((f, i) => tone(ac, t0 + i * 0.1, f, f, 0.26, 0.05, "triangle"));
+        burst(ac, t0, 0.06, 3000, 0.03);
+        break;
+      case "deny":             // the treasury says no
+        tone(ac, t0, 140, 110, 0.16, 0.05, "square");
+        burst(ac, t0, 0.08, 500, 0.04);
+        break;
+      default:
+        tone(ac, t0, 880, 880, 0.03, 0.03, "sine");
+    }
+  }
+
+  // the LYGO listen portal owns the music; the game steps back when it plays
+  function radioPlaying() {
+    try { return !!(window.LatticeRadio && window.LatticeRadio.playing()); } catch (e) { return false; }
+  }
+  function balanceAudio() {
+    if (!ambient) return;
+    const duck = radioPlaying() ? 0.012 : 0.05;
+    ambient.master.gain.value += (duck - ambient.master.gain.value) * 0.08;
+    if (ambient.traffic) {
+      const target = (radioPlaying() ? 0 : clamp(S.pop / 900, 0, 0.05)) * (S.hour > 6 && S.hour < 20 ? 1 : 0.25);
+      ambient.traffic.gain.value += (target - ambient.traffic.gain.value) * 0.08;
+    }
   }
 
   // ---------------------------------------------------------------- tools ui
@@ -1766,7 +1837,7 @@
       "<li><b>Connections</b> happen where a road on one border meets a road on the other. Connected regions share jobs, so people can live in one town and work in another.</li>",
       "<li><b>Milestones</b> at 120, 600, 2,500 and 8,000 people unlock parks, plazas, libraries and monuments.</li>",
       "</ul>",
-      "<p><kbd>1</kbd>–<kbd>4</kbd> speed · <kbd>Space</kbd>+drag or right-drag to pan · wheel to zoom · inspect to read a tile.</p>",
+      "<p>The <b>Music</b> panel under Build is the LYGO listen portal — 80+ tracks from the catalogue, plus birdsong and traffic from the game itself. Playing music ducks the game ambience.</p><p><kbd>1</kbd>–<kbd>4</kbd> speed · <kbd>Space</kbd>+drag or right-drag to pan · wheel to zoom · inspect to read a tile.</p>",
     ].join(""));
     el("modal-close").onclick = () => el("modal").classList.add("hidden");
     el("ins-close").onclick = () => el("inspector").classList.add("hidden");
