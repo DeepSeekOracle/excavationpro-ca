@@ -123,7 +123,7 @@
   };
 
   const TOOLS = [
-    { id: "road", name: "Road", cost: 12, hint: "connect · bridges $180" },
+    { id: "road", name: "Road", cost: 12, hint: "bridge $180 · pass $90" },
     { id: "zoneR", name: "Homes", cost: 24, hint: "people live here", zone: Z.R },
     { id: "zoneC", name: "Shops", cost: 30, hint: "jobs + tax", zone: Z.C },
     { id: "zoneI", name: "Works", cost: 34, hint: "jobs, some smog", zone: Z.I },
@@ -1311,7 +1311,7 @@
           }
         }
 
-        if (terr === TERRAIN.MOUNTAIN) {
+        if (terr === TERRAIN.MOUNTAIN && !reg.road[i]) {
           // one peak per ridge: only the highest of the nine neighbours gets a
           // sprite, so mountains rise out of the rock instead of tiling into a
           // mesa field
@@ -1335,7 +1335,11 @@
         }
 
         let key = null;
-        if (reg.road[i]) key = terr === TERRAIN.WATER ? "r12_road_bridge_stone" : (ROAD[roadMask(gx, gy)] || "r02_road_straight_ew");
+        if (reg.road[i]) {
+          if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
+          else if (terr === TERRAIN.MOUNTAIN) key = (roadMask(gx, gy) & 3) === 3 ? "c14_switchback_road_w" : "c13_switchback_road_n";
+          else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
+        }
         else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
@@ -1736,7 +1740,7 @@
     if (!tile) return false;
     const r = tile.r, i = tile.i;
     const terr = r.terrain[i];
-    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect";
+    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect" || t.id === "road";
     if (t.id === "road") {
       if (terr !== TERRAIN.WATER) return true;
       // a bridge needs ground or road on two opposite sides to span
@@ -1770,11 +1774,14 @@
     } else if (t.id === "road") {
       if (r.road[i]) return false;
       const bridge = r.terrain[i] === TERRAIN.WATER;
+      const climb = r.terrain[i] === TERRAIN.MOUNTAIN;
       if (bridge && S.cash < 180) { deny("A bridge costs $180"); return false; }
+      if (climb && S.cash < 90) { deny("A mountain pass costs $90"); return false; }
       r.road[i] = 1; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0;
       r.zoneDirty = true;
-      sfx(bridge ? "place" : "road");
+      sfx(bridge || climb ? "place" : "road");
       if (bridge) S.cash -= 168;         // the road's own $12 is charged below
+      if (climb) S.cash -= 78;
       did = true;
     } else if (t.zone) {
       if (r.zone[i] === t.zone) return false;
