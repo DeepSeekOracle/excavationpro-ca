@@ -5,6 +5,21 @@
  "updated": "2026-10-24",
  "shows": [
   {
+   "slug": "eternal-haven-the-open-web",
+   "title": "Eternal Haven: The Open Web",
+   "page": "https://excavationpro.ca/signal/eternal-haven-the-open-web/",
+   "audio": "https://excavationpro.ca/signal/shows/eternal-haven-the-open-web/ai_radio.mp3",
+   "duration": "14:46",
+   "seconds": 886.98,
+   "speakers": [
+    "Paul",
+    "Sam",
+    "Priya",
+    "Aris"
+   ],
+   "date": "2026-10-24"
+  },
+  {
    "slug": "excavationpro-sovereignty-in-music",
    "title": "Excavationpro: Sovereignty in Music",
    "page": "https://excavationpro.ca/signal/excavationpro-sovereignty-in-music/",
