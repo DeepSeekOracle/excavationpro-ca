@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-24T07:23:46.357439+00:00",
-  "count": 881,
+  "generated_utc": "2026-10-24T09:21:47.244450+00:00",
+  "count": 882,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14175,7 +14175,23 @@
       "full_bytes": 208931,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "58ab156c30d33074",
+      "title": "Eternal Haven The Open Web",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Eternal Haven The Open Web.png",
+      "source_root": "Publish Portal",
+      "original_name": "Eternal Haven The Open Web.png",
+      "original_bytes": 913208,
+      "full": "assets/gallery/full/58ab156c30d33074.jpg",
+      "thumb": "assets/gallery/thumb/58ab156c30d33074.jpg",
+      "full_bytes": 228857,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "881-auto-202610240123"
+  "cache_bust": "882-auto-202610240321"
 }
