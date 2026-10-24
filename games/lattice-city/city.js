@@ -144,6 +144,7 @@
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
     links: [], peds: [], cars: [], boats: [], smoke: [],
     rain: 0, rainTarget: 0, weatherTimer: 0, lastAnnounce: -99,
+    event: null, nextEventDay: 26, eventHistory: [],
   };
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
@@ -497,15 +498,16 @@
       let dem = z === Z.R ? S.demand.r : z === Z.C ? S.demand.c : S.demand.i;
       if (z === Z.R) dem = clamp(dem + accessBonus, 0, 1);
       const value = r.value[i] / 255;
+      const evCom = eventCommerce(r);
       // shops grow on custom: a shop with no trade all day does not expand
       let commerce = 1;
-      if (z === Z.C) commerce = 0.55 + Math.min(1.4, (r.commerce || 0) / 14);
+      if (z === Z.C) commerce = (0.55 + Math.min(1.4, (r.commerce || 0) / 14)) * evCom;
       else if (z === Z.I) commerce = 0.85 + Math.min(0.5, (r.commerce || 0) / 40);
       if (lv > 0 && !canUp && Math.random() < 0.02) {
         r.level[i] = lv - 1;
         continue;
       }
-      if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * commerce * (0.20 + value * 0.22)) {
+      if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * commerce * eventGrowth(r) * (0.20 + value * 0.22)) {
         r.level[i] = lv + 1;
         sfx("grow");
       } else if (lv > 0 && z === Z.C && (r.commerce || 0) < 1.5 && Math.random() < 0.03) {
@@ -546,6 +548,7 @@
     S.rain += (S.rainTarget - S.rain) * 0.06;
     checkMilestones();
     updatePeds();
+    updateEvent();
     balanceAudio();
     if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
     if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
@@ -569,6 +572,76 @@
       S.rain > 0.35 ? "Rain over the district. Trade is down and the streets are thinner." : S.links.length ? S.links.length + " connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
     ];
     return lines[S.day % lines.length];
+  }
+
+  // ---------------------------------------------------------------- events
+  // Rare and deliberate: one at a time, days apart, and never in the opening
+  // minutes. Each one changes a number the player can feel.
+  const EVENTS = {
+    market: { days: 4, label: "Market day", colour: "#f2c14e" },
+    festival: { days: 5, label: "Festival", colour: "#d98fe0" },
+    fire: { days: 3, label: "Fire", colour: "#e2583c" },
+    boom: { days: 5, label: "Building boom", colour: "#6fbf73" },
+  };
+
+  function startEvent() {
+    const towns = claimedList().filter((r) => r.built > 3);
+    if (!towns.length) return false;
+    const town = towns[(Math.random() * towns.length) | 0];
+    const roll = Math.random();
+    const type = roll < 0.4 ? "market" : roll < 0.65 ? "festival" : roll < 0.85 ? "boom" : "fire";
+    const def = EVENTS[type];
+    S.event = { type, region: town, until: S.day + def.days, started: S.day };
+    S.eventHistory.push(type);
+    if (type === "fire") {
+      // the worst fire a town can have: a level-3 works loses a floor
+      let hit = -1;
+      for (let i = 0; i < RS * RS; i++) {
+        if (town.zone[i] === Z.I && town.level[i] >= 2) { hit = i; break; }
+      }
+      if (hit >= 0) {
+        town.level[hit] -= 1;
+        S.fireTile = { x: town.rx * RS + (hit % RS), y: town.ry * RS + ((hit / RS) | 0), until: S.day + 3 };
+      }
+      town.mood = clamp(town.mood - 6, 0, 100);
+      toast("FIRE · " + (town.name || "a district") + " · a workshop is burning");
+      log("<b>Fire</b> breaks out in " + (town.name || "the district") + ". The works lost a floor.");
+    } else if (type === "market") {
+      toast("MARKET DAY · " + (town.name || "a district"));
+      log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
+    } else if (type === "festival") {
+      town.mood = clamp(town.mood + 9, 0, 100);
+      toast("FESTIVAL · " + (town.name || "a district"));
+      log("<b>Festival</b> in " + (town.name || "the district") + " — mood is up for days.");
+    } else {
+      toast("BOOM · " + (town.name || "a district"));
+      log("<b>Building boom</b> in " + (town.name || "the district") + " — cranes on every corner.");
+    }
+    sfx(type === "fire" ? "deny" : "milestone");
+    return true;
+  }
+
+  function updateEvent() {
+    if (S.event && S.day >= S.event.until) {
+      S.event = null;
+      S.nextEventDay = S.day + 14 + Math.floor(Math.random() * 16);
+      S.fireTile = null;
+    }
+    if (!S.event && S.day >= S.nextEventDay && S.day > 20 && S.pop >= 60) startEvent();
+  }
+
+  function eventCommerce(region) {
+    if (!S.event || S.event.region !== region) return 1;
+    if (S.event.type === "market") return 1.6;
+    if (S.event.type === "festival") return 1.25;
+    if (S.event.type === "fire") return 0.7;
+    return 1;
+  }
+  function eventGrowth(region) {
+    if (!S.event || S.event.region !== region) return 1;
+    if (S.event.type === "boom") return 1.5;
+    if (S.event.type === "fire") return 0.7;
+    return 1;
   }
 
   function checkMilestones() {
@@ -740,7 +813,8 @@
     // the streets empty at night: commuters are at home, not on the road
     const daylight = (S.hour >= 6.5 && S.hour <= 19.5) ? 1 : 0.32;
     const rainFactor = 1 - S.rain * 0.45;
-    const wantPeds = clamp(Math.round(S.pop / 3 * daylight * rainFactor), 0, 150);
+    const eventCrowd = (S.event && S.event.type === "market") ? 1.35 : 1;
+    const wantPeds = clamp(Math.round(S.pop / 3 * daylight * rainFactor * eventCrowd), 0, 170);
     const wantCars = clamp(Math.round(S.pop / 14 * (0.6 + daylight * 0.4) * rainFactor), 0, 44);
     const wantBoats = clamp(Math.round((S.waterSpots || []).length / 900), 0, 10);
 
@@ -1147,6 +1221,14 @@
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 5, gy + 19) > 0.82) key = hash2(gx, gy) > 0.5 ? "d05_pine_grove" : "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 31, gy + 7) > 0.7) key = "d06_cherry_garden";
         else if (reg.decor[i] === 3) key = "s11_meadow_rock_outcrop_v2";
+        else if (terr === TERRAIN.ROCK) {
+          const h = hash2(gx * 5 + 1, gy * 3 + 7);
+          key = h > 0.86 ? "l11_volcanic_caldera_island"
+              : h > 0.7 ? "s33_slope_var5_snow_moraine"
+              : h > 0.5 ? "s09_plateau_level1"
+              : h > 0.3 ? "s34_slope_var6_badlands_canyon"
+              : "s11_meadow_rock_outcrop_v2";
+        }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
         if (key && SPRITES[key] && SPRITES[key].complete) {
           ctx.drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
@@ -1643,6 +1725,15 @@
     el("ui-mood").textContent = Math.round(S.mood) + "%";
     el("ui-date").textContent = "Day " + (S.day + 1) + " · " + String(Math.floor(S.hour)).padStart(2, "0") + ":00";
     el("ui-region").textContent = "Region " + claimedList().length + "/" + (GW * GH);
+    const ev = S.event;
+    const evEl = el("ui-event");
+    if (evEl) {
+      if (ev) {
+        evEl.textContent = EVENTS[ev.type].label + " · " + ((ev.region && ev.region.name) || "district");
+        evEl.style.display = "inline-block";
+        evEl.style.color = EVENTS[ev.type].colour;
+      } else { evEl.style.display = "none"; }
+    }
     el("ui-dem-r").style.width = Math.round(S.demand.r * 100) + "%";
     el("ui-dem-c").style.width = Math.round(S.demand.c * 100) + "%";
     el("ui-dem-i").style.width = Math.round(S.demand.i * 100) + "%";
@@ -2171,7 +2262,7 @@
   }
 
   window.LC = {
-    S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt,
+    S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt, startEvent,
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     counts: () => {
       let road = 0, r = 0, c = 0, i = 0, built = 0;

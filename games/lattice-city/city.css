@@ -217,3 +217,11 @@ body {
 #modal .opt.togglerow { grid-template-columns: 1fr 40px 0; }
 #modal .opt.togglerow input { width: 16px; height: 16px; accent-color: var(--amber); justify-self: end; }
 #modal .row { display: flex; gap: 8px; }
+
+/* the event pill must not stretch the top bar */
+#ui-event {
+  max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  border-color: #f2c14e66;
+}
+#topbar { flex-wrap: nowrap; }
+#topbar .brand.small { white-space: nowrap; }
