@@ -886,6 +886,87 @@
     ctx.imageSmoothingEnabled = false;
   }
 
+  // ---------------------------------------------------------------- ground textures
+  // One 128x64 diamond per variant, drawn once at boot. Grass gets blades, sand
+  // gets grains, rock gets facets, water gets ripples: the ground stops being a
+  // flat fill without costing a sprite per tile.
+  const TEX = { 0: [], 1: [], 2: [], 3: [], 4: [] };
+  function texRand(seed) {
+    let x = seed >>> 0;
+    return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 4294967296; };
+  }
+  function buildTextures() {
+    const base = { 0: ["#3f6b34", "#426f37", "#3a6330"], 1: ["#2c4f2a", "#31562c", "#264524"],
+                   2: ["#c9b26a", "#cdb672", "#c3ab62"], 3: ["#2f5f86", "#2b567c", "#33638b"],
+                   4: ["#6b6a63", "#6f6e66", "#656459"] };
+    for (let terr = 0; terr <= 4; terr++) {
+      TEX[terr] = [];
+      for (let v = 0; v < 3; v++) {
+        const c = document.createElement("canvas");
+        c.width = TW; c.height = TH;
+        const g = c.getContext("2d");
+        const rnd = texRand(terr * 977 + v * 131 + 7);
+        g.beginPath();
+        g.moveTo(TW / 2, 0); g.lineTo(TW, TH / 2); g.lineTo(TW / 2, TH); g.lineTo(0, TH / 2);
+        g.closePath();
+        g.fillStyle = base[terr][v];
+        g.fill();
+        g.save();
+        g.clip();
+        if (terr === 0 || terr === 1) {
+          const dark = terr === 0 ? "rgba(26,60,24,.85)" : "rgba(14,38,16,.9)";
+          const light = terr === 0 ? "rgba(136,186,102,.55)" : "rgba(104,150,86,.45)";
+          for (let i = 0; i < 150; i++) {
+            const x = rnd() * TW, y = rnd() * TH;
+            g.strokeStyle = rnd() > 0.55 ? light : dark;
+            g.lineWidth = 1;
+            g.beginPath();
+            g.moveTo(x, y);
+            g.lineTo(x + (rnd() - 0.5) * 2, y - 2 - rnd() * 3);
+            g.stroke();
+          }
+          for (let i = 0; i < 12; i++) {
+            g.fillStyle = terr === 0 ? "rgba(160,200,120,.28)" : "rgba(40,74,42,.4)";
+            g.fillRect(rnd() * TW, rnd() * TH, 2 + rnd() * 5, 1.5 + rnd() * 2);
+          }
+        } else if (terr === 2) {
+          for (let i = 0; i < 140; i++) {
+            g.fillStyle = rnd() > 0.5 ? "rgba(150,125,70,.35)" : "rgba(240,225,180,.35)";
+            g.fillRect(rnd() * TW, rnd() * TH, 1, 1);
+          }
+          for (let i = 0; i < 5; i++) {
+            g.strokeStyle = "rgba(120,100,60,.18)";
+            g.beginPath();
+            const y = rnd() * TH;
+            g.moveTo(rnd() * TW * 0.6, y);
+            g.lineTo(rnd() * TW * 0.4 + TW * 0.6, y + 4);
+            g.stroke();
+          }
+        } else if (terr === 4) {
+          for (let i = 0; i < 22; i++) {
+            const x = rnd() * TW, y = rnd() * TH, w = 6 + rnd() * 14, h = 3 + rnd() * 6;
+            g.fillStyle = rnd() > 0.5 ? "rgba(150,148,138,.35)" : "rgba(52,50,46,.35)";
+            g.beginPath();
+            g.moveTo(x, y); g.lineTo(x + w, y + h * 0.4); g.lineTo(x + w * 0.7, y + h); g.closePath();
+            g.fill();
+          }
+        } else if (terr === 3) {
+          for (let i = 0; i < 26; i++) {
+            g.strokeStyle = rnd() > 0.5 ? "rgba(150,205,240,.20)" : "rgba(20,55,85,.28)";
+            g.lineWidth = 1 + rnd();
+            const y = rnd() * TH, x = rnd() * TW;
+            g.beginPath();
+            g.moveTo(x, y);
+            g.lineTo(x + 10 + rnd() * 26, y + (rnd() - 0.5) * 2);
+            g.stroke();
+          }
+        }
+        g.restore();
+        TEX[terr].push(c);
+      }
+    }
+  }
+
   function drawDiamond(cx, cy, w, h, fill) {
     ctx.beginPath();
     ctx.moveTo(cx, cy - h / 2);
@@ -996,8 +1077,35 @@
         const terr = reg.terrain[i];
         const pal = GROUND_COLORS[terr] || GROUND_COLORS[0];
         const shade = pal[((gx * 7 + gy * 13) & 1)];
-        drawDiamond(cx0, cy0, zw + 2, zh + 2, shade);
-        if (zw > 64) { ctx.strokeStyle = shade; ctx.lineWidth = 1.2; ctx.stroke(); }
+        const tex = TEX[terr] && TEX[terr].length ? TEX[terr][((gx * 3 + gy * 5 + ((gx * gy) & 1)) & 7) % 3] : null;
+        if (tex) {
+          ctx.drawImage(tex, Math.round(s.x) - 1, Math.round(s.y) - 1, zw + 2, zh + 2);
+        } else {
+          drawDiamond(cx0, cy0, zw + 2, zh + 2, shade);
+        }
+        // shoreline: land beside water gets a wet sand edge, water beside land
+        // gets a foam lip. This is what stops rivers reading as torn strips.
+        const nW = terr === TERRAIN.WATER;
+        if (cam.zoom > 0.3) {
+          const nb = [
+            [gx, gy - 1, 0], [gx + 1, gy, 1], [gx, gy + 1, 2], [gx - 1, gy, 3],
+          ];
+          for (let d = 0; d < 4; d++) {
+            const t2 = regionOf(nb[d][0], nb[d][1]);
+            if (!t2) continue;
+            const other = t2.r.terrain[t2.i] === TERRAIN.WATER;
+            if (other === nW) continue;
+            const cxD = cx0, cyD = cy0;
+            ctx.strokeStyle = nW ? "rgba(190,225,245,.55)" : "rgba(198,180,120,.6)";
+            ctx.lineWidth = Math.max(1, 1.6 * cam.zoom);
+            ctx.beginPath();
+            if (d === 0) { ctx.moveTo(cxD - zw / 2, cyD); ctx.lineTo(cxD, cyD - zh / 2); }
+            if (d === 1) { ctx.moveTo(cxD, cyD - zh / 2); ctx.lineTo(cxD + zw / 2, cyD); }
+            if (d === 2) { ctx.moveTo(cxD + zw / 2, cyD); ctx.lineTo(cxD, cyD + zh / 2); }
+            if (d === 3) { ctx.moveTo(cxD, cyD + zh / 2); ctx.lineTo(cxD - zw / 2, cyD); }
+            ctx.stroke();
+          }
+        }
 
         if (OPT.grid) {
           ctx.strokeStyle = "rgba(0,0,0,.13)";
@@ -1036,6 +1144,8 @@
         else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
+        else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 5, gy + 19) > 0.82) key = hash2(gx, gy) > 0.5 ? "d05_pine_grove" : "d04_oak_tree_park";
+        else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 31, gy + 7) > 0.7) key = "d06_cherry_garden";
         else if (reg.decor[i] === 3) key = "s11_meadow_rock_outcrop_v2";
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
         if (key && SPRITES[key] && SPRITES[key].complete) {
@@ -2102,7 +2212,7 @@
     requestAnimationFrame(render);
   }
 
-  loadSprites().then(boot).catch((err) => {
+  loadSprites().then(() => { buildTextures(); }).then(boot).catch((err) => {
     // a boot failure must say so rather than leave a black canvas
     console.error(err);
     try {
