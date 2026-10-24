@@ -140,6 +140,9 @@ body.in-menu .top, body.in-menu .dock { display: none !important; }
 .title-art .menu-live { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
 .title-panel { padding: 1.3rem 1.25rem 1.5rem; overflow: auto; border-left: 1px solid var(--line);
   height: 100%; background: #080b12; display: flex; flex-direction: column; gap: .15rem; }
+.title-panel > .btn.ghost { align-self: flex-start; width: auto; }
+/* A full-width transparent .btn.ghost inside a stretched flex column reads as an
+   empty text input sitting exactly where the name field should be. Keep it a pill. */
 .menu-actions { display: flex; flex-direction: column; gap: .45rem; margin: .35rem 0 .6rem; }
 .menu-actions .btn { text-align: left; padding: .72rem .9rem; font-size: 1rem; }
 .menu-actions .btn span { display: block; font-family: "Source Sans 3", sans-serif; font-weight: 600;

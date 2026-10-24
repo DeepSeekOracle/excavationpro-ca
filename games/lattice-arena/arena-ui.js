@@ -574,14 +574,19 @@
       : need < 0 ? MODE_LABEL[persist.mode] + " takes " + persist.mode + " — you have " + your.length
       : (!(persist.name || "").trim() ? "put your name in to start" : "");
     const names = lineupNames() || "no one fielded";
+    /* The menu film is 6.9 MB. A phone on a metered connection should get the
+       poster still, not the loop: same first frame, one file instead of two. */
+    const conn = navigator.connection || {};
+    const wantFilm = !!(window.matchMedia && window.matchMedia("(min-width: 900px)").matches)
+      && !conn.saveData && !/^(slow-)?2g$/.test(conn.effectiveType || "");
     return "<div class='title-screen'>" +
       "<div class='title-art'><img src='./assets/menu.jpg' alt='Four fighters at a cyan lattice gate in a torchlit stone crypt' width='1280' height='720'>" +
-        "<video class='menu-film' src='./assets/menu-live.mp4' poster='./assets/menu.jpg' muted loop autoplay playsinline></video>" +
+        (wantFilm ? "<video class='menu-film' src='./assets/menu-live.mp4' poster='./assets/menu.jpg' muted loop autoplay playsinline></video>" : "") +
         "<canvas class='menu-live' aria-hidden='true'></canvas></div>" +
       "<div class='title-panel'>" +
         "<p class='kicker'>Δ9Φ963 · Excavationpro</p><h1>LYGO Arena</h1>" +
         "<p class='lede'>Two AI teams. One stone ring. Name yourself, build a team, then watch them fight.</p>" +
-        "<button type='button' class='btn ghost" + (menuSongOn() ? " on" : "") + "' data-act='menuSong'>" + (menuSongOn() ? "Music on" : "Music off") + "</button>" +
+        "<button type='button' class='btn ghost" + (menuSongOn() ? " on" : "") + "' data-act='menuSong' aria-pressed='" + (menuSongOn() ? "true" : "false") + "' title='Menu music'>" + (menuSongOn() ? "Music on" : "Music off") + "</button>" +
         "<label class='name-block'>Your name<input class='callsign' id='callSign' maxlength='18' value='" + esc(persist.name || "") + "' placeholder='What should the hall call you?' autocomplete='nickname'></label>" +
         "<div class='menu-actions'>" +
           "<button type='button' class='btn gold' id='btnFight' data-ready='" + (ready ? "1" : "0") + "'><b>Fight</b><span>" + (hold ? esc(hold) : MODE_LABEL[persist.mode] + " · " + esc(names)) + "</span></button>" +
