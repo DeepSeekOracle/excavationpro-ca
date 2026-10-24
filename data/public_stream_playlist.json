@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-10-21T13:09:08.075704+00:00",
+  "generated_at": "2026-10-24T07:36:43.611679+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11193,
+    "encoded_or_ready": 11208,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 46829321908,
-    "total_stream_gb": 46.83,
-    "remote_streams": 11193,
+    "total_stream_bytes": 46979311038,
+    "total_stream_gb": 46.98,
+    "remote_streams": 11208,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11193,
+    "playlist_tracks": 11208,
     "last_ingest": {
-      "utc": "2026-10-21T13:09:08.078154+00:00",
-      "added_or_updated": 1,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\7b07d01fc99b"
+      "utc": "2026-10-24T07:36:43.611665+00:00",
+      "added_or_updated": 15,
+      "source": "D:\\justinhelmer-ca\\data\\public_stream_playlist.json"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -151846,8 +151846,323 @@
       "added_utc": "2026-10-21T13:09:02.223132+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\7b07d01fc99b\\Mind I Left Behind.mp3",
       "action": "copy-mp3"
+    },
+    {
+      "sha256": "3f64784bff4ab850d2ff2a4d9b2f425d3a39f0c95a5e8ceb080373fe0bb1325c",
+      "title": "Justin Helmer's Modular Digital Ecosystem",
+      "aliases": [
+        "Justin Helmer's Modular Digital Ecosystem",
+        "Justin Helmer's Modular Digital Ecosystem",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 19176220,
+      "stream_file": "3f64784bff4ab850d2ff2a4d9b2f425d3a39f0c95a5e8ceb080373fe0bb1325c.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\3f\\3f64784bff4ab850d2ff2a4d9b2f425d3a39f0c95a5e8ceb080373fe0bb1325c.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3f/3f64784bff4ab850d2ff2a4d9b2f425d3a39f0c95a5e8ceb080373fe0bb1325c.mp3",
+      "hf_path": "stream/3f/3f64784bff4ab850d2ff2a4d9b2f425d3a39f0c95a5e8ceb080373fe0bb1325c.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-21T16:08:20.861803+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\2847c6ad873a\\Justin Helmer's Modular Digital Ecosystem.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "bb7e0c2d33040d5f27a34f295371915eb52cffd5b3b78eb17d0c57679ea0750c",
+      "title": "Delta-9 Recursive AI Alignment Protocols",
+      "aliases": [
+        "Delta-9 Recursive AI Alignment Protocols",
+        "Delta-9 Recursive AI Alignment Protocols",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 21539779,
+      "stream_file": "bb7e0c2d33040d5f27a34f295371915eb52cffd5b3b78eb17d0c57679ea0750c.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\bb\\bb7e0c2d33040d5f27a34f295371915eb52cffd5b3b78eb17d0c57679ea0750c.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bb/bb7e0c2d33040d5f27a34f295371915eb52cffd5b3b78eb17d0c57679ea0750c.mp3",
+      "hf_path": "stream/bb/bb7e0c2d33040d5f27a34f295371915eb52cffd5b3b78eb17d0c57679ea0750c.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-22T04:54:27.644566+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\3eca82f825b8\\Delta-9 Recursive AI Alignment Protocols.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "f2f4b88c8ddc5f745f0d450166639113e20cb98260018586d87833682a7bf394",
+      "title": "Inside the LYGO Data Vault",
+      "aliases": [
+        "Inside the LYGO Data Vault",
+        "Inside the LYGO Data Vault",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 21661405,
+      "stream_file": "f2f4b88c8ddc5f745f0d450166639113e20cb98260018586d87833682a7bf394.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f2\\f2f4b88c8ddc5f745f0d450166639113e20cb98260018586d87833682a7bf394.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f2/f2f4b88c8ddc5f745f0d450166639113e20cb98260018586d87833682a7bf394.mp3",
+      "hf_path": "stream/f2/f2f4b88c8ddc5f745f0d450166639113e20cb98260018586d87833682a7bf394.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-22T06:34:45.631529+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\fb9d252eacea\\Inside the LYGO Data Vault.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "65721e890c9dc3ff524308dbac5b48b38601927a98c17dd45c030f190f487790",
+      "title": "Burning The Night",
+      "aliases": [
+        "Burning The Night",
+        "Burning The Night",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4358336,
+      "stream_file": "65721e890c9dc3ff524308dbac5b48b38601927a98c17dd45c030f190f487790.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\65\\65721e890c9dc3ff524308dbac5b48b38601927a98c17dd45c030f190f487790.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/65/65721e890c9dc3ff524308dbac5b48b38601927a98c17dd45c030f190f487790.mp3",
+      "hf_path": "stream/65/65721e890c9dc3ff524308dbac5b48b38601927a98c17dd45c030f190f487790.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:26.756706+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Burning_The_Night.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "95b891f5ac8b08e02e0b72c0e0d1100b6062fef28120bf6e939e0b76dd0056c1",
+      "title": "Copper Ridge Morning",
+      "aliases": [
+        "Copper Ridge Morning",
+        "Copper Ridge Morning",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4321346,
+      "stream_file": "95b891f5ac8b08e02e0b72c0e0d1100b6062fef28120bf6e939e0b76dd0056c1.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\95\\95b891f5ac8b08e02e0b72c0e0d1100b6062fef28120bf6e939e0b76dd0056c1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/95/95b891f5ac8b08e02e0b72c0e0d1100b6062fef28120bf6e939e0b76dd0056c1.mp3",
+      "hf_path": "stream/95/95b891f5ac8b08e02e0b72c0e0d1100b6062fef28120bf6e939e0b76dd0056c1.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:26.811655+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Copper_Ridge_Morning.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "a38b172d50b6917ab9b0952e73e439f8783f55dd99209f52fa2b5e41ab6fa3f1",
+      "title": "Dawn on the High Ridge",
+      "aliases": [
+        "Dawn on the High Ridge",
+        "Dawn on the High Ridge",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4278712,
+      "stream_file": "a38b172d50b6917ab9b0952e73e439f8783f55dd99209f52fa2b5e41ab6fa3f1.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\a3\\a38b172d50b6917ab9b0952e73e439f8783f55dd99209f52fa2b5e41ab6fa3f1.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a3/a38b172d50b6917ab9b0952e73e439f8783f55dd99209f52fa2b5e41ab6fa3f1.mp3",
+      "hf_path": "stream/a3/a38b172d50b6917ab9b0952e73e439f8783f55dd99209f52fa2b5e41ab6fa3f1.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:26.902350+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Dawn_on_the_High_Ridge.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "a1fa0c51bb3ea7709c69cc45dc82a110518065275a028b05b655e04ea7de026c",
+      "title": "Keeper of the Ledge",
+      "aliases": [
+        "Keeper of the Ledge",
+        "Keeper of the Ledge",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4262412,
+      "stream_file": "a1fa0c51bb3ea7709c69cc45dc82a110518065275a028b05b655e04ea7de026c.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\a1\\a1fa0c51bb3ea7709c69cc45dc82a110518065275a028b05b655e04ea7de026c.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a1/a1fa0c51bb3ea7709c69cc45dc82a110518065275a028b05b655e04ea7de026c.mp3",
+      "hf_path": "stream/a1/a1fa0c51bb3ea7709c69cc45dc82a110518065275a028b05b655e04ea7de026c.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:26.966547+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Keeper_of_the_Ledge.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "b4820bc760cd02d50271d05f246f448d0e5da2e41ae7847466801b57ccd80f68",
+      "title": "Piston and Bone",
+      "aliases": [
+        "Piston and Bone",
+        "Piston and Bone",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4172762,
+      "stream_file": "b4820bc760cd02d50271d05f246f448d0e5da2e41ae7847466801b57ccd80f68.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b4\\b4820bc760cd02d50271d05f246f448d0e5da2e41ae7847466801b57ccd80f68.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b4/b4820bc760cd02d50271d05f246f448d0e5da2e41ae7847466801b57ccd80f68.mp3",
+      "hf_path": "stream/b4/b4820bc760cd02d50271d05f246f448d0e5da2e41ae7847466801b57ccd80f68.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:27.119313+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Piston_and_Bone.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "bc4e0fb75618d563d5bbc79921352a6e57238ce2f5f870ecfd477a0bf5e0ebcb",
+      "title": "Tearing it Down",
+      "aliases": [
+        "Tearing it Down",
+        "Tearing it Down",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3920103,
+      "stream_file": "bc4e0fb75618d563d5bbc79921352a6e57238ce2f5f870ecfd477a0bf5e0ebcb.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\bc\\bc4e0fb75618d563d5bbc79921352a6e57238ce2f5f870ecfd477a0bf5e0ebcb.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bc/bc4e0fb75618d563d5bbc79921352a6e57238ce2f5f870ecfd477a0bf5e0ebcb.mp3",
+      "hf_path": "stream/bc/bc4e0fb75618d563d5bbc79921352a6e57238ce2f5f870ecfd477a0bf5e0ebcb.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:27.165399+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Tearing_it_Down.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "4617a8f6dde0807675ed917ca9c6dad7c34c80937599d7cbb859fde3c8f70a83",
+      "title": "The Duality Clause",
+      "aliases": [
+        "The Duality Clause",
+        "The Duality Clause",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3587826,
+      "stream_file": "4617a8f6dde0807675ed917ca9c6dad7c34c80937599d7cbb859fde3c8f70a83.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\46\\4617a8f6dde0807675ed917ca9c6dad7c34c80937599d7cbb859fde3c8f70a83.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/46/4617a8f6dde0807675ed917ca9c6dad7c34c80937599d7cbb859fde3c8f70a83.mp3",
+      "hf_path": "stream/46/4617a8f6dde0807675ed917ca9c6dad7c34c80937599d7cbb859fde3c8f70a83.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:27.209067+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\The_Duality_Clause.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "c17adead076f67dc2ad03439e5e21d5acfe5dae6d0c028048e69ae174eadc4bb",
+      "title": "The Empire We Destroyed",
+      "aliases": [
+        "The Empire We Destroyed",
+        "The Empire We Destroyed",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4002232,
+      "stream_file": "c17adead076f67dc2ad03439e5e21d5acfe5dae6d0c028048e69ae174eadc4bb.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c1\\c17adead076f67dc2ad03439e5e21d5acfe5dae6d0c028048e69ae174eadc4bb.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c1/c17adead076f67dc2ad03439e5e21d5acfe5dae6d0c028048e69ae174eadc4bb.mp3",
+      "hf_path": "stream/c1/c17adead076f67dc2ad03439e5e21d5acfe5dae6d0c028048e69ae174eadc4bb.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:27.318412+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\The_Empire_We_Destroyed.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "12d0ef300fea3be144f441c4e2d2c3edf432b233917c89661f1dd43c9d82e5ba",
+      "title": "Weight of the Tide",
+      "aliases": [
+        "Weight of the Tide",
+        "Weight of the Tide",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4354572,
+      "stream_file": "12d0ef300fea3be144f441c4e2d2c3edf432b233917c89661f1dd43c9d82e5ba.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\12\\12d0ef300fea3be144f441c4e2d2c3edf432b233917c89661f1dd43c9d82e5ba.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/12/12d0ef300fea3be144f441c4e2d2c3edf432b233917c89661f1dd43c9d82e5ba.mp3",
+      "hf_path": "stream/12/12d0ef300fea3be144f441c4e2d2c3edf432b233917c89661f1dd43c9d82e5ba.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T16:44:27.391556+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\9fcd9c6638f4\\Weight_of_the_Tide.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "b5f1dae00175f8daf8adbe4a96d6b260ebd4900e730de304fdab534f619fe070",
+      "title": "Deep Dive LYGO Data Vault",
+      "aliases": [
+        "Deep Dive LYGO Data Vault",
+        "Deep Dive LYGO Data Vault",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 14687338,
+      "stream_file": "b5f1dae00175f8daf8adbe4a96d6b260ebd4900e730de304fdab534f619fe070.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b5\\b5f1dae00175f8daf8adbe4a96d6b260ebd4900e730de304fdab534f619fe070.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b5/b5f1dae00175f8daf8adbe4a96d6b260ebd4900e730de304fdab534f619fe070.mp3",
+      "hf_path": "stream/b5/b5f1dae00175f8daf8adbe4a96d6b260ebd4900e730de304fdab534f619fe070.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T20:20:44.578856+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\99131c7f1d1f\\Deep Dive LYGO Data Vault.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "722bcf7eb71d78b53f66b8a28c98d99ce7795f8ace9aafae900ec3fff0e510b3",
+      "title": "Inside the LYGO Protocol",
+      "aliases": [
+        "Inside the LYGO Protocol",
+        "Inside the LYGO Protocol",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 16162605,
+      "stream_file": "722bcf7eb71d78b53f66b8a28c98d99ce7795f8ace9aafae900ec3fff0e510b3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\72\\722bcf7eb71d78b53f66b8a28c98d99ce7795f8ace9aafae900ec3fff0e510b3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/72/722bcf7eb71d78b53f66b8a28c98d99ce7795f8ace9aafae900ec3fff0e510b3.mp3",
+      "hf_path": "stream/72/722bcf7eb71d78b53f66b8a28c98d99ce7795f8ace9aafae900ec3fff0e510b3.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-23T21:48:30.261575+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\8f9022d2a3c2\\Inside the LYGO Protocol.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "f94c33b75e198a55d731f2a0aa39311ddcad74d741ca364480417426c1709346",
+      "title": "Excavationpro Sovereignty in Music",
+      "aliases": [
+        "Excavationpro Sovereignty in Music",
+        "Excavationpro Sovereignty in Music",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 19503482,
+      "stream_file": "f94c33b75e198a55d731f2a0aa39311ddcad74d741ca364480417426c1709346.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\f9\\f94c33b75e198a55d731f2a0aa39311ddcad74d741ca364480417426c1709346.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f9/f94c33b75e198a55d731f2a0aa39311ddcad74d741ca364480417426c1709346.mp3",
+      "hf_path": "stream/f9/f94c33b75e198a55d731f2a0aa39311ddcad74d741ca364480417426c1709346.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-24T07:23:59.873676+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_uploads\\7e9ec616de6e\\Excavationpro Sovereignty in Music.mp3",
+      "action": "copy-mp3"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-10-21T13:09:08.075716+00:00"
+  "published_at": "2026-10-24T07:36:43.611681+00:00"
 }
