@@ -1653,13 +1653,12 @@
     }
     if (!OPT.weather) S.rainTarget = 0;
     S.rain += (S.rainTarget - S.rain) * 0.06;
-    checkMilestones();
-    updatePeds();
-    updateEvent();
-    balanceAudio();
-    if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
-    if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
-    refreshHud();
+        checkMilestones();
+        updatePeds();
+        updateEvent();
+        if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
+        if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
+        refreshHud();
   }
 
   function announce(train, town) {
