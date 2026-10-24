@@ -1,8 +1,8 @@
 {
   "signature": "Delta9Phi963-LYGOSKILLHUB-CATALOG-v1.5",
   "name": "LYGOSKILLHUB",
-  "version": "1.7.0",
-  "updated_utc": "2026-10-20T22:07:16+00:00",
+  "version": "1.7.1",
+  "updated_utc": "2026-10-24T19:40:00+00:00",
   "publisher": "deepseekoracle",
   "steward": "Justin Helmer / Excavationpro / Lightfather",
   "clawhub_profile": "https://clawhub.ai/deepseekoracle",
@@ -24,10 +24,10 @@
     "excavationpro_mirror": "https://deepseekoracle.github.io/Excavationpro/LYGOSKILLHUB.html"
   },
   "counts": {
-    "total": 135,
-    "skills": 97,
+    "total": 137,
+    "skills": 98,
     "plugins": 1,
-    "downloads": 20,
+    "downloads": 21,
     "surfaces": 18,
     "clawhub_skills_indexed": 92,
     "local_only_skills": 5,
@@ -35,7 +35,7 @@
     "stack_skills_json": 45,
     "item_count": 4
   },
-  "skill_count": 97,
+  "skill_count": 98,
   "item_count": 4,
   "categories": [
     "champion",
@@ -51,6 +51,38 @@
     "tools"
   ],
   "skills": [
+    {
+      "kind": "download",
+      "slug": "lygo-project-forge-exe",
+      "name": "LYGO Project Forge 0.4.0 — Windows EXE",
+      "summary": "Public standalone desk. 18,224,499 bytes. No model weights and no API key inside. Hermes is the Forge Master in the Build window. QwenPaw is the basic brain. On startup Forge looks for QwenPaw on this PC, then a local coder, then an API key you add. SHA-256 54e32e7a850213173880ab96a0fc3188b8f05c79067548a0f12899b9f8b1d1d0.",
+      "downloads": 0,
+      "category": "download",
+      "url": "https://huggingface.co/DeepSeekOracle/lygo-console-builds/resolve/main/forge-public-0.4.0/LYGOProjectForge.exe",
+      "docs": "https://huggingface.co/DeepSeekOracle/lygo-console-builds/blob/main/forge-public-0.4.0/UPGRADE_LLM.txt",
+      "install": "1) Download LYGOProjectForge.exe. 2) CertUtil -hashfile LYGOProjectForge.exe SHA256 and expect 54e32e7a850213173880ab96a0fc3188b8f05c79067548a0f12899b9f8b1d1d0. 3) Run it. The desk opens at http://127.0.0.1:8796. 4) Open Brain. The shipped model is basic QwenPaw. Upgrade notes are linked as Docs.",
+      "source": "download",
+      "channel": "usb",
+      "channel_label": "Windows download",
+      "version": "0.4.0"
+    },
+    {
+      "kind": "skill",
+      "slug": "lygo-project-forge",
+      "name": "LYGO Project Forge skill",
+      "summary": "Skill pack for an agent that already has the Forge desk running. It reads http://127.0.0.1:8796/api/status and does not print keys. Hermes is the Forge Master. QwenPaw is the basic brain. The human approves publish, push, deploy, buy, and delete. This pack is the Skill Hub download. It is not a ClawHub install.",
+      "downloads": 0,
+      "category": "tools",
+      "url": "https://huggingface.co/DeepSeekOracle/lygo-console-builds/resolve/main/forge-public-0.4.0/lygo-project-forge-0.4.0.zip",
+      "docs": "https://huggingface.co/DeepSeekOracle/lygo-console-builds/blob/main/forge-public-0.4.0/README.md",
+      "install": "1) Download lygo-project-forge-0.4.0.zip from the card. 2) SHA-256 90cd463e8848fa634fe75f952b5dc1fb9021e1a7e7ac006bd16fb8ab4c9a8134. 3) Unzip it into the agent skills folder. 4) Start LYGOProjectForge.exe. 5) python scripts/forge_status.py",
+      "source": "download",
+      "channel": "public_pack",
+      "channel_label": "Public skill pack",
+      "version": "0.4.0",
+      "has_local_skill": false,
+      "url_label": "Open skill pack"
+    },
     {
       "kind": "skill",
       "slug": "packet-audit",
@@ -2278,6 +2310,6 @@
       "channel_label": "Public site download"
     }
   ],
-  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only. catalog_sha256 is the SHA-256 of this JSON text with the catalog_sha256 value itself emptied (a text cannot contain its own digest); the page shows its first 16 characters. Site-only entries: powershell-advanced, rust-advanced, python-advanced, rust-python-interop, ai-video-camera-work.",
-  "catalog_sha256": "81d9c0392ee6ef4c12a294a6905688fcd2a113df77ddbb55aa67da9614f9f7a7"
+  "note": "Immutable LYGO skill ledger for chatagent.ca/lygoskillhub.html. Every clawhub/skills.json entry + mirror is listed. Public tentacles → ClawHub (all green security audits); FULL unlocked engineer packs → #full-lygo vault only. catalog_sha256 is the SHA-256 of this JSON text with the catalog_sha256 value itself emptied (a text cannot contain its own digest); the page shows its first 16 characters. Site-only entries: powershell-advanced, rust-advanced, python-advanced, rust-python-interop, ai-video-camera-work. LYGO Project Forge 0.4.0 exe and skill pack added 2026-10-24.",
+  "catalog_sha256": "a15fb235bb92f463d8e50700be86d090d658c9649bad6f98339dff46df4ae561"
 }
