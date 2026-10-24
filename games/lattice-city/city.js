@@ -24,7 +24,7 @@
     15: "r03_road_cross",
   };
   const Z = { NONE: 0, R: 1, C: 2, I: 3 };
-  const TERRAIN = { MEADOW: 0, FOREST: 1, SAND: 2, WATER: 3, ROCK: 4 };
+  const TERRAIN = { MEADOW: 0, FOREST: 1, SAND: 2, WATER: 3, ROCK: 4, MOUNTAIN: 5 };
 
   // Region themes: a town's silhouette comes from the land it sits on. Every
   // sprite here is a single-tile building from the library, so no half-pairs.
@@ -238,12 +238,13 @@
     for (let i = 0; i < hgt.length; i += 9) sample.push(hgt[i]);
     sample.sort((a, b) => a - b);
     const q = (f) => sample[Math.min(sample.length - 1, Math.floor(sample.length * f))];
-    const qWater = q(0.085), qSand = q(0.115), qRock = q(0.965), qForest = q(0.80);
+    const qWater = q(0.085), qSand = q(0.115), qRock = q(0.962), qForest = q(0.80), qMountain = q(0.9945);
     for (let y = 0; y < RS; y++) for (let x = 0; x < RS; x++) {
       const i = y * RS + x;
       let t = TERRAIN.MEADOW;
       if (hgt[i] < qWater) t = TERRAIN.WATER;
       else if (hgt[i] < qSand) t = TERRAIN.SAND;
+      else if (hgt[i] > qMountain) t = TERRAIN.MOUNTAIN;
       else if (hgt[i] > qRock) t = TERRAIN.ROCK;
       else if (for1[i] > qForest) t = TERRAIN.FOREST;
       r.terrain[i] = t;
@@ -996,6 +997,7 @@
   let dpr = 1, last = 0, acc = 0, hover = { gx: -1, gy: -1 }, lastMini = 0;
 
   const GROUND_COLORS = {
+    5: ["#5a5348", "#514a40"],
     0: ["#3f6b34", "#426f37"],
     1: ["#2f5530", "#33592f"],
     2: ["#c9b26a", "#cdb672"],
@@ -1202,7 +1204,8 @@
         const terr = reg.terrain[i];
         const pal = GROUND_COLORS[terr] || GROUND_COLORS[0];
         const shade = pal[((gx * 7 + gy * 13) & 1)];
-        const tex = TEX[terr] && TEX[terr].length ? TEX[terr][((gx * 3 + gy * 5 + ((gx * gy) & 1)) & 7) % 3] : null;
+        const atlas = TEX[terr] && TEX[terr].length ? TEX[terr] : (terr === TERRAIN.MOUNTAIN ? TEX[4] : null);
+        const tex = atlas ? atlas[((gx * 3 + gy * 5 + ((gx * gy) & 1)) & 7) % 3] : null;
         if (tex) {
           ctx.drawImage(tex, Math.round(s.x) - 1, Math.round(s.y) - 1, zw + 2, zh + 2);
         } else {
@@ -1263,6 +1266,29 @@
           }
         }
 
+        if (terr === TERRAIN.MOUNTAIN) {
+          // one peak per ridge: only the highest of the nine neighbours gets a
+          // sprite, so mountains rise out of the rock instead of tiling into a
+          // mesa field
+          const mine = hash2(gx * 7 + 3, gy * 13 + 5);
+          let isPeak = true;
+          for (let dy = -1; dy <= 1 && isPeak; dy++) for (let dx = -1; dx <= 1; dx++) {
+            if (!dx && !dy) continue;
+            const t2 = regionOf(gx + dx, gy + dy);
+            if (!t2 || t2.r.terrain[t2.i] !== TERRAIN.MOUNTAIN) continue;
+            if (hash2((gx + dx) * 7 + 3, (gy + dy) * 13 + 5) > mine) { isPeak = false; break; }
+          }
+          if (isPeak) {
+            const mk = mine > 0.7 ? "gen_mtn_snow" : mine > 0.35 ? "gen_mtn_peak" : "gen_ridge";
+            const img = SPRITES[mk];
+            if (img && img.complete) {
+              const mw = TW * 1.5 * cam.zoom;
+              ctx.drawImage(img, cx0 - mw / 2, cy0 + zh / 2 - mw, mw, mw);
+            }
+          }
+          continue;
+        }
+
         let key = null;
         if (reg.road[i]) key = terr === TERRAIN.WATER ? "r12_road_bridge_stone" : (ROAD[roadMask(gx, gy)] || "r02_road_straight_ew");
         else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
@@ -1271,7 +1297,7 @@
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 5, gy + 19) > 0.82) key = hash2(gx, gy) > 0.5 ? "d05_pine_grove" : "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 31, gy + 7) > 0.7) key = "d06_cherry_garden";
-        else if (reg.decor[i] === 3) key = "s11_meadow_rock_outcrop_v2";
+        else if (reg.decor[i] === 3) key = hash2(gx + 9, gy + 4) > 0.5 ? "gen_hill" : "s11_meadow_rock_outcrop_v2";
         else if (terr === TERRAIN.ROCK) {
           const h = hash2(gx * 5 + 1, gy * 3 + 7);
           key = h > 0.86 ? "l11_volcanic_caldera_island"
@@ -1584,14 +1610,14 @@
         mctx.font = "8px Tahoma";
         mctx.fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
       } else {
-        mctx.fillStyle = "rgba(58,52,42,.75)";
+        mctx.fillStyle = "#4b4436";
         mctx.fillRect(x + 2, y + 2, cw - 4, ch - 4);
-        mctx.strokeStyle = "rgba(150,136,108,.7)";
+        mctx.strokeStyle = "rgba(196,176,128,.75)";
         mctx.setLineDash([3, 3]);
         mctx.strokeRect(x + 2, y + 2, cw - 4, ch - 4);
         mctx.setLineDash([]);
-        mctx.fillStyle = "rgba(242,193,78,.9)";
-        mctx.font = "bold 14px Tahoma";
+        mctx.fillStyle = "#f2c14e";
+        mctx.font = "bold 15px Tahoma";
         mctx.fillText("+", x + cw / 2 - 5, y + ch / 2 + 5);
       }
     }
@@ -1636,6 +1662,7 @@
     if (!tile) return false;
     const r = tile.r, i = tile.i;
     const terr = r.terrain[i];
+    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect";
     if (t.id === "road") {
       if (terr !== TERRAIN.WATER) return true;
       // a bridge needs ground or road on two opposite sides to span
@@ -1717,7 +1744,7 @@
     const rows = [
       ["Region", r.rx + ", " + r.ry],
       ["Tile", (gx % RS) + ", " + (gy % RS)],
-      ["Ground", ["meadow", "forest", "sand", "water", "rock"][r.terrain[i]]],
+      ["Ground", ["meadow", "forest", "sand", "water", "rock", "mountain"][r.terrain[i]]],
       ["Road", r.road[i] ? "yes" : "no"],
       ["Zone", zoneName],
       ["Building", r.level[i] ? themeVariant(r.theme, r.zone[i], r.level[i], gx, gy).replace(/^b\d+_/, "").replace(/_/g, " ") + " (L" + r.level[i] + ")" : "none"],
@@ -2364,6 +2391,7 @@
     ].join(""));
   }
 
+  const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   function loadSprites() {
     return fetch("assets/tiles/manifest.json").then((r) => r.json()).then((man) => {
       const jobs = [];
@@ -2377,6 +2405,12 @@
       (man.unknown || []).slice(0, 80).forEach((file, i) => {
         const img = new Image(); img.src = "assets/tiles/" + file;
         SPRITES["extra" + i] = img;
+        jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
+      });
+      GEN_SPRITES.forEach((key) => {
+        const img = new Image();
+        img.src = "assets/tiles/gen/" + key.replace("gen_", "") + ".png";
+        SPRITES[key] = img;
         jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
       });
       return Promise.all(jobs);
