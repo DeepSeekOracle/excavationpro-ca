@@ -26,12 +26,74 @@
   const Z = { NONE: 0, R: 1, C: 2, I: 3 };
   const TERRAIN = { MEADOW: 0, FOREST: 1, SAND: 2, WATER: 3, ROCK: 4 };
 
-  const BLDG = [null,
-    "b01_cottage_red", "b02_tudor_inn", "b20_noble_manor",
-    "b12_general_store", "b06_bakery", "b14_town_hall",
-    "b03_blacksmith_forge", "b11_carpenter_sawmill", "b13_barn_silo",
-  ];
-  const BLDG_IDX = { R: [0, 1, 2, 3], C: [0, 4, 5, 6], I: [0, 7, 8, 9] };
+  // Region themes: a town's silhouette comes from the land it sits on. Every
+  // sprite here is a single-tile building from the library, so no half-pairs.
+  const THEMES = {
+    oldtown: {
+      label: "Old town",
+      R: [["b01_cottage_red", "b02_tudor_inn"], ["b02_tudor_inn", "b01_cottage_red"], ["b20_noble_manor"]],
+      C: [["b12_general_store"], ["b06_bakery", "b12_general_store"], ["b14_town_hall"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b13_barn_silo"]],
+    },
+    chapel: {
+      label: "Chapel town",
+      R: [["b01_cottage_red"], ["b02_tudor_inn", "b09_chapel"], ["b20_noble_manor"]],
+      C: [["b12_general_store"], ["b06_bakery"], ["b15_library_scholar"]],
+      I: [["b03_blacksmith_forge"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
+    },
+    mill: {
+      label: "Mill country",
+      R: [["b01_cottage_red", "b04_windmill"], ["b02_tudor_inn"], ["b18_greenhouse_orangery"]],
+      C: [["b12_general_store"], ["b06_bakery"], ["b16_alchemist_workshop"]],
+      I: [["b04_windmill", "b05_watermill"], ["b11_carpenter_sawmill"], ["b13_barn_silo"]],
+    },
+    watch: {
+      label: "Watch country",
+      R: [["b01_cottage_red"], ["b02_tudor_inn"], ["b20_noble_manor"]],
+      C: [["b12_general_store"], ["b08_watchtower"], ["b14_town_hall"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b17_twin_gatehouse"]],
+    },
+    harbour: {
+      label: "Harbour",
+      R: [["b01_cottage_red"], ["b02_tudor_inn", "b19_lighthouse_dock"], ["b20_noble_manor"]],
+      C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b14_town_hall"]],
+      I: [["b05_watermill"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
+    },
+  };
+
+  function themeSprite(theme, zone, level) {
+    const t = THEMES[theme] || THEMES.oldtown;
+    const table = zone === Z.R ? t.R : zone === Z.C ? t.C : t.I;
+    const options = table[Math.max(0, Math.min(2, level - 1))] || table[0];
+    return options[0];
+  }
+
+  function themeVariant(theme, zone, level, gx, gy) {
+    const t = THEMES[theme] || THEMES.oldtown;
+    const table = zone === Z.R ? t.R : zone === Z.C ? t.C : t.I;
+    const options = table[Math.max(0, Math.min(2, level - 1))] || table[0];
+    return options[Math.floor(hash2(gx, gy) * options.length) % options.length];
+  }
+
+  function pickTheme(terrain, rx, ry) {
+    let water = 0, forest = 0, rock = 0, sand = 0;
+    for (let i = 0; i < terrain.length; i++) {
+      const t = terrain[i];
+      if (t === TERRAIN.WATER) water++;
+      else if (t === TERRAIN.FOREST) forest++;
+      else if (t === TERRAIN.ROCK) rock++;
+      else if (t === TERRAIN.SAND) sand++;
+    }
+    const n = terrain.length;
+    if (water / n > 0.11) return "harbour";
+    if (rock / n > 0.055) return "watch";
+    if (sand / n > 0.07) return "mill";
+    if (forest / n > 0.17) return "mill";
+    // meadow country still varies town to town, so neighbours never look the same
+    const keys = ["oldtown", "chapel", "mill", "watch"];
+    return keys[Math.floor(hash2(rx * 7 + 3, ry * 11 + 5) * keys.length) % keys.length];
+  }
+
   const SVC = [null, "park", "water", "power", "plaza", "school", "monument"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
@@ -117,7 +179,7 @@
       terrain: null, road: null, zone: null, level: null, bldg: null, svc: null,
       owned: null, powerOn: null, waterOn: null, value: null,
       zoneList: [], zoneDirty: true,
-      pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0,
+      pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0, theme: "oldtown",
     };
   }
 
@@ -161,6 +223,8 @@
       }
     }
     buildDecor(r);
+    r.theme = pickTheme(r.terrain, r.rx, r.ry);
+    r.name = (THEMES[r.theme] || THEMES.oldtown).label;
     r.claimed = true;
     return r;
   }
@@ -216,7 +280,7 @@
     refreshLinks();
     refreshHud();
     drawMinimap();
-    if (!free) { toast("Region claimed · " + claimedList().length + " of " + (GW * GH)); sfx("milestone"); }
+    if (!free) { toast("Claimed · " + (r.name || "new land") + " · " + claimedList().length + " of " + (GW * GH)); sfx("milestone"); }
     return true;
   }
 
@@ -372,26 +436,22 @@
       let dem = z === Z.R ? S.demand.r : z === Z.C ? S.demand.c : S.demand.i;
       if (z === Z.R) dem = clamp(dem + accessBonus, 0, 1);
       const value = r.value[i] / 255;
-      const table = z === Z.R ? BLDG_IDX.R : z === Z.C ? BLDG_IDX.C : BLDG_IDX.I;
       if (lv > 0 && !canUp && Math.random() < 0.02) {
         r.level[i] = lv - 1;
-        r.bldg[i] = lv - 1 ? table[lv - 1] : 0;
         continue;
       }
       if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * (0.20 + value * 0.22)) {
         r.level[i] = lv + 1;
-        r.bldg[i] = table[r.level[i]];
         sfx("grow");
       } else if (dem < 0.08 && lv > 0 && Math.random() < 0.02) {
         r.level[i] = lv - 1;
-        r.bldg[i] = lv - 1 ? table[lv - 1] : 0;
       }
     }
   }
 
   function tick() {
     S.day++;
-    S.hour = (S.hour + 6) % 24;
+    // the hour advances in the frame loop; a tick only marks the day
     refreshLinks();
     recalcWorld();
     updateDemand();
@@ -764,7 +824,7 @@
 
         let key = null;
         if (reg.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
-        else if (reg.level[i]) key = BLDG[reg.bldg[i]];
+        else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
@@ -777,6 +837,18 @@
           ctx.globalAlpha = 0.22;
           drawDiamond(cx0, cy0, zw * 0.5, zh * 0.5, "#ffdf6b");
           ctx.globalAlpha = 1;
+        }
+        // lit windows once the sun is down: the skyline reads from far out
+        if (night > 0.18 && reg.level[i] && reg.zone[i] && cam.zoom > 0.45) {
+          const lit = 0.55 + hash2(gx + 5, gy + 9) * 0.45;
+          const count = reg.level[i] + (reg.zone[i] === Z.C ? 1 : 0);
+          ctx.fillStyle = "rgba(255,220,150," + (Math.min(1, night * 3.4) * lit).toFixed(2) + ")";
+          const wpx = Math.max(1.5, 2.6 * cam.zoom), hpx = Math.max(1.5, 2.2 * cam.zoom);
+          for (let w = 0; w < count; w++) {
+            const ox = (hash2(gx + w * 7, gy + 3) - 0.5) * zw * 0.5;
+            const oy = -(reg.level[i] * 0.12 + w * 0.05) * zh;
+            ctx.fillRect(cx0 + ox, cy0 + oy - zh * 0.22, wpx, hpx);
+          }
         }
       }
     }
@@ -952,6 +1024,9 @@
         mctx.fillStyle = "rgba(16,14,12,.85)";
         mctx.font = "9px Tahoma";
         mctx.fillText(String(reg.pop), x + 6, y + ch - 6);
+        mctx.fillStyle = "rgba(242,193,78,.75)";
+        mctx.font = "8px Tahoma";
+        mctx.fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
       } else {
         mctx.strokeStyle = "rgba(120,110,90,.45)";
         mctx.setLineDash([3, 3]);
@@ -1073,7 +1148,8 @@
       ["Ground", ["meadow", "forest", "sand", "water", "rock"][r.terrain[i]]],
       ["Road", r.road[i] ? "yes" : "no"],
       ["Zone", zoneName],
-      ["Building", r.level[i] ? (BLDG[r.bldg[i]] || "").replace(/^b\d+_/, "").replace(/_/g, " ") + " (L" + r.level[i] + ")" : "none"],
+      ["Building", r.level[i] ? themeVariant(r.theme, r.zone[i], r.level[i], gx, gy).replace(/^b\d+_/, "").replace(/_/g, " ") + " (L" + r.level[i] + ")" : "none"],
+      ["Theme", r.name || "—"],
       ["Power", r.powerOn[i] ? "on" : "off"],
       ["Water", r.waterOn[i] ? "on" : "off"],
       ["Land value", String(r.value[i])],
@@ -1115,7 +1191,7 @@
     const claim = el("ui-claim");
     claim.textContent = "Claim a region · " + money(CLAIM_COST);
     claim.disabled = S.cash < CLAIM_COST;
-    el("ui-region").title = claimedList().map((r) => "region " + r.rx + "," + r.ry + " · " + r.pop + " people").join(" | ");
+    el("ui-region").title = claimedList().map((r) => (r.name || "region") + " " + r.rx + "," + r.ry + " · " + r.pop + " people").join(" | ");
   }
 
   let toastT = 0;
@@ -1319,6 +1395,8 @@
         reg.value = new Uint8Array(RS * RS);
         reg.zoneDirty = true;
         buildDecor(reg);
+        reg.theme = pickTheme(reg.terrain, reg.rx, reg.ry);
+        reg.name = (THEMES[reg.theme] || THEMES.oldtown).label;
         S.regions[regionKey(r.rx, r.ry)] = reg;
         recomputeRegion(reg);
       });
@@ -1367,7 +1445,6 @@
       const i = y * RS + x;
       if (r.terrain[i] === TERRAIN.WATER || r.road[i]) return;
       r.zone[i] = z; r.level[i] = lvl;
-      r.bldg[i] = BLDG_IDX[z === Z.R ? "R" : z === Z.C ? "C" : "I"][lvl];
     };
     for (let x = cx - 5; x <= cx - 3; x++) { place(x, cy - 1, Z.R, 1); place(x, cy + 1, Z.R, 1); }
     place(cx, cy - 1, Z.C, 1);
