@@ -54,6 +54,13 @@ a:hover { color: #bae6fd; }
   box-shadow: 0 8px 24px rgba(0, 0, 0, .28);
 }
 .brand { color: var(--gold); text-decoration: none; font-weight: 700; letter-spacing: .02em; }
+.top-brand { display: flex; align-items: center; gap: .9rem; min-width: 0; }
+.top .tv-brand { margin: 0; font: inherit; color: var(--gold); }
+.top .tv-brand > a { display: flex; align-items: center; gap: .5rem; color: inherit; text-decoration: none; }
+.top .tv-brand .emblem { width: 1.9rem; height: 1.9rem; }
+.tv-brand-copy { display: flex; flex-direction: column; line-height: 1.05; }
+.tv-brand-copy strong { font-family: var(--display); font-size: 1.2rem; font-weight: 500; letter-spacing: .02em; }
+.tv-brand-copy small { color: var(--muted); font: .54rem var(--mono); letter-spacing: .12em; }
 .top nav {
   display: flex; flex-wrap: wrap; gap: .7rem; font-size: .86rem;
   max-width: 100%;

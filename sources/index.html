@@ -24,7 +24,7 @@
 <link rel="apple-touch-icon" href="/sources/apple-touch.png?v=20260907">
 <link rel="icon" href="/sources/emblem.svg?v=20260907" type="image/svg+xml">
 <link rel="image_src" href="https://excavationpro.ca/sources/og-tv.jpg?v=20260907">
-<link rel="stylesheet" href="/sources/app.css?v=1.20.1">
+<link rel="stylesheet" href="/sources/app.css?v=1.20.2">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="chatagent.ca">
@@ -51,7 +51,15 @@
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="/">excavationpro.ca</a>
+  <div class="top-brand">
+    <a class="brand" href="/">excavationpro.ca</a>
+    <h1 class="tv-brand">
+      <a href="/sources/" aria-current="page">
+        <img class="emblem" src="/sources/emblem.svg?v=20260907" width="30" height="30" alt="LYGO TV">
+        <span class="tv-brand-copy"><strong>LYGO TV</strong><small>LIVE · FREE PUBLIC CHANNELS</small></span>
+      </a>
+    </h1>
+  </div>
   <nav>
     <a href="/">Home</a>
     <a href="/join/">Join</a>
@@ -101,7 +109,6 @@
     </div>
   </div>
   <aside class="side">
-    <h1><img class="emblem" src="/sources/emblem.svg?v=20260907" width="36" height="36" alt="LYGO TV"> LYGO TV</h1>
     <p class="note"><strong>Portal only.</strong> Channel tab = Excavationpro rooms (always open). FAST and world lists need a Terms tick each session. Unlabeled = <strong>All ages</strong>. <a href="/terms.html">Terms</a> · <a href="/sources/disclaimer.html">Disclaimer</a>.</p>
     
 <div class="ad-consent" id="adConsent" hidden role="dialog" aria-label="Advertising consent">
@@ -209,4 +216,5 @@
 <script src="/sources/app.js?v=1.20.1"></script>
 </body>
 </html>
+
 
