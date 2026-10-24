@@ -6,7 +6,7 @@
   const MAX_PLAYLIST = 3500;
   const MAX_BYTES = 8000000;
   const SKIP_MAX = 4;
-  const CAT_VER = "1.18.0";
+  const CAT_VER = "1.20.4";
   const BM_KEY = "lygo_tv_bm_ok";
   const PLAYER_URL = "https://excavationpro.ca/sources/";
   const TERMS_KEY = "lygo_tv_terms_ok";
