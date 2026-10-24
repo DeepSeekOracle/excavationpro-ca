@@ -143,7 +143,7 @@
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
     links: [], peds: [], cars: [], boats: [], smoke: [],
-    rain: 0, rainTarget: 0, weatherTimer: 0,
+    rain: 0, rainTarget: 0, weatherTimer: 0, lastAnnounce: -99,
   };
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
@@ -508,7 +508,7 @@
       r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
     });
     claimedList().forEach((r) => {
-      r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0);
+      r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
       r.trades = 0;
     });
     S.cash += S.income - S.upkeep;
@@ -526,12 +526,21 @@
     refreshHud();
   }
 
+  function announce(train, town) {
+    if (S.speed === 0) return;
+    if (S.lastAnnounce !== undefined && S.day - S.lastAnnounce < 2) return;
+    S.lastAnnounce = S.day;
+    const hh = String(Math.floor(S.hour)).padStart(2, "0");
+    log("Platform call · <b>" + town + "</b> · the " + hh + ":00 service is in.");
+    sfx("announce");
+  }
+
   function weekLine() {
     const n = claimedList().length;
     const lines = [
       S.tradesToday ? "The shops served " + S.tradesToday + " customers this week." : S.pop + " people across " + n + " region" + (n === 1 ? "" : "s") + " · " + S.jobs + " jobs · mood " + Math.round(S.mood) + "%.",
       "The world holds " + S.pop + " people and " + money(S.cash) + ".",
-      S.rain > 0.35 ? "Rain over the district. The streets are thinner." : S.links.length ? S.links.length + " connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
+      S.rain > 0.35 ? "Rain over the district. Trade is down and the streets are thinner." : S.links.length ? S.links.length + " connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
     ];
     return lines[S.day % lines.length];
   }
@@ -664,7 +673,8 @@
     const link = track[(Math.random() * track.length) | 0];
     const a = depots.find((d) => d.r === link.a), b = depots.find((d) => d.r === link.b);
     if (!a || !b) return null;
-    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.06, 0.11) };
+    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.06, 0.11),
+           from: (link.a.name || "depot"), to: (link.b.name || "depot") };
   }
 
   function spawnFerry() {
@@ -864,7 +874,7 @@
     }
     const sim = S.speed || 1;
     advance(S.peds, dt * sim);
-    advance(S.cars, dt * sim * 1.8);
+    advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
     if (S.boats) {
       S.boats.forEach((b) => {
         b.t += dt * sim * b.speed;
@@ -883,8 +893,8 @@
     if (S.trains) {
       S.trains.forEach((t) => {
         t.t += dt * sim * t.speed * t.dir;
-        if (t.t > 1) { t.t = 1; t.dir = -1; }
-        if (t.t < 0) { t.t = 0; t.dir = 1; }
+        if (t.t >= 1) { t.t = 1; if (t.dir > 0) announce(t, t.to); t.dir = -1; }
+        if (t.t <= 0) { t.t = 0; if (t.dir < 0) announce(t, t.from); t.dir = 1; }
       });
     }
     if (S.ferries) {
@@ -1607,6 +1617,10 @@
       case "milestone":        // a town becomes a city
         [523, 659, 784, 1047].forEach((f, i) => tone(ac, t0 + i * 0.1, f, f, 0.26, 0.05, "triangle"));
         burst(ac, t0, 0.06, 3000, 0.03);
+        break;
+      case "announce":         // a platform chime, two notes falling
+        tone(ac, t0, 988, 988, 0.42, 0.035, "sine");
+        tone(ac, t0 + 0.26, 740, 740, 0.55, 0.03, "sine");
         break;
       case "deny":             // the treasury says no
         tone(ac, t0, 140, 110, 0.16, 0.05, "square");
