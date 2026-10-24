@@ -113,7 +113,7 @@
   };
 
   const TOOLS = [
-    { id: "road", name: "Road", cost: 12, hint: "connect everything" },
+    { id: "road", name: "Road", cost: 12, hint: "connect · bridges $180" },
     { id: "zoneR", name: "Homes", cost: 24, hint: "people live here", zone: Z.R },
     { id: "zoneC", name: "Shops", cost: 30, hint: "jobs + tax", zone: Z.C },
     { id: "zoneI", name: "Works", cost: 34, hint: "jobs, some smog", zone: Z.I },
@@ -244,6 +244,35 @@
       else if (for1[i] > qForest) t = TERRAIN.FOREST;
       r.terrain[i] = t;
     }
+    // a few islands so open water is somewhere, not just a wall
+    let waterCount = 0;
+    for (let i = 0; i < r.terrain.length; i++) if (r.terrain[i] === TERRAIN.WATER) waterCount++;
+    if (waterCount / r.terrain.length > 0.1) {
+      const islands = 1 + Math.floor(hash2(r.rx + 41, r.ry + 17) * 3);
+      for (let k = 0; k < islands; k++) {
+        let tries = 40, placed = false;
+        while (tries-- && !placed) {
+          const ix = 12 + Math.floor(Math.random() * (RS - 24));
+          const iy = 12 + Math.floor(Math.random() * (RS - 24));
+          const i0 = iy * RS + ix;
+          if (r.terrain[i0] !== TERRAIN.WATER) continue;
+          let deep = true;
+          for (let dy = -2; dy <= 2 && deep; dy++) for (let dx = -2; dx <= 2; dx++) {
+            const t = r.terrain[(iy + dy) * RS + (ix + dx)];
+            if (t !== TERRAIN.WATER) { deep = false; break; }
+          }
+          if (!deep) continue;
+          const size = 1 + Math.floor(Math.random() * 2);
+          for (let dy = -size; dy <= size; dy++) for (let dx = -size; dx <= size; dx++) {
+            if (Math.abs(dx) + Math.abs(dy) > size + 1) continue;
+            const j = (iy + dy) * RS + (ix + dx);
+            r.terrain[j] = (Math.abs(dx) + Math.abs(dy) <= size - 1) ? TERRAIN.MEADOW : TERRAIN.SAND;
+          }
+          placed = true;
+        }
+      }
+    }
+
     let wx = Math.floor(RS * (0.35 + hash2(r.rx + 3, r.ry + 7) * 0.3));
     const phase = hash2(r.rx + 11, r.ry + 5) * 6.28;
     for (let y = 0; y < RS; y++) {
@@ -1213,7 +1242,7 @@
         }
 
         let key = null;
-        if (reg.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
+        if (reg.road[i]) key = terr === TERRAIN.WATER ? "r12_road_bridge_stone" : (ROAD[roadMask(gx, gy)] || "r02_road_straight_ew");
         else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
@@ -1523,7 +1552,7 @@
       const reg = regionAt(rx, ry);
       const x = MM_PAD + rx * cw, y = MM_PAD + ry * ch;
       if (reg && reg.claimed) {
-        const lum = clamp(28 + Math.log10(1 + reg.pop) * 40, 28, 150);
+        const lum = clamp(38 + Math.log10(1 + reg.pop) * 46, 38, 165);
         mctx.fillStyle = "rgb(" + Math.round(lum * 0.7) + "," + Math.round(lum) + "," + Math.round(lum * 0.55) + ")";
         mctx.fillRect(x + 2, y + 2, cw - 4, ch - 4);
         mctx.fillStyle = "rgba(16,14,12,.85)";
@@ -1533,12 +1562,12 @@
         mctx.font = "8px Tahoma";
         mctx.fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
       } else {
-        mctx.strokeStyle = "rgba(120,110,90,.45)";
+        mctx.strokeStyle = "rgba(150,136,108,.65)";
         mctx.setLineDash([3, 3]);
         mctx.strokeRect(x + 2, y + 2, cw - 4, ch - 4);
         mctx.setLineDash([]);
-        mctx.fillStyle = "rgba(242,193,78,.55)";
-        mctx.font = "11px Tahoma";
+        mctx.fillStyle = "rgba(242,193,78,.85)";
+        mctx.font = "bold 13px Tahoma";
         mctx.fillText("+", x + cw / 2 - 3, y + ch / 2 + 4);
       }
     }
@@ -1583,7 +1612,12 @@
     if (!tile) return false;
     const r = tile.r, i = tile.i;
     const terr = r.terrain[i];
-    if (t.id === "road") return terr !== TERRAIN.WATER;
+    if (t.id === "road") {
+      if (terr !== TERRAIN.WATER) return true;
+      // a bridge needs ground or road on two opposite sides to span
+      const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
+      return (land(gx - 1, gy) && land(gx + 1, gy)) || (land(gx, gy - 1) && land(gx, gy + 1));
+    }
     if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
     if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
     if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
@@ -1610,9 +1644,12 @@
       did = true;
     } else if (t.id === "road") {
       if (r.road[i]) return false;
+      const bridge = r.terrain[i] === TERRAIN.WATER;
+      if (bridge && S.cash < 180) { deny("A bridge costs $180"); return false; }
       r.road[i] = 1; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0;
       r.zoneDirty = true;
-      sfx("road");
+      sfx(bridge ? "place" : "road");
+      if (bridge) S.cash -= 168;         // the road's own $12 is charged below
       did = true;
     } else if (t.zone) {
       if (r.zone[i] === t.zone) return false;
