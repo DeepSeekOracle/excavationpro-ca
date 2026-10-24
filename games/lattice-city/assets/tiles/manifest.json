@@ -1,0 +1,892 @@
+{
+ "b04_windmill": [
+  "b04_windmill__0.png",
+  "b04_windmill__1.png"
+ ],
+ "unknown": [
+  "unknown__0.png",
+  "unknown__1.png",
+  "unknown__2.png",
+  "unknown__3.png",
+  "unknown__4.png",
+  "unknown__5.png",
+  "unknown__6.png",
+  "unknown__7.png",
+  "unknown__8.png",
+  "unknown__9.png",
+  "unknown__10.png",
+  "unknown__11.png",
+  "unknown__12.png",
+  "unknown__13.png",
+  "unknown__14.png",
+  "unknown__15.png",
+  "unknown__16.png",
+  "unknown__17.png",
+  "unknown__18.png",
+  "unknown__19.png",
+  "unknown__20.png",
+  "unknown__21.png",
+  "unknown__22.png",
+  "unknown__23.png",
+  "unknown__24.png",
+  "unknown__25.png",
+  "unknown__26.png",
+  "unknown__27.png",
+  "unknown__28.png",
+  "unknown__29.png",
+  "unknown__30.png",
+  "unknown__31.png",
+  "unknown__32.png",
+  "unknown__33.png",
+  "unknown__34.png",
+  "unknown__35.png",
+  "unknown__36.png",
+  "unknown__37.png",
+  "unknown__38.png",
+  "unknown__39.png",
+  "unknown__40.png",
+  "unknown__41.png",
+  "unknown__42.png",
+  "unknown__43.png",
+  "unknown__44.png",
+  "unknown__45.png",
+  "unknown__46.png",
+  "unknown__47.png",
+  "unknown__48.png",
+  "unknown__49.png",
+  "unknown__50.png",
+  "unknown__51.png",
+  "unknown__52.png",
+  "unknown__53.png",
+  "unknown__54.png",
+  "unknown__55.png",
+  "unknown__56.png",
+  "unknown__57.png",
+  "unknown__58.png",
+  "unknown__59.png",
+  "unknown__60.png",
+  "unknown__61.png",
+  "unknown__62.png",
+  "unknown__63.png",
+  "unknown__64.png",
+  "unknown__65.png",
+  "unknown__66.png",
+  "unknown__67.png",
+  "unknown__68.png",
+  "unknown__69.png",
+  "unknown__70.png",
+  "unknown__71.png",
+  "unknown__72.png",
+  "unknown__73.png",
+  "unknown__74.png",
+  "unknown__75.png",
+  "unknown__76.png",
+  "unknown__77.png",
+  "unknown__78.png",
+  "unknown__79.png"
+ ],
+ "b05_watermill": [
+  "b05_watermill__0.png",
+  "b05_watermill__1.png"
+ ],
+ "d11_canal_straight": [
+  "d11_canal_straight__0.png",
+  "d11_canal_straight__1.png"
+ ],
+ "r12_road_bridge_stone": [
+  "r12_road_bridge_stone__0.png",
+  "r12_road_bridge_stone__1.png"
+ ],
+ "b19_lighthouse_dock": [
+  "b19_lighthouse_dock__0.png",
+  "b19_lighthouse_dock__1.png"
+ ],
+ "d01_plaza_fountain": [
+  "d01_plaza_fountain__0.png",
+  "d01_plaza_fountain__1.png"
+ ],
+ "b27_grain_windmill_sw": [
+  "b27_grain_windmill_sw.png"
+ ],
+ "b28_grain_windmill_se": [
+  "b28_grain_windmill_se.png"
+ ],
+ "b29_grain_windmill_ne": [
+  "b29_grain_windmill_ne.png"
+ ],
+ "b30_grain_windmill_nw": [
+  "b30_grain_windmill_nw.png"
+ ],
+ "b31_river_watermill_sw": [
+  "b31_river_watermill_sw.png"
+ ],
+ "b32_river_watermill_se": [
+  "b32_river_watermill_se.png"
+ ],
+ "b33_river_watermill_ne": [
+  "b33_river_watermill_ne.png"
+ ],
+ "b34_river_watermill_nw": [
+  "b34_river_watermill_nw.png"
+ ],
+ "c01_river_bend_ne": [
+  "c01_river_bend_ne__0.png",
+  "c01_river_bend_ne__1.png"
+ ],
+ "c02_river_bend_nw": [
+  "c02_river_bend_nw__0.png",
+  "c02_river_bend_nw__1.png"
+ ],
+ "c03_river_bend_se": [
+  "c03_river_bend_se__0.png",
+  "c03_river_bend_se__1.png"
+ ],
+ "c04_river_bend_sw": [
+  "c04_river_bend_sw__0.png",
+  "c04_river_bend_sw__1.png"
+ ],
+ "c05_river_tjct_nse": [
+  "c05_river_tjct_nse__0.png",
+  "c05_river_tjct_nse__1.png"
+ ],
+ "c06_river_tjct_ews": [
+  "c06_river_tjct_ews__0.png",
+  "c06_river_tjct_ews__1.png"
+ ],
+ "c11_waterfall_gorge_n": [
+  "c11_waterfall_gorge_n__0.png",
+  "c11_waterfall_gorge_n__1.png"
+ ],
+ "c12_waterfall_gorge_w": [
+  "c12_waterfall_gorge_w__0.png",
+  "c12_waterfall_gorge_w__1.png"
+ ],
+ "l11_volcanic_caldera_island": [
+  "l11_volcanic_caldera_island__0.png",
+  "l11_volcanic_caldera_island__1.png"
+ ],
+ "l12_geothermal_hotspring_onsen": [
+  "l12_geothermal_hotspring_onsen__0.png",
+  "l12_geothermal_hotspring_onsen__1.png"
+ ],
+ "b01_cottage_red": [
+  "b01_cottage_red.png"
+ ],
+ "b02_tudor_inn": [
+  "b02_tudor_inn.png"
+ ],
+ "b03_blacksmith_forge": [
+  "b03_blacksmith_forge.png"
+ ],
+ "b06_bakery": [
+  "b06_bakery.png"
+ ],
+ "b07_apothecary": [
+  "b07_apothecary.png"
+ ],
+ "b08_watchtower": [
+  "b08_watchtower.png"
+ ],
+ "b09_chapel": [
+  "b09_chapel.png"
+ ],
+ "b10_wizard_tower": [
+  "b10_wizard_tower.png"
+ ],
+ "b11_carpenter_sawmill": [
+  "b11_carpenter_sawmill.png"
+ ],
+ "b12_general_store": [
+  "b12_general_store.png"
+ ],
+ "b13_barn_silo": [
+  "b13_barn_silo.png"
+ ],
+ "b14_town_hall": [
+  "b14_town_hall.png"
+ ],
+ "b15_library_scholar": [
+  "b15_library_scholar.png"
+ ],
+ "b16_alchemist_workshop": [
+  "b16_alchemist_workshop.png"
+ ],
+ "b17_twin_gatehouse": [
+  "b17_twin_gatehouse.png"
+ ],
+ "b18_greenhouse_orangery": [
+  "b18_greenhouse_orangery.png"
+ ],
+ "b20_noble_manor": [
+  "b20_noble_manor.png"
+ ],
+ "r01_road_straight_ns": [
+  "r01_road_straight_ns.png"
+ ],
+ "r02_road_straight_ew": [
+  "r02_road_straight_ew.png"
+ ],
+ "r03_road_cross": [
+  "r03_road_cross.png"
+ ],
+ "r04_road_tee_nes": [
+  "r04_road_tee_nes.png"
+ ],
+ "r05_road_tee_nsw": [
+  "r05_road_tee_nsw.png"
+ ],
+ "r06_road_tee_ewn": [
+  "r06_road_tee_ewn.png"
+ ],
+ "r07_road_tee_ews": [
+  "r07_road_tee_ews.png"
+ ],
+ "r08_road_corner_ne": [
+  "r08_road_corner_ne.png"
+ ],
+ "r09_road_corner_es": [
+  "r09_road_corner_es.png"
+ ],
+ "r10_road_corner_sw": [
+  "r10_road_corner_sw.png"
+ ],
+ "r11_road_corner_wn": [
+  "r11_road_corner_wn.png"
+ ],
+ "d02_village_well": [
+  "d02_village_well.png"
+ ],
+ "d03_market_stalls": [
+  "d03_market_stalls.png"
+ ],
+ "d04_oak_tree_park": [
+  "d04_oak_tree_park.png"
+ ],
+ "d05_pine_grove": [
+  "d05_pine_grove.png"
+ ],
+ "d06_cherry_garden": [
+  "d06_cherry_garden.png"
+ ],
+ "d07_streetlamps_signpost": [
+  "d07_streetlamps_signpost.png"
+ ],
+ "d08_stone_statue_plaza": [
+  "d08_stone_statue_plaza.png"
+ ],
+ "d09_merchant_cart_camp": [
+  "d09_merchant_cart_camp.png"
+ ],
+ "d10_flower_orchard_hedge": [
+  "d10_flower_orchard_hedge.png"
+ ],
+ "d12_meadow_wildflowers": [
+  "d12_meadow_wildflowers.png"
+ ],
+ "s01_slope_ramp_n": [
+  "s01_slope_ramp_n.png"
+ ],
+ "s02_slope_ramp_w": [
+  "s02_slope_ramp_w.png"
+ ],
+ "s03_slope_ramp_e": [
+  "s03_slope_ramp_e.png"
+ ],
+ "s04_slope_ramp_s": [
+  "s04_slope_ramp_s.png"
+ ],
+ "s05_slope_stairs_n": [
+  "s05_slope_stairs_n.png"
+ ],
+ "s06_slope_stairs_w": [
+  "s06_slope_stairs_w.png"
+ ],
+ "s07_slope_stream_n": [
+  "s07_slope_stream_n.png"
+ ],
+ "s08_slope_road_n": [
+  "s08_slope_road_n.png"
+ ],
+ "s09_plateau_level1": [
+  "s09_plateau_level1.png"
+ ],
+ "s10_meadow_wildflowers_v1": [
+  "s10_meadow_wildflowers_v1.png"
+ ],
+ "s11_meadow_rock_outcrop_v2": [
+  "s11_meadow_rock_outcrop_v2.png"
+ ],
+ "s12_meadow_stepping_stones_v3": [
+  "s12_meadow_stepping_stones_v3.png"
+ ],
+ "m01_sandy_beach_s": [
+  "m01_sandy_beach_s.png"
+ ],
+ "m02_sandy_beach_e": [
+  "m02_sandy_beach_e.png"
+ ],
+ "m03_sandy_beach_w": [
+  "m03_sandy_beach_w.png"
+ ],
+ "m04_stone_harbor_pier": [
+  "m04_stone_harbor_pier.png"
+ ],
+ "m05_lighthouse_island": [
+  "m05_lighthouse_island.png"
+ ],
+ "m06_tropical_palm_island": [
+  "m06_tropical_palm_island.png"
+ ],
+ "m07_sea_stacks_reef": [
+  "m07_sea_stacks_reef.png"
+ ],
+ "m08_desert_dunes": [
+  "m08_desert_dunes.png"
+ ],
+ "m09_desert_oasis": [
+  "m09_desert_oasis.png"
+ ],
+ "m10_red_sandstone_mesa": [
+  "m10_red_sandstone_mesa.png"
+ ],
+ "m11_desert_adobe_house": [
+  "m11_desert_adobe_house.png"
+ ],
+ "m12_desert_bazaar_tent": [
+  "m12_desert_bazaar_tent.png"
+ ],
+ "m13_glacier_ice_tongue": [
+  "m13_glacier_ice_tongue.png"
+ ],
+ "m14_frozen_tarn_lake": [
+  "m14_frozen_tarn_lake.png"
+ ],
+ "m15_nordic_timber_hall": [
+  "m15_nordic_timber_hall.png"
+ ],
+ "m16_igloo_ice_camp": [
+  "m16_igloo_ice_camp.png"
+ ],
+ "c07_river_ford_stone": [
+  "c07_river_ford_stone.png"
+ ],
+ "c08_river_quay_dock": [
+  "c08_river_quay_dock.png"
+ ],
+ "c09_timber_footbridge_ns": [
+  "c09_timber_footbridge_ns.png"
+ ],
+ "c10_timber_footbridge_ew": [
+  "c10_timber_footbridge_ew.png"
+ ],
+ "c15_road_curve_se": [
+  "c15_road_curve_se.png"
+ ],
+ "c16_road_curve_nw": [
+  "c16_road_curve_nw.png"
+ ],
+ "c13_switchback_road_n": [
+  "c13_switchback_road_n.png"
+ ],
+ "c14_switchback_road_w": [
+  "c14_switchback_road_w.png"
+ ],
+ "l01_harbor_estuary_seagate": [
+  "l01_harbor_estuary_seagate.png"
+ ],
+ "l02_coastal_sea_arch_cliff": [
+  "l02_coastal_sea_arch_cliff.png"
+ ],
+ "l03_elevated_stone_viaduct": [
+  "l03_elevated_stone_viaduct.png"
+ ],
+ "l04_bamboo_torii_sanctuary": [
+  "l04_bamboo_torii_sanctuary.png"
+ ],
+ "l05_desert_pyramid_ruin": [
+  "l05_desert_pyramid_ruin.png"
+ ],
+ "l06_savanna_acacia_waterhole": [
+  "l06_savanna_acacia_waterhole.png"
+ ],
+ "l07_wildlife_dolphins": [
+  "l07_wildlife_dolphins.png"
+ ],
+ "l08_wildlife_whale": [
+  "l08_wildlife_whale.png"
+ ],
+ "l09_wildlife_sea_turtles": [
+  "l09_wildlife_sea_turtles.png"
+ ],
+ "l10_wildlife_pelagic_pod": [
+  "l10_wildlife_pelagic_pod.png"
+ ],
+ "b21_japanese_pagoda_sw": [
+  "b21_japanese_pagoda_sw.png"
+ ],
+ "b22_japanese_pagoda_se": [
+  "b22_japanese_pagoda_se.png"
+ ],
+ "b23_mediterranean_villa_sw": [
+  "b23_mediterranean_villa_sw.png"
+ ],
+ "b24_mediterranean_villa_se": [
+  "b24_mediterranean_villa_se.png"
+ ],
+ "l13_wildlife_flamingos": [
+  "l13_wildlife_flamingos.png"
+ ],
+ "l14_wildlife_pelicans": [
+  "l14_wildlife_pelicans.png"
+ ],
+ "l15_wildlife_arctic_foxes": [
+  "l15_wildlife_arctic_foxes.png"
+ ],
+ "s13_canyon_wadi_trail": [
+  "s13_canyon_wadi_trail.png"
+ ],
+ "s14_snow_var1_drifts": [
+  "s14_snow_var1_drifts.png"
+ ],
+ "s15_snow_var2_slate_ibex": [
+  "s15_snow_var2_slate_ibex.png"
+ ],
+ "s16_snow_var3_runestone": [
+  "s16_snow_var3_runestone.png"
+ ],
+ "s17_snow_var4_creek_bridge": [
+  "s17_snow_var4_creek_bridge.png"
+ ],
+ "s18_snow_var5_sled_fence": [
+  "s18_snow_var5_sled_fence.png"
+ ],
+ "s19_snow_var6_ice_crystals": [
+  "s19_snow_var6_ice_crystals.png"
+ ],
+ "m17_desert_var1_star_dunes": [
+  "m17_desert_var1_star_dunes.png"
+ ],
+ "m18_desert_var2_salt_playa": [
+  "m18_desert_var2_salt_playa.png"
+ ],
+ "m19_desert_var3_hoodoo_spires": [
+  "m19_desert_var3_hoodoo_spires.png"
+ ],
+ "m20_desert_var4_superbloom": [
+  "m20_desert_var4_superbloom.png"
+ ],
+ "m21_desert_var5_nomad_camp": [
+  "m21_desert_var5_nomad_camp.png"
+ ],
+ "m22_desert_var6_temple_columns": [
+  "m22_desert_var6_temple_columns.png"
+ ],
+ "m23_beach_var1_driftwood": [
+  "m23_beach_var1_driftwood.png"
+ ],
+ "m24_beach_var2_rowboat_nets": [
+  "m24_beach_var2_rowboat_nets.png"
+ ],
+ "m25_beach_var3_tidepool": [
+  "m25_beach_var3_tidepool.png"
+ ],
+ "m26_beach_var4_parasol_castle": [
+  "m26_beach_var4_parasol_castle.png"
+ ],
+ "m27_beach_var5_dune_boardwalk": [
+  "m27_beach_var5_dune_boardwalk.png"
+ ],
+ "m28_beach_var6_treasure_chest": [
+  "m28_beach_var6_treasure_chest.png"
+ ],
+ "l16_cypress_marsh_boardwalk": [
+  "l16_cypress_marsh_boardwalk.png"
+ ],
+ "l17_coastal_tidal_saltworks": [
+  "l17_coastal_tidal_saltworks.png"
+ ],
+ "b25_bayou_boathouse_sw": [
+  "b25_bayou_boathouse_sw.png"
+ ],
+ "b26_bayou_boathouse_se": [
+  "b26_bayou_boathouse_se.png"
+ ],
+ "b27_artisan_forge_sw": [
+  "b27_artisan_forge_sw.png"
+ ],
+ "b28_artisan_forge_se": [
+  "b28_artisan_forge_se.png"
+ ],
+ "l18_heron_alligator_marsh": [
+  "l18_heron_alligator_marsh.png"
+ ],
+ "l19_gondola_lagoon_fleet": [
+  "l19_gondola_lagoon_fleet.png"
+ ],
+ "s20_sloped_forest_stream": [
+  "s20_sloped_forest_stream.png"
+ ],
+ "m29_sea_var1_kelp_forest": [
+  "m29_sea_var1_kelp_forest.png"
+ ],
+ "m30_sea_var2_coral_reef": [
+  "m30_sea_var2_coral_reef.png"
+ ],
+ "m31_sea_var3_bell_buoy": [
+  "m31_sea_var3_bell_buoy.png"
+ ],
+ "m32_sea_var4_shipwreck_reef": [
+  "m32_sea_var4_shipwreck_reef.png"
+ ],
+ "m33_sea_var5_flying_fish": [
+  "m33_sea_var5_flying_fish.png"
+ ],
+ "m34_sea_var6_bioluminescence": [
+  "m34_sea_var6_bioluminescence.png"
+ ],
+ "s21_forest_var1_hollow_oak": [
+  "s21_forest_var1_hollow_oak.png"
+ ],
+ "s22_forest_var2_silver_birch": [
+  "s22_forest_var2_silver_birch.png"
+ ],
+ "s23_forest_var3_pine_cedar": [
+  "s23_forest_var3_pine_cedar.png"
+ ],
+ "s24_forest_var4_cherry_willow": [
+  "s24_forest_var4_cherry_willow.png"
+ ],
+ "s25_forest_var5_woodcutter": [
+  "s25_forest_var5_woodcutter.png"
+ ],
+ "s26_forest_var6_apiary_lavender": [
+  "s26_forest_var6_apiary_lavender.png"
+ ],
+ "l20_coastal_wharf_boathouse": [
+  "l20_coastal_wharf_boathouse.png"
+ ],
+ "s27_sloped_grand_balustrade_stairs": [
+  "s27_sloped_grand_balustrade_stairs.png"
+ ],
+ "r25_plaza_var1_marble_fountain": [
+  "r25_plaza_var1_marble_fountain.png"
+ ],
+ "r26_plaza_var2_armillary_sundial": [
+  "r26_plaza_var2_armillary_sundial.png"
+ ],
+ "r27_plaza_var3_market_stalls": [
+  "r27_plaza_var3_market_stalls.png"
+ ],
+ "r28_plaza_var4_bandstand_gazebo": [
+  "r28_plaza_var4_bandstand_gazebo.png"
+ ],
+ "r29_plaza_var5_sculptor_courtyard": [
+  "r29_plaza_var5_sculptor_courtyard.png"
+ ],
+ "r30_plaza_var6_stone_wellhouse": [
+  "r30_plaza_var6_stone_wellhouse.png"
+ ],
+ "b29_botanical_conservatory_sw": [
+  "b29_botanical_conservatory_sw.png"
+ ],
+ "b30_botanical_conservatory_se": [
+  "b30_botanical_conservatory_se.png"
+ ],
+ "b31_highland_keep_sw": [
+  "b31_highland_keep_sw.png"
+ ],
+ "b32_highland_keep_se": [
+  "b32_highland_keep_se.png"
+ ],
+ "l21_terraced_rice_paddy": [
+  "l21_terraced_rice_paddy.png"
+ ],
+ "l22_crystal_cavern_mine": [
+  "l22_crystal_cavern_mine.png"
+ ],
+ "l23_royal_coach_procession": [
+  "l23_royal_coach_procession.png"
+ ],
+ "l24_water_buffalo_peacock": [
+  "l24_water_buffalo_peacock.png"
+ ],
+ "s28_sloped_alpine_suspension_bridge": [
+  "s28_sloped_alpine_suspension_bridge.png"
+ ],
+ "m35_highland_var1_heather_cairn": [
+  "m35_highland_var1_heather_cairn.png"
+ ],
+ "m36_highland_var2_larch_pool": [
+  "m36_highland_var2_larch_pool.png"
+ ],
+ "m37_highland_var3_edelweiss_crag": [
+  "m37_highland_var3_edelweiss_crag.png"
+ ],
+ "m38_highland_var4_crofter_wall": [
+  "m38_highland_var4_crofter_wall.png"
+ ],
+ "m39_highland_var5_celtic_cross": [
+  "m39_highland_var5_celtic_cross.png"
+ ],
+ "m40_highland_var6_geologist_camp": [
+  "m40_highland_var6_geologist_camp.png"
+ ],
+ "l25_highland_cattle_pasture": [
+  "l25_highland_cattle_pasture.png"
+ ],
+ "l26_husky_dog_sled_trail": [
+  "l26_husky_dog_sled_trail.png"
+ ],
+ "s29_slope_var1_rockery": [
+  "s29_slope_var1_rockery.png"
+ ],
+ "s30_slope_var2_olive_cypress": [
+  "s30_slope_var2_olive_cypress.png"
+ ],
+ "s31_slope_var3_vineyard_cellar": [
+  "s31_slope_var3_vineyard_cellar.png"
+ ],
+ "s32_slope_var4_shepherd_pasture": [
+  "s32_slope_var4_shepherd_pasture.png"
+ ],
+ "s33_slope_var5_snow_moraine": [
+  "s33_slope_var5_snow_moraine.png"
+ ],
+ "s34_slope_var6_badlands_canyon": [
+  "s34_slope_var6_badlands_canyon.png"
+ ],
+ "m41_wetland_var1_cattail_fen": [
+  "m41_wetland_var1_cattail_fen.png"
+ ],
+ "m42_wetland_var2_wisp_bog": [
+  "m42_wetland_var2_wisp_bog.png"
+ ],
+ "m43_wetland_var3_cranberry_bog": [
+  "m43_wetland_var3_cranberry_bog.png"
+ ],
+ "m44_wetland_var4_stepping_stones": [
+  "m44_wetland_var4_stepping_stones.png"
+ ],
+ "m45_wetland_var5_mangrove_arch": [
+  "m45_wetland_var5_mangrove_arch.png"
+ ],
+ "m46_wetland_var6_peat_cutter_dock": [
+  "m46_wetland_var6_peat_cutter_dock.png"
+ ],
+ "b33_lumber_sawmill_sw": [
+  "b33_lumber_sawmill_sw.png"
+ ],
+ "b34_lumber_sawmill_se": [
+  "b34_lumber_sawmill_se.png"
+ ],
+ "b35_apothecary_tower_sw": [
+  "b35_apothecary_tower_sw.png"
+ ],
+ "b36_apothecary_tower_se": [
+  "b36_apothecary_tower_se.png"
+ ],
+ "l27_ancient_ruined_aqueduct": [
+  "l27_ancient_ruined_aqueduct.png"
+ ],
+ "l28_log_boom_millpond": [
+  "l28_log_boom_millpond.png"
+ ],
+ "l29_ox_logging_wagon_bear": [
+  "l29_ox_logging_wagon_bear.png"
+ ],
+ "l30_town_crier_plaza": [
+  "l30_town_crier_plaza.png"
+ ],
+ "b37_shipyard_drydock_sw": [
+  "b37_shipyard_drydock_sw.png"
+ ],
+ "b38_shipyard_drydock_se": [
+  "b38_shipyard_drydock_se.png"
+ ],
+ "b39_desert_caravanserai_sw": [
+  "b39_desert_caravanserai_sw.png"
+ ],
+ "b40_desert_caravanserai_se": [
+  "b40_desert_caravanserai_se.png"
+ ],
+ "l31_pearl_diver_atoll": [
+  "l31_pearl_diver_atoll.png"
+ ],
+ "l32_desert_qanat_garden": [
+  "l32_desert_qanat_garden.png"
+ ],
+ "l33_chinese_junk_outrigger": [
+  "l33_chinese_junk_outrigger.png"
+ ],
+ "l34_ostrich_desert_savanna": [
+  "l34_ostrich_desert_savanna.png"
+ ],
+ "s35_farm_var1_wheat_scarecrow": [
+  "s35_farm_var1_wheat_scarecrow.png"
+ ],
+ "s36_farm_var2_lavender_distill": [
+  "s36_farm_var2_lavender_distill.png"
+ ],
+ "s37_farm_var3_pumpkin_melon": [
+  "s37_farm_var3_pumpkin_melon.png"
+ ],
+ "s38_farm_var4_apple_cider_press": [
+  "s38_farm_var4_apple_cider_press.png"
+ ],
+ "s39_farm_var5_tulip_stripes": [
+  "s39_farm_var5_tulip_stripes.png"
+ ],
+ "s40_farm_var6_kitchen_garden": [
+  "s40_farm_var6_kitchen_garden.png"
+ ],
+ "m47_coast_var1_breakwater_mole": [
+  "m47_coast_var1_breakwater_mole.png"
+ ],
+ "m48_coast_var2_tide_mill_sluice": [
+  "m48_coast_var2_tide_mill_sluice.png"
+ ],
+ "m49_coast_var3_white_chalk_cliff": [
+  "m49_coast_var3_white_chalk_cliff.png"
+ ],
+ "m50_coast_var4_basalt_causeway": [
+  "m50_coast_var4_basalt_causeway.png"
+ ],
+ "m51_coast_var5_smuggler_cove": [
+  "m51_coast_var5_smuggler_cove.png"
+ ],
+ "m52_coast_var6_red_sea_coral_quay": [
+  "m52_coast_var6_red_sea_coral_quay.png"
+ ],
+ "b41_pottery_kiln_sw": [
+  "b41_pottery_kiln_sw.png"
+ ],
+ "b42_pottery_kiln_se": [
+  "b42_pottery_kiln_se.png"
+ ],
+ "b43_nomad_yurt_sw": [
+  "b43_nomad_yurt_sw.png"
+ ],
+ "b44_nomad_yurt_se": [
+  "b44_nomad_yurt_se.png"
+ ],
+ "l35_arctic_aurora_station": [
+  "l35_arctic_aurora_station.png"
+ ],
+ "l36_savanna_baobab_waterhole": [
+  "l36_savanna_baobab_waterhole.png"
+ ],
+ "l37_giraffe_bactrian_camel": [
+  "l37_giraffe_bactrian_camel.png"
+ ],
+ "l38_potter_donkey_cart": [
+  "l38_potter_donkey_cart.png"
+ ],
+ "b45_clocktower_guildhall_sw": [
+  "b45_clocktower_guildhall_sw.png"
+ ],
+ "b46_clocktower_guildhall_se": [
+  "b46_clocktower_guildhall_se.png"
+ ],
+ "b47_winery_press_barn_sw": [
+  "b47_winery_press_barn_sw.png"
+ ],
+ "b48_winery_press_barn_se": [
+  "b48_winery_press_barn_se.png"
+ ],
+ "l39_monastery_cloister": [
+  "l39_monastery_cloister.png"
+ ],
+ "l40_underground_river_grotto": [
+  "l40_underground_river_grotto.png"
+ ],
+ "l41_wine_barrel_dray_falconer": [
+  "l41_wine_barrel_dray_falconer.png"
+ ],
+ "l42_monk_scribe_procession": [
+  "l42_monk_scribe_procession.png"
+ ],
+ "r31_road_var1_tollgate_guardhouse": [
+  "r31_road_var1_tollgate_guardhouse.png"
+ ],
+ "r32_road_var2_triumphal_boulevard": [
+  "r32_road_var2_triumphal_boulevard.png"
+ ],
+ "r33_road_var3_coaching_crossroads": [
+  "r33_road_var3_coaching_crossroads.png"
+ ],
+ "r34_road_var4_cherry_bell_shrine": [
+  "r34_road_var4_cherry_bell_shrine.png"
+ ],
+ "r35_road_var5_beacon_bastion_overlook": [
+  "r35_road_var5_beacon_bastion_overlook.png"
+ ],
+ "r36_road_var6_canal_willow_quay": [
+  "r36_road_var6_canal_willow_quay.png"
+ ],
+ "m53_sea_var1_bamboo_weir_cormorant": [
+  "m53_sea_var1_bamboo_weir_cormorant.png"
+ ],
+ "m54_sea_var2_sunken_temple_ruins": [
+  "m54_sea_var2_sunken_temple_ruins.png"
+ ],
+ "m55_sea_var3_basalt_stack_puffin_rookery": [
+  "m55_sea_var3_basalt_stack_puffin_rookery.png"
+ ],
+ "m56_sea_var4_floating_lantern_festival": [
+  "m56_sea_var4_floating_lantern_festival.png"
+ ],
+ "m57_sea_var5_sargasso_kelp_manta_ray": [
+  "m57_sea_var5_sargasso_kelp_manta_ray.png"
+ ],
+ "m58_sea_var6_geothermal_vent_pumice_shoal": [
+  "m58_sea_var6_geothermal_vent_pumice_shoal.png"
+ ],
+ "b49_amphitheater_stage_sw": [
+  "b49_amphitheater_stage_sw.png"
+ ],
+ "b50_amphitheater_stage_se": [
+  "b50_amphitheater_stage_se.png"
+ ],
+ "b51_waterworks_pump_house_sw": [
+  "b51_waterworks_pump_house_sw.png"
+ ],
+ "b52_waterworks_pump_house_se": [
+  "b52_waterworks_pump_house_se.png"
+ ],
+ "l43_glacial_ice_shrine": [
+  "l43_glacial_ice_shrine.png"
+ ],
+ "l44_terraced_tea_plantation": [
+  "l44_terraced_tea_plantation.png"
+ ],
+ "l45_steam_traction_jester_troupe": [
+  "l45_steam_traction_jester_troupe.png"
+ ],
+ "l46_tea_picker_masked_troupe": [
+  "l46_tea_picker_masked_troupe.png"
+ ],
+ "b53_glassblower_studio_sw": [
+  "b53_glassblower_studio_sw.png"
+ ],
+ "b54_glassblower_studio_se": [
+  "b54_glassblower_studio_se.png"
+ ],
+ "b55_desert_kasbah_sw": [
+  "b55_desert_kasbah_sw.png"
+ ],
+ "b56_desert_kasbah_se": [
+  "b56_desert_kasbah_se.png"
+ ],
+ "l47_nabataean_treasury_canyon": [
+  "l47_nabataean_treasury_canyon.png"
+ ],
+ "l48_alpine_stupa_prayer_flag": [
+  "l48_alpine_stupa_prayer_flag.png"
+ ],
+ "l49_tibetan_yak_tuareg_camel": [
+  "l49_tibetan_yak_tuareg_camel.png"
+ ],
+ "l50_glass_merchant_carts": [
+  "l50_glass_merchant_carts.png"
+ ]
+}

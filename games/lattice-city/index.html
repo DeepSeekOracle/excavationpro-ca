@@ -3,30 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,15 90,50 50,85 10,50' fill='%23141312'/></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><polygon points='50,15 90,50 50,85 10,50' fill='%23141312'/><polygon points='50,28 78,50 50,72 22,50' fill='%23f2c14e'/></svg>">
   <title>Lattice City | Excavationpro</title>
-  <meta name="description" content="Build a living isometric city, then expand into a 48x48 LYGO Endless district. 256 pixel tiles, presets, snapshot export, and a local legend score.">
+  <meta name="description" content="Lattice City is an endless isometric city builder: zone land, lay roads, keep the power and water running, and watch a hamlet grow into a metropolis on a 96x96 pixel map.">
+  <meta name="keywords" content="Lattice City, city builder, endless, isometric, pixel art, LYGO, Excavationpro, Justin Helmer, browser game">
+  <meta name="author" content="Justin Helmer / Excavationpro / Lightfather">
   <meta name="theme-color" content="#141312">
-  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://excavationpro.ca/games/lattice-city/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="chatagent.ca">
+  <meta property="og:site_name" content="Excavationpro">
+  <meta property="og:locale" content="en_CA">
   <meta property="og:url" content="https://excavationpro.ca/games/lattice-city/">
   <meta property="og:title" content="Lattice City">
-  <meta property="og:description" content="Build a living isometric city, then expand into a 48x48 LYGO Endless district. 256 pixel tiles. Local legend score.">
+  <meta property="og:description" content="An endless isometric city builder: zone, road, power, water, and a district that grows while you watch.">
   <meta property="og:image" content="https://excavationpro.ca/games/lattice-city/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Excavationpro">
   <meta name="twitter:title" content="Lattice City">
-  <meta name="twitter:description" content="Build a living isometric city, then expand into a 48x48 LYGO Endless district.">
+  <meta name="twitter:description" content="Endless isometric city builder. Zone land, lay roads, keep the lights on.">
   <meta name="twitter:image" content="https://excavationpro.ca/games/lattice-city/og.jpg">
-  
-  <script type="module" crossorigin src="./assets/index-BqpfSHLf.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DjMziVNJ.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Lattice City","url":"https://excavationpro.ca/games/lattice-city/","description":"An endless isometric city builder: zone land, lay roads, keep power and water running, and grow a hamlet into a metropolis.","image":"https://excavationpro.ca/games/lattice-city/og.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"genre":["City builder","Management","Strategy"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"}}</script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./city.css">
 </head>
 <body>
-  <div id="root"></div>
+<div id="app">
+  <header id="topbar">
+    <a class="brand" href="https://excavationpro.ca/">excavationpro.ca</a>
+    <div class="stat"><span>FUNDS</span><b id="ui-cash">$0</b></div>
+    <div class="stat"><span>PEOPLE</span><b id="ui-pop">0</b></div>
+    <div class="stat"><span>JOBS</span><b id="ui-jobs">0</b></div>
+    <div class="stat"><span>MOOD</span><b id="ui-mood">—</b></div>
+    <div class="clock" id="ui-date">Day 1</div>
+    <div class="spacer"></div>
+    <div class="demand" title="Demand: homes · shops · industry">
+      <span class="lbl">DEMAND</span>
+      <i class="bar r"><u id="ui-dem-r"></u></i>
+      <i class="bar c"><u id="ui-dem-c"></u></i>
+      <i class="bar i"><u id="ui-dem-i"></u></i>
+    </div>
+    <div class="speeds" id="ui-speeds">
+      <button data-speed="0" title="Pause">❚❚</button>
+      <button data-speed="1" class="on" title="1x">▶</button>
+      <button data-speed="2" title="2x">▶▶</button>
+      <button data-speed="4" title="4x">▶▶▶</button>
+    </div>
+    <button id="ui-sound" class="icon" title="Sound on or off">♪</button>
+    <button id="ui-help" class="icon" title="How to play">?</button>
+    <a class="brand small" href="https://excavationpro.ca/games/">All games</a>
+  </header>
 
+  <main id="stage">
+    <canvas id="map" aria-label="Lattice City isometric map"></canvas>
+
+    <aside id="palette">
+      <h2>Build</h2>
+      <div id="tools"></div>
+      <h3>District</h3>
+      <div class="meters">
+        <div class="meter"><span>Power</span><i><u id="ui-power"></u></i><b id="ui-power-t">0/0</b></div>
+        <div class="meter"><span>Water</span><i><u id="ui-water"></u></i><b id="ui-water-t">0/0</b></div>
+        <div class="meter"><span>Land value</span><i><u id="ui-value"></u></i><b id="ui-value-t">$0</b></div>
+      </div>
+      <h3>Next milestone</h3>
+      <p id="ui-goal" class="goal">Reach 50 people to unlock parks.</p>
+      <div class="row"><button id="ui-expand" class="wide" title="Buy the next ring of land">Expand district · $4,000</button></div>
+      <div class="row">
+        <button id="ui-save" class="wide">Save</button>
+        <button id="ui-load" class="wide">Load</button>
+        <button id="ui-new" class="wide">New map</button>
+      </div>
+      <p class="hint">Drag to paint · Space+drag or middle-drag to pan · wheel to zoom</p>
+    </aside>
+
+    <aside id="inspector" class="hidden">
+      <h2 id="ins-title">Tile</h2>
+      <div id="ins-body"></div>
+      <button id="ins-close" class="wide">Close</button>
+    </aside>
+
+    <div id="ticker"><span id="ticker-text">The district is quiet. Lay a road.</span></div>
+    <div id="toast"></div>
+
+    <div id="modal" class="hidden">
+      <div class="sheet">
+        <h2 id="modal-title">How to play</h2>
+        <div id="modal-body"></div>
+        <button id="modal-close" class="wide">Back to the city</button>
+      </div>
+    </div>
+  </main>
+
+  <section id="about">
+    <h3>About Lattice City</h3>
+    <p>Lattice City is an endless isometric city builder in the browser. Zone land for homes, shops and workshops, connect it with roads, keep power and water flowing, and the district grows on its own: buildings rise, people move in, and the budget starts to matter. The map starts at 96×96 tiles and can be expanded ring by ring, so a hamlet can become a sprawl. Everything runs locally: your city saves in this browser, and a snapshot gives you a PNG of the district.</p>
+    <p>Built by <a href="https://excavationpro.ca/about.html">Justin Helmer</a> · part of the <a href="https://excavationpro.ca/games/">Excavationpro games</a> shelf · also try <a href="https://excavationpro.ca/games/lattice-arena/">Lattice Arena</a> and <a href="https://excavationpro.ca/games/lattice-crypt/">Lattice Crypt</a>.</p>
+  </section>
+</div>
+<script src="./city.js"></script>
 </body>
 </html>
