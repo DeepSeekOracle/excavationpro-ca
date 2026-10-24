@@ -94,11 +94,12 @@
     return keys[Math.floor(hash2(rx * 7 + 3, ry * 11 + 5) * keys.length) % keys.length];
   }
 
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock"];
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
     dock: "c08_river_quay_dock",
+    rail: "b17_twin_gatehouse",
   };
   const SVC_RULE = {
     park: { radius: 4, value: 4, upkeep: 2 },
@@ -108,6 +109,7 @@
     school: { radius: 8, value: 10, upkeep: 12 },
     monument: { radius: 12, value: 30, upkeep: 20 },
     dock: { radius: 0, upkeep: 6 },
+    rail: { radius: 0, upkeep: 16 },
   };
 
   const TOOLS = [
@@ -119,6 +121,7 @@
     { id: "water", name: "Water mill", cost: 480, hint: "water radius", service: "water" },
     { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
     { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
+    { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
     { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -390,6 +393,21 @@
       });
     });
 
+    // rail: two neighbouring regions with depots are joined by track, which is
+    // the strongest link in the game and ignores the road network entirely
+    list.forEach((r) => {
+      r.rails = 0;
+      for (let i = 0; i < RS * RS; i++) if (SVC[r.svc[i]] === "rail") r.rails++;
+    });
+    list.forEach((r) => {
+      [[1, 0], [0, 1]].forEach(([dx, dy]) => {
+        const nb = byKey[regionKey(r.rx + dx, r.ry + dy)];
+        if (!nb || !r.rails || !nb.rails) return;
+        if (S.links.some((l) => l.kind === "rail" && ((l.a === r && l.b === nb) || (l.a === nb && l.b === r)))) return;
+        S.links.push({ a: r, b: nb, strength: 7, kind: "rail" });
+      });
+    });
+
     list.forEach((r) => { r.access = r.jobs; });
     S.links.forEach((l) => {
       const share = 0.75 * Math.min(1, l.strength / 6);
@@ -619,6 +637,28 @@
     return out;
   }
 
+  function railCentres() {
+    const out = [];
+    claimedList().forEach((r) => {
+      let sx = 0, sy = 0, n = 0;
+      for (let i = 0; i < RS * RS; i++) {
+        if (SVC[r.svc[i]] === "rail") { sx += i % RS; sy += (i / RS) | 0; n++; }
+      }
+      if (n) out.push({ r, x: r.rx * RS + sx / n, y: r.ry * RS + sy / n, n });
+    });
+    return out;
+  }
+
+  function spawnTrain() {
+    const depots = railCentres();
+    const track = S.links.filter((l) => l.kind === "rail");
+    if (!track.length || depots.length < 2) return null;
+    const link = track[(Math.random() * track.length) | 0];
+    const a = depots.find((d) => d.r === link.a), b = depots.find((d) => d.r === link.b);
+    if (!a || !b) return null;
+    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.06, 0.11) };
+  }
+
   function spawnFerry() {
     const docks = dockCentres();
     if (docks.length < 2) return null;
@@ -677,6 +717,16 @@
       if (!b) break;
       S.boats.push(b);
     }
+    S.trains = S.trains || [];
+    const wantTrains = S.links.filter((l) => l.kind === "rail").length;
+    let trainGuard = 0;
+    while (S.trains.length < wantTrains && trainGuard++ < 12) {
+      const t = spawnTrain();
+      if (!t) break;
+      S.trains.push(t);
+    }
+    if (S.trains.length > wantTrains) S.trains.length = wantTrains;
+
     S.ferries = S.ferries || [];
     const wantFerries = S.links.filter((l) => l.kind === "ferry").length;
     let ferryGuard = 0;
@@ -812,6 +862,13 @@
           if (ok.length) { const [dx, dy] = ok[(Math.random() * ok.length) | 0]; b.x += dx; b.y += dy; b.dir = dx === 1 ? 0 : dy === 1 ? 1 : dx === -1 ? 2 : 3; }
           else b.t = Math.random();
         }
+      });
+    }
+    if (S.trains) {
+      S.trains.forEach((t) => {
+        t.t += dt * sim * t.speed * t.dir;
+        if (t.t > 1) { t.t = 1; t.dir = -1; }
+        if (t.t < 0) { t.t = 0; t.dir = 1; }
       });
     }
     if (S.ferries) {
@@ -1015,9 +1072,68 @@
       ctx.restore();
     });
 
+    // rail: sleepers between depots, then the trains on them
+    const railLines = S.links.filter((l) => l.kind === "rail");
+    const depots = railLines.length ? railCentres() : [];
+    railLines.forEach((l) => {
+      const a = depots.find((d) => d.r === l.a), b = depots.find((d) => d.r === l.b);
+      if (!a || !b) return;
+      const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
+      const ax = pa.x + zw / 2, ay = pa.y + zh / 2, bx = pb.x + zw / 2, by = pb.y + zh / 2;
+      const dx = bx - ax, dy = by - ay;
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len, uy = dy / len;
+      ctx.strokeStyle = "rgba(60,52,44,.75)";
+      ctx.lineWidth = Math.max(1.5, 2.4 * cam.zoom);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+      ctx.strokeStyle = "rgba(190,175,150,.55)";
+      ctx.lineWidth = Math.max(1, 1.2 * cam.zoom);
+      const sleepers = Math.min(60, Math.floor(len / (10 * cam.zoom)));
+      for (let i = 1; i < sleepers; i++) {
+        const px = ax + ux * (len * i / sleepers), py = ay + uy * (len * i / sleepers);
+        ctx.beginPath();
+        ctx.moveTo(px - uy * 4 * cam.zoom, py + ux * 4 * cam.zoom);
+        ctx.lineTo(px + uy * 4 * cam.zoom, py - ux * 4 * cam.zoom);
+        ctx.stroke();
+      }
+    });
+
+    (S.trains || []).forEach((tr) => {
+      const ax = tileToScreen(tr.ax, tr.ay), bx = tileToScreen(tr.bx, tr.by);
+      const x0 = ax.x + zw / 2, y0 = ax.y + zh / 2, x1 = bx.x + zw / 2, y1 = bx.y + zh / 2;
+      const ang = Math.atan2(y1 - y0, x1 - x0);
+      const t = tr.t;
+      const px = x0 + (x1 - x0) * t, py = y0 + (y1 - y0) * t;
+      const L = Math.max(8, 26 * cam.zoom), W = Math.max(3, 7 * cam.zoom);
+      const dirSign = tr.dir >= 0 ? 1 : -1;
+      for (let car = 0; car < 3; car++) {
+        const off = (car - 1) * L * 0.95 * dirSign;
+        ctx.save();
+        ctx.translate(px + Math.cos(ang) * off, py + Math.sin(ang) * off);
+        ctx.rotate(ang);
+        ctx.fillStyle = "rgba(0,0,0,.35)";
+        ctx.fillRect(-L / 2, -W / 2 + W * 0.7, L, Math.max(1.5, W * 0.4));
+        ctx.fillStyle = car === 0 ? "#7a3b2e" : "#3f4a52";
+        ctx.fillRect(-L / 2, -W / 2, L, W);
+        ctx.fillStyle = "rgba(210,225,240,.7)";
+        ctx.fillRect(-L * 0.34, -W / 2 + W * 0.18, L * 0.24, W * 0.42);
+        if (car === 0) {
+          ctx.fillStyle = "#241d18";
+          ctx.fillRect(-L * 0.05, -W * 1.25, L * 0.14, W * 0.8);
+          if (night > 0.2) {
+            ctx.fillStyle = "rgba(255,236,170,.95)";
+            ctx.fillRect(L * 0.4, -W * 0.3, Math.max(1, 1.8 * cam.zoom), Math.max(1, 1.6 * cam.zoom));
+          }
+        }
+        ctx.restore();
+      }
+    });
+
     // ferry routes: a dotted line between the two docks, so the water link is visible
-    S.links.filter((l) => l.kind === "ferry").forEach((l) => {
-      const docks = dockCentres();
+    const ferryLines = S.links.filter((l) => l.kind === "ferry");
+    const docks = ferryLines.length ? dockCentres() : [];
+    ferryLines.forEach((l) => {
+      if (!docks.length) return;
       const a = docks.find((d) => d.r === l.a), b = docks.find((d) => d.r === l.b);
       if (!a || !b) return;
       const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
@@ -1146,8 +1262,8 @@
     S.links.forEach((l) => {
       const ax = MM_PAD + l.a.rx * cw, ay = MM_PAD + l.a.ry * ch;
       const bx = MM_PAD + l.b.rx * cw, by = MM_PAD + l.b.ry * ch;
-      mctx.strokeStyle = l.kind === "ferry" ? "rgba(114,224,209,.95)" : "rgba(242,193,78,.9)";
-      mctx.lineWidth = 2;
+      mctx.strokeStyle = l.kind === "ferry" ? "rgba(114,224,209,.95)" : l.kind === "rail" ? "rgba(214,196,160,.95)" : "rgba(242,193,78,.9)";
+      mctx.lineWidth = l.kind === "rail" ? 2.5 : 2;
       if (l.kind === "ferry") mctx.setLineDash([3, 3]);
       mctx.beginPath();
       mctx.moveTo(ax + cw / 2, ay + ch / 2);
@@ -1187,6 +1303,7 @@
     if (t.id === "road") return terr !== TERRAIN.WATER;
     if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
     if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
+    if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
     if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
     return true;
   }
@@ -1222,6 +1339,7 @@
     } else if (t.service) {
       if (r.svc[i]) return false;
       if (t.service === "dock" && r.terrain[i] !== TERRAIN.WATER) return false;
+      if (t.service === "rail" && r.terrain[i] === TERRAIN.WATER) return false;
       r.svc[i] = SVC.indexOf(t.service);
       recomputeRegion(r);
       sfx("place");
@@ -1292,7 +1410,7 @@
       ["Mood", Math.round(r.mood) + "%"],
       ["Buildings", built + " (" + homes + " home, " + shops + " shop, " + works + " works)"],
       ["Roads", String(roads)],
-      ["Border links", links.length ? links.map((l) => (l.a === r ? l.b : l.a).name || "neighbour").join(", ") : "none"],
+      ["Links", links.length ? links.map((l) => (l.kind === "rail" ? "rail to " : l.kind === "ferry" ? "ferry to " : "road to ") + ((l.a === r ? l.b : l.a).name || "neighbour")).join(", ") : "none"],
       ["Upkeep", money(r.upkeep || 0) + " / day"],
     ];
     el("ins-title").textContent = (r.name || "Region") + " " + r.rx + "," + r.ry;
@@ -1555,7 +1673,7 @@
         S.regions[regionKey(r.rx, r.ry)] = reg;
         recomputeRegion(reg);
       });
-      S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = [];
+      S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = []; S.trains = [];
       S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
       refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
