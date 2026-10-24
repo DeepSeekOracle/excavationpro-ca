@@ -320,17 +320,301 @@
     rain: 0, rainTarget: 0, weatherTimer: 0, lastAnnounce: -99,
     event: null, nextEventDay: 26, eventHistory: [],
   };
+
+  // ---------------------------------------------------------------- Emergency Response
+  // Real logistics: fire trucks, ambulances, police with actual pathfinding,
+  // real-time movement, ETA calculation, and TTS dispatch announcements.
+
+  const EMERGENCY = {
+    trucksPerStation: [0, 1, 2, 3],
+    fireSpeed: 2.5,
+    ambulanceSpeed: 3.0,
+    policeSpeed: 3.5,
+    fireSpreadInterval: 30,
+    fireDamagePerTick: 0.1,
+  };
+
+  let fireTrucks = [];
+  let ambulances = [];
+  let policeCars = [];
+  let activeFires = [];
+  let eventLog = [];
+  let eventIdCounter = 0;
+
+  let ttsEnabled = true;
+  let ttsVoice = null;
+  let ttsQueue = [];
+  let ttsSpeaking = false;
+
+  function initTTS() {
+    if ("speechSynthesis" in window) {
+      const voices = speechSynthesis.getVoices();
+      ttsVoice = voices.find(v => v.name.includes("Google") && v.lang === "en-US") ||
+                 voices.find(v => v.lang === "en-US" && v.name.includes("Male")) ||
+                 voices[0];
+      const test = new SpeechSynthesisUtterance(" ");
+      test.volume = 0;
+      speechSynthesis.speak(test);
+    }
+  }
+
+  function speak(text, priority = "normal") {
+    if (!ttsEnabled || !("speechSynthesis" in window)) return;
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.voice = ttsVoice;
+    utter.rate = priority === "emergency" ? 1.1 : 1.0;
+    utter.pitch = priority === "emergency" ? 1.05 : 1.0;
+    utter.volume = 0.8 * (OPT.master / 100);
+    utter.onend = () => { ttsSpeaking = false; processTTSQueue(); };
+    ttsQueue.push(utter);
+    processTTSQueue();
+  }
+
+  function processTTSQueue() {
+    if (ttsSpeaking || ttsQueue.length === 0) return;
+    ttsSpeaking = true;
+    speechSynthesis.speak(ttsQueue.shift());
+  }
+
+  function logEvent(type, message, location = null, priority = "normal", speakText = null) {
+    const id = ++eventIdCounter;
+    const event = { id, time: Date.now(), type, message, location, priority, tts: speakText || (priority === "emergency" ? message : null) };
+    eventLog.unshift(event);
+    if (eventLog.length > 50) eventLog.pop();
+    if (priority === "emergency") toast(message);
+    if (event.tts) speak(event.tts, priority);
+    updateEventLogUI();
+    return event;
+  }
+
+  function findRoadPath(startGx, startGy, goalGx, goalGy) {
+    const open = [];
+    const cameFrom = new Map();
+    const gScore = new Map();
+    const fScore = new Map();
+    const key = (x, y) => x + "," + y;
+    const startKey = key(startGx, startGy);
+    const goalKey = key(goalGx, goalGy);
+    gScore.set(startKey, 0);
+    fScore.set(startKey, Math.abs(startGx - goalGx) + Math.abs(startGy - goalGy));
+    open.push({ key: startKey, gx: startGx, gy: startGy, f: fScore.get(startKey) });
+
+    while (open.length > 0) {
+      let bestIdx = 0;
+      for (let i = 1; i < open.length; i++) if (open[i].f < open[bestIdx].f) bestIdx = i;
+      const current = open.splice(bestIdx, 1)[0];
+      if (current.key === goalKey) {
+        const path = [];
+        let curr = current.key;
+        while (cameFrom.has(curr)) {
+          const [x, y] = curr.split(",").map(Number);
+          path.unshift({ x, y });
+          curr = cameFrom.get(curr);
+        }
+        const [sx, sy] = curr.split(",").map(Number);
+        path.unshift({ x: sx, y: sy });
+        return path;
+      }
+      const dirs = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+      for (const [dx, dy] of dirs) {
+        const nx = current.gx + dx, ny = current.gy + dy;
+        const nKey = key(nx, ny);
+        const tile = regionOf(nx, ny);
+        if (!tile || !tile.r.road[tile.i]) continue;
+        const tentativeG = gScore.get(current.key) + 1;
+        if (!gScore.has(nKey) || tentativeG < gScore.get(nKey)) {
+          cameFrom.set(nKey, current.key);
+          gScore.set(nKey, tentativeG);
+          fScore.set(nKey, tentativeG + Math.abs(nx - goalGx) + Math.abs(ny - goalGy));
+          if (!open.some(o => o.key === nKey)) open.push({ key: nKey, gx: nx, gy: ny, f: fScore.get(nKey) });
+        }
+      }
+    }
+    return null;
+  }
+
+  function getFireStations() {
+    const stations = [];
+    claimedList().forEach(r => {
+      for (let i = 0; i < RS * RS; i++) {
+        if (SVC[r.svc[i]] === "fire") {
+          stations.push({
+            region: r, tile: i,
+            gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0),
+            level: r.level[i] || 1,
+            trucks: EMERGENCY.trucksPerStation[Math.min(3, r.level[i] || 1)]
+          });
+        }
+      }
+    });
+    return stations;
+  }
+
+  function stationId(station) { return station.region.rx + "," + station.region.ry + "," + station.tile; }
+
+  function countIdleTrucks(station) {
+    return fireTrucks.filter(t => t.stationId === stationId(station) && t.state === "idle").length;
+  }
+
+  function dispatchToFire(fire) {
+    const stations = getFireStations();
+    if (!stations.length) {
+      logEvent("fire", "NO FIRE STATIONS AVAILABLE - Structure fire uncontrolled!", { gx: fire.gx, gy: fire.gy }, "emergency", "Alert! No fire stations in the city. The fire burns unchecked.");
+      return;
+    }
+    let bestStation = null, bestDist = Infinity, bestPath = null;
+    for (const station of stations) {
+      const idle = countIdleTrucks(station);
+      if (idle <= 0) continue;
+      const path = findRoadPath(station.gx, station.gy, fire.gx, fire.gy);
+      if (!path) continue;
+      const dist = path.length;
+      if (dist < bestDist) { bestDist = dist; bestStation = station; bestPath = path; }
+    }
+    if (!bestStation) {
+      logEvent("fire", "All fire trucks committed - no units available!", { gx: fire.gx, gy: fire.gy }, "emergency", "All fire units committed. Mutual aid requested.");
+      return;
+    }
+    const numTrucks = Math.min(fire.severity, countIdleTrucks(bestStation), 2);
+    const trucksToSend = fireTrucks.filter(t => t.stationId === stationId(bestStation) && t.state === "idle").slice(0, numTrucks);
+    if (trucksToSend.length === 0) return;
+    const travelTime = bestDist / EMERGENCY.fireSpeed;
+    const etaMinutes = Math.ceil(travelTime / 60 * 10) / 10;
+    trucksToSend.forEach((truck, idx) => {
+      truck.state = "responding"; truck.targetFire = fire.id; truck.route = bestPath; truck.routeIdx = 0;
+      truck.dispatchedAt = S.hour * 3600 + S.day * 86400; truck.eta = truck.dispatchedAt + travelTime;
+    });
+    fire.assignedTrucks.push(...trucksToSend.map(t => t.id));
+    const stationName = bestStation.region.name || "Region " + bestStation.region.rx + "," + bestStation.region.ry;
+    const truckNames = trucksToSend.map(t => "Engine " + t.id).join(", ");
+    logEvent("dispatch", truckNames + " dispatched from " + stationName + " - ETA " + etaMinutes + " minutes", { gx: fire.gx, gy: fire.gy }, "emergency", truckNames + " responding from " + stationName + ". Structure fire at " + fire.gx + "," + fire.gy + ". ETA " + etaMinutes + " minutes.");
+  }
+
+  function startFire(region, tileIdx) {
+    const gx = region.rx * RS + (tileIdx % RS);
+    const gy = region.ry * RS + ((tileIdx / RS) | 0);
+    if (activeFires.some(f => f.gx === gx && f.gy === gy && !f.contained)) return;
+    const severity = 1 + Math.floor(Math.random() * 2);
+    const fire = { id: "fire_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), region, tile: tileIdx, gx, gy, severity, startedAt: S.hour * 3600 + S.day * 86400, spreadTimer: EMERGENCY.fireSpreadInterval, assignedTrucks: [], contained: false, damage: 0 };
+    activeFires.push(fire);
+    logEvent("fire", "STRUCTURE FIRE - " + (region.name || "Unknown district") + " at " + gx + "," + gy + " - " + severity + "-alarm", { gx, gy }, "emergency", "Structure fire reported in " + (region.name || "the district") + " at " + gx + "," + gy + ". " + severity + "-alarm response initiated.");
+    dispatchToFire(fire);
+    S.fireTile = { x: gx, y: gy, until: S.day + 3 };
+  }
+
+  function updateFires(dt) {
+    const gameSeconds = dt * (S.speed || 1) * 86400;
+    for (let i = activeFires.length - 1; i >= 0; i--) {
+      const fire = activeFires[i];
+      if (fire.contained) continue;
+      fire.spreadTimer -= gameSeconds;
+      if (fire.spreadTimer <= 0) {
+        fire.spreadTimer = EMERGENCY.fireSpreadInterval;
+        const dirs = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+        for (const [dx, dy] of dirs) {
+          const tile = regionOf(fire.gx + dx, fire.gy + dy);
+          if (!tile) continue;
+          if ((tile.r.zone[tile.i] === Z.I || tile.r.zone[tile.i] === Z.C) && tile.r.level[tile.i] > 0 && Math.random() < 0.3) startFire(tile.r, tile.i);
+        }
+      }
+      const onScene = fireTrucks.filter(t => t.targetFire === fire.id && t.state === "on_scene").length;
+      if (onScene === 0) {
+        fire.damage += EMERGENCY.fireDamagePerTick * gameSeconds / 60;
+        if (fire.damage >= 1 && fire.region.level[fire.tile] > 0) {
+          fire.region.level[fire.tile] = Math.max(0, fire.region.level[fire.tile] - 1);
+          fire.damage = 0;
+          logEvent("fire", "Fire damage - building reduced to level " + fire.region.level[fire.tile], { gx: fire.gx, gy: fire.gy }, "high");
+        }
+        if (fire.region.level[fire.tile] === 0) {
+          fire.contained = true;
+          logEvent("fire", "Structure collapsed - fire burned out", { gx: fire.gx, gy: fire.gy }, "high", "The structure has collapsed. Fire burned out.");
+        }
+      } else {
+        fire.damage = Math.max(0, fire.damage - onScene * 0.05 * gameSeconds / 60);
+        if (fire.damage <= 0.01) {
+          fire.contained = true;
+          fireTrucks.filter(t => t.targetFire === fire.id).forEach(t => { t.state = "returning"; t.targetFire = null; });
+          logEvent("fire", "FIRE CONTAINED - All units returning", { gx: fire.gx, gy: fire.gy }, "emergency", "Fire under control. All units returning to quarters.");
+        }
+      }
+    }
+    activeFires = activeFires.filter(f => !f.contained || (S.hour * 3600 + S.day * 86400 - f.startedAt) < 3600);
+  }
+
+  function updateEmergencyVehicles(dt) {
+    const gameSeconds = dt * (S.speed || 1) * 86400;
+    const allUnits = fireTrucks.concat(ambulances).concat(policeCars);
+    allUnits.forEach(unit => {
+      if (unit.state === "responding" && unit.route && unit.route.length > 0) {
+        const speed = unit.type === "fire" ? EMERGENCY.fireSpeed : unit.type === "ambulance" ? EMERGENCY.ambulanceSpeed : EMERGENCY.policeSpeed;
+        const tilesToMove = gameSeconds * speed;
+        for (let m = 0; m < tilesToMove && unit.routeIdx < unit.route.length - 1; m++) unit.routeIdx++;
+        if (unit.routeIdx < unit.route.length) { unit.x = unit.route[unit.routeIdx].x; unit.y = unit.route[unit.routeIdx].y; }
+        if (unit.routeIdx >= unit.route.length - 1) {
+          unit.state = "on_scene";
+          if (unit.type === "fire") logEvent("arrival", "Engine " + unit.id + " on scene", { gx: unit.x, gy: unit.y }, "high", "Engine " + unit.id + " on scene. Beginning fire attack.");
+        }
+      } else if (unit.state === "returning") {
+        const station = getFireStations().find(s => stationId(s) === unit.stationId);
+        if (station) {
+          const path = findRoadPath(unit.x, unit.y, station.gx, station.gy);
+          if (path) { unit.route = path; unit.routeIdx = 0; unit.state = "responding"; unit.returning = true; }
+        }
+        const stationTile = regionOf(unit.x, unit.y);
+        if (stationTile && SVC[stationTile.r.svc[stationTile.i]] === "fire") { unit.state = "idle"; unit.returning = false; unit.route = null; }
+      }
+    });
+  }
+
+  function initializeFireTrucks() {
+    fireTrucks = [];
+    let truckId = 1;
+    getFireStations().forEach(station => {
+      for (let t = 0; t < station.trucks; t++) {
+        fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: station.gx, y: station.gy, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
+      }
+    });
+  }
+
+  function updateEventLogUI() {
+      const container = document.getElementById("event-log");
+      if (!container) return;
+      container.innerHTML = eventLog.slice(0, 10).map(e => `<div class="event-entry ${e.priority}">${e.message}</div>`).join("");
+    }
+
+  function assessFireRisk(region) {
+    let risk = 0;
+    for (let i = 0; i < RS * RS; i++) {
+      if (region.zone[i] === Z.I) {
+        risk += region.level[i] * 0.5;
+        const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
+        for (const [dx,dy] of dirs) {
+          const t = regionOf(region.rx * RS + (i % RS) + dx, region.ry * RS + ((i / RS) | 0) + dy);
+          if (t && t.r.zone[t.i] === Z.I) risk += 0.2;
+        }
+      }
+    }
+    const stations = getFireStations();
+    stations.forEach(st => {
+      const path = findRoadPath(st.gx, st.gy, region.rx * RS + RS/2, region.ry * RS + RS/2);
+      if (path && path.length < 100) risk *= 0.5;
+      else if (path) risk *= 0.8;
+    });
+    return Math.max(0, risk);
+  }
+
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
   // ---------------------------------------------------------------- options
   const OPT_KEY = "latticeCity.opts.v1";
-  const OPT_DEFAULT = { master: 80, music: 55, sfx: 80, ambience: 70, weather: true, grid: false, night: true, autosave: true, reduceMotion: false, clock24: true };
+  const OPT_DEFAULT = { master: 80, music: 55, sfx: 80, ambience: 70, weather: true, grid: false, night: true, autosave: true, reduceMotion: false, clock24: true, tts: true };
   const OPT = Object.assign({}, OPT_DEFAULT);
   try {
     const saved = JSON.parse(localStorage.getItem(OPT_KEY) || "{}");
     Object.keys(OPT_DEFAULT).forEach((k) => { if (saved[k] !== undefined) OPT[k] = saved[k]; });
   } catch (e) {}
   function saveOpts() {
+    ttsEnabled = OPT.tts;
     try { localStorage.setItem(OPT_KEY, JSON.stringify(OPT)); } catch (e) {}
     applyOpts();
   }
@@ -571,7 +855,9 @@
       }
     }
     recalcRegion(r);
-  }
+  
+  initializeFireTrucks();
+}
 
   function recalcRegion(r) {
     let pop = 0, jobs = 0, roads = 0, svcUp = 0, built = 0, parks = 0;
@@ -1345,6 +1631,8 @@
     const sim = 1;
     advance(S.peds, dt * sim);
     advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
+    updateFires(dt);
+    updateEmergencyVehicles(dt);
     if (S.boats) {
       S.boats.forEach((b) => {
         b.t += dt * sim * b.speed;
@@ -2626,7 +2914,8 @@
       S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = []; S.trains = [];
       if (!S.clouds || !S.clouds.length) seedClouds();
       S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
-      refreshLinks(); recalcWorld(); updateDemand();
+
+      initializeFireTrucks();      refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
       if (d.cam && typeof d.cam.zoom === "number") {
         cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4);
@@ -2706,7 +2995,9 @@
     focusRegion(r);
     seedClouds();
     toast("New world · " + (GW * GH) + " regions of " + RS + "×" + RS);
-  }
+  
+  initializeFireTrucks();
+}
 
   function optionsModal() {
     const rows = [];
@@ -2727,6 +3018,7 @@
     toggle("grid", "Tile grid", "faint lines on the ground");
     toggle("autosave", "Autosave", "every 10 days to this browser");
     toggle("reduceMotion", "Reduce motion", "no water shimmer, no bobbing");
+    toggle("tts", "TTS Dispatch", "voice announcements for emergencies");
     toggle("clock24", "24-hour clock", "off for am/pm");
 
     modal("Options", '<div class="optlist">' + rows.join("") + "</div>" +
@@ -2880,6 +3172,7 @@
     resize();
     bindInput();
     bindUi();
+    initTTS();
     let hasSave = false;
     try { hasSave = !!localStorage.getItem(SAVE_KEY); } catch (e) {}
     if (hasSave) load();

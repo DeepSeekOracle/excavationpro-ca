@@ -28,6 +28,16 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Lattice City","url":"https://excavationpro.ca/games/lattice-city/","description":"An endless isometric city builder: zone land, lay roads, keep power and water running, and grow a hamlet into a metropolis.","image":"https://excavationpro.ca/games/lattice-city/og.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"genre":["City builder","Management","Strategy"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"}}</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./city.css">
+  <style>
+    .event-log { position: absolute; bottom: 120px; left: 12px; right: 12px; max-height: 150px; overflow-y: auto; background: rgba(10,9,8,.9); border: 1px solid rgba(242,193,78,.3); border-radius: 4px; padding: 6px 8px; font: 11px/1.4 monospace; color: #e8dcc8; z-index: 10; pointer-events: none; }
+    .event-entry { margin: 2px 0; padding: 2px 6px; border-radius: 3px; animation: fadeIn 0.3s; }
+    .event-entry.emergency { background: rgba(226,88,60,.25); border-left: 3px solid #e2583c; }
+    .event-entry.high { background: rgba(242,193,78,.2); border-left: 3px solid #f2c14e; }
+    .event-entry.fire { background: rgba(226,88,60,.15); }
+    .event-entry.dispatch { background: rgba(111,191,115,.2); border-left: 3px solid #6fbf73; }
+    .event-entry.arrival { background: rgba(100,200,255,.2); border-left: 3px solid #64c8ff; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
 </head>
 <body>
 <audio id="radioEl" preload="none"></audio>
@@ -112,6 +122,7 @@
     </div>
 
     <div id="ticker"><span id="ticker-text">The district is quiet. Lay a road.</span></div>
+    <div id="event-log" class="event-log"></div>
     <div id="toast"></div>
 
     <div id="modal" class="hidden">
