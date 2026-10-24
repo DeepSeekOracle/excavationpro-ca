@@ -67,7 +67,170 @@
       C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b14_town_hall"]],
       I: [["b05_watermill"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
     },
-  };
+  }
+
+  // ---------------------------------------------------------------- landmarks
+  // Major landmarks that give each region a distinct silhouette.
+  // Placed at generation time on suitable terrain.
+  const LANDMARKS = [
+    // Water/coastal landmarks
+    { key: "l01_harbor_estuary_seagate", terrains: [3], coast: true, weight: 1 },
+    { key: "l02_coastal_sea_arch_cliff", terrains: [3, 4], coast: true, weight: 1 },
+    { key: "l04_bamboo_torii_sanctuary", terrains: [0, 1], weight: 2 },
+    { key: "l05_desert_pyramid_ruin", terrains: [2], weight: 1 },
+    { key: "l06_savanna_acacia_waterhole", terrains: [0], weight: 2 },
+    { key: "l07_wildlife_dolphins", terrains: [3], weight: 2 },
+    { key: "l08_wildlife_whale", terrains: [3], weight: 1 },
+    { key: "l09_wildlife_sea_turtles", terrains: [3, 2], coast: true, weight: 2 },
+    { key: "l10_wildlife_pelagic_pod", terrains: [3], weight: 1 },
+    { key: "l11_volcanic_caldera_island", terrains: [3, 4], weight: 1 },
+    { key: "l12_geothermal_hotspring_onsen", terrains: [4, 5], weight: 2 },
+    { key: "l13_wildlife_flamingos", terrains: [3, 2], coast: true, weight: 2 },
+    { key: "l14_wildlife_pelicans", terrains: [3, 2], coast: true, weight: 2 },
+    { key: "l15_wildlife_arctic_foxes", terrains: [4, 5], weight: 1 },
+    { key: "l16_cypress_marsh_boardwalk", terrains: [3, 0], coast: true, weight: 2 },
+    { key: "l17_coastal_tidal_saltworks", terrains: [2, 3], coast: true, weight: 2 },
+    { key: "l18_heron_alligator_marsh", terrains: [3, 0], coast: true, weight: 1 },
+    { key: "l19_gondola_lagoon_fleet", terrains: [3], weight: 1 },
+    { key: "l20_coastal_wharf_boathouse", terrains: [3], coast: true, weight: 2 },
+    { key: "l21_terraced_rice_paddy", terrains: [0], weight: 2 },
+    { key: "l22_crystal_cavern_mine", terrains: [4, 5], weight: 1 },
+    { key: "l23_royal_coach_procession", terrains: [0], weight: 1 },
+    { key: "l24_water_buffalo_peacock", terrains: [0], weight: 1 },
+    { key: "l25_highland_cattle_pasture", terrains: [0, 4], weight: 2 },
+    { key: "l26_husky_dog_sled_trail", terrains: [4, 5], weight: 1 },
+    { key: "l27_ancient_ruined_aqueduct", terrains: [0, 4], weight: 1 },
+    { key: "l28_log_boom_millpond", terrains: [3], coast: true, weight: 2 },
+    { key: "l29_ox_logging_wagon_bear", terrains: [1], weight: 1 },
+    { key: "l30_town_crier_plaza", terrains: [0], weight: 2 },
+    { key: "l31_pearl_diver_atoll", terrains: [3], weight: 1 },
+    { key: "l32_desert_qanat_garden", terrains: [2], weight: 2 },
+    { key: "l33_chinese_junk_outrigger", terrains: [3], weight: 1 },
+    { key: "l34_ostrich_desert_savanna", terrains: [2, 0], weight: 1 },
+    { key: "l35_arctic_aurora_station", terrains: [4, 5], weight: 1 },
+    { key: "l36_savanna_baobab_waterhole", terrains: [0], weight: 2 },
+    { key: "l37_giraffe_bactrian_camel", terrains: [2, 0], weight: 1 },
+    { key: "l38_potter_donkey_cart", terrains: [0], weight: 2 },
+    { key: "l39_monastery_cloister", terrains: [0, 4], weight: 1 },
+    { key: "l40_underground_river_grotto", terrains: [4, 5], weight: 1 },
+    { key: "l41_wine_barrel_dray_falconer", terrains: [0], weight: 2 },
+    { key: "l42_monk_scribe_procession", terrains: [0, 1], weight: 1 },
+    { key: "l43_glacial_ice_shrine", terrains: [4, 5], weight: 1 },
+    { key: "l44_terraced_tea_plantation", terrains: [0, 1], weight: 2 },
+    { key: "l45_steam_traction_jester_troupe", terrains: [0], weight: 1 },
+    { key: "l46_tea_picker_masked_troupe", terrains: [0, 1], weight: 1 },
+    { key: "l47_nabataean_treasury_canyon", terrains: [4, 2], weight: 1 },
+    { key: "l48_alpine_stupa_prayer_flag", terrains: [4, 5], weight: 1 },
+    { key: "l49_tibetan_yak_tuareg_camel", terrains: [4, 5], weight: 1 },
+    { key: "l50_glass_merchant_carts", terrains: [0], weight: 2 },
+  ];
+
+  // Landmark placement: each region gets 1-3 landmarks based on its terrain
+  function placeLandmarks(r) {
+    r.landmarks = [];
+    if (!r.theme) return;
+
+    // Determine candidate landmarks for this region's terrain mix
+    let water = 0, forest = 0, rock = 0, sand = 0, mountain = 0;
+    for (let i = 0; i < RS * RS; i++) {
+      const t = r.terrain[i];
+      if (t === 3) water++;
+      else if (t === 1) forest++;
+      else if (t === 4) rock++;
+      else if (t === 2) sand++;
+      else if (t === 5) mountain++;
+    }
+
+    const terrainCounts = {
+      0: RS * RS - water - forest - rock - sand - mountain,
+      1: forest,
+      2: sand,
+      3: water,
+      4: rock,
+      5: mountain,
+    };
+
+    // Filter landmarks that match this region's terrain
+    const candidates = LANDMARKS.filter((lm) => {
+      return lm.terrains.some((t) => terrainCounts[t] > RS * RS * 0.02);
+    });
+
+    if (!candidates.length) return;
+
+    // Weight by theme affinity and terrain abundance
+    const themeAffinities = {
+      harbour: { water: 2, sand: 1.5 },
+      watch: { rock: 2, mountain: 1.5 },
+      mill: { forest: 1.5, sand: 1.5 },
+      chapel: { meadow: 1.5 },
+      oldtown: { meadow: 1.2 },
+    };
+    const affinity = themeAffinities[r.theme] || {};
+
+    // Score each candidate
+    const scored = candidates.map((lm) => {
+      let score = lm.weight;
+      lm.terrains.forEach((t) => {
+        const terrainNames = { 0: "meadow", 1: "forest", 2: "sand", 3: "water", 4: "rock", 5: "mountain" };
+        const tn = terrainNames[t];
+        if (affinity[tn]) score *= affinity[tn];
+        score *= Math.min(2, terrainCounts[t] / (RS * RS * 0.05));
+      });
+      // Coast requirement: needs water adjacent to land
+      if (lm.coast) {
+        let hasCoast = false;
+        for (let i = 0; i < RS * RS; i++) {
+          if (r.terrain[i] === 3) {
+            const gx = r.rx * RS + (i % RS), gy = r.ry * RS + ((i / RS) | 0);
+            const nbrs = [[0,-1],[1,0],[0,1],[-1,0]];
+            for (const [dx,dy] of nbrs) {
+              const n = regionOf(gx+dx, gy+dy);
+              if (n && n.r.terrain[n.i] !== 3) { hasCoast = true; break; }
+            }
+            if (hasCoast) break;
+          }
+        }
+        if (!hasCoast) score *= 0.1;
+      }
+      return { lm, score };
+    });
+
+    scored.sort((a, b) => b.score - a.score);
+
+    // Place 1-3 landmarks
+    const num = 1 + Math.floor(Math.random() * 3);
+    const placed = [];
+    for (let pi = 0; pi < num && pi < scored.length; pi++) {
+      const { lm } = scored[pi];
+      // Find a valid tile for this landmark
+      let bestTile = -1, bestScore = -1;
+      for (let i = 0; i < RS * RS; i++) {
+        if (r.road[i] || r.zone[i] || r.level[i] || r.svc[i] || r.landmarks.some(l => l.i === i)) continue;
+        const terr = r.terrain[i];
+        if (!lm.terrains.includes(terr)) continue;
+        // Coast check
+        if (lm.coast) {
+          const gx = r.rx * RS + (i % RS), gy = r.ry * RS + ((i / RS) | 0);
+          let hasCoast = false;
+          const nbrs = [[0,-1],[1,0],[0,1],[-1,0]];
+          for (const [dx,dy] of nbrs) {
+            const n = regionOf(gx+dx, gy+dy);
+            if (n && n.r.terrain[n.i] !== 3) { hasCoast = true; break; }
+          }
+          if (!hasCoast) continue;
+        }
+        // Prefer flat areas (not on steep slopes)
+        const h = hash2(r.rx * RS + (i % RS), r.ry * RS + ((i / RS) | 0));
+        if (h > bestScore) { bestScore = h; bestTile = i; }
+      }
+      if (bestTile >= 0) {
+        r.landmarks.push({ key: lm.key, i: bestTile });
+        placed.push(lm.key);
+      }
+    }
+  }
+
+;
 
   function themeSprite(theme, zone, level) {
     const t = THEMES[theme] || THEMES.oldtown;
@@ -351,6 +514,7 @@
     const r = generateRegion(makeRegion(rx, ry), S.seed + rx * 7919 + ry * 104729);
     S.regions[regionKey(rx, ry)] = r;
     recomputeRegion(r);
+    placeLandmarks(r);
     refreshLinks();
     refreshHud();
     drawMinimap();
@@ -1373,6 +1537,13 @@
           drawDiamond(cx0, cy0, zw * 0.5, zh * 0.5, "#ffdf6b");
           getCtx().globalAlpha = 1;
         }
+        // landmarks on this tile
+        if (reg.landmarks) {
+          const lm = reg.landmarks.find((l) => l.i === i);
+          if (lm && SPRITES[lm.key] && SPRITES[lm.key].complete) {
+            getCtx().drawImage(SPRITES[lm.key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
+          }
+        }
         // lit windows once the sun is down: the skyline reads from far out
         if (night > 0.18 && reg.level[i] && reg.zone[i] && cam.zoom > 0.45) {
           const lit = 0.55 + hash2(gx + 5, gy + 9) * 0.45;
@@ -2055,11 +2226,190 @@
   }
 
   // ---------------------------------------------------------------- ambience
-  // No drone, no sine hum. A city is broadband: pink noise through a slowly
-  // moving lowpass reads as distance and traffic, with occasional swells from a
-  // passing car. Everything below is filtered noise, so it sits under music.
-  function pinkNoise(ac, seconds) {
-    const len = Math.floor(ac.sampleRate * seconds);
+  // CC0 city ambience loops from freesound.org and other CC0 sources.
+  // No synthesis - just layered loops that blend naturally.
+  // Layers:
+  //   - distant_city: constant low hum of a city at distance
+  //   - traffic_pass: occasional car/truck passing by (bandpassed)
+  //   - birds_day: morning/afternoon birdsong
+  //   - crickets_night: evening/night insects
+  //   - wind: subtle wind in trees
+  // All controlled by OPT.ambience and OPT.master sliders.
+
+  let ambienceSources = {
+    distant_city: null,
+    traffic_pass: null,
+    birds_day: null,
+    crickets_night: null,
+    wind: null,
+  };
+  let ambienceGains = {};
+  let trafficTimer = null;
+  let chirpTimer = null;
+
+  // CC0 audio URLs - these are placeholder URLs, replace with actual hosted files
+  // For production, host these files locally or on a CDN
+  const AMBIENCE_URLS = {
+    distant_city: "assets/audio/ambience/distant_city_loop.mp3",
+    traffic_pass: "assets/audio/ambience/traffic_pass.mp3",
+    birds_day: "assets/audio/ambience/birds_day_loop.mp3",
+    crickets_night: "assets/audio/ambience/crickets_night_loop.mp3",
+    wind: "assets/audio/ambience/wind_loop.mp3",
+  };
+
+  function loadAmbience(ac) {
+    const promises = [];
+    Object.keys(AMBIENCE_URLS).forEach((key) => {
+      const url = AMBIENCE_URLS[key];
+      const src = ac.createBufferSource();
+      const gain = ac.createGain();
+      gain.connect(ac.destination);
+      ambienceGains[key] = gain;
+
+      const promise = fetch(url)
+        .then(r => r.arrayBuffer())
+        .then(buf => ac.decodeAudioData(buf))
+        .then(audioBuf => {
+          src.buffer = audioBuf;
+          src.loop = key !== "traffic_pass"; // traffic_pass is one-shot
+          src.connect(gain);
+          ambienceSources[key] = src;
+        })
+        .catch(err => {
+          console.warn("Failed to load ambience:", key, err);
+          // Fallback to synthetic if file not found
+          ambienceSources[key] = null;
+        });
+      promises.push(promise);
+    });
+    return Promise.all(promises);
+  }
+
+  function startAmbient() {
+    const ac = initAudio(); if (!ac || ambient) return;
+
+    const master = ac.createGain();
+    master.gain.value = 0.5 * (OPT.ambience / 100) * (OPT.master / 100);
+    master.connect(ac.destination);
+
+    // Rewire gains to go through master
+    Object.values(ambienceGains).forEach(g => {
+      g.disconnect();
+      g.connect(master);
+    });
+
+    loadAmbience(ac).then(() => {
+      // Start constant layers
+      if (ambienceSources.distant_city) {
+        ambienceSources.distant_city.start();
+      }
+      if (ambienceSources.wind) {
+        ambienceSources.wind.start();
+      }
+      // Day/night layers
+      updateTimeLayers(ac);
+
+      // Schedule traffic passes
+      scheduleTrafficPass(ac);
+
+      // Schedule bird/cricket chirps
+      scheduleChirps(ac);
+
+      ambient = { master, ...ambienceSources, ...ambienceGains };
+    }).catch(err => {
+      console.warn("Ambience load failed, falling back to synthetic:", err);
+      startSyntheticAmbient(ac, master);
+    });
+  }
+
+  function updateTimeLayers(ac) {
+    const hour = S.hour;
+    const isNight = hour < 6 || hour > 20;
+    const isDawn = hour >= 4.5 && hour < 8.5;
+    const isDusk = hour >= 16.5 && hour < 20;
+
+    // Birds: day only, louder at dawn
+    if (ambienceSources.birds_day) {
+      const gain = ambienceGains.birds_day;
+      if (isNight) {
+        gain.gain.value = 0;
+      } else if (isDawn) {
+        gain.gain.value = 0.15 * (OPT.ambience / 100) * (OPT.master / 100);
+      } else {
+        gain.gain.value = 0.08 * (OPT.ambience / 100) * (OPT.master / 100);
+      }
+    }
+
+    // Crickets: night only, louder at dusk
+    if (ambienceSources.crickets_night) {
+      const gain = ambienceGains.crickets_night;
+      if (!isNight) {
+        gain.gain.value = 0;
+      } else if (isDusk) {
+        gain.gain.value = 0.12 * (OPT.ambience / 100) * (OPT.master / 100);
+      } else {
+        gain.gain.value = 0.06 * (OPT.ambience / 100) * (OPT.master / 100);
+      }
+    }
+  }
+
+  function scheduleTrafficPass(ac) {
+    if (!ambienceSources.traffic_pass) {
+      trafficTimer = setTimeout(() => scheduleTrafficPass(ac), 5000);
+      return;
+    }
+    const src = ac.createBufferSource();
+    src.buffer = ambienceSources.traffic_pass.buffer;
+    const gain = ac.createGain();
+    gain.gain.value = 0.05 * (OPT.ambience / 100) * (OPT.master / 100);
+    // Bandpass filter for traffic sound
+    const filter = ac.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 380;
+    filter.Q.value = 0.9;
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(ambienceGains.traffic_pass); // which connects to master
+    src.start();
+
+    // Schedule next pass: 8-22 seconds
+    const gap = 8000 + Math.random() * 14000;
+    trafficTimer = setTimeout(() => scheduleTrafficPass(ac), gap);
+  }
+
+  function scheduleChirps(ac) {
+    if (!audioOn) {
+      chirpTimer = setTimeout(() => scheduleChirps(ac), 1800);
+      return;
+    }
+    const hour = S.hour;
+    const isNight = hour < 6 || hour > 20;
+
+    if (isNight && ambienceSources.crickets_night) {
+      playChirp(ac, ambienceSources.crickets_night, ambienceGains.crickets_night, 2600, 3400, 0.012);
+    } else if (!isNight && ambienceSources.birds_day) {
+      playChirp(ac, ambienceSources.birds_day, ambienceGains.birds_day, 1500, 2400, 0.03);
+    }
+
+    const gap = isNight ? 900 + Math.random() * 1100 : 500 + Math.random() * 1000;
+    chirpTimer = setTimeout(() => scheduleChirps(ac), gap);
+  }
+
+  function playChirp(ac, srcBuf, gainNode, f0, f1, maxGain) {
+    const src = ac.createBufferSource();
+    src.buffer = srcBuf.buffer;
+    const gain = ac.createGain();
+    gain.gain.value = maxGain * (OPT.ambience / 100) * (OPT.master / 100);
+    src.connect(gain);
+    gain.connect(gainNode);
+    src.start();
+    src.stop(ac.currentTime + 0.12);
+  }
+
+  // Fallback synthetic ambience (original implementation)
+  function startSyntheticAmbient(ac, master) {
+    // Pink noise buffer
+    const len = Math.floor(ac.sampleRate * 4);
     const buf = ac.createBuffer(1, len, ac.sampleRate);
     const d = buf.getChannelData(0);
     let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
@@ -2074,18 +2424,8 @@
       d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
       b6 = white * 0.115926;
     }
-    return buf;
-  }
 
-  function startAmbient() {
-    const ac = initAudio(); if (!ac || ambient) return;
-    const master = ac.createGain();
-    master.gain.value = 0.5 * (OPT.ambience / 100) * (OPT.master / 100);
-    master.connect(ac.destination);
-
-    const buf = pinkNoise(ac, 4);
-
-    // the wash of a city at a distance: pink noise through a slow lowpass
+    // Wash layer
     const washSrc = ac.createBufferSource();
     washSrc.buffer = buf; washSrc.loop = true;
     const washFilter = ac.createBiquadFilter();
@@ -2097,7 +2437,7 @@
     sweep.connect(sweepDepth); sweepDepth.connect(washFilter.frequency);
     washSrc.start(); sweep.start();
 
-    // traffic: a narrow band that swells now and then like a car going past
+    // Traffic layer
     const trafficSrc = ac.createBufferSource();
     trafficSrc.buffer = buf; trafficSrc.loop = true;
     const trafficFilter = ac.createBiquadFilter();
@@ -2108,7 +2448,6 @@
 
     const nature = ac.createGain(); nature.gain.value = 0.5; nature.connect(master);
     ambient = { master, washGain, washFilter, trafficGain, trafficFilter, nature };
-    schedulePass();
 
     const chirp = () => {
       if (!audioOn) { ambient.chirpTimer = setTimeout(chirp, 1800); return; }
@@ -2130,44 +2469,17 @@
     chirp();
   }
 
-  // a car going past: band-passed noise rising and falling over a few seconds
-  function schedulePass() {
-    const delay = rnd(7000, 22000);
-    ambient.passTimer = setTimeout(() => {
-      try {
-        const ac = audio;
-        if (ac && ambient && ambient.trafficGain && audioOn) {
-          const t = ac.currentTime;
-          const level = 0.010 + clamp(S.pop / 5000, 0, 0.025);
-          ambient.trafficFilter.frequency.setValueAtTime(rnd(260, 340), t);
-          ambient.trafficFilter.frequency.linearRampToValueAtTime(rnd(520, 700), t + 2.4);
-          ambient.trafficFilter.frequency.linearRampToValueAtTime(rnd(260, 320), t + 5);
-          ambient.trafficGain.gain.cancelScheduledValues(t);
-          ambient.trafficGain.gain.setValueAtTime(0.0001, t);
-          ambient.trafficGain.gain.linearRampToValueAtTime(level, t + 1.8);
-          ambient.trafficGain.gain.linearRampToValueAtTime(0.0001, t + 5.2);
-        }
-      } catch (e) {}
-      schedulePass();
-    }, delay);
-  }
-
-  function radioPlaying() {
-    try { return !!(window.LatticeRadio && window.LatticeRadio.playing()); } catch (e) { return false; }
-  }
-  function balanceAudio() {
-    if (!ambient) return;
-    const base = (OPT.ambience / 100) * (OPT.master / 100);
-    const level = radioPlaying() ? 0.05 : 1;
-    ambient.master.gain.value += ((0.5 * base * level) - ambient.master.gain.value) * 0.08;
-    // the wash thins at night and thickens in rain
-    const nightFactor = (S.hour > 6 && S.hour < 20) ? 1 : 0.55;
-    const target = 0.055 * nightFactor * (1 + S.rain * 0.5);
-    if (ambient.washGain) ambient.washGain.gain.value += (target - ambient.washGain.gain.value) * 0.05;
-    if (ambient.washFilter) ambient.washFilter.frequency.value += ((S.rain > 0.3 ? 380 : 520) - ambient.washFilter.frequency.value) * 0.02;
-  }
-
-  // ---------------------------------------------------------------- tools ui
+  function stopAmbient() {
+    if (trafficTimer) clearTimeout(trafficTimer);
+    if (chirpTimer) clearTimeout(chirpTimer);
+    if (ambient) {
+      Object.values(ambienceSources).forEach(src => {
+        if (src && src.stop) src.stop();
+      });
+      if (ambient.master) ambient.master.disconnect();
+      ambient = null;
+    }
+  }  // ---------------------------------------------------------------- tools ui
   function renderTools() {
     const box = el("tools");
     box.innerHTML = "";
@@ -2263,6 +2575,7 @@
       regions.push({
         rx: r.rx, ry: r.ry,
         terrain: rle(r.terrain), road: rle(r.road), zone: rle(r.zone), level: rle(r.level),
+        landmarks: (r.landmarks || []).map(l => l.key + "@" + l.i).join(","),
         bldg: rle(r.bldg), svc: rle(r.svc),
       });
     });
@@ -2289,6 +2602,14 @@
         reg.road = unrle(r.road, RS * RS);
         reg.zone = unrle(r.zone, RS * RS);
         reg.level = unrle(r.level, RS * RS);
+          if (r.landmarks) {
+            reg.landmarks = r.landmarks.split(",").filter(Boolean).map(s => {
+              const [key, idx] = s.split("@");
+              return { key, i: parseInt(idx) };
+            });
+          } else {
+            reg.landmarks = [];
+          }
         reg.bldg = unrle(r.bldg, RS * RS);
         reg.svc = unrle(r.svc, RS * RS);
         reg.owned = new Uint8Array(RS * RS).fill(1);
