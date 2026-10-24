@@ -94,12 +94,13 @@
     return keys[Math.floor(hash2(rx * 7 + 3, ry * 11 + 5) * keys.length) % keys.length];
   }
 
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail"];
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
     dock: "c08_river_quay_dock",
     rail: "b17_twin_gatehouse",
+    fire: "b08_watchtower",
   };
   const SVC_RULE = {
     park: { radius: 4, value: 4, upkeep: 2 },
@@ -110,6 +111,7 @@
     monument: { radius: 12, value: 30, upkeep: 20 },
     dock: { radius: 0, upkeep: 6 },
     rail: { radius: 0, upkeep: 16 },
+    fire: { radius: 8, upkeep: 10 },
   };
 
   const TOOLS = [
@@ -122,6 +124,7 @@
     { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
     { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
     { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
+    { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
     { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -162,7 +165,8 @@
   }
   function applyOpts() {
     if (ambient) {
-      ambient.master.gain.value = (radioPlaying() ? 0.012 : 0.05) * (OPT.ambience / 100) * (OPT.master / 100);
+      const base = (OPT.ambience / 100) * (OPT.master / 100);
+      ambient.master.gain.value = 0.5 * base * (radioPlaying() ? 0.05 : 1);
     }
     try {
       if (window.LatticeRadio) {
@@ -629,12 +633,30 @@
         if (town.zone[i] === Z.I && town.level[i] >= 2) { hit = i; break; }
       }
       if (hit >= 0) {
-        town.level[hit] -= 1;
-        S.fireTile = { x: town.rx * RS + (hit % RS), y: town.ry * RS + ((hit / RS) | 0), until: S.day + 3 };
+        const fx = hit % RS, fy = (hit / RS) | 0;
+        // a fire station within reach saves the building
+        let covered = false;
+        for (let i = 0; i < RS * RS && !covered; i++) {
+          if (SVC[town.svc[i]] !== "fire") continue;
+          const dx = (i % RS) - fx, dy = ((i / RS) | 0) - fy;
+          if (dx * dx + dy * dy <= 8 * 8) covered = true;
+        }
+        S.fireTile = { x: town.rx * RS + fx, y: town.ry * RS + fy, until: S.day + 2 };
+        if (covered) {
+          town.mood = clamp(town.mood - 2, 0, 100);
+          toast("FIRE CONTAINED · " + (town.name || "a district"));
+          log("<b>Fire</b> in " + (town.name || "the district") + " — the station put it out. A workshop smells of smoke.");
+        } else {
+          town.level[hit] -= 1;
+          town.mood = clamp(town.mood - 6, 0, 100);
+          toast("FIRE · " + (town.name || "a district") + " · a workshop is burning");
+          log("<b>Fire</b> breaks out in " + (town.name || "the district") + ". The works lost a floor — no station covered it.");
+        }
+      } else {
+        town.mood = clamp(town.mood - 3, 0, 100);
+        toast("FIRE SCARE · " + (town.name || "a district"));
+        log("<b>Fire</b> scare in " + (town.name || "the district") + " — nothing important burned.");
       }
-      town.mood = clamp(town.mood - 6, 0, 100);
-      toast("FIRE · " + (town.name || "a district") + " · a workshop is burning");
-      log("<b>Fire</b> breaks out in " + (town.name || "the district") + ". The works lost a floor.");
     } else if (type === "market") {
       toast("MARKET DAY · " + (town.name || "a district"));
       log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
@@ -1562,13 +1584,15 @@
         mctx.font = "8px Tahoma";
         mctx.fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
       } else {
-        mctx.strokeStyle = "rgba(150,136,108,.65)";
+        mctx.fillStyle = "rgba(58,52,42,.75)";
+        mctx.fillRect(x + 2, y + 2, cw - 4, ch - 4);
+        mctx.strokeStyle = "rgba(150,136,108,.7)";
         mctx.setLineDash([3, 3]);
         mctx.strokeRect(x + 2, y + 2, cw - 4, ch - 4);
         mctx.setLineDash([]);
-        mctx.fillStyle = "rgba(242,193,78,.85)";
-        mctx.font = "bold 13px Tahoma";
-        mctx.fillText("+", x + cw / 2 - 3, y + ch / 2 + 4);
+        mctx.fillStyle = "rgba(242,193,78,.9)";
+        mctx.font = "bold 14px Tahoma";
+        mctx.fillText("+", x + cw / 2 - 5, y + ch / 2 + 5);
       }
     }
     S.links.forEach((l) => {
@@ -1819,48 +1843,8 @@
     audio = new AC();
     return audio;
   }
-  function startAmbient() {
-    const ac = initAudio(); if (!ac || ambient) return;
-    const master = ac.createGain(); master.gain.value = 0.05; master.connect(ac.destination);
-    // two drones: the town's low hum
-    const o1 = ac.createOscillator(); o1.type = "sine"; o1.frequency.value = 110;
-    const o2 = ac.createOscillator(); o2.type = "sine"; o2.frequency.value = 165;
-    const lfo = ac.createOscillator(); lfo.frequency.value = 0.08;
-    const lg = ac.createGain(); lg.gain.value = 30;
-    lfo.connect(lg); lg.connect(o2.frequency);
-    o1.connect(master); o2.connect(master);
-    o1.start(); o2.start(); lfo.start();
-
-    // traffic bed: filtering noise would need a buffer, so a detuned pair works
-    const traffic = ac.createGain(); traffic.gain.value = 0;
-    const t1 = ac.createOscillator(); t1.type = "triangle"; t1.frequency.value = 58;
-    t1.connect(traffic); traffic.connect(master); t1.start();
-
-    // birds by day, crickets by night, played as short chirps
-    const nature = ac.createGain(); nature.gain.value = 0.7; nature.connect(master);
-    ambient = { master, traffic, nature };
-    const chirp = () => {
-      if (!audioOn) { ambient.chirpTimer = setTimeout(chirp, 1500); return; }
-      const now = ac.currentTime;
-      const nightTime = S.hour < 6 || S.hour > 20;
-      const osc = ac.createOscillator(), g = ac.createGain();
-      osc.type = "sine";
-      const base = nightTime ? rnd(2400, 3200) : rnd(1400, 2400);
-      osc.frequency.setValueAtTime(base, now);
-      osc.frequency.exponentialRampToValueAtTime(base * (nightTime ? 0.82 : 1.25), now + 0.05);
-      g.gain.setValueAtTime(0, now);
-      g.gain.linearRampToValueAtTime(nightTime ? 0.02 : 0.05, now + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + (nightTime ? 0.05 : 0.09));
-      osc.connect(g); g.connect(nature);
-      osc.start(now); osc.stop(now + 0.12);
-      const gap = S.rain > 0.3 ? rnd(2500, 5000) : (nightTime ? rnd(700, 1600) : rnd(350, 1200));
-      ambient.chirpTimer = setTimeout(chirp, gap);
-    };
-    chirp();
-  }
   // ---------------------------------------------------------------- sound bank
-  // Small synthesised set: a tone for the pitch, a noise burst for the texture.
-  // No audio files, so nothing to load and nothing to license.
+  // Small synthesised set: a tone for pitch, a noise burst for texture.
   let noiseBuf = null;
   function noiseBuffer(ac) {
     if (noiseBuf && noiseBuf.sampleRate === ac.sampleRate) return noiseBuf;
@@ -1873,24 +1857,26 @@
   function sfxGain() { return (OPT.sfx / 100) * (OPT.master / 100); }
   function tone(ac, when, f0, f1, dur, gain, type) {
     gain *= sfxGain();
+    if (gain <= 0) return;
     const o = ac.createOscillator(), g = ac.createGain();
     o.type = type || "triangle";
     o.frequency.setValueAtTime(f0, when);
     if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), when + dur);
-    g.gain.setValueAtTime(0.0001, when);
-    g.gain.linearRampToValueAtTime(gain, when + 0.008);
+    g.gain.setValueAtTime(Math.max(0.0002, gain), when);
     g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
     o.connect(g); g.connect(ac.destination);
     o.start(when); o.stop(when + dur + 0.03);
   }
   function burst(ac, when, dur, cutoff, gain) {
+    gain *= sfxGain();
+    if (gain <= 0) return;
     const src = ac.createBufferSource();
     src.buffer = noiseBuffer(ac);
     const filt = ac.createBiquadFilter();
     filt.type = "lowpass";
     filt.frequency.value = cutoff;
     const g = ac.createGain();
-    g.gain.setValueAtTime(Math.max(0.0002, gain), when);
+    g.gain.setValueAtTime(gain, when);
     g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
     src.connect(filt); filt.connect(g); g.connect(ac.destination);
     src.start(when); src.stop(when + dur + 0.02);
@@ -1900,34 +1886,34 @@
     const ac = initAudio(); if (!ac) return;
     const t0 = ac.currentTime + 0.002;
     switch (kind) {
-      case "place":            // a stone set down: soft thump, bright tick
+      case "place":
         burst(ac, t0, 0.05, 1800, 0.05);
         tone(ac, t0, 523, 659, 0.07, 0.05, "triangle");
         break;
-      case "road":             // gravel under a boot
+      case "road":
         burst(ac, t0, 0.11, 2400, 0.07);
         tone(ac, t0, 150, 110, 0.08, 0.04, "sine");
         break;
-      case "zone":             // planning, not building
+      case "zone":
         tone(ac, t0, 392, 523, 0.09, 0.035, "sine");
         break;
-      case "clear":            // demolition: rubble falling
+      case "clear":
         burst(ac, t0, 0.22, 700, 0.09);
         tone(ac, t0, 180, 70, 0.2, 0.05, "sawtooth");
         break;
-      case "grow":             // a building appears
+      case "grow":
         tone(ac, t0, 523, 523, 0.06, 0.035, "triangle");
         tone(ac, t0 + 0.07, 784, 784, 0.09, 0.03, "triangle");
         break;
-      case "milestone":        // a town becomes a city
+      case "milestone":
         [523, 659, 784, 1047].forEach((f, i) => tone(ac, t0 + i * 0.1, f, f, 0.26, 0.05, "triangle"));
         burst(ac, t0, 0.06, 3000, 0.03);
         break;
-      case "announce":         // a platform chime, two notes falling
+      case "announce":
         tone(ac, t0, 988, 988, 0.42, 0.035, "sine");
         tone(ac, t0 + 0.26, 740, 740, 0.55, 0.03, "sine");
         break;
-      case "deny":             // the treasury says no
+      case "deny":
         tone(ac, t0, 140, 110, 0.16, 0.05, "square");
         burst(ac, t0, 0.08, 500, 0.04);
         break;
@@ -1936,18 +1922,117 @@
     }
   }
 
-  // the LYGO listen portal owns the music; the game steps back when it plays
+  // ---------------------------------------------------------------- ambience
+  // No drone, no sine hum. A city is broadband: pink noise through a slowly
+  // moving lowpass reads as distance and traffic, with occasional swells from a
+  // passing car. Everything below is filtered noise, so it sits under music.
+  function pinkNoise(ac, seconds) {
+    const len = Math.floor(ac.sampleRate * seconds);
+    const buf = ac.createBuffer(1, len, ac.sampleRate);
+    const d = buf.getChannelData(0);
+    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < len; i++) {
+      const white = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + white * 0.0555179;
+      b1 = 0.99332 * b1 + white * 0.0750759;
+      b2 = 0.96900 * b2 + white * 0.1538520;
+      b3 = 0.86650 * b3 + white * 0.3104856;
+      b4 = 0.55000 * b4 + white * 0.5329522;
+      b5 = -0.7616 * b5 - white * 0.0168980;
+      d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+      b6 = white * 0.115926;
+    }
+    return buf;
+  }
+
+  function startAmbient() {
+    const ac = initAudio(); if (!ac || ambient) return;
+    const master = ac.createGain();
+    master.gain.value = 0.5 * (OPT.ambience / 100) * (OPT.master / 100);
+    master.connect(ac.destination);
+
+    const buf = pinkNoise(ac, 4);
+
+    // the wash of a city at a distance: pink noise through a slow lowpass
+    const washSrc = ac.createBufferSource();
+    washSrc.buffer = buf; washSrc.loop = true;
+    const washFilter = ac.createBiquadFilter();
+    washFilter.type = "lowpass"; washFilter.frequency.value = 520; washFilter.Q.value = 0.6;
+    const washGain = ac.createGain(); washGain.gain.value = 0.055;
+    washSrc.connect(washFilter); washFilter.connect(washGain); washGain.connect(master);
+    const sweep = ac.createOscillator(); sweep.frequency.value = 0.035;
+    const sweepDepth = ac.createGain(); sweepDepth.gain.value = 120;
+    sweep.connect(sweepDepth); sweepDepth.connect(washFilter.frequency);
+    washSrc.start(); sweep.start();
+
+    // traffic: a narrow band that swells now and then like a car going past
+    const trafficSrc = ac.createBufferSource();
+    trafficSrc.buffer = buf; trafficSrc.loop = true;
+    const trafficFilter = ac.createBiquadFilter();
+    trafficFilter.type = "bandpass"; trafficFilter.frequency.value = 380; trafficFilter.Q.value = 0.9;
+    const trafficGain = ac.createGain(); trafficGain.gain.value = 0.0001;
+    trafficSrc.connect(trafficFilter); trafficFilter.connect(trafficGain); trafficGain.connect(master);
+    trafficSrc.start();
+
+    const nature = ac.createGain(); nature.gain.value = 0.5; nature.connect(master);
+    ambient = { master, washGain, washFilter, trafficGain, trafficFilter, nature };
+    schedulePass();
+
+    const chirp = () => {
+      if (!audioOn) { ambient.chirpTimer = setTimeout(chirp, 1800); return; }
+      const now = ac.currentTime;
+      const nightTime = S.hour < 6 || S.hour > 20;
+      const osc = ac.createOscillator(), g = ac.createGain();
+      osc.type = "sine";
+      const base = nightTime ? rnd(2600, 3400) : rnd(1500, 2400);
+      osc.frequency.setValueAtTime(base, now);
+      osc.frequency.exponentialRampToValueAtTime(base * (nightTime ? 0.86 : 1.2), now + 0.05);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.linearRampToValueAtTime(nightTime ? 0.012 : 0.03, now + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + (nightTime ? 0.05 : 0.08));
+      osc.connect(g); g.connect(nature);
+      osc.start(now); osc.stop(now + 0.12);
+      const gap = S.rain > 0.3 ? rnd(3000, 6000) : (nightTime ? rnd(900, 2000) : rnd(500, 1500));
+      ambient.chirpTimer = setTimeout(chirp, gap);
+    };
+    chirp();
+  }
+
+  // a car going past: band-passed noise rising and falling over a few seconds
+  function schedulePass() {
+    const delay = rnd(7000, 22000);
+    ambient.passTimer = setTimeout(() => {
+      try {
+        const ac = audio;
+        if (ac && ambient && ambient.trafficGain && audioOn) {
+          const t = ac.currentTime;
+          const level = 0.010 + clamp(S.pop / 5000, 0, 0.025);
+          ambient.trafficFilter.frequency.setValueAtTime(rnd(260, 340), t);
+          ambient.trafficFilter.frequency.linearRampToValueAtTime(rnd(520, 700), t + 2.4);
+          ambient.trafficFilter.frequency.linearRampToValueAtTime(rnd(260, 320), t + 5);
+          ambient.trafficGain.gain.cancelScheduledValues(t);
+          ambient.trafficGain.gain.setValueAtTime(0.0001, t);
+          ambient.trafficGain.gain.linearRampToValueAtTime(level, t + 1.8);
+          ambient.trafficGain.gain.linearRampToValueAtTime(0.0001, t + 5.2);
+        }
+      } catch (e) {}
+      schedulePass();
+    }, delay);
+  }
+
   function radioPlaying() {
     try { return !!(window.LatticeRadio && window.LatticeRadio.playing()); } catch (e) { return false; }
   }
   function balanceAudio() {
     if (!ambient) return;
-    const duck = radioPlaying() ? 0.012 : 0.05;
-    ambient.master.gain.value += (duck - ambient.master.gain.value) * 0.08;
-    if (ambient.traffic) {
-      const target = (radioPlaying() ? 0 : clamp(S.pop / 900, 0, 0.05)) * (S.hour > 6 && S.hour < 20 ? 1 : 0.25);
-      ambient.traffic.gain.value += (target - ambient.traffic.gain.value) * 0.08;
-    }
+    const base = (OPT.ambience / 100) * (OPT.master / 100);
+    const level = radioPlaying() ? 0.05 : 1;
+    ambient.master.gain.value += ((0.5 * base * level) - ambient.master.gain.value) * 0.08;
+    // the wash thins at night and thickens in rain
+    const nightFactor = (S.hour > 6 && S.hour < 20) ? 1 : 0.55;
+    const target = 0.055 * nightFactor * (1 + S.rain * 0.5);
+    if (ambient.washGain) ambient.washGain.gain.value += (target - ambient.washGain.gain.value) * 0.05;
+    if (ambient.washFilter) ambient.washFilter.frequency.value += ((S.rain > 0.3 ? 380 : 520) - ambient.washFilter.frequency.value) * 0.02;
   }
 
   // ---------------------------------------------------------------- tools ui
