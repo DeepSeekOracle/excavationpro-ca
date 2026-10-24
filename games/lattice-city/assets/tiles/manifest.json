@@ -887,6 +887,51 @@
   "l49_tibetan_yak_tuareg_camel.png"
  ],
  "l50_glass_merchant_carts": [
-  "l50_glass_merchant_carts.png"
+   "l50_glass_merchant_carts.png"
+ ],
+ "rail_straight_ns": [
+   "rail_straight_ns.png"
+ ],
+ "rail_straight_ew": [
+   "rail_straight_ew.png"
+ ],
+ "rail_curve_ne": [
+   "rail_curve_ne.png"
+ ],
+ "rail_curve_es": [
+   "rail_curve_es.png"
+ ],
+ "rail_curve_sw": [
+   "rail_curve_sw.png"
+ ],
+ "rail_curve_wn": [
+   "rail_curve_wn.png"
+ ],
+ "rail_tee_nes": [
+   "rail_tee_nes.png"
+ ],
+ "rail_tee_ewn": [
+   "rail_tee_ewn.png"
+ ],
+ "rail_tee_nsw": [
+   "rail_tee_nsw.png"
+ ],
+ "rail_tee_ews": [
+   "rail_tee_ews.png"
+ ],
+ "rail_cross": [
+   "rail_cross.png"
+ ],
+ "rail_depot_platform": [
+   "rail_depot_platform.png"
+ ],
+ "fire_truck": [
+   "fire_truck.png"
+ ],
+ "ambulance": [
+   "ambulance.png"
+ ],
+ "police_car": [
+   "police_car.png"
  ]
-}
+ }

@@ -31,7 +31,15 @@
     12: "r10_road_corner_sw", 13: "r05_road_tee_nsw", 14: "r07_road_tee_ews",
     15: "r03_road_cross",
   };
-  const Z = { NONE: 0, R: 1, C: 2, I: 3 };
+    const RAIL = {
+      0: "rail_straight_ns", 1: "rail_straight_ns", 2: "rail_straight_ew",
+      3: "rail_curve_ne", 4: "rail_straight_ns", 5: "rail_straight_ns",
+      6: "rail_curve_es", 7: "rail_tee_nes", 8: "rail_straight_ew",
+      9: "rail_curve_wn", 10: "rail_straight_ew", 11: "rail_tee_ewn",
+      12: "rail_curve_sw", 13: "rail_tee_nsw", 14: "rail_tee_ews",
+      15: "rail_cross",
+    };
+    const Z = { NONE: 0, R: 1, C: 2, I: 3 };
   const TERRAIN = { MEADOW: 0, FOREST: 1, SAND: 2, WATER: 3, ROCK: 4, MOUNTAIN: 5 };
 
   // Region themes: a town's silhouette comes from the land it sits on. Every
@@ -295,7 +303,8 @@
     { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
     { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
     { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
-    { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
+        { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
+        { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
     { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -873,28 +882,29 @@
 
   // ---------------------------------------------------------------- regions
   function makeRegion(rx, ry) {
-    return {
-      rx, ry, claimed: false,
-      terrain: null, road: null, zone: null, level: null, bldg: null, svc: null,
-      owned: null, powerOn: null, waterOn: null, value: null,
-      zoneList: [], zoneDirty: true,
-      pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0, theme: "oldtown",
-      trades: 0, commerce: 0,
-    };
-  }
+      return {
+        rx, ry, claimed: false,
+        terrain: null, road: null, rail: null, zone: null, level: null, bldg: null, svc: null,
+        owned: null, powerOn: null, waterOn: null, value: null,
+        zoneList: [], zoneDirty: true,
+        pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0, theme: "oldtown",
+        trades: 0, commerce: 0,
+      };
+    }
 
   function generateRegion(r, seed) {
     const n = RS * RS;
-    r.terrain = new Uint8Array(n);
-    r.road = new Uint8Array(n);
-    r.zone = new Uint8Array(n);
-    r.level = new Uint8Array(n);
-    r.bldg = new Uint8Array(n);
-    r.svc = new Uint8Array(n);
-    r.owned = new Uint8Array(n).fill(1);
-    r.powerOn = new Uint8Array(n);
-    r.waterOn = new Uint8Array(n);
-    r.value = new Uint8Array(n);
+      r.terrain = new Uint8Array(n);
+      r.road = new Uint8Array(n);
+      r.rail = new Uint8Array(n);
+      r.zone = new Uint8Array(n);
+      r.level = new Uint8Array(n);
+      r.bldg = new Uint8Array(n);
+      r.svc = new Uint8Array(n);
+      r.owned = new Uint8Array(n).fill(1);
+      r.powerOn = new Uint8Array(n);
+      r.waterOn = new Uint8Array(n);
+      r.value = new Uint8Array(n);
 
     const hgt = valueNoise(RS, RS, 22, seed);
     const for1 = valueNoise(RS, RS, 14, seed + 991);
@@ -1026,10 +1036,19 @@
     return m;
   }
   function hasRoadNear(gx, gy) {
-    return hasRoad(gx, gy) || hasRoad(gx + 1, gy) || hasRoad(gx - 1, gy) || hasRoad(gx, gy + 1) || hasRoad(gx, gy - 1);
-  }
+      return hasRoad(gx, gy) || hasRoad(gx + 1, gy) || hasRoad(gx - 1, gy) || hasRoad(gx, gy + 1) || hasRoad(gx, gy - 1);
+    }
+    function hasRail(gx, gy) { const t = regionOf(gx, gy); return !!t && t.r.rail[t.i] === 1; }
+    function railMask(gx, gy) {
+      let m = 0;
+      if (hasRail(gx, gy - 1)) m |= 1;
+      if (hasRail(gx + 1, gy)) m |= 2;
+      if (hasRail(gx, gy + 1)) m |= 4;
+      if (hasRail(gx - 1, gy)) m |= 8;
+      return m;
+    }
 
-  // ---------------------------------------------------------------- services
+    // ---------------------------------------------------------------- services
   function recomputeRegion(r) {
     const n = RS * RS;
     r.powerOn.fill(0); r.waterOn.fill(0); r.value.fill(0);
@@ -2011,12 +2030,15 @@
         }
 
         let key = null;
-        if (reg.road[i]) {
-          if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
-          else if (terr === TERRAIN.MOUNTAIN) key = (roadMask(gx, gy) & 3) === 3 ? "c14_switchback_road_w" : "c13_switchback_road_n";
-          else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
-        }
-        else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
+                if (reg.road[i]) {
+                  if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
+                  else if (terr === TERRAIN.MOUNTAIN) key = (roadMask(gx, gy) & 3) === 3 ? "c14_switchback_road_w" : "c13_switchback_road_n";
+                  else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
+                }
+                else if (reg.rail[i]) {
+                  key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
+                }
+                else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
@@ -2166,85 +2188,103 @@
 
         // fire trucks
         fireTrucks.forEach((truck) => {
-          if (truck.state === "idle") return;
-          const p = tileToScreen(truck.x, truck.y);
-          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-          getCtx().save();
-          getCtx().translate(cx, cy);
-          let angle = 0;
-          if (truck.route && truck.routeIdx < truck.route.length - 1) {
-            const next = truck.route[truck.routeIdx + 1];
-            const curr = truck.route[truck.routeIdx];
-            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-          }
-          getCtx().rotate(angle);
-          getCtx().fillStyle = "#cc2222";
-          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-          getCtx().fillStyle = "#ffffff";
-          getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.15);
-          const flash = Math.floor(performance.now() / 200) % 2 === 0;
-          getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
-          getCtx().fillRect(-zw * 0.2, -zh * 0.35, zw * 0.15, zh * 0.1);
-          getCtx().fillStyle = flash ? "#0000ff" : "#ff0000";
-          getCtx().fillRect(zw * 0.05, -zh * 0.35, zw * 0.15, zh * 0.1);
-          getCtx().restore();
-          if (truck.state === "responding" && truck.eta > 0) {
-            const etaSec = Math.max(0, truck.eta - (S.hour * 3600 + S.day * 86400));
-            const etaMin = Math.ceil(etaSec / 60);
-            getCtx().fillStyle = "rgba(255,255,255,0.9)";
-            getCtx().font = "bold " + Math.max(10, 12 * cam.zoom) + "px sans-serif";
-            getCtx().textAlign = "center";
-            getCtx().fillText("ETA " + etaMin + "m", cx, cy - zh * 0.6);
-          }
-        });
+                  if (truck.state === "idle") return;
+                  const p = tileToScreen(truck.x, truck.y);
+                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+                  getCtx().save();
+                  getCtx().translate(cx, cy);
+                  let angle = 0;
+                  if (truck.route && truck.routeIdx < truck.route.length - 1) {
+                    const next = truck.route[truck.routeIdx + 1];
+                    const curr = truck.route[truck.routeIdx];
+                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+                  }
+                  getCtx().rotate(angle);
+                  const spr = SPRITES["fire_truck"];
+                  if (spr && spr.complete) {
+                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
+                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
+                  } else {
+                    getCtx().fillStyle = "#cc2222";
+                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+                    getCtx().fillStyle = "#ffffff";
+                    getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.15);
+                    const flash = Math.floor(performance.now() / 200) % 2 === 0;
+                    getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
+                    getCtx().fillRect(-zw * 0.2, -zh * 0.35, zw * 0.15, zh * 0.1);
+                    getCtx().fillStyle = flash ? "#0000ff" : "#ff0000";
+                    getCtx().fillRect(zw * 0.05, -zh * 0.35, zw * 0.15, zh * 0.1);
+                  }
+                  getCtx().restore();
+                  if (truck.state === "responding" && truck.eta > 0) {
+                    const etaSec = Math.max(0, truck.eta - (S.hour * 3600 + S.day * 86400));
+                    const etaMin = Math.ceil(etaSec / 60);
+                    getCtx().fillStyle = "rgba(255,255,255,0.9)";
+                    getCtx().font = "bold " + Math.max(10, 12 * cam.zoom) + "px sans-serif";
+                    getCtx().textAlign = "center";
+                    getCtx().fillText("ETA " + etaMin + "m", cx, cy - zh * 0.6);
+                  }
+                });
 
-        // ambulances
-        ambulances.forEach((amb) => {
-          if (amb.state === "idle") return;
-          const p = tileToScreen(amb.x, amb.y);
-          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-          getCtx().save();
-          getCtx().translate(cx, cy);
-          let angle = 0;
-          if (amb.route && amb.routeIdx < amb.route.length - 1) {
-            const next = amb.route[amb.routeIdx + 1];
-            const curr = amb.route[amb.routeIdx];
-            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-          }
-          getCtx().rotate(angle);
-          getCtx().fillStyle = "#ffffff";
-          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-          getCtx().fillStyle = "#cc0000";
-          getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.5);
-          getCtx().fillStyle = "#ffffff";
-          getCtx().fillRect(-zw * 0.05, -zh * 0.3, zw * 0.1, zh * 0.6);
-          getCtx().fillRect(-zw * 0.2, -zh * 0.05, zw * 0.4, zh * 0.1);
-          getCtx().restore();
-        });
+                // ambulances
+                ambulances.forEach((amb) => {
+                  if (amb.state === "idle") return;
+                  const p = tileToScreen(amb.x, amb.y);
+                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+                  getCtx().save();
+                  getCtx().translate(cx, cy);
+                  let angle = 0;
+                  if (amb.route && amb.routeIdx < amb.route.length - 1) {
+                    const next = amb.route[amb.routeIdx + 1];
+                    const curr = amb.route[amb.routeIdx];
+                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+                  }
+                  getCtx().rotate(angle);
+                  const spr = SPRITES["ambulance"];
+                  if (spr && spr.complete) {
+                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
+                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
+                  } else {
+                    getCtx().fillStyle = "#ffffff";
+                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+                    getCtx().fillStyle = "#cc0000";
+                    getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.5);
+                    getCtx().fillStyle = "#ffffff";
+                    getCtx().fillRect(-zw * 0.05, -zh * 0.3, zw * 0.1, zh * 0.6);
+                    getCtx().fillRect(-zw * 0.2, -zh * 0.05, zw * 0.4, zh * 0.1);
+                  }
+                  getCtx().restore();
+                });
 
-        // police cars
-        policeCars.forEach((cop) => {
-          if (cop.state === "idle") return;
-          const p = tileToScreen(cop.x, cop.y);
-          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-          getCtx().save();
-          getCtx().translate(cx, cy);
-          let angle = 0;
-          if (cop.route && cop.routeIdx < cop.route.length - 1) {
-            const next = cop.route[cop.routeIdx + 1];
-            const curr = cop.route[cop.routeIdx];
-            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-          }
-          getCtx().rotate(angle);
-          getCtx().fillStyle = "#111133";
-          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-          const flash = Math.floor(performance.now() / 150) % 2 === 0;
-          getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
-          getCtx().fillRect(-zw * 0.35, -zh * 0.35, zw * 0.7, zh * 0.1);
-          getCtx().restore();
-        });
+                // police cars
+                policeCars.forEach((cop) => {
+                  if (cop.state === "idle") return;
+                  const p = tileToScreen(cop.x, cop.y);
+                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+                  getCtx().save();
+                  getCtx().translate(cx, cy);
+                  let angle = 0;
+                  if (cop.route && cop.routeIdx < cop.route.length - 1) {
+                    const next = cop.route[cop.routeIdx + 1];
+                    const curr = cop.route[cop.routeIdx];
+                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+                  }
+                  getCtx().rotate(angle);
+                  const spr = SPRITES["police_car"];
+                  if (spr && spr.complete) {
+                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
+                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
+                  } else {
+                    getCtx().fillStyle = "#111133";
+                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+                    const flash = Math.floor(performance.now() / 150) % 2 === 0;
+                    getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
+                    getCtx().fillRect(-zw * 0.35, -zh * 0.35, zw * 0.7, zh * 0.1);
+                  }
+                  getCtx().restore();
+                                  });
 
-        // rail: sleepers between depots, then the trains on them
+                          // rail: sleepers between depots, then the trains on them
     const railLines = S.links.filter((l) => l.kind === "rail");
     const depots = railLines.length ? railCentres() : [];
     railLines.forEach((l) => {
@@ -2511,8 +2551,8 @@
     if (!tile) return false;
     const r = tile.r, i = tile.i;
     const terr = r.terrain[i];
-    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect" || t.id === "road";
-    if (t.id === "road") {
+    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect" || t.id === "road" || t.id === "railTrack";
+      if (t.id === "road") {
       if (terr !== TERRAIN.WATER) return true;
       // a bridge needs ground or road on two opposite sides to span
       const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
@@ -2534,14 +2574,14 @@
     if (S.cash < t.cost) { deny("Not enough funds for " + t.name.toLowerCase()); return false; }
     let did = false;
     if (t.id === "bulldoze") {
-      if (!(r.road[i] || r.zone[i] || r.level[i] || r.svc[i])) return false;
-      const hadSvc = r.svc[i] !== 0;
-      r.road[i] = 0; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0; r.svc[i] = 0;
-      r.zoneDirty = true;
-      if (hadSvc) recomputeRegion(r);
-      recalcRegion(r);
-      sfx("clear");
-      did = true;
+          if (!(r.road[i] || r.rail[i] || r.zone[i] || r.level[i] || r.svc[i])) return false;
+          const hadSvc = r.svc[i] !== 0;
+          r.road[i] = 0; r.rail[i] = 0; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0; r.svc[i] = 0;
+          r.zoneDirty = true;
+          if (hadSvc) recomputeRegion(r);
+          recalcRegion(r);
+          sfx("clear");
+          did = true;
     } else if (t.id === "road") {
       if (r.road[i]) return false;
       const bridge = r.terrain[i] === TERRAIN.WATER;
@@ -2555,11 +2595,18 @@
       if (climb) S.cash -= 78;
       did = true;
     } else if (t.zone) {
-      if (r.zone[i] === t.zone) return false;
-      r.zone[i] = t.zone; r.zoneDirty = true;
-      sfx("zone");
-      did = true;
-    } else if (t.service) {
+          if (r.zone[i] === t.zone) return false;
+          r.zone[i] = t.zone; r.zoneDirty = true;
+          sfx("zone");
+          did = true;
+        } else if (t.id === "railTrack") {
+          if (r.rail[i]) return false;
+          if (r.terrain[i] === TERRAIN.WATER) return false;
+          if (r.road[i] || r.zone[i] || r.level[i] || r.svc[i]) return false;
+          r.rail[i] = 1; r.zoneDirty = true;
+          sfx("place");
+          did = true;
+        } else if (t.service) {
       if (r.svc[i]) return false;
       if (t.service === "dock" && r.terrain[i] !== TERRAIN.WATER) return false;
       if (t.service === "rail" && r.terrain[i] === TERRAIN.WATER) return false;
@@ -3156,11 +3203,11 @@
     const regions = [];
     claimedList().forEach((r) => {
       regions.push({
-        rx: r.rx, ry: r.ry,
-        terrain: rle(r.terrain), road: rle(r.road), zone: rle(r.zone), level: rle(r.level),
-        landmarks: (r.landmarks || []).map(l => l.key + "@" + l.i).join(","),
-        bldg: rle(r.bldg), svc: rle(r.svc),
-      });
+              rx: r.rx, ry: r.ry,
+              terrain: rle(r.terrain), road: rle(r.road), rail: rle(r.rail), zone: rle(r.zone), level: rle(r.level),
+              landmarks: (r.landmarks || []).map(l => l.key + "@" + l.i).join(","),
+              bldg: rle(r.bldg), svc: rle(r.svc),
+            });
     });
     const data = { v: 3, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
           savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
@@ -3189,9 +3236,10 @@
         const reg = makeRegion(r.rx, r.ry);
         reg.claimed = true;
         reg.terrain = unrle(r.terrain, RS * RS);
-        reg.road = unrle(r.road, RS * RS);
-        reg.zone = unrle(r.zone, RS * RS);
-        reg.level = unrle(r.level, RS * RS);
+                reg.road = unrle(r.road, RS * RS);
+                reg.rail = unrle(r.rail || new Uint8Array(RS * RS), RS * RS);
+                reg.zone = unrle(r.zone, RS * RS);
+                reg.level = unrle(r.level, RS * RS);
           if (r.landmarks) {
             reg.landmarks = r.landmarks.split(",").filter(Boolean).map(s => {
               const [key, idx] = s.split("@");
