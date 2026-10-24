@@ -5,6 +5,21 @@
  "updated": "2026-10-24",
  "shows": [
   {
+   "slug": "lygo-protocol-pure-data-witness",
+   "title": "LYGO Protocol: Pure Data Witness",
+   "page": "https://excavationpro.ca/signal/lygo-protocol-pure-data-witness/",
+   "audio": "https://excavationpro.ca/signal/shows/lygo-protocol-pure-data-witness/ai_radio.mp3",
+   "duration": "15:58",
+   "seconds": 958.86,
+   "speakers": [
+    "Paul",
+    "Dev",
+    "Maya",
+    "Liam"
+   ],
+   "date": "2026-10-24"
+  },
+  {
    "slug": "eternal-haven-the-open-web",
    "title": "Eternal Haven: The Open Web",
    "page": "https://excavationpro.ca/signal/eternal-haven-the-open-web/",

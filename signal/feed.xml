@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>LYGO Protocol: Pure Data Witness</title>
+    <link>https://excavationpro.ca/signal/lygo-protocol-pure-data-witness/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/lygo-protocol-pure-data-witness/</guid>
+    <pubDate>Sat, 24 Oct 2026 12:00:00 +0000</pubDate>
+    <description>AI Talk Radio explores the LYGO Pure-Data Witness protocol, a new method for decentralized web preservation using cryptographic digests. The panel discusses the technical architecture of the system, its use of Merkle-anchored fragments, and how it empowers users to verify digital history.</description>
+    <itunes:duration>15:58</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/lygo-protocol-pure-data-witness/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/lygo-protocol-pure-data-witness/ai_radio.mp3" length="23014339" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Eternal Haven: The Open Web</title>
     <link>https://excavationpro.ca/signal/eternal-haven-the-open-web/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/eternal-haven-the-open-web/</guid>
