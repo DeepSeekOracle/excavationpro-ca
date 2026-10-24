@@ -186,6 +186,7 @@
       owned: null, powerOn: null, waterOn: null, value: null,
       zoneList: [], zoneDirty: true,
       pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0, theme: "oldtown",
+      trades: 0, commerce: 0,
     };
   }
 
@@ -472,13 +473,19 @@
       let dem = z === Z.R ? S.demand.r : z === Z.C ? S.demand.c : S.demand.i;
       if (z === Z.R) dem = clamp(dem + accessBonus, 0, 1);
       const value = r.value[i] / 255;
+      // shops grow on custom: a shop with no trade all day does not expand
+      let commerce = 1;
+      if (z === Z.C) commerce = 0.55 + Math.min(1.4, (r.commerce || 0) / 14);
+      else if (z === Z.I) commerce = 0.85 + Math.min(0.5, (r.commerce || 0) / 40);
       if (lv > 0 && !canUp && Math.random() < 0.02) {
         r.level[i] = lv - 1;
         continue;
       }
-      if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * (0.20 + value * 0.22)) {
+      if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * commerce * (0.20 + value * 0.22)) {
         r.level[i] = lv + 1;
         sfx("grow");
+      } else if (lv > 0 && z === Z.C && (r.commerce || 0) < 1.5 && Math.random() < 0.03) {
+        r.level[i] = lv - 1;
       } else if (dem < 0.08 && lv > 0 && Math.random() < 0.02) {
         r.level[i] = lv - 1;
       }
@@ -500,6 +507,10 @@
       const mood = 64 - unemp * 17 + Math.min(14, (r.parks || 0) * 1.5);
       r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
     });
+    claimedList().forEach((r) => {
+      r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0);
+      r.trades = 0;
+    });
     S.cash += S.income - S.upkeep;
     if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
     // weather drifts between dry spells and rain every couple of weeks
@@ -511,14 +522,14 @@
     checkMilestones();
     updatePeds();
     balanceAudio();
-    if (S.day % 7 === 0) log(weekLine());
+    if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
     refreshHud();
   }
 
   function weekLine() {
     const n = claimedList().length;
     const lines = [
-      S.pop + " people across " + n + " region" + (n === 1 ? "" : "s") + " · " + S.jobs + " jobs · mood " + Math.round(S.mood) + "%.",
+      S.tradesToday ? "The shops served " + S.tradesToday + " customers this week." : S.pop + " people across " + n + " region" + (n === 1 ? "" : "s") + " · " + S.jobs + " jobs · mood " + Math.round(S.mood) + "%.",
       "The world holds " + S.pop + " people and " + money(S.cash) + ".",
       S.rain > 0.35 ? "Rain over the district. The streets are thinner." : S.links.length ? S.links.length + " connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
     ];
@@ -598,7 +609,7 @@
     const path = greedyRoute(start, end, 90);
     if (path.length < 2) return null;
     return {
-      path, at: 0, t: Math.random(), speed: rnd(0.5, 1.1),
+      path, at: 0, t: Math.random(), speed: rnd(0.5, 1.1), dest: job,
       hue: (Math.random() * 360) | 0,
       coat: PALETTE[(Math.random() * PALETTE.length) | 0],
       skin: SKIN[(Math.random() * SKIN.length) | 0],
@@ -762,6 +773,14 @@
       // roads can be bulldozed under a walker's feet; retire it instead of
       // letting it stroll across the meadow
       if (!next || !hasRoad(next.x, next.y)) { list.splice(i, 1); continue; }
+      // the last step of the route is the shop or the works: a trade happens
+      if (p.dest && p.at === p.path.length - 1) {
+        const t = regionOf(p.dest.x, p.dest.y);
+        if (t && (t.r.zone[t.i] === Z.C || t.r.zone[t.i] === Z.I)) {
+          t.r.trades = (t.r.trades || 0) + 1;
+          S.tradesToday = (S.tradesToday || 0) + 1;
+        }
+      }
     }
   }
 
@@ -1408,6 +1427,7 @@
       ["Buildings", built + " (" + homes + " home, " + shops + " shop, " + works + " works)"],
       ["Roads", String(roads)],
       ["Links", links.length ? links.map((l) => (l.kind === "rail" ? "rail to " : l.kind === "ferry" ? "ferry to " : "road to ") + ((l.a === r ? l.b : l.a).name || "neighbour")).join(", ") : "none"],
+      ["Commerce", String(Math.round(r.commerce || 0)) + (r.commerce > 8 ? " · busy" : r.commerce > 2 ? " · steady" : " · quiet")],
       ["Upkeep", money(r.upkeep || 0) + " / day"],
     ];
     el("ins-title").textContent = (r.name || "Region") + " " + r.rx + "," + r.ry;
