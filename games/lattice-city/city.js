@@ -567,16 +567,225 @@
   }
 
   function initializeFireTrucks() {
-    fireTrucks = [];
-    let truckId = 1;
-    getFireStations().forEach(station => {
-      for (let t = 0; t < station.trucks; t++) {
-        fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: station.gx, y: station.gy, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
-      }
-    });
-  }
+      fireTrucks = [];
+      let truckId = 1;
+      getFireStations().forEach(station => {
+        for (let t = 0; t < station.trucks; t++) {
+          fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: station.gx, y: station.gy, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
+        }
+      });
+    }
 
-  function updateEventLogUI() {
+    function initializeAmbulances() {
+      ambulances = [];
+      let ambId = 1;
+      getClinics().forEach(clinic => {
+        for (let a = 0; a < clinic.ambulances; a++) {
+          ambulances.push({ id: ambId++, type: "ambulance", clinicId: clinicId(clinic), x: clinic.gx, y: clinic.gy, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+        }
+      });
+    }
+
+    function initializePoliceCars() {
+      policeCars = [];
+      let carId = 1;
+      getPoliceStations().forEach(station => {
+        for (let c = 0; c < station.cars; c++) {
+          policeCars.push({ id: carId++, type: "police", stationId: station.region.rx + "," + station.region.ry + "," + station.tile, x: station.gx, y: station.gy, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+        }
+      });
+    }
+
+    // ---------------------------------------------------------------- Medical / Ambulance System
+    const MEDICAL = {
+      EMERGENCY_TYPES: [
+        { id: "heart", label: "Cardiac Emergency", weight: 3, urgency: "critical" },
+        { id: "injury", label: "Serious Injury", weight: 5, urgency: "high" },
+        { id: "illness", label: "Acute Illness", weight: 7, urgency: "medium" },
+        { id: "accident", label: "Traffic Accident", weight: 2, urgency: "critical" },
+      ],
+      ambulanceSpeed: 3.0,
+      ambulancesPerClinic: [0, 1, 2],
+      responseRadius: 200,
+    };
+
+    let medicalCalls = [];
+
+    function getClinics() {
+      const clinics = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (SVC[r.svc[i]] === "school") {
+            clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
+          }
+        }
+      });
+      return clinics;
+    }
+
+    function clinicId(clinic) { return clinic.region.rx + "," + clinic.region.ry + "," + clinic.tile; }
+
+    function countIdleAmbulances(clinic) {
+      return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
+    }
+
+    function spawnMedicalEmergency() {
+      if (S.peds.length === 0) return;
+      if (Math.random() > 0.001) return;
+      const ped = S.peds[Math.floor(Math.random() * S.peds.length)];
+      if (!ped.path || ped.path.length === 0) return;
+      const tile = ped.path[ped.at];
+      if (!tile) return;
+      const type = MEDICAL.EMERGENCY_TYPES[Math.floor(Math.random() * MEDICAL.EMERGENCY_TYPES.length)];
+      const call = { id: "med_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), type: type.id, label: type.label, urgency: type.urgency, patient: ped, gx: tile.x, gy: tile.y, time: S.hour * 3600 + S.day * 86400, assignedAmbulance: null, status: "waiting" };
+      medicalCalls.push(call);
+      logEvent("medical", type.label + " at " + tile.x + "," + tile.y + " - " + type.urgency.toUpperCase(), { gx: tile.x, gy: tile.y }, type.urgency === "critical" ? "emergency" : "high", type.label + " reported at " + tile.x + "," + tile.y + ". " + type.urgency + " priority.");
+      dispatchAmbulance(call);
+    }
+
+    function dispatchAmbulance(call) {
+      const clinics = getClinics();
+      if (!clinics.length) {
+        logEvent("medical", "NO MEDICAL FACILITIES - Patient without care!", { gx: call.gx, gy: call.gy }, "emergency", "No medical facilities available. Patient awaiting transport.");
+        return;
+      }
+      let bestClinic = null, bestDist = Infinity, bestPath = null;
+      for (const clinic of clinics) {
+        const idle = countIdleAmbulances(clinic);
+        if (idle <= 0) continue;
+        const path = findRoadPath(clinic.gx, clinic.gy, call.gx, call.gy);
+        if (!path || path.length > MEDICAL.responseRadius) continue;
+        if (path.length < bestDist) { bestDist = path.length; bestClinic = clinic; bestPath = path; }
+      }
+      if (!bestClinic) {
+        logEvent("medical", "All ambulances committed or out of range!", { gx: call.gx, gy: call.gy }, "high");
+        return;
+      }
+      const amb = ambulances.find(a => a.clinicId === clinicId(bestClinic) && a.state === "idle");
+      if (!amb) return;
+      const travelTime = bestDist / MEDICAL.ambulanceSpeed;
+      const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
+      amb.state = "responding"; amb.targetCall = call.id; amb.route = bestPath; amb.routeIdx = 0;
+      amb.dispatchedAt = S.hour * 3600 + S.day * 86400; amb.eta = amb.dispatchedAt + travelTime;
+      amb.clinicId = clinicId(bestClinic);
+      call.assignedAmbulance = amb.id; call.status = "enroute";
+      const clinicName = bestClinic.region.name || "Clinic " + bestClinic.region.rx + "," + bestClinic.region.ry;
+      logEvent("dispatch", "Ambulance " + amb.id + " from " + clinicName + " - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high", "Ambulance " + amb.id + " responding from " + clinicName + ". " + call.label + " at " + call.gx + "," + call.gy + ". ETA " + etaMin + " minutes.");
+    }
+
+    function updateMedicalCalls(dt) {
+      const gameSeconds = dt * (S.speed || 1) * 86400;
+      for (let i = medicalCalls.length - 1; i >= 0; i--) {
+        const call = medicalCalls[i];
+        if (call.status === "waiting") {
+          if (Math.random() < gameSeconds / 30) dispatchAmbulance(call);
+        } else if (call.status === "enroute") {
+          const amb = ambulances.find(a => a.id === call.assignedAmbulance);
+          if (amb && amb.state === "on_scene") {
+            call.status = "transporting";
+            amb.state = "returning";
+            amb.route = null;
+            logEvent("medical", "Patient loaded - transporting to hospital", { gx: call.gx, gy: call.gy }, "normal");
+          }
+        } else if (call.status === "transporting") {
+          const amb = ambulances.find(a => a.id === call.assignedAmbulance);
+          if (amb && amb.state === "idle") {
+            call.status = "resolved";
+            logEvent("medical", call.label + " resolved - patient treated", { gx: call.gx, gy: call.gy }, "normal");
+            medicalCalls.splice(i, 1);
+          }
+        }
+      }
+    }
+
+    // ---------------------------------------------------------------- Police / Law Enforcement
+    const POLICE = {
+      policeSpeed: 3.5,
+      carsPerStation: [0, 1, 2],
+      patrolInterval: 120,
+    };
+
+    let policeCalls = [];
+
+    function getPoliceStations() {
+      const stations = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (SVC[r.svc[i]] === "fire") {
+            stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
+          }
+        }
+      });
+      return stations;
+    }
+
+    function spawnPoliceCall() {
+      if (Math.random() > 0.0005) return;
+      const roadsWithCars = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) if (r.road[i]) roadsWithCars.push({ r, i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
+      });
+      if (roadsWithCars.length === 0) return;
+      const spot = roadsWithCars[Math.floor(Math.random() * roadsWithCars.length)];
+      const types = [
+        { id: "accident", label: "Traffic Accident", weight: 3, urgency: "high" },
+        { id: "disturbance", label: "Civil Disturbance", weight: 2, urgency: "medium" },
+        { id: "crime", label: "Reported Crime", weight: 1, urgency: "high" },
+      ];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const call = { id: "pol_" + Date.now(), type: type.id, label: type.label, urgency: type.urgency, gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
+      policeCalls.push(call);
+      logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
+      dispatchPolice(call);
+    }
+
+    function dispatchPolice(call) {
+      const stations = getPoliceStations();
+      if (!stations.length) return;
+      let bestStation = null, bestDist = Infinity, bestPath = null;
+      for (const station of stations) {
+        const idle = policeCars.filter(c => c.stationId === station.region.rx + "," + station.region.ry + "," + station.tile && c.state === "idle").length;
+        if (idle <= 0) continue;
+        const path = findRoadPath(station.gx, station.gy, call.gx, call.gy);
+        if (!path) continue;
+        if (path.length < bestDist) { bestDist = path.length; bestStation = station; bestPath = path; }
+      }
+      if (!bestStation) return;
+      const unit = policeCars.find(c => c.stationId === bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile && c.state === "idle");
+      if (!unit) return;
+      const travelTime = bestDist / POLICE.policeSpeed;
+      const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
+      unit.state = "responding"; unit.targetCall = call.id; unit.route = bestPath; unit.routeIdx = 0;
+      unit.dispatchedAt = S.hour * 3600 + S.day * 86400; unit.eta = unit.dispatchedAt + travelTime;
+      unit.stationId = bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile;
+      call.assignedUnit = unit.id; call.status = "enroute";
+      logEvent("dispatch", "Unit " + unit.id + " responding - ETA " + etaMin + " min", { gx: call.gx, gy: call.gy }, call.urgency === "critical" ? "emergency" : "high");
+    }
+
+    function updatePoliceCalls(dt) {
+      const gameSeconds = dt * (S.speed || 1) * 86400;
+      for (let i = policeCalls.length - 1; i >= 0; i--) {
+        const call = policeCalls[i];
+        if (call.status === "waiting") {
+          if (Math.random() < gameSeconds / 30) dispatchPolice(call);
+        } else if (call.status === "enroute") {
+          const unit = policeCars.find(c => c.id === call.assignedUnit);
+          if (unit && unit.state === "on_scene") {
+            call.status = "resolving";
+            unit.state = "returning";
+            logEvent("police", call.label + " - situation contained", { gx: call.gx, gy: call.gy }, "normal");
+          }
+        } else if (call.status === "resolving") {
+          const unit = policeCars.find(c => c.id === call.assignedUnit);
+          if (unit && unit.state === "idle") {
+            call.status = "resolved";
+            policeCalls.splice(i, 1);
+          }
+        }
+      }
+    }
+
+    function updateEventLogUI() {
       const container = document.getElementById("event-log");
       if (!container) return;
       container.innerHTML = eventLog.slice(0, 10).map(e => `<div class="event-entry ${e.priority}">${e.message}</div>`).join("");
@@ -857,7 +1066,9 @@
     recalcRegion(r);
   
   initializeFireTrucks();
-}
+    initializeAmbulances();
+    initializePoliceCars();
+  }
 
   function recalcRegion(r) {
     let pop = 0, jobs = 0, roads = 0, svcUp = 0, built = 0, parks = 0;
@@ -1632,8 +1843,12 @@
     advance(S.peds, dt * sim);
     advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
     updateFires(dt);
-    updateEmergencyVehicles(dt);
-    if (S.boats) {
+        updateEmergencyVehicles(dt);
+        spawnMedicalEmergency();
+        spawnPoliceCall();
+        updateMedicalCalls(dt);
+        updatePoliceCalls(dt);
+        if (S.boats) {
       S.boats.forEach((b) => {
         b.t += dt * sim * b.speed;
         if (b.t >= 1) {
@@ -1949,7 +2164,87 @@
       getCtx().restore();
     });
 
-    // rail: sleepers between depots, then the trains on them
+        // fire trucks
+        fireTrucks.forEach((truck) => {
+          if (truck.state === "idle") return;
+          const p = tileToScreen(truck.x, truck.y);
+          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+          getCtx().save();
+          getCtx().translate(cx, cy);
+          let angle = 0;
+          if (truck.route && truck.routeIdx < truck.route.length - 1) {
+            const next = truck.route[truck.routeIdx + 1];
+            const curr = truck.route[truck.routeIdx];
+            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+          }
+          getCtx().rotate(angle);
+          getCtx().fillStyle = "#cc2222";
+          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+          getCtx().fillStyle = "#ffffff";
+          getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.15);
+          const flash = Math.floor(performance.now() / 200) % 2 === 0;
+          getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
+          getCtx().fillRect(-zw * 0.2, -zh * 0.35, zw * 0.15, zh * 0.1);
+          getCtx().fillStyle = flash ? "#0000ff" : "#ff0000";
+          getCtx().fillRect(zw * 0.05, -zh * 0.35, zw * 0.15, zh * 0.1);
+          getCtx().restore();
+          if (truck.state === "responding" && truck.eta > 0) {
+            const etaSec = Math.max(0, truck.eta - (S.hour * 3600 + S.day * 86400));
+            const etaMin = Math.ceil(etaSec / 60);
+            getCtx().fillStyle = "rgba(255,255,255,0.9)";
+            getCtx().font = "bold " + Math.max(10, 12 * cam.zoom) + "px sans-serif";
+            getCtx().textAlign = "center";
+            getCtx().fillText("ETA " + etaMin + "m", cx, cy - zh * 0.6);
+          }
+        });
+
+        // ambulances
+        ambulances.forEach((amb) => {
+          if (amb.state === "idle") return;
+          const p = tileToScreen(amb.x, amb.y);
+          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+          getCtx().save();
+          getCtx().translate(cx, cy);
+          let angle = 0;
+          if (amb.route && amb.routeIdx < amb.route.length - 1) {
+            const next = amb.route[amb.routeIdx + 1];
+            const curr = amb.route[amb.routeIdx];
+            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+          }
+          getCtx().rotate(angle);
+          getCtx().fillStyle = "#ffffff";
+          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+          getCtx().fillStyle = "#cc0000";
+          getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.5);
+          getCtx().fillStyle = "#ffffff";
+          getCtx().fillRect(-zw * 0.05, -zh * 0.3, zw * 0.1, zh * 0.6);
+          getCtx().fillRect(-zw * 0.2, -zh * 0.05, zw * 0.4, zh * 0.1);
+          getCtx().restore();
+        });
+
+        // police cars
+        policeCars.forEach((cop) => {
+          if (cop.state === "idle") return;
+          const p = tileToScreen(cop.x, cop.y);
+          const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+          getCtx().save();
+          getCtx().translate(cx, cy);
+          let angle = 0;
+          if (cop.route && cop.routeIdx < cop.route.length - 1) {
+            const next = cop.route[cop.routeIdx + 1];
+            const curr = cop.route[cop.routeIdx];
+            angle = Math.atan2(next.y - curr.y, next.x - curr.x);
+          }
+          getCtx().rotate(angle);
+          getCtx().fillStyle = "#111133";
+          getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
+          const flash = Math.floor(performance.now() / 150) % 2 === 0;
+          getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
+          getCtx().fillRect(-zw * 0.35, -zh * 0.35, zw * 0.7, zh * 0.1);
+          getCtx().restore();
+        });
+
+        // rail: sleepers between depots, then the trains on them
     const railLines = S.links.filter((l) => l.kind === "rail");
     const depots = railLines.length ? railCentres() : [];
     railLines.forEach((l) => {
@@ -2868,7 +3163,14 @@
       });
     });
     const data = { v: 3, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
-      savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom } };
+          savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
+          fireTrucks: fireTrucks.map(t => ({ id: t.id, x: t.x, y: t.y, state: t.state, targetFire: t.targetFire, routeIdx: t.routeIdx, stationId: t.stationId })),
+          ambulances: ambulances.map(a => ({ id: a.id, x: a.x, y: a.y, state: a.state, targetCall: a.targetCall, routeIdx: a.routeIdx, clinicId: a.clinicId })),
+          policeCars: policeCars.map(c => ({ id: c.id, x: c.x, y: c.y, state: c.state, targetCall: c.targetCall, routeIdx: c.routeIdx, stationId: c.stationId })),
+          activeFires: activeFires.map(f => ({ id: f.id, gx: f.gx, gy: f.gy, severity: f.severity, contained: f.contained, damage: f.damage })),
+          medicalCalls: medicalCalls.map(m => ({ id: m.id, type: m.type, gx: m.gx, gy: m.gy, status: m.status, assignedAmbulance: m.assignedAmbulance })),
+          policeCalls: policeCalls.map(p => ({ id: p.id, type: p.type, gx: p.gx, gy: p.gy, status: p.status, assignedUnit: p.assignedUnit })),
+        };
     try {
       localStorage.setItem(SAVE_KEY, JSON.stringify(data));
       toast("World saved · " + regions.length + " region" + (regions.length === 1 ? "" : "s"));
@@ -2912,10 +3214,18 @@
         recomputeRegion(reg);
       });
       S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = []; S.trains = [];
-      if (!S.clouds || !S.clouds.length) seedClouds();
-      S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
+            if (!S.clouds || !S.clouds.length) seedClouds();
+            S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
 
-      initializeFireTrucks();      refreshLinks(); recalcWorld(); updateDemand();
+            // Restore emergency vehicles and calls
+            if (d.fireTrucks) d.fireTrucks.forEach(t => { const nt = { ...t, route: null }; fireTrucks.push(nt); });
+            if (d.ambulances) d.ambulances.forEach(a => { const nt = { ...a, route: null }; ambulances.push(nt); });
+            if (d.policeCars) d.policeCars.forEach(c => { const nt = { ...c, route: null }; policeCars.push(nt); });
+            if (d.activeFires) d.activeFires.forEach(f => activeFires.push(f));
+            if (d.medicalCalls) d.medicalCalls.forEach(m => medicalCalls.push(m));
+            if (d.policeCalls) d.policeCalls.forEach(p => policeCalls.push(p));
+
+            initializeFireTrucks(); initializeAmbulances(); initializePoliceCars();      refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
       if (d.cam && typeof d.cam.zoom === "number") {
         cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4);
@@ -2997,7 +3307,9 @@
     toast("New world · " + (GW * GH) + " regions of " + RS + "×" + RS);
   
   initializeFireTrucks();
-}
+    initializeAmbulances();
+    initializePoliceCars();
+  }
 
   function optionsModal() {
     const rows = [];
