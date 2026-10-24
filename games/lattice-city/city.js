@@ -1081,8 +1081,8 @@
       const rx = clamp(Math.floor((x - MM_PAD) / cw), 0, GW - 1);
       const ry = clamp(Math.floor((y - MM_PAD) / ch), 0, GH - 1);
       const reg = regionAt(rx, ry);
-      if (reg && reg.claimed) focusRegion(reg);
-      else if (claimRegion(rx, ry, false)) focusRegion(regionAt(rx, ry));
+      if (reg && reg.claimed) { focusRegion(reg); showRegion(reg); }
+      else if (claimRegion(rx, ry, false)) { focusRegion(regionAt(rx, ry)); showRegion(regionAt(rx, ry)); }
     });
   }
 
@@ -1179,6 +1179,51 @@
   }
 
   // ---------------------------------------------------------------- hud
+  function showRegion(r) {
+    if (!r) return;
+    let roads = 0, built = 0, homes = 0, works = 0, shops = 0;
+    for (let i = 0; i < RS * RS; i++) {
+      if (r.road[i]) roads++;
+      if (r.level[i]) {
+        built++;
+        if (r.zone[i] === Z.R) homes++;
+        else if (r.zone[i] === Z.I) works++;
+        else if (r.zone[i] === Z.C) shops++;
+      }
+    }
+    const links = S.links.filter((l) => l.a === r || l.b === r);
+    const rows = [
+      ["Theme", r.name || "—"],
+      ["Position", r.rx + ", " + r.ry],
+      ["People", String(r.pop)],
+      ["Jobs", String(r.jobs)],
+      ["Mood", Math.round(r.mood) + "%"],
+      ["Buildings", built + " (" + homes + " home, " + shops + " shop, " + works + " works)"],
+      ["Roads", String(roads)],
+      ["Border links", links.length ? links.map((l) => (l.a === r ? l.b : l.a).name || "neighbour").join(", ") : "none"],
+      ["Upkeep", money(r.upkeep || 0) + " / day"],
+    ];
+    el("ins-title").textContent = (r.name || "Region") + " " + r.rx + "," + r.ry;
+    el("ins-body").innerHTML = rows.map(([k, v]) => '<div class="kv"><span>' + k + "</span><b>" + v + "</b></div>").join("")
+      + '<div class="row"><button id="ins-jump" class="wide">Jump here</button></div>';
+    el("inspector").classList.remove("hidden");
+    const jump = el("ins-jump");
+    if (jump) jump.onclick = () => focusRegion(r);
+  }
+
+  function snapshot() {
+    try {
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "lattice-city-" + (S.day + 1) + ".png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      toast("Snapshot saved · " + (GW * RS) + "×" + (GH * RS) + " world");
+    } catch (e) { toast("The snapshot could not be made in this browser"); }
+  }
+
   function refreshHud() {
     el("ui-cash").textContent = money(S.cash);
     el("ui-pop").textContent = S.pop.toLocaleString();
@@ -1517,6 +1562,7 @@
     el("ins-close").onclick = () => el("inspector").classList.add("hidden");
     el("ui-save").onclick = save;
     el("ui-load").onclick = () => load();
+    el("ui-snapshot").onclick = snapshot;
     el("ui-new").onclick = () => {
       if (!confirm("Start a new world? The current one is replaced.")) return;
       newWorld();
