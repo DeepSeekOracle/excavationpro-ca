@@ -74,7 +74,8 @@
     regions: new Array(GW * GH).fill(null),
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
-    links: [], peds: [], cars: [],
+    links: [], peds: [], cars: [], boats: [], smoke: [],
+    rain: 0, rainTarget: 0, weatherTimer: 0,
   };
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
@@ -405,8 +406,18 @@
     });
     S.cash += S.income - S.upkeep;
     if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
+    // weather drifts between dry spells and rain every couple of weeks
+    if (S.weatherTimer-- <= 0) {
+      S.weatherTimer = 100 + Math.floor(Math.random() * 120);
+      S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
+    }
+    S.rain += (S.rainTarget - S.rain) * 0.06;
     checkMilestones();
     updatePeds();
+    if (ambient && ambient.traffic) {
+      const target = clamp(S.pop / 900, 0, 0.05) * (S.hour > 6 && S.hour < 20 ? 1 : 0.25);
+      ambient.traffic.gain.value += (target - ambient.traffic.gain.value) * 0.2;
+    }
     if (S.day % 7 === 0) log(weekLine());
     refreshHud();
   }
@@ -416,7 +427,7 @@
     const lines = [
       S.pop + " people across " + n + " region" + (n === 1 ? "" : "s") + " · " + S.jobs + " jobs · mood " + Math.round(S.mood) + "%.",
       "The world holds " + S.pop + " people and " + money(S.cash) + ".",
-      S.links.length ? S.links.length + " border connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
+      S.rain > 0.35 ? "Rain over the district. The streets are thinner." : S.links.length ? S.links.length + " border connection" + (S.links.length === 1 ? "" : "s") + " carrying commuters between regions." : "No two regions are joined yet — a road across a border connects them.",
     ];
     return lines[S.day % lines.length];
   }
@@ -434,40 +445,163 @@
   }
 
   // ---------------------------------------------------------------- walkers
-  function updatePeds() {
-    const spots = [];
+  // ---------------------------------------------------------------- life
+  // Citizens commute: they spawn at a home, walk the road network toward a
+  // workplace, and go home again. Routes are greedy, which is cheap and looks
+  // right at this camera distance.
+  const PALETTE = ["#e8d7b8", "#f0b1a0", "#9fd8a8", "#a8c6f0", "#f0d79f", "#d7b8e8", "#e8a8a8", "#b8e8e0", "#f0c4a0", "#c9d7a8"];
+  const SKIN = ["#e8b48a", "#c98d63", "#8a5a3b", "#f0c9a0", "#6f452c"];
+
+  function roadsNear(gx, gy) {
+    const out = [];
+    [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+      if (hasRoad(gx + dx, gy + dy)) out.push({ x: gx + dx, y: gy + dy });
+    });
+    return out;
+  }
+
+  function builtTiles(zones) {
+    const out = [];
     claimedList().forEach((r) => {
-      const roads = [];
-      for (let i = 0; i < r.road.length; i++) if (r.road[i]) roads.push(i);
-      if (!roads.length) return;
-      const take = clamp(Math.round(roads.length / 6), 1, 40);
-      for (let k = 0; k < take; k++) {
-        const i = roads[(Math.random() * roads.length) | 0];
-        spots.push({ gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
+      for (let i = 0; i < RS * RS; i++) {
+        if (r.level[i] && zones.indexOf(r.zone[i]) !== -1) {
+          out.push({ x: r.rx * RS + (i % RS), y: r.ry * RS + ((i / RS) | 0) });
+        }
       }
     });
-    const wantPeds = clamp(Math.round(S.pop / 3.5), 0, 160);
-    const wantCars = clamp(Math.round(S.pop / 12), 0, 40);
-    while (S.peds.length < wantPeds && spots.length) {
-      const p = spots[(Math.random() * spots.length) | 0];
-      S.peds.push({ x: p.gx, y: p.gy, t: Math.random(), dir: (Math.random() * 4) | 0, hue: (Math.random() * 360) | 0, speed: rnd(0.35, 0.9) });
+    return out;
+  }
+
+  function greedyRoute(from, to, maxSteps) {
+    const path = [from];
+    let x = from.x, y = from.y;
+    for (let step = 0; step < maxSteps; step++) {
+      if (x === to.x && y === to.y) return path;
+      const opts = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => hasRoad(x + dx, y + dy));
+      if (!opts.length) break;
+      let best = null, bestScore = Infinity;
+      opts.forEach(([dx, dy]) => {
+        const nx = x + dx, ny = y + dy;
+        const d = Math.abs(nx - to.x) + Math.abs(ny - to.y);
+        const score = d + Math.random() * 1.5;
+        if (score < bestScore) { bestScore = score; best = [nx, ny]; }
+      });
+      x = best[0]; y = best[1];
+      path.push({ x, y });
+      if (path.length > 90) break;
     }
-    while (S.cars.length < wantCars && spots.length) {
-      const p = spots[(Math.random() * spots.length) | 0];
-      S.cars.push({ x: p.gx, y: p.gy, t: Math.random(), dir: (Math.random() * 4) | 0, hue: (Math.random() * 360) | 0, speed: rnd(0.7, 1.5) });
+    return path;
+  }
+
+  function spawnCitizen() {
+    const homes = S.homes || [], jobs = S.workplaces || [];
+    if (!homes.length || !jobs.length) return null;
+    const home = homes[(Math.random() * homes.length) | 0];
+    const job = jobs[(Math.random() * jobs.length) | 0];
+    const starts = roadsNear(home.x, home.y), ends = roadsNear(job.x, job.y);
+    if (!starts.length || !ends.length) return null;
+    const start = starts[(Math.random() * starts.length) | 0];
+    const end = ends[(Math.random() * ends.length) | 0];
+    const path = greedyRoute(start, end, 90);
+    if (path.length < 2) return null;
+    return {
+      path, at: 0, t: Math.random(), speed: rnd(0.5, 1.1),
+      hue: (Math.random() * 360) | 0,
+      coat: PALETTE[(Math.random() * PALETTE.length) | 0],
+      skin: SKIN[(Math.random() * SKIN.length) | 0],
+      hat: Math.random() < 0.25,
+      umbrella: Math.random() < 0.15,
+      walk: Math.random() * 6.28,
+    };
+  }
+
+  function spawnVehicle() {
+    const roads = S.roadSpots || [];
+    if (roads.length < 2) return null;
+    const a = roads[(Math.random() * roads.length) | 0];
+    const b = roads[(Math.random() * roads.length) | 0];
+    const path = greedyRoute(a, b, 70);
+    if (path.length < 2) return null;
+    const kind = Math.random() < 0.12 ? "bus" : Math.random() < 0.28 ? "truck" : "car";
+    return {
+      path, at: 0, t: Math.random(), speed: rnd(0.9, 1.7) * (kind === "bus" ? 0.7 : 1),
+      kind, hue: (Math.random() * 360) | 0,
+    };
+  }
+
+  function spawnBoat() {
+    const water = S.waterSpots || [];
+    if (water.length < 4) return null;
+    const a = water[(Math.random() * water.length) | 0];
+    return { x: a.x, y: a.y, t: Math.random(), speed: rnd(0.15, 0.3), dir: (Math.random() * 4) | 0, kind: Math.random() < 0.5 ? "skiff" : "barge" };
+  }
+
+  function refreshSpots() {
+    S.homes = builtTiles([Z.R]);
+    S.workplaces = builtTiles([Z.C, Z.I]);
+    const roads = [], water = [];
+    claimedList().forEach((r) => {
+      for (let i = 0; i < RS * RS; i++) {
+        if (r.road[i]) roads.push({ x: r.rx * RS + (i % RS), y: r.ry * RS + ((i / RS) | 0) });
+        if (r.terrain[i] === TERRAIN.WATER) water.push({ x: r.rx * RS + (i % RS), y: r.ry * RS + ((i / RS) | 0) });
+      }
+    });
+    S.roadSpots = roads;
+    S.waterSpots = water.slice(0, 4000);
+  }
+
+  function updatePeds() {
+    if (!S.homes || S.day % 3 === 0) refreshSpots();
+    // the streets empty at night: commuters are at home, not on the road
+    const daylight = (S.hour >= 6.5 && S.hour <= 19.5) ? 1 : 0.32;
+    const rainFactor = 1 - S.rain * 0.45;
+    const wantPeds = clamp(Math.round(S.pop / 3 * daylight * rainFactor), 0, 150);
+    const wantCars = clamp(Math.round(S.pop / 14 * (0.6 + daylight * 0.4) * rainFactor), 0, 44);
+    const wantBoats = clamp(Math.round((S.waterSpots || []).length / 900), 0, 10);
+
+    let guard = 0;
+    while (S.peds.length < wantPeds && guard++ < 30) {
+      const c = spawnCitizen();
+      if (!c) break;
+      S.peds.push(c);
+    }
+    let carGuard = 0;
+    while (S.cars.length < wantCars && carGuard++ < 120) {
+      const v = spawnVehicle();
+      if (v) S.cars.push(v);
+    }
+    S.boats = S.boats || [];
+    while (S.boats.length < wantBoats && guard++ < 90) {
+      const b = spawnBoat();
+      if (!b) break;
+      S.boats.push(b);
     }
     if (S.peds.length > wantPeds) S.peds.length = wantPeds;
     if (S.cars.length > wantCars) S.cars.length = wantCars;
+    if (S.boats.length > wantBoats) S.boats.length = wantBoats;
+
+    // industry breathes
+    S.smoke = S.smoke || [];
+    if (S.smoke.length < 70) {
+      const stacks = S.workplaces ? S.workplaces.filter((t) => {
+        const reg = regionOf(t.x, t.y);
+        return reg && reg.r.level[reg.i] >= 2 && reg.r.zone[reg.i] === Z.I;
+      }) : [];
+      if (stacks.length) {
+        const t = stacks[(Math.random() * stacks.length) | 0];
+        S.smoke.push({ x: t.x + rnd(-0.2, 0.2), y: t.y + rnd(-0.2, 0.2), life: 1, rise: rnd(0.15, 0.35), drift: rnd(-0.12, 0.12) });
+      }
+    }
   }
-  function stepWalkers(list, dt) {
-    for (const p of list) {
+
+  function advance(list, dt) {
+    for (let i = list.length - 1; i >= 0; i--) {
+      const p = list[i];
       p.t += dt * p.speed;
       if (p.t < 1) continue;
       p.t = 0;
-      const opts = [[0, -1], [1, 0], [0, 1], [-1, 0]].filter(([dx, dy]) => hasRoad(p.x + dx, p.y + dy));
-      if (!opts.length) continue;
-      const [dx, dy] = opts[(Math.random() * opts.length) | 0];
-      p.x += dx; p.y += dy; p.dir = dx === 1 ? 0 : dy === 1 ? 1 : dx === -1 ? 2 : 3;
+      p.at++;
+      if (p.at >= p.path.length) { list.splice(i, 1); continue; }
     }
   }
 
@@ -549,8 +683,32 @@
       while (acc > dayLen) { acc -= dayLen; tick(); }
       S.hour = (S.hour + dt * S.speed * (24 / dayLen)) % 24;
     }
-    stepWalkers(S.peds, dt * (S.speed || 1));
-    stepWalkers(S.cars, dt * (S.speed || 1) * 1.6);
+    const sim = S.speed || 1;
+    advance(S.peds, dt * sim);
+    advance(S.cars, dt * sim * 1.8);
+    if (S.boats) {
+      S.boats.forEach((b) => {
+        b.t += dt * sim * b.speed;
+        if (b.t >= 1) {
+          b.t = 0;
+          const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+          const ok = dirs.filter(([dx, dy]) => {
+            const t = regionOf(b.x + dx, b.y + dy);
+            return t && t.r.terrain[t.i] === TERRAIN.WATER;
+          });
+          if (ok.length) { const [dx, dy] = ok[(Math.random() * ok.length) | 0]; b.x += dx; b.y += dy; b.dir = dx === 1 ? 0 : dy === 1 ? 1 : dx === -1 ? 2 : 3; }
+          else b.t = Math.random();
+        }
+      });
+    }
+    if (S.smoke) {
+      for (let i = S.smoke.length - 1; i >= 0; i--) {
+        const p = S.smoke[i];
+        p.life -= dt * p.rise;
+        p.x += p.drift * dt; p.y -= p.rise * 0.15 * dt;
+        if (p.life <= 0) S.smoke.splice(i, 1);
+      }
+    }
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -560,6 +718,7 @@
     const r = visibleRange();
     const zw = TW * cam.zoom, zh = TH * cam.zoom;
     const now = performance.now();
+    const night = Math.max(0, Math.cos((S.hour / 24) * Math.PI * 2)) * 0.28;
 
     for (let sum = r.x0 + r.y0; sum <= r.x1 + r.y1; sum++) {
       const gxStart = Math.max(r.x0, sum - r.y1), gxEnd = Math.min(r.x1, sum - r.y0);
@@ -634,22 +793,101 @@
       ctx.stroke();
     });
 
-    for (const p of S.peds) {
-      const a = tileToScreen(p.x, p.y);
-      const b = tileToScreen(p.x + (p.dir === 0 ? 1 : p.dir === 2 ? -1 : 0), p.y + (p.dir === 1 ? 1 : p.dir === 3 ? -1 : 0));
-      const s = { x: a.x + (b.x - a.x) * p.t + zw / 2, y: a.y + (b.y - a.y) * p.t + zh / 2 };
-      const h = Math.max(2.5, 4.2 * cam.zoom);
-      ctx.fillStyle = "hsl(" + p.hue + ",60%,62%)";
-      ctx.fillRect(s.x - h / 3, s.y - h, h * 0.66, h);
+    if (night > 0.12) {
+      claimedList().forEach((reg) => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (!reg.road[i] || (i % 23) !== 0) continue;
+          const gx = reg.rx * RS + (i % RS), gy = reg.ry * RS + ((i / RS) | 0);
+          const p = tileToScreen(gx, gy);
+          const cx = p.x + zw / 2, cy = p.y + zh / 2;
+          const rr = Math.max(6, 22 * cam.zoom);
+          const g = ctx.createRadialGradient(cx, cy - 6 * cam.zoom, 1, cx, cy - 6 * cam.zoom, rr);
+          g.addColorStop(0, "rgba(255,214,130," + (0.20 * night / 0.28).toFixed(3) + ")");
+          g.addColorStop(1, "rgba(255,214,130,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(cx, cy - 6 * cam.zoom, rr, 0, 6.28); ctx.fill();
+        }
+      });
     }
-    for (const c of S.cars) {
-      const a = tileToScreen(c.x, c.y);
-      const b = tileToScreen(c.x + (c.dir === 0 ? 1 : c.dir === 2 ? -1 : 0), c.y + (c.dir === 1 ? 1 : c.dir === 3 ? -1 : 0));
-      const s = { x: a.x + (b.x - a.x) * c.t + zw / 2, y: a.y + (b.y - a.y) * c.t + zh / 2 };
-      const w = Math.max(3, 7 * cam.zoom), h = Math.max(2, 3.5 * cam.zoom);
-      ctx.fillStyle = "hsl(" + c.hue + ",55%,55%)";
-      ctx.fillRect(s.x - w / 2, s.y - h, w, h);
-    }
+
+    // ---------------- life on the streets ----------------
+    const at = (obj) => {
+      const a = tileToScreen(obj.path[obj.at].x, obj.path[obj.at].y);
+      const b = tileToScreen(obj.path[Math.min(obj.at + 1, obj.path.length - 1)].x, obj.path[Math.min(obj.at + 1, obj.path.length - 1)].y);
+      return { x: a.x + (b.x - a.x) * obj.t + zw / 2, y: a.y + (b.y - a.y) * obj.t + zh / 2,
+               dx: b.x - a.x, dy: b.y - a.y };
+    };
+    const zoom = cam.zoom;
+
+    S.peds.forEach((p) => {
+      const s0 = at(p);
+      const bob = Math.sin((p.walk += 0.25) + p.at) > 0 ? 1 : 0;
+      const h = Math.max(4, 10 * zoom), w = Math.max(2.5, 4.6 * zoom);
+      // shadow
+      ctx.fillStyle = "rgba(0,0,0,.28)";
+      ctx.beginPath(); ctx.ellipse(s0.x, s0.y, w * 0.9, w * 0.45, 0, 0, 6.28); ctx.fill();
+      // legs
+      ctx.fillStyle = "#22303a";
+      ctx.fillRect(s0.x - w * 0.45, s0.y - h * 0.42, w * 0.35, h * 0.42);
+      ctx.fillRect(s0.x + w * 0.1, s0.y - h * 0.42 - bob * zoom, w * 0.35, h * 0.42);
+      // coat
+      ctx.fillStyle = "rgba(0,0,0,.35)";
+      ctx.fillRect(s0.x - w * 0.58, s0.y - h * 0.86, w * 1.16, h * 0.5);
+      ctx.fillStyle = p.coat;
+      ctx.fillRect(s0.x - w * 0.5, s0.y - h * 0.82, w, h * 0.42);
+      // head
+      ctx.fillStyle = p.skin;
+      ctx.fillRect(s0.x - w * 0.32, s0.y - h * 1.08, w * 0.64, h * 0.3);
+      if (p.hat) { ctx.fillStyle = "#3a2d24"; ctx.fillRect(s0.x - w * 0.42, s0.y - h * 1.16, w * 0.84, h * 0.14); }
+      if (p.umbrella && (night > 0.15 || S.rain > 0.35)) {
+        ctx.fillStyle = "rgba(220,80,70,.85)";
+        ctx.beginPath(); ctx.ellipse(s0.x, s0.y - h * 1.35, w * 1.5, w * 0.7, 0, Math.PI, 0); ctx.fill();
+      }
+    });
+
+    S.cars.forEach((c) => {
+      const s0 = at(c);
+      const ang = Math.atan2(s0.dy, s0.dx);
+      const L = Math.max(5, (c.kind === "bus" ? 22 : c.kind === "truck" ? 16 : 12) * zoom);
+      const W = Math.max(3, (c.kind === "bus" ? 9 : 7) * zoom);
+      ctx.save();
+      ctx.translate(s0.x, s0.y - W * 0.5);
+      ctx.rotate(ang * 0.28);
+      ctx.fillStyle = "rgba(0,0,0,.3)";
+      ctx.fillRect(-L / 2, W * 0.35, L, Math.max(1.5, W * 0.4));
+      ctx.fillStyle = c.kind === "bus" ? "#c9642f" : c.kind === "truck" ? "#4d6a52" : "hsl(" + c.hue + ",45%,52%)";
+      ctx.fillRect(-L / 2, -W / 2, L, W);
+      ctx.fillStyle = "rgba(190,225,255,.85)";
+      ctx.fillRect(-L / 2 + L * 0.55, -W / 2 + W * 0.15, L * 0.32, W * 0.55);
+      if (night > 0.2) {
+        ctx.fillStyle = "rgba(255,236,170,.95)";
+        ctx.fillRect(-L / 2 - Math.max(1, 2 * zoom), -W / 2 + W * 0.1, Math.max(1, 2 * zoom), W * 0.3);
+        ctx.fillStyle = "rgba(255,236,170,.10)";
+        ctx.beginPath(); ctx.arc(-L / 2 - L * 0.5, 0, L * 0.7, 0, 6.28); ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    (S.boats || []).forEach((b) => {
+      const s0 = tileToScreen(b.x, b.y);
+      const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
+      const L = Math.max(4, (b.kind === "barge" ? 16 : 10) * zoom), W = Math.max(2, 4 * zoom);
+      ctx.fillStyle = "rgba(10,25,35,.55)";
+      ctx.beginPath(); ctx.ellipse(cx, cy + W * 0.4, L * 0.7, W * 0.7, 0, 0, 6.28); ctx.fill();
+      ctx.fillStyle = b.kind === "barge" ? "#5c4030" : "#e6e0cf";
+      ctx.fillRect(cx - L / 2, cy - W * 0.4, L, W);
+      ctx.fillStyle = "rgba(255,255,255,.6)";
+      ctx.fillRect(cx + L * 0.1, cy - W * 1.1, L * 0.16, W * 0.9);
+      if (night > 0.2) { ctx.fillStyle = "rgba(255,220,140,.9)"; ctx.fillRect(cx - L * 0.1, cy - W * 0.9, Math.max(1, 1.6 * zoom), Math.max(1, 1.6 * zoom)); }
+    });
+
+    (S.smoke || []).forEach((puff) => {
+      const s0 = tileToScreen(puff.x, puff.y);
+      const life = puff.life;
+      const r = (1 - life) * 16 * zoom + 3 * zoom;
+      ctx.fillStyle = "rgba(120,120,120," + (0.30 * life).toFixed(3) + ")";
+      ctx.beginPath(); ctx.arc(s0.x + zw / 2, s0.y + zh / 2 - (1 - life) * 40 * zoom, r, 0, 6.28); ctx.fill();
+    });
 
     if (regionOf(hover.gx, hover.gy)) {
       const s = tileToScreen(hover.gx, hover.gy);
@@ -666,7 +904,24 @@
       ctx.stroke();
     }
 
-    const night = Math.max(0, Math.cos((S.hour / 24) * Math.PI * 2)) * 0.28;
+    if (S.rain > 0.02) {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      ctx.fillStyle = "rgba(90,120,150," + (0.10 * S.rain).toFixed(3) + ")";
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeStyle = "rgba(200,220,240," + (0.35 * S.rain).toFixed(3) + ")";
+      ctx.lineWidth = Math.max(1, 1.1 * cam.zoom);
+      ctx.beginPath();
+      const drops = Math.round(120 * S.rain);
+      for (let i = 0; i < drops; i++) {
+        const seed = i * 97.13;
+        const x = (seed * 37 + performance.now() * 0.45) % w;
+        const y = (seed * 61 + performance.now() * 1.6) % h;
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - 2, y + 12);
+      }
+      ctx.stroke();
+    }
+
     if (night > 0.01) {
       ctx.fillStyle = "rgba(8,12,28," + night.toFixed(3) + ")";
       ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -886,6 +1141,7 @@
   function startAmbient() {
     const ac = initAudio(); if (!ac || ambient) return;
     const master = ac.createGain(); master.gain.value = 0.05; master.connect(ac.destination);
+    // two drones: the town's low hum
     const o1 = ac.createOscillator(); o1.type = "sine"; o1.frequency.value = 110;
     const o2 = ac.createOscillator(); o2.type = "sine"; o2.frequency.value = 165;
     const lfo = ac.createOscillator(); lfo.frequency.value = 0.08;
@@ -893,7 +1149,33 @@
     lfo.connect(lg); lg.connect(o2.frequency);
     o1.connect(master); o2.connect(master);
     o1.start(); o2.start(); lfo.start();
-    ambient = { master };
+
+    // traffic bed: filtering noise would need a buffer, so a detuned pair works
+    const traffic = ac.createGain(); traffic.gain.value = 0;
+    const t1 = ac.createOscillator(); t1.type = "triangle"; t1.frequency.value = 58;
+    t1.connect(traffic); traffic.connect(master); t1.start();
+
+    // birds by day, crickets by night, played as short chirps
+    const nature = ac.createGain(); nature.gain.value = 0.7; nature.connect(master);
+    ambient = { master, traffic, nature };
+    const chirp = () => {
+      if (!audioOn) { ambient.chirpTimer = setTimeout(chirp, 1500); return; }
+      const now = ac.currentTime;
+      const nightTime = S.hour < 6 || S.hour > 20;
+      const osc = ac.createOscillator(), g = ac.createGain();
+      osc.type = "sine";
+      const base = nightTime ? rnd(2400, 3200) : rnd(1400, 2400);
+      osc.frequency.setValueAtTime(base, now);
+      osc.frequency.exponentialRampToValueAtTime(base * (nightTime ? 0.82 : 1.25), now + 0.05);
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(nightTime ? 0.02 : 0.05, now + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + (nightTime ? 0.05 : 0.09));
+      osc.connect(g); g.connect(nature);
+      osc.start(now); osc.stop(now + 0.12);
+      const gap = S.rain > 0.3 ? rnd(2500, 5000) : (nightTime ? rnd(700, 1600) : rnd(350, 1200));
+      ambient.chirpTimer = setTimeout(chirp, gap);
+    };
+    chirp();
   }
   function sfx(kind) {
     if (!audioOn) return;
