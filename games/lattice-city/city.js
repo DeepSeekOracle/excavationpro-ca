@@ -1003,7 +1003,7 @@
     return { gx: vx, gy: vy };
   }
   function rotateCamera(dir) {
-    const w = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);   // already world space
+    const w = screenToTile(getCanvas().clientWidth / 2, getCanvas().clientHeight / 2);   // already world space
     ROT = (ROT + dir + 4) % 4;
     focusOn(w.gx, w.gy, cam.zoom);
   }
@@ -1023,7 +1023,7 @@
     return fromView(v.gx, v.gy);
   }
   function focusOn(gx, gy, zoom) {
-    const c = document.getElementById("map");
+    const c = getCanvas();
     cam.zoom = zoom || 0.95;
     const p = tileToScreen(gx, gy);
     cam.x += c.clientWidth / 2 - (p.x + TW * cam.zoom / 2);
@@ -1032,9 +1032,16 @@
   function focusRegion(r) { focusOn(r.rx * RS + RS / 2, r.ry * RS + RS / 2); }
 
   // ---------------------------------------------------------------- render
-  const canvas = document.getElementById("map");
-  const ctx = canvas.getContext("2d");
+  let canvas = null, ctx = null;
   let dpr = 1, last = 0, acc = 0, hover = { gx: -1, gy: -1 }, lastMini = 0;
+  function getCanvas() {
+    if (!canvas) {
+      canvas = document.getElementById("map");
+      ctx = canvas ? canvas.getContext("2d") : null;
+    }
+    return canvas;
+  }
+  function getCtx() { getCanvas(); return ctx; }
 
   const GROUND_COLORS = {
     5: ["#5a5348", "#514a40"],
@@ -1046,9 +1053,11 @@
   };
 
   function resize() {
+    const c = getCanvas();
+    if (!c || !ctx) return;
     dpr = Math.min(2, window.devicePixelRatio || 1);
-    canvas.width = Math.floor(canvas.clientWidth * dpr);
-    canvas.height = Math.floor(canvas.clientHeight * dpr);
+    c.width = Math.floor(c.clientWidth * dpr);
+    c.height = Math.floor(c.clientHeight * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = false;
   }
@@ -1135,18 +1144,18 @@
   }
 
   function drawDiamond(cx, cy, w, h, fill) {
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - h / 2);
-    ctx.lineTo(cx + w / 2, cy);
-    ctx.lineTo(cx, cy + h / 2);
-    ctx.lineTo(cx - w / 2, cy);
+    getCtx().beginPath();
+    getCtx().moveTo(cx, cy - h / 2);
+    getCtx().lineTo(cx + w / 2, cy);
+    getCtx().lineTo(cx, cy + h / 2);
+    getCtx().lineTo(cx - w / 2, cy);
     ctx.closePath();
-    ctx.fillStyle = fill;
-    ctx.fill();
+    getCtx().fillStyle = fill;
+    getCtx().fill();
   }
 
   function visibleRange() {
-    const w = canvas.clientWidth, h = canvas.clientHeight;
+    const w = getCanvas().clientWidth, h = getCanvas().clientHeight;
     const cs = [screenToView(0, 0), screenToView(w, 0), screenToView(0, h), screenToView(w, h)];
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     cs.forEach((c) => { x0 = Math.min(x0, c.gx); x1 = Math.max(x1, c.gx); y0 = Math.min(y0, c.gy); y1 = Math.max(y1, c.gy); });
@@ -1211,9 +1220,9 @@
     }
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-    ctx.fillStyle = "#0a0908";
-    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    ctx.clearRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
+    getCtx().fillStyle = "#0a0908";
+    getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
 
     const r = visibleRange();
     const zw = TW * cam.zoom, zh = TH * cam.zoom;
@@ -1252,7 +1261,7 @@
         const atlas = TEX[terr] && TEX[terr].length ? TEX[terr] : (terr === TERRAIN.MOUNTAIN ? TEX[4] : null);
         const tex = atlas ? atlas[((gx * 3 + gy * 5 + ((gx * gy) & 1)) & 7) % 3] : null;
         if (tex) {
-          ctx.drawImage(tex, Math.round(s.x) - 1, Math.round(s.y) - 1, zw + 2, zh + 2);
+          getCtx().drawImage(tex, Math.round(s.x) - 1, Math.round(s.y) - 1, zw + 2, zh + 2);
         } else {
           drawDiamond(cx0, cy0, zw + 2, zh + 2, shade);
         }
@@ -1269,45 +1278,45 @@
             const other = t2.r.terrain[t2.i] === TERRAIN.WATER;
             if (other === nW) continue;
             const cxD = cx0, cyD = cy0;
-            ctx.strokeStyle = nW ? "rgba(190,225,245,.55)" : "rgba(198,180,120,.6)";
-            ctx.lineWidth = Math.max(1, 1.6 * cam.zoom);
-            ctx.beginPath();
-            if (d === 0) { ctx.moveTo(cxD - zw / 2, cyD); ctx.lineTo(cxD, cyD - zh / 2); }
-            if (d === 1) { ctx.moveTo(cxD, cyD - zh / 2); ctx.lineTo(cxD + zw / 2, cyD); }
-            if (d === 2) { ctx.moveTo(cxD + zw / 2, cyD); ctx.lineTo(cxD, cyD + zh / 2); }
-            if (d === 3) { ctx.moveTo(cxD, cyD + zh / 2); ctx.lineTo(cxD - zw / 2, cyD); }
-            ctx.stroke();
+            getCtx().strokeStyle = nW ? "rgba(190,225,245,.55)" : "rgba(198,180,120,.6)";
+            getCtx().lineWidth = Math.max(1, 1.6 * cam.zoom);
+            getCtx().beginPath();
+            if (d === 0) { getCtx().moveTo(cxD - zw / 2, cyD); getCtx().lineTo(cxD, cyD - zh / 2); }
+            if (d === 1) { getCtx().moveTo(cxD, cyD - zh / 2); getCtx().lineTo(cxD + zw / 2, cyD); }
+            if (d === 2) { getCtx().moveTo(cxD + zw / 2, cyD); getCtx().lineTo(cxD, cyD + zh / 2); }
+            if (d === 3) { getCtx().moveTo(cxD, cyD + zh / 2); getCtx().lineTo(cxD - zw / 2, cyD); }
+            getCtx().stroke();
           }
         }
 
         if (OPT.grid) {
-          ctx.strokeStyle = "rgba(0,0,0,.13)";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(cx0, cy0 - zh / 2); ctx.lineTo(cx0 + zw / 2, cy0);
-          ctx.lineTo(cx0, cy0 + zh / 2); ctx.lineTo(cx0 - zw / 2, cy0);
-          ctx.closePath(); ctx.stroke();
+          getCtx().strokeStyle = "rgba(0,0,0,.13)";
+          getCtx().lineWidth = 1;
+          getCtx().beginPath();
+          getCtx().moveTo(cx0, cy0 - zh / 2); getCtx().lineTo(cx0 + zw / 2, cy0);
+          getCtx().lineTo(cx0, cy0 + zh / 2); getCtx().lineTo(cx0 - zw / 2, cy0);
+          ctx.closePath(); getCtx().stroke();
         }
         if (terr === TERRAIN.WATER) {
-          if (OPT.reduceMotion) { ctx.globalAlpha = 0.12; } else {
-          ctx.globalAlpha = 0.10 + 0.06 * Math.sin(now / 900 + gx * 0.6 + gy * 0.4);
+          if (OPT.reduceMotion) { getCtx().globalAlpha = 0.12; } else {
+          getCtx().globalAlpha = 0.10 + 0.06 * Math.sin(now / 900 + gx * 0.6 + gy * 0.4);
           }
           drawDiamond(cx0, cy0, zw * 0.86, zh * 0.86, "#9fd8ff");
-          ctx.globalAlpha = 1;
+          getCtx().globalAlpha = 1;
         }
         if (zw > 56 && terr !== TERRAIN.WATER && ((gx * 5 + gy * 3) & 7) === 0) {
-          ctx.fillStyle = terr === TERRAIN.SAND ? "rgba(150,125,70,.35)" : (terr === TERRAIN.ROCK ? "rgba(40,40,38,.35)" : "rgba(24,58,26,.32)");
+          getCtx().fillStyle = terr === TERRAIN.SAND ? "rgba(150,125,70,.35)" : (terr === TERRAIN.ROCK ? "rgba(40,40,38,.35)" : "rgba(24,58,26,.32)");
           const sz = Math.max(1.5, 2.2 * cam.zoom);
-          ctx.fillRect(cx0 + ((gx & 3) - 1.5) * 6, cy0 + ((gy & 3) - 1.5) * 4, sz, sz);
-          ctx.fillRect(cx0 + ((gy & 3) - 1.5) * 6, cy0 + ((gx & 3) - 1.5) * 4, sz, sz);
+          getCtx().fillRect(cx0 + ((gx & 3) - 1.5) * 6, cy0 + ((gy & 3) - 1.5) * 4, sz, sz);
+          getCtx().fillRect(cx0 + ((gy & 3) - 1.5) * 6, cy0 + ((gx & 3) - 1.5) * 4, sz, sz);
         }
         if (reg.zone[i] && !reg.level[i]) {
           const zc = reg.zone[i] === Z.R ? "rgba(111,191,115,.26)" : reg.zone[i] === Z.C ? "rgba(90,169,230,.24)" : "rgba(242,193,78,.22)";
           drawDiamond(cx0, cy0, zw * 0.9, zh * 0.9, zc);
           if (!hasRoadNear(gx, gy)) {
-            ctx.fillStyle = "rgba(226,88,60,.9)";
+            getCtx().fillStyle = "rgba(226,88,60,.9)";
             const s0 = Math.max(2, 3 * cam.zoom);
-            ctx.fillRect(cx0 - s0 / 2, cy0 - zh * 0.28 - s0, s0, s0);
+            getCtx().fillRect(cx0 - s0 / 2, cy0 - zh * 0.28 - s0, s0, s0);
           }
         }
 
@@ -1328,7 +1337,7 @@
             const img = SPRITES[mk];
             if (img && img.complete) {
               const mw = TW * 1.5 * cam.zoom;
-              ctx.drawImage(img, cx0 - mw / 2, cy0 + zh / 2 - mw, mw, mw);
+              getCtx().drawImage(img, cx0 - mw / 2, cy0 + zh / 2 - mw, mw, mw);
             }
           }
           continue;
@@ -1357,23 +1366,23 @@
         }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
         if (key && SPRITES[key] && SPRITES[key].complete) {
-          ctx.drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
+          getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
         }
         if (reg.level[i] && !reg.powerOn[i]) {
-          ctx.globalAlpha = 0.22;
+          getCtx().globalAlpha = 0.22;
           drawDiamond(cx0, cy0, zw * 0.5, zh * 0.5, "#ffdf6b");
-          ctx.globalAlpha = 1;
+          getCtx().globalAlpha = 1;
         }
         // lit windows once the sun is down: the skyline reads from far out
         if (night > 0.18 && reg.level[i] && reg.zone[i] && cam.zoom > 0.45) {
           const lit = 0.55 + hash2(gx + 5, gy + 9) * 0.45;
           const count = reg.level[i] + (reg.zone[i] === Z.C ? 1 : 0);
-          ctx.fillStyle = "rgba(255,220,150," + (Math.min(1, night * 3.4) * lit).toFixed(2) + ")";
+          getCtx().fillStyle = "rgba(255,220,150," + (Math.min(1, night * 3.4) * lit).toFixed(2) + ")";
           const wpx = Math.max(1.5, 2.6 * cam.zoom), hpx = Math.max(1.5, 2.2 * cam.zoom);
           for (let w = 0; w < count; w++) {
             const ox = (hash2(gx + w * 7, gy + 3) - 0.5) * zw * 0.5;
             const oy = -(reg.level[i] * 0.12 + w * 0.05) * zh;
-            ctx.fillRect(cx0 + ox, cy0 + oy - zh * 0.22, wpx, hpx);
+            getCtx().fillRect(cx0 + ox, cy0 + oy - zh * 0.22, wpx, hpx);
           }
         }
       }
@@ -1382,13 +1391,13 @@
     claimedList().forEach((reg) => {
       const x0 = reg.rx * RS, y0 = reg.ry * RS;
       const pts = [tileToScreen(x0, y0), tileToScreen(x0 + RS, y0), tileToScreen(x0 + RS, y0 + RS), tileToScreen(x0, y0 + RS)];
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x + zw / 2, pts[0].y + zh / 2);
-      for (let i = 1; i < 4; i++) ctx.lineTo(pts[i].x + zw / 2, pts[i].y + zh / 2);
+      getCtx().beginPath();
+      getCtx().moveTo(pts[0].x + zw / 2, pts[0].y + zh / 2);
+      for (let i = 1; i < 4; i++) getCtx().lineTo(pts[i].x + zw / 2, pts[i].y + zh / 2);
       ctx.closePath();
-      ctx.strokeStyle = "rgba(242,193,78,.16)";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
+      getCtx().strokeStyle = "rgba(242,193,78,.16)";
+      getCtx().lineWidth = 1.5;
+      getCtx().stroke();
     });
 
     if (night > 0.12) {
@@ -1399,11 +1408,11 @@
           const p = tileToScreen(gx, gy);
           const cx = p.x + zw / 2, cy = p.y + zh / 2;
           const rr = Math.max(6, 22 * cam.zoom);
-          const g = ctx.createRadialGradient(cx, cy - 6 * cam.zoom, 1, cx, cy - 6 * cam.zoom, rr);
+          const g = getCtx().createRadialGradient(cx, cy - 6 * cam.zoom, 1, cx, cy - 6 * cam.zoom, rr);
           g.addColorStop(0, "rgba(255,214,130," + (0.20 * night / 0.28).toFixed(3) + ")");
           g.addColorStop(1, "rgba(255,214,130,0)");
-          ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(cx, cy - 6 * cam.zoom, rr, 0, 6.28); ctx.fill();
+          getCtx().fillStyle = g;
+          getCtx().beginPath(); getCtx().arc(cx, cy - 6 * cam.zoom, rr, 0, 6.28); getCtx().fill();
         }
       });
     }
@@ -1423,24 +1432,24 @@
       const bob = Math.sin((p.walk += 0.25) + p.at) > 0 ? 1 : 0;
       const h = Math.max(4, 8.6 * zoom), w = Math.max(2.4, 4.2 * zoom);
       // shadow
-      ctx.fillStyle = "rgba(0,0,0,.28)";
-      ctx.beginPath(); ctx.ellipse(s0.x, s0.y, w * 0.9, w * 0.45, 0, 0, 6.28); ctx.fill();
+      getCtx().fillStyle = "rgba(0,0,0,.28)";
+      getCtx().beginPath(); getCtx().ellipse(s0.x, s0.y, w * 0.9, w * 0.45, 0, 0, 6.28); getCtx().fill();
       // legs
-      ctx.fillStyle = "#22303a";
-      ctx.fillRect(s0.x - w * 0.45, s0.y - h * 0.42, w * 0.35, h * 0.42);
-      ctx.fillRect(s0.x + w * 0.1, s0.y - h * 0.42 - bob * zoom, w * 0.35, h * 0.42);
+      getCtx().fillStyle = "#22303a";
+      getCtx().fillRect(s0.x - w * 0.45, s0.y - h * 0.42, w * 0.35, h * 0.42);
+      getCtx().fillRect(s0.x + w * 0.1, s0.y - h * 0.42 - bob * zoom, w * 0.35, h * 0.42);
       // coat
-      ctx.fillStyle = "rgba(0,0,0,.35)";
-      ctx.fillRect(s0.x - w * 0.58, s0.y - h * 0.86, w * 1.16, h * 0.5);
-      ctx.fillStyle = p.coat;
-      ctx.fillRect(s0.x - w * 0.5, s0.y - h * 0.82, w, h * 0.42);
+      getCtx().fillStyle = "rgba(0,0,0,.35)";
+      getCtx().fillRect(s0.x - w * 0.58, s0.y - h * 0.86, w * 1.16, h * 0.5);
+      getCtx().fillStyle = p.coat;
+      getCtx().fillRect(s0.x - w * 0.5, s0.y - h * 0.82, w, h * 0.42);
       // head
-      ctx.fillStyle = p.skin;
-      ctx.fillRect(s0.x - w * 0.32, s0.y - h * 1.08, w * 0.64, h * 0.3);
-      if (p.hat) { ctx.fillStyle = "#3a2d24"; ctx.fillRect(s0.x - w * 0.42, s0.y - h * 1.16, w * 0.84, h * 0.14); }
+      getCtx().fillStyle = p.skin;
+      getCtx().fillRect(s0.x - w * 0.32, s0.y - h * 1.08, w * 0.64, h * 0.3);
+      if (p.hat) { getCtx().fillStyle = "#3a2d24"; getCtx().fillRect(s0.x - w * 0.42, s0.y - h * 1.16, w * 0.84, h * 0.14); }
       if (p.umbrella && (night > 0.15 || S.rain > 0.35)) {
-        ctx.fillStyle = "rgba(220,80,70,.85)";
-        ctx.beginPath(); ctx.ellipse(s0.x, s0.y - h * 1.35, w * 1.5, w * 0.7, 0, Math.PI, 0); ctx.fill();
+        getCtx().fillStyle = "rgba(220,80,70,.85)";
+        getCtx().beginPath(); getCtx().ellipse(s0.x, s0.y - h * 1.35, w * 1.5, w * 0.7, 0, Math.PI, 0); getCtx().fill();
       }
     });
 
@@ -1452,33 +1461,33 @@
       const rawL = (c.kind === "bus" ? 20 : c.kind === "truck" ? 15 : 11) * zoom;
       const L = Math.max(5, Math.min(rawL, 34 * zoom));
       const W = Math.max(3, (c.kind === "bus" ? 8 : 6.4) * zoom);
-      ctx.save();
-      ctx.translate(s0.x, s0.y - W * 0.35);
+      getCtx().save();
+      getCtx().translate(s0.x, s0.y - W * 0.35);
       ctx.rotate(ang);
       // shadow on the road, not offset by the rotation
-      ctx.fillStyle = "rgba(0,0,0,.32)";
-      ctx.fillRect(-L / 2, -W / 2 + W * 0.55, L, Math.max(1.5, W * 0.5));
+      getCtx().fillStyle = "rgba(0,0,0,.32)";
+      getCtx().fillRect(-L / 2, -W / 2 + W * 0.55, L, Math.max(1.5, W * 0.5));
       // body
-      ctx.fillStyle = c.kind === "bus" ? "#c9642f" : c.kind === "truck" ? "#4d6a52" : "hsl(" + c.hue + ",48%,54%)";
-      ctx.fillRect(-L / 2, -W / 2, L, W);
+      getCtx().fillStyle = c.kind === "bus" ? "#c9642f" : c.kind === "truck" ? "#4d6a52" : "hsl(" + c.hue + ",48%,54%)";
+      getCtx().fillRect(-L / 2, -W / 2, L, W);
       // cabin glass toward the front of travel
-      ctx.fillStyle = "rgba(190,225,255,.85)";
-      ctx.fillRect(L * 0.06, -W / 2 + W * 0.16, L * 0.3, W * 0.5);
+      getCtx().fillStyle = "rgba(190,225,255,.85)";
+      getCtx().fillRect(L * 0.06, -W / 2 + W * 0.16, L * 0.3, W * 0.5);
       if (c.kind !== "car") {
-        ctx.fillStyle = "rgba(30,24,18,.75)";
-        ctx.fillRect(-L * 0.46, -W / 2 + W * 0.1, L * 0.4, W * 0.8);
+        getCtx().fillStyle = "rgba(30,24,18,.75)";
+        getCtx().fillRect(-L * 0.46, -W / 2 + W * 0.1, L * 0.4, W * 0.8);
       }
       // wheels
-      ctx.fillStyle = "#1d2226";
-      ctx.fillRect(-L * 0.34, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
-      ctx.fillRect(L * 0.2, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
+      getCtx().fillStyle = "#1d2226";
+      getCtx().fillRect(-L * 0.34, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
+      getCtx().fillRect(L * 0.2, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
       if (night > 0.2) {
-        ctx.fillStyle = "rgba(255,236,170,.95)";
-        ctx.fillRect(L / 2 - Math.max(1, 1.6 * zoom), -W * 0.3, Math.max(1, 1.8 * zoom), W * 0.3);
-        ctx.fillStyle = "rgba(255,236,170,.10)";
-        ctx.beginPath(); ctx.arc(L / 2, 0, L * 0.8, 0, 6.28); ctx.fill();
+        getCtx().fillStyle = "rgba(255,236,170,.95)";
+        getCtx().fillRect(L / 2 - Math.max(1, 1.6 * zoom), -W * 0.3, Math.max(1, 1.8 * zoom), W * 0.3);
+        getCtx().fillStyle = "rgba(255,236,170,.10)";
+        getCtx().beginPath(); getCtx().arc(L / 2, 0, L * 0.8, 0, 6.28); getCtx().fill();
       }
-      ctx.restore();
+      getCtx().restore();
     });
 
     // rail: sleepers between depots, then the trains on them
@@ -1492,18 +1501,18 @@
       const dx = bx - ax, dy = by - ay;
       const len = Math.hypot(dx, dy) || 1;
       const ux = dx / len, uy = dy / len;
-      ctx.strokeStyle = "rgba(60,52,44,.75)";
-      ctx.lineWidth = Math.max(1.5, 2.4 * cam.zoom);
-      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
-      ctx.strokeStyle = "rgba(190,175,150,.55)";
-      ctx.lineWidth = Math.max(1, 1.2 * cam.zoom);
+      getCtx().strokeStyle = "rgba(60,52,44,.75)";
+      getCtx().lineWidth = Math.max(1.5, 2.4 * cam.zoom);
+      getCtx().beginPath(); getCtx().moveTo(ax, ay); getCtx().lineTo(bx, by); getCtx().stroke();
+      getCtx().strokeStyle = "rgba(190,175,150,.55)";
+      getCtx().lineWidth = Math.max(1, 1.2 * cam.zoom);
       const sleepers = Math.min(60, Math.floor(len / (10 * cam.zoom)));
       for (let i = 1; i < sleepers; i++) {
         const px = ax + ux * (len * i / sleepers), py = ay + uy * (len * i / sleepers);
-        ctx.beginPath();
-        ctx.moveTo(px - uy * 4 * cam.zoom, py + ux * 4 * cam.zoom);
-        ctx.lineTo(px + uy * 4 * cam.zoom, py - ux * 4 * cam.zoom);
-        ctx.stroke();
+        getCtx().beginPath();
+        getCtx().moveTo(px - uy * 4 * cam.zoom, py + ux * 4 * cam.zoom);
+        getCtx().lineTo(px + uy * 4 * cam.zoom, py - ux * 4 * cam.zoom);
+        getCtx().stroke();
       }
     });
 
@@ -1517,24 +1526,24 @@
       const dirSign = tr.dir >= 0 ? 1 : -1;
       for (let car = 0; car < 3; car++) {
         const off = (car - 1) * L * 0.95 * dirSign;
-        ctx.save();
-        ctx.translate(px + Math.cos(ang) * off, py + Math.sin(ang) * off);
+        getCtx().save();
+        getCtx().translate(px + Math.cos(ang) * off, py + Math.sin(ang) * off);
         ctx.rotate(ang);
-        ctx.fillStyle = "rgba(0,0,0,.35)";
-        ctx.fillRect(-L / 2, -W / 2 + W * 0.7, L, Math.max(1.5, W * 0.4));
-        ctx.fillStyle = car === 0 ? "#7a3b2e" : "#3f4a52";
-        ctx.fillRect(-L / 2, -W / 2, L, W);
-        ctx.fillStyle = "rgba(210,225,240,.7)";
-        ctx.fillRect(-L * 0.34, -W / 2 + W * 0.18, L * 0.24, W * 0.42);
+        getCtx().fillStyle = "rgba(0,0,0,.35)";
+        getCtx().fillRect(-L / 2, -W / 2 + W * 0.7, L, Math.max(1.5, W * 0.4));
+        getCtx().fillStyle = car === 0 ? "#7a3b2e" : "#3f4a52";
+        getCtx().fillRect(-L / 2, -W / 2, L, W);
+        getCtx().fillStyle = "rgba(210,225,240,.7)";
+        getCtx().fillRect(-L * 0.34, -W / 2 + W * 0.18, L * 0.24, W * 0.42);
         if (car === 0) {
-          ctx.fillStyle = "#241d18";
-          ctx.fillRect(-L * 0.05, -W * 1.25, L * 0.14, W * 0.8);
+          getCtx().fillStyle = "#241d18";
+          getCtx().fillRect(-L * 0.05, -W * 1.25, L * 0.14, W * 0.8);
           if (night > 0.2) {
-            ctx.fillStyle = "rgba(255,236,170,.95)";
-            ctx.fillRect(L * 0.4, -W * 0.3, Math.max(1, 1.8 * cam.zoom), Math.max(1, 1.6 * cam.zoom));
+            getCtx().fillStyle = "rgba(255,236,170,.95)";
+            getCtx().fillRect(L * 0.4, -W * 0.3, Math.max(1, 1.8 * cam.zoom), Math.max(1, 1.6 * cam.zoom));
           }
         }
-        ctx.restore();
+        getCtx().restore();
       }
     });
 
@@ -1546,15 +1555,15 @@
       const a = docks.find((d) => d.r === l.a), b = docks.find((d) => d.r === l.b);
       if (!a || !b) return;
       const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
-      ctx.save();
+      getCtx().save();
       ctx.setLineDash([6 * cam.zoom, 6 * cam.zoom]);
-      ctx.strokeStyle = "rgba(114,224,209,.45)";
-      ctx.lineWidth = Math.max(1, 1.6 * cam.zoom);
-      ctx.beginPath();
-      ctx.moveTo(pa.x + zw / 2, pa.y + zh / 2);
-      ctx.lineTo(pb.x + zw / 2, pb.y + zh / 2);
-      ctx.stroke();
-      ctx.restore();
+      getCtx().strokeStyle = "rgba(114,224,209,.45)";
+      getCtx().lineWidth = Math.max(1, 1.6 * cam.zoom);
+      getCtx().beginPath();
+      getCtx().moveTo(pa.x + zw / 2, pa.y + zh / 2);
+      getCtx().lineTo(pb.x + zw / 2, pb.y + zh / 2);
+      getCtx().stroke();
+      getCtx().restore();
     });
 
     (S.ferries || []).forEach((f) => {
@@ -1562,100 +1571,100 @@
       const s0 = tileToScreen(x, y);
       const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
       const L = Math.max(6, 16 * cam.zoom), W = Math.max(3, 6 * cam.zoom);
-      ctx.fillStyle = "rgba(10,25,35,.5)";
-      ctx.beginPath(); ctx.ellipse(cx, cy + W * 0.5, L * 0.7, W * 0.6, 0, 0, 6.28); ctx.fill();
-      ctx.fillStyle = "#e9e3d2";
-      ctx.fillRect(cx - L / 2, cy - W / 2, L, W);
-      ctx.fillStyle = "#3c5568";
-      ctx.fillRect(cx - L * 0.1, cy - W * 1.5, L * 0.42, W);
-      if (night > 0.2) { ctx.fillStyle = "rgba(255,220,140,.95)"; ctx.fillRect(cx - L * 0.3, cy - W * 1.3, Math.max(1, 1.6 * cam.zoom), Math.max(1, 1.6 * cam.zoom)); }
+      getCtx().fillStyle = "rgba(10,25,35,.5)";
+      getCtx().beginPath(); getCtx().ellipse(cx, cy + W * 0.5, L * 0.7, W * 0.6, 0, 0, 6.28); getCtx().fill();
+      getCtx().fillStyle = "#e9e3d2";
+      getCtx().fillRect(cx - L / 2, cy - W / 2, L, W);
+      getCtx().fillStyle = "#3c5568";
+      getCtx().fillRect(cx - L * 0.1, cy - W * 1.5, L * 0.42, W);
+      if (night > 0.2) { getCtx().fillStyle = "rgba(255,220,140,.95)"; getCtx().fillRect(cx - L * 0.3, cy - W * 1.3, Math.max(1, 1.6 * cam.zoom), Math.max(1, 1.6 * cam.zoom)); }
     });
 
     (S.boats || []).forEach((b) => {
       const s0 = tileToScreen(b.x, b.y);
       const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
       const L = Math.max(4, (b.kind === "barge" ? 16 : 10) * zoom), W = Math.max(2, 4 * zoom);
-      ctx.fillStyle = "rgba(10,25,35,.55)";
-      ctx.beginPath(); ctx.ellipse(cx, cy + W * 0.4, L * 0.7, W * 0.7, 0, 0, 6.28); ctx.fill();
-      ctx.fillStyle = b.kind === "barge" ? "#5c4030" : "#e6e0cf";
-      ctx.fillRect(cx - L / 2, cy - W * 0.4, L, W);
-      ctx.fillStyle = "rgba(255,255,255,.6)";
-      ctx.fillRect(cx + L * 0.1, cy - W * 1.1, L * 0.16, W * 0.9);
-      if (night > 0.2) { ctx.fillStyle = "rgba(255,220,140,.9)"; ctx.fillRect(cx - L * 0.1, cy - W * 0.9, Math.max(1, 1.6 * zoom), Math.max(1, 1.6 * zoom)); }
+      getCtx().fillStyle = "rgba(10,25,35,.55)";
+      getCtx().beginPath(); getCtx().ellipse(cx, cy + W * 0.4, L * 0.7, W * 0.7, 0, 0, 6.28); getCtx().fill();
+      getCtx().fillStyle = b.kind === "barge" ? "#5c4030" : "#e6e0cf";
+      getCtx().fillRect(cx - L / 2, cy - W * 0.4, L, W);
+      getCtx().fillStyle = "rgba(255,255,255,.6)";
+      getCtx().fillRect(cx + L * 0.1, cy - W * 1.1, L * 0.16, W * 0.9);
+      if (night > 0.2) { getCtx().fillStyle = "rgba(255,220,140,.9)"; getCtx().fillRect(cx - L * 0.1, cy - W * 0.9, Math.max(1, 1.6 * zoom), Math.max(1, 1.6 * zoom)); }
     });
 
     (S.smoke || []).forEach((puff) => {
       const s0 = tileToScreen(puff.x, puff.y);
       const life = puff.life;
       const r = (1 - life) * 16 * zoom + 3 * zoom;
-      ctx.fillStyle = "rgba(120,120,120," + (0.30 * life).toFixed(3) + ")";
-      ctx.beginPath(); ctx.arc(s0.x + zw / 2, s0.y + zh / 2 - (1 - life) * 40 * zoom, r, 0, 6.28); ctx.fill();
+      getCtx().fillStyle = "rgba(120,120,120," + (0.30 * life).toFixed(3) + ")";
+      getCtx().beginPath(); getCtx().arc(s0.x + zw / 2, s0.y + zh / 2 - (1 - life) * 40 * zoom, r, 0, 6.28); getCtx().fill();
     });
 
     if (regionOf(hover.gx, hover.gy)) {
       const s = tileToScreen(hover.gx, hover.gy);
       const t = toolById(S.tool);
       const ok = canPaint(t, hover.gx, hover.gy);
-      ctx.strokeStyle = ok ? "rgba(242,193,78,.9)" : "rgba(217,105,76,.9)";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(s.x + zw / 2, s.y);
-      ctx.lineTo(s.x + zw, s.y + zh / 2);
-      ctx.lineTo(s.x + zw / 2, s.y + zh);
-      ctx.lineTo(s.x, s.y + zh / 2);
+      getCtx().strokeStyle = ok ? "rgba(242,193,78,.9)" : "rgba(217,105,76,.9)";
+      getCtx().lineWidth = 2;
+      getCtx().beginPath();
+      getCtx().moveTo(s.x + zw / 2, s.y);
+      getCtx().lineTo(s.x + zw, s.y + zh / 2);
+      getCtx().lineTo(s.x + zw / 2, s.y + zh);
+      getCtx().lineTo(s.x, s.y + zh / 2);
       ctx.closePath();
-      ctx.stroke();
+      getCtx().stroke();
     }
 
     if (S.rain > 0.02 && OPT.weather) {
-      const w = canvas.clientWidth, h = canvas.clientHeight;
-      ctx.fillStyle = "rgba(90,120,150," + (0.10 * S.rain).toFixed(3) + ")";
-      ctx.fillRect(0, 0, w, h);
-      ctx.strokeStyle = "rgba(200,220,240," + (0.35 * S.rain).toFixed(3) + ")";
-      ctx.lineWidth = Math.max(1, 1.1 * cam.zoom);
-      ctx.beginPath();
+      const w = getCanvas().clientWidth, h = getCanvas().clientHeight;
+      getCtx().fillStyle = "rgba(90,120,150," + (0.10 * S.rain).toFixed(3) + ")";
+      getCtx().fillRect(0, 0, w, h);
+      getCtx().strokeStyle = "rgba(200,220,240," + (0.35 * S.rain).toFixed(3) + ")";
+      getCtx().lineWidth = Math.max(1, 1.1 * cam.zoom);
+      getCtx().beginPath();
       const drops = Math.round(120 * S.rain);
       for (let i = 0; i < drops; i++) {
         const seed = i * 97.13;
         const x = (seed * 37 + performance.now() * 0.45) % w;
         const y = (seed * 61 + performance.now() * 1.6) % h;
-        ctx.moveTo(x, y);
-        ctx.lineTo(x - 2, y + 12);
+        getCtx().moveTo(x, y);
+        getCtx().lineTo(x - 2, y + 12);
       }
-      ctx.stroke();
+      getCtx().stroke();
     }
 
     if (OPT.night) {
       if (warm > 0.02 && dark < 0.85) {
-        ctx.fillStyle = "rgba(255,146,64," + (0.20 * warm * (1 - dark * 0.6)).toFixed(3) + ")";
-        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        getCtx().fillStyle = "rgba(255,146,64," + (0.20 * warm * (1 - dark * 0.6)).toFixed(3) + ")";
+        getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
       }
       if (dark > 0.01) {
-        ctx.fillStyle = "rgba(10,16,42," + (dark * 0.42).toFixed(3) + ")";
-        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        getCtx().fillStyle = "rgba(10,16,42," + (dark * 0.42).toFixed(3) + ")";
+        getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
         // a colder cast deep in the night, so the two ends of it differ
-        ctx.fillStyle = "rgba(40,60,120," + (dark * 0.10).toFixed(3) + ")";
-        ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        getCtx().fillStyle = "rgba(40,60,120," + (dark * 0.10).toFixed(3) + ")";
+        getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
       }
       // cloud shadows: multiplied over everything, so they pass across roofs too
       const cloudAlpha = 0.16 * (1 - dark * 0.55);
       if (cloudAlpha > 0.02) {
-        ctx.save();
-        ctx.globalCompositeOperation = "multiply";
+        getCtx().save();
+        getCtx().globalCompositeOperation = "multiply";
         (S.clouds || []).forEach((c) => {
           const p = tileToScreen(c.gx, c.gy);
           const cx = p.x + zw / 2, cy = p.y + zh / 2;
           const rad = c.r * TW * cam.zoom * 0.6;
-          if (cx + rad < 0 || cx - rad > canvas.clientWidth || cy + rad < 0 || cy - rad > canvas.clientHeight) return;
-          const grad = ctx.createRadialGradient(cx, cy, rad * 0.15, cx, cy, rad);
+          if (cx + rad < 0 || cx - rad > getCanvas().clientWidth || cy + rad < 0 || cy - rad > getCanvas().clientHeight) return;
+          const grad = getCtx().createRadialGradient(cx, cy, rad * 0.15, cx, cy, rad);
           grad.addColorStop(0, "rgba(150,150,168," + cloudAlpha.toFixed(3) + ")");
           grad.addColorStop(1, "rgba(255,255,255,0)");
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.ellipse(cx, cy, rad, rad * 0.55, 0, 0, 6.28);
-          ctx.fill();
+          getCtx().fillStyle = grad;
+          getCtx().beginPath();
+          getCtx().ellipse(cx, cy, rad, rad * 0.55, 0, 0, 6.28);
+          getCtx().fill();
         });
-        ctx.restore();
+        getCtx().restore();
       }
     }
 
@@ -1664,65 +1673,73 @@
   }
 
   // ---------------------------------------------------------------- minimap
-  const mini = document.getElementById("minimap");
-  const mctx = mini ? mini.getContext("2d") : null;
+  let mini = null, mctx = null;
   const MM_PAD = 10;
-  function mmCell() { return { w: (mini.width - MM_PAD * 2) / GW, h: (mini.height - MM_PAD * 2) / GH }; }
+  function getMini() {
+    if (!mini) {
+      mini = document.getElementById("minimap");
+      mctx = mini ? mini.getContext("2d") : null;
+    }
+    return mini;
+  }
+  function getMCtx() { getMini(); return mctx; }
+  function mmCell() { return { w: (getMini().width - MM_PAD * 2) / GW, h: (getMini().height - MM_PAD * 2) / GH }; }
   function drawMinimap() {
-    if (!mctx) return;
+    if (!getMCtx()) return;
     const { w: cw, h: ch } = mmCell();
-    mctx.clearRect(0, 0, mini.width, mini.height);
-    mctx.fillStyle = "rgba(10,9,8,.92)";
-    mctx.fillRect(0, 0, mini.width, mini.height);
+    getMCtx().clearRect(0, 0, getMini().width, getMini().height);
+    getMCtx().fillStyle = "rgba(10,9,8,.92)";
+    getMCtx().fillRect(0, 0, getMini().width, getMini().height);
     for (let ry = 0; ry < GH; ry++) for (let rx = 0; rx < GW; rx++) {
       const reg = regionAt(rx, ry);
       const x = MM_PAD + rx * cw, y = MM_PAD + ry * ch;
       if (reg && reg.claimed) {
         const lum = clamp(38 + Math.log10(1 + reg.pop) * 46, 38, 165);
-        mctx.fillStyle = "rgb(" + Math.round(lum * 0.7) + "," + Math.round(lum) + "," + Math.round(lum * 0.55) + ")";
-        mctx.fillRect(x + 2, y + 2, cw - 4, ch - 4);
-        mctx.fillStyle = "rgba(16,14,12,.85)";
-        mctx.font = "9px Tahoma";
-        mctx.fillText(String(reg.pop), x + 6, y + ch - 6);
-        mctx.fillStyle = "rgba(242,193,78,.75)";
-        mctx.font = "8px Tahoma";
-        mctx.fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
+        getMCtx().fillStyle = "rgb(" + Math.round(lum * 0.7) + "," + Math.round(lum) + "," + Math.round(lum * 0.55) + ")";
+        getMCtx().fillRect(x + 2, y + 2, cw - 4, ch - 4);
+        getMCtx().fillStyle = "rgba(16,14,12,.85)";
+        getMCtx().font = "9px Tahoma";
+        getMCtx().fillText(String(reg.pop), x + 6, y + ch - 6);
+        getMCtx().fillStyle = "rgba(242,193,78,.75)";
+        getMCtx().font = "8px Tahoma";
+        getMCtx().fillText((reg.name || "").slice(0, 9), x + 6, y + 12);
       } else {
-        mctx.fillStyle = "#4b4436";
-        mctx.fillRect(x + 2, y + 2, cw - 4, ch - 4);
-        mctx.strokeStyle = "rgba(196,176,128,.75)";
-        mctx.setLineDash([3, 3]);
-        mctx.strokeRect(x + 2, y + 2, cw - 4, ch - 4);
-        mctx.setLineDash([]);
-        mctx.fillStyle = "#f2c14e";
-        mctx.font = "bold 15px Tahoma";
-        mctx.fillText("+", x + cw / 2 - 5, y + ch / 2 + 5);
+        getMCtx().fillStyle = "#4b4436";
+        getMCtx().fillRect(x + 2, y + 2, cw - 4, ch - 4);
+        getMCtx().strokeStyle = "rgba(196,176,128,.75)";
+        getMCtx().setLineDash([3, 3]);
+        getMCtx().strokeRect(x + 2, y + 2, cw - 4, ch - 4);
+        getMCtx().setLineDash([]);
+        getMCtx().fillStyle = "#f2c14e";
+        getMCtx().font = "bold 15px Tahoma";
+        getMCtx().fillText("+", x + cw / 2 - 5, y + ch / 2 + 5);
       }
     }
     S.links.forEach((l) => {
       const ax = MM_PAD + l.a.rx * cw, ay = MM_PAD + l.a.ry * ch;
       const bx = MM_PAD + l.b.rx * cw, by = MM_PAD + l.b.ry * ch;
-      mctx.strokeStyle = l.kind === "ferry" ? "rgba(114,224,209,.95)" : l.kind === "rail" ? "rgba(214,196,160,.95)" : "rgba(242,193,78,.9)";
-      mctx.lineWidth = l.kind === "rail" ? 2.5 : 2;
-      if (l.kind === "ferry") mctx.setLineDash([3, 3]);
-      mctx.beginPath();
-      mctx.moveTo(ax + cw / 2, ay + ch / 2);
-      mctx.lineTo(bx + cw / 2, by + ch / 2);
-      mctx.stroke();
-      mctx.setLineDash([]);
+      getMCtx().strokeStyle = l.kind === "ferry" ? "rgba(114,224,209,.95)" : l.kind === "rail" ? "rgba(214,196,160,.95)" : "rgba(242,193,78,.9)";
+      getMCtx().lineWidth = l.kind === "rail" ? 2.5 : 2;
+      if (l.kind === "ferry") getMCtx().setLineDash([3, 3]);
+      getMCtx().beginPath();
+      getMCtx().moveTo(ax + cw / 2, ay + ch / 2);
+      getMCtx().lineTo(bx + cw / 2, by + ch / 2);
+      getMCtx().stroke();
+      getMCtx().setLineDash([]);
     });
-    const center = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);
+    const center = screenToTile(getCanvas().clientWidth / 2, getCanvas().clientHeight / 2);
     const crx = clamp(Math.floor(center.gx / RS), 0, GW - 1);
     const cry = clamp(Math.floor(center.gy / RS), 0, GH - 1);
-    mctx.strokeStyle = "rgba(114,224,209,.9)";
-    mctx.lineWidth = 1.5;
-    mctx.strokeRect(MM_PAD + crx * cw + 1, MM_PAD + cry * ch + 1, cw - 2, ch - 2);
+    getMCtx().strokeStyle = "rgba(114,224,209,.9)";
+    getMCtx().lineWidth = 1.5;
+    getMCtx().strokeRect(MM_PAD + crx * cw + 1, MM_PAD + cry * ch + 1, cw - 2, ch - 2);
   }
-  if (mini) {
-    mini.addEventListener("click", (e) => {
-      const rect = mini.getBoundingClientRect();
-      const x = (e.clientX - rect.left) * (mini.width / rect.width);
-      const y = (e.clientY - rect.top) * (mini.height / rect.height);
+  const mm = getMini();
+  if (mm) {
+    mm.addEventListener("click", (e) => {
+      const rect = mm.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (getMini().width / rect.width);
+      const y = (e.clientY - rect.top) * (getMini().height / rect.height);
       const { w: cw, h: ch } = mmCell();
       const rx = clamp(Math.floor((x - MM_PAD) / cw), 0, GW - 1);
       const ry = clamp(Math.floor((y - MM_PAD) / ch), 0, GH - 1);
@@ -2169,20 +2186,22 @@
 
   // ---------------------------------------------------------------- input
   function bindInput() {
+    const c = getCanvas();
+    if (!c) return;
     let painting = false, panning = false, panStart = null, spaceDown = false, lastTile = null;
-    canvas.addEventListener("pointerdown", (e) => {
+    c.addEventListener("pointerdown", (e) => {
       if (!audioOn) { audioOn = true; el("ui-sound").classList.remove("off"); startAmbient(); }
       const t = screenToTile(e.offsetX, e.offsetY);
       if (e.button === 1 || e.button === 2 || spaceDown) {
         panning = true; panStart = { x: e.clientX, y: e.clientY, cx: cam.x, cy: cam.y };
-        canvas.setPointerCapture(e.pointerId);
+        c.setPointerCapture(e.pointerId);
         return;
       }
       painting = true; lastTile = t;
       if (S.tool === "inspect") { inspect(t.gx, t.gy); painting = false; return; }
       paint(toolById(S.tool), t.gx, t.gy);
     });
-    canvas.addEventListener("pointermove", (e) => {
+    c.addEventListener("pointermove", (e) => {
       const t = screenToTile(e.offsetX, e.offsetY);
       hover = t;
       if (panning && panStart) {
@@ -2193,13 +2212,13 @@
       if (painting) { paintLine(toolById(S.tool), lastTile, t); lastTile = t; }
     });
     window.addEventListener("pointerup", () => { painting = false; panning = false; panStart = null; lastTile = null; });
-    canvas.addEventListener("contextmenu", (e) => e.preventDefault());
-    canvas.addEventListener("wheel", (e) => {
+    c.addEventListener("contextmenu", (e) => e.preventDefault());
+    c.addEventListener("wheel", (e) => {
       e.preventDefault();
       zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     }, { passive: false });
     window.addEventListener("keydown", (e) => {
-      if (e.code === "Space") { spaceDown = true; canvas.style.cursor = "grab"; }
+      if (e.code === "Space") { spaceDown = true; c.style.cursor = "grab"; }
       if (e.key === "Escape") { el("modal").classList.add("hidden"); el("inspector").classList.add("hidden"); }
       if (e.key === "q" || e.key === "Q") rotateCamera(-1);
       if (e.key === "e" || e.key === "E") rotateCamera(1);
@@ -2207,7 +2226,7 @@
       if (e.key === "-") zoomBy(1 / 1.25);
       if (e.key === "o" || e.key === "O") optionsModal();
     });
-    window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; canvas.style.cursor = "crosshair"; } });
+    window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; c.style.cursor = "crosshair"; } });
     window.addEventListener("resize", resize);
   }
 
@@ -2291,7 +2310,7 @@
       if (d.cam && typeof d.cam.zoom === "number") {
         cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4);
         // a saved camera can point at land that is no longer yours
-        const c = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);
+        const c = screenToTile(getCanvas().clientWidth / 2, getCanvas().clientHeight / 2);
         if (!regionOf(c.gx, c.gy)) focusCity();
       } else focusCity();
       // while you were away the city kept its own time: replay a bounded stretch
@@ -2417,17 +2436,18 @@
     cam.y = sy - wy * cam.zoom;
   }
   function zoomBy(f) {
-    zoomAt(canvas.clientWidth / 2, canvas.clientHeight / 2, f);
+    zoomAt(getCanvas().clientWidth / 2, getCanvas().clientHeight / 2, f);
   }
 
   function bindUi() {
-    el("ui-sound").onclick = () => {
+    const soundBtn = el("ui-sound");
+    if (soundBtn) soundBtn.onclick = () => {
       audioOn = !audioOn;
-      el("ui-sound").classList.toggle("off", !audioOn);
+      soundBtn.classList.toggle("off", !audioOn);
       if (audioOn) startAmbient();
       if (ambient) ambient.master.gain.value = audioOn ? 0.05 : 0;
     };
-    el("ui-help").onclick = () => modal("How to play", [
+    const ui_help = el("ui-help"); if (ui_help) ui_help.onclick = () => modal("How to play", [
       "<p>You are the planner of a region, and then of a world of them.</p>",
       "<ul>",
       "<li><b>Road</b> first. Zoned land only grows next to a road.</li>",
@@ -2439,21 +2459,21 @@
       "</ul>",
       "<p><p><b>Time is yours, not the game's:</b> the sky, the shops and the night follow your local clock, and the city takes one beat every seven seconds with no pause and no fast forward. Close the tab and it keeps living; come back and it catches up.</p><p>The <b>Music</b> panel under Build is the LYGO listen portal — 80+ tracks from the catalogue, plus birdsong and traffic from the game itself. Playing music ducks the game ambience.</p><p><kbd>Space</kbd>+drag or right-drag to pan · wheel to zoom · inspect to read a tile.</p>",
     ].join(""));
-    el("modal-close").onclick = () => el("modal").classList.add("hidden");
-    el("ins-close").onclick = () => el("inspector").classList.add("hidden");
-    el("ui-save").onclick = save;
-    el("ui-load").onclick = () => load();
-    el("ui-snapshot").onclick = snapshot;
-    el("ui-options").onclick = optionsModal;
-    el("ui-zoomin").onclick = () => zoomBy(1.25);
-    el("ui-zoomout").onclick = () => zoomBy(1 / 1.25);
-    el("ui-rotate").onclick = () => rotateCamera(1);
-    el("ui-new").onclick = () => {
+    const modal_close = el("modal-close"); if (modal_close) modal_close.onclick = () => el("modal").classList.add("hidden");
+    const ins_close = el("ins-close"); if (ins_close) ins_close.onclick = () => el("inspector").classList.add("hidden");
+    const ui_save = el("ui-save"); if (ui_save) ui_save.onclick = save;
+    const ui_load = el("ui-load"); if (ui_load) ui_load.onclick = () => load();
+    const ui_snapshot = el("ui-snapshot"); if (ui_snapshot) ui_snapshot.onclick = snapshot;
+    const ui_options = el("ui-options"); if (ui_options) ui_options.onclick = optionsModal;
+    const ui_zoomin = el("ui-zoomin"); if (ui_zoomin) ui_zoomin.onclick = () => zoomBy(1.25);
+    const ui_zoomout = el("ui-zoomout"); if (ui_zoomout) ui_zoomout.onclick = () => zoomBy(1 / 1.25);
+    const ui_rotate = el("ui-rotate"); if (ui_rotate) ui_rotate.onclick = () => rotateCamera(1);
+    const ui_new = el("ui-new"); if (ui_new) ui_new.onclick = () => {
       if (!confirm("Start a new world? The current one is replaced.")) return;
       newWorld();
       renderTools(); refreshHud();
     };
-    el("ui-claim").onclick = () => {
+    const ui_claim = el("ui-claim"); if (ui_claim) ui_claim.onclick = () => {
       const options = [];
       claimedList().forEach((r) => {
         [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
