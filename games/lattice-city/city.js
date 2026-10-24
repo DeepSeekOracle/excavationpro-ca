@@ -147,6 +147,30 @@
   };
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
+  // ---------------------------------------------------------------- options
+  const OPT_KEY = "latticeCity.opts.v1";
+  const OPT_DEFAULT = { master: 80, music: 55, sfx: 80, ambience: 70, weather: true, grid: false, night: true, autosave: true, reduceMotion: false };
+  const OPT = Object.assign({}, OPT_DEFAULT);
+  try {
+    const saved = JSON.parse(localStorage.getItem(OPT_KEY) || "{}");
+    Object.keys(OPT_DEFAULT).forEach((k) => { if (saved[k] !== undefined) OPT[k] = saved[k]; });
+  } catch (e) {}
+  function saveOpts() {
+    try { localStorage.setItem(OPT_KEY, JSON.stringify(OPT)); } catch (e) {}
+    applyOpts();
+  }
+  function applyOpts() {
+    if (ambient) {
+      ambient.master.gain.value = (radioPlaying() ? 0.012 : 0.05) * (OPT.ambience / 100) * (OPT.master / 100);
+    }
+    try {
+      if (window.LatticeRadio) {
+        window.LatticeRadio.setVol(OPT.music / 100);
+        if (OPT.master === 0) window.LatticeRadio.setMuted(true);
+      }
+    } catch (e) {}
+  }
+
   // ---------------------------------------------------------------- helpers
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const rnd = (a, b) => a + Math.random() * (b - a);
@@ -518,11 +542,13 @@
       S.weatherTimer = 100 + Math.floor(Math.random() * 120);
       S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
     }
+    if (!OPT.weather) S.rainTarget = 0;
     S.rain += (S.rainTarget - S.rain) * 0.06;
     checkMilestones();
     updatePeds();
     balanceAudio();
     if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
+    if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
     refreshHud();
   }
 
@@ -794,14 +820,41 @@
     }
   }
 
+  // ---------------------------------------------------------------- rotation
+  // The world is square, so a quarter turn is a coordinate swap. Rendering
+  // walks view space; every lookup converts back to world space.
+  let ROT = 0;
+  function toView(gx, gy) {
+    if (ROT === 1) return { gx: gy, gy: WORLD_W - 1 - gx };
+    if (ROT === 2) return { gx: WORLD_W - 1 - gx, gy: WORLD_H - 1 - gy };
+    if (ROT === 3) return { gx: WORLD_H - 1 - gy, gy: gx };
+    return { gx, gy };
+  }
+  function fromView(vx, vy) {
+    if (ROT === 1) return { gx: WORLD_W - 1 - vy, gy: vx };
+    if (ROT === 2) return { gx: WORLD_W - 1 - vx, gy: WORLD_H - 1 - vy };
+    if (ROT === 3) return { gx: vy, gy: WORLD_H - 1 - vx };
+    return { gx: vx, gy: vy };
+  }
+  function rotateCamera(dir) {
+    const w = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);   // already world space
+    ROT = (ROT + dir + 4) % 4;
+    focusOn(w.gx, w.gy, cam.zoom);
+  }
+
   // ---------------------------------------------------------------- camera
   function tileToScreen(gx, gy) {
-    return { x: ((gx - gy) * HALF_W) * cam.zoom + cam.x, y: ((gx + gy) * HALF_H) * cam.zoom + cam.y };
+    const v = toView(gx, gy);
+    return { x: ((v.gx - v.gy) * HALF_W) * cam.zoom + cam.x, y: ((v.gx + v.gy) * HALF_H) * cam.zoom + cam.y };
   }
-  function screenToTile(sx, sy) {
+  function screenToView(sx, sy) {
     const x = (sx - cam.x) / cam.zoom - HALF_W;
     const y = (sy - cam.y) / cam.zoom - HALF_H;
     return { gx: Math.round((x / HALF_W + y / HALF_H) / 2), gy: Math.round((y / HALF_H - x / HALF_W) / 2) };
+  }
+  function screenToTile(sx, sy) {
+    const v = screenToView(sx, sy);
+    return fromView(v.gx, v.gy);
   }
   function focusOn(gx, gy, zoom) {
     const c = document.getElementById("map");
@@ -846,7 +899,7 @@
 
   function visibleRange() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
-    const cs = [screenToTile(0, 0), screenToTile(w, 0), screenToTile(0, h), screenToTile(w, h)];
+    const cs = [screenToView(0, 0), screenToView(w, 0), screenToView(0, h), screenToView(w, h)];
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     cs.forEach((c) => { x0 = Math.min(x0, c.gx); x1 = Math.max(x1, c.gx); y0 = Math.min(y0, c.gy); y1 = Math.max(y1, c.gy); });
     return {
@@ -923,11 +976,13 @@
     const now = performance.now();
     const night = Math.max(0, Math.cos((S.hour / 24) * Math.PI * 2)) * 0.28;
 
-    for (let sum = r.x0 + r.y0; sum <= r.x1 + r.y1; sum++) {
-      const gxStart = Math.max(r.x0, sum - r.y1), gxEnd = Math.min(r.x1, sum - r.y0);
-      for (let gx = gxStart; gx <= gxEnd; gx++) {
-        const gy = sum - gx;
-        if (gy < r.y0 || gy > r.y1) continue;
+    for (let vsum = r.x0 + r.y0; vsum <= r.x1 + r.y1; vsum++) {
+      const vxStart = Math.max(r.x0, vsum - r.y1), vxEnd = Math.min(r.x1, vsum - r.y0);
+      for (let vx = vxStart; vx <= vxEnd; vx++) {
+        const vy = vsum - vx;
+        if (vy < r.y0 || vy > r.y1) continue;
+        const wv = fromView(vx, vy);
+        const gx = wv.gx, gy = wv.gy;
         const t = regionOf(gx, gy);
         if (!t) {
           const s0 = tileToScreen(gx, gy);
@@ -944,8 +999,18 @@
         drawDiamond(cx0, cy0, zw + 2, zh + 2, shade);
         if (zw > 64) { ctx.strokeStyle = shade; ctx.lineWidth = 1.2; ctx.stroke(); }
 
+        if (OPT.grid) {
+          ctx.strokeStyle = "rgba(0,0,0,.13)";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(cx0, cy0 - zh / 2); ctx.lineTo(cx0 + zw / 2, cy0);
+          ctx.lineTo(cx0, cy0 + zh / 2); ctx.lineTo(cx0 - zw / 2, cy0);
+          ctx.closePath(); ctx.stroke();
+        }
         if (terr === TERRAIN.WATER) {
+          if (OPT.reduceMotion) { ctx.globalAlpha = 0.12; } else {
           ctx.globalAlpha = 0.10 + 0.06 * Math.sin(now / 900 + gx * 0.6 + gy * 0.4);
+          }
           drawDiamond(cx0, cy0, zw * 0.86, zh * 0.86, "#9fd8ff");
           ctx.globalAlpha = 1;
         }
@@ -1224,7 +1289,7 @@
       ctx.stroke();
     }
 
-    if (S.rain > 0.02) {
+    if (S.rain > 0.02 && OPT.weather) {
       const w = canvas.clientWidth, h = canvas.clientHeight;
       ctx.fillStyle = "rgba(90,120,150," + (0.10 * S.rain).toFixed(3) + ")";
       ctx.fillRect(0, 0, w, h);
@@ -1242,7 +1307,7 @@
       ctx.stroke();
     }
 
-    if (night > 0.01) {
+    if (night > 0.01 && OPT.night) {
       ctx.fillStyle = "rgba(8,12,28," + night.toFixed(3) + ")";
       ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
     }
@@ -1567,7 +1632,9 @@
     for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
     return noiseBuf;
   }
+  function sfxGain() { return (OPT.sfx / 100) * (OPT.master / 100); }
   function tone(ac, when, f0, f1, dur, gain, type) {
+    gain *= sfxGain();
     const o = ac.createOscillator(), g = ac.createGain();
     o.type = type || "triangle";
     o.frequency.setValueAtTime(f0, when);
@@ -1585,13 +1652,13 @@
     filt.type = "lowpass";
     filt.frequency.value = cutoff;
     const g = ac.createGain();
-    g.gain.setValueAtTime(gain, when);
+    g.gain.setValueAtTime(Math.max(0.0002, gain), when);
     g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
     src.connect(filt); filt.connect(g); g.connect(ac.destination);
     src.start(when); src.stop(when + dur + 0.02);
   }
   function sfx(kind) {
-    if (!audioOn) return;
+    if (!audioOn || OPT.sfx <= 0 || OPT.master <= 0) return;
     const ac = initAudio(); if (!ac) return;
     const t0 = ac.currentTime + 0.002;
     switch (kind) {
@@ -1702,6 +1769,11 @@
       if (e.code === "Space") { spaceDown = true; canvas.style.cursor = "grab"; }
       if (e.key === "Escape") { el("modal").classList.add("hidden"); el("inspector").classList.add("hidden"); }
       if (["1", "2", "3", "4"].includes(e.key)) setSpeed([0, 1, 2, 4][Number(e.key) - 1]);
+      if (e.key === "q" || e.key === "Q") rotateCamera(-1);
+      if (e.key === "e" || e.key === "E") rotateCamera(1);
+      if (e.key === "+" || e.key === "=") zoomBy(1.25);
+      if (e.key === "-") zoomBy(1 / 1.25);
+      if (e.key === "o" || e.key === "O") optionsModal();
     });
     window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; canvas.style.cursor = "crosshair"; } });
     window.addEventListener("resize", resize);
@@ -1782,8 +1854,12 @@
       S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
       refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
-      if (d.cam && typeof d.cam.zoom === "number") { cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4); }
-      else focusCity();
+      if (d.cam && typeof d.cam.zoom === "number") {
+        cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4);
+        // a saved camera can point at land that is no longer yours
+        const c = screenToTile(canvas.clientWidth / 2, canvas.clientHeight / 2);
+        if (!regionOf(c.gx, c.gy)) focusCity();
+      } else focusCity();
       toast("World loaded · day " + (S.day + 1));
       return true;
     } catch (e) { toast("That save could not be read"); return false; }
@@ -1850,6 +1926,53 @@
     toast("New world · " + (GW * GH) + " regions of " + RS + "×" + RS);
   }
 
+  function optionsModal() {
+    const rows = [];
+    const slider = (key, label, hint) => rows.push(
+      '<label class="opt"><span>' + label + '<i>' + hint + '</i></span>' +
+      '<input type="range" min="0" max="100" data-opt="' + key + '" value="' + OPT[key] + '">' +
+      '<b data-optout="' + key + '">' + OPT[key] + '</b></label>');
+    const toggle = (key, label, hint) => rows.push(
+      '<label class="opt togglerow"><span>' + label + '<i>' + hint + '</i></span>' +
+      '<input type="checkbox" data-opt="' + key + '"' + (OPT[key] ? " checked" : "") + '><b></b></label>');
+
+    slider("master", "Master", "everything the game makes");
+    slider("music", "LYGO music", "the listen portal volume");
+    slider("sfx", "Effects", "roads, builds, milestones");
+    slider("ambience", "Ambience", "birds, crickets, traffic");
+    toggle("weather", "Weather", "rain and dry spells");
+    toggle("night", "Day and night", "tint and lit windows");
+    toggle("grid", "Tile grid", "faint lines on the ground");
+    toggle("autosave", "Autosave", "every 10 days to this browser");
+    toggle("reduceMotion", "Reduce motion", "no water shimmer, no bobbing");
+
+    modal("Options", '<div class="optlist">' + rows.join("") + "</div>" +
+      '<div class="row"><button id="opt-reset" class="wide">Reset to defaults</button>' +
+      '<button id="opt-close" class="wide">Back to the city</button></div>');
+
+    document.querySelectorAll("[data-opt]").forEach((inp) => {
+      inp.addEventListener("input", () => {
+        const key = inp.dataset.opt;
+        OPT[key] = inp.type === "checkbox" ? inp.checked : Number(inp.value);
+        const out = document.querySelector('[data-optout="' + key + '"]');
+        if (out) out.textContent = inp.value;
+        saveOpts();
+      });
+    });
+    const reset = el("opt-reset");
+    if (reset) reset.onclick = () => { Object.assign(OPT, OPT_DEFAULT); saveOpts(); optionsModal(); };
+    const close = el("opt-close");
+    if (close) close.onclick = () => el("modal").classList.add("hidden");
+  }
+
+  function zoomBy(f) {
+    const c = screenToView(canvas.clientWidth / 2, canvas.clientHeight / 2);
+    cam.zoom = clamp(cam.zoom * f, 0.16, 2.4);
+    const after = screenToView(canvas.clientWidth / 2, canvas.clientHeight / 2);
+    cam.x += (after.gx - c.gx) * HALF_W * cam.zoom;
+    cam.y += (after.gy - c.gy) * HALF_H * cam.zoom;
+  }
+
   function bindUi() {
     el("ui-speeds").addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
@@ -1878,6 +2001,10 @@
     el("ui-save").onclick = save;
     el("ui-load").onclick = () => load();
     el("ui-snapshot").onclick = snapshot;
+    el("ui-options").onclick = optionsModal;
+    el("ui-zoomin").onclick = () => zoomBy(1.25);
+    el("ui-zoomout").onclick = () => zoomBy(1 / 1.25);
+    el("ui-rotate").onclick = () => rotateCamera(1);
     el("ui-new").onclick = () => {
       if (!confirm("Start a new world? The current one is replaced.")) return;
       newWorld();
