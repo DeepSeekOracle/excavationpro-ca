@@ -661,7 +661,10 @@
       if (p.t < 1) continue;
       p.t = 0;
       p.at++;
-      if (p.at >= p.path.length) { list.splice(i, 1); continue; }
+      const next = p.path[p.at];
+      // roads can be bulldozed under a walker's feet; retire it instead of
+      // letting it stroll across the meadow
+      if (!next || !hasRoad(next.x, next.y)) { list.splice(i, 1); continue; }
     }
   }
 
@@ -813,7 +816,7 @@
           ctx.fillRect(cx0 + ((gy & 3) - 1.5) * 6, cy0 + ((gx & 3) - 1.5) * 4, sz, sz);
         }
         if (reg.zone[i] && !reg.level[i]) {
-          const zc = reg.zone[i] === Z.R ? "rgba(111,191,115,.42)" : reg.zone[i] === Z.C ? "rgba(90,169,230,.40)" : "rgba(242,193,78,.38)";
+          const zc = reg.zone[i] === Z.R ? "rgba(111,191,115,.26)" : reg.zone[i] === Z.C ? "rgba(90,169,230,.24)" : "rgba(242,193,78,.22)";
           drawDiamond(cx0, cy0, zw * 0.9, zh * 0.9, zc);
           if (!hasRoadNear(gx, gy)) {
             ctx.fillStyle = "rgba(226,88,60,.9)";
@@ -893,8 +896,9 @@
 
     S.peds.forEach((p) => {
       const s0 = at(p);
+      s0.x += (s0.dx || 0) * 0.06; s0.y += (s0.dy || 0) * 0.06;
       const bob = Math.sin((p.walk += 0.25) + p.at) > 0 ? 1 : 0;
-      const h = Math.max(4, 10 * zoom), w = Math.max(2.5, 4.6 * zoom);
+      const h = Math.max(4, 8.6 * zoom), w = Math.max(2.4, 4.2 * zoom);
       // shadow
       ctx.fillStyle = "rgba(0,0,0,.28)";
       ctx.beginPath(); ctx.ellipse(s0.x, s0.y, w * 0.9, w * 0.45, 0, 0, 6.28); ctx.fill();
@@ -919,23 +923,37 @@
 
     S.cars.forEach((c) => {
       const s0 = at(c);
+      // the body follows the road: the true screen heading of the tile step,
+      // which is 26.57 degrees off horizontal either way in this projection
       const ang = Math.atan2(s0.dy, s0.dx);
-      const L = Math.max(5, (c.kind === "bus" ? 22 : c.kind === "truck" ? 16 : 12) * zoom);
-      const W = Math.max(3, (c.kind === "bus" ? 9 : 7) * zoom);
+      const rawL = (c.kind === "bus" ? 20 : c.kind === "truck" ? 15 : 11) * zoom;
+      const L = Math.max(5, Math.min(rawL, 34 * zoom));
+      const W = Math.max(3, (c.kind === "bus" ? 8 : 6.4) * zoom);
       ctx.save();
-      ctx.translate(s0.x, s0.y - W * 0.5);
-      ctx.rotate(ang * 0.28);
-      ctx.fillStyle = "rgba(0,0,0,.3)";
-      ctx.fillRect(-L / 2, W * 0.35, L, Math.max(1.5, W * 0.4));
-      ctx.fillStyle = c.kind === "bus" ? "#c9642f" : c.kind === "truck" ? "#4d6a52" : "hsl(" + c.hue + ",45%,52%)";
+      ctx.translate(s0.x, s0.y - W * 0.35);
+      ctx.rotate(ang);
+      // shadow on the road, not offset by the rotation
+      ctx.fillStyle = "rgba(0,0,0,.32)";
+      ctx.fillRect(-L / 2, -W / 2 + W * 0.55, L, Math.max(1.5, W * 0.5));
+      // body
+      ctx.fillStyle = c.kind === "bus" ? "#c9642f" : c.kind === "truck" ? "#4d6a52" : "hsl(" + c.hue + ",48%,54%)";
       ctx.fillRect(-L / 2, -W / 2, L, W);
+      // cabin glass toward the front of travel
       ctx.fillStyle = "rgba(190,225,255,.85)";
-      ctx.fillRect(-L / 2 + L * 0.55, -W / 2 + W * 0.15, L * 0.32, W * 0.55);
+      ctx.fillRect(L * 0.06, -W / 2 + W * 0.16, L * 0.3, W * 0.5);
+      if (c.kind !== "car") {
+        ctx.fillStyle = "rgba(30,24,18,.75)";
+        ctx.fillRect(-L * 0.46, -W / 2 + W * 0.1, L * 0.4, W * 0.8);
+      }
+      // wheels
+      ctx.fillStyle = "#1d2226";
+      ctx.fillRect(-L * 0.34, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
+      ctx.fillRect(L * 0.2, -W / 2 - W * 0.12, W * 0.34, W * 0.2);
       if (night > 0.2) {
         ctx.fillStyle = "rgba(255,236,170,.95)";
-        ctx.fillRect(-L / 2 - Math.max(1, 2 * zoom), -W / 2 + W * 0.1, Math.max(1, 2 * zoom), W * 0.3);
+        ctx.fillRect(L / 2 - Math.max(1, 1.6 * zoom), -W * 0.3, Math.max(1, 1.8 * zoom), W * 0.3);
         ctx.fillStyle = "rgba(255,236,170,.10)";
-        ctx.beginPath(); ctx.arc(-L / 2 - L * 0.5, 0, L * 0.7, 0, 6.28); ctx.fill();
+        ctx.beginPath(); ctx.arc(L / 2, 0, L * 0.8, 0, 6.28); ctx.fill();
       }
       ctx.restore();
     });
@@ -1400,6 +1418,8 @@
         S.regions[regionKey(r.rx, r.ry)] = reg;
         recomputeRegion(reg);
       });
+      S.peds = []; S.cars = []; S.boats = []; S.smoke = [];
+      S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
       refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
       if (d.cam && typeof d.cam.zoom === "number") { cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4); }
