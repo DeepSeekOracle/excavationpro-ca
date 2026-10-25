@@ -2184,36 +2184,47 @@
           const startupCapital = (dailyWageCost + dailyTaxEstimate) * ECON.STARTUP_CAPITAL_DAYS;
 
           const wp = {
-            id: id,
-            region: region,
-            tile: tileIdx,
-            zone: zone,
-            level: level,
-            sector: sector,
-            serviceType: serviceType,
-            isPublic: isPublic,
-            gx: region.rx * RS + (tileIdx % RS),
-            gy: region.ry * RS + ((tileIdx / RS) | 0),
-            capacity: capacity,
-            workers: [], // citizen IDs
-            wagePerShift: wagePerShift,
-            revenuePerWorkerPerShift: ECON.REVENUE_PER_WORKER_PER_SHIFT,
-            // Money
-            balance: startupCapital,
-            totalRevenue: 0,
-            totalWagesPaid: 0,
-            totalTaxPaid: 0,
-            daysNegative: 0,
-            // Micro-day tracking
-            lastRevenueMicroDay: -1,
-            lastWageShift: -1,
-            // Status
-            status: "operating", // operating, struggling, bankrupt
-            bankruptcyDay: null,
-          };
-          workplaces.push(wp);
-          return wp;
-        }
+                      id: id,
+                      region: region,
+                      tile: tileIdx,
+                      zone: zone,
+                      level: level,
+                      sector: sector,
+                      serviceType: serviceType,
+                      isPublic: isPublic,
+                      gx: region.rx * RS + (tileIdx % RS),
+                      gy: region.ry * RS + ((tileIdx / RS) | 0),
+                      capacity: capacity,
+                      workers: [], // citizen IDs
+                      wagePerShift: wagePerShift,
+                      revenuePerWorkerPerShift: ECON.REVENUE_PER_WORKER_PER_SHIFT,
+                      // Money
+                      balance: startupCapital,
+                      totalRevenue: 0,
+                      totalWagesPaid: 0,
+                      totalTaxPaid: 0,
+                      daysNegative: 0,
+                      // Micro-day tracking
+                      lastRevenueMicroDay: -1,
+                      lastWageShift: -1,
+                      // Status
+                      status: "operating", // operating, struggling, bankrupt
+                      bankruptcyDay: null,
+                    };
+                    // Initialize sector-specific properties
+                    if (sector === "commercial") {
+                      wp.inventory = 0;
+                      wp.pricePerUnit = 8;
+                      wp.dailySales = 0;
+                      wp.customersServed = 0;
+                    } else if (sector === "industrial") {
+                      wp.inventory = 0;
+                      wp.pricePerUnit = 5; // wholesale price
+                      wp.productionCost = 0;
+                    }
+                    workplaces.push(wp);
+                    return wp;
+                  }
 
         // Initialize workplaces from existing commercial/industrial/service buildings
         function initializeWorkplaces() {
