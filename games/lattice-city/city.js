@@ -649,20 +649,27 @@
     let ttsBroadcastTimer = null;
     let ttsPendingBroadcasts = [];
 
+    function silenceTTS() {
+      ttsPendingBroadcasts.length = 0;
+      ttsQueue.length = 0;
+      ttsSpeaking = false;
+      if (ttsBroadcastTimer) { clearInterval(ttsBroadcastTimer); ttsBroadcastTimer = null; }
+      try { if ("speechSynthesis" in window) speechSynthesis.cancel(); } catch (e) {}
+    }
+
     function initTTS() {
-      if ("speechSynthesis" in window) {
+      if (!("speechSynthesis" in window)) return;
+      const pickVoice = () => {
         const voices = speechSynthesis.getVoices();
-        // Prefer UK male voice for news anchor style
-        ttsVoice = voices.find(v => v.lang === "en-GB" && v.name.includes("Male")) ||
+        ttsVoice = voices.find(v => v.lang === "en-GB" && /male/i.test(v.name)) ||
                    voices.find(v => v.lang === "en-GB") ||
-                   voices.find(v => v.lang === "en-US" && v.name.includes("Male")) ||
-                   voices[0];
-        const test = new SpeechSynthesisUtterance(" ");
-        test.volume = 0;
-        speechSynthesis.speak(test);
-        // Start periodic news broadcast
-        startTTSBroadcast();
-      }
+                   voices.find(v => v.lang === "en-US" && /male/i.test(v.name)) ||
+                   voices[0] || null;
+      };
+      pickVoice();
+      speechSynthesis.addEventListener("voiceschanged", pickVoice);
+      ttsEnabled = !!OPT.tts;
+      if (ttsEnabled) startTTSBroadcast();
     }
 
     function startTTSBroadcast() {
@@ -682,7 +689,7 @@
     }
 
     function broadcastNews(items) {
-      if (!items.length) return;
+      if (!ttsEnabled || !items.length) return;
       if (!("speechSynthesis" in window)) return;
     
       // News anchor intro
@@ -707,6 +714,7 @@
       utter.pitch = 0.95;
       utter.volume = 0.7 * (OPT.master / 100);
       utter.lang = "en-GB";
+      if (!ttsEnabled) return;
       speechSynthesis.speak(utter);
     }
 
@@ -720,6 +728,7 @@
         utter.pitch = 1.0;
         utter.volume = 0.8 * (OPT.master / 100);
         utter.lang = "en-GB";
+        if (!ttsEnabled) return;
         speechSynthesis.speak(utter);
       } else {
         queueBroadcast(text, priority);
@@ -727,8 +736,7 @@
     }
 
     function processTTSQueue() {
-      // Legacy queue processor - kept for compatibility
-      if (ttsSpeaking || ttsQueue.length === 0) return;
+      if (!ttsEnabled || ttsSpeaking || ttsQueue.length === 0) return;
       ttsSpeaking = true;
       speechSynthesis.speak(ttsQueue.shift());
     }
@@ -1202,8 +1210,11 @@
     const saved = JSON.parse(localStorage.getItem(OPT_KEY) || "{}");
     Object.keys(OPT_DEFAULT).forEach((k) => { if (saved[k] !== undefined) OPT[k] = saved[k]; });
   } catch (e) {}
+  ttsEnabled = !!OPT.tts;
   function saveOpts() {
-    ttsEnabled = OPT.tts;
+    ttsEnabled = !!OPT.tts;
+    if (!ttsEnabled) silenceTTS();
+    else if (!ttsBroadcastTimer) startTTSBroadcast();
     try { localStorage.setItem(OPT_KEY, JSON.stringify(OPT)); } catch (e) {}
     applyOpts();
   }
@@ -3787,13 +3798,14 @@
       '<button id="opt-close" class="wide">Back to the city</button></div>');
 
     document.querySelectorAll("[data-opt]").forEach((inp) => {
-      inp.addEventListener("input", () => {
+      const apply = () => {
         const key = inp.dataset.opt;
         OPT[key] = inp.type === "checkbox" ? inp.checked : Number(inp.value);
         const out = document.querySelector('[data-optout="' + key + '"]');
-        if (out) out.textContent = inp.value;
+        if (out) out.textContent = String(OPT[key]);
         saveOpts();
-      });
+      };
+      inp.addEventListener(inp.type === "checkbox" ? "change" : "input", apply);
     });
     const reset = el("opt-reset");
     if (reset) reset.onclick = () => { Object.assign(OPT, OPT_DEFAULT); saveOpts(); optionsModal(); };
@@ -3874,7 +3886,7 @@
       "<li>Add a <b>Lattice tower</b> (power) and a <b>Water mill</b> when storeys stop appearing.</li>",
       "<li>At 120 people you unlock parks. At $15,000 you claim the next <b>region</b> on the world map — 160×160 tiles of new land, and roads that cross the border join the two towns.</li>",
       "</ul>",
-      "<p>The line at the bottom of the map says what the world is doing.</p>",
+      "<p>The events box in the tool panel says what the world is doing.</p>",
     ].join(""));
   }
 

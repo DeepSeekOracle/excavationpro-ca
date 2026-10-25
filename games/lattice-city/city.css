@@ -66,7 +66,7 @@ body {
 
 /* ---------------- palette ---------------- */
 #palette {
-  position: absolute; left: 10px; top: 10px; bottom: 46px; width: var(--panel-w);
+  position: absolute; left: 10px; top: 10px; bottom: 10px; width: var(--panel-w);
   padding: 10px 12px;
   background: rgba(20, 18, 16, .93);
   border: 1px solid var(--line); border-radius: 10px;
@@ -115,14 +115,52 @@ body {
 #inspector .kv span { color: var(--mute); }
 #inspector.hidden { display: none; }
 
-/* ---------------- ticker + toast ---------------- */
+/* ---------------- events feed (inside the tool panel) ---------------- */
+#feed {
+  margin: 0 0 12px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #14120f;
+}
+#feed h3 { margin: 0 0 6px; }
 #ticker {
-  position: absolute; left: var(--panel-w); right: 10px; bottom: 8px; margin-left: 20px;
-  padding: 6px 10px; height: 26px; overflow: hidden;
-  background: rgba(14, 13, 12, .88); border: 1px solid var(--line); border-radius: 6px;
-  font-size: 11px; color: var(--mute); white-space: nowrap; text-overflow: ellipsis;
+  position: static;
+  margin: 0;
+  padding: 0 0 4px;
+  height: auto;
+  max-height: 4.6em;
+  overflow: auto;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  font-size: 11px;
+  color: var(--mute);
+  white-space: normal;
 }
 #ticker b { color: var(--amber); }
+#event-log {
+  position: static;
+  max-height: 120px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  font: 10px/1.35 ui-monospace, Consolas, monospace;
+  color: #e8dcc8;
+  pointer-events: auto;
+}
+#event-log:empty { display: none; }
+.event-entry { margin: 2px 0; padding: 2px 4px; border-radius: 2px; }
+.event-entry.emergency { background: rgba(226,88,60,.25); border-left: 2px solid #e2583c; }
+.event-entry.high { background: rgba(242,193,78,.2); border-left: 2px solid #f2c14e; }
+.event-entry.fire { background: rgba(226,88,60,.15); }
+.event-entry.dispatch { background: rgba(111,191,115,.2); border-left: 2px solid #6fbf73; }
+.event-entry.arrival { background: rgba(100,200,255,.2); border-left: 2px solid #64c8ff; }
+.event-entry.medical { background: rgba(255,150,150,.2); border-left: 2px solid #ff8888; }
+.event-entry.police { background: rgba(100,150,255,.2); border-left: 2px solid #6496ff; }
+.event-entry.normal { background: rgba(200,200,200,.1); }
 #toast {
   position: absolute; left: 50%; top: 14px; transform: translateX(-50%);
   padding: 7px 14px; border-radius: 20px;
@@ -161,7 +199,6 @@ body {
     padding: 8px 10px;
   }
   #tools { grid-template-columns: repeat(3, 1fr); }
-  #ticker { left: 6px; right: 6px; margin-left: 0; }
   #inspector { left: 6px; right: 6px; width: auto; top: auto; bottom: 40px; max-height: 40vh; }
 }
 
