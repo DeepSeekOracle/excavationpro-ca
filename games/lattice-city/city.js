@@ -1409,26 +1409,32 @@
 
   // ---------------------------------------------------------------- roads
   function hasRoad(gx, gy) { const t = regionOf(gx, gy); return !!t && t.r.road[t.i] === 1; }
-  function roadMask(gx, gy) {
+  // Sprite bits follow the screen, not the world. N=1 E=2 S=4 W=8 in view space,
+  // so a rotated camera still picks the piece that meets its neighbours.
+  function linkMask(gx, gy, has) {
+    const v = toView(gx, gy);
+    const on = (dvx, dvy) => {
+      const w = fromView(v.gx + dvx, v.gy + dvy);
+      return has(w.gx, w.gy);
+    };
     let m = 0;
-    if (hasRoad(gx, gy - 1)) m |= 1;
-    if (hasRoad(gx + 1, gy)) m |= 2;
-    if (hasRoad(gx, gy + 1)) m |= 4;
-    if (hasRoad(gx - 1, gy)) m |= 8;
+    if (on(0, -1)) m |= 1;
+    if (on(1, 0)) m |= 2;
+    if (on(0, 1)) m |= 4;
+    if (on(-1, 0)) m |= 8;
     return m;
+  }
+  function roadMask(gx, gy) { return linkMask(gx, gy, hasRoad); }
+  function slopeRoadKey(mask) {
+    const ns = (mask & 1 ? 1 : 0) + (mask & 4 ? 1 : 0);
+    const ew = (mask & 2 ? 1 : 0) + (mask & 8 ? 1 : 0);
+    return ew > ns ? "c14_switchback_road_w" : "c13_switchback_road_n";
   }
   function hasRoadNear(gx, gy) {
       return hasRoad(gx, gy) || hasRoad(gx + 1, gy) || hasRoad(gx - 1, gy) || hasRoad(gx, gy + 1) || hasRoad(gx, gy - 1);
     }
     function hasRail(gx, gy) { const t = regionOf(gx, gy); return !!t && t.r.rail[t.i] === 1; }
-    function railMask(gx, gy) {
-      let m = 0;
-      if (hasRail(gx, gy - 1)) m |= 1;
-      if (hasRail(gx + 1, gy)) m |= 2;
-      if (hasRail(gx, gy + 1)) m |= 4;
-      if (hasRail(gx - 1, gy)) m |= 8;
-      return m;
-    }
+    function railMask(gx, gy) { return linkMask(gx, gy, hasRail); }
 
     // ---------------------------------------------------------------- services
   function recomputeRegion(r) {
@@ -2433,7 +2439,7 @@
         let key = null;
                 if (reg.road[i]) {
                   if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
-                  else if (terr === TERRAIN.MOUNTAIN) key = (roadMask(gx, gy) & 3) === 3 ? "c14_switchback_road_w" : "c13_switchback_road_n";
+                  else if (terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) key = slopeRoadKey(roadMask(gx, gy));
                   else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
                 }
                 else if (reg.rail[i]) {
@@ -2445,14 +2451,15 @@
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 5, gy + 19) > 0.82) key = hash2(gx, gy) > 0.5 ? "d05_pine_grove" : "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 31, gy + 7) > 0.7) key = "d06_cherry_garden";
-        else if (reg.decor[i] === 3) key = hash2(gx + 9, gy + 4) > 0.5 ? "gen_hill" : "s11_meadow_rock_outcrop_v2";
+        else if (reg.decor[i] === 3) key = hash2(gx + 9, gy + 4) > 0.5 ? "gen_hill" : "s23_forest_var3_pine_cedar";
         else if (terr === TERRAIN.ROCK) {
           const h = hash2(gx * 5 + 1, gy * 3 + 7);
+          // s11_meadow_rock_outcrop_v2 is a fence with a gate, not rock or a tree.
           key = h > 0.86 ? "l11_volcanic_caldera_island"
               : h > 0.7 ? "s33_slope_var5_snow_moraine"
               : h > 0.5 ? "s09_plateau_level1"
               : h > 0.3 ? "s34_slope_var6_badlands_canyon"
-              : "s11_meadow_rock_outcrop_v2";
+              : (hash2(gx + 4, gy + 8) > 0.5 ? "s23_forest_var3_pine_cedar" : "s21_forest_var1_hollow_oak");
         }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
         if (key && SPRITES[key] && SPRITES[key].complete) {
@@ -2952,7 +2959,7 @@
     if (!tile) return false;
     const r = tile.r, i = tile.i;
     const terr = r.terrain[i];
-    if (terr === TERRAIN.MOUNTAIN) return t.id === "inspect" || t.id === "road" || t.id === "railTrack";
+    if (terr === TERRAIN.MOUNTAIN && t.id !== "bulldoze") return t.id === "inspect" || t.id === "road" || t.id === "railTrack";
       if (t.id === "road") {
       if (terr !== TERRAIN.WATER) return true;
       // a bridge needs ground or road on two opposite sides to span
@@ -2975,9 +2982,12 @@
     if (S.cash < t.cost) { deny("Not enough funds for " + t.name.toLowerCase()); return false; }
     let did = false;
     if (t.id === "bulldoze") {
-          if (!(r.road[i] || r.rail[i] || r.zone[i] || r.level[i] || r.svc[i])) return false;
+          const hasRailTile = !!(r.rail && r.rail[i]);
+          if (!(r.road[i] || hasRailTile || r.zone[i] || r.level[i] || r.svc[i])) return false;
           const hadSvc = r.svc[i] !== 0;
-          r.road[i] = 0; r.rail[i] = 0; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0; r.svc[i] = 0;
+          r.road[i] = 0;
+          if (r.rail) r.rail[i] = 0;
+          r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0; r.svc[i] = 0;
           r.zoneDirty = true;
           if (hadSvc) recomputeRegion(r);
           recalcRegion(r);
