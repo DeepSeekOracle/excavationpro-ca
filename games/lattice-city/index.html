@@ -60,7 +60,8 @@
       <button id="ui-options" class="icon" title="Options (O)">⚙</button>
       <button id="ui-sound" class="icon" title="Sound on or off">♪</button>
       <button id="ui-help" class="icon" title="How to play">?</button>
-      <a class="brand small" href="https://excavationpro.ca/games/">All games</a>
+            <button id="ui-pop-dash" class="icon" title="Population Dashboard (P)">👥</button>
+            <a class="brand small" href="https://excavationpro.ca/games/">All games</a>
     </header>
 
     <main id="stage">
@@ -113,11 +114,16 @@
       </aside>
 
       <div id="minimap-wrap" title="World map — click a region to jump, click the edges to claim">
-        <canvas id="minimap" width="180" height="180"></canvas>
-        <div id="minimap-label">WORLD</div>
-      </div>
+              <canvas id="minimap" width="180" height="180"></canvas>
+              <div id="minimap-label">WORLD</div>
+            </div>
 
-      <div id="toast"></div>
+            <div id="pop-dashboard" class="hidden">
+              <h2>Population Dashboard</h2>
+              <div id="pop-dash-body"></div>
+            </div>
+
+            <div id="toast"></div>
 
       <div id="modal" class="hidden">
         <div class="sheet">
