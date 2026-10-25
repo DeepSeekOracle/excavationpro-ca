@@ -20,6 +20,34 @@
     return d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
   }
   const SAVE_KEY = "latticeCity.save.v3";
+  function el(id) { return document.getElementById(id); }
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const money = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  const regionKey = (rx, ry) => ry * GW + rx;
+  function hash2(x, y) {
+    let h = x * 374761393 + y * 668265263;
+    h = (h ^ (h >> 13)) * 1274126177;
+    return ((h ^ (h >> 16)) >>> 0) / 4294967296;
+  }
+  function noiseSeed(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function valueNoise(w, h, scale, seed) {
+    const r = noiseSeed(seed);
+    const gw = Math.ceil(w / scale) + 2, gh = Math.ceil(h / scale) + 2;
+    const grid = new Float32Array(gw * gh);
+    for (let i = 0; i < grid.length; i++) grid[i] = r();
+    const out = new Float32Array(w * h);
+    const smooth = (t) => t * t * (3 - 2 * t);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const gx = x / scale, gy = y / scale;
+      const x0 = Math.floor(gx), y0 = Math.floor(gy);
+      const fx = smooth(gx - x0), fy = smooth(gy - y0);
+      const a = grid[y0 * gw + x0], b = grid[y0 * gw + x0 + 1];
+      const c = grid[(y0 + 1) * gw + x0], d = grid[(y0 + 1) * gw + x0 + 1];
+      out[y * w + x] = (a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy;
+    }
+    return out;
+  }
 
   // ---------------------------------------------------------------- art tables
   const SPRITES = {};
