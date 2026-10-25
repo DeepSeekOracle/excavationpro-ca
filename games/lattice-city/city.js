@@ -311,8 +311,7 @@
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
     { id: "bulldoze", name: "Bulldoze", cost: 6, hint: "remove" },
-        { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
-        { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
+    { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
   ];
   const MILESTONES = [
     { pop: 0, title: "Hamlet", grant: 0 },
@@ -969,75 +968,51 @@
     }
 
     // ---------------------------------------------------------------- Medical / Ambulance System
-      const MEDICAL = {
-        EMERGENCY_TYPES: [
-          { id: "heart", label: "Cardiac Emergency", weight: 3, urgency: "critical" },
-          { id: "injury", label: "Serious Injury", weight: 5, urgency: "high" },
-          { id: "illness", label: "Acute Illness", weight: 7, urgency: "medium" },
-          { id: "accident", label: "Traffic Accident", weight: 2, urgency: "critical" },
-        ],
-        ambulanceSpeed: 3.0,
-        ambulancesPerClinic: [0, 1, 2],
-        responseRadius: 200,
-        // Per-capita rates (events per person per day)
-        BASE_RATE_PER_CAPITA: 0.0008,      // ~0.8 per 1000 people per day
-        MIN_POPULATION: 150,               // No medical emergencies below this pop
-        MAX_DAILY_EVENTS: 8,               // Cap daily events even for huge cities
-      };
+    const MEDICAL = {
+      EMERGENCY_TYPES: [
+        { id: "heart", label: "Cardiac Emergency", weight: 3, urgency: "critical" },
+        { id: "injury", label: "Serious Injury", weight: 5, urgency: "high" },
+        { id: "illness", label: "Acute Illness", weight: 7, urgency: "medium" },
+        { id: "accident", label: "Traffic Accident", weight: 2, urgency: "critical" },
+      ],
+      ambulanceSpeed: 3.0,
+      ambulancesPerClinic: [0, 1, 2],
+      responseRadius: 200,
+    };
 
-      let medicalCalls = [];
-      let medicalDailyCount = 0;
-      let medicalLastDay = -1;
+    let medicalCalls = [];
 
-      function getClinics() {
-        const clinics = [];
-        claimedList().forEach(r => {
-          for (let i = 0; i < RS * RS; i++) {
-            if (SVC[r.svc[i]] === "school") {
-              clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
-            }
+    function getClinics() {
+      const clinics = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (SVC[r.svc[i]] === "school") {
+            clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
           }
-        });
-        return clinics;
-      }
-
-      function clinicId(clinic) { return clinic.region.rx + "," + clinic.region.ry + "," + clinic.tile; }
-
-      function countIdleAmbulances(clinic) {
-        return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
-      }
-
-      function spawnMedicalEmergency() {
-        // Reset daily counter
-        if (S.day !== medicalLastDay) {
-          medicalDailyCount = 0;
-          medicalLastDay = S.day;
         }
-        if (medicalDailyCount >= MEDICAL.MAX_DAILY_EVENTS) return;
+      });
+      return clinics;
+    }
 
-        // Population threshold
-        if (S.pop < MEDICAL.MIN_POPULATION) return;
+    function clinicId(clinic) { return clinic.region.rx + "," + clinic.region.ry + "," + clinic.tile; }
 
-        // Per-capita probability scaled by population
-        // At MIN_POPULATION: ~0.012% per tick (very rare)
-        // At 1000 pop: ~0.08% per tick
-        // At 5000 pop: ~0.4% per tick
-        const perCapitaRate = MEDICAL.BASE_RATE_PER_CAPITA * (S.pop / 1000);
-        const tickProbability = perCapitaRate / (86400 / TICK_SECONDS); // Convert daily rate to per-tick
-        if (Math.random() > tickProbability) return;
+    function countIdleAmbulances(clinic) {
+      return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
+    }
 
-        if (S.peds.length === 0) return;
-        const ped = S.peds[Math.floor(Math.random() * S.peds.length)];
-        if (!ped.path || ped.path.length === 0) return;
-        const tile = ped.path[ped.at];
-        if (!tile) return;
-        const type = MEDICAL.EMERGENCY_TYPES[Math.floor(Math.random() * MEDICAL.EMERGENCY_TYPES.length)];
-        const call = { id: "med_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), type: type.id, label: type.label, urgency: type.urgency, patient: ped, gx: tile.x, gy: tile.y, time: S.hour * 3600 + S.day * 86400, assignedAmbulance: null, status: "waiting" };
-        medicalCalls.push(call);
-        medicalDailyCount++;
-        logEvent("medical", type.label + " at " + tile.x + "," + tile.y + " - " + type.urgency.toUpperCase(), { gx: tile.x, gy: tile.y }, type.urgency === "critical" ? "emergency" : "high", type.label + " reported at " + tile.x + "," + tile.y + ". " + type.urgency + " priority.");
-        dispatchAmbulance(call);
-      }
+    function spawnMedicalEmergency() {
+      if (S.peds.length === 0) return;
+      if (Math.random() > 0.001) return;
+      const ped = S.peds[Math.floor(Math.random() * S.peds.length)];
+      if (!ped.path || ped.path.length === 0) return;
+      const tile = ped.path[ped.at];
+      if (!tile) return;
+      const type = MEDICAL.EMERGENCY_TYPES[Math.floor(Math.random() * MEDICAL.EMERGENCY_TYPES.length)];
+      const call = { id: "med_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), type: type.id, label: type.label, urgency: type.urgency, patient: ped, gx: tile.x, gy: tile.y, time: S.hour * 3600 + S.day * 86400, assignedAmbulance: null, status: "waiting" };
+      medicalCalls.push(call);
+      logEvent("medical", type.label + " at " + tile.x + "," + tile.y + " - " + type.urgency.toUpperCase(), { gx: tile.x, gy: tile.y }, type.urgency === "critical" ? "emergency" : "high", type.label + " reported at " + tile.x + "," + tile.y + ". " + type.urgency + " priority.");
+      dispatchAmbulance(call);
+    }
 
     function dispatchAmbulance(call) {
           const clinics = getClinics();
@@ -1099,102 +1074,45 @@
         }
 
     // ---------------------------------------------------------------- Police / Law Enforcement
-      const POLICE = {
-        policeSpeed: 3.5,
-        carsPerStation: [0, 1, 2],
-        patrolInterval: 120,
-        // Per-capita rates (events per person per day)
-        BASE_RATE_PER_CAPITA: 0.0004,      // ~0.4 per 1000 people per day (lower than medical)
-        MIN_POPULATION: 300,               // No police calls below this pop (crime needs density)
-        MAX_DAILY_EVENTS: 6,               // Cap daily events
-        // Crime scales with density and unemployment
-        CRIME_DENSITY_FACTOR: 1.5,         // Higher density = more crime
-        CRIME_UNEMPLOYMENT_FACTOR: 2.0,    // Higher unemployment = more crime
-      };
+    const POLICE = {
+      policeSpeed: 3.5,
+      carsPerStation: [0, 1, 2],
+      patrolInterval: 120,
+    };
 
-      let policeCalls = [];
-      let policeDailyCount = 0;
-      let policeLastDay = -1;
+    let policeCalls = [];
 
-      function getPoliceStations() {
-        const stations = [];
-        claimedList().forEach(r => {
-          for (let i = 0; i < RS * RS; i++) {
-            if (SVC[r.svc[i]] === "fire") {
-              stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
-            }
+    function getPoliceStations() {
+      const stations = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (SVC[r.svc[i]] === "fire") {
+            stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
           }
-        });
-        return stations;
-      }
-
-      function computeCrimeRate() {
-        if (S.pop < POLICE.MIN_POPULATION) return 0;
-        // Base per-capita rate
-        let rate = POLICE.BASE_RATE_PER_CAPITA * (S.pop / 1000);
-        // Density factor: more roads/buildings per person = more opportunities
-        let totalRoads = 0, totalBuilt = 0;
-        claimedList().forEach(r => {
-          for (let i = 0; i < RS * RS; i++) {
-            if (r.road[i]) totalRoads++;
-            if (r.level[i]) totalBuilt++;
-          }
-        });
-        const density = totalBuilt / Math.max(1, S.pop);
-        rate *= 1 + (density - 0.5) * POLICE.CRIME_DENSITY_FACTOR;
-        // Unemployment factor
-        const unemp = Math.max(0, (S.pop - S.jobs) / Math.max(1, S.pop));
-        rate *= 1 + unemp * POLICE.CRIME_UNEMPLOYMENT_FACTOR;
-        // Night time multiplier
-        const isNight = S.hour < 6 || S.hour > 20;
-        if (isNight) rate *= 1.5;
-        // Rain multiplier (fewer witnesses)
-        if (S.rain > 0.3) rate *= 1.3;
-        return Math.max(0, rate);
-      }
-
-      function spawnPoliceCall() {
-        // Reset daily counter
-        if (S.day !== policeLastDay) {
-          policeDailyCount = 0;
-          policeLastDay = S.day;
         }
-        if (policeDailyCount >= POLICE.MAX_DAILY_EVENTS) return;
+      });
+      return stations;
+    }
 
-        const crimeRate = computeCrimeRate();
-        if (crimeRate === 0) return;
-
-        // Convert daily rate to per-tick probability
-        const tickProbability = crimeRate / (86400 / TICK_SECONDS);
-        if (Math.random() > tickProbability) return;
-
-        const roadsWithCars = [];
-        claimedList().forEach(r => {
-          for (let i = 0; i < RS * RS; i++) if (r.road[i]) roadsWithCars.push({ r, i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
-        });
-        if (roadsWithCars.length === 0) return;
-        const spot = roadsWithCars[Math.floor(Math.random() * roadsWithCars.length)];
-        // Weight types by situation: more accidents with more traffic, more crime with unemployment
-        const unemp = Math.max(0, (S.pop - S.jobs) / Math.max(1, S.pop));
-        const types = [
-          { id: "accident", label: "Traffic Accident", weight: 3 + S.cars.length * 0.5, urgency: "high" },
-          { id: "disturbance", label: "Civil Disturbance", weight: 2 + unemp * 5, urgency: "medium" },
-          { id: "crime", label: "Reported Crime", weight: 1 + unemp * 8, urgency: "high" },
-        ];
-        // Normalize weights
-        const totalWeight = types.reduce((sum, t) => sum + t.weight, 0);
-        let roll = Math.random() * totalWeight;
-        let type = types[0];
-        for (const t of types) {
-          roll -= t.weight;
-          if (roll <= 0) { type = t; break; }
-        }
-        const call = { id: "pol_" + Date.now(), type: type.id, label: type.label, urgency: type.urgency, gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
-        policeCalls.push(call);
-        policeDailyCount++;
-        logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
-        dispatchPolice(call);
-      }
+    function spawnPoliceCall() {
+      if (Math.random() > 0.0005) return;
+      const roadsWithCars = [];
+      claimedList().forEach(r => {
+        for (let i = 0; i < RS * RS; i++) if (r.road[i]) roadsWithCars.push({ r, i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
+      });
+      if (roadsWithCars.length === 0) return;
+      const spot = roadsWithCars[Math.floor(Math.random() * roadsWithCars.length)];
+      const types = [
+        { id: "accident", label: "Traffic Accident", weight: 3, urgency: "high" },
+        { id: "disturbance", label: "Civil Disturbance", weight: 2, urgency: "medium" },
+        { id: "crime", label: "Reported Crime", weight: 1, urgency: "high" },
+      ];
+      const type = types[Math.floor(Math.random() * types.length)];
+      const call = { id: "pol_" + Date.now(), type: type.id, label: type.label, urgency: type.urgency, gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
+      policeCalls.push(call);
+      logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
+      dispatchPolice(call);
+    }
 
     function dispatchPolice(call) {
           const stations = getPoliceStations();
@@ -1262,92 +1180,25 @@
     }
 
   function assessFireRisk(region) {
-      // Population-gated: no fire risk below threshold
-      if (S.pop < 200) return 0;
-
-      let risk = 0;
-      let industrialCount = 0;
-      let industrialLevel = 0;
-      for (let i = 0; i < RS * RS; i++) {
-        if (region.zone[i] === Z.I) {
-          industrialCount++;
-          industrialLevel += region.level[i];
-          risk += region.level[i] * 0.5;
-          const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
-          for (const [dx,dy] of dirs) {
-            const t = regionOf(region.rx * RS + (i % RS) + dx, region.ry * RS + ((i / RS) | 0) + dy);
-            if (t && t.r.zone[t.i] === Z.I) risk += 0.2;
-          }
+    let risk = 0;
+    for (let i = 0; i < RS * RS; i++) {
+      if (region.zone[i] === Z.I) {
+        risk += region.level[i] * 0.5;
+        const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
+        for (const [dx,dy] of dirs) {
+          const t = regionOf(region.rx * RS + (i % RS) + dx, region.ry * RS + ((i / RS) | 0) + dy);
+          if (t && t.r.zone[t.i] === Z.I) risk += 0.2;
         }
       }
-
-      // No industry = minimal fire risk (only from events)
-      if (industrialCount === 0) return 0.001 * (S.pop / 1000);
-
-      // Scale risk by industrial density per capita
-      const industrialPerCapita = industrialCount / Math.max(1, region.pop || 1);
-      risk *= 0.5 + industrialPerCapita * 2;
-
-      // Fire station coverage
-      const stations = getFireStations();
-      let covered = false;
-      stations.forEach(st => {
-        const path = findRoadPath(st.gx, st.gy, region.rx * RS + RS/2, region.ry * RS + RS/2);
-        if (path && path.length < 100) { risk *= 0.3; covered = true; }
-        else if (path) { risk *= 0.6; covered = true; }
-      });
-
-      // Dry weather increases risk
-      if (S.rain < 0.1) risk *= 1.4;
-      else if (S.rain > 0.5) risk *= 0.7;
-
-      // Night slightly higher risk (less activity)
-      const isNight = S.hour < 6 || S.hour > 20;
-      if (isNight) risk *= 1.15;
-
-      return Math.max(0, risk);
     }
-
-    // Daily fire ignition check - called once per tick
-    let fireDailyIgnitions = 0;
-    let fireLastDay = -1;
-    const FIRE = {
-      BASE_IGNITION_RATE: 0.00005,    // Base daily ignition chance per industrial tile
-      MIN_POPULATION: 200,
-      MAX_DAILY_IGNITIONS: 3,
-    };
-
-    function checkFireIgnition() {
-      if (S.day !== fireLastDay) {
-        fireDailyIgnitions = 0;
-        fireLastDay = S.day;
-      }
-      if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
-
-      if (S.pop < FIRE.MIN_POPULATION) return;
-
-      claimedList().forEach(region => {
-        if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
-        const risk = assessFireRisk(region);
-        if (risk <= 0) return;
-
-        // Convert risk to daily probability, then to per-tick
-        const dailyProb = Math.min(0.15, risk * FIRE.BASE_IGNITION_RATE * region.built);
-        const tickProb = dailyProb / (86400 / TICK_SECONDS);
-
-        if (Math.random() < tickProb) {
-          // Find industrial tiles to start fire
-          const industrialTiles = [];
-          for (let i = 0; i < RS * RS; i++) {
-            if (region.zone[i] === Z.I && region.level[i] > 0) industrialTiles.push(i);
-          }
-          if (industrialTiles.length === 0) return;
-          const tileIdx = industrialTiles[Math.floor(Math.random() * industrialTiles.length)];
-          startFire(region, tileIdx);
-          fireDailyIgnitions++;
-        }
-      });
-    }
+    const stations = getFireStations();
+    stations.forEach(st => {
+      const path = findRoadPath(st.gx, st.gy, region.rx * RS + RS/2, region.ry * RS + RS/2);
+      if (path && path.length < 100) risk *= 0.5;
+      else if (path) risk *= 0.8;
+    });
+    return Math.max(0, risk);
+  }
 
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
@@ -1380,740 +1231,36 @@
     } catch (e) {}
   }
 
-  // ---------------------------------------------------------------- Population System (Micro-Simulation)
-    // Every citizen is a real entity with a generated character card.
-    // Houses on tiles = containers (capacity 6). Jobs = slots at workplaces.
-    // Happiness drives retention; unhappiness → departure → slums.
+  // ---------------------------------------------------------------- helpers
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const money = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  const el = (id) => document.getElementById(id);
+  const regionKey = (rx, ry) => ry * GW + rx;
 
-    const CITIZEN = {
-      // Base stats range
-      STAT_MIN: 1, STAT_MAX: 100,
-      // Personality archetypes
-      ARCHETYPES: {
-        worker:   { name: "Worker",      jobAffinity: ["industrial", "construction", "transport"],  baseHappiness: 55, crimeRisk: 0.02, welfareRisk: 0.05 },
-        clerk:    { name: "Clerk",       jobAffinity: ["commercial", "office", "retail"],           baseHappiness: 60, crimeRisk: 0.01, welfareRisk: 0.03 },
-        scholar:  { name: "Scholar",     jobAffinity: ["education", "research", "library"],          baseHappiness: 65, crimeRisk: 0.005, welfareRisk: 0.02 },
-        guardian: { name: "Guardian",    jobAffinity: ["police", "fire", "emergency"],               baseHappiness: 60, crimeRisk: 0.0, welfareRisk: 0.01 },
-        artisan:  { name: "Artisan",     jobAffinity: ["craft", "workshop", "market"],               baseHappiness: 58, crimeRisk: 0.015, welfareRisk: 0.04 },
-        drifter:  { name: "Drifter",     jobAffinity: [],                                           baseHappiness: 35, crimeRisk: 0.15, welfareRisk: 0.30 },
-      },
-      // Needs weights (must sum to ~1.0)
-      NEEDS: {
-        housing:   0.25,  // has home, not overcrowded
-        employment: 0.25, // has job matching skills
-        safety:    0.15,  // low crime, fire coverage
-        services:  0.10,  // water, power, parks, schools
-        social:    0.10,  // community, relationships
-        leisure:   0.08,  // shops, restaurants, entertainment
-        health:    0.07,  // clinic access, low pollution
-      },
-      // Life stages
-      AGES: {
-        child:    { min: 0,   max: 17,  workCapable: false,  schoolNeeded: true },
-        young:    { min: 18,  max: 30,  workCapable: true,   schoolNeeded: false },
-        prime:    { min: 31,  max: 55,  workCapable: true,   schoolNeeded: false },
-        senior:   { min: 56,  max: 80,  workCapable: false,  schoolNeeded: false, pension: true },
-        elder:    { min: 81,  max: 100, workCapable: false,  schoolNeeded: false, careNeeded: true },
-      },
-      // Max citizens per house tile
-      HOUSE_CAPACITY: 6,
-      // Happiness thresholds
-      HAPPY_THRESHOLD: 70,      // Thriving, may attract newcomers
-      CONTENT_THRESHOLD: 45,    // Stable
-      UNHAPPY_THRESHOLD: 25,    // Risk of leaving
-      DESPAIR_THRESHOLD: 10,    // Will leave soon, creates blight
-    };
-
-    // Name generation pools
-    const FIRST_NAMES = [
-      "Aldric","Mara","Tobin","Elara","Finn","Lyra","Gareth","Nora","Kellen","Sofia",
-      "Bram","Tessa","Corin","Mira","Darian","Fey","Joren","Vera","Liam","Zara",
-      "Owen","Keira","Ronan","Anya","Silas","Ivy","Tomas","Lena","Vance","Mina",
-      "Kai","Nina","Orin","Paige","Quinn","Rhea","Soren","Tara","Ulric","Wren",
-      "Xander","Yara","Zeke","Adele","Bryce","Cara","Derek","Elise","Felix","Gwen"
-    ];
-    const LAST_NAMES = [
-      "Stoneheart","Ironwood","Brightwater","Ashford","Copperfield","Dawnstrider","Emberglow",
-      "Fairwind","Goldleaf","Hearthstone","Ironforge","Jadebrook","Kingsley","Lightfoot",
-      "Merrifield","Northwatch","Oakhaven","Pinecrest","Quill","Riverstone","Silverstream",
-      "Thornfield","Underwood","Valewalker","Whitmore","Yardley","Zephyr"
-    ];
-
-    // Citizen registry — all living citizens in the city
-    let citizens = [];
-    let citizenIdCounter = 0;
-    let householdIdCounter = 0;
-
-    // Household: a house tile + its residents
-    function createHousehold(region, tileIdx, level) {
-      const capacity = CITIZEN.HOUSE_CAPACITY * level;
-      return {
-        id: ++householdIdCounter,
-        region: region,
-        tile: tileIdx,
-        gx: region.rx * RS + (tileIdx % RS),
-        gy: region.ry * RS + ((tileIdx / RS) | 0),
-        capacity: capacity,
-        residents: [], // citizen IDs
-        condition: 100, // maintenance level
-        rent: level * 12, // monthly rent per resident
-        createdDay: S.day,
-      };
+  function hash2(x, y) {
+    let h = x * 374761393 + y * 668265263;
+    h = (h ^ (h >> 13)) * 1274126177;
+    return ((h ^ (h >> 16)) >>> 0) / 4294967296;
+  }
+  function noiseSeed(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+  function valueNoise(w, h, scale, seed) {
+    const r = noiseSeed(seed);
+    const gw = Math.ceil(w / scale) + 2, gh = Math.ceil(h / scale) + 2;
+    const grid = new Float32Array(gw * gh);
+    for (let i = 0; i < grid.length; i++) grid[i] = r();
+    const out = new Float32Array(w * h);
+    const smooth = (t) => t * t * (3 - 2 * t);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      const gx = x / scale, gy = y / scale;
+      const x0 = Math.floor(gx), y0 = Math.floor(gy);
+      const fx = smooth(gx - x0), fy = smooth(gy - y0);
+      const a = grid[y0 * gw + x0], b = grid[y0 * gw + x0 + 1];
+      const c = grid[(y0 + 1) * gw + x0], d = grid[(y0 + 1) * gw + x0 + 1];
+      out[y * w + x] = (a + (b - a) * fx) * (1 - fy) + (c + (d - c) * fx) * fy;
     }
-
-    // Generate a unique citizen
-    function generateCitizen(household, archetypeHint = null) {
-      const id = ++citizenIdCounter;
-      const archetypeKey = archetypeHint || weightedRandom(Object.keys(CITIZEN.ARCHETYPES).map(k => ({
-        key: k, weight: CITIZEN.ARCHETYPES[k].baseHappiness
-      })));
-      const archetype = CITIZEN.ARCHETYPES[archetypeKey];
-
-      // Age distribution weighted toward working age
-      const ageRoll = Math.random();
-      let ageStage, age;
-      if (ageRoll < 0.22) { ageStage = "child"; age = 5 + Math.floor(Math.random() * 12); }
-      else if (ageRoll < 0.55) { ageStage = "young"; age = 18 + Math.floor(Math.random() * 13); }
-      else if (ageRoll < 0.78) { ageStage = "prime"; age = 31 + Math.floor(Math.random() * 25); }
-      else if (ageRoll < 0.93) { ageStage = "senior"; age = 56 + Math.floor(Math.random() * 25); }
-      else { ageStage = "elder"; age = 81 + Math.floor(Math.random() * 20); }
-
-      const stage = CITIZEN.AGES[ageStage];
-
-      // Stats
-      const stats = {
-        intelligence:   rndInt(20, 100),
-        strength:       rndInt(20, 100),
-        dexterity:      rndInt(20, 100),
-        charisma:       rndInt(20, 100),
-        endurance:      rndInt(20, 100),
-        luck:           rndInt(1, 100),
-      };
-
-      // Skills based on archetype + some randomness
-      const skills = {};
-      const allSkills = ["industrial","construction","transport","commercial","office","retail",
-                         "education","research","library","police","fire","emergency",
-                         "craft","workshop","market","farming","fishing","medical"];
-      archetype.jobAffinity.forEach(aff => skills[aff] = rndInt(40, 85));
-      // Add 1-2 random skills
-      const extraSkills = allSkills.filter(s => !skills[s]).sort(() => Math.random() - 0.5).slice(0, 2);
-      extraSkills.forEach(s => skills[s] = rndInt(10, 40));
-
-      // Personality traits
-      const traits = [];
-      if (stats.charisma > 70) traits.push("charismatic");
-      if (stats.intelligence > 70) traits.push("sharp");
-      if (stats.strength > 70) traits.push("strong");
-      if (stats.luck > 80) traits.push("lucky");
-      if (stats.luck < 20) traits.push("unlucky");
-      if (archetypeKey === "drifter") traits.push("restless");
-
-      const citizen = {
-        id: id,
-        name: FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)] + " " + LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)],
-        archetype: archetypeKey,
-        age: age,
-        ageStage: ageStage,
-        stats: stats,
-        skills: skills,
-        traits: traits,
-        householdId: household.id,
-        household: household,
-        job: null, // { workplaceId, role, income, satisfaction }
-        happiness: archetype.baseHappiness + rndInt(-10, 10),
-        needs: { housing: 100, employment: 0, safety: 50, services: 50, social: 50, leisure: 50, health: 50 },
-        relationships: [], // other citizen IDs with bond strength
-        routine: null, // daily schedule
-        commutePath: null,
-        daysUnemployed: 0,
-        daysInCity: 0,
-        bornDay: S.day,
-        lastMovedDay: S.day,
-        status: "active", // active, leaving, departed
-        blightContribution: 0, // negative happiness generates blight
-      };
-
-      // Clamp happiness
-      citizen.happiness = clamp(citizen.happiness, 0, 100);
-
-      citizens.push(citizen);
-      household.residents.push(id);
-      return citizen;
-    }
-
-    function weightedRandom(items) {
-      const total = items.reduce((sum, item) => sum + item.weight, 0);
-      let roll = Math.random() * total;
-      for (const item of items) {
-        roll -= item.weight;
-        if (roll <= 0) return item.key;
-      }
-      return items[0].key;
-    }
-
-    function rndInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-
-    // Initialize households from existing residential buildings
-    function initializeHouseholds() {
-      const newHouseholds = [];
-      claimedList().forEach(region => {
-        for (let i = 0; i < RS * RS; i++) {
-          if (region.zone[i] === Z.R && region.level[i] > 0) {
-            // Check if household already exists for this tile
-            let existing = region.households?.find(h => h.tile === i);
-            if (!existing) {
-              existing = createHousehold(region, i, region.level[i]);
-              if (!region.households) region.households = [];
-              region.households.push(existing);
-            }
-            newHouseholds.push(existing);
-          }
-        }
-      });
-      return newHouseholds;
-    }
-
-    // Populate households with citizens (initial fill)
-    function populateHouseholds() {
-      claimedList().forEach(region => {
-        if (!region.households) return;
-        region.households.forEach(household => {
-          const archetypeWeights = {
-            worker: 0.45, clerk: 0.25, scholar: 0.1, guardian: 0.05, artisan: 0.1, drifter: 0.05
-          };
-          while (household.residents.length < household.capacity) {
-            const archetype = weightedRandom(Object.entries(archetypeWeights).map(([k,w]) => ({key:k,weight:w})));
-            generateCitizen(household, archetype);
-          }
-        });
-      });
-    }
-
-    // Find workplaces with open slots
-    function findWorkplaces() {
-      const workplaces = [];
-      claimedList().forEach(region => {
-        for (let i = 0; i < RS * RS; i++) {
-          if (!region.level[i]) continue;
-          const z = region.zone[i];
-          const lv = region.level[i];
-          const cap = (z === Z.C || z === Z.I) ? 6 * lv : 0;
-          if (cap > 0) {
-            workplaces.push({
-              id: region.rx + "," + region.ry + "," + i,
-              region: region,
-              tile: i,
-              zone: z,
-              level: lv,
-              gx: region.rx * RS + (i % RS),
-              gy: region.ry * RS + ((i / RS) | 0),
-              capacity: cap,
-              workers: [], // citizen IDs
-              sector: z === Z.C ? "commercial" : "industrial",
-              wages: z === Z.C ? 18 : 22, // daily wage
-            });
-          }
-          // Service buildings also employ
-          const svc = SVC[region.svc[i]];
-          if (svc && region.level[i] > 0) {
-            const svcJobs = { fire: 4, school: 3, water: 2, power: 2, clinic: 3, police: 4 };
-            if (svcJobs[svc]) {
-              workplaces.push({
-                id: region.rx + "," + region.ry + "," + i + "-svc",
-                region: region,
-                tile: i,
-                zone: "service",
-                level: region.level[i],
-                gx: region.rx * RS + (i % RS),
-                gy: region.ry * RS + ((i / RS) | 0),
-                capacity: svcJobs[svc] * region.level[i],
-                workers: [],
-                sector: "public",
-                wages: 25,
-                serviceType: svc,
-              });
-            }
-          }
-        }
-      });
-      return workplaces;
-    }
-
-    // Job matching: assign citizens to workplaces
-    function assignJobs() {
-      const workplaces = findWorkplaces();
-      const unemployed = citizens.filter(c =>
-        c.status === "active" &&
-        c.ageStage !== "child" &&
-        c.ageStage !== "elder" &&
-        !c.job
-      );
-
-      // Shuffle for fairness
-      unemployed.sort(() => Math.random() - 0.5);
-
-      for (const citizen of unemployed) {
-        // Find best matching workplace
-        let bestMatch = null, bestScore = -1;
-        for (const wp of workplaces) {
-          if (wp.workers.length >= wp.capacity) continue;
-          // Score based on skill match
-          let score = 0;
-          for (const [skill, level] of Object.entries(citizen.skills)) {
-            if (wp.sector === "public" && wp.serviceType) {
-              if (wp.serviceType === "fire" && skill === "emergency") score += level;
-              if (wp.serviceType === "police" && skill === "police") score += level;
-              if (wp.serviceType === "school" && skill === "education") score += level;
-              if (wp.serviceType === "clinic" && skill === "medical") score += level;
-              if (wp.serviceType === "water" && (skill === "craft" || skill === "farming")) score += level * 0.5;
-              if (wp.serviceType === "power" && skill === "industrial") score += level * 0.5;
-            } else if (wp.sector === "commercial") {
-              if (["commercial","office","retail","craft","market"].includes(skill)) score += level;
-            } else if (wp.sector === "industrial") {
-              if (["industrial","construction","transport","craft","farming","fishing"].includes(skill)) score += level;
-            }
-          }
-          // Distance penalty
-          const dist = Math.abs(citizen.household.gx - wp.gx) + Math.abs(citizen.household.gy - wp.gy);
-          score -= dist * 0.1;
-          if (score > bestScore) { bestScore = score; bestMatch = wp; }
-        }
-        if (bestMatch) {
-          citizen.job = {
-            workplaceId: bestMatch.id,
-            workplace: bestMatch,
-            role: bestMatch.sector === "public" ? "public_servant" : (bestMatch.sector === "commercial" ? "clerk" : "laborer"),
-            income: bestMatch.wages,
-            satisfaction: clamp(50 + bestScore * 0.2, 20, 100),
-          };
-          bestMatch.workers.push(citizen.id);
-          citizen.daysUnemployed = 0;
-        } else {
-          citizen.daysUnemployed++;
-        }
-      }
-    }
-
-    // Daily needs evaluation
-    function evaluateNeeds() {
-      const workplaces = findWorkplaces();
-      const fireStations = getFireStations();
-      const clinics = getClinics();
-      const policeStations = getPoliceStations();
-
-      citizens.forEach(citizen => {
-        if (citizen.status !== "active") return;
-
-        // Housing need
-        const hh = citizen.household;
-        const overcrowded = hh.residents.length > hh.capacity;
-        citizen.needs.housing = overcrowded ? 30 : (hh.condition > 50 ? 100 : 60);
-
-        // Employment need
-        if (citizen.ageStage === "child" || citizen.ageStage === "elder") {
-          citizen.needs.employment = 100; // not applicable
-        } else if (citizen.job) {
-          citizen.needs.employment = citizen.job.satisfaction;
-        } else {
-          citizen.needs.employment = Math.max(0, 100 - citizen.daysUnemployed * 8);
-        }
-
-        // Safety need - based on local crime/fire coverage
-        const hhTile = regionOf(citizen.household.gx, citizen.household.gy);
-        let safety = 50;
-        if (hhTile) {
-          // Fire coverage
-          let fireCovered = false;
-          fireStations.forEach(st => {
-            const path = findRoadPath(st.gx, st.gy, citizen.household.gx, citizen.household.gy);
-            if (path && path.length < 100) fireCovered = true;
-          });
-          // Police coverage
-          let policeCovered = false;
-          policeStations.forEach(st => {
-            const path = findRoadPath(st.gx, st.gy, citizen.household.gx, citizen.household.gy);
-            if (path && path.length < 150) policeCovered = true;
-          });
-          // Local crime rate
-          const localCrime = activeCrimesNear(citizen.household.gx, citizen.household.gy, 50);
-          safety = (fireCovered ? 40 : 10) + (policeCovered ? 35 : 5) + (localCrime === 0 ? 25 : Math.max(0, 25 - localCrime * 8));
-        }
-        citizen.needs.safety = clamp(safety, 0, 100);
-
-        // Services need - water, power, parks
-        let services = 0;
-        if (hhTile) {
-          if (hhTile.r.powerOn[hhTile.i]) services += 30;
-          if (hhTile.r.waterOn[hhTile.i]) services += 30;
-          // Parks nearby
-          let parkNearby = false;
-          for (let dx = -8; dx <= 8; dx++) for (let dy = -8; dy <= 8; dy++) {
-            const t = regionOf(citizen.household.gx + dx, citizen.household.gy + dy);
-            if (t && SVC[t.r.svc[t.i]] === "park") { parkNearby = true; break; }
-          }
-          if (parkNearby) services += 25;
-          // School nearby (for children)
-          if (citizen.ageStage === "child") {
-            let schoolNearby = false;
-            for (let dx = -12; dx <= 12; dx++) for (let dy = -12; dy <= 12; dy++) {
-              const t = regionOf(citizen.household.gx + dx, citizen.household.gy + dy);
-              if (t && SVC[t.r.svc[t.i]] === "school") { schoolNearby = true; break; }
-            }
-            if (schoolNearby) services += 15;
-          }
-        }
-        citizen.needs.services = clamp(services, 0, 100);
-
-        // Social need - relationships, household size
-        let social = 40 + Math.min(30, citizen.relationships.length * 5);
-        if (hh.residents.length >= 3) social += 15; // family/community
-        citizen.needs.social = clamp(social, 0, 100);
-
-        // Leisure - shops, restaurants nearby
-        let leisure = 30;
-        if (hhTile) {
-          let shopsNearby = 0;
-          for (let dx = -10; dx <= 10; dx++) for (let dy = -10; dy <= 10; dy++) {
-            const t = regionOf(citizen.household.gx + dx, citizen.household.gy + dy);
-            if (t && t.r.zone[t.i] === Z.C && t.r.level[t.i] > 0) shopsNearby++;
-          }
-          leisure += Math.min(50, shopsNearby * 5);
-        }
-        citizen.needs.leisure = clamp(leisure, 0, 100);
-
-        // Health - clinic access, pollution
-        let health = 60;
-        if (hhTile) {
-          let clinicNearby = false;
-          for (let dx = -15; dx <= 15; dx++) for (let dy = -15; dy <= 15; dy++) {
-            const t = regionOf(citizen.household.gx + dx, citizen.household.gy + dy);
-            if (t && (SVC[t.r.svc[t.i]] === "clinic" || SVC[t.r.svc[t.i]] === "school")) { clinicNearby = true; break; }
-          }
-          if (clinicNearby) health += 30;
-          // Industrial pollution penalty
-          let industrialNearby = 0;
-          for (let dx = -6; dx <= 6; dx++) for (let dy = -6; dy <= 6; dy++) {
-            const t = regionOf(citizen.household.gx + dx, citizen.household.gy + dy);
-            if (t && t.r.zone[t.i] === Z.I && t.r.level[t.i] > 0) industrialNearby++;
-          }
-          health -= industrialNearby * 3;
-        }
-        citizen.needs.health = clamp(health, 0, 100);
-      });
-    }
-
-    function activeCrimesNear(gx, gy, radius) {
-      let count = 0;
-      policeCalls.forEach(call => {
-        if (call.status !== "resolved") {
-          const dist = Math.abs(call.gx - gx) + Math.abs(call.gy - gy);
-          if (dist <= radius) count++;
-        }
-      });
-      activeFires.forEach(fire => {
-        if (!fire.contained) {
-          const dist = Math.abs(fire.gx - gx) + Math.abs(fire.gy - gy);
-          if (dist <= radius) count++;
-        }
-      });
-      return count;
-    }
-
-    // Calculate happiness from needs
-    function updateHappiness() {
-      citizens.forEach(citizen => {
-        if (citizen.status !== "active") return;
-
-        let happiness = 0;
-        for (const [need, weight] of Object.entries(CITIZEN.NEEDS)) {
-          happiness += citizen.needs[need] * weight;
-        }
-        // Archetype base
-        happiness += CITIZEN.ARCHETYPES[citizen.archetype].baseHappiness * 0.15;
-        // Traits
-        if (citizen.traits.includes("lucky")) happiness += 5;
-        if (citizen.traits.includes("unlucky")) happiness -= 5;
-        if (citizen.traits.includes("restless")) happiness -= 10;
-
-        // Age modifiers
-        if (citizen.ageStage === "senior" && !citizen.job) happiness += 10; // pension ok
-        if (citizen.ageStage === "elder") happiness -= 5; // frailty
-
-        // Smooth towards new happiness
-        citizen.happiness = clamp(citizen.happiness + (happiness - citizen.happiness) * 0.15, 0, 100);
-
-        // Blight contribution from despair
-        if (citizen.happiness < CITIZEN.DESPAIR_THRESHOLD) {
-          citizen.blightContribution = (CITIZEN.DESPAIR_THRESHOLD - citizen.happiness) * 0.5;
-        } else {
-          citizen.blightContribution = 0;
-        }
-
-        // Departure check
-        if (citizen.happiness < CITIZEN.UNHAPPY_THRESHOLD && Math.random() < 0.02) {
-          citizen.status = "leaving";
-          citizen.leavingReason = "unhappiness";
-        }
-        if (citizen.happiness < CITIZEN.DESPAIR_THRESHOLD && Math.random() < 0.08) {
-          citizen.status = "leaving";
-          citizen.leavingReason = "despair";
-        }
-        // Elderly natural departure
-        if (citizen.ageStage === "elder" && Math.random() < 0.001) {
-          citizen.status = "leaving";
-          citizen.leavingReason = "old_age";
-        }
-      });
-    }
-
-    // Process departures and create blight
-    function processDepartures() {
-      const leaving = citizens.filter(c => c.status === "leaving");
-      leaving.forEach(citizen => {
-        // Remove from household
-        if (citizen.household) {
-          citizen.household.residents = citizen.household.residents.filter(id => id !== citizen.id);
-        }
-        // Remove from workplace
-        if (citizen.job && citizen.job.workplace) {
-          citizen.job.workplace.workers = citizen.job.workplace.workers.filter(id => id !== citizen.id);
-        }
-        // Generate blight at household location
-        if (citizen.blightContribution > 0 && citizen.household) {
-          const hhTile = regionOf(citizen.household.gx, citizen.household.gy);
-          if (hhTile) {
-            hhTile.r.blight = (hhTile.r.blight || 0) + citizen.blightContribution;
-          }
-        }
-        // Log departure
-        logEvent("population", citizen.name + " has left the city (" + citizen.leavingReason + ")", 
-          { gx: citizen.household?.gx, gy: citizen.household?.gy }, "high");
-        citizen.status = "departed";
-      });
-      // Remove departed citizens
-      citizens = citizens.filter(c => c.status !== "departed");
-    }
-
-    // Natural population growth (births/migration)
-    function processMigration() {
-      // Immigration: attracted by high happiness, jobs, housing
-      const avgHappiness = citizens.length ? citizens.reduce((s,c) => s + c.happiness, 0) / citizens.length : 50;
-      const openJobs = findWorkplaces().reduce((s,wp) => s + Math.max(0, wp.capacity - wp.workers.length), 0);
-      const openHousing = claimedList().reduce((s,r) => s + (r.households||[]).reduce((s2,h) => s2 + Math.max(0, h.capacity - h.residents.length), 0), 0);
-
-      if (avgHappiness > CITIZEN.HAPPY_THRESHOLD && (openJobs > 5 || openHousing > 5) && Math.random() < 0.15) {
-        // New migrant arrives
-        const regions = claimedList().filter(r => (r.households||[]).some(h => h.residents.length < h.capacity));
-        if (regions.length) {
-          const region = regions[Math.floor(Math.random() * regions.length)];
-          const household = region.households.find(h => h.residents.length < h.capacity);
-          if (household) {
-            const archetypeWeights = { worker: 0.5, clerk: 0.2, scholar: 0.05, guardian: 0.05, artisan: 0.1, drifter: 0.1 };
-            generateCitizen(household, weightedRandom(Object.entries(archetypeWeights).map(([k,w]) => ({key:k,weight:w}))));
-            logEvent("population", "New citizen arrived: " + citizens[citizens.length-1].name, 
-              { gx: household.gx, gy: household.gy }, "normal");
-          }
-        }
-      }
-
-      // Births: couples in prime age, happy, housed
-      const couples = citizens.filter(c => 
-        c.status === "active" && c.ageStage === "prime" && c.happiness > 60 && c.household &&
-        c.household.residents.length < c.household.capacity && Math.random() < 0.0008
-      );
-      couples.forEach(c => {
-        // Create child
-        const child = generateCitizen(c.household, "worker"); // children start as generic
-        child.age = 0;
-        child.ageStage = "child";
-        child.stats = { intelligence: rndInt(40,80), strength: rndInt(30,70), dexterity: rndInt(30,70), charisma: rndInt(30,80), endurance: rndInt(40,80), luck: rndInt(1,100) };
-        child.skills = {};
-        child.traits = ["child"];
-        child.job = null;
-        child.happiness = 70;
-        child.needs = { housing: 100, employment: 100, safety: 50, services: 50, social: 80, leisure: 60, health: 70 };
-        logEvent("population", "Birth: " + child.name + " born to " + c.name, 
-          { gx: c.household.gx, gy: c.household.gy }, "normal");
-      });
-    }
-
-    // Aging: once per year (365 days)
-    function processAging() {
-      if (S.day % 365 !== 0) return;
-      citizens.forEach(citizen => {
-        if (citizen.status !== "active") return;
-        citizen.age++;
-        const oldStage = citizen.ageStage;
-        if (citizen.age >= 18 && oldStage === "child") citizen.ageStage = "young";
-        else if (citizen.age >= 31 && oldStage === "young") citizen.ageStage = "prime";
-        else if (citizen.age >= 56 && oldStage === "prime") citizen.ageStage = "senior";
-        else if (citizen.age >= 81 && oldStage === "senior") citizen.ageStage = "elder";
-        if (oldStage !== citizen.ageStage) {
-          logEvent("population", citizen.name + " reached " + citizen.ageStage + " (" + citizen.age + ")", 
-            { gx: citizen.household?.gx, gy: citizen.household?.gy }, "normal");
-        }
-      });
-    }
-
-    // Main population tick - called once per game day
-    function tickPopulation() {
-      // Initialize on first run
-      if (!S.populationInitialized) {
-        initializeHouseholds();
-        populateHouseholds();
-        S.populationInitialized = true;
-        log("Population system initialized: " + citizens.length + " citizens in " + 
-          claimedList().reduce((s,r) => s + (r.households||[]).length, 0) + " households");
-      }
-
-      evaluateNeeds();
-      updateHappiness();
-      assignJobs();
-      processDepartures();
-      processMigration();
-      processAging();
-
-      // Update region aggregates
-      updateRegionPopulationStats();
-    }
-
-    function updateRegionPopulationStats() {
-      claimedList().forEach(region => {
-        region.citizens = citizens.filter(c => 
-          c.status === "active" && c.household && c.household.region === region
-        );
-        region.pop = region.citizens.length;
-        region.workers = region.citizens.filter(c => c.job).length;
-        region.unemployed = region.citizens.filter(c => !c.job && c.ageStage !== "child" && c.ageStage !== "elder").length;
-        region.children = region.citizens.filter(c => c.ageStage === "child").length;
-        region.seniors = region.citizens.filter(c => c.ageStage === "senior" || c.ageStage === "elder").length;
-        region.avgHappiness = region.citizens.length ? 
-          region.citizens.reduce((s,c) => s + c.happiness, 0) / region.citizens.length : 50;
-        region.blight = region.blight || 0;
-        // Blight decay
-        region.blight = Math.max(0, region.blight * 0.98);
-        // Blight effects: reduces land value, increases crime risk
-        if (region.blight > 30) {
-          region.crimeMultiplier = 1 + (region.blight - 30) * 0.02;
-        } else {
-          region.crimeMultiplier = 1;
-        }
-      });
-      // Update global S.pop from real citizens
-      S.pop = citizens.filter(c => c.status === "active").length;
-      S.jobs = citizens.filter(c => c.status === "active" && c.job).length;
-    }
-
-    // ============= CITIZEN CARD UI =============
-      // DiceBear avatar styles for diverse portraits
-      const AVATAR_STYLES = ["avataaars", "micah", "big-smile", "notionists", "open-peeps", "personas"];
-      const AVATAR_GENDERS = ["male", "female"];
-  
-      function getCitizenAvatarURL(citizen) {
-        // Deterministic seed from citizen ID for consistent avatar
-        const seed = "citizen_" + citizen.id;
-        const style = AVATAR_STYLES[citizen.id % AVATAR_STYLES.length];
-        const gender = AVATAR_GENDERS[citizen.id % AVATAR_GENDERS.length];
-        // Use DiceBear API - free, no key required
-        return "https://api.dicebear.com/7.x/" + style + "/svg?seed=" + encodeURIComponent(seed) + "&gender=" + gender + "&backgroundColor=141312,2e2a25,3f3a35&size=128";
-      }
-
-      function getCitizenCardHTML(citizen) {
-        const jobStr = citizen.job ? citizen.job.role + " at " + (citizen.job.workplace?.sector || "?") + " ($" + citizen.job.income + "/day)" : "Unemployed";
-        const hhStr = citizen.household ? "Household #" + citizen.household.id + " (" + citizen.household.residents.length + "/" + citizen.household.capacity + ")" : "Homeless";
-        const traitsStr = citizen.traits.length ? citizen.traits.join(", ") : "—";
-        const skillsStr = Object.entries(citizen.skills).sort((a,b) => b[1]-a[1]).slice(0,5).map(([k,v]) => k + ":" + v).join(", ");
-        const needsHtml = Object.entries(citizen.needs).map(([k,v]) => 
-          '<div class="need-bar"><span>' + k + '</span><i><u style="width:' + v + '%"></u></i><b>' + Math.round(v) + '</b></div>'
-        ).join("");
-        const avatarURL = getCitizenAvatarURL(citizen);
-        const happinessColor = citizen.happiness > 70 ? '#6fbf73' : citizen.happiness > 45 ? '#f2c14e' : '#e2583c';
-
-        return `
-          <div class="citizen-card">
-            <div class="citizen-header">
-              <img class="citizen-avatar" src="${avatarURL}" alt="${citizen.name}" loading="lazy">
-              <div class="citizen-info">
-                <h3>${citizen.name}</h3>
-                <span class="archetype ${citizen.archetype}">${CITIZEN.ARCHETYPES[citizen.archetype].name}</span>
-                <span class="age">Age ${citizen.age} (${citizen.ageStage})</span>
-              </div>
-            </div>
-            <div class="citizen-stats">
-              <div class="stat-row">Happiness: <b style="color:${happinessColor}">${Math.round(citizen.happiness)}%</b></div>
-              <div class="stat-row">${jobStr}</div>
-              <div class="stat-row">${hhStr}</div>
-            </div>
-            <div class="citizen-attrs">
-              <div class="attrs-col">
-                <b>Stats</b>
-                ${Object.entries(citizen.stats).map(([k,v]) => '<div class="stat-mini"><span>'+k+'</span><b>'+v+'</b></div>').join("")}
-              </div>
-              <div class="attrs-col">
-                <b>Skills</b>
-                <div>${skillsStr}</div>
-              </div>
-            </div>
-            <div class="citizen-needs">
-              <b>Needs</b>
-              ${needsHtml}
-            </div>
-            <div class="citizen-traits"><b>Traits:</b> ${traitsStr}</div>
-            ${citizen.relationships.length ? '<div class="citizen-rels"><b>Relationships:</b> ' + citizen.relationships.map(r => '#'+r.id+' ('+r.bond+')').join(", ") + '</div>' : ''}
-          </div>
-        `;
-      }
-
-    // Inspector integration for citizen cards
-    function inspectCitizen(citizenId) {
-      const citizen = citizens.find(c => c.id === citizenId);
-      if (!citizen) return;
-      el("inspector").classList.remove("hidden");
-      el("ins-title").textContent = "Citizen: " + citizen.name;
-      el("ins-body").innerHTML = getCitizenCardHTML(citizen);
-    }
-
-    // Population dashboard data
-    function getPopulationDashboard() {
-      const active = citizens.filter(c => c.status === "active");
-      const byArchetype = {};
-      const byAgeStage = {};
-      active.forEach(c => {
-        byArchetype[c.archetype] = (byArchetype[c.archetype] || 0) + 1;
-        byAgeStage[c.ageStage] = (byAgeStage[c.ageStage] || 0) + 1;
-      });
-      const employed = active.filter(c => c.job).length;
-      const unemployed = active.filter(c => !c.job && c.ageStage !== "child" && c.ageStage !== "elder").length;
-      const avgHappiness = active.length ? active.reduce((s,c) => s + c.happiness, 0) / active.length : 0;
-      const totalBlight = claimedList().reduce((s,r) => s + (r.blight||0), 0);
-
-      return {
-        total: active.length,
-        employed: employed,
-        unemployed: unemployed,
-        employmentRate: active.length ? employed / active.filter(c => c.ageStage !== "child" && c.ageStage !== "elder").length : 0,
-        avgHappiness: avgHappiness,
-        byArchetype: byArchetype,
-        byAgeStage: byAgeStage,
-        totalBlight: totalBlight,
-        households: claimedList().reduce((s,r) => s + (r.households||[]).length, 0),
-        housingOccupancy: claimedList().reduce((s,r) => s + (r.households||[]).reduce((s2,h) => s2 + h.residents.length, 0), 0) / 
-          Math.max(1, claimedList().reduce((s,r) => s + (r.households||[]).reduce((s2,h) => s2 + h.capacity, 0), 0)),
-      };
-    }
-
-    // Expose for UI
-    window.LC.population = {
-      citizens: () => citizens.filter(c => c.status === "active"),
-      allCitizens: () => citizens,
-      getDashboard: getPopulationDashboard,
-      inspectCitizen: inspectCitizen,
-      tickPopulation: tickPopulation,
-    };
-
-    // ---------------------------------------------------------------- helpers (add rndInt if not exists)
-    // (rndInt already exists above as helper)
+    return out;
+  }
 
   // ---------------------------------------------------------------- regions
   function makeRegion(rx, ry) {
@@ -2496,49 +1643,40 @@
   }
 
   function tick() {
-      S.day++;
-      // the hour advances in the frame loop; a tick only marks the day
-      refreshLinks();
-      recalcWorld();
-      updateDemand();
-      claimedList().forEach((r) => tickRegion(r, Math.min(90, Math.max(10, Math.ceil(r.zoneList.length * 0.9) || 12))));
-      refreshLinks();
-      recalcWorld();
-      updateDemand();
-      claimedList().forEach((r) => {
-        const unemp = clamp((r.pop - (r.access || r.jobs)) / Math.max(1, r.pop), 0, 1);
-        const mood = 64 - unemp * 17 + Math.min(14, (r.parks || 0) * 1.5);
-        r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
-      });
-      claimedList().forEach((r) => {
-        r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
-        r.trades = 0;
-      });
-      S.cash += S.income - S.upkeep;
-      if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
-      // weather drifts between dry spells and rain every couple of weeks
-      if (S.weatherTimer-- <= 0) {
-        S.weatherTimer = 100 + Math.floor(Math.random() * 120);
-        S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
-      }
-      if (!OPT.weather) S.rainTarget = 0;
-      S.rain += (S.rainTarget - S.rain) * 0.06;
-
-      // Population-scaled emergency systems (once per tick)
-            checkFireIgnition();
-            spawnMedicalEmergency();
-            spawnPoliceCall();
-
-            // Population micro-simulation (once per tick)
-            tickPopulation();
-
-            checkMilestones();
-            updatePeds();
-            updateEvent();
-            if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
-            if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
-            refreshHud();
-          }
+    S.day++;
+    // the hour advances in the frame loop; a tick only marks the day
+    refreshLinks();
+    recalcWorld();
+    updateDemand();
+    claimedList().forEach((r) => tickRegion(r, Math.min(90, Math.max(10, Math.ceil(r.zoneList.length * 0.9) || 12))));
+    refreshLinks();
+    recalcWorld();
+    updateDemand();
+    claimedList().forEach((r) => {
+      const unemp = clamp((r.pop - (r.access || r.jobs)) / Math.max(1, r.pop), 0, 1);
+      const mood = 64 - unemp * 17 + Math.min(14, (r.parks || 0) * 1.5);
+      r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
+    });
+    claimedList().forEach((r) => {
+      r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
+      r.trades = 0;
+    });
+    S.cash += S.income - S.upkeep;
+    if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
+    // weather drifts between dry spells and rain every couple of weeks
+    if (S.weatherTimer-- <= 0) {
+      S.weatherTimer = 100 + Math.floor(Math.random() * 120);
+      S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
+    }
+    if (!OPT.weather) S.rainTarget = 0;
+    S.rain += (S.rainTarget - S.rain) * 0.06;
+        checkMilestones();
+        updatePeds();
+        updateEvent();
+        if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
+        if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
+        refreshHud();
+  }
 
   function announce(train, town) {
     if (S.speed === 0) return;
@@ -2560,83 +1698,92 @@
   }
 
   // ---------------------------------------------------------------- events
-    // Rare and deliberate: one at a time, days apart, and never in the opening
-    // minutes. Each one changes a number the player can feel.
-    const EVENTS = {
-      market: { days: 4, label: "Market day", colour: "#f2c14e", minPop: 120, weight: 4 },
-      festival: { days: 5, label: "Festival", colour: "#d98fe0", minPop: 300, weight: 3 },
-      boom: { days: 5, label: "Building boom", colour: "#6fbf73", minPop: 600, weight: 2 },
-      // Fire removed from random events - now driven by checkFireIgnition() based on industrial risk
-    };
+  // Rare and deliberate: one at a time, days apart, and never in the opening
+  // minutes. Each one changes a number the player can feel.
+  const EVENTS = {
+    market: { days: 4, label: "Market day", colour: "#f2c14e" },
+    festival: { days: 5, label: "Festival", colour: "#d98fe0" },
+    fire: { days: 3, label: "Fire", colour: "#e2583c" },
+    boom: { days: 5, label: "Building boom", colour: "#6fbf73" },
+  };
 
-    let eventDailyCount = 0;
-    let eventLastDay = -1;
-
-    function startEvent() {
-      // Once per day max
-      if (S.day !== eventLastDay) {
-        eventDailyCount = 0;
-        eventLastDay = S.day;
+  function startEvent() {
+    const towns = claimedList().filter((r) => r.built > 3);
+    if (!towns.length) return false;
+    const town = towns[(Math.random() * towns.length) | 0];
+    const roll = Math.random();
+    const type = roll < 0.4 ? "market" : roll < 0.65 ? "festival" : roll < 0.85 ? "boom" : "fire";
+    const def = EVENTS[type];
+    S.event = { type, region: town, until: S.day + def.days, started: S.day };
+    S.eventHistory.push(type);
+    if (type === "fire") {
+      // the worst fire a town can have: a level-3 works loses a floor
+      let hit = -1;
+      for (let i = 0; i < RS * RS; i++) {
+        if (town.zone[i] === Z.I && town.level[i] >= 2) { hit = i; break; }
       }
-      if (eventDailyCount >= 1) return false;
-
-      const towns = claimedList().filter((r) => r.built > 3);
-      if (!towns.length) return false;
-
-      // Filter events by population requirements
-      const availableEvents = Object.entries(EVENTS).filter(([_, def]) => S.pop >= def.minPop);
-      if (!availableEvents.length) return false;
-
-      // Weighted selection
-      const totalWeight = availableEvents.reduce((sum, [_, def]) => sum + def.weight, 0);
-      let roll = Math.random() * totalWeight;
-      let chosenType = availableEvents[0][0];
-      for (const [type, def] of availableEvents) {
-        roll -= def.weight;
-        if (roll <= 0) { chosenType = type; break; }
-      }
-
-      const town = towns[(Math.random() * towns.length) | 0];
-      const def = EVENTS[chosenType];
-      S.event = { type: chosenType, region: town, until: S.day + def.days, started: S.day };
-      S.eventHistory.push(chosenType);
-      eventDailyCount++;
-
-      if (chosenType === "market") {
-        toast("MARKET DAY · " + (town.name || "a district"));
-        log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
-      } else if (chosenType === "festival") {
-        town.mood = clamp(town.mood + 9, 0, 100);
-        toast("FESTIVAL · " + (town.name || "a district"));
-        log("<b>Festival</b> in " + (town.name || "the district") + " — mood is up for days.");
+      if (hit >= 0) {
+        const fx = hit % RS, fy = (hit / RS) | 0;
+        // a fire station within reach saves the building
+        let covered = false;
+        for (let i = 0; i < RS * RS && !covered; i++) {
+          if (SVC[town.svc[i]] !== "fire") continue;
+          const dx = (i % RS) - fx, dy = ((i / RS) | 0) - fy;
+          if (dx * dx + dy * dy <= 8 * 8) covered = true;
+        }
+        S.fireTile = { x: town.rx * RS + fx, y: town.ry * RS + fy, until: S.day + 2 };
+        if (covered) {
+          town.mood = clamp(town.mood - 2, 0, 100);
+          toast("FIRE CONTAINED · " + (town.name || "a district"));
+          log("<b>Fire</b> in " + (town.name || "the district") + " — the station put it out. A workshop smells of smoke.");
+        } else {
+          town.level[hit] -= 1;
+          town.mood = clamp(town.mood - 6, 0, 100);
+          toast("FIRE · " + (town.name || "a district") + " · a workshop is burning");
+          log("<b>Fire</b> breaks out in " + (town.name || "the district") + ". The works lost a floor — no station covered it.");
+        }
       } else {
-        toast("BOOM · " + (town.name || "a district"));
-        log("<b>Building boom</b> in " + (town.name || "the district") + " — cranes on every corner.");
+        town.mood = clamp(town.mood - 3, 0, 100);
+        toast("FIRE SCARE · " + (town.name || "a district"));
+        log("<b>Fire</b> scare in " + (town.name || "the district") + " — nothing important burned.");
       }
-      sfx("milestone");
-      return true;
+    } else if (type === "market") {
+      toast("MARKET DAY · " + (town.name || "a district"));
+      log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
+    } else if (type === "festival") {
+      town.mood = clamp(town.mood + 9, 0, 100);
+      toast("FESTIVAL · " + (town.name || "a district"));
+      log("<b>Festival</b> in " + (town.name || "the district") + " — mood is up for days.");
+    } else {
+      toast("BOOM · " + (town.name || "a district"));
+      log("<b>Building boom</b> in " + (town.name || "the district") + " — cranes on every corner.");
     }
+    sfx(type === "fire" ? "deny" : "milestone");
+    return true;
+  }
 
-    function updateEvent() {
-      if (S.event && S.day >= S.event.until) {
-        S.event = null;
-        S.nextEventDay = S.day + 14 + Math.floor(Math.random() * 16);
-        S.fireTile = null;
-      }
-      if (!S.event && S.day >= S.nextEventDay && S.day > 20 && S.pop >= 120) startEvent();
+  function updateEvent() {
+    if (S.event && S.day >= S.event.until) {
+      S.event = null;
+      S.nextEventDay = S.day + 14 + Math.floor(Math.random() * 16);
+      S.fireTile = null;
     }
+    if (!S.event && S.day >= S.nextEventDay && S.day > 20 && S.pop >= 60) startEvent();
+  }
 
-    function eventCommerce(region) {
-      if (!S.event || S.event.region !== region) return 1;
-      if (S.event.type === "market") return 1.6;
-      if (S.event.type === "festival") return 1.25;
-      return 1;
-    }
-    function eventGrowth(region) {
-      if (!S.event || S.event.region !== region) return 1;
-      if (S.event.type === "boom") return 1.5;
-      return 1;
-    }
+  function eventCommerce(region) {
+    if (!S.event || S.event.region !== region) return 1;
+    if (S.event.type === "market") return 1.6;
+    if (S.event.type === "festival") return 1.25;
+    if (S.event.type === "fire") return 0.7;
+    return 1;
+  }
+  function eventGrowth(region) {
+    if (!S.event || S.event.region !== region) return 1;
+    if (S.event.type === "boom") return 1.5;
+    if (S.event.type === "fire") return 0.7;
+    return 1;
+  }
 
   function checkMilestones() {
     const m = MILESTONES[S.unlocked + 1];
@@ -3112,21 +2259,22 @@
   }
 
   function drawFrame(ts) {
-      // Boot can focus before the canvas has a size. Retry until layout gives it one.
-      if (needFocus) resize();
-      const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
-      last = ts;
-      S.hour = localHour();
-      pumpTicks();
-      const sim = 1;
-      advance(S.peds, dt * sim);
-      advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
-      updateFires(dt);
-      updateAllVehicles(dt);
-      // Emergency spawns now happen in tick() once per day, not every frame
-      updateMedicalCalls(dt);
-      updatePoliceCalls(dt);
-      if (S.boats) {
+    // Boot can focus before the canvas has a size. Retry until layout gives it one.
+    if (needFocus) resize();
+    const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
+    last = ts;
+    S.hour = localHour();
+    pumpTicks();
+    const sim = 1;
+    advance(S.peds, dt * sim);
+    advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
+    updateFires(dt);
+        updateAllVehicles(dt);
+        spawnMedicalEmergency();
+        spawnPoliceCall();
+        updateMedicalCalls(dt);
+        updatePoliceCalls(dt);
+        if (S.boats) {
       S.boats.forEach((b) => {
         b.t += dt * sim * b.speed;
         if (b.t >= 1) {
@@ -3807,46 +2955,29 @@
   function toolById(id) { return TOOLS.find((t) => t.id === id) || TOOLS[0]; }
 
   function canPaint(t, gx, gy) {
-      const tile = regionOf(gx, gy);
-      if (!tile) return false;
-      const r = tile.r, i = tile.i;
-      const terr = r.terrain[i];
-      if (terr === TERRAIN.MOUNTAIN && t.id !== "bulldoze") return t.id === "inspect" || t.id === "road" || t.id === "railTrack" || t.id === "inspectCitizen";
-        if (t.id === "road") {
-        if (terr !== TERRAIN.WATER) return true;
-        // a bridge needs ground or road on two opposite sides to span
-        const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
-        return (land(gx - 1, gy) && land(gx + 1, gy)) || (land(gx, gy - 1) && land(gx, gy + 1));
-      }
-      if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
-      if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
-      if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
-      if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
-      if (t.id === "inspectCitizen") return r.zone[i] === Z.R && r.level[i] > 0;
-      return true;
+    const tile = regionOf(gx, gy);
+    if (!tile) return false;
+    const r = tile.r, i = tile.i;
+    const terr = r.terrain[i];
+    if (terr === TERRAIN.MOUNTAIN && t.id !== "bulldoze") return t.id === "inspect" || t.id === "road" || t.id === "railTrack";
+      if (t.id === "road") {
+      if (terr !== TERRAIN.WATER) return true;
+      // a bridge needs ground or road on two opposite sides to span
+      const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
+      return (land(gx - 1, gy) && land(gx + 1, gy)) || (land(gx, gy - 1) && land(gx, gy + 1));
     }
+    if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
+    if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
+    if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
+    if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
+    return true;
+  }
 
-    function paint(t, gx, gy) {
-      const tile = regionOf(gx, gy);
-      if (!tile) return false;
-      if (t.id === "inspect") { inspect(gx, gy); return true; }
-      if (t.id === "inspectCitizen") {
-        const r = tile.r, i = tile.i;
-        if (r.zone[i] === Z.R && r.level[i] > 0 && r.households) {
-          const household = r.households.find(h => h.tile === i);
-          if (household && household.residents.length > 0) {
-            // Show first resident's card
-            const citizen = citizens.find(c => c.id === household.residents[0]);
-            if (citizen) inspectCitizen(citizen.id);
-          } else {
-            toast("No residents in this home");
-          }
-        } else {
-          toast("Click a residential building to view residents");
-        }
-        return true;
-      }
-      if (!canPaint(t, gx, gy)) return false;
+  function paint(t, gx, gy) {
+    const tile = regionOf(gx, gy);
+    if (!tile) return false;
+    if (t.id === "inspect") { inspect(gx, gy); return true; }
+    if (!canPaint(t, gx, gy)) return false;
     const r = tile.r, i = tile.i;
     if (S.cash < t.cost) { deny("Not enough funds for " + t.name.toLowerCase()); return false; }
     let did = false;
@@ -4440,15 +3571,14 @@
       zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     }, { passive: false });
     window.addEventListener("keydown", (e) => {
-          if (e.code === "Space") { spaceDown = true; c.style.cursor = "grab"; }
-          if (e.key === "Escape") { el("modal").classList.add("hidden"); el("inspector").classList.add("hidden"); el("pop-dashboard").classList.add("hidden"); }
-          if (e.key === "q" || e.key === "Q") rotateCamera(-1);
-          if (e.key === "e" || e.key === "E") rotateCamera(1);
-          if (e.key === "+" || e.key === "=") zoomBy(1.25);
-          if (e.key === "-") zoomBy(1 / 1.25);
-          if (e.key === "o" || e.key === "O") optionsModal();
-          if (e.key === "p" || e.key === "P") togglePopDashboard();
-        });
+      if (e.code === "Space") { spaceDown = true; c.style.cursor = "grab"; }
+      if (e.key === "Escape") { el("modal").classList.add("hidden"); el("inspector").classList.add("hidden"); }
+      if (e.key === "q" || e.key === "Q") rotateCamera(-1);
+      if (e.key === "e" || e.key === "E") rotateCamera(1);
+      if (e.key === "+" || e.key === "=") zoomBy(1.25);
+      if (e.key === "-") zoomBy(1 / 1.25);
+      if (e.key === "o" || e.key === "O") optionsModal();
+    });
     window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; c.style.cursor = "crosshair"; } });
     window.addEventListener("resize", resize);
   }
@@ -4484,45 +3614,29 @@
     return out;
   }
   function save() {
-      const regions = [];
-      claimedList().forEach((r) => {
-        regions.push({
-                rx: r.rx, ry: r.ry,
-                terrain: rle(r.terrain), road: rle(r.road), rail: rle(r.rail), zone: rle(r.zone), level: rle(r.level),
-                landmarks: (r.landmarks || []).map(l => l.key + "@" + l.i).join(","),
-                bldg: rle(r.bldg), svc: rle(r.svc),
-                households: (r.households || []).map(h => ({
-                  id: h.id, tile: h.tile, capacity: h.capacity, residents: h.residents,
-                  condition: h.condition, rent: h.rent, createdDay: h.createdDay
-                })),
-              });
-      });
-      const data = { v: 4, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
-            savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
-            fireTrucks: fireTrucks.map(t => ({ id: t.id, x: t.x, y: t.y, state: t.state, targetFire: t.targetFire, routeIdx: t.routeIdx, stationId: t.stationId })),
-            ambulances: ambulances.map(a => ({ id: a.id, x: a.x, y: a.y, state: a.state, targetCall: a.targetCall, routeIdx: a.routeIdx, clinicId: a.clinicId })),
-            policeCars: policeCars.map(c => ({ id: c.id, x: c.x, y: c.y, state: c.state, targetCall: c.targetCall, routeIdx: c.routeIdx, stationId: c.stationId })),
-            activeFires: activeFires.map(f => ({ id: f.id, gx: f.gx, gy: f.gy, severity: f.severity, contained: f.contained, damage: f.damage })),
-            medicalCalls: medicalCalls.map(m => ({ id: m.id, type: m.type, gx: m.gx, gy: m.gy, status: m.status, assignedAmbulance: m.assignedAmbulance })),
-            policeCalls: policeCalls.map(p => ({ id: p.id, type: p.type, gx: p.gx, gy: p.gy, status: p.status, assignedUnit: p.assignedUnit })),
-            // Population data
-            citizens: citizens.map(c => ({
-              id: c.id, name: c.name, archetype: c.archetype, age: c.age, ageStage: c.ageStage,
-              stats: c.stats, skills: c.skills, traits: c.traits,
-              householdId: c.householdId, job: c.job, happiness: c.happiness,
-              needs: c.needs, relationships: c.relationships, routine: c.routine,
-              commutePath: c.commutePath, daysUnemployed: c.daysUnemployed,
-              daysInCity: c.daysInCity, bornDay: c.bornDay, lastMovedDay: c.lastMovedDay,
-              status: c.status, blightContribution: c.blightContribution, leavingReason: c.leavingReason
-            })),
-            citizenIdCounter: citizenIdCounter,
-            householdIdCounter: householdIdCounter,
-          };
-      try {
-        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
-        toast("World saved · " + regions.length + " region" + (regions.length === 1 ? "" : "s"));
-      } catch (e) { toast("Could not save: browser storage is full"); }
-    }
+    const regions = [];
+    claimedList().forEach((r) => {
+      regions.push({
+              rx: r.rx, ry: r.ry,
+              terrain: rle(r.terrain), road: rle(r.road), rail: rle(r.rail), zone: rle(r.zone), level: rle(r.level),
+              landmarks: (r.landmarks || []).map(l => l.key + "@" + l.i).join(","),
+              bldg: rle(r.bldg), svc: rle(r.svc),
+            });
+    });
+    const data = { v: 3, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
+          savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
+          fireTrucks: fireTrucks.map(t => ({ id: t.id, x: t.x, y: t.y, state: t.state, targetFire: t.targetFire, routeIdx: t.routeIdx, stationId: t.stationId })),
+          ambulances: ambulances.map(a => ({ id: a.id, x: a.x, y: a.y, state: a.state, targetCall: a.targetCall, routeIdx: a.routeIdx, clinicId: a.clinicId })),
+          policeCars: policeCars.map(c => ({ id: c.id, x: c.x, y: c.y, state: c.state, targetCall: c.targetCall, routeIdx: c.routeIdx, stationId: c.stationId })),
+          activeFires: activeFires.map(f => ({ id: f.id, gx: f.gx, gy: f.gy, severity: f.severity, contained: f.contained, damage: f.damage })),
+          medicalCalls: medicalCalls.map(m => ({ id: m.id, type: m.type, gx: m.gx, gy: m.gy, status: m.status, assignedAmbulance: m.assignedAmbulance })),
+          policeCalls: policeCalls.map(p => ({ id: p.id, type: p.type, gx: p.gx, gy: p.gy, status: p.status, assignedUnit: p.assignedUnit })),
+        };
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      toast("World saved · " + regions.length + " region" + (regions.length === 1 ? "" : "s"));
+    } catch (e) { toast("Could not save: browser storage is full"); }
+  }
   function load() {
     let raw = null;
     try { raw = localStorage.getItem(SAVE_KEY); } catch (e) {}
@@ -4568,51 +3682,16 @@
             S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
 
             // Restore emergency vehicles and calls
-                        fireTrucks.length = 0; ambulances.length = 0; policeCars.length = 0;
-                        activeFires.length = 0; medicalCalls.length = 0; policeCalls.length = 0;
-                        if (d.fireTrucks) d.fireTrucks.forEach(t => { const nt = { ...t, route: null }; fireTrucks.push(nt); });
-                        if (d.ambulances) d.ambulances.forEach(a => { const nt = { ...a, route: null }; ambulances.push(nt); });
-                        if (d.policeCars) d.policeCars.forEach(c => { const nt = { ...c, route: null }; policeCars.push(nt); });
-                        if (d.activeFires) d.activeFires.forEach(f => activeFires.push(f));
-                        if (d.medicalCalls) d.medicalCalls.forEach(m => medicalCalls.push(m));
-                        if (d.policeCalls) d.policeCalls.forEach(p => policeCalls.push(p));
+            fireTrucks.length = 0; ambulances.length = 0; policeCars.length = 0;
+            activeFires.length = 0; medicalCalls.length = 0; policeCalls.length = 0;
+            if (d.fireTrucks) d.fireTrucks.forEach(t => { const nt = { ...t, route: null }; fireTrucks.push(nt); });
+            if (d.ambulances) d.ambulances.forEach(a => { const nt = { ...a, route: null }; ambulances.push(nt); });
+            if (d.policeCars) d.policeCars.forEach(c => { const nt = { ...c, route: null }; policeCars.push(nt); });
+            if (d.activeFires) d.activeFires.forEach(f => activeFires.push(f));
+            if (d.medicalCalls) d.medicalCalls.forEach(m => medicalCalls.push(m));
+            if (d.policeCalls) d.policeCalls.forEach(p => policeCalls.push(p));
 
-                        // Restore population data
-                                                citizens.length = 0;
-                                                if (d.citizens) {
-                                                  d.citizens.forEach(cData => {
-                                                    const citizen = { ...cData };
-                                                    citizen.household = null;
-                                                    citizens.push(citizen);
-                                                  });
-                                                  citizenIdCounter = d.citizenIdCounter || 0;
-                                                  householdIdCounter = d.householdIdCounter || 0;
-                                                }
-
-                                                // Restore households to regions
-                                                if (d.regions) {
-                                                  d.regions.forEach(rData => {
-                                                    if (rData.households) {
-                                                      const reg = regionAt(rData.rx, rData.ry);
-                                                      if (reg) {
-                                                        reg.households = rData.households.map(hData => ({
-                                                          ...hData,
-                                                          region: reg,
-                                                          gx: reg.rx * RS + (hData.tile % RS),
-                                                          gy: reg.ry * RS + ((hData.tile / RS) | 0),
-                                                        }));
-                                                        reg.households.forEach(h => {
-                                                          h.residents.forEach(citizenId => {
-                                                            const citizen = citizens.find(c => c.id === citizenId);
-                                                            if (citizen) citizen.household = h;
-                                                          });
-                                                        });
-                                                      }
-                                                    }
-                                                  });
-                                                }
-
-                                                initializeFireTrucks(); initializeAmbulances(); initializePoliceCars();      refreshLinks(); recalcWorld(); updateDemand();
+            initializeFireTrucks(); initializeAmbulances(); initializePoliceCars();      refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
       const view = getCanvas();
       const vw = view ? view.clientWidth : 0;
@@ -4791,54 +3870,21 @@
       renderTools(); refreshHud();
     };
     const ui_claim = el("ui-claim"); if (ui_claim) ui_claim.onclick = () => {
-          const options = [];
-          claimedList().forEach((r) => {
-            [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
-              const rx = r.rx + dx, ry = r.ry + dy;
-              if (rx < 0 || ry < 0 || rx >= GW || ry >= GH) return;
-              const existing = regionAt(rx, ry);
-              if (existing && existing.claimed) return;
-              if (options.some((o) => o.rx === rx && o.ry === ry)) return;
-              options.push({ rx, ry });
-            });
-          });
-          if (!options.length) { toast("Every region is claimed"); return; }
-          if (claimRegion(options[0].rx, options[0].ry, false)) focusRegion(regionAt(options[0].rx, options[0].ry));
-        };
-        const ui_pop_dash = el("ui-pop-dash"); if (ui_pop_dash) ui_pop_dash.onclick = () => togglePopDashboard();
-      }
-
-      function togglePopDashboard() {
-        const dash = el("pop-dashboard");
-        if (!dash) return;
-        const isHidden = dash.classList.toggle("hidden");
-        if (!isHidden) updatePopDashboard();
-      }
-
-      function updatePopDashboard() {
-        const dash = el("pop-dash-body");
-        if (!dash) return;
-        const data = window.LC.population.getDashboard();
-        if (!data) { dash.innerHTML = "<p>No population data yet</p>"; return; }
-        const empClass = data.employmentRate > 0.8 ? "good" : data.employmentRate > 0.5 ? "warn" : "bad";
-        const happyClass = data.avgHappiness > 70 ? "good" : data.avgHappiness > 45 ? "warn" : "bad";
-        const blightClass = data.totalBlight < 20 ? "good" : data.totalBlight < 50 ? "warn" : "bad";
-        dash.innerHTML = `
-          <div class="pop-stat"><span>Total Citizens</span><b>${data.total}</b></div>
-          <div class="pop-stat ${empClass}"><span>Employed / Unemployed</span><b>${data.employed} / ${data.unemployed}</b></div>
-          <div class="pop-stat ${empClass}"><span>Employment Rate</span><b>${Math.round(data.employmentRate * 100)}%</b></div>
-          <div class="pop-stat ${happyClass}"><span>Average Happiness</span><b>${Math.round(data.avgHappiness)}%</b></div>
-          <div class="pop-stat ${blightClass}"><span>Total Blight</span><b>${Math.round(data.totalBlight)}</b></div>
-          <div class="pop-stat"><span>Households</span><b>${data.households}</b></div>
-          <div class="pop-stat"><span>Housing Occupancy</span><b>${Math.round(data.housingOccupancy * 100)}%</b></div>
-          <div class="pop-breakdown">
-            <h4>By Archetype</h4>
-            ${Object.entries(data.byArchetype).map(([k,v]) => `<div class="item"><span>${CITIZEN.ARCHETYPES[k]?.name || k}</span><b>${v}</b></div>`).join("")}
-            <h4>By Age Stage</h4>
-            ${Object.entries(data.byAgeStage).map(([k,v]) => `<div class="item"><span>${k}</span><b>${v}</b></div>`).join("")}
-          </div>
-        `;
-      }
+      const options = [];
+      claimedList().forEach((r) => {
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dx, dy]) => {
+          const rx = r.rx + dx, ry = r.ry + dy;
+          if (rx < 0 || ry < 0 || rx >= GW || ry >= GH) return;
+          const existing = regionAt(rx, ry);
+          if (existing && existing.claimed) return;
+          if (options.some((o) => o.rx === rx && o.ry === ry)) return;
+          options.push({ rx, ry });
+        });
+      });
+      if (!options.length) { toast("Every region is claimed"); return; }
+      if (claimRegion(options[0].rx, options[0].ry, false)) focusRegion(regionAt(options[0].rx, options[0].ry));
+    };
+  }
 
   function firstRun() {
     modal("Lattice City", [
@@ -4931,4 +3977,3 @@
     } catch (e) {}
   });
 })();
-
