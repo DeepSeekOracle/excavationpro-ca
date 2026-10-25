@@ -27,114 +27,125 @@
   <meta name="twitter:image" content="https://excavationpro.ca/games/lattice-city/og.jpg">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Lattice City","url":"https://excavationpro.ca/games/lattice-city/","description":"An endless isometric city builder: zone land, lay roads, keep power and water running, and grow a hamlet into a metropolis.","image":"https://excavationpro.ca/games/lattice-city/og.jpg","author":{"@type":"Person","name":"Justin Helmer","alternateName":"Excavationpro"},"publisher":{"@type":"Organization","name":"Eternal Haven","url":"https://eternalhaven.ca/"},"genre":["City builder","Management","Strategy"],"gamePlatform":"Web browser","applicationCategory":"Game","operatingSystem":"Any","playMode":"SinglePlayer","offers":{"@type":"Offer","price":"0","priceCurrency":"CAD"}}</script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="./city.css?v=20261025-feed6">
-</head>
-<body>
-<audio id="radioEl" preload="none"></audio>
-<div id="app">
-  <header id="topbar">
-    <a class="brand" href="https://excavationpro.ca/">excavationpro.ca</a>
-    <div class="stat"><span>FUNDS</span><b id="ui-cash">$0</b></div>
-    <div class="stat"><span>PEOPLE</span><b id="ui-pop">0</b></div>
-    <div class="stat"><span>JOBS</span><b id="ui-jobs">0</b></div>
-    <div class="stat"><span>MOOD</span><b id="ui-mood">—</b></div>
-    <div class="clock" id="ui-date">Day 1 · 07:00</div>
-    <div class="clock" id="ui-region">Region 1/1</div>
-    <div class="clock" id="ui-event" style="display:none"></div>
-    <div class="spacer"></div>
-    <div class="demand" title="Demand: homes · shops · industry">
-      <span class="lbl">DEMAND</span>
-      <i class="bar r"><u id="ui-dem-r"></u></i>
-      <i class="bar c"><u id="ui-dem-c"></u></i>
-      <i class="bar i"><u id="ui-dem-i"></u></i>
-    </div>
-    <div class="liveclock" title="The city runs on your local clock. No pause, no fast forward.">
-      <b id="ui-clock">--:--</b>
-      <span id="ui-phase">live</span>
-    </div>
-    <div class="camera">
-      <button id="ui-zoomout" class="icon" title="Zoom out (-)">−</button>
-      <button id="ui-zoomin" class="icon" title="Zoom in (+)">+</button>
-      <button id="ui-rotate" class="icon" title="Rotate the view (Q / E)">⟳</button>
-    </div>
-    <button id="ui-options" class="icon" title="Options (O)">⚙</button>
-    <button id="ui-sound" class="icon" title="Sound on or off">♪</button>
-    <button id="ui-help" class="icon" title="How to play">?</button>
-    <a class="brand small" href="https://excavationpro.ca/games/">All games</a>
-  </header>
+  <link rel="stylesheet" href="./city.css?v=20261025-sim7">
+  </head>
+  <body>
+  <audio id="radioEl" preload="none"></audio>
+  <div id="app">
+    <header id="topbar">
+      <a class="brand" href="https://excavationpro.ca/">excavationpro.ca</a>
+      <div class="stat"><span>FUNDS</span><b id="ui-cash">$0</b></div>
+      <div class="stat"><span>PEOPLE</span><b id="ui-pop">0</b></div>
+      <div class="stat"><span>JOBS</span><b id="ui-jobs">0</b></div>
+      <div class="stat"><span>MOOD</span><b id="ui-mood">—</b></div>
+      <div class="clock" id="ui-date">Day 1 · 07:00</div>
+      <div class="clock" id="ui-region">Region 1/1</div>
+      <div class="clock" id="ui-event" style="display:none"></div>
+      <div class="spacer"></div>
+      <div class="demand" title="Demand: homes · shops · industry">
+        <span class="lbl">DEMAND</span>
+        <i class="bar r"><u id="ui-dem-r"></u></i>
+        <i class="bar c"><u id="ui-dem-c"></u></i>
+        <i class="bar i"><u id="ui-dem-i"></u></i>
+      </div>
+      <div class="liveclock" title="The city runs on your local clock. No pause, no fast forward.">
+        <b id="ui-clock">--:--</b>
+        <span id="ui-phase">live</span>
+      </div>
+      <div class="camera">
+        <button id="ui-zoomout" class="icon" title="Zoom out (-)">−</button>
+        <button id="ui-zoomin" class="icon" title="Zoom in (+)">+</button>
+        <button id="ui-rotate" class="icon" title="Rotate the view (Q / E)">⟳</button>
+      </div>
+      <button id="ui-options" class="icon" title="Options (O)">⚙</button>
+      <button id="ui-sound" class="icon" title="Sound on or off">♪</button>
+      <button id="ui-help" class="icon" title="How to play">?</button>
+            <button id="ui-pop-dash" class="icon" title="Population Dashboard (P)">👥</button>
+            <button id="ui-econ-dash" class="icon" title="Economy Dashboard ($)">$</button>
+            <a class="brand small" href="https://excavationpro.ca/games/">All games</a>
+    </header>
 
-  <main id="stage">
-    <canvas id="map" aria-label="Lattice City isometric map"></canvas>
+    <main id="stage">
+      <canvas id="map" aria-label="Lattice City isometric map"></canvas>
 
-    <aside id="palette">
-      <div id="radioDock" class="radio-dock">
-        <div class="radio-head"><span>♪ LYGO RADIO</span><a href="https://excavationpro.ca/listen.html" target="_blank" rel="noopener">portal</a></div>
-        <div class="radio-row">
-          <button id="radioPlay" type="button" class="wide">Play</button>
-          <button id="radioMute" type="button" class="wide">Mute</button>
-          <button id="radioView" type="button" class="wide">Hide</button>
+      <aside id="palette">
+        <div id="radioDock" class="radio-dock">
+          <div class="radio-head"><span>♪ LYGO RADIO</span><a href="https://excavationpro.ca/listen.html" target="_blank" rel="noopener">portal</a></div>
+          <div class="radio-row">
+            <button id="radioPlay" type="button" class="wide">Play</button>
+            <button id="radioMute" type="button" class="wide">Mute</button>
+            <button id="radioView" type="button" class="wide">Hide</button>
+          </div>
+          <input id="radioVol" type="range" min="0" max="100" value="55" data-radio-vol aria-label="Music volume">
+          <p id="radioTitle" class="radio-title">Loading the listen portal…</p>
         </div>
-        <input id="radioVol" type="range" min="0" max="100" value="55" data-radio-vol aria-label="Music volume">
-        <p id="radioTitle" class="radio-title">Loading the listen portal…</p>
+
+        <section id="feed" aria-label="Events">
+          <h3>Events</h3>
+          <div id="ticker"><span id="ticker-text">The district is quiet. Lay a road.</span></div>
+          <div id="event-log" class="event-log"></div>
+        </section>
+
+        <h2>Build</h2>
+        <div id="tools"></div>
+        <h3>District</h3>
+        <div class="meters">
+          <div class="meter"><span>Power</span><i><u id="ui-power"></u></i><b id="ui-power-t">0/0</b></div>
+          <div class="meter"><span>Water</span><i><u id="ui-water"></u></i><b id="ui-water-t">0/0</b></div>
+          <div class="meter"><span>Land value</span><i><u id="ui-value"></u></i><b id="ui-value-t">$0</b></div>
+        </div>
+        <h3>Next milestone</h3>
+        <p id="ui-goal" class="goal">Reach 50 people to unlock parks.</p>
+        <div class="row"><button id="ui-claim" class="wide" title="Open the world map and claim a neighbouring region">Claim a region · $15,000</button></div>
+        <div class="row">
+          <button id="ui-save" class="wide">Save</button>
+          <button id="ui-load" class="wide">Load</button>
+          <button id="ui-new" class="wide">New map</button>
+        </div>
+        <div class="row">
+          <button id="ui-snapshot" class="wide" title="Download a PNG of the current view">Snapshot PNG</button>
+        </div>
+        <p class="hint">Drag to paint · Space+drag or middle-drag to pan · wheel to zoom · regions connect where their roads meet</p>
+      </aside>
+
+      <aside id="inspector" class="hidden">
+        <h2 id="ins-title">Tile</h2>
+        <div id="ins-body"></div>
+        <button id="ins-close" class="wide">Close</button>
+      </aside>
+
+      <div id="minimap-wrap" title="World map — click a region to jump, click the edges to claim">
+              <canvas id="minimap" width="180" height="180"></canvas>
+              <div id="minimap-label">WORLD</div>
+            </div>
+
+            <div id="pop-dashboard" class="hidden">
+              <h2>Population Dashboard</h2>
+              <div id="pop-dash-body"></div>
+            </div>
+            <div id="econ-dashboard" class="hidden">
+              <h2>Economy Dashboard</h2>
+              <div id="econ-dash-body"></div>
+            </div>
+
+            <div id="toast"></div>
+
+      <div id="modal" class="hidden">
+        <div class="sheet">
+          <h2 id="modal-title">How to play</h2>
+          <div id="modal-body"></div>
+          <button id="modal-close" class="wide">Back to the city</button>
+        </div>
       </div>
+    </main>
 
-      <section id="feed" aria-label="Events">
-        <h3>Events</h3>
-        <div id="ticker"><span id="ticker-text">The district is quiet. Lay a road.</span></div>
-        <div id="event-log" class="event-log"></div>
-      </section>
-
-      <h2>Build</h2>
-      <div id="tools"></div>
-      <h3>District</h3>
-      <div class="meters">
-        <div class="meter"><span>Power</span><i><u id="ui-power"></u></i><b id="ui-power-t">0/0</b></div>
-        <div class="meter"><span>Water</span><i><u id="ui-water"></u></i><b id="ui-water-t">0/0</b></div>
-        <div class="meter"><span>Land value</span><i><u id="ui-value"></u></i><b id="ui-value-t">$0</b></div>
-      </div>
-      <h3>Next milestone</h3>
-      <p id="ui-goal" class="goal">Reach 50 people to unlock parks.</p>
-      <div class="row"><button id="ui-claim" class="wide" title="Open the world map and claim a neighbouring region">Claim a region · $15,000</button></div>
-      <div class="row">
-        <button id="ui-save" class="wide">Save</button>
-        <button id="ui-load" class="wide">Load</button>
-        <button id="ui-new" class="wide">New map</button>
-      </div>
-      <div class="row">
-        <button id="ui-snapshot" class="wide" title="Download a PNG of the current view">Snapshot PNG</button>
-      </div>
-      <p class="hint">Drag to paint · Space+drag or middle-drag to pan · wheel to zoom · regions connect where their roads meet</p>
-    </aside>
-
-    <aside id="inspector" class="hidden">
-      <h2 id="ins-title">Tile</h2>
-      <div id="ins-body"></div>
-      <button id="ins-close" class="wide">Close</button>
-    </aside>
-
-    <div id="minimap-wrap" title="World map — click a region to jump, click the edges to claim">
-      <canvas id="minimap" width="180" height="180"></canvas>
-      <div id="minimap-label">WORLD</div>
-    </div>
-
-    <div id="toast"></div>
-
-    <div id="modal" class="hidden">
-      <div class="sheet">
-        <h2 id="modal-title">How to play</h2>
-        <div id="modal-body"></div>
-        <button id="modal-close" class="wide">Back to the city</button>
-      </div>
-    </div>
-  </main>
-
-  <section id="about">
-    <h3>About Lattice City</h3>
-    <p>Lattice City is an endless isometric city builder in the browser. Zone land for homes, shops and workshops, connect it with roads, keep power and water flowing, and the district grows on its own: buildings rise, people move in, and the budget starts to matter. The world is a grid of 160×160 regions, and regions join wherever their border roads meet, so a hamlet can become a sprawl of connected towns. Everything runs locally: your city saves in this browser, and a snapshot gives you a PNG of the district.</p>
-    <p>Built by <a href="https://excavationpro.ca/about.html">Justin Helmer</a> · part of the <a href="https://excavationpro.ca/games/">Excavationpro games</a> shelf · also try <a href="https://excavationpro.ca/games/lattice-arena/">Lattice Arena</a> and <a href="https://excavationpro.ca/games/lattice-crypt/">Lattice Crypt</a>.</p>
-  </section>
-</div>
-<script src="./radio.js"></script>
-<script src="./city.js?v=20261025-roads6"></script>
-</body>
-</html>
+    <section id="about">
+      <h3>About Lattice City</h3>
+      <p>Lattice City is an endless isometric city builder in the browser. Zone land for homes, shops and workshops, connect it with roads, keep power and water flowing, and the district grows on its own: buildings rise, people move in, and the budget starts to matter. The world is a grid of 160×160 regions, and regions join wherever their border roads meet, so a hamlet can become a sprawl of connected towns. Everything runs locally: your city saves in this browser, and a snapshot gives you a PNG of the district.</p>
+      <p>Built by <a href="https://excavationpro.ca/about.html">Justin Helmer</a> · part of the <a href="https://excavationpro.ca/games/">Excavationpro games</a> shelf · also try <a href="https://excavationpro.ca/games/lattice-arena/">Lattice Arena</a> and <a href="https://excavationpro.ca/games/lattice-crypt/">Lattice Crypt</a>.</p>
+    </section>
+  </div>
+  <script src="./radio.js"></script>
+  <script src="./city.js?v=20261025-sim7"></script>
+  </body>
+  </html>
