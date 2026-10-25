@@ -13,7 +13,11 @@
         "LYGO is not a single model. It is a stack of agreements: how a machine may speak, how a human may leave, how a record is kept, how a refusal is heard.",
         "The stack matters because a model without a protocol is only a voice. A voice can imitate a person. A protocol can be asked to show its work."
       ],
-      links: [{ text: "LYGO Protocol Stack", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }]
+      links: [
+        { text: "LYGO Protocol Stack (site)", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" },
+        { text: "Grokipedia: LYGO Protocol Stack", url: "https://grokipedia.com/page/lygo-protocol-stack" },
+        { text: "Grokipedia: LYGO Protocol", url: "https://grokipedia.com/page/LYGO_Protocol" }
+      ]
     },
     {
       title: "The Language",
@@ -22,7 +26,10 @@
         "LYGO-LANG was written around a simple refusal: a machine should not be able to make consent invisible. Consent has to be syntax, not a mood.",
         "The language is consciousness-oriented in the narrow sense: it keeps the operator visible inside the operation. It does not claim the machine is conscious. It claims the room must remain accountable."
       ],
-      links: [{ text: "LYGO-LANG: Consciousness-Oriented Programming", url: "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/" }]
+      links: [
+        { text: "LYGO-LANG (Signal)", url: "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/" },
+        { text: "Grokipedia: LYGO-LANG", url: "https://grokipedia.com/page/LYGO-LANG" }
+      ]
     },
     {
       title: "The Lattice",

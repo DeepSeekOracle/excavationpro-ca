@@ -430,6 +430,14 @@
     }));
     app.appendChild(row);
     app.appendChild(el("p", "veil-hint", "RECOVERED FROM 2023-03-14 · THE QUARTER PAGE IN THE DRAWER"));
+    var pub = el("p", "veil-hint", "");
+    var a = document.createElement("a");
+    a.href = "https://www.instagram.com/superkooter/";
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = "Public account · @superkooter";
+    pub.appendChild(a);
+    app.appendChild(pub);
   }
 
   function ensureKooter() {

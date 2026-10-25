@@ -155,8 +155,8 @@
     if (/entropy|harmony|light math|frequency|anchor|matrix|transcend/.test(m)) {
       return "the last room keeps a band at twenty-five, the rate a warm animal holds when it is asleep. entropy is the room cooling. harmony is the desk staying on. light math is the part that can be measured. the rest the house keeps without words.";
     }
-    if (/justin|helmer|grokipedia|who left|disappear/.test(m)) {
-      return "justin helmer. excavationpro. lightfather. the public record is grokipedia and excavationpro.ca. the private record is this desk, left on, and a cat who is not in the house any more.";
+    if (/grokipedia|public page|wikipedia/.test(m)) {
+      return "the public pages hide in the rooms, not on the desktop. 1998 has justin helmer. 2026 has the stack. 2023 has @superkooter. 2045 has the whole map. they are real links.";
     }
     if (/cat|marrow|picnic|rook|1998/.test(m)) {
       return "the old desk is still here. the cat is not a password. his name was kooter. start at the calendar.";
