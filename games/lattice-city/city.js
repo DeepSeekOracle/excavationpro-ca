@@ -311,8 +311,9 @@
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
     { id: "bulldoze", name: "Bulldoze", cost: 6, hint: "remove" },
-        { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
-        { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
+            { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
+            { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
+            { id: "inspectWorkplace", name: "Workplace", cost: 0, hint: "click a shop/factory to view finances", unlock: 2 },
   ];
   const MILESTONES = [
     { pop: 0, title: "Hamlet", grant: 0 },
@@ -1640,60 +1641,53 @@
       return workplaces;
     }
 
-    // Job matching: assign citizens to workplaces
-    function assignJobs() {
-      const workplaces = findWorkplaces();
-      const unemployed = citizens.filter(c =>
-        c.status === "active" &&
-        c.ageStage !== "child" &&
-        c.ageStage !== "elder" &&
-        !c.job
-      );
+    // Job matching: assign citizens to workplaces (uses economic workplace registry)
+        function assignJobs() {
+          const unemployed = citizens.filter(c =>
+            c.status === "active" &&
+            c.ageStage !== "child" &&
+            c.ageStage !== "elder" &&
+            !c.job
+          );
 
-      // Shuffle for fairness
-      unemployed.sort(() => Math.random() - 0.5);
+          // Shuffle for fairness
+          unemployed.sort(() => Math.random() - 0.5);
 
-      for (const citizen of unemployed) {
-        // Find best matching workplace
-        let bestMatch = null, bestScore = -1;
-        for (const wp of workplaces) {
-          if (wp.workers.length >= wp.capacity) continue;
-          // Score based on skill match
-          let score = 0;
-          for (const [skill, level] of Object.entries(citizen.skills)) {
-            if (wp.sector === "public" && wp.serviceType) {
-              if (wp.serviceType === "fire" && skill === "emergency") score += level;
-              if (wp.serviceType === "police" && skill === "police") score += level;
-              if (wp.serviceType === "school" && skill === "education") score += level;
-              if (wp.serviceType === "clinic" && skill === "medical") score += level;
-              if (wp.serviceType === "water" && (skill === "craft" || skill === "farming")) score += level * 0.5;
-              if (wp.serviceType === "power" && skill === "industrial") score += level * 0.5;
-            } else if (wp.sector === "commercial") {
-              if (["commercial","office","retail","craft","market"].includes(skill)) score += level;
-            } else if (wp.sector === "industrial") {
-              if (["industrial","construction","transport","craft","farming","fishing"].includes(skill)) score += level;
+          for (const citizen of unemployed) {
+            // Find best matching workplace from economic registry
+            let bestMatch = null, bestScore = -1;
+            for (const wp of workplaces) {
+              if (wp.workers.length >= wp.capacity) continue;
+              if (wp.status !== "operating" && wp.status !== "struggling") continue;
+              // Score based on skill match
+              let score = 0;
+              for (const [skill, level] of Object.entries(citizen.skills)) {
+                if (wp.sector === "public" && wp.serviceType) {
+                  if (wp.serviceType === "fire" && skill === "emergency") score += level;
+                  if (wp.serviceType === "police" && skill === "police") score += level;
+                  if (wp.serviceType === "school" && skill === "education") score += level;
+                  if (wp.serviceType === "clinic" && skill === "medical") score += level;
+                  if (wp.serviceType === "water" && (skill === "craft" || skill === "farming")) score += level * 0.5;
+                  if (wp.serviceType === "power" && skill === "industrial") score += level * 0.5;
+                } else if (wp.sector === "commercial") {
+                  if (["commercial","office","retail","craft","market"].includes(skill)) score += level;
+                } else if (wp.sector === "industrial") {
+                  if (["industrial","construction","transport","craft","farming","fishing"].includes(skill)) score += level;
+                }
+              }
+              // Distance penalty
+              const dist = Math.abs(citizen.household.gx - wp.gx) + Math.abs(citizen.household.gy - wp.gy);
+              score -= dist * 0.1;
+              if (score > bestScore) { bestScore = score; bestMatch = wp; }
+            }
+            if (bestMatch) {
+              assignWorkerToWorkplace(citizen, bestMatch);
+              citizen.daysUnemployed = 0;
+            } else {
+              citizen.daysUnemployed++;
             }
           }
-          // Distance penalty
-          const dist = Math.abs(citizen.household.gx - wp.gx) + Math.abs(citizen.household.gy - wp.gy);
-          score -= dist * 0.1;
-          if (score > bestScore) { bestScore = score; bestMatch = wp; }
         }
-        if (bestMatch) {
-          citizen.job = {
-            workplaceId: bestMatch.id,
-            workplace: bestMatch,
-            role: bestMatch.sector === "public" ? "public_servant" : (bestMatch.sector === "commercial" ? "clerk" : "laborer"),
-            income: bestMatch.wages,
-            satisfaction: clamp(50 + bestScore * 0.2, 20, 100),
-          };
-          bestMatch.workers.push(citizen.id);
-          citizen.daysUnemployed = 0;
-        } else {
-          citizen.daysUnemployed++;
-        }
-      }
-    }
 
     // Daily needs evaluation
     function evaluateNeeds() {
@@ -2104,15 +2098,389 @@
     }
 
     // Expose for UI
-    window.LC.population = {
-      citizens: () => citizens.filter(c => c.status === "active"),
-      allCitizens: () => citizens,
-      getDashboard: getPopulationDashboard,
-      inspectCitizen: inspectCitizen,
-      tickPopulation: tickPopulation,
-    };
+        window.LC.population = {
+          citizens: () => citizens.filter(c => c.status === "active"),
+          allCitizens: () => citizens,
+          getDashboard: getPopulationDashboard,
+          inspectCitizen: inspectCitizen,
+          tickPopulation: tickPopulation,
+        };
 
-    // ---------------------------------------------------------------- helpers (add rndInt if not exists)
+        // ================================================================ ECONOMIC SYSTEM (Shop/Workplace Money Flow)
+        // Micro-day = 10 real minutes = 600 seconds
+        // Work shift = 8 micro-hours = 1/3 micro-day = 200 seconds real time
+        // Revenue tick = every micro-day (10 min real)
+        // Wage paid = per work shift (3x per micro-day)
+        // Tax collected = per micro-day
+
+        const ECON = {
+          // Time
+          MICRO_DAY_MS: 10 * 60 * 1000,        // 10 real minutes = 1 micro-day
+          WORK_SHIFT_MS: (10 * 60 * 1000) / 3, // 3 shifts per micro-day (8 micro-hours each)
+          REVENUE_TICK_MS: 10 * 60 * 1000,     // Revenue calculated per micro-day
+
+          // Shop/Workplace economics
+          MAX_WORKERS_PER_SHOP: 4,
+          BASE_WAGE_PER_SHIFT: 6,              // $6 per 8-hour shift = $18/day (matches existing)
+          REVENUE_PER_WORKER_PER_SHIFT: 10,    // Shop earns $10 per worker per shift
+          TAX_RATE: 0.20,                      // 20% of revenue goes to city
+          STARTUP_CAPITAL_DAYS: 30,            // Starting cash = 30 days operating costs
+          BANKRUPTCY_GRACE_DAYS: 7,            // Days negative before closure
+
+          // Public service wages (per shift)
+          PUBLIC_WAGES: {
+            fire: 8,      // $8/shift = $24/day
+            police: 8,
+            school: 7,
+            clinic: 7,
+            water: 6,
+            power: 6,
+          },
+
+          // Crisis multipliers (reduce revenue)
+          CRIME_REVENUE_PENALTY: 0.15,         // -15% per active crime nearby
+          FIRE_REVENUE_PENALTY: 0.25,
+          UNDERSTAFFED_PENALTY: 0.20,          // Per missing worker below 2
+          HIGH_TAX_PENALTY: 0.10,              // Per 5% tax increase above 20%
+
+          // Happiness bonuses
+          FULL_STAFF_BONUS: 0.10,              // +10% revenue at 3+ workers
+          OVERSTAFF_BONUS: 0.05,               // +5% at 4 workers
+        };
+
+        // Workplace registry - economic entity for each workplace
+        let workplaces = [];
+        let workplaceIdCounter = 0;
+        let lastRevenueTick = 0;
+        let lastWageTick = 0;
+        let econInitialized = false;
+
+        function createWorkplace(region, tileIdx, zone, level) {
+          const id = ++workplaceIdCounter;
+          const isPublic = zone !== Z.C && zone !== Z.I;
+          const sector = zone === Z.C ? "commercial" : zone === Z.I ? "industrial" : "public";
+          const serviceType = isPublic ? SVC[region.svc[tileIdx]] : null;
+
+          // Capacity: shops/industry = 6 per level, capped at 4; services = fixed per type
+          let capacity;
+          if (isPublic) {
+            const svcCaps = { fire: 4, school: 3, clinic: 3, police: 4, water: 2, power: 2 };
+            capacity = (svcCaps[serviceType] || 2) * level;
+          } else {
+            capacity = Math.min(ECON.MAX_WORKERS_PER_SHOP, 6 * level);
+          }
+
+          // Wage per shift
+          let wagePerShift;
+          if (isPublic) {
+            wagePerShift = ECON.PUBLIC_WAGES[serviceType] || ECON.BASE_WAGE_PER_SHIFT;
+          } else {
+            wagePerShift = ECON.BASE_WAGE_PER_SHIFT;
+          }
+
+          // Starting capital = 30 days of max wages + tax
+          const dailyWageCost = capacity * wagePerShift * 3; // 3 shifts/day
+          const dailyTaxEstimate = capacity * ECON.REVENUE_PER_WORKER_PER_SHIFT * 3 * ECON.TAX_RATE;
+          const startupCapital = (dailyWageCost + dailyTaxEstimate) * ECON.STARTUP_CAPITAL_DAYS;
+
+          const wp = {
+            id: id,
+            region: region,
+            tile: tileIdx,
+            zone: zone,
+            level: level,
+            sector: sector,
+            serviceType: serviceType,
+            isPublic: isPublic,
+            gx: region.rx * RS + (tileIdx % RS),
+            gy: region.ry * RS + ((tileIdx / RS) | 0),
+            capacity: capacity,
+            workers: [], // citizen IDs
+            wagePerShift: wagePerShift,
+            revenuePerWorkerPerShift: ECON.REVENUE_PER_WORKER_PER_SHIFT,
+            // Money
+            balance: startupCapital,
+            totalRevenue: 0,
+            totalWagesPaid: 0,
+            totalTaxPaid: 0,
+            daysNegative: 0,
+            // Micro-day tracking
+            lastRevenueMicroDay: -1,
+            lastWageShift: -1,
+            // Status
+            status: "operating", // operating, struggling, bankrupt
+            bankruptcyDay: null,
+          };
+          workplaces.push(wp);
+          return wp;
+        }
+
+        // Initialize workplaces from existing commercial/industrial/service buildings
+        function initializeWorkplaces() {
+          workplaces.length = 0;
+          workplaceIdCounter = 0;
+          claimedList().forEach(region => {
+            for (let i = 0; i < RS * RS; i++) {
+              if (!region.level[i]) continue;
+              const z = region.zone[i];
+              const svc = SVC[region.svc[i]];
+              if ((z === Z.C || z === Z.I) && region.level[i] > 0) {
+                createWorkplace(region, i, z, region.level[i]);
+              } else if (svc && region.level[i] > 0) {
+                // Service buildings: fire, school, clinic, police, water, power
+                if (["fire", "school", "clinic", "police", "water", "power"].includes(svc)) {
+                  // Use a pseudo-zone for services
+                  createWorkplace(region, i, "service", region.level[i]);
+                }
+              }
+            }
+          });
+          econInitialized = true;
+          log("Economy initialized: " + workplaces.length + " workplaces");
+        }
+
+        // Link workers to workplaces (called from population assignJobs)
+        function assignWorkerToWorkplace(citizen, workplace) {
+          citizen.job = {
+            workplaceId: workplace.id,
+            workplace: workplace,
+            role: workplace.sector === "public" ? "public_servant" :
+                  workplace.sector === "commercial" ? "clerk" : "laborer",
+            income: workplace.wagePerShift * 3, // daily = 3 shifts
+            satisfaction: 50,
+            shift: 0, // 0, 1, 2 for three shifts per micro-day
+          };
+          workplace.workers.push(citizen.id);
+          // Give citizen money stat
+          citizen.money = citizen.money || 0;
+          citizen.lastPaidShift = -1;
+        }
+
+        // Remove worker from workplace
+        function removeWorkerFromWorkplace(citizen) {
+          if (citizen.job && citizen.job.workplace) {
+            const wp = citizen.job.workplace;
+            wp.workers = wp.workers.filter(id => id !== citizen.id);
+            citizen.job = null;
+          }
+        }
+
+        // Pay wages to workers (called 3x per micro-day)
+        function payWages() {
+          workplaces.forEach(wp => {
+            if (wp.status !== "operating") return;
+            wp.workers.forEach(workerId => {
+              const citizen = citizens.find(c => c.id === workerId);
+              if (citizen && citizen.status === "active") {
+                citizen.money = (citizen.money || 0) + wp.wagePerShift;
+                wp.balance -= wp.wagePerShift;
+                wp.totalWagesPaid += wp.wagePerShift;
+                citizen.lastPaidShift = Date.now();
+              }
+            });
+          });
+        }
+
+        // Calculate shop revenue per micro-day
+        function calculateRevenue() {
+          workplaces.forEach(wp => {
+            if (wp.status !== "operating" || wp.isPublic) return; // Public services don't generate revenue
+            const workerCount = wp.workers.length;
+            if (workerCount === 0) return;
+
+            // Base revenue
+            let revenue = workerCount * wp.revenuePerWorkerPerShift * 3; // 3 shifts
+
+            // Penalties
+            // Crime nearby
+            const nearbyCrimes = activeCrimesNear(wp.gx, wp.gy, 30);
+            revenue *= Math.max(0.3, 1 - nearbyCrimes * ECON.CRIME_REVENUE_PENALTY);
+
+            // Fire nearby
+            const nearbyFires = activeFires.filter(f => !f.contained &&
+              Math.abs(f.gx - wp.gx) + Math.abs(f.gy - wp.gy) <= 30).length;
+            revenue *= Math.max(0.3, 1 - nearbyFires * ECON.FIRE_REVENUE_PENALTY);
+
+            // Understaffed (below 2 workers)
+            if (workerCount < 2) {
+              revenue *= Math.max(0.5, 1 - (2 - workerCount) * ECON.UNDERSTAFFED_PENALTY);
+            }
+
+            // Happiness bonuses
+            const avgWorkerHappiness = workerCount > 0 ?
+              wp.workers.reduce((s, id) => s + (citizens.find(c => c.id === id)?.happiness || 50), 0) / workerCount : 50;
+
+            if (workerCount >= 4) revenue *= 1 + ECON.OVERSTAFF_BONUS;
+            else if (workerCount >= 3) revenue *= 1 + ECON.FULL_STAFF_BONUS;
+
+            // Tax
+            const tax = revenue * ECON.TAX_RATE;
+            wp.balance += revenue - tax;
+            wp.totalRevenue += revenue;
+            wp.totalTaxPaid += tax;
+            S.cash += tax; // City collects tax
+
+            // Track status
+            if (wp.balance < 0) {
+              wp.daysNegative++;
+              if (wp.daysNegative >= ECON.BANKRUPTCY_GRACE_DAYS && wp.status === "operating") {
+                wp.status = "struggling";
+                logEvent("economy", "Business struggling: " + wp.id, { gx: wp.gx, gy: wp.gy }, "high");
+              }
+            } else {
+              wp.daysNegative = 0;
+              if (wp.status === "struggling") wp.status = "operating";
+            }
+          });
+        }
+
+        // Check bankruptcies
+        function checkBankruptcies() {
+          const bankrupt = workplaces.filter(wp => wp.daysNegative >= ECON.BANKRUPTCY_GRACE_DAYS && wp.status !== "bankrupt");
+          bankrupt.forEach(wp => {
+            wp.status = "bankrupt";
+            wp.bankruptcyDay = S.day;
+            // Fire all workers
+            wp.workers.forEach(workerId => {
+              const citizen = citizens.find(c => c.id === workerId);
+              if (citizen) {
+                citizen.job = null;
+                citizen.daysUnemployed = 0;
+                citizen.money = citizen.money || 0;
+              }
+            });
+            wp.workers = [];
+            // Demolish building
+            const tile = regionOf(wp.gx, wp.gy);
+            if (tile) {
+              tile.r.zone[wp.tile] = 0;
+              tile.r.level[wp.tile] = 0;
+              tile.r.bldg[wp.tile] = 0;
+              tile.r.zoneDirty = true;
+              recomputeRegion(tile.r);
+            }
+            logEvent("economy", "Business bankrupt and demolished: " + wp.id, { gx: wp.gx, gy: wp.gy }, "emergency");
+            toast("BANKRUPTCY · Business at " + wp.gx + "," + wp.gy + " collapsed");
+          });
+        }
+
+        // Public service payroll (paid by city)
+        function payPublicPayroll() {
+          workplaces.forEach(wp => {
+            if (!wp.isPublic) return;
+            wp.workers.forEach(workerId => {
+              const citizen = citizens.find(c => c.id === workerId);
+              if (citizen && citizen.status === "active") {
+                citizen.money = (citizen.money || 0) + wp.wagePerShift;
+                S.cash -= wp.wagePerShift; // City pays
+                wp.totalWagesPaid += wp.wagePerShift;
+              }
+            });
+          });
+        }
+
+        // Main economic tick - called from render loop (real-time)
+        function tickEconomy() {
+          if (!econInitialized) {
+            initializeWorkplaces();
+            lastRevenueTick = Date.now();
+            lastWageTick = Date.now();
+          }
+
+          const now = Date.now();
+
+          // Revenue tick (once per micro-day = 10 min)
+          if (now - lastRevenueTick >= ECON.REVENUE_TICK_MS) {
+            calculateRevenue();
+            checkBankruptcies();
+            lastRevenueTick = now;
+          }
+
+          // Wage tick (3x per micro-day = every ~3.33 min)
+          if (now - lastWageTick >= ECON.WORK_SHIFT_MS) {
+            payWages();
+            payPublicPayroll();
+            lastWageTick = now;
+          }
+        }
+
+        // Get economic dashboard data
+        function getEconomicDashboard() {
+          const shops = workplaces.filter(wp => !wp.isPublic);
+          const publicServices = workplaces.filter(wp => wp.isPublic);
+          const totalRevenue = shops.reduce((s, wp) => s + wp.totalRevenue, 0);
+          const totalWages = workplaces.reduce((s, wp) => s + wp.totalWagesPaid, 0);
+          const totalTax = shops.reduce((s, wp) => s + wp.totalTaxPaid, 0);
+          const avgShopBalance = shops.length ? shops.reduce((s, wp) => s + wp.balance, 0) / shops.length : 0;
+          const bankruptCount = workplaces.filter(wp => wp.status === "bankrupt").length;
+          const strugglingCount = workplaces.filter(wp => wp.status === "struggling").length;
+
+          return {
+            shops: shops.length,
+            publicServices: publicServices.length,
+            totalWorkers: workplaces.reduce((s, wp) => s + wp.workers.length, 0),
+            totalRevenue: totalRevenue,
+            totalWages: totalWages,
+            totalTax: totalTax,
+            avgShopBalance: avgShopBalance,
+            cityCash: S.cash,
+            bankruptCount: bankruptCount,
+            strugglingCount: strugglingCount,
+            bySector: {
+              commercial: shops.filter(wp => wp.sector === "commercial").length,
+              industrial: shops.filter(wp => wp.sector === "industrial").length,
+              public: publicServices.length,
+            },
+          };
+        }
+
+        // Workplace card UI
+        function getWorkplaceCardHTML(wp) {
+          const workers = wp.workers.map(id => citizens.find(c => c.id === id)).filter(Boolean);
+          const avgHappiness = workers.length ? workers.reduce((s, c) => s + c.happiness, 0) / workers.length : 0;
+          const statusClass = wp.status === "bankrupt" ? "bad" : wp.status === "struggling" ? "warn" : "good";
+          const statusText = wp.status === "bankrupt" ? "BANKRUPT" : wp.status === "struggling" ? "STRUGGLING" : "OPERATING";
+
+          return `
+            <div class="workplace-card">
+              <div class="workplace-header">
+                <h3>${wp.sector.charAt(0).toUpperCase() + wp.sector.slice(1)} #${wp.id}</h3>
+                <span class="status ${statusClass}">${statusText}</span>
+              </div>
+              <div class="workplace-stats">
+                <div class="stat-row">Workers: <b>${wp.workers.length}/${wp.capacity}</b></div>
+                <div class="stat-row">Balance: <b style="color:${wp.balance>=0?'#6fbf73':'#e2583c'}">${money(wp.balance)}</b></div>
+                <div class="stat-row">Wage/Shift: <b>$${wp.wagePerShift}</b></div>
+                <div class="stat-row">Revenue/Shift: <b>$${wp.revenuePerWorkerPerShift}/worker</b></div>
+                <div class="stat-row">Tax Rate: <b>${Math.round(ECON.TAX_RATE*100)}%</b></div>
+                <div class="stat-row">Total Tax Paid: <b>${money(wp.totalTaxPaid)}</b></div>
+                <div class="stat-row">Avg Worker Happiness: <b>${Math.round(avgHappiness)}%</b></div>
+              </div>
+              <div class="workplace-workers">
+                <b>Workers:</b>
+                ${workers.length ? workers.map(c => `<div class="worker-mini">${c.name} (${c.archetype}) - $${c.money||0} - Happiness ${Math.round(c.happiness)}%</div>`).join("") : "<span style='color:var(--mute)'>None</span>"}
+              </div>
+            </div>
+          `;
+        }
+
+        function inspectWorkplace(workplaceId) {
+          const wp = workplaces.find(w => w.id === workplaceId);
+          if (!wp) return;
+          el("inspector").classList.remove("hidden");
+          el("ins-title").textContent = "Workplace: " + wp.sector + " #" + wp.id;
+          el("ins-body").innerHTML = getWorkplaceCardHTML(wp);
+        }
+
+        // Expose for UI
+        window.LC.economy = {
+          workplaces: () => workplaces,
+          getDashboard: getEconomicDashboard,
+          inspectWorkplace: inspectWorkplace,
+          tickEconomy: tickEconomy,
+        };
+
+        // ---------------------------------------------------------------- helpers (add rndInt if not exists)
     // (rndInt already exists above as helper)
 
   // ---------------------------------------------------------------- regions
@@ -3112,13 +3480,15 @@
   }
 
   function drawFrame(ts) {
-      // Boot can focus before the canvas has a size. Retry until layout gives it one.
-      if (needFocus) resize();
-      const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
-      last = ts;
-      S.hour = localHour();
-      pumpTicks();
-      const sim = 1;
+        // Boot can focus before the canvas has a size. Retry until layout gives it one.
+        if (needFocus) resize();
+        const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
+        last = ts;
+        S.hour = localHour();
+        pumpTicks();
+        // Economic micro-simulation (real-time)
+        tickEconomy();
+        const sim = 1;
       advance(S.peds, dt * sim);
       advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
       updateFires(dt);
@@ -3807,46 +4177,62 @@
   function toolById(id) { return TOOLS.find((t) => t.id === id) || TOOLS[0]; }
 
   function canPaint(t, gx, gy) {
-      const tile = regionOf(gx, gy);
-      if (!tile) return false;
-      const r = tile.r, i = tile.i;
-      const terr = r.terrain[i];
-      if (terr === TERRAIN.MOUNTAIN && t.id !== "bulldoze") return t.id === "inspect" || t.id === "road" || t.id === "railTrack" || t.id === "inspectCitizen";
-        if (t.id === "road") {
-        if (terr !== TERRAIN.WATER) return true;
-        // a bridge needs ground or road on two opposite sides to span
-        const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
-        return (land(gx - 1, gy) && land(gx + 1, gy)) || (land(gx, gy - 1) && land(gx, gy + 1));
-      }
-      if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
-      if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
-      if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
-      if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
-      if (t.id === "inspectCitizen") return r.zone[i] === Z.R && r.level[i] > 0;
-      return true;
-    }
-
-    function paint(t, gx, gy) {
-      const tile = regionOf(gx, gy);
-      if (!tile) return false;
-      if (t.id === "inspect") { inspect(gx, gy); return true; }
-      if (t.id === "inspectCitizen") {
+        const tile = regionOf(gx, gy);
+        if (!tile) return false;
         const r = tile.r, i = tile.i;
-        if (r.zone[i] === Z.R && r.level[i] > 0 && r.households) {
-          const household = r.households.find(h => h.tile === i);
-          if (household && household.residents.length > 0) {
-            // Show first resident's card
-            const citizen = citizens.find(c => c.id === household.residents[0]);
-            if (citizen) inspectCitizen(citizen.id);
-          } else {
-            toast("No residents in this home");
-          }
-        } else {
-          toast("Click a residential building to view residents");
+        const terr = r.terrain[i];
+        if (terr === TERRAIN.MOUNTAIN && t.id !== "bulldoze") return t.id === "inspect" || t.id === "road" || t.id === "railTrack" || t.id === "inspectCitizen" || t.id === "inspectWorkplace";
+          if (t.id === "road") {
+          if (terr !== TERRAIN.WATER) return true;
+          // a bridge needs ground or road on two opposite sides to span
+          const land = (x, y) => { const n = regionOf(x, y); return !!n && (n.r.terrain[n.i] !== TERRAIN.WATER || n.r.road[n.i] === 1); };
+          return (land(gx - 1, gy) && land(gx + 1, gy)) || (land(gx, gy - 1) && land(gx, gy + 1));
         }
+        if (t.zone) return terr !== TERRAIN.WATER && !r.road[i] && !r.level[i] && !r.svc[i];
+        if (t.service === "dock") return terr === TERRAIN.WATER && !r.svc[i];
+        if (t.service === "rail") return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
+        if (t.service) return terr !== TERRAIN.WATER && !r.road[i] && !r.zone[i] && !r.svc[i] && !r.level[i];
+        if (t.id === "inspectCitizen") return r.zone[i] === Z.R && r.level[i] > 0;
+        if (t.id === "inspectWorkplace") return (r.zone[i] === Z.C || r.zone[i] === Z.I) && r.level[i] > 0;
         return true;
       }
-      if (!canPaint(t, gx, gy)) return false;
+
+      function paint(t, gx, gy) {
+        const tile = regionOf(gx, gy);
+        if (!tile) return false;
+        if (t.id === "inspect") { inspect(gx, gy); return true; }
+        if (t.id === "inspectCitizen") {
+          const r = tile.r, i = tile.i;
+          if (r.zone[i] === Z.R && r.level[i] > 0 && r.households) {
+            const household = r.households.find(h => h.tile === i);
+            if (household && household.residents.length > 0) {
+              // Show first resident's card
+              const citizen = citizens.find(c => c.id === household.residents[0]);
+              if (citizen) inspectCitizen(citizen.id);
+            } else {
+              toast("No residents in this home");
+            }
+          } else {
+            toast("Click a residential building to view residents");
+          }
+          return true;
+        }
+        if (t.id === "inspectWorkplace") {
+          const r = tile.r, i = tile.i;
+          if ((r.zone[i] === Z.C || r.zone[i] === Z.I) && r.level[i] > 0) {
+            // Find workplace at this tile
+            const wp = workplaces.find(w => w.region === r && w.tile === i);
+            if (wp) {
+              inspectWorkplace(wp.id);
+            } else {
+              toast("No workplace data for this building");
+            }
+          } else {
+            toast("Click a shop or factory to view finances");
+          }
+          return true;
+        }
+        if (!canPaint(t, gx, gy)) return false;
     const r = tile.r, i = tile.i;
     if (S.cash < t.cost) { deny("Not enough funds for " + t.name.toLowerCase()); return false; }
     let did = false;
@@ -4806,16 +5192,24 @@
           if (claimRegion(options[0].rx, options[0].ry, false)) focusRegion(regionAt(options[0].rx, options[0].ry));
         };
         const ui_pop_dash = el("ui-pop-dash"); if (ui_pop_dash) ui_pop_dash.onclick = () => togglePopDashboard();
-      }
+                const ui_econ_dash = el("ui-econ-dash"); if (ui_econ_dash) ui_econ_dash.onclick = () => toggleEconDashboard();
+              }
 
-      function togglePopDashboard() {
-        const dash = el("pop-dashboard");
-        if (!dash) return;
-        const isHidden = dash.classList.toggle("hidden");
-        if (!isHidden) updatePopDashboard();
-      }
+              function togglePopDashboard() {
+                const dash = el("pop-dashboard");
+                if (!dash) return;
+                const isHidden = dash.classList.toggle("hidden");
+                if (!isHidden) updatePopDashboard();
+              }
 
-      function updatePopDashboard() {
+              function toggleEconDashboard() {
+                const dash = el("pop-dashboard");
+                if (!dash) return;
+                const isHidden = dash.classList.toggle("hidden");
+                if (!isHidden) updateEconDashboard();
+              }
+
+              function updatePopDashboard() {
         const dash = el("pop-dash-body");
         if (!dash) return;
         const data = window.LC.population.getDashboard();
@@ -4840,7 +5234,31 @@
         `;
       }
 
-  function firstRun() {
+  `;\n      }\n\n                    function updateEconDashboard() {
+        const dash = el("pop-dash-body");
+        if (!dash) return;
+        const data = window.LC.economy.getDashboard();
+        if (!data) { dash.innerHTML = "<p>No economic data yet</p>"; return; }
+        const cashClass = data.cityCash >= 0 ? "good" : "bad";
+        const shopClass = data.avgShopBalance >= 0 ? "good" : "bad";
+        const bankruptClass = data.bankruptCount > 0 ? "bad" : "good";
+        const struggleClass = data.strugglingCount > 0 ? "warn" : "good";
+        dash.innerHTML =
+          "<div class="pop-stat " + cashClass + ""><span>City Treasury</span><b>" + money(data.cityCash) + "</b></div>" +
+          "<div class="pop-stat " + shopClass + ""><span>Avg Shop Balance</span><b>" + money(Math.round(data.avgShopBalance)) + "</b></div>" +
+          "<div class="pop-stat"><span>Total Workers</span><b>" + data.totalWorkers + "</b></div>" +
+          "<div class="pop-stat"><span>Total Revenue</span><b>" + money(Math.round(data.totalRevenue)) + "</b></div>" +
+          "<div class="pop-stat"><span>Total Wages</span><b>" + money(Math.round(data.totalWages)) + "</b></div>" +
+          "<div class="pop-stat"><span>Total Tax Collected</span><b>" + money(Math.round(data.totalTax)) + "</b></div>" +
+          "<div class="pop-stat " + bankruptClass + ""><span>Bankrupt</span><b>" + data.bankruptCount + "</b></div>" +
+          "<div class="pop-stat " + struggleClass + ""><span>Struggling</span><b>" + data.strugglingCount + "</b></div>" +
+          "<div class="pop-breakdown">" +
+            "<h4>By Sector</h4>" +
+            Object.entries(data.bySector).map(([k,v]) => "<div class="item"><span>" + k + "</span><b>" + v + "</b></div>").join("") +
+          "</div>";
+      }
+
+  function firstRun() {  function firstRun() {
     modal("Lattice City", [
       "<p>A world of regions, one of them awake.</p>",
       "<p><b>Your first three minutes:</b></p>",
