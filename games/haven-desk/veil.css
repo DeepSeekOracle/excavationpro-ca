@@ -825,7 +825,27 @@
   #win-openmic { left: 2px !important; top: 2px !important; width: calc(100vw - 4px) !important; height: calc(100vh - 54px) !important; max-width: none !important; }
   .veil-openmic-grid { grid-template-columns: 1fr; }
 }
-#win-openmic .titlebar, #win-voice .titlebar, #win-lightfather .titlebar, #win-lygo-papers .titlebar, #win-arcade .titlebar, #win-plates .titlebar, #win-echoes .titlebar { background: #1b2b25; color: #e9e2cf; }
+#win-openmic .titlebar, #win-voice .titlebar, #win-lightfather .titlebar, #win-lygo-papers .titlebar, #win-arcade .titlebar, #win-plates .titlebar, #win-echoes .titlebar, #win-diskshelf .titlebar { background: #1b2b25; color: #e9e2cf; }
+.veil-disk { margin: 10px 0; padding: 9px; border: 1px solid #3d5a4a; background: #0a1410; max-width: 760px; }
+.veil-disk b { display: block; color: #e0b35a; font: 700 9px "Courier New", Courier, monospace; letter-spacing: 0.08em; margin-bottom: 8px; }
+.veil-disk-row { display: flex; gap: 12px; align-items: flex-start; }
+.veil-disk-row img { width: 120px; height: 68px; object-fit: cover; border: 1px solid #2e463a; background: #07100c; flex: 0 0 auto; }
+.veil-disk-copy { min-width: 0; }
+.veil-disk-copy strong { display: block; color: #f0ead7; font: 15px Tahoma, "MS Sans Serif", Verdana, sans-serif; margin-bottom: 4px; }
+.veil-disk-copy p { margin: 0 0 6px; color: #c5d4cb; font: 12px Tahoma, "MS Sans Serif", Verdana, sans-serif; line-height: 1.4; }
+.veil-disk-copy small { display: block; color: #839b8d; font-size: 10px; line-height: 1.35; margin-bottom: 8px; }
+.veil-disk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin: 8px 0; }
+.veil-disk-card { text-align: left; padding: 0; overflow: hidden; background: #0d1b16; border: 1px solid #355246; color: #dce9e2; font: 11px Tahoma, "MS Sans Serif", Verdana, sans-serif; min-height: 150px; }
+.veil-disk-card img { display: block; width: 100%; height: 86px; object-fit: cover; }
+.veil-disk-card strong, .veil-disk-card small { display: block; padding: 4px 8px 0; }
+.veil-disk-card small { padding-bottom: 8px; color: #839b8d; }
+.veil-disk-card.is-locked { cursor: default; opacity: 0.85; }
+.veil-disk-card.is-open:hover { border-color: #e0b35a; background: #17271e; }
+@media (max-width: 700px) {
+  .veil-disk-row { flex-direction: column; }
+  .veil-disk-row img { width: 100%; height: 90px; }
+  .veil-disk-grid { grid-template-columns: 1fr 1fr; }
+}
 
 /* LYGO 98 SETUP */
 #veil-setup { position: fixed; inset: 0; z-index: 240; background: #06100d; color: #e9e2cf; font: 12px Tahoma, "MS Sans Serif", Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: auto; padding: 22px; }
