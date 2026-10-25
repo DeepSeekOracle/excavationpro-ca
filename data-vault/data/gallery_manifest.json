@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-25T06:40:39.402183+00:00",
-  "count": 884,
+  "generated_utc": "2026-10-25T07:13:14.832379+00:00",
+  "count": 885,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14223,7 +14223,23 @@
       "full_bytes": 76323,
       "width": 510,
       "height": 680
+    },
+    {
+      "id": "30a0ae575d85b20d",
+      "title": "lightfather",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lightfather.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lightfather.jpg",
+      "original_bytes": 228969,
+      "full": "assets/gallery/full/30a0ae575d85b20d.jpg",
+      "thumb": "assets/gallery/thumb/30a0ae575d85b20d.jpg",
+      "full_bytes": 137325,
+      "width": 1450,
+      "height": 1433
     }
   ],
-  "cache_bust": "884-auto-202610250040"
+  "cache_bust": "885-auto-202610250113"
 }
