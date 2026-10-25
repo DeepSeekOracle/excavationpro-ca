@@ -2,8 +2,23 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-10-24",
+ "updated": "2026-10-25",
  "shows": [
+  {
+   "slug": "excavationpro-inside-the-lyric-vault",
+   "title": "Excavationpro: Inside the Lyric Vault",
+   "page": "https://excavationpro.ca/signal/excavationpro-inside-the-lyric-vault/",
+   "audio": "https://excavationpro.ca/signal/shows/excavationpro-inside-the-lyric-vault/ai_radio.mp3",
+   "duration": "12:52",
+   "seconds": 772.62,
+   "speakers": [
+    "Paul",
+    "Mark",
+    "Sarah",
+    "Maya"
+   ],
+   "date": "2026-10-25"
+  },
   {
    "slug": "lygo-protocol-pure-data-witness",
    "title": "LYGO Protocol: Pure Data Witness",

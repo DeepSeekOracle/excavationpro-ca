@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Excavationpro: Inside the Lyric Vault</title>
+    <link>https://excavationpro.ca/signal/excavationpro-inside-the-lyric-vault/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/excavationpro-inside-the-lyric-vault/</guid>
+    <pubDate>Sun, 25 Oct 2026 12:00:00 +0000</pubDate>
+    <description>This episode of AI Talk Radio explores Justin Helmer's 'Lyric Vault,' a decentralized digital archive for his music released as Excavationpro. The panel discusses the vault's technical architecture, thematic focus on technological autonomy, and its unique tools for artist-led digital preservation.</description>
+    <itunes:duration>12:52</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/excavationpro-inside-the-lyric-vault/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/excavationpro-inside-the-lyric-vault/ai_radio.mp3" length="18544266" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>LYGO Protocol: Pure Data Witness</title>
     <link>https://excavationpro.ca/signal/lygo-protocol-pure-data-witness/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/lygo-protocol-pure-data-witness/</guid>
