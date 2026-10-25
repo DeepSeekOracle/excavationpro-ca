@@ -12,7 +12,12 @@
 }
 
 * { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; }
+html, body {
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  overflow: hidden;
+}
 body {
   background: #000;
   color: var(--ink);
@@ -65,7 +70,17 @@ button { cursor: pointer; }
   margin-top: 16px;
 }
 
-#desk { height: 100%; display: flex; flex-direction: column; }
+/* Pin the desk to the viewport. Auto ads inject a bottom strip and pad the
+   body; height:100% then shrinks and the taskbar floats above that strip.
+   Fixed inset keeps the LYGO bar on the bottom of the page. */
+#desk {
+  position: fixed;
+  inset: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+}
 #stage { flex: 1; position: relative; background: var(--teal); min-height: 0; }
 #desktop { position: absolute; inset: 0; overflow: auto; }
 #windows { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
@@ -102,6 +117,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 4px;
   padding: 3px 4px;
+  padding-bottom: calc(3px + env(safe-area-inset-bottom, 0px));
   background: var(--face);
   border-top: 2px solid var(--hi);
   box-shadow: inset 0 1px 0 var(--mid);
@@ -163,7 +179,7 @@ a.games-mini {
   padding: 2px;
   background: var(--face);
 }
-#desk-menu { left: 2px; bottom: 38px; }
+#desk-menu { left: 2px; bottom: calc(var(--bar) + 2px + env(safe-area-inset-bottom, 0px)); }
 .menu-label {
   padding: 5px 10px 2px;
   font-weight: 700;
