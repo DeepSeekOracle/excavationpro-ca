@@ -2283,56 +2283,144 @@
 
         // Calculate shop revenue per micro-day
         function calculateRevenue() {
-          workplaces.forEach(wp => {
-            if (wp.status !== "operating" || wp.isPublic) return; // Public services don't generate revenue
-            const workerCount = wp.workers.length;
-            if (workerCount === 0) return;
+                  // CONSUMER SPENDING MODEL
+                  // Citizens spend money at nearby commercial workplaces
+                  // Industrial produces goods → Commercial sells goods → Revenue = actual sales
 
-            // Base revenue
-            let revenue = workerCount * wp.revenuePerWorkerPerShift * 3; // 3 shifts
+                  // Reset daily sales tracking
+                  workplaces.forEach(wp => {
+                    wp.dailySales = 0;
+                    wp.customersServed = 0;
+                  });
 
-            // Penalties
-            // Crime nearby
-            const nearbyCrimes = activeCrimesNear(wp.gx, wp.gy, 30);
-            revenue *= Math.max(0.3, 1 - nearbyCrimes * ECON.CRIME_REVENUE_PENALTY);
+                  // Each citizen spends money (if they have income and nearby shops)
+                  citizens.forEach(citizen => {
+                    if (citizen.status !== "active" || !citizen.job) return;
+                    if (!citizen.money || citizen.money < 5) return; // Need minimum spending money
 
-            // Fire nearby
-            const nearbyFires = activeFires.filter(f => !f.contained &&
-              Math.abs(f.gx - wp.gx) + Math.abs(f.gy - wp.gy) <= 30).length;
-            revenue *= Math.max(0.3, 1 - nearbyFires * ECON.FIRE_REVENUE_PENALTY);
+                    const hh = citizen.household;
+                    if (!hh) return;
 
-            // Understaffed (below 2 workers)
-            if (workerCount < 2) {
-              revenue *= Math.max(0.5, 1 - (2 - workerCount) * ECON.UNDERSTAFFED_PENALTY);
-            }
+                    // Find nearby commercial workplaces (within 20 tiles)
+                    const nearbyShops = workplaces.filter(wp => 
+                      !wp.isPublic && 
+                      wp.sector === "commercial" && 
+                      wp.status === "operating" &&
+                      wp.inventory > 0 &&
+                      Math.abs(wp.gx - hh.gx) + Math.abs(wp.gy - hh.gy) <= 20
+                    );
 
-            // Happiness bonuses
-            const avgWorkerHappiness = workerCount > 0 ?
-              wp.workers.reduce((s, id) => s + (citizens.find(c => c.id === id)?.happiness || 50), 0) / workerCount : 50;
+                    if (nearbyShops.length === 0) return;
 
-            if (workerCount >= 4) revenue *= 1 + ECON.OVERSTAFF_BONUS;
-            else if (workerCount >= 3) revenue *= 1 + ECON.FULL_STAFF_BONUS;
+                    // Spend 10-30% of available money per micro-day
+                    const spendPct = 0.1 + Math.random() * 0.2;
+                    const spendAmount = Math.min(citizen.money * spendPct, 50); // Cap at $50 per micro-day
 
-            // Tax
-            const tax = revenue * ECON.TAX_RATE;
-            wp.balance += revenue - tax;
-            wp.totalRevenue += revenue;
-            wp.totalTaxPaid += tax;
-            S.cash += tax; // City collects tax
+                    // Choose shop weighted by distance (closer = more likely)
+                    let totalWeight = 0;
+                    const shopWeights = nearbyShops.map(wp => {
+                      const dist = Math.abs(wp.gx - hh.gx) + Math.abs(wp.gy - hh.gy);
+                      const weight = 1 / (1 + dist * 0.1);
+                      totalWeight += weight;
+                      return { wp, weight };
+                    });
 
-            // Track status
-            if (wp.balance < 0) {
-              wp.daysNegative++;
-              if (wp.daysNegative >= ECON.BANKRUPTCY_GRACE_DAYS && wp.status === "operating") {
-                wp.status = "struggling";
-                logEvent("economy", "Business struggling: " + wp.id, { gx: wp.gx, gy: wp.gy }, "high");
-              }
-            } else {
-              wp.daysNegative = 0;
-              if (wp.status === "struggling") wp.status = "operating";
-            }
-          });
-        }
+                    let roll = Math.random() * totalWeight;
+                    let chosenShop = nearbyShops[0];
+                    for (const sw of shopWeights) {
+                      roll -= sw.weight;
+                      if (roll <= 0) { chosenShop = sw.wp; break; }
+                    }
+
+                    // Make purchase
+                    const purchase = Math.min(spendAmount, chosenShop.inventory * chosenShop.pricePerUnit);
+                    if (purchase > 0) {
+                      citizen.money -= purchase;
+                      chosenShop.dailySales += purchase;
+                      chosenShop.customersServed++;
+                      chosenShop.inventory -= Math.ceil(purchase / chosenShop.pricePerUnit);
+                    }
+                  });
+
+                  // Process revenue from sales
+                  workplaces.forEach(wp => {
+                    if (wp.status !== "operating" || wp.isPublic) return;
+
+                    // Industrial produces goods (if workers present)
+                    if (wp.sector === "industrial" && wp.workers.length > 0) {
+                      const production = wp.workers.length * 5; // 5 units per worker per micro-day
+                      wp.inventory = (wp.inventory || 0) + production;
+                      wp.productionCost = wp.workers.length * 3; // Cost of production
+                    }
+
+                    // Commercial sells goods
+                    if (wp.sector === "commercial") {
+                      if (!wp.inventory) wp.inventory = 0;
+                      if (!wp.pricePerUnit) wp.pricePerUnit = 8; // $8 per unit sold
+
+                      // Restock from nearby industrial if low
+                      if (wp.inventory < 20 && wp.workers.length > 0) {
+                        const nearbyIndustrial = workplaces.filter(iwp => 
+                          iwp.sector === "industrial" && 
+                          iwp.status === "operating" &&
+                          iwp.inventory > 10 &&
+                          Math.abs(iwp.gx - wp.gx) + Math.abs(iwp.gy - wp.gy) <= 30
+                        );
+                        if (nearbyIndustrial.length > 0) {
+                          // Buy from cheapest industrial
+                          nearbyIndustrial.sort((a,b) => a.pricePerUnit - b.pricePerUnit);
+                          const supplier = nearbyIndustrial[0];
+                          const buyAmount = Math.min(30, supplier.inventory);
+                          const cost = buyAmount * supplier.pricePerUnit;
+                          if (wp.balance >= cost) {
+                            wp.balance -= cost;
+                            supplier.balance += cost;
+                            wp.inventory += buyAmount;
+                            supplier.inventory -= buyAmount;
+                          }
+                        }
+                      }
+
+                      // Revenue = daily sales
+                      const revenue = wp.dailySales;
+
+                      // Penalties still apply
+                      const nearbyCrimes = activeCrimesNear(wp.gx, wp.gy, 30);
+                      const crimeMult = Math.max(0.3, 1 - nearbyCrimes * ECON.CRIME_REVENUE_PENALTY);
+
+                      const nearbyFires = activeFires.filter(f => !f.contained &&
+                        Math.abs(f.gx - wp.gx) + Math.abs(f.gy - wp.gy) <= 30).length;
+                      const fireMult = Math.max(0.3, 1 - nearbyFires * ECON.FIRE_REVENUE_PENALTY);
+
+                      const workerCount = wp.workers.length;
+                      let staffMult = 1;
+                      if (workerCount < 2) staffMult = Math.max(0.5, 1 - (2 - workerCount) * ECON.UNDERSTAFFED_PENALTY);
+                      if (workerCount >= 4) staffMult *= 1 + ECON.OVERSTAFF_BONUS;
+                      else if (workerCount >= 3) staffMult *= 1 + ECON.FULL_STAFF_BONUS;
+
+                      const finalRevenue = revenue * crimeMult * fireMult * staffMult;
+
+                      // Tax
+                      const tax = finalRevenue * ECON.TAX_RATE;
+                      wp.balance += finalRevenue - tax;
+                      wp.totalRevenue += finalRevenue;
+                      wp.totalTaxPaid += tax;
+                      S.cash += tax;
+
+                      // Track status
+                      if (wp.balance < 0) {
+                        wp.daysNegative++;
+                        if (wp.daysNegative >= ECON.BANKRUPTCY_GRACE_DAYS && wp.status === "operating") {
+                          wp.status = "struggling";
+                          logEvent("economy", "Business struggling: " + wp.id, { gx: wp.gx, gy: wp.gy }, "high");
+                        }
+                      } else {
+                        wp.daysNegative = 0;
+                        if (wp.status === "struggling") wp.status = "operating";
+                      }
+                    }
+                  });
+                }
 
         // Check bankruptcies
         function checkBankruptcies() {
