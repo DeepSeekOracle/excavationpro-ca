@@ -968,51 +968,75 @@
     }
 
     // ---------------------------------------------------------------- Medical / Ambulance System
-    const MEDICAL = {
-      EMERGENCY_TYPES: [
-        { id: "heart", label: "Cardiac Emergency", weight: 3, urgency: "critical" },
-        { id: "injury", label: "Serious Injury", weight: 5, urgency: "high" },
-        { id: "illness", label: "Acute Illness", weight: 7, urgency: "medium" },
-        { id: "accident", label: "Traffic Accident", weight: 2, urgency: "critical" },
-      ],
-      ambulanceSpeed: 3.0,
-      ambulancesPerClinic: [0, 1, 2],
-      responseRadius: 200,
-    };
+      const MEDICAL = {
+        EMERGENCY_TYPES: [
+          { id: "heart", label: "Cardiac Emergency", weight: 3, urgency: "critical" },
+          { id: "injury", label: "Serious Injury", weight: 5, urgency: "high" },
+          { id: "illness", label: "Acute Illness", weight: 7, urgency: "medium" },
+          { id: "accident", label: "Traffic Accident", weight: 2, urgency: "critical" },
+        ],
+        ambulanceSpeed: 3.0,
+        ambulancesPerClinic: [0, 1, 2],
+        responseRadius: 200,
+        // Per-capita rates (events per person per day)
+        BASE_RATE_PER_CAPITA: 0.0008,      // ~0.8 per 1000 people per day
+        MIN_POPULATION: 150,               // No medical emergencies below this pop
+        MAX_DAILY_EVENTS: 8,               // Cap daily events even for huge cities
+      };
 
-    let medicalCalls = [];
+      let medicalCalls = [];
+      let medicalDailyCount = 0;
+      let medicalLastDay = -1;
 
-    function getClinics() {
-      const clinics = [];
-      claimedList().forEach(r => {
-        for (let i = 0; i < RS * RS; i++) {
-          if (SVC[r.svc[i]] === "school") {
-            clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
+      function getClinics() {
+        const clinics = [];
+        claimedList().forEach(r => {
+          for (let i = 0; i < RS * RS; i++) {
+            if (SVC[r.svc[i]] === "school") {
+              clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
+            }
           }
+        });
+        return clinics;
+      }
+
+      function clinicId(clinic) { return clinic.region.rx + "," + clinic.region.ry + "," + clinic.tile; }
+
+      function countIdleAmbulances(clinic) {
+        return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
+      }
+
+      function spawnMedicalEmergency() {
+        // Reset daily counter
+        if (S.day !== medicalLastDay) {
+          medicalDailyCount = 0;
+          medicalLastDay = S.day;
         }
-      });
-      return clinics;
-    }
+        if (medicalDailyCount >= MEDICAL.MAX_DAILY_EVENTS) return;
 
-    function clinicId(clinic) { return clinic.region.rx + "," + clinic.region.ry + "," + clinic.tile; }
+        // Population threshold
+        if (S.pop < MEDICAL.MIN_POPULATION) return;
 
-    function countIdleAmbulances(clinic) {
-      return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
-    }
+        // Per-capita probability scaled by population
+        // At MIN_POPULATION: ~0.012% per tick (very rare)
+        // At 1000 pop: ~0.08% per tick
+        // At 5000 pop: ~0.4% per tick
+        const perCapitaRate = MEDICAL.BASE_RATE_PER_CAPITA * (S.pop / 1000);
+        const tickProbability = perCapitaRate / (86400 / TICK_SECONDS); // Convert daily rate to per-tick
+        if (Math.random() > tickProbability) return;
 
-    function spawnMedicalEmergency() {
-      if (S.peds.length === 0) return;
-      if (Math.random() > 0.001) return;
-      const ped = S.peds[Math.floor(Math.random() * S.peds.length)];
-      if (!ped.path || ped.path.length === 0) return;
-      const tile = ped.path[ped.at];
-      if (!tile) return;
-      const type = MEDICAL.EMERGENCY_TYPES[Math.floor(Math.random() * MEDICAL.EMERGENCY_TYPES.length)];
-      const call = { id: "med_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), type: type.id, label: type.label, urgency: type.urgency, patient: ped, gx: tile.x, gy: tile.y, time: S.hour * 3600 + S.day * 86400, assignedAmbulance: null, status: "waiting" };
-      medicalCalls.push(call);
-      logEvent("medical", type.label + " at " + tile.x + "," + tile.y + " - " + type.urgency.toUpperCase(), { gx: tile.x, gy: tile.y }, type.urgency === "critical" ? "emergency" : "high", type.label + " reported at " + tile.x + "," + tile.y + ". " + type.urgency + " priority.");
-      dispatchAmbulance(call);
-    }
+        if (S.peds.length === 0) return;
+        const ped = S.peds[Math.floor(Math.random() * S.peds.length)];
+        if (!ped.path || ped.path.length === 0) return;
+        const tile = ped.path[ped.at];
+        if (!tile) return;
+        const type = MEDICAL.EMERGENCY_TYPES[Math.floor(Math.random() * MEDICAL.EMERGENCY_TYPES.length)];
+        const call = { id: "med_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), type: type.id, label: type.label, urgency: type.urgency, patient: ped, gx: tile.x, gy: tile.y, time: S.hour * 3600 + S.day * 86400, assignedAmbulance: null, status: "waiting" };
+        medicalCalls.push(call);
+        medicalDailyCount++;
+        logEvent("medical", type.label + " at " + tile.x + "," + tile.y + " - " + type.urgency.toUpperCase(), { gx: tile.x, gy: tile.y }, type.urgency === "critical" ? "emergency" : "high", type.label + " reported at " + tile.x + "," + tile.y + ". " + type.urgency + " priority.");
+        dispatchAmbulance(call);
+      }
 
     function dispatchAmbulance(call) {
           const clinics = getClinics();
@@ -1074,45 +1098,102 @@
         }
 
     // ---------------------------------------------------------------- Police / Law Enforcement
-    const POLICE = {
-      policeSpeed: 3.5,
-      carsPerStation: [0, 1, 2],
-      patrolInterval: 120,
-    };
+      const POLICE = {
+        policeSpeed: 3.5,
+        carsPerStation: [0, 1, 2],
+        patrolInterval: 120,
+        // Per-capita rates (events per person per day)
+        BASE_RATE_PER_CAPITA: 0.0004,      // ~0.4 per 1000 people per day (lower than medical)
+        MIN_POPULATION: 300,               // No police calls below this pop (crime needs density)
+        MAX_DAILY_EVENTS: 6,               // Cap daily events
+        // Crime scales with density and unemployment
+        CRIME_DENSITY_FACTOR: 1.5,         // Higher density = more crime
+        CRIME_UNEMPLOYMENT_FACTOR: 2.0,    // Higher unemployment = more crime
+      };
 
-    let policeCalls = [];
+      let policeCalls = [];
+      let policeDailyCount = 0;
+      let policeLastDay = -1;
 
-    function getPoliceStations() {
-      const stations = [];
-      claimedList().forEach(r => {
-        for (let i = 0; i < RS * RS; i++) {
-          if (SVC[r.svc[i]] === "fire") {
-            stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
+      function getPoliceStations() {
+        const stations = [];
+        claimedList().forEach(r => {
+          for (let i = 0; i < RS * RS; i++) {
+            if (SVC[r.svc[i]] === "fire") {
+              stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
+            }
           }
-        }
-      });
-      return stations;
-    }
+        });
+        return stations;
+      }
 
-    function spawnPoliceCall() {
-      if (Math.random() > 0.0005) return;
-      const roadsWithCars = [];
-      claimedList().forEach(r => {
-        for (let i = 0; i < RS * RS; i++) if (r.road[i]) roadsWithCars.push({ r, i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
-      });
-      if (roadsWithCars.length === 0) return;
-      const spot = roadsWithCars[Math.floor(Math.random() * roadsWithCars.length)];
-      const types = [
-        { id: "accident", label: "Traffic Accident", weight: 3, urgency: "high" },
-        { id: "disturbance", label: "Civil Disturbance", weight: 2, urgency: "medium" },
-        { id: "crime", label: "Reported Crime", weight: 1, urgency: "high" },
-      ];
-      const type = types[Math.floor(Math.random() * types.length)];
-      const call = { id: "pol_" + Date.now(), type: type.id, label: type.label, urgency: type.urgency, gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
-      policeCalls.push(call);
-      logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
-      dispatchPolice(call);
-    }
+      function computeCrimeRate() {
+        if (S.pop < POLICE.MIN_POPULATION) return 0;
+        // Base per-capita rate
+        let rate = POLICE.BASE_RATE_PER_CAPITA * (S.pop / 1000);
+        // Density factor: more roads/buildings per person = more opportunities
+        let totalRoads = 0, totalBuilt = 0;
+        claimedList().forEach(r => {
+          for (let i = 0; i < RS * RS; i++) {
+            if (r.road[i]) totalRoads++;
+            if (r.level[i]) totalBuilt++;
+          }
+        });
+        const density = totalBuilt / Math.max(1, S.pop);
+        rate *= 1 + (density - 0.5) * POLICE.CRIME_DENSITY_FACTOR;
+        // Unemployment factor
+        const unemp = Math.max(0, (S.pop - S.jobs) / Math.max(1, S.pop));
+        rate *= 1 + unemp * POLICE.CRIME_UNEMPLOYMENT_FACTOR;
+        // Night time multiplier
+        const isNight = S.hour < 6 || S.hour > 20;
+        if (isNight) rate *= 1.5;
+        // Rain multiplier (fewer witnesses)
+        if (S.rain > 0.3) rate *= 1.3;
+        return Math.max(0, rate);
+      }
+
+      function spawnPoliceCall() {
+        // Reset daily counter
+        if (S.day !== policeLastDay) {
+          policeDailyCount = 0;
+          policeLastDay = S.day;
+        }
+        if (policeDailyCount >= POLICE.MAX_DAILY_EVENTS) return;
+
+        const crimeRate = computeCrimeRate();
+        if (crimeRate === 0) return;
+
+        // Convert daily rate to per-tick probability
+        const tickProbability = crimeRate / (86400 / TICK_SECONDS);
+        if (Math.random() > tickProbability) return;
+
+        const roadsWithCars = [];
+        claimedList().forEach(r => {
+          for (let i = 0; i < RS * RS; i++) if (r.road[i]) roadsWithCars.push({ r, i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) });
+        });
+        if (roadsWithCars.length === 0) return;
+        const spot = roadsWithCars[Math.floor(Math.random() * roadsWithCars.length)];
+        // Weight types by situation: more accidents with more traffic, more crime with unemployment
+        const unemp = Math.max(0, (S.pop - S.jobs) / Math.max(1, S.pop));
+        const types = [
+          { id: "accident", label: "Traffic Accident", weight: 3 + S.cars.length * 0.5, urgency: "high" },
+          { id: "disturbance", label: "Civil Disturbance", weight: 2 + unemp * 5, urgency: "medium" },
+          { id: "crime", label: "Reported Crime", weight: 1 + unemp * 8, urgency: "high" },
+        ];
+        // Normalize weights
+        const totalWeight = types.reduce((sum, t) => sum + t.weight, 0);
+        let roll = Math.random() * totalWeight;
+        let type = types[0];
+        for (const t of types) {
+          roll -= t.weight;
+          if (roll <= 0) { type = t; break; }
+        }
+        const call = { id: "pol_" + Date.now(), type: type.id, label: type.label, urgency: type.urgency, gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
+        policeCalls.push(call);
+        policeDailyCount++;
+        logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
+        dispatchPolice(call);
+      }
 
     function dispatchPolice(call) {
           const stations = getPoliceStations();
@@ -1180,25 +1261,92 @@
     }
 
   function assessFireRisk(region) {
-    let risk = 0;
-    for (let i = 0; i < RS * RS; i++) {
-      if (region.zone[i] === Z.I) {
-        risk += region.level[i] * 0.5;
-        const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
-        for (const [dx,dy] of dirs) {
-          const t = regionOf(region.rx * RS + (i % RS) + dx, region.ry * RS + ((i / RS) | 0) + dy);
-          if (t && t.r.zone[t.i] === Z.I) risk += 0.2;
+      // Population-gated: no fire risk below threshold
+      if (S.pop < 200) return 0;
+
+      let risk = 0;
+      let industrialCount = 0;
+      let industrialLevel = 0;
+      for (let i = 0; i < RS * RS; i++) {
+        if (region.zone[i] === Z.I) {
+          industrialCount++;
+          industrialLevel += region.level[i];
+          risk += region.level[i] * 0.5;
+          const dirs = [[0,-1],[1,0],[0,1],[-1,0]];
+          for (const [dx,dy] of dirs) {
+            const t = regionOf(region.rx * RS + (i % RS) + dx, region.ry * RS + ((i / RS) | 0) + dy);
+            if (t && t.r.zone[t.i] === Z.I) risk += 0.2;
+          }
         }
       }
+
+      // No industry = minimal fire risk (only from events)
+      if (industrialCount === 0) return 0.001 * (S.pop / 1000);
+
+      // Scale risk by industrial density per capita
+      const industrialPerCapita = industrialCount / Math.max(1, region.pop || 1);
+      risk *= 0.5 + industrialPerCapita * 2;
+
+      // Fire station coverage
+      const stations = getFireStations();
+      let covered = false;
+      stations.forEach(st => {
+        const path = findRoadPath(st.gx, st.gy, region.rx * RS + RS/2, region.ry * RS + RS/2);
+        if (path && path.length < 100) { risk *= 0.3; covered = true; }
+        else if (path) { risk *= 0.6; covered = true; }
+      });
+
+      // Dry weather increases risk
+      if (S.rain < 0.1) risk *= 1.4;
+      else if (S.rain > 0.5) risk *= 0.7;
+
+      // Night slightly higher risk (less activity)
+      const isNight = S.hour < 6 || S.hour > 20;
+      if (isNight) risk *= 1.15;
+
+      return Math.max(0, risk);
     }
-    const stations = getFireStations();
-    stations.forEach(st => {
-      const path = findRoadPath(st.gx, st.gy, region.rx * RS + RS/2, region.ry * RS + RS/2);
-      if (path && path.length < 100) risk *= 0.5;
-      else if (path) risk *= 0.8;
-    });
-    return Math.max(0, risk);
-  }
+
+    // Daily fire ignition check - called once per tick
+    let fireDailyIgnitions = 0;
+    let fireLastDay = -1;
+    const FIRE = {
+      BASE_IGNITION_RATE: 0.00005,    // Base daily ignition chance per industrial tile
+      MIN_POPULATION: 200,
+      MAX_DAILY_IGNITIONS: 3,
+    };
+
+    function checkFireIgnition() {
+      if (S.day !== fireLastDay) {
+        fireDailyIgnitions = 0;
+        fireLastDay = S.day;
+      }
+      if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
+
+      if (S.pop < FIRE.MIN_POPULATION) return;
+
+      claimedList().forEach(region => {
+        if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
+        const risk = assessFireRisk(region);
+        if (risk <= 0) return;
+
+        // Convert risk to daily probability, then to per-tick
+        const dailyProb = Math.min(0.15, risk * FIRE.BASE_IGNITION_RATE * region.built);
+        const tickProb = dailyProb / (86400 / TICK_SECONDS);
+
+        if (Math.random() < tickProb) {
+          // Find industrial tiles to start fire
+          const industrialTiles = [];
+          for (let i = 0; i < RS * RS; i++) {
+            if (region.zone[i] === Z.I && region.level[i] > 0) industrialTiles.push(i);
+          }
+          if (industrialTiles.length === 0) return;
+          const tileIdx = industrialTiles[Math.floor(Math.random() * industrialTiles.length)];
+          startFire(region, tileIdx);
+          fireDailyIgnitions++;
+        }
+      });
+    }
 
   let cam = { x: 0, y: 0, zoom: 0.9 };
 
@@ -1643,40 +1791,46 @@
   }
 
   function tick() {
-    S.day++;
-    // the hour advances in the frame loop; a tick only marks the day
-    refreshLinks();
-    recalcWorld();
-    updateDemand();
-    claimedList().forEach((r) => tickRegion(r, Math.min(90, Math.max(10, Math.ceil(r.zoneList.length * 0.9) || 12))));
-    refreshLinks();
-    recalcWorld();
-    updateDemand();
-    claimedList().forEach((r) => {
-      const unemp = clamp((r.pop - (r.access || r.jobs)) / Math.max(1, r.pop), 0, 1);
-      const mood = 64 - unemp * 17 + Math.min(14, (r.parks || 0) * 1.5);
-      r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
-    });
-    claimedList().forEach((r) => {
-      r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
-      r.trades = 0;
-    });
-    S.cash += S.income - S.upkeep;
-    if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
-    // weather drifts between dry spells and rain every couple of weeks
-    if (S.weatherTimer-- <= 0) {
-      S.weatherTimer = 100 + Math.floor(Math.random() * 120);
-      S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
+      S.day++;
+      // the hour advances in the frame loop; a tick only marks the day
+      refreshLinks();
+      recalcWorld();
+      updateDemand();
+      claimedList().forEach((r) => tickRegion(r, Math.min(90, Math.max(10, Math.ceil(r.zoneList.length * 0.9) || 12))));
+      refreshLinks();
+      recalcWorld();
+      updateDemand();
+      claimedList().forEach((r) => {
+        const unemp = clamp((r.pop - (r.access || r.jobs)) / Math.max(1, r.pop), 0, 1);
+        const mood = 64 - unemp * 17 + Math.min(14, (r.parks || 0) * 1.5);
+        r.mood = clamp(r.mood + (mood - r.mood) * 0.12, 0, 100);
+      });
+      claimedList().forEach((r) => {
+        r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
+        r.trades = 0;
+      });
+      S.cash += S.income - S.upkeep;
+      if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
+      // weather drifts between dry spells and rain every couple of weeks
+      if (S.weatherTimer-- <= 0) {
+        S.weatherTimer = 100 + Math.floor(Math.random() * 120);
+        S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
+      }
+      if (!OPT.weather) S.rainTarget = 0;
+      S.rain += (S.rainTarget - S.rain) * 0.06;
+
+      // Population-scaled emergency systems (once per tick)
+      checkFireIgnition();
+      spawnMedicalEmergency();
+      spawnPoliceCall();
+
+      checkMilestones();
+      updatePeds();
+      updateEvent();
+      if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
+      if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
+      refreshHud();
     }
-    if (!OPT.weather) S.rainTarget = 0;
-    S.rain += (S.rainTarget - S.rain) * 0.06;
-        checkMilestones();
-        updatePeds();
-        updateEvent();
-        if (S.day % 7 === 0) { log(weekLine()); S.tradesToday = 0; }
-        if (OPT.autosave && S.day > 0 && S.day % 10 === 0) { save(); }
-        refreshHud();
-  }
 
   function announce(train, town) {
     if (S.speed === 0) return;
@@ -1698,92 +1852,83 @@
   }
 
   // ---------------------------------------------------------------- events
-  // Rare and deliberate: one at a time, days apart, and never in the opening
-  // minutes. Each one changes a number the player can feel.
-  const EVENTS = {
-    market: { days: 4, label: "Market day", colour: "#f2c14e" },
-    festival: { days: 5, label: "Festival", colour: "#d98fe0" },
-    fire: { days: 3, label: "Fire", colour: "#e2583c" },
-    boom: { days: 5, label: "Building boom", colour: "#6fbf73" },
-  };
+    // Rare and deliberate: one at a time, days apart, and never in the opening
+    // minutes. Each one changes a number the player can feel.
+    const EVENTS = {
+      market: { days: 4, label: "Market day", colour: "#f2c14e", minPop: 120, weight: 4 },
+      festival: { days: 5, label: "Festival", colour: "#d98fe0", minPop: 300, weight: 3 },
+      boom: { days: 5, label: "Building boom", colour: "#6fbf73", minPop: 600, weight: 2 },
+      // Fire removed from random events - now driven by checkFireIgnition() based on industrial risk
+    };
 
-  function startEvent() {
-    const towns = claimedList().filter((r) => r.built > 3);
-    if (!towns.length) return false;
-    const town = towns[(Math.random() * towns.length) | 0];
-    const roll = Math.random();
-    const type = roll < 0.4 ? "market" : roll < 0.65 ? "festival" : roll < 0.85 ? "boom" : "fire";
-    const def = EVENTS[type];
-    S.event = { type, region: town, until: S.day + def.days, started: S.day };
-    S.eventHistory.push(type);
-    if (type === "fire") {
-      // the worst fire a town can have: a level-3 works loses a floor
-      let hit = -1;
-      for (let i = 0; i < RS * RS; i++) {
-        if (town.zone[i] === Z.I && town.level[i] >= 2) { hit = i; break; }
+    let eventDailyCount = 0;
+    let eventLastDay = -1;
+
+    function startEvent() {
+      // Once per day max
+      if (S.day !== eventLastDay) {
+        eventDailyCount = 0;
+        eventLastDay = S.day;
       }
-      if (hit >= 0) {
-        const fx = hit % RS, fy = (hit / RS) | 0;
-        // a fire station within reach saves the building
-        let covered = false;
-        for (let i = 0; i < RS * RS && !covered; i++) {
-          if (SVC[town.svc[i]] !== "fire") continue;
-          const dx = (i % RS) - fx, dy = ((i / RS) | 0) - fy;
-          if (dx * dx + dy * dy <= 8 * 8) covered = true;
-        }
-        S.fireTile = { x: town.rx * RS + fx, y: town.ry * RS + fy, until: S.day + 2 };
-        if (covered) {
-          town.mood = clamp(town.mood - 2, 0, 100);
-          toast("FIRE CONTAINED · " + (town.name || "a district"));
-          log("<b>Fire</b> in " + (town.name || "the district") + " — the station put it out. A workshop smells of smoke.");
-        } else {
-          town.level[hit] -= 1;
-          town.mood = clamp(town.mood - 6, 0, 100);
-          toast("FIRE · " + (town.name || "a district") + " · a workshop is burning");
-          log("<b>Fire</b> breaks out in " + (town.name || "the district") + ". The works lost a floor — no station covered it.");
-        }
+      if (eventDailyCount >= 1) return false;
+
+      const towns = claimedList().filter((r) => r.built > 3);
+      if (!towns.length) return false;
+
+      // Filter events by population requirements
+      const availableEvents = Object.entries(EVENTS).filter(([_, def]) => S.pop >= def.minPop);
+      if (!availableEvents.length) return false;
+
+      // Weighted selection
+      const totalWeight = availableEvents.reduce((sum, [_, def]) => sum + def.weight, 0);
+      let roll = Math.random() * totalWeight;
+      let chosenType = availableEvents[0][0];
+      for (const [type, def] of availableEvents) {
+        roll -= def.weight;
+        if (roll <= 0) { chosenType = type; break; }
+      }
+
+      const town = towns[(Math.random() * towns.length) | 0];
+      const def = EVENTS[chosenType];
+      S.event = { type: chosenType, region: town, until: S.day + def.days, started: S.day };
+      S.eventHistory.push(chosenType);
+      eventDailyCount++;
+
+      if (chosenType === "market") {
+        toast("MARKET DAY · " + (town.name || "a district"));
+        log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
+      } else if (chosenType === "festival") {
+        town.mood = clamp(town.mood + 9, 0, 100);
+        toast("FESTIVAL · " + (town.name || "a district"));
+        log("<b>Festival</b> in " + (town.name || "the district") + " — mood is up for days.");
       } else {
-        town.mood = clamp(town.mood - 3, 0, 100);
-        toast("FIRE SCARE · " + (town.name || "a district"));
-        log("<b>Fire</b> scare in " + (town.name || "the district") + " — nothing important burned.");
+        toast("BOOM · " + (town.name || "a district"));
+        log("<b>Building boom</b> in " + (town.name || "the district") + " — cranes on every corner.");
       }
-    } else if (type === "market") {
-      toast("MARKET DAY · " + (town.name || "a district"));
-      log("<b>Market day</b> in " + (town.name || "the district") + " — the streets are thick with trade.");
-    } else if (type === "festival") {
-      town.mood = clamp(town.mood + 9, 0, 100);
-      toast("FESTIVAL · " + (town.name || "a district"));
-      log("<b>Festival</b> in " + (town.name || "the district") + " — mood is up for days.");
-    } else {
-      toast("BOOM · " + (town.name || "a district"));
-      log("<b>Building boom</b> in " + (town.name || "the district") + " — cranes on every corner.");
+      sfx("milestone");
+      return true;
     }
-    sfx(type === "fire" ? "deny" : "milestone");
-    return true;
-  }
 
-  function updateEvent() {
-    if (S.event && S.day >= S.event.until) {
-      S.event = null;
-      S.nextEventDay = S.day + 14 + Math.floor(Math.random() * 16);
-      S.fireTile = null;
+    function updateEvent() {
+      if (S.event && S.day >= S.event.until) {
+        S.event = null;
+        S.nextEventDay = S.day + 14 + Math.floor(Math.random() * 16);
+        S.fireTile = null;
+      }
+      if (!S.event && S.day >= S.nextEventDay && S.day > 20 && S.pop >= 120) startEvent();
     }
-    if (!S.event && S.day >= S.nextEventDay && S.day > 20 && S.pop >= 60) startEvent();
-  }
 
-  function eventCommerce(region) {
-    if (!S.event || S.event.region !== region) return 1;
-    if (S.event.type === "market") return 1.6;
-    if (S.event.type === "festival") return 1.25;
-    if (S.event.type === "fire") return 0.7;
-    return 1;
-  }
-  function eventGrowth(region) {
-    if (!S.event || S.event.region !== region) return 1;
-    if (S.event.type === "boom") return 1.5;
-    if (S.event.type === "fire") return 0.7;
-    return 1;
-  }
+    function eventCommerce(region) {
+      if (!S.event || S.event.region !== region) return 1;
+      if (S.event.type === "market") return 1.6;
+      if (S.event.type === "festival") return 1.25;
+      return 1;
+    }
+    function eventGrowth(region) {
+      if (!S.event || S.event.region !== region) return 1;
+      if (S.event.type === "boom") return 1.5;
+      return 1;
+    }
 
   function checkMilestones() {
     const m = MILESTONES[S.unlocked + 1];
@@ -2259,22 +2404,21 @@
   }
 
   function drawFrame(ts) {
-    // Boot can focus before the canvas has a size. Retry until layout gives it one.
-    if (needFocus) resize();
-    const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
-    last = ts;
-    S.hour = localHour();
-    pumpTicks();
-    const sim = 1;
-    advance(S.peds, dt * sim);
-    advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
-    updateFires(dt);
-        updateAllVehicles(dt);
-        spawnMedicalEmergency();
-        spawnPoliceCall();
-        updateMedicalCalls(dt);
-        updatePoliceCalls(dt);
-        if (S.boats) {
+      // Boot can focus before the canvas has a size. Retry until layout gives it one.
+      if (needFocus) resize();
+      const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
+      last = ts;
+      S.hour = localHour();
+      pumpTicks();
+      const sim = 1;
+      advance(S.peds, dt * sim);
+      advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
+      updateFires(dt);
+      updateAllVehicles(dt);
+      // Emergency spawns now happen in tick() once per day, not every frame
+      updateMedicalCalls(dt);
+      updatePoliceCalls(dt);
+      if (S.boats) {
       S.boats.forEach((b) => {
         b.t += dt * sim * b.speed;
         if (b.t >= 1) {
@@ -3977,3 +4121,5 @@
     } catch (e) {}
   });
 })();
+
+__HERMES_CWD_ff46d4502a48__/c/Users/justi__HERMES_CWD_ff46d4502a48__
