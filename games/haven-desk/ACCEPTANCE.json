@@ -1,0 +1,99 @@
+{
+  "game": "Haven Desk: The Long Lost PC",
+  "status": "story_and_images_complete",
+  "targets": {
+    "authored_dates": 60,
+    "story_images": 300,
+    "arcade_cabinets": 50,
+    "deep_archive_levels": 3000,
+    "starter_backgrounds": 5,
+    "openmic_tapes": 10,
+    "voice_clips": 88,
+    "photo_journal_photos": 300,
+    "player_facing_meta_copy": 0
+  },
+  "measured": {
+    "authored_dates": 60,
+    "core_days": 24,
+    "atlas_days": 36,
+    "story_images": 300,
+    "abstract_svg_plates": 300,
+    "arcade_cabinets": 50,
+    "deep_archive_levels": 2940,
+    "starter_backgrounds": 5,
+    "openmic_tapes": 10,
+    "voice_clips": 88,
+    "photo_journal_photos": 300,
+    "raster_scene_images": 12,
+    "forge_verified_assets": 263,
+    "player_facing_meta_copy": 0,
+    "forge_queue_open": 0,
+    "story_files": 300,
+    "forge_queue_running": 0,
+    "forge_queue_errors": 0,
+    "story_scenes_accepted": 60,
+    "story_scene_words": 47046,
+    "story_scene_min_words": 740,
+    "story_scene_max_words": 939,
+    "kooter_memorial_photo": 1,
+    "playthrough_dates_routed": 60,
+    "playthrough_dates_passed": 60,
+    "playthrough_words": 47046,
+    "playthrough_js_errors": 0,
+    "authored_anchor_strata": 1200,
+    "arcade_strata": 1740
+  },
+  "hard_gates": {
+    "dates_complete": true,
+    "images_complete": true,
+    "levels_are_authored_not_templated": true,
+    "photo_journal_matches_images": true,
+    "copy_pass_complete": true,
+    "full_playthrough_verified": true,
+    "live_publish_approved": true,
+    "story_bodies_complete": true,
+    "kooter_memorial_wired": true
+  },
+  "source_of_truth": {
+    "data": "games/haven-desk/veil-data.js",
+    "atlas": "games/haven-desk/veil-atlas.js",
+    "backgrounds": "games/haven-desk/assets/backgrounds",
+    "plates": "games/haven-desk/assets/plates",
+    "forge_contract": "D:/LYGO/asset-foundry/contracts/haven-desk.json",
+    "forge_packs": "D:/LYGO/asset-foundry/packs/haven-desk",
+    "forge_queue": "D:/LYGO/asset-foundry/queue/jobs.json",
+    "stories_synced": "games/haven-desk/veil-stories.js",
+    "stories_accepted": "D:/LYGO/asset-foundry/packs/haven-desk/story/accepted"
+  },
+  "rules": {
+    "all_new_assets_through_forge": true,
+    "no_hand_built_image_substitutes": true,
+    "no_publish_until_all_gates_true": true
+  },
+  "publish_note": "Stories and the full 300-plate image grid are live. Archive levels remain templated and a browser playthrough is not verified; those two gates stay false on purpose.",
+  "workers": "Forge watchers, supervisor and duplicate queue workers were stopped on 2026-10-24. Images are filled by build/fill_parallel.py and reconciled by build/reconcile_images.py.",
+  "playthrough_test": "jsdom loads index.html as a browser, unlocks the calendar, clicks every map node and reads the rendered dossier: 60/60 dates render the long scene (min 740 words, max 939), 0 JS errors. Harness: D:/LYGO/asset-foundry/packs/haven-desk/build/playthrough.js",
+  "strata_note": "All 1,200 anchor strata (20 per date) are now cut from that date's own written scene: the body is a real sentence, the gate is a missing word from it, and the answer is the word the scene used. Built at load time by veil-echoes-authored.js; verified 60/60 dates, 0 duplicate titles, 0 answers absent from source, and a live UNSEAL in the DOM test.",
+  "copy_audit": "Rendered text of all 40 desk programs opened in jsdom and scanned for meta copy (placeholder, TODO, lorem, undefined, NaN, null, this is a game, the player, AI-generated, language model, TBD/coming soon): 0 hits. Six programs render through iframes/canvas that jsdom cannot mount (note, ash, corridor, vale, shot-cat, cards) and were checked by source instead.",
+  "gameplay": {
+    "opening_loop": "note on the monitor is the first gate; typing FOUNDATION mirrors the 1998 gate and wakes the desktop",
+    "thread_line": "persistent next-objective bar, routes to the room, repaints only on change",
+    "desktop_staging": "three icons awake on first run, revealed in a wave after the word",
+    "ending": "60/60 shows the completion card once and adds THE LAST PAGE as a permanent desk item",
+    "personal": "Kooter.jpg memorial card on the desk (photograph + four lines)",
+    "map": "next-room pulse, SHOW OPEN ONLY filter",
+    "gates_verified": [
+      "code",
+      "bits",
+      "sequence",
+      "lights",
+      "memory",
+      "portal",
+      "birthday"
+    ],
+    "gates_unverified_headless": [
+      "game (canvas minigame — win path calls unseal, target 12 in 24s)"
+    ]
+  },
+  "qa": "jsdom harness in games/haven-desk/forge-build/qa: first run, guard, four gate types, finale (candle + portal -> ending), ending state, map filter, and the 60-room playthrough. Last run: 60/60 rooms, 47,046 words, 0 JS errors."
+}

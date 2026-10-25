@@ -887,3 +887,34 @@
 .veil-gallery-current { color: #e0b35a; font: 9px "Courier New", monospace; letter-spacing: .1em; }
 @media (max-width: 700px) { #win-gallery { left: 2px !important; top: 2px !important; width: calc(100vw - 4px) !important; height: calc(100vh - 54px) !important; max-width: none !important; } .veil-gallery-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 .veil-user-chip { color: #b9d6c8; font: 9px "Courier New", Courier, monospace; letter-spacing: .08em; padding: 0 8px; border-left: 1px solid #6e8578; white-space: nowrap; }
+
+/* CASE WALL */
+#win-casewall .body { background: #0a1210; padding: 0; margin: 3px; overflow: auto; }
+#win-casewall .titlebar { background: #1b2b25; color: #e9e2cf; }
+.veil-casewall { padding: 8px 10px 14px; }
+.veil-casewall-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin: 4px 0 8px; }
+.veil-casewall-search { flex: 1 1 220px; min-width: 150px; background: #07100c; color: #e9e2cf; border: 2px inset #4b6154; padding: 5px 6px; font: 10px "Courier New", monospace; }
+.veil-casewall-status { display: flex; gap: 3px; }
+.veil-casewall-filter, .veil-casewall-open { background: #17261f; color: #dce9e2; border: 1px solid #4b6154; padding: 4px 7px; font: 9px "Courier New", monospace; letter-spacing: .05em; cursor: pointer; }
+.veil-casewall-filter.is-on, .veil-casewall-open:hover { background: #e0b35a; border-color: #e0b35a; color: #171208; }
+.veil-casewall-act { background: #07100c; color: #dce9e2; border: 1px solid #4b6154; padding: 4px; font: 9px "Courier New", monospace; }
+.veil-casewall-shown { color: #839b8d; font: 8px "Courier New", monospace; letter-spacing: .08em; margin-left: auto; }
+.veil-casewall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 6px; }
+.veil-casewall-card { display: flex; flex-direction: column; min-height: 142px; padding: 7px; background: #0d1b16; border: 1px solid #355246; color: #dce9e2; font: 10px Tahoma, sans-serif; }
+.veil-casewall-card.is-locked { opacity: .72; }
+.veil-casewall-card.is-solved { border-color: #6f8f7d; background: #10251d; }
+.veil-casewall-cardhead { display: flex; justify-content: space-between; gap: 5px; color: #839b8d; font: 8px "Courier New", monospace; letter-spacing: .08em; }
+.veil-casewall-state { color: #e0b35a; }
+.veil-casewall-card.is-locked .veil-casewall-state { color: #557064; }
+.veil-casewall-title { display: block; margin: 7px 0 4px; color: #f0ead7; font-size: 11px; line-height: 1.25; }
+.veil-casewall-sum { flex: 1; margin: 0 0 7px; color: #9fb5a8; font-size: 9px; line-height: 1.35; }
+.veil-casewall-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 7px; color: #6f8f7d; font: 8px "Courier New", monospace; letter-spacing: .05em; }
+.veil-casewall-open { align-self: flex-start; }
+.veil-casewall-empty { grid-column: 1 / -1; color: #839b8d; font: 10px "Courier New", monospace; padding: 12px 2px; }
+.veil-casewall-foot { margin: 9px 0 0; color: #6f8f7d; font: 8px "Courier New", monospace; letter-spacing: .04em; }
+@media (max-width: 700px) {
+  #win-casewall { left: 2px !important; top: 2px !important; width: calc(100vw - 4px) !important; height: calc(100vh - 54px) !important; max-width: none !important; }
+  .veil-casewall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .veil-casewall-card { min-height: 156px; }
+  .veil-casewall-shown { margin-left: 0; width: 100%; }
+}

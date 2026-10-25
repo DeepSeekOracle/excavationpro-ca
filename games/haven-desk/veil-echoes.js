@@ -60,6 +60,28 @@
         links: d.links || []
       };
     });
+    // Authored strata: when the echo file has them, the twenty lenses for this
+    // date are cut from the date's own written scene instead of the shared pool.
+    var authored = (window.VEIL_ECHO_AUTHORED && window.VEIL_ECHO_AUTHORED[date]) || null;
+    if (authored && authored.length === base.length) {
+      base = authored.map(function (a, i) {
+        return {
+          id: a.id,
+          anchor: date,
+          anchorTitle: d.title,
+          index: i + 1,
+          title: a.title,
+          epigraph: d.epigraph || "A recovered stratum.",
+          body: a.body,
+          doc: a.doc,
+          question: a.question,
+          answer: a.answer,
+          clue: a.clue,
+          real: d.real || [],
+          links: d.links || []
+        };
+      });
+    }
     // 29 Forge Arcade strata per anchor: 20 + 29 = 49. The remaining slot
     // (up to the 3,000 cap) is filled by validated worker-generated rooms.
     var minis = ARCADE.slice(0, 29).map(function (g, j) {
@@ -74,7 +96,7 @@
           "A Forge Arcade cabinet installed in the " + date + " room. The game is not decoration; it is the room's test.",
           "Cabinet " + String(g.number).padStart(2, "0") + " / 50 · " + g.mech + ". Clear it to seal this stratum."
         ],
-        doc: "CABINET RECORD\n" + g.title + "\nMechanic: " + g.mech + "\nAnchor: " + date + "\nThe cabinet does not unlock the date. It proves you can stay in the room long enough to understand it.",
+        doc: "CABINET RECORD\n" + g.title + "\nMechanic: " + g.mech + "\nAnchor: " + date + "\nThe cabinet proves you can stay in the room long enough to understand it.",
         question: "Clear the cabinet.",
         answer: "",
         clue: "Play the cabinet. The room is the reward.",
@@ -147,11 +169,11 @@
         return b;
       }
       function port() {
-        return state.current ? element("span", "veil-hint", "ANCHOR " + state.current) : element("span", "veil-hint", anchors.length + " anchors · " + TOTAL + " levels · worker + authored strata");
+        return state.current ? element("span", "veil-hint", "ANCHOR " + state.current) : element("span", "veil-hint", "THE ARCHIVE IS OPEN");
       }
       function renderAnchors() {
         app.innerHTML = "";
-        bar("THE FORGE ECHO VAULT", "60 ANCHORS · RECOVERED ARCHIVE LAYERS");
+        bar("THE FORGE ECHO VAULT", "RECOVERED ARCHIVE LAYERS");
         app.appendChild(port());
         var tools = element("div", "veil-actions");
         input.value = state.q || "";
@@ -192,7 +214,7 @@
             state = { view: "detail", anchor: state.anchor, current: e };
             renderDetail();
           });
-          card.appendChild(element("span", "veil-node-date", "STRATUM " + e.index + (e.id.indexOf("worker:") === 0 ? " · FORGE" : "")));
+          card.appendChild(element("span", "veil-node-date", "STRATUM " + e.index));
           card.appendChild(element("strong", "", e.title));
           card.appendChild(element("small", "", done ? "unsealed" : e.clue));
           list.appendChild(card);
@@ -202,7 +224,7 @@
           app.appendChild(btn("OPEN DEEP ARCHIVE · " + (all.length - visible.length) + " MORE STRATA", "veil-primary", function () {
             state.expanded = true; renderStrata();
           }));
-          app.appendChild(element("p", "veil-hint", "The five featured strata are the room's public face. The deep archive holds the rest."));
+          
         } else {
           app.appendChild(btn("← SHOW FEATURED ONLY", "raised", function () {
             state.expanded = false; renderStrata();
@@ -244,11 +266,11 @@
         }
         if (e.gate && e.gate.kind === "minigame") {
           var gwrap = element("div", "veil-gate");
-          gwrap.appendChild(element("div", "veil-gate-label", "FORGE CABINET"));
+          gwrap.appendChild(element("div", "veil-gate-label", "CABINET"));
           gwrap.appendChild(element("p", "veil-question", "The room will not open until the cabinet is clear."));
           var ghost = element("div", "veil-mini-host");
           gwrap.appendChild(ghost);
-          gwrap.appendChild(element("p", "veil-hint", "This is one of 50 playable cabinets. It does not unlock a date."));
+          
           app.appendChild(gwrap);
           if (window.VEIL_ARCADE && window.VEIL_ARCADE.mount) {
             window.VEIL_ARCADE.mount(ghost, e.gate.game, function () {
@@ -293,3 +315,4 @@
   }
   register();
 })();
+

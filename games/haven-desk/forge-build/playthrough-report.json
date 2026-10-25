@@ -1,0 +1,373 @@
+{
+ "routed": 60,
+ "passed": 60,
+ "failed": 0,
+ "minWords": 740,
+ "maxWords": 939,
+ "totalWords": 47046,
+ "duplicateDates": 0,
+ "bad": [],
+ "jsErrors": [],
+ "rows": [
+  {
+   "date": "1998-03-14",
+   "title": "The Room That Remembered",
+   "paragraphs": 11,
+   "words": 939
+  },
+  {
+   "date": "1969-07-20",
+   "title": "The Moon in the Basement",
+   "paragraphs": 9,
+   "words": 873
+  },
+  {
+   "date": "1989-11-09",
+   "title": "The Wall That Was a Door",
+   "paragraphs": 10,
+   "words": 808
+  },
+  {
+   "date": "1995-08-24",
+   "title": "The Start Button",
+   "paragraphs": 10,
+   "words": 798
+  },
+  {
+   "date": "1980-12-31",
+   "title": "The Room With One Candle",
+   "paragraphs": 10,
+   "words": 769
+  },
+  {
+   "date": "1977-09-05",
+   "title": "The Golden Record",
+   "paragraphs": 10,
+   "words": 831
+  },
+  {
+   "date": "1984-01-24",
+   "title": "The Friendly Machine",
+   "paragraphs": 10,
+   "words": 759
+  },
+  {
+   "date": "1991-08-06",
+   "title": "The Public Web",
+   "paragraphs": 10,
+   "words": 826
+  },
+  {
+   "date": "1997-05-11",
+   "title": "Deep Blue",
+   "paragraphs": 10,
+   "words": 813
+  },
+  {
+   "date": "2008-10-31",
+   "title": "The Genesis Block",
+   "paragraphs": 11,
+   "words": 836
+  },
+  {
+   "date": "2012-08-06",
+   "title": "Seven Minutes of Terror",
+   "paragraphs": 10,
+   "words": 742
+  },
+  {
+   "date": "2023-03-14",
+   "title": "The Model That Passed",
+   "paragraphs": 11,
+   "words": 789
+  },
+  {
+   "date": "2026-09-27",
+   "title": "The Harmonic Architect",
+   "paragraphs": 11,
+   "words": 740
+  },
+  {
+   "date": "1999-12-31",
+   "title": "Y2K: The Clock That Refused",
+   "paragraphs": 11,
+   "words": 901
+  },
+  {
+   "date": "2003-04-28",
+   "title": "The Store of Everything",
+   "paragraphs": 10,
+   "words": 782
+  },
+  {
+   "date": "2007-01-09",
+   "title": "The Glass Rectangle",
+   "paragraphs": 11,
+   "words": 812
+  },
+  {
+   "date": "2012-12-21",
+   "title": "The Calendar That Ended",
+   "paragraphs": 10,
+   "words": 748
+  },
+  {
+   "date": "2015-10-21",
+   "title": "The Future Is a Brand",
+   "paragraphs": 10,
+   "words": 764
+  },
+  {
+   "date": "2016-03-10",
+   "title": "Move 37",
+   "paragraphs": 10,
+   "words": 778
+  },
+  {
+   "date": "2019-06-01",
+   "title": "The First Lattice",
+   "paragraphs": 10,
+   "words": 743
+  },
+  {
+   "date": "2022-11-30",
+   "title": "The Room That Answered",
+   "paragraphs": 11,
+   "words": 757
+  },
+  {
+   "date": "2026-10-23",
+   "title": "The Visitor",
+   "paragraphs": 11,
+   "words": 751
+  },
+  {
+   "date": "2038-01-19",
+   "title": "The Year the Clock Runs Out",
+   "paragraphs": 12,
+   "words": 815
+  },
+  {
+   "date": "2045-09-01",
+   "title": "The Lightfather Protocol",
+   "paragraphs": 12,
+   "words": 874
+  },
+  {
+   "date": "1971-11-15",
+   "title": "The Little Chip",
+   "paragraphs": 9,
+   "words": 788
+  },
+  {
+   "date": "1973-04-03",
+   "title": "The First Call",
+   "paragraphs": 9,
+   "words": 750
+  },
+  {
+   "date": "1975-01-01",
+   "title": "The Altair",
+   "paragraphs": 9,
+   "words": 743
+  },
+  {
+   "date": "1976-04-01",
+   "title": "The Garage",
+   "paragraphs": 9,
+   "words": 809
+  },
+  {
+   "date": "1981-08-12",
+   "title": "The IBM PC",
+   "paragraphs": 10,
+   "words": 769
+  },
+  {
+   "date": "1983-01-01",
+   "title": "The Network of Networks",
+   "paragraphs": 10,
+   "words": 776
+  },
+  {
+   "date": "1985-11-20",
+   "title": "The Window",
+   "paragraphs": 10,
+   "words": 775
+  },
+  {
+   "date": "1988-11-02",
+   "title": "The Worm",
+   "paragraphs": 10,
+   "words": 822
+  },
+  {
+   "date": "1990-11-12",
+   "title": "The Proposal",
+   "paragraphs": 10,
+   "words": 796
+  },
+  {
+   "date": "1993-04-22",
+   "title": "The Mosaic",
+   "paragraphs": 10,
+   "words": 820
+  },
+  {
+   "date": "1994-12-15",
+   "title": "The First Homepage",
+   "paragraphs": 10,
+   "words": 769
+  },
+  {
+   "date": "1996-07-04",
+   "title": "The Free Mail",
+   "paragraphs": 10,
+   "words": 765
+  },
+  {
+   "date": "1997-09-15",
+   "title": "The Search",
+   "paragraphs": 10,
+   "words": 774
+  },
+  {
+   "date": "2001-01-15",
+   "title": "The Encyclopedia",
+   "paragraphs": 10,
+   "words": 825
+  },
+  {
+   "date": "2004-02-04",
+   "title": "The Face",
+   "paragraphs": 10,
+   "words": 766
+  },
+  {
+   "date": "2005-02-14",
+   "title": "The Video",
+   "paragraphs": 9,
+   "words": 754
+  },
+  {
+   "date": "2006-03-21",
+   "title": "The Tweet",
+   "paragraphs": 10,
+   "words": 751
+  },
+  {
+   "date": "2009-01-03",
+   "title": "The Genesis",
+   "paragraphs": 9,
+   "words": 747
+  },
+  {
+   "date": "2010-04-03",
+   "title": "The Slate",
+   "paragraphs": 10,
+   "words": 751
+  },
+  {
+   "date": "2011-10-04",
+   "title": "The Assistant",
+   "paragraphs": 11,
+   "words": 790
+  },
+  {
+   "date": "2012-09-30",
+   "title": "The Image Net",
+   "paragraphs": 10,
+   "words": 784
+  },
+  {
+   "date": "2014-06-10",
+   "title": "The Mirror",
+   "paragraphs": 10,
+   "words": 747
+  },
+  {
+   "date": "2015-12-11",
+   "title": "The Lab",
+   "paragraphs": 10,
+   "words": 816
+  },
+  {
+   "date": "2017-06-12",
+   "title": "The Transformer",
+   "paragraphs": 10,
+   "words": 745
+  },
+  {
+   "date": "2018-06-11",
+   "title": "The Pretrain",
+   "paragraphs": 10,
+   "words": 764
+  },
+  {
+   "date": "2020-05-28",
+   "title": "The Third Scale",
+   "paragraphs": 10,
+   "words": 778
+  },
+  {
+   "date": "2021-01-05",
+   "title": "The Image Engine",
+   "paragraphs": 11,
+   "words": 767
+  },
+  {
+   "date": "2022-08-22",
+   "title": "The Noise",
+   "paragraphs": 10,
+   "words": 755
+  },
+  {
+   "date": "2024-05-13",
+   "title": "The Omni",
+   "paragraphs": 11,
+   "words": 767
+  },
+  {
+   "date": "2027-01-01",
+   "title": "The Open Room",
+   "paragraphs": 11,
+   "words": 755
+  },
+  {
+   "date": "2029-04-04",
+   "title": "The Quiet Network",
+   "paragraphs": 11,
+   "words": 785
+  },
+  {
+   "date": "2031-01-01",
+   "title": "The Memory Charter",
+   "paragraphs": 11,
+   "words": 780
+  },
+  {
+   "date": "2033-06-06",
+   "title": "The Last Password",
+   "paragraphs": 11,
+   "words": 767
+  },
+  {
+   "date": "2036-09-09",
+   "title": "The Children of the Lattice",
+   "paragraphs": 11,
+   "words": 749
+  },
+  {
+   "date": "2040-12-31",
+   "title": "The Last Human Error",
+   "paragraphs": 12,
+   "words": 752
+  },
+  {
+   "date": "2042-06-06",
+   "title": "The Open Ledger",
+   "paragraphs": 11,
+   "words": 747
+  }
+ ]
+}

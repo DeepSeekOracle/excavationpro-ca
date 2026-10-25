@@ -1,19 +1,38 @@
 /* HAVEN DESK — PHOTO JOURNAL.
-   One recovered plate per solved anchor. Unlocked images can become the field. */
+   Forge story images first; the legacy plate set remains a fallback. */
 (function () {
   "use strict";
   var H = window.HavenDesk;
   var D = window.VEIL_DATA;
   var PLATES = window.VEIL_PLATES || [];
-  if (!H || !D || !PLATES.length) return;
+  var STORY = window.VEIL_STORY_ENTRIES || [];
+  if (!H || !D) return;
+  if (!STORY.length && !PLATES.length) return;
   if (!H.store.veil) H.store.veil = {};
   var V = H.store.veil;
 
   var anchors = Object.keys(D.days).sort();
+  var PASS_LABEL = { scene: "Scene", object: "Object", afterimage: "Afterimage", document: "Document", future: "Future" };
   function photoFor(date, i) {
     return PLATES[(i * 5 + 3) % PLATES.length];
   }
+  function buildStory() {
+    if (!STORY.length) return [];
+    return STORY.map(function (e) {
+      var d = D.days[e.date];
+      return {
+        id: "story-" + e.date + "-" + e.index + "-" + e.pass,
+        title: (d ? d.title : e.date) + " · " + (PASS_LABEL[e.pass] || e.pass),
+        date: e.date,
+        src: e.src,
+        note: "Recovered story image · " + (PASS_LABEL[e.pass] || e.pass),
+        anchor: e.date
+      };
+    });
+  }
   function build() {
+    var story = buildStory();
+    if (story.length) return story;
     var out = [];
     (window.VEIL_DESKTOP ? window.VEIL_DESKTOP.walls : []).forEach(function (w) {
       out.push({ id: "bundle-" + w.id, title: w.title, date: "BUNDLED", src: w.src, note: w.note, always: true });
@@ -69,7 +88,7 @@
     function list() {
       app.innerHTML = "";
       head("THE IMAGES THE DESK KEPT · SET ANY ONE AS THE FIELD");
-      app.appendChild(el("p", "veil-hint", "Every solved anchor recovers one plate. Locked photographs name the room that opens them."));
+      app.appendChild(el("p", "veil-hint", "The desk keeps one image from every room that opens."));
       var grid = el("div", "veil-gallery-grid");
       GALLERY.forEach(function (p) {
         var ok = unlocked(p);

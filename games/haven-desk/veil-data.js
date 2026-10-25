@@ -11,14 +11,15 @@
       version: "0.1.0-foundation",
       start: "1998-03-14",
       owner: "J.H.",
-      disclaimer: "The archive is incomplete. Public links are the checkable spine; the rooms are what the desk could recover.",
       tagline: "The computer remembers a life that has not happened yet.",
       links: [
-        { label: "About Justin Helmer", url: "https://excavationpro.ca/about.html" },
-        { label: "LYGO Signal: The Harmonic Architect", url: "https://excavationpro.ca/signal/harmonic-architect/" },
+        { label: "About Justin Helmer", url: "https://chatagent.ca/about.html" },
+        { label: "LYGO Signal: The Harmonic Architect", url: "https://chatagent.ca/signal/harmonic-architect/" },
         { label: "Eternal Haven", url: "https://eternalhaven.ca/" },
         { label: "Excavationpro", url: "https://excavationpro.ca/" },
         { label: "LYGO 98 source hall", url: "https://excavationpro.ca/games/haven-desk/" },
+      { label: "Just-in-Helmer: the listening room", url: "https://justinhelmer.ca/listen.html" },
+      { label: "Excavationpro: the music archive", url: "https://excavationpro.ca/music.html" },
         { label: "Grokipedia: Justin Helmer", url: "https://grokipedia.com/page/Justin_Helmer" }
       ]
     },
@@ -62,7 +63,7 @@
           { text: "14 March is Pi Day (3.14).", url: "https://www.piday.org/" }
         ],
         links: [
-          { label: "About the real public work", url: "https://excavationpro.ca/about.html" }
+          { label: "About the public work", url: "https://chatagent.ca/about.html" }
         ],
         music: { title: "Desk hum (silence)", url: "" },
         voice: { title: "The Monitor Note", src: "assets/voice/1998-monitor.wav" },
@@ -235,10 +236,10 @@
           }
         ],
         real: [
-          { text: "A private date, left in the index by the person who owned the desk.", url: "https://excavationpro.ca/about.html" }
+          { text: "A private date, left in the index by the person who owned the desk.", url: "https://chatagent.ca/about.html" }
         ],
         links: [
-          { label: "The public work the desk points toward", url: "https://excavationpro.ca/about.html" }
+          { label: "The public work the desk points toward", url: "https://chatagent.ca/about.html" }
         ],
         music: { title: "One Candle", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },
         voice: { title: "The Candle Rule", src: "assets/voice/1980-candle.wav" },
@@ -311,9 +312,9 @@
           }
         ],
         real: [
-          { text: "The Apple Macintosh was announced on 24 January 1984.", url: "https://www.apple.com/newsroom/1984/01/24Apple-Introduces-Macintosh/" }
+          { text: "The Apple Macintosh was announced on 24 January 1984.", url: "https://en.wikipedia.org/wiki/Macintosh_128K" }
         ],
-        links: [{ label: "Apple's 1984 announcement", url: "https://www.apple.com/newsroom/1984/01/24Apple-Introduces-Macintosh/" }],
+        links: [{ label: "Apple's 1984 announcement", url: "https://en.wikipedia.org/wiki/Macintosh_128K" }],
         music: { title: "Welcome Mat", url: "" },
         gate: {
           kind: "code",
@@ -349,9 +350,9 @@
           }
         ],
         real: [
-          { text: "The World Wide Web became publicly available in August 1991.", url: "https://home.cern/science/computing/birth-web" }
+          { text: "The World Wide Web became publicly available in August 1991.", url: "https://home.cern/science/computing/the-birth-of-the-web" }
         ],
-        links: [{ label: "CERN: the birth of the web", url: "https://home.cern/science/computing/birth-web" }],
+        links: [{ label: "CERN: the birth of the web", url: "https://home.cern/science/computing/the-birth-of-the-web" }],
         music: { title: "One Link", url: "" },
         gate: {
           kind: "code",
@@ -539,9 +540,9 @@
           }
         ],
         real: [
-          { text: "LYGO Signal episode: The Harmonic Architect, 27 September 2026.", url: "https://excavationpro.ca/signal/harmonic-architect/" }
+          { text: "LYGO Signal episode: The Harmonic Architect, 27 September 2026.", url: "https://chatagent.ca/signal/harmonic-architect/" }
         ],
-        links: [{ label: "Listen to the episode", url: "https://excavationpro.ca/signal/harmonic-architect/" }],
+        links: [{ label: "Listen to the episode", url: "https://chatagent.ca/signal/harmonic-architect/" }],
         music: { title: "The Harmonic Architect", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },
         gate: {
           kind: "code",
@@ -820,11 +821,11 @@
           }
         ],
         real: [
-          { text: "This day was recovered from the LYGO margin. The public material is linked.", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }
+          { text: "This day was recovered from the LYGO margin. The public material is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
         ],
         links: [
-          { label: "LYGO protocol guide", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" },
-          { label: "Signal: LYGO-LANG", url: "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/" }
+          { label: "LYGO protocol guide", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" },
+          { label: "Signal: LYGO-LANG", url: "https://chatagent.ca/signal/lygo-lang-consciousness-oriented-programming/" }
         ],
         music: { title: "Packet Rain", url: "" },
         game: { label: "SIGNAL RUN", target: 12, seconds: 24, unlock: "signal" },
@@ -869,7 +870,7 @@
         ],
         links: [
           { label: "OpenAI's 2022 announcement", url: "https://openai.com/index/chatgpt/" },
-          { label: "LYGO Signal", url: "https://excavationpro.ca/signal/" }
+          { label: "LYGO Signal", url: "https://chatagent.ca/signal/" }
         ],
         music: { title: "Mirror Room", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },
         gate: {
@@ -913,11 +914,11 @@
           }
         ],
         real: [
-          { text: "The present-day frame of the archive.", url: "https://excavationpro.ca/about.html" }
+          { text: "The present-day frame of the archive.", url: "https://chatagent.ca/about.html" }
         ],
         links: [
-          { label: "About Justin Helmer", url: "https://excavationpro.ca/about.html" },
-          { label: "LYGO Signal: The Harmonic Architect", url: "https://excavationpro.ca/signal/harmonic-architect/" }
+          { label: "About Justin Helmer", url: "https://chatagent.ca/about.html" },
+          { label: "LYGO Signal: The Harmonic Architect", url: "https://chatagent.ca/signal/harmonic-architect/" }
         ],
         music: { title: "The Visitor", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },
         voice: { title: "Visitor 001", src: "assets/voice/2026-visitor.wav" },
@@ -1008,11 +1009,11 @@
           }
         ],
         real: [
-          { text: "The public LYGO work this chapter points toward.", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }
+          { text: "The public LYGO work this chapter points toward.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }
         ],
         links: [
-          { label: "LYGO Protocol guide", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" },
-          { label: "LYGO Signal: The Harmonic Architect", url: "https://excavationpro.ca/signal/harmonic-architect/" },
+          { label: "LYGO Protocol guide", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" },
+          { label: "LYGO Signal: The Harmonic Architect", url: "https://chatagent.ca/signal/harmonic-architect/" },
           { label: "Eternal Haven", url: "https://eternalhaven.ca/" }
         ],
         music: { title: "Harmony Threshold", url: "https://chatagent.ca/signal/audio/harmonic-architect.mp3" },

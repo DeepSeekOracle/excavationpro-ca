@@ -8,25 +8,29 @@
 
   var STORE_KEY = "haven-desk-v1";
   var README = [
-    "LYGO 98",
+    "LYGO 98 · READ ME FIRST",
     "",
-    "An original desk by Justin Helmer.",
-    "Teal field. Gray windows. A Desk button.",
-    "The pictures and the program names are new.",
+    "The desk was left on. It has been on for a while.",
     "",
-    "Double-click a picture to open it.",
-    "Drag a window by its blue bar.",
-    "The Desk button lists every program.",
+    "1. There is a note taped to the monitor.",
+    "   It asks for one word. That word is the first gate.",
     "",
-    "Lattice Corridor and Vale Tactics open in a window.",
-    "They are the same games as on the games hub.",
+    "2. The calendar is a list of rooms, not days.",
+    "   Sixty dates. One of them is private and is not in the index.",
     "",
-    "Notes and guest leaves stay in this browser.",
-    "Type help in Hearth Prompt.",
+    "3. Follow the line at the bottom of the screen.",
+    "   It always names the next room, and it is the only hint",
+    "   this desk gives twice.",
     "",
-    "This copy of the desk was left on by Rook Pell,",
-    "a night archivist who invented the notes.",
-    "The scraps are the desk. Poke around."
+    "4. A room gives you one object and takes one certainty.",
+    "   Read the documents. The answers are in the prose.",
+    "",
+    "5. The cat's name was Kooter.",
+    "   He is on the bench in the last room. He does not explain himself.",
+    "",
+    "Do not trust the first date. Trust the first foundation.",
+    "",
+    "                   — J.H., 14 March 1998"
   ].join("\n");
 
   var FILES = [
@@ -1200,7 +1204,7 @@
   function mountLeaf(body) {
     var honest = document.createElement("p");
     honest.className = "honest";
-    honest.textContent = "Leaves stay in this browser. Nothing is posted.";
+    honest.textContent = "Leaves stay on the desk.";
     var name = document.createElement("input");
     name.maxLength = 40;
     name.placeholder = "Name";
@@ -1261,10 +1265,10 @@
     var box = document.createElement("div");
     box.className = "about-copy sunken";
     var lines = [
-      "LYGO 98 is a late-90s desk made for chatagent.ca by Justin Helmer (Excavationpro / Lightfather).",
-      "The teal field and gray windows follow that era. The LYGO mark, the names, and the pictures are original. This is an unofficial spin-off. It is not Windows, and it does not use Microsoft's flag, pictures, or font files.",
-      "Lattice Corridor and Vale Tactics are the same games as on the hub. They open in a window here.",
-      "Notes and guest leaves stay in this browser."
+      "This copy of LYGO 98 was left running.",
+      "The calendar is the index. The desk is the room.",
+      "Some files were recovered. Some were never here.",
+      "The desk remembers what you tell it."
     ];
     lines.forEach(function (line) {
       var p = document.createElement("p");
@@ -1812,3 +1816,4 @@
     setSaverWord: function (word) { saverWord = word; }
   };
 })();
+

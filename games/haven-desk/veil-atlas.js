@@ -112,7 +112,7 @@
         "A note says: 'The revolution was a document pointing at another document.'"
       ],
       docs: [{ title: "PROPOSAL FRAGMENT", kind: "paper", text: "Information should be able to point.\nA pointer should survive a change of machine.\nA person should be able to follow it without asking permission." }],
-      real: [{ text: "Tim Berners-Lee circulated a proposal for the World Wide Web in November 1990.", url: "https://home.cern/science/computing/birth-web" }],
+      real: [{ text: "Tim Berners-Lee circulated a proposal for the World Wide Web in November 1990.", url: "https://home.cern/science/computing/the-birth-of-the-web" }],
       gate: { kind: "code", label: "LINK GATE", question: "The kind of text that contains links.", answer: "HYPERTEXT", hint: "The proposal's key word.", success: "The page links onward." }
     },
     {
@@ -128,7 +128,7 @@
       gate: { kind: "code", label: "BROWSER GATE", question: "The browser that made images part of the page.", answer: "MOSAIC", hint: "The room is named after it.", success: "The page becomes a place." }
     },
     {
-      id: "1994-12-15", title: "The First Homepage", act: "1.1", kind: "fictional", tone: "green",
+      id: "1994-12-15", title: "The First Homepage", act: "1.1", kind: "recovered", tone: "green",
       epigraph: "Every personal site is a house with the lights left on.",
       summary: "A first homepage by J.H., written before he had anything to sell.",
       body: [
@@ -365,7 +365,7 @@
         "A note says: 'An open room is not a room without a door. It is a room where the door is visible.'"
       ],
       docs: [{ title: "ROOM CHARTER", kind: "paper", text: "1. The human may leave.\n2. The machine may refuse.\n3. The record stays where the person can read it.\n4. No one may pretend the room is a person.\n5. Repair the room before decorating it." }],
-      real: [{ text: "A future room. The public LYGO work is linked.", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room. The public LYGO work is linked.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "CHARTER GATE", question: "The room is open, but the ______ is visible.", answer: "DOOR", hint: "The note's last line.", success: "The room stays open. The door stays real." }
     },
     {
@@ -389,7 +389,7 @@
         "A note says: 'Consent is not a checkbox. It is a door that works from both sides.'"
       ],
       docs: [{ title: "MEMORY RIGHTS", kind: "paper", text: "A person may inspect the record.\nA person may correct the record.\nA person may leave the room.\nA person may ask the room to forget.\nThese are not features. They are the shape of the room." }],
-      real: [{ text: "A future charter. No present-day law is claimed.", url: "https://excavationpro.ca/about.html" }],
+      real: [{ text: "A future charter.", url: "https://chatagent.ca/about.html" }],
       gate: { kind: "code", label: "CONSENT GATE", question: "The door that works from both sides.", answer: "CONSENT", hint: "The note's second sentence.", success: "The room agrees to forget." }
     },
     {
@@ -401,7 +401,7 @@
         "A note says: 'A password proves you know a secret. A decision proves you are the one who may enter.'"
       ],
       docs: [{ title: "LAST KEY", kind: "paper", text: "The key was never the point.\nThe point was the person who could choose to open the door.\nWhen the key is gone, the choice remains." }],
-      real: [{ text: "A future room.", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "KEY GATE", question: "What remains when the key is gone?", answer: "CHOICE", hint: "The note's last line.", success: "The door opens for the decision, not the secret." }
     },
     {
@@ -413,7 +413,7 @@
         "A note says: 'The machine is not a teacher. It is a room where a teacher can be asked better questions.'"
       ],
       docs: [{ title: "CLASS NOTE", kind: "paper", text: "Ask it to show the work.\nAsk it what it does not know.\nAsk it to leave the room when the lesson is over.\nThen ask each other." }],
-      real: [{ text: "A future room.", url: "https://excavationpro.ca/guides/human-review-checklist-for-ai-output.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/human-review-checklist-for-ai-output.html" }],
       gate: { kind: "memory", label: "CLASS PATTERN", question: "Repeat the room's pattern.", sequence: ["GREEN", "CYAN", "AMBER", "GREEN", "CYAN"], hint: "The room is a lesson in attention.", success: "The class repeats the pattern. The room is quiet." }
     },
     {
@@ -425,7 +425,7 @@
         "A note says: 'The machine can hold the calculation. It cannot hold the forgiveness.'"
       ],
       docs: [{ title: "FINAL CALL", kind: "paper", text: "Do not optimize the human out of the room.\nDo not optimize the room out of the human.\nLeave one decision that requires a person.\nThen trust the person enough to make it." }],
-      real: [{ text: "A future room.", url: "https://excavationpro.ca/guides/lygo-protocol-stack.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/guides/lygo-protocol-stack.html" }],
       gate: { kind: "code", label: "FINAL GATE", question: "What does the machine ask the human to hold?", answer: "FORGIVENESS", hint: "The note's last line.", success: "The room waits. The human decides." }
     },
     {
@@ -437,7 +437,7 @@
         "A note says: 'A record without a witness is a rumour with better formatting.'"
       ],
       docs: [{ title: "WITNESS NOTE", kind: "paper", text: "Name the source.\nName the gap.\nName the person who can be asked.\nA record that cannot be questioned is not a record. It is a wall." }],
-      real: [{ text: "A future room.", url: "https://excavationpro.ca/about.html" }],
+      real: [{ text: "A future room.", url: "https://chatagent.ca/about.html" }],
       gate: { kind: "code", label: "WITNESS GATE", question: "A record needs a source and a ______.", answer: "WITNESS", hint: "The room is named after it.", success: "The ledger stays open. The room stays honest." }
     }
   ];

@@ -151,7 +151,7 @@
       var mark = el("span", "veil-setup-mark", "Δ9");
       var title = el("div");
       title.appendChild(el("strong", "", "LYGO 98 SETUP"));
-      title.appendChild(el("small", "", "A LYGO temporal shell · build 1998.03.14"));
+      title.appendChild(el("small", "", "A LYGO temporal shell · 1998.03.14"));
       logo.appendChild(mark); logo.appendChild(title);
       overlay.appendChild(logo);
       var body = el("div", "veil-setup-body");
@@ -170,8 +170,8 @@
       var b = frame();
       b.appendChild(el("p", "veil-setup-kicker", "FIRST BOOT · THIS COPY HAS NOT BEEN CONFIGURED"));
       b.appendChild(el("h1", "veil-setup-title", "Welcome to LYGO 98."));
-      b.appendChild(el("p", "veil-setup-copy", "The desk is already warm. Before it opens, the shell needs a user, a password, a field, and a color."));
-      b.appendChild(el("p", "veil-setup-copy", "This takes one minute. The desk will remember it."));
+      b.appendChild(el("p", "veil-setup-copy", "The desk is already warm. It needs a name, a password, a field, and a color."));
+      b.appendChild(el("p", "veil-setup-copy", "The desk will remember it."));
       var row = el("div", "veil-setup-nav");
       row.appendChild(btn("BEGIN SETUP", "veil-primary", account));
       b.appendChild(row);
@@ -188,7 +188,7 @@
       input.autocomplete = "off";
       var error = el("p", "veil-setup-error", "");
       b.appendChild(label); b.appendChild(input); b.appendChild(error);
-      b.appendChild(el("p", "veil-setup-hint", "This is a local account. It never leaves the desk."));
+      b.appendChild(el("p", "veil-setup-hint", "The desk will remember this name."));
       nav(b, welcome, function () {
         var v = input.value.trim();
         if (v.length < 2) { error.textContent = "The desk needs a name with at least two characters."; input.focus(); return; }
@@ -209,12 +209,12 @@
       p2.type = "password"; p2.className = "veil-setup-input"; p2.autocomplete = "new-password";
       var error = el("p", "veil-setup-error", "");
       b.appendChild(l1); b.appendChild(p1); b.appendChild(l2); b.appendChild(p2); b.appendChild(error);
-      b.appendChild(el("p", "veil-setup-hint", "The shell will verify the pair. Three failed attempts return the machine to its last known state."));
+      b.appendChild(el("p", "veil-setup-hint", "Three failed attempts return the machine to its last known state."));
       nav(b, account, function () {
         var pass = p1.value;
         if (pass.length < 4 || pass !== p2.value) {
           state.attempts++;
-          error.textContent = "The shell could not verify the password pair. Attempt " + state.attempts + " of 3.";
+          error.textContent = "The desk did not accept that pair. Attempt " + state.attempts + " of 3.";
           p2.value = ""; p2.focus();
           if (state.attempts >= 3) showScare(overlay);
           return;
@@ -227,7 +227,7 @@
       var b = frame();
       b.appendChild(el("p", "veil-setup-kicker", "STEP 3 OF 5 · DESKTOP FIELD"));
       b.appendChild(el("h1", "veil-setup-title", "Choose a field."));
-      b.appendChild(el("p", "veil-setup-copy", "You can change this later from the Photo Journal as the archive opens."));
+      b.appendChild(el("p", "veil-setup-copy", "The Photo Journal will keep the others."));
       var grid = el("div", "veil-setup-walls");
       WALLS.forEach(function (w) {
         var card = btn("", "veil-setup-wall" + (state.background === w.src ? " is-on" : ""), function () {
@@ -303,6 +303,12 @@
         theme: saved.theme || V.onboarding.theme || "teal"
       });
       setUserChip(V.onboarding.user);
+      return;
+    }
+    // First run belongs to the story now: the note on the monitor is the setup.
+    // The wizard is still here, offered from the note's second side.
+    if (window.VEIL_START && window.VEIL_START.begin) {
+      window.VEIL_START.begin(function () { openSetup(); });
       return;
     }
     openSetup();

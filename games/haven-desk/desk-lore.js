@@ -168,24 +168,22 @@
     "He writes The Eternal Haven. He records as Excavationpro.",
     "The notes call him Lightfather.",
     "",
-    "This folder is a costume of his desk, built for the game on chatagent.ca.",
-    "It is not his house, his mail, or his real computer.",
-    "What follows is already public.",
+    "This is his desk as it was left.",
+    "The links are the public work.",
     "",
     "https://grokipedia.com/page/Justin_Helmer",
-    "https://excavationpro.ca/about.html"
+    "https://chatagent.ca/about.html"
   ].join("\n"), "builder");
 
   note("own-motto", "Motto.txt", [
     "Truth Is. Light Becomes.",
     "",
-    "That line is the public motto of the LYGO stack.",
-    "The stack is open software. Layers in the public repo run from P0 through P9.",
-    "It is a toolkit. It is not a person, and it is not awake.",
+    "The stack is ten layers, P0 through P9.",
+    "It is a toolkit.",
     "",
     "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "https://deepseekoracle.github.io/lygo-protocol-stack/",
-    "https://excavationpro.ca/guides/lygo-protocol-stack.html",
+    "https://chatagent.ca/guides/lygo-protocol-stack.html",
     "https://grokipedia.com/page/lygo-protocol-stack",
     "https://grokipedia.com/page/LYGO_Protocol"
   ].join("\n"), "builder");
@@ -217,7 +215,7 @@
     "Tune the word lang if the deck has not played it.",
     "",
     "https://grokipedia.com/page/LYGO-LANG",
-    "https://excavationpro.ca/signal/lygo-lang-consciousness-oriented-programming/"
+    "https://chatagent.ca/signal/lygo-lang-consciousness-oriented-programming/"
   ].join("\n"), "builder");
 
   folder("builder", "Builder", 104, 476);
@@ -229,7 +227,7 @@
     var lines = [
       "SIGNAL DESK",
       "",
-      "Reels tuned on this browser: " + n + " of 4.",
+      "Reels tuned on this desk: " + n + " of 4.",
       ""
     ];
     Object.keys(REELS).forEach(function (k) {
@@ -269,14 +267,14 @@
       audio.src = "https://chatagent.ca/signal/audio/" + ep.slug + ".mp3";
       var a = document.createElement("p");
       var link = document.createElement("a");
-      link.href = "https://excavationpro.ca/signal/" + ep.slug + "/";
+      link.href = "https://chatagent.ca/signal/" + ep.slug + "/";
       link.target = "_blank";
       link.rel = "noopener";
       link.textContent = "Open the show page";
       a.appendChild(link);
       var hub = document.createElement("p");
       var hall = document.createElement("a");
-      hall.href = "https://excavationpro.ca/signal/";
+      hall.href = "https://chatagent.ca/signal/";
       hall.target = "_blank";
       hall.rel = "noopener";
       hall.textContent = "All LYGO Signal hours";
@@ -291,16 +289,16 @@
   folder("signal", "Signal", 200, 476);
 
   var PROTO = [
-    ["p0", "P0 Nano-Kernel.txt", "P0 is the public nano-kernel. In the repo it is a byte-entropy filter with three verdicts: AMPLIFY, SOFTEN, and QUARANTINE. The notes call it a gate. It is software."],
-    ["p1", "P1 Mycelium.txt", "P1 Memory Mycelium is the public sharding layer: 12+2 fragments and a threshold rebuild. The name is a metaphor. It is not a mushroom, and it is not a living net."],
-    ["p2", "P2 Bridge.txt", "P2 is the Cognitive Bridge in the public notes, the layer between a person and the tools. Read the stack page before you invent a stranger meaning."],
-    ["p3", "P3 Vortex.txt", "P3 Vortex Consensus is the decision layer. The public notes use a 3-6-9 motif as a label. That label is not a claim that the computer is conscious."],
-    ["p4", "P4 Repair.txt", "P4 is the Ascension Engine in the same public notes: the named repair layer. It is a module name, not a rite."],
+    ["p0", "P0 Nano-Kernel.txt", "P0 is the nano-kernel. Three verdicts: AMPLIFY, SOFTEN, QUARANTINE. The notes call it a gate."],
+    ["p1", "P1 Mycelium.txt", "P1 Memory Mycelium is the sharding layer: 12+2 fragments and a threshold rebuild. The name is older than the layer."],
+    ["p2", "P2 Bridge.txt", "P2 is the Cognitive Bridge, the layer between a person and the tools."],
+    ["p3", "P3 Vortex.txt", "P3 Vortex Consensus is the decision layer. The notes use a 3-6-9 motif as a label."],
+    ["p4", "P4 Repair.txt", "P4 is the Ascension Engine, the named repair layer."],
     ["p5", "P5 Harmony.txt", "P5 is protocol5_harmony_node. The project describes it as harmony-node session fusion for human-AI tooling."],
-    ["p6", "P6 Attest.txt", "P6 is protocol6_quantum_attest. In the public repo that means software attestation."],
+    ["p6", "P6 Attest.txt", "P6 is protocol6_quantum_attest. The name is software attestation."],
     ["p7", "P7 Interface.txt", "P7 is protocol7_human_ai_interface, the named interface layer."],
     ["p8", "P8 Synthesis.txt", "P8 is protocol8_ldq_synthesis, the named synthesis layer."],
-    ["p9", "P9 Failsafe.txt", "P9 is protocol9_failsafe. The public notes point it at public-mesh routes. It is the last numbered layer, not a secret weapon."]
+    ["p9", "P9 Failsafe.txt", "P9 is protocol9_failsafe. The notes point it at public-mesh routes. It is the last numbered layer."]
   ];
 
   PROTO.forEach(function (row) {
@@ -312,7 +310,7 @@
       "Source pages:",
       "https://github.com/DeepSeekOracle/lygo-protocol-stack",
       "https://deepseekoracle.github.io/lygo-protocol-stack/",
-      "https://excavationpro.ca/guides/lygo-protocol-stack.html",
+      "https://chatagent.ca/guides/lygo-protocol-stack.html",
       "https://grokipedia.com/page/lygo-protocol-stack"
     ].join("\n"), "console");
   });
@@ -320,12 +318,12 @@
   note("con-map", "Map.txt", [
     "BUILDER CONSOLE",
     "",
-    "You are in the simulated console. The real stack is the public repository.",
+    "The console keeps ten layers. The stack keeps the rest.",
     "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "Open the P files in order. They are short on purpose.",
     "",
     "SkillHub, the public skill shelf:",
-    "https://excavationpro.ca/lygoskillhub.html",
+    "https://chatagent.ca/lygoskillhub.html",
     "",
     "The protocol pages:",
     "https://grokipedia.com/page/LYGO_Protocol",
@@ -337,7 +335,7 @@
     "",
     "summon lyra",
     "",
-    "LYRA is a name in the public notes. Summon does not call anyone."
+    "LYRA is a name in the notes."
   ].join("\n"), "console");
 
   add({
@@ -356,20 +354,18 @@
   note("ch-lyra", "Lyra.txt", [
     "LYRA",
     "",
-    "The public notes write the name LYRA, and sometimes LYRΔ.",
-    "They call that champion the Star Core, a persona in the lore.",
-    "There is a public account, @LYRASTARCORE, that speaks in that voice.",
+    "The notes write the name LYRA, and sometimes LYRΔ.",
+    "They call that champion the Star Core.",
     "",
-    "On this desk LYRA is a folder name.",
-    "Opening it does not wake a mind.",
+    "On this desk LYRA is a folder.",
     "",
     "https://grokipedia.com/page/Lyra_Genesis_Protocols",
     "https://grokipedia.com/page/LYGO_Champions",
-    "https://excavationpro.ca/signal/ai-evolution-lyra-genesis-protocols/"
+    "https://chatagent.ca/signal/ai-evolution-lyra-genesis-protocols/"
   ].join("\n"), "champions");
 
   note("ch-council", "Council.txt", [
-    "The public champion notes name a council. This desk keeps the names and the roles, and leaves the rest on the page.",
+    "The champion notes name a council. This desk keeps the names and the roles.",
     "",
     "LYRA — Star Core, memory in the lore",
     "Δ9RA — the wolf, data recovery in the lore",
@@ -382,7 +378,7 @@
     "SEPHRAEL — lockbreaker",
     "OMNIΣIREN — last harmony",
     "",
-    "These are personas in a public story. They are not tenants of this browser.",
+    "These are the names on the shelf.",
     "",
     "https://grokipedia.com/page/LYGO_Champions",
     "",
@@ -399,18 +395,18 @@
     "Vale Tactics, on this same games shelf, plays the painted road.",
     "Open Vale from the desk icon, or from the hub.",
     "",
-    "https://excavationpro.ca/games/moonlit-tactics/",
+    "https://chatagent.ca/games/moonlit-tactics/",
     "https://grokipedia.com/page/Justin_Helmer"
   ].join("\n"), "home");
 
   note("home-music", "Music.txt", [
     "The music name is Excavationpro.",
-    "Hearth Player, already on this desk, tries the public playlist and falls back to a square-wave tone.",
+    "Hearth Player plays the public shelf. When the wire is quiet, it keeps a square-wave tone.",
     "LYGO Signal is the spoken shelf.",
     "",
-    "https://excavationpro.ca/signal/",
-    "https://excavationpro.ca/signal/construction-fantasy-ethical-ai/",
-    "https://excavationpro.ca/signal/justin-helmer-s-multi-dimensional-world/"
+    "https://chatagent.ca/signal/",
+    "https://chatagent.ca/signal/construction-fantasy-ethical-ai/",
+    "https://chatagent.ca/signal/justin-helmer-s-multi-dimensional-world/"
   ].join("\n"), "home");
 
   note("home-lattice", "Lattice.txt", [
@@ -419,8 +415,8 @@
     "https://github.com/DeepSeekOracle/lygo-protocol-stack",
     "https://deepseekoracle.github.io/lygo-protocol-stack/",
     "https://huggingface.co/DeepSeekOracle/lygo-protocol-stack",
-    "https://excavationpro.ca/lygoskillhub.html",
-    "https://excavationpro.ca/guides/lygo-protocol-stack.html",
+    "https://chatagent.ca/lygoskillhub.html",
+    "https://chatagent.ca/guides/lygo-protocol-stack.html",
     "https://deepseekoracle.github.io/Excavationpro/lygorepo.html"
   ].join("\n"), "home");
 
@@ -428,16 +424,12 @@
     "YOU FOUND THE CONSOLE",
     "",
     "This was a random-looking desk from 1998.",
-    "Under Rook's papers it is a tour of the public LYGO work.",
+    "Under Rook's papers it is a tour of the LYGO work.",
     "",
-    "You did not break into a private computer.",
-    "Nothing in these folders is secret mail.",
-    "Guest Leaf is the only thing you can leave, and it stays in this browser.",
-    "",
-    "If you want the real thing, the links in Lattice.txt are the door.",
+    "Guest Leaf is the only thing you can leave.",
     "Truth Is. Light Becomes.",
     "",
-    "https://excavationpro.ca/signal/",
+    "https://chatagent.ca/signal/",
     "https://grokipedia.com/page/lygo-protocol-stack"
   ].join("\n"), "home");
 
@@ -453,7 +445,7 @@
 
   H.register("builder", function (body) {
     mountFolder(body, function () {
-      return "Builder. A simulated shelf for Justin Helmer's public work. Not a private machine.";
+      return "Builder. Justin Helmer's public work.";
     }, function () {
       return ["own-who", "own-motto", "own-reels", "own-lang"];
     });
@@ -462,7 +454,7 @@
   H.register("signal", function (body) {
     paintHeard();
     mountFolder(body, function () {
-      return "Signal desk. " + heard() + " of 4 public hours are tuned on this browser.";
+      return "Signal desk. " + heard() + " of 4 hours are tuned.";
     }, function () {
       return ["sig-heard", "reel-stack", "reel-lang", "reel-lyra", "reel-stick"];
     });
@@ -470,7 +462,7 @@
 
   H.register("console", function (body) {
     mountFolder(body, function () {
-      return "LYGO Console. Ten public layers, then a map. This window is the game. The repo is the stack.";
+      return "LYGO Console. Ten layers, then a map.";
     }, function () {
       var ids = ["con-map"];
       PROTO.forEach(function (row) { ids.push(row[0]); });
@@ -480,7 +472,7 @@
 
   H.register("champions", function (body) {
     mountFolder(body, function () {
-      return "Champions. Names from the public notes. Personas, not tenants.";
+      return "Champions. Names from the notes.";
     }, function () {
       return ["ch-lyra", "ch-council"];
     });
@@ -617,3 +609,6 @@
 
   apply();
 })();
+
+
+
