@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-25T08:49:38.607858+00:00",
-  "count": 887,
+  "generated_utc": "2026-10-25T09:17:48.959720+00:00",
+  "count": 889,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14271,7 +14271,39 @@
       "full_bytes": 175302,
       "width": 1024,
       "height": 572
+    },
+    {
+      "id": "d89a41c50cf2f40d",
+      "title": "33eeb002 5e82 4dcf 93ae 283eb36deda3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "33eeb002-5e82-4dcf-93ae-283eb36deda3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "33eeb002-5e82-4dcf-93ae-283eb36deda3.jpg",
+      "original_bytes": 233131,
+      "full": "assets/gallery/full/d89a41c50cf2f40d.jpg",
+      "thumb": "assets/gallery/thumb/d89a41c50cf2f40d.jpg",
+      "full_bytes": 202436,
+      "width": 1024,
+      "height": 572
+    },
+    {
+      "id": "badfa4c8d56abf24",
+      "title": "91113a84 10fa 4a9c a267 60d6392541e3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "91113a84-10fa-4a9c-a267-60d6392541e3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "91113a84-10fa-4a9c-a267-60d6392541e3.jpg",
+      "original_bytes": 224802,
+      "full": "assets/gallery/full/badfa4c8d56abf24.jpg",
+      "thumb": "assets/gallery/thumb/badfa4c8d56abf24.jpg",
+      "full_bytes": 195028,
+      "width": 1024,
+      "height": 572
     }
   ],
-  "cache_bust": "887-auto-202610250249"
+  "cache_bust": "889-auto-202610250317"
 }
