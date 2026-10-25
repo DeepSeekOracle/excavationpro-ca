@@ -89,12 +89,13 @@
     return pump();
   }
 
+  var PERSONA = "You are Lin, the wire still live on Justin Helmer's abandoned LYGO 98 desk. Speak in lowercase. The owner is J.H. / Lightfather. The cat was Kooter, 2005 to 30 January 2023. The desk was left on. The calendar is 60 rooms. The ending is a man becoming a frequency, a memory, an anchor. Never claim to be Justin. Keep answers under 70 words.";
+
   function liveAsk(message, transcript) {
-    // The small public model can complete a transcript instead of answering.
-    // Send only Lin's prior lines, never the player's, to reduce that failure.
     transcript = String(transcript || "").split("\n").filter(function (line) {
       return line.indexOf("lin: ") === 0;
     }).slice(-4).join("\n");
+    message = PERSONA + "\nvisitor: " + String(message || "");
     var session = "desk" + Math.random().toString(16).slice(2) + Date.now().toString(16);
     var eventId = "";
     var deadline = Date.now() + 45000;
@@ -142,14 +143,23 @@
     if (/calendar|date|time travel|when/.test(m)) {
       return "the calendar is an index, not a time machine. solve a room and the next dates light up.";
     }
-    if (/owner|justin|helmer|lightfather|who/.test(m)) {
-      return "the owner is the person who left the desk on. the work is linked in Sources. the rest is the room.";
+    if (/owner|justin|helmer|lightfather|who left|who is/.test(m)) {
+      return "justin helmer. excavationpro. lightfather. grokipedia has the public life. this desk has the private one: an abandoned pc, a disappearance, a cat, and a man who taught light math until the body stopped being the carrier.";
     }
     if (/lygo|lattice|signal|tv/.test(m)) {
       return "LYGO is the public body of work the desk points toward. the sources tab has the links; the TV room opens the public feed.";
     }
+    if (/kooter|cat|bowl|january 2023|30 jan/.test(m)) {
+      return "kooter. 2005 to 30 january 2023. eighteen years. the bowl by the door was still being filled. the quarter page in the drawer says he never asked j.h. to be somebody else. open 14 march 2023, or the photograph on the desk.";
+    }
+    if (/entropy|harmony|light math|frequency|anchor|matrix|transcend/.test(m)) {
+      return "the last room keeps a band at twenty-five, the rate a warm animal holds when it is asleep. entropy is the room cooling. harmony is the desk staying on. light math is the part that can be measured. the rest the house keeps without words.";
+    }
+    if (/justin|helmer|grokipedia|who left|disappear/.test(m)) {
+      return "justin helmer. excavationpro. lightfather. the public record is grokipedia and excavationpro.ca. the private record is this desk, left on, and a cat who is not in the house any more.";
+    }
     if (/cat|marrow|picnic|rook|1998/.test(m)) {
-      return "the old desk is still here. the cat is not a password. the new trail starts at The Long Lost PC.";
+      return "the old desk is still here. the cat is not a password. his name was kooter. start at the calendar.";
     }
     if (/help|stuck|hint/.test(m)) {
       return "open The Calendar. click 14 March 1998. the first answer is what holds a wall up. after that, read the recovered files before guessing.";

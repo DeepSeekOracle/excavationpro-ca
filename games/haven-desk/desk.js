@@ -1674,8 +1674,13 @@
   }
 
   function tick() {
+    if (!clock) return;
     var d = new Date();
-    clock.textContent = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var date = days[d.getDay()] + " " + (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+    var time = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit", second: "2-digit" });
+    clock.innerHTML = "<b>" + time + "</b><span>" + date + "</span>";
+    clock.title = d.toString();
   }
 
   function sitDown() {

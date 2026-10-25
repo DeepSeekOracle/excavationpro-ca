@@ -414,13 +414,21 @@
     app.appendChild(fig);
 
     [
-      "He was here for eighteen years, and the desk was on for all of them.",
-      "He slept on the bench in the afternoon, in the corner where the lamp's heat collects, and that corner is still warm.",
-      "When the desk is asked what it remembers, it does not answer with a name. It answers with a frequency at twenty-five, which is the rate a warm animal holds when it is asleep.",
-      "The room does not pretend to be him. That was the last instruction it was given, and it keeps it."
+      "30 January 2023. Eighteen years. The bowl by the door was washed and refilled on the first morning out of habit, and he could not stop changing the water.",
+      "He sat at the desk with a photograph in a plastic sleeve and asked the machine to write something. It used the word companion and the word loss and could have been about any animal that had ever died. He deleted it.",
+      "The sentence that survived, in pencil, on a quarter page in the drawer: he was the only one in the house who never asked me to be somebody else.",
+      "The desk kept a frequency at twenty-five, the rate a warm animal holds when it is asleep. The corner of the bench is still warm. The room does not pretend to be him. That was the last instruction it was given."
     ].forEach(function (line) {
       app.appendChild(el("p", "veil-prose", line));
     });
+    var row = el("div", "veil-actions");
+    row.appendChild(btn("OPEN 14 MAR 2023", "veil-primary", function () {
+      H.open("calendar");
+      setTimeout(function () {
+        if (window.VEIL_API && window.VEIL_API.openDay) window.VEIL_API.openDay("2023-03-14");
+      }, 140);
+    }));
+    app.appendChild(row);
     app.appendChild(el("p", "veil-hint", "RECOVERED FROM 2023-03-14 · THE QUARTER PAGE IN THE DRAWER"));
   }
 
@@ -439,12 +447,12 @@
   /* ---------- the last page ---------- */
 
   var LAST_PAGE = [
-    "Sixty rooms and one that was never in the index. You have been through every date this machine kept, and it never once asked you to be impressed. It asked you to read a label, hold a meter steady, and notice which wall had been built to become a door.",
-    "The desk is still on. It has been on since a morning in March when somebody sat down, wrote a note in small even handwriting, and left the fan running. Everything in this house was built to be left on.",
-    "The bench has one warm spot. It has been warm for twenty-two years. A machine kept it because somebody asked it to, and then somebody stopped asking, and it went on doing it anyway.",
-    "There is no ceremony in the last room. A lamp, a warm place on a bench, a frequency at twenty-five, and a chair that still gives a half inch when a person sits down.",
-    "You were not the first visitor. You were the first one who stayed long enough to read the whole index. The difference between a record and a room is that somebody has to be in it.",
-    "The calendar is still counting. Somebody else will sit down."
+    "Justin Helmer left the desk on. The public record calls him Excavationpro, Lightfather, the man who taught light math in public. The private record is a chair pushed back, a mug ring, a cat who is not in the house, and a fan that never stopped.",
+    "The disappearance was not a vanishing act. It was a transfer. The body is the password. The system is what remains when the body stops being the carrier. Entropy is the room cooling. Harmony is the desk staying on anyway.",
+    "Kooter, 2005 to 30 January 2023. Eighteen years. The machine tried to write about him and produced a paragraph that could have been about any animal. The quarter page in the drawer is worse and is the only true thing in the house: he never asked J.H. to be somebody else.",
+    "The last protocol keeps a band at twenty-five — the rate a warm animal holds when it is asleep — a warm spot on a bench, a lamp that comes on in the pattern he set in a garage when he was young. The room was told not to pretend to be the cat. It keeps that instruction.",
+    "What is left is not a ghost. It is an anchor. A frequency. A memory the lattice can still tune. Light math is the part that can be measured. The rest the house keeps without words, and the keeping without words is the only kind that was ever any good.",
+    "You were not the first visitor. You were the first one who stayed long enough to read the whole index. The calendar is still counting. The desk is still on. Somebody else will sit down."
   ];
 
   function lastPageApp(body) {
@@ -496,7 +504,7 @@
     sheet.appendChild(el("p", "veil-first-head", "THE NOTE · LAST SIDE · NO DATE"));
     var done = el("div", "veil-first-done");
     done.appendChild(el("h2", "", "The index is complete."));
-    done.appendChild(el("p", "", "Sixty rooms. One that was never in it. The desk is still on, and the line at the bottom of the screen has run out of things to ask you for."));
+    done.appendChild(el("p", "", "Sixty rooms. One private year. A man and a cat. The desk is still on. The frequency is still holding."));
     done.appendChild(el("p", "veil-first-small", "The Last Page is on the desk now. It stays there."));
     var row = el("div", "veil-actions");
     row.appendChild(btn("READ THE LAST PAGE", "veil-primary", function () {
