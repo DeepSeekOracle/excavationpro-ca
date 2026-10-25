@@ -56,99 +56,190 @@
     setTimeout(function () { desktop.classList.remove("veil-first-reveal"); }, 2600);
   }
 
-  /* ---------- the thread line ---------- */
+  /* ---------- Field Journal (replaces the old THREAD strip on the taskbar) ---------- */
 
   function solved(id) { return !!(V.solved && V.solved[id]); }
   function open(id) { return !!(V.unlocked && V.unlocked[id]) || solved(id); }
+  function shortDate(id) {
+    var parts = String(id || "").split("-");
+    var months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    if (parts.length < 3) return id;
+    return months[Number(parts[1]) - 1] + " " + Number(parts[2]) + ", " + parts[0];
+  }
 
   function objective() {
+    var ids = Object.keys(D.days);
+    var total = ids.length;
+    var done = ids.filter(solved).length;
     if (!V.flags || !V.flags.firstNote) {
       return {
-        kicker: "THREAD 01",
-        label: "Type the word from the monitor note.",
-        act: function () { begin(null, true); }
+        chapter: "I · The Desk",
+        kicker: "PAGE 1",
+        title: "A note is taped to the monitor.",
+        label: "The word it asks for is the first foundation. Type it.",
+        hint: "It is poured before the first wall.",
+        act: function () { begin(null, true); },
+        recover: false
       };
     }
-    var ids = Object.keys(D.days).sort();
-    var ready = ids.filter(function (id) { return open(id) && !solved(id); });
+    var ready = ids.filter(function (id) { return open(id) && !solved(id) && id !== "1980-12-31"; }).sort();
     if (ready.length) {
       var id = ready[0];
+      var ch = window.VEIL_ARC && window.VEIL_ARC.chapterOf(id);
+      var d = D.days[id];
       return {
-        kicker: "THREAD · " + String(Object.keys(V.solved || {}).length) + " OF " + ids.length,
-        label: "Open " + id + " · " + D.days[id].title,
+        chapter: (ch ? ch.id + " · " + ch.name : "Open rooms"),
+        kicker: done + " / " + total + " ROOMS",
+        title: d.title,
+        label: "Open " + shortDate(id) + ". The word is in the recovered file in that room.",
+        hint: (d.gate && d.gate.hint) || "Read the page. Then type the word.",
         act: function () {
           H.open("calendar");
           setTimeout(function () {
             if (window.VEIL_API && window.VEIL_API.openDay) window.VEIL_API.openDay(id);
           }, 140);
-        }
+        },
+        room: id,
+        recover: false
       };
     }
-    var sealed = ids.filter(function (id) { return !open(id); });
-    if (sealed.length) {
-      // Some dates are not opened by any gate. The private date is recovered
-      // from the personal index, so the thread must say that instead of telling
-      // the player to solve a gate that does not exist.
-      var gateUnlocks = {};
-      ids.forEach(function (from) {
-        var g = D.days[from].gate;
-        (g && g.unlocks || []).forEach(function (n) { gateUnlocks[n] = true; });
-      });
-      var byIndex = sealed.filter(function (id) { return !gateUnlocks[id]; });
-      if (byIndex.length) {
-        return {
-          kicker: "THREAD · THE PRIVATE DATE",
-          label: "The private date is not on the map. Open the personal index and enter 19801231.",
-          act: function () {
-            H.open("calendar");
-            setTimeout(function () {
-              var input = document.querySelector('input[aria-label="personal date recovery"]');
-              if (input) {
-                if (input.scrollIntoView) input.scrollIntoView({ block: "center" });
-                input.focus();
-                input.value = "";
-              }
-            }, 220);
-          }
-        };
-      }
+    if (!solved("1980-12-31")) {
       return {
-        kicker: "THREAD · " + String(Object.keys(V.solved || {}).length) + " OF " + ids.length,
-        label: "Every open room is sealed. Solve a gate to unlock " + sealed[0] + ".",
-        act: function () { H.open("calendar"); }
+        chapter: "VII · The Private Year",
+        kicker: done + " / " + total + " ROOMS",
+        title: "The last day of 1980 is not on the map.",
+        label: "The monitor note called it the first page of him. Recover it here: 19801231.",
+        hint: "Eight digits. The year is not the date.",
+        act: function () { H.open("journal"); },
+        recover: true
+      };
+    }
+    if (!solved("2045-09-01") && open("2045-09-01")) {
+      return {
+        chapter: "VIII · Lightfather",
+        kicker: done + " / " + total + " ROOMS",
+        title: "The last room has a name.",
+        label: "Open 1 Sep 2045. Type LIGHTFATHER from the frequency map.",
+        hint: "The chapter after the body.",
+        act: function () {
+          H.open("calendar");
+          setTimeout(function () {
+            if (window.VEIL_API && window.VEIL_API.openDay) window.VEIL_API.openDay("2045-09-01");
+          }, 140);
+        },
+        room: "2045-09-01",
+        recover: false
+      };
+    }
+    var sealed = ids.filter(function (id) { return !open(id) && !solved(id); });
+    if (sealed.length) {
+      return {
+        chapter: "Sealed rooms remain",
+        kicker: done + " / " + total + " ROOMS",
+        title: "A door is still shut.",
+        label: "Finish the open room on the map. Each unsealed room marks the next chapter.",
+        hint: "Use SHOW OPEN ONLY on the date map.",
+        act: function () { H.open("calendar"); },
+        recover: false
       };
     }
     return {
-      kicker: "THREAD COMPLETE · 60 OF 60",
+      chapter: "The index is complete",
+      kicker: total + " / " + total + " ROOMS",
+      title: "The last page.",
       label: "Read the last page of the index.",
-      act: function () { H.open("lastpage"); }
+      hint: "The desk stays on.",
+      act: function () { H.open("lastpage"); },
+      recover: false
     };
   }
 
-  var bar = null;
-  function thread() {
-    var desk = document.getElementById("desk");
-    if (!desk) return;
-    if (!bar) {
-      bar = el("div", "veil-thread");
-      bar.id = "veil-thread";
-      bar.setAttribute("role", "status");
-      bar.setAttribute("aria-live", "polite");
-      desk.appendChild(bar);
+  function recoverPrivate(value, msgEl) {
+    var clean = String(value || "").replace(/\D/g, "");
+    if (clean !== "19801231") {
+      if (msgEl) msgEl.textContent = "The index wants eight digits, not a guess.";
+      return false;
     }
-    var o = objective();
-    var sig = o.kicker + "|" + o.label;
-    // Rebuilding the bar on a timer steals focus from whatever the player is
-    // using. Only repaint when the objective actually changes.
-    if (bar.dataset.sig === sig) return;
-    bar.dataset.sig = sig;
-    bar.innerHTML = "";
-    bar.appendChild(el("span", "veil-thread-kicker", o.kicker));
-    var go = btn(o.label, "veil-thread-go", function () { o.act(); setTimeout(paintThread, 300); });
-    bar.appendChild(go);
-    bar.dataset.label = o.label;
+    if (!solved("1998-03-14")) {
+      if (msgEl) msgEl.textContent = "The foundation room has to be unsealed first.";
+      return false;
+    }
+    V.unlocked["1980-12-31"] = true;
+    V.solved["1980-12-31"] = V.solved["1980-12-31"] || { at: new Date().toISOString(), how: "journal" };
+    save();
+    if (msgEl) msgEl.textContent = "31 Dec 1980 is in the index. The private room is open.";
+    if (H.toast) H.toast("PRIVATE YEAR RECOVERED · 31 DEC 1980");
+    H.open("calendar");
+    setTimeout(function () {
+      if (window.VEIL_API && window.VEIL_API.openDay) window.VEIL_API.openDay("1980-12-31");
+    }, 160);
+    return true;
   }
-  function paintThread() { try { thread(); } catch (e) {} }
+
+  function fillJournal(host) {
+    if (!host) return;
+    var o = objective();
+    var sig = o.kicker + "|" + o.title + "|" + o.label + "|" + (o.recover ? "1" : "0");
+    if (host.dataset.sig === sig && host.querySelector(".veil-journal-page")) return;
+    host.dataset.sig = sig;
+    host.innerHTML = "";
+    host.className = "veil-journal";
+    host.setAttribute("role", "status");
+    var bind = el("div", "veil-journal-bind");
+    var page = el("div", "veil-journal-page");
+    page.appendChild(el("p", "veil-journal-kicker", o.kicker));
+    page.appendChild(el("p", "veil-journal-chapter", o.chapter));
+    page.appendChild(el("h2", "", o.title));
+    page.appendChild(el("p", "veil-journal-body", o.label));
+    page.appendChild(el("p", "veil-journal-hint", o.hint));
+    if (o.recover) {
+      var row = el("div", "veil-journal-recover");
+      var input = document.createElement("input");
+      input.className = "veil-input";
+      input.placeholder = "19801231";
+      input.maxLength = 10;
+      input.setAttribute("aria-label", "personal date recovery");
+      var msg = el("p", "veil-journal-msg", "");
+      var go = btn("RECOVER THE YEAR", "veil-primary", function () { recoverPrivate(input.value, msg); });
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { e.preventDefault(); recoverPrivate(input.value, msg); }
+      });
+      row.appendChild(input);
+      row.appendChild(go);
+      page.appendChild(row);
+      page.appendChild(msg);
+    } else {
+      page.appendChild(btn(o.room ? "OPEN THIS ROOM" : "OPEN THE JOURNAL", "veil-primary", function () { o.act(); setTimeout(paintJournal, 300); }));
+    }
+    host.appendChild(bind);
+    host.appendChild(page);
+  }
+
+  function paintJournal() {
+    try {
+      var old = document.getElementById("veil-thread");
+      if (old && old.parentNode) old.parentNode.removeChild(old);
+      var slots = document.querySelectorAll("#veil-journal, .veil-journal-slot");
+      for (var i = 0; i < slots.length; i++) fillJournal(slots[i]);
+    } catch (e) {}
+  }
+
+  function journalApp(body) {
+    var slot = el("div", "veil-journal-slot");
+    slot.id = "veil-journal";
+    body.appendChild(slot);
+    fillJournal(slot);
+  }
+
+  function ensureJournal() {
+    H.register("journal", journalApp);
+    var have = false;
+    for (var i = 0; i < H.files.length; i++) if (H.files[i].id === "journal") have = true;
+    if (!have) {
+      H.addFile({ id: "journal", name: "Field Journal", kind: "app", icon: "note", x: 392, y: 86, wide: 520, high: 520, desk: true });
+      if (H.refresh) H.refresh();
+    }
+  }
 
   /* ---------- the note ---------- */
 
@@ -261,7 +352,7 @@
     save();
 
     revealDesktop();
-    if (H.toast) H.toast("THE DESK REMEMBERS YOU · 4 ROOMS OPEN");
+    if (H.toast) H.toast("THE DESK REMEMBERS YOU · FOUR CHAPTERS OPEN");
     if (H.beep) H.beep();
 
     var sheet = overlay.querySelector(".veil-first-sheet");
@@ -269,10 +360,10 @@
     sheet.appendChild(el("p", "veil-first-head", "THE NOTE · SECOND SIDE · HANDWRITING CHANGES HERE"));
     var body = el("div", "veil-first-done");
     body.appendChild(el("h2", "", "The calendar unfolds."));
-    body.appendChild(el("p", "", "Four rooms are open: 1969, 1989, 1999, 2007. The map will tell you which one is next."));
-    body.appendChild(el("p", "veil-first-small", "The desk left a line at the bottom of the screen. Follow it and the index will open one room at a time."));
+    body.appendChild(el("p", "", "Four chapters are open on the map: 1969, 1989, 1999 and 2007. The Field Journal names the next room. The word you need is always in that room's recovered file."));
+    body.appendChild(el("p", "veil-first-small", "The last day of 1980 is not on the map. When the Journal asks for it, type 19801231."));
     var row = el("div", "veil-actions");
-    var goCal = btn("OPEN THE CALENDAR", "veil-primary", function () { close(); H.open("calendar"); paintThread(); });
+    var goCal = btn("OPEN THE CALENDAR", "veil-primary", function () { close(); H.open("calendar"); paintJournal(); });
     row.appendChild(goCal);
     if (onSetup) row.appendChild(btn("SET UP THIS DESK", "raised", function () { close(); onSetup(); }));
     row.appendChild(btn("READ THE READ ME", "raised", function () { close(); H.open("readme"); }));
@@ -280,7 +371,7 @@
     sheet.appendChild(body);
     var next = body.querySelector("button");
     if (next) setTimeout(function () { next.focus(); }, 80);
-    paintThread();
+    paintJournal();
     ensureKooter();
   }
 
@@ -293,7 +384,7 @@
 
   function begin(onSetup, reopen) {
     if (overlay) return;
-    if (V.flags && V.flags.firstNote && !reopen) { paintThread(); return; }
+    if (V.flags && V.flags.firstNote && !reopen) { paintJournal(); return; }
     build(onSetup);
   }
 
@@ -442,23 +533,24 @@
   if (bootEl) bootEl.classList.add("veil-boot");
 
   stageDesktop();
+  ensureJournal();
   function tick() {
-    paintThread();
+    ensureJournal();
+    paintJournal();
     ensureKooter();
     checkComplete();
   }
   setTimeout(function () { stageDesktop(); tick(); }, 400);
   setInterval(tick, 2500);
-  // Any click can change the state (a gate unsealed, a room opened): repaint the
-  // thread a moment later so the line never goes stale.
   document.addEventListener("click", function () { setTimeout(tick, 420); }, true);
 
   window.VEIL_START = {
-    // begin() respects the first-run guard; reopen() forces the note back up.
     begin: function (onSetup) { begin(onSetup, false); },
     reopen: function (onSetup) { begin(onSetup, true); },
-    thread: paintThread,
+    thread: paintJournal,
     objective: objective,
-    stage: stageDesktop
+    stage: stageDesktop,
+    mountJournal: fillJournal,
+    paintJournal: paintJournal
   };
 })();

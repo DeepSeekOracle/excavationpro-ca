@@ -175,42 +175,87 @@
 .veil-first-small { font-size: 11px !important; color: #6c6349; }
 .veil-first-done .veil-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 
-/* ---------- the thread line ---------- */
+/* ---------- Field Journal (replaces the old THREAD strip) ---------- */
 
-.veil-thread {
-  position: absolute;
-  left: 50%;
-  bottom: 46px;
-  transform: translateX(-50%);
-  z-index: 60;
+.veil-journal, .veil-journal-slot {
+  position: relative;
+  z-index: 4;
+  max-width: 760px;
+  margin: 8px 12px 12px;
+}
+.veil-journal {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: min(720px, 92vw);
-  padding: 6px 8px 6px 12px;
-  background: rgba(6, 17, 14, 0.92);
-  border: 1px solid var(--veil-line, #2d4a40);
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
-  font-family: Tahoma, "MS Sans Serif", Verdana, sans-serif;
+  background: #d8c9a4;
+  border: 2px solid #6b542e;
+  box-shadow: 4px 4px 0 #1a1408, inset 0 0 0 1px #f0e6c8;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1b1810;
 }
-.veil-thread-kicker {
-  font-size: 9px;
+.veil-journal-bind {
+  width: 14px;
+  flex: none;
+  background:
+    repeating-linear-gradient(180deg, #3a2a12 0 8px, #2a1c0c 8px 16px);
+  border-right: 2px solid #5a4320;
+}
+.veil-journal-page {
+  flex: 1;
+  padding: 10px 14px 12px;
+  background:
+    repeating-linear-gradient(180deg, rgba(90, 70, 30, 0.08) 0 1px, transparent 1px 22px),
+    #efe4c4;
+}
+.veil-journal-kicker {
+  margin: 0;
+  font: 700 9px Tahoma, "MS Sans Serif", Verdana, sans-serif;
   letter-spacing: 0.14em;
-  color: var(--veil-amber, #e0b35a);
-  white-space: nowrap;
+  color: #6a4a18;
 }
-.veil-thread-go {
-  font-family: inherit;
-  font-size: 11px;
-  color: #dbe9e1;
-  background: transparent;
-  border: 1px solid transparent;
-  padding: 4px 8px;
-  cursor: pointer;
+.veil-journal-chapter {
+  margin: 2px 0 6px;
+  font: 700 10px Tahoma, "MS Sans Serif", Verdana, sans-serif;
+  letter-spacing: 0.08em;
+  color: #0d4a44;
+}
+.veil-journal-page h2 {
+  margin: 0 0 6px;
+  font: italic 18px Georgia, serif;
+  color: #1a1408;
+}
+.veil-journal-body { margin: 0 0 6px; font-size: 13px; line-height: 1.45; }
+.veil-journal-hint { margin: 0 0 10px; font-size: 11px; color: #5a4a28; }
+.veil-journal-recover { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+.veil-journal-msg { margin: 4px 0 0; font-size: 11px; color: #6a3a12; }
+#veil-thread { display: none !important; }
+
+.veil-chapter { margin: 10px 0 16px; max-width: 760px; }
+.veil-chapter b {
+  display: block;
+  margin-bottom: 6px;
+  color: #e0b35a;
+  font: 700 9px "Courier New", Courier, monospace;
+  letter-spacing: 0.1em;
+}
+.veil-level, .veil-level-index .veil-level {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
   text-align: left;
-  border-bottom: 1px dotted rgba(224, 179, 90, 0.55);
+  margin: 0 0 3px;
+  padding: 6px 8px;
+  background: #0d1b16;
+  border: 1px solid #355246;
+  color: #dce9e2;
 }
-.veil-thread-go:hover { color: #fff3d2; border-color: var(--veil-amber, #e0b35a); }
+.veil-level strong { flex: 1; font-size: 12px; }
+.veil-level span { color: #e0b35a; font: 9px "Courier New", Courier, monospace; min-width: 108px; }
+.veil-level small { color: #839b8d; font-size: 9px; }
+.veil-level.is-open { border-color: #72e0d1; }
+.veil-level.is-unsealed { border-color: #9fe58c; background: #102018; }
+.veil-level.is-sealed { opacity: 0.72; }
+.veil-level-index { margin-top: 12px; max-height: 280px; overflow: auto; border: 1px solid #2e463a; padding: 8px; background: #07100c; }
+.veil-level-index b { display: block; color: #e0b35a; font: 700 9px "Courier New", Courier, monospace; letter-spacing: 0.1em; margin-bottom: 6px; }
 
 /* the next room on the map */
 
@@ -227,7 +272,7 @@
 @media (max-width: 640px) {
   .veil-first-sheet { padding: 20px 18px 18px; transform: none; }
   .veil-first-paper { font-size: 13px; min-height: 110px; }
-  .veil-thread { bottom: 52px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .veil-journal { margin: 8px; }
 }
 
 /* ---------- the boot screen: a machine that has been on for years ---------- */

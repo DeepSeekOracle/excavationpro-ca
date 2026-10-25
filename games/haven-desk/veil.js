@@ -138,7 +138,7 @@
     copy.appendChild(el("small", "", sub));
     left.appendChild(copy);
     top.appendChild(left);
-    var progress = el("span", "veil-progress", String(Object.keys(V.solved).length) + " / " + Object.keys(D.days).length + " DATES");
+    var progress = el("span", "veil-progress", String(Object.keys(V.solved).length) + " / " + Object.keys(D.days).length + " LEVELS");
     top.appendChild(progress);
     app.appendChild(top);
     return top;
@@ -146,7 +146,7 @@
 
   function tabs(view) {
     var bar = el("div", "veil-tabs");
-    [["map", "DATE MAP"], ["month", "CALENDAR"], ["case", "CASEBOOK"], ["sources", "SOURCES"]].forEach(function (row) {
+    [["map", "DATE MAP"], ["month", "CALENDAR"], ["case", "JOURNAL"], ["sources", "SOURCES"]].forEach(function (row) {
       var b = button(row[1], "veil-tab" + (view === row[0] ? " is-on" : ""), function () {
         if (row[0] === "month" && !monthCursor) {
           var p = (V.current || D.meta.start).split("-");
@@ -165,14 +165,14 @@
     view = view || app.dataset.view || "map";
     app.dataset.view = view;
     app.innerHTML = "";
-    topBar("THE LONG LOST PC", "CALENDAR / INDEX / CASEBOOK");
+    topBar("THE LONG LOST PC", "Δ9 · 60 ROOMS · JOURNAL / MAP / CALENDAR");
     tabs(view);
     if (view === "map") renderMap();
     else if (view === "month") renderMonth();
-    else if (view === "case") renderCasebook();
+    else if (view === "case") renderJournalTab();
     else renderSources();
     var foot = el("div", "veil-footbar");
-    foot.textContent = "All dates are rooms. Some rooms are sealed. The calendar does not move you; it asks where you have been.";
+    foot.textContent = "The Field Journal names the next room. The word is in that room's recovered file.";
     app.appendChild(foot);
   }
 
@@ -194,8 +194,11 @@
     if (V.mapScroll) wrap.scrollTop = V.mapScroll;
     wrap.addEventListener("scroll", function () { V.mapScroll = wrap.scrollTop; });
     var head = el("div", "veil-maphead");
-    head.appendChild(el("b", "", "RECOVERED SIGNAL MAP · 1969—2045"));
-    head.appendChild(el("span", "", Object.keys(D.days).length + " rooms · one private date · every line is a choice"));
+    var journalSlot = el("div", "veil-journal-slot");
+    wrap.appendChild(journalSlot);
+    if (window.VEIL_START && window.VEIL_START.mountJournal) window.VEIL_START.mountJournal(journalSlot);
+    head.appendChild(el("b", "", "DATE MAP · EIGHT CHAPTERS"));
+    head.appendChild(el("span", "", Object.keys(D.days).length + " rooms · the journal names the next one"));
     wrap.appendChild(head);
     var era = el("div", "veil-eras");
     ["1969—1995 · ORIGINS", "1998—2016 · SIGNAL", "2019—2045 · FUTURE"].forEach(function (t) { era.appendChild(el("span", "", t)); });
@@ -275,9 +278,8 @@
         toast("NO PUBLIC RECORD · the index takes eight digits, not a guess.");
         return;
       }
-      var ready = V.solved["1998-03-14"] && V.solved["2026-10-23"] && V.solved["2038-01-19"];
-      if (!ready) {
-        toast("THE INDEX NEEDS THE FOUNDATION, THE VISITOR, AND THE OVERFLOW.");
+      if (!V.solved["1998-03-14"]) {
+        toast("UNSEAL THE FOUNDATION ROOM FIRST. THE NOTE ALREADY NAMED THE YEAR.");
         return;
       }
       V.unlocked["1980-12-31"] = true;
@@ -325,8 +327,22 @@
       grid.appendChild(b);
     }
     box.appendChild(grid);
-    var hint = el("p", "veil-hint", "Only days with a signal can open. The calendar is an index, not a time machine.");
-    box.appendChild(hint);
+    var index = el("div", "veil-level-index");
+    index.appendChild(el("b", "", "Δ9 · ALL 60 LEVELS"));
+    Object.keys(D.days).sort().forEach(function (id) {
+      var d = day(id);
+      var state = solved(id) ? "unsealed" : (unlocked(id) ? "open" : "sealed");
+      var row = button("", "veil-level is-" + state, function () {
+        if (!unlocked(id)) { toast("SEALED · finish the open room the journal names"); return; }
+        openDay(id);
+      });
+      row.appendChild(el("span", "", shortDate(id)));
+      row.appendChild(el("strong", "", unlocked(id) ? d.title : "SEALED"));
+      row.appendChild(el("small", "", d.chapter || d.act || ""));
+      index.appendChild(row);
+    });
+    box.appendChild(index);
+    box.appendChild(el("p", "veil-hint", "Sixty rooms. The Field Journal always names the next one. The word is in that room."));
     app.appendChild(box);
   }
 
@@ -339,29 +355,28 @@
     render("month");
   }
 
-  function renderCasebook() {
+  function renderJournalTab() {
     var box = el("div", "veil-case");
-    box.appendChild(el("p", "veil-kicker", "RECOVERED ROOMS"));
-    var solvedIds = Object.keys(D.days).filter(function (id) { return solved(id); });
-    if (!solvedIds.length) {
-      box.appendChild(el("p", "", "No rooms unsealed yet. Open the Date Map and find the first foundation."));
-    }
-    solvedIds.forEach(function (id) {
-      var d = D.days[id];
-      var card = el("div", "veil-case-card");
-      var h = el("button", "veil-case-open", function () { openDay(id); });
-      h.appendChild(el("span", "", shortDate(id)));
-      h.appendChild(el("strong", "", d.title));
-      h.appendChild(el("small", "", d.act + " · " + d.kind));
-      card.appendChild(h);
-      (d.docs || []).forEach(function (doc) {
-        var det = el("details", "veil-doc");
-        var sum = el("summary", "", "FILE · " + doc.title);
-        det.appendChild(sum);
-        det.appendChild(el("pre", "", doc.text || ""));
-        card.appendChild(det);
+    var slot = el("div", "veil-journal-slot");
+    box.appendChild(slot);
+    if (window.VEIL_START && window.VEIL_START.mountJournal) window.VEIL_START.mountJournal(slot);
+    var chapters = (D.meta && D.meta.arc) || [{ id: "I", name: "Rooms", rooms: Object.keys(D.days).sort() }];
+    box.appendChild(el("p", "veil-kicker", "Δ9 STORYBOARD · " + Object.keys(D.days).length + " LEVELS"));
+    chapters.forEach(function (ch) {
+      var sect = el("div", "veil-chapter");
+      var done = ch.rooms.filter(function (id) { return solved(id); }).length;
+      sect.appendChild(el("b", "", "CHAPTER " + ch.id + " · " + ch.name + " · " + done + " / " + ch.rooms.length));
+      ch.rooms.forEach(function (id) {
+        var d = day(id);
+        if (!d) return;
+        var state = solved(id) ? "unsealed" : (unlocked(id) ? "open" : "sealed");
+        var row = button("", "veil-level is-" + state, function () { openDay(id); });
+        row.appendChild(el("span", "", shortDate(id)));
+        row.appendChild(el("strong", "", unlocked(id) ? d.title : "SEALED LEVEL"));
+        row.appendChild(el("small", "", state === "unsealed" ? "complete" : (state === "open" ? "play this room" : "opens after an earlier room")));
+        sect.appendChild(row);
       });
-      box.appendChild(card);
+      box.appendChild(sect);
     });
     app.appendChild(box);
   }
@@ -568,7 +583,13 @@
       toast(message);
     }
     function fail(msg) {
-      feedback.textContent = msg || "That is not the shape of this room.";
+      V.gateFails = V.gateFails || {};
+      V.gateFails[id] = (V.gateFails[id] || 0) + 1;
+      var shown = msg || "That is not the shape of this room.";
+      if (V.gateFails[id] >= 2 && gate.answer) {
+        shown = "The recovered file already named it: " + gate.answer;
+      }
+      feedback.textContent = shown;
       feedback.className = "veil-feedback is-fail";
       H.beep();
     }
