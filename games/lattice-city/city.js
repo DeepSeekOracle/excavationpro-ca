@@ -2072,12 +2072,23 @@
     const v = screenToView(sx, sy);
     return fromView(v.gx, v.gy);
   }
+  let needFocus = false;
+  let pendingFocus = null;
   function focusOn(gx, gy, zoom) {
     const c = getCanvas();
+    const w = c ? c.clientWidth : 0;
+    const h = c ? c.clientHeight : 0;
+    if (w < 8 || h < 8) {
+      needFocus = true;
+      pendingFocus = { gx: gx, gy: gy, zoom: zoom || cam.zoom || 0.95 };
+      return;
+    }
+    needFocus = false;
+    pendingFocus = null;
     cam.zoom = zoom || 0.95;
     const p = tileToScreen(gx, gy);
-    cam.x += c.clientWidth / 2 - (p.x + TW * cam.zoom / 2);
-    cam.y += c.clientHeight / 2 - (p.y + TH * cam.zoom / 2 - 40);
+    cam.x += w / 2 - (p.x + TW * cam.zoom / 2);
+    cam.y += h / 2 - (p.y + TH * cam.zoom / 2 - 40);
   }
   function focusRegion(r) { focusOn(r.rx * RS + RS / 2, r.ry * RS + RS / 2); }
 
@@ -2110,6 +2121,13 @@
     c.height = Math.floor(c.clientHeight * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.imageSmoothingEnabled = false;
+    if (needFocus && c.clientWidth >= 8 && c.clientHeight >= 8) {
+      const p = pendingFocus;
+      needFocus = false;
+      pendingFocus = null;
+      if (p) focusOn(p.gx, p.gy, p.zoom);
+      else focusCity();
+    }
   }
 
   // ---------------------------------------------------------------- ground textures
@@ -2224,6 +2242,8 @@
   }
 
   function drawFrame(ts) {
+    // Boot can focus before the canvas has a size. Retry until layout gives it one.
+    if (needFocus) resize();
     const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
     last = ts;
     S.hour = localHour();
@@ -3560,6 +3580,9 @@
   }
   function unrle(str, len) {
     const out = new Uint8Array(len);
+    // Older saves omit fields that were added later (rail, and any empty layer).
+    // A non-string here used to throw, wipe the world, and leave a blank board.
+    if (typeof str !== "string" || !str.length) return out;
     let at = 0;
     str.split(",").forEach((chunk) => {
       const [v, n] = chunk.split("x");
@@ -3599,7 +3622,8 @@
     if (!raw) { toast("No saved world in this browser"); return false; }
     try {
       const d = JSON.parse(raw);
-      S.regions = new Array(GW * GH).fill(null);
+      if (!d || !Array.isArray(d.regions) || !d.regions.length) throw new Error("empty save");
+      const next = new Array(GW * GH).fill(null);
       S.seed = d.seed; S.cash = d.cash; S.day = d.day || 0; S.unlocked = d.unlocked || 0;
       S.hour = localHour();   // the sky belongs to the player's clock, not the save
       d.regions.forEach((r) => {
@@ -3607,7 +3631,7 @@
         reg.claimed = true;
         reg.terrain = unrle(r.terrain, RS * RS);
                 reg.road = unrle(r.road, RS * RS);
-                reg.rail = unrle(r.rail || new Uint8Array(RS * RS), RS * RS);
+                reg.rail = unrle(r.rail, RS * RS);
                 reg.zone = unrle(r.zone, RS * RS);
                 reg.level = unrle(r.level, RS * RS);
           if (r.landmarks) {
@@ -3628,14 +3652,17 @@
         buildDecor(reg);
         reg.theme = pickTheme(reg.terrain, reg.rx, reg.ry);
         reg.name = (THEMES[reg.theme] || THEMES.oldtown).label;
-        S.regions[regionKey(r.rx, r.ry)] = reg;
+        next[regionKey(r.rx, r.ry)] = reg;
         recomputeRegion(reg);
       });
+      S.regions = next;
       S.peds = []; S.cars = []; S.boats = []; S.smoke = []; S.ferries = []; S.trains = [];
             if (!S.clouds || !S.clouds.length) seedClouds();
             S.homes = null; S.workplaces = null; S.roadSpots = null; S.waterSpots = null;
 
             // Restore emergency vehicles and calls
+            fireTrucks.length = 0; ambulances.length = 0; policeCars.length = 0;
+            activeFires.length = 0; medicalCalls.length = 0; policeCalls.length = 0;
             if (d.fireTrucks) d.fireTrucks.forEach(t => { const nt = { ...t, route: null }; fireTrucks.push(nt); });
             if (d.ambulances) d.ambulances.forEach(a => { const nt = { ...a, route: null }; ambulances.push(nt); });
             if (d.policeCars) d.policeCars.forEach(c => { const nt = { ...c, route: null }; policeCars.push(nt); });
@@ -3645,12 +3672,16 @@
 
             initializeFireTrucks(); initializeAmbulances(); initializePoliceCars();      refreshLinks(); recalcWorld(); updateDemand();
       renderTools(); refreshHud();
-      if (d.cam && typeof d.cam.zoom === "number") {
+      const view = getCanvas();
+      const vw = view ? view.clientWidth : 0;
+      const vh = view ? view.clientHeight : 0;
+      let seeCity = false;
+      if (vw >= 8 && vh >= 8 && d.cam && typeof d.cam.zoom === "number" && isFinite(d.cam.x) && isFinite(d.cam.y)) {
         cam.x = d.cam.x; cam.y = d.cam.y; cam.zoom = clamp(d.cam.zoom, 0.16, 2.4);
-        // a saved camera can point at land that is no longer yours
-        const c = screenToTile(getCanvas().clientWidth / 2, getCanvas().clientHeight / 2);
-        if (!regionOf(c.gx, c.gy)) focusCity();
-      } else focusCity();
+        const c = screenToTile(vw / 2, vh / 2);
+        seeCity = !!regionOf(c.gx, c.gy);
+      }
+      if (!seeCity) focusCity();
       // while you were away the city kept its own time: replay a bounded stretch
       const away = Math.floor((Date.now() - (d.savedAt || Date.now())) / (TICK_SECONDS * 1000));
       const catchUp = clamp(away, 0, 80);
@@ -3906,8 +3937,7 @@
     initTTS();
     let hasSave = false;
     try { hasSave = !!localStorage.getItem(SAVE_KEY); } catch (e) {}
-    if (hasSave) load();
-    else newWorld();
+    if (!(hasSave && load())) newWorld();
     renderTools();
     refreshHud();
     let seen = false;
