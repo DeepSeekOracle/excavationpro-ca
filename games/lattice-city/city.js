@@ -4512,14 +4512,9 @@
   }
 
   // ---------------------------------------------------------------- ambience
-  // CC0 city ambience loops from freesound.org and other CC0 sources.
-  // No synthesis - just layered loops that blend naturally.
-  // Layers:
-  //   - distant_city: constant low hum of a city at distance
-  //   - traffic_pass: occasional car/truck passing by (bandpassed)
-  //   - birds_day: morning/afternoon birdsong
-  //   - crickets_night: evening/night insects
-  //   - wind: subtle wind in trees
+  // Synthetic ambience: a pink-noise wash, a low traffic bed and timed
+  // bird/cricket chirps. No external sample files are required, so the page
+  // never requests placeholder MP3s that were never shipped.
   // All controlled by OPT.ambience and OPT.master sliders.
 
   let ambienceSources = {
@@ -4533,79 +4528,13 @@
   let trafficTimer = null;
   let chirpTimer = null;
 
-  // CC0 audio URLs - these are placeholder URLs, replace with actual hosted files
-  // For production, host these files locally or on a CDN
-  const AMBIENCE_URLS = {
-    distant_city: "assets/audio/ambience/distant_city_loop.mp3",
-    traffic_pass: "assets/audio/ambience/traffic_pass.mp3",
-    birds_day: "assets/audio/ambience/birds_day_loop.mp3",
-    crickets_night: "assets/audio/ambience/crickets_night_loop.mp3",
-    wind: "assets/audio/ambience/wind_loop.mp3",
-  };
-
-  function loadAmbience(ac) {
-    const promises = [];
-    Object.keys(AMBIENCE_URLS).forEach((key) => {
-      const url = AMBIENCE_URLS[key];
-      const src = ac.createBufferSource();
-      const gain = ac.createGain();
-      gain.connect(ac.destination);
-      ambienceGains[key] = gain;
-
-      const promise = fetch(url)
-        .then(r => r.arrayBuffer())
-        .then(buf => ac.decodeAudioData(buf))
-        .then(audioBuf => {
-          src.buffer = audioBuf;
-          src.loop = key !== "traffic_pass"; // traffic_pass is one-shot
-          src.connect(gain);
-          ambienceSources[key] = src;
-        })
-        .catch(err => {
-          console.warn("Failed to load ambience:", key, err);
-          // Fallback to synthetic if file not found
-          ambienceSources[key] = null;
-        });
-      promises.push(promise);
-    });
-    return Promise.all(promises);
-  }
-
   function startAmbient() {
     const ac = initAudio(); if (!ac || ambient) return;
 
     const master = ac.createGain();
     master.gain.value = 0.5 * (OPT.ambience / 100) * (OPT.master / 100);
     master.connect(ac.destination);
-
-    // Rewire gains to go through master
-    Object.values(ambienceGains).forEach(g => {
-      g.disconnect();
-      g.connect(master);
-    });
-
-    loadAmbience(ac).then(() => {
-      // Start constant layers
-      if (ambienceSources.distant_city) {
-        ambienceSources.distant_city.start();
-      }
-      if (ambienceSources.wind) {
-        ambienceSources.wind.start();
-      }
-      // Day/night layers
-      updateTimeLayers(ac);
-
-      // Schedule traffic passes
-      scheduleTrafficPass(ac);
-
-      // Schedule bird/cricket chirps
-      scheduleChirps(ac);
-
-      ambient = { master, ...ambienceSources, ...ambienceGains };
-    }).catch(err => {
-      console.warn("Ambience load failed, falling back to synthetic:", err);
-      startSyntheticAmbient(ac, master);
-    });
+    startSyntheticAmbient(ac, master);
   }
 
   function updateTimeLayers(ac) {
