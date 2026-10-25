@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-25T09:20:38.788787+00:00",
-  "count": 892,
+  "generated_utc": "2026-10-25T09:21:07.191694+00:00",
+  "count": 893,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14351,7 +14351,23 @@
       "full_bytes": 86518,
       "width": 668,
       "height": 920
+    },
+    {
+      "id": "ae01144c44ab3e1e",
+      "title": "Justice",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "Justice.jpeg",
+      "source_root": "Publish Portal",
+      "original_name": "Justice.jpeg",
+      "original_bytes": 394716,
+      "full": "assets/gallery/full/ae01144c44ab3e1e.jpg",
+      "thumb": "assets/gallery/thumb/ae01144c44ab3e1e.jpg",
+      "full_bytes": 299744,
+      "width": 800,
+      "height": 1200
     }
   ],
-  "cache_bust": "892-auto-202610250320"
+  "cache_bust": "893-auto-202610250321"
 }
