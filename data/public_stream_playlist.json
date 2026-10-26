@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-10-26T18:45:17.757816+00:00",
+  "generated_at": "2026-10-26T18:47:26.553439+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11214,
+    "encoded_or_ready": 11215,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 47020987368,
-    "total_stream_gb": 47.02,
-    "remote_streams": 11214,
+    "total_stream_bytes": 47025363882,
+    "total_stream_gb": 47.03,
+    "remote_streams": 11215,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11214,
+    "playlist_tracks": 11215,
     "last_ingest": {
-      "utc": "2026-10-26T18:45:17.759950+00:00",
+      "utc": "2026-10-26T18:47:26.555525+00:00",
       "added_or_updated": 1,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\554e2476ce98"
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\0a38363661b1"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -152287,8 +152287,29 @@
       "added_utc": "2026-10-26T18:45:14.814253+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\554e2476ce98\\Locked_From_The_Inside_Out.mp3",
       "action": "copy-mp3"
+    },
+    {
+      "sha256": "8df1b28f5f50530bde92e115353e60095060ad8cec92d764ab4a761b029cd3eb",
+      "title": "Paper Skin",
+      "aliases": [
+        "Paper Skin",
+        "Paper Skin",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4376514,
+      "stream_file": "8df1b28f5f50530bde92e115353e60095060ad8cec92d764ab4a761b029cd3eb.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\8d\\8df1b28f5f50530bde92e115353e60095060ad8cec92d764ab4a761b029cd3eb.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8d/8df1b28f5f50530bde92e115353e60095060ad8cec92d764ab4a761b029cd3eb.mp3",
+      "hf_path": "stream/8d/8df1b28f5f50530bde92e115353e60095060ad8cec92d764ab4a761b029cd3eb.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-10-26T18:47:22.681773+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\0a38363661b1\\Paper_Skin.mp3",
+      "action": "copy-mp3"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-10-26T18:45:17.757827+00:00"
+  "published_at": "2026-10-26T18:47:26.553449+00:00"
 }
