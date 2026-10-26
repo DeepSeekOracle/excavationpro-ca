@@ -36,7 +36,7 @@ import math
 import os
 import random
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 
 W = H = 128
 S = 4  # supersample factor: draw big, shrink with area average for soft pixels
@@ -85,12 +85,19 @@ def diamond_points() -> list[tuple[float, float]]:
 
 
 def corner_mask() -> Image.Image:
-    """Mask where diamond interior = 255 (opaque), four corners = 0 (transparent).
-    Binary mask to preserve full opacity at diamond edges.
+    """Diamond interior = 255 (opaque), four corners = 0 (transparent).
+
+    The outline is stroked so the mask reaches a few pixels PAST the diamond edge.
+    A band clipped exactly on the edge gets an oblique slice there (the edge and
+    the track cross at ~53 degrees), which reads as a step at every tile seam.
+    Letting the square cap sit just outside instead gives a butt joint that the
+    neighbour's identical cap meets exactly.
     """
     m = Image.new("L", (W * S, H * S), 0)
     d = ImageDraw.Draw(m)
-    d.polygon(scaled(diamond_points()), fill=255)
+    pts = scaled(diamond_points())
+    d.polygon(pts, fill=255)
+    d.line(pts + [pts[0]], fill=255, width=int(2 * EXT * S), joint="curve")
     # threshold to binary so edge midpoints stay fully opaque
     return m.point(lambda x: 255 if x > 128 else 0)
 
@@ -130,17 +137,23 @@ def paths_for(arms: list[str]) -> list[list[tuple[float, float]]]:
             return [[arm_end(a), arm_end(b)]]
         # turn: tangent-continuous bend, control at the tile centre
         return [quad_bezier(arm_end(a), C, arm_end(b))]
-    straight = [a for a in arms if OPPOSITE[a] in arms]
-    out = []
-    if straight:
-        a = straight[0]
-        out.append([arm_end(a), arm_end(OPPOSITE[a])])
-        for a in arms:
-            if a not in straight and OPPOSITE[a] not in straight:
-                out.append([arm_end(a), C])
-    else:
-        for a in arms:
-            out.append([arm_end(a), C])
+    # one straight run per opposite pair: a 4-arm crossing needs BOTH diagonals,
+    # an L/T needs the straight run plus a stub from the centre
+    out: list[list[tuple[float, float]]] = []
+    done: set[str] = set()
+    for a in arms:
+        if a in done:
+            continue
+        b = OPPOSITE[a]
+        if b in arms:
+            out.append([arm_end(a), arm_end(b)])
+            done.add(a)
+            done.add(b)
+    for a in arms:
+        if a in done:
+            continue
+        out.append([arm_end(a), C])
+        done.add(a)
     return out
 
 
@@ -164,6 +177,33 @@ def offset_poly(pts, off, hw):
 
 def scaled(pts, k: float = S):
     return [(x * k, y * k) for x, y in pts]
+
+
+EXT = 4.5  # run the track past the edge midpoint so neighbours overlap
+
+
+def extend(path, ext: float = EXT):
+    """Push both ends of a centre-line outward along their tangent.
+
+    The corner mask cuts the sprite at the diamond edge, which passes through the
+    edge midpoint. Without this the band stops exactly on that cut and two tiles
+    can leave a hairline seam -- which is why an earlier version stamped opacity
+    circles at the joints, and those circles came out black.
+    """
+    if len(path) < 2:
+        return list(path)
+    out = list(path)
+    x0, y0 = out[0]
+    x1, y1 = out[1]
+    dx, dy = x0 - x1, y0 - y1
+    m = math.hypot(dx, dy) or 1.0
+    out[0] = (x0 + dx / m * ext, y0 + dy / m * ext)
+    xn, yn = out[-1]
+    xp, yp = out[-2]
+    dx, dy = xn - xp, yn - yp
+    m = math.hypot(dx, dy) or 1.0
+    out[-1] = (xn + dx / m * ext, yn + dy / m * ext)
+    return out
 
 
 def walk(path, step):
@@ -193,7 +233,7 @@ def walk(path, step):
 
 def make_tile(arms: list[str], rng: random.Random) -> Image.Image:
     ss = W * S
-    paths = paths_for(arms)
+    paths = [extend(p) for p in paths_for(arms)]
     turn = is_turn(paths)
     hw = BALLAST_HW * (CURVE_SCALE if turn else 1.0)
     tie_half = TIE_HALF * (CURVE_SCALE if turn else 1.0)
@@ -256,21 +296,16 @@ def make_tile(arms: list[str], rng: random.Random) -> Image.Image:
             d.polygon(scaled(offset_poly(p, off + RAIL_HW * 0.5, RAIL_HW * 0.5)), fill=RAIL_LO)
             d.polygon(scaled(offset_poly(p, off - RAIL_HW * 0.5, RAIL_HW * 0.5)), fill=RAIL_HI)
 
+    # grow the band by half a final pixel so two neighbouring tiles overlap at the
+    # cut instead of meeting on a hard AA boundary
+    img.putalpha(img.getchannel("A").filter(ImageFilter.MaxFilter(5)))
+
     # clip only the corner triangles (outside the diamond) using isometric mask
     corner_mask_ss = get_corner_mask().resize((ss, ss), Image.NEAREST)
     img.putalpha(Image.composite(img.getchannel("A"), Image.new("L", (ss, ss), 0), corner_mask_ss))
 
     # downscale to final size
     img = img.resize((W, H), Image.BOX)
-
-    # ensure edge midpoints are fully opaque for connected arms (at final resolution, no blur)
-    a_channel = img.getchannel("A")
-    for a in arms:
-        ex, ey = EDGE_MID[a]
-        stamp = ImageDraw.Draw(a_channel)
-        r = max(6, int(hw + 3))  # radius in final pixels
-        stamp.ellipse([(ex - r, ey - r), (ex + r, ey + r)], fill=255)
-    img.putalpha(a_channel)
 
     return img
 

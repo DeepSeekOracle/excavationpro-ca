@@ -5200,6 +5200,10 @@
   }
 
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
+  // Bump on every art change. Sprite URLs carry no other version, so without this the
+  // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
+  const ASSET_VER = "20261026-railflat1";
+
   function loadSprites() {
       const manifestUrl = "assets/tiles/manifest.json?v=" + Date.now();
       return fetch(manifestUrl).then((r) => r.json()).then((man) => {
@@ -5207,18 +5211,18 @@
       Object.keys(man).forEach((key) => {
         if (key === "unknown") return;
         const img = new Image();
-        img.src = "assets/tiles/" + man[key][0];
+        img.src = "assets/tiles/" + man[key][0] + "?v=" + ASSET_VER;
         SPRITES[key] = img;
         jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
       });
       (man.unknown || []).slice(0, 80).forEach((file, i) => {
-        const img = new Image(); img.src = "assets/tiles/" + file;
+        const img = new Image(); img.src = "assets/tiles/" + file + "?v=" + ASSET_VER;
         SPRITES["extra" + i] = img;
         jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
       });
       GEN_SPRITES.forEach((key) => {
         const img = new Image();
-        img.src = "assets/tiles/gen/" + key.replace("gen_", "") + ".png";
+        img.src = "assets/tiles/gen/" + key.replace("gen_", "") + ".png?v=" + ASSET_VER;
         SPRITES[key] = img;
         jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
       });
