@@ -2661,7 +2661,13 @@
   function hasRoadNear(gx, gy) {
       return hasRoad(gx, gy) || hasRoad(gx + 1, gy) || hasRoad(gx - 1, gy) || hasRoad(gx, gy + 1) || hasRoad(gx, gy - 1);
     }
-    function hasRail(gx, gy) { const t = regionOf(gx, gy); return !!t && t.r.rail[t.i] === 1; }
+    // A rail depot IS a rail node: track laid up to it connects, trains can enter, and the
+  // neighbouring track tiles draw a segment pointing at the station.
+  function hasRail(gx, gy) {
+    const t = regionOf(gx, gy);
+    if (!t) return false;
+    return t.r.rail[t.i] === 1 || SVC[t.r.svc[t.i]] === "rail";
+  }
     function railMask(gx, gy) { return linkMask(gx, gy, hasRail); }
 
     // ---------------------------------------------------------------- services
@@ -3134,6 +3140,69 @@
     return out;
   }
 
+  // BFS over laid track, depot to depot. Returns the tile path trains actually follow.
+  function railRoute(a, b) {
+    const sx = Math.round(a.x), sy = Math.round(a.y);
+    const tx = Math.round(b.x), ty = Math.round(b.y);
+    if (!hasRail(sx, sy) || !hasRail(tx, ty)) return null;
+    const K = (x, y) => x + "," + y;
+    const prev = new Map();
+    const q = [[sx, sy]];
+    prev.set(K(sx, sy), null);
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    let guard = 0;
+    while (q.length && guard++ < 6000) {
+      const [x, y] = q.shift();
+      if (x === tx && y === ty) break;
+      for (const [dx, dy] of dirs) {
+        const nx = x + dx, ny = y + dy, k = K(nx, ny);
+        if (prev.has(k) || !hasRail(nx, ny)) continue;
+        prev.set(k, [x, y]);
+        q.push([nx, ny]);
+      }
+    }
+    if (!prev.has(K(tx, ty))) return null;
+    const route = [];
+    let cur = [tx, ty];
+    while (cur) { route.push({ x: cur[0], y: cur[1] }); cur = prev.get(K(cur[0], cur[1])); }
+    route.reverse();
+    return route.length > 1 ? route.slice(0, 400) : null;
+  }
+
+  function railStats() {
+    S.rail = S.rail || { riders: 0, fares: 0, trips: 0, stops: 0 };
+    return S.rail;
+  }
+
+  // Catchment of a depot: built homes within 5 tiles. Simple, and it reads correctly.
+  function stationDemand(d) {
+    let homes = 0;
+    const cx = Math.round(d.x), cy = Math.round(d.y);
+    for (let dx = -5; dx <= 5; dx++) {
+      for (let dy = -5; dy <= 5; dy++) {
+        const t = regionOf(cx + dx, cy + dy);
+        if (t && t.r.zone[t.i] === Z.R && t.r.level[t.i] > 0) homes++;
+      }
+    }
+    return homes;
+  }
+
+  // One station stop: fares into the cash spine, riders onto the books.
+  const FARE = 1.1, TRAIN_CAP = 40, DWELL = 3.5;
+  function serviceStop(tr) {
+    const st = railStats();
+    const demand = tr.atEnd ? tr.demandB : tr.demandA;
+    const riders = Math.min(TRAIN_CAP, demand || 0);
+    S.cash += riders * FARE;
+    st.riders += riders;
+    st.fares += riders * FARE;
+    st.stops += 1;
+    if (tr.atEnd) st.trips += 1;
+    // a working line makes the district feel connected
+    S.mood = Math.min(100, S.mood + Math.min(1.5, riders * 0.03));
+    return riders;
+  }
+
   function spawnTrain() {
     const depots = railCentres();
     const track = S.links.filter((l) => l.kind === "rail");
@@ -3141,8 +3210,10 @@
     const link = track[(Math.random() * track.length) | 0];
     const a = depots.find((d) => d.r === link.a), b = depots.find((d) => d.r === link.b);
     if (!a || !b) return null;
-    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.06, 0.11),
-           from: (link.a.name || "depot"), to: (link.b.name || "depot") };
+    return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: 0, dir: 1, speed: rnd(0.06, 0.11),
+             from: (link.a.name || "depot"), to: (link.b.name || "depot"),
+             route: railRoute(a, b), idx: 0, seg: 0, dwell: 0, atEnd: false,
+             demandA: stationDemand(a), demandB: stationDemand(b), riders: 0 };
   }
 
   function spawnFerry() {
@@ -3520,6 +3591,28 @@
     }
     if (S.trains) {
       S.trains.forEach((t) => {
+        if (t.route && t.route.length > 1) {
+          if (t.dwell > 0) { t.dwell -= dt * sim; return; }   // stopped at a station
+          t.seg += t.speed * dt * sim * 3.2;                  // tiles travelled this frame
+          while (t.seg >= 1) {
+            t.seg -= 1;
+            const next = t.idx + t.dir;
+            if (next >= t.route.length - 1) {
+              t.idx = t.route.length - 1; t.dir = -1; t.seg = 0;
+              t.dwell = DWELL; t.atEnd = true;
+              t.riders = serviceStop(t); announce(t, t.to);
+              break;
+            }
+            if (next <= 0) {
+              t.idx = 0; t.dir = 1; t.seg = 0;
+              t.dwell = DWELL; t.atEnd = false;
+              t.riders = serviceStop(t); announce(t, t.from);
+              break;
+            }
+            t.idx = next;
+          }
+          return;
+        }
         t.t += dt * sim * t.speed * t.dir;
         if (t.t >= 1) { t.t = 1; if (t.dir > 0) announce(t, t.to); t.dir = -1; }
         if (t.t <= 0) { t.t = 0; if (t.dir < 0) announce(t, t.from); t.dir = 1; }
@@ -3948,11 +4041,24 @@
     });
 
     (S.trains || []).forEach((tr) => {
-      const ax = tileToScreen(tr.ax, tr.ay), bx = tileToScreen(tr.bx, tr.by);
-      const x0 = ax.x + zw / 2, y0 = ax.y + zh / 2, x1 = bx.x + zw / 2, y1 = bx.y + zh / 2;
-      const ang = Math.atan2(y1 - y0, x1 - x0);
-      const t = tr.t;
-      const px = x0 + (x1 - x0) * t, py = y0 + (y1 - y0) * t;
+      let px, py, ang;
+      if (tr.route && tr.route.length > 1) {
+        // follow the laid track
+        const i = Math.max(0, Math.min(tr.idx, tr.route.length - 2));
+        const A = tr.route[i], B = tr.route[i + 1];
+        const f = tr.dir >= 0 ? Math.min(1, tr.seg) : 1 - Math.min(1, tr.seg);
+        const pa = tileToScreen(A.x, A.y), pb = tileToScreen(B.x, B.y);
+        px = pa.x + (pb.x - pa.x) * f + zw / 2;
+        py = pa.y + (pb.y - pa.y) * f + zh / 2;
+        ang = Math.atan2(pb.y - pa.y, pb.x - pa.x) + (tr.dir < 0 ? Math.PI : 0);
+      } else {
+        // fallback: straight line between depot centres (no route found)
+        const ax = tileToScreen(tr.ax, tr.ay), bx = tileToScreen(tr.bx, tr.by);
+        const x0 = ax.x + zw / 2, y0 = ax.y + zh / 2, x1 = bx.x + zw / 2, y1 = bx.y + zh / 2;
+        ang = Math.atan2(y1 - y0, x1 - x0);
+        px = x0 + (x1 - x0) * tr.t;
+        py = y0 + (y1 - y0) * tr.t;
+      }
       const L = Math.max(8, 26 * cam.zoom), W = Math.max(3, 7 * cam.zoom);
       const dirSign = tr.dir >= 0 ? 1 : -1;
       for (let car = 0; car < 3; car++) {
@@ -5301,6 +5407,13 @@
       else if (r.svc[i]) key = SVC_SPRITE[SVC[r.svc[i]]];
       return { key, theme: r.theme, zone: r.zone[i], level: r.level[i], terr: r.terrain[i] };
     },
+    railStats,
+    railRoute,
+    railInfo: () => (S.trains || []).map((t) => ({
+      route: t.route ? t.route.length : 0,
+      idx: t.idx, dwell: +(t.dwell || 0).toFixed(2), riders: t.riders || 0,
+      from: t.from, to: t.to,
+    })),
     counts: () => {
       let road = 0, r = 0, c = 0, i = 0, built = 0;
       claimedList().forEach((reg) => {
