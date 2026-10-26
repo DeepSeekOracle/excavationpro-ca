@@ -3487,6 +3487,7 @@
   }
 
   function drawFrame(ts) {
+      animateSprites(ts);
       // Boot can focus before the canvas has a size. Retry until layout gives it one.
       if (needFocus) resize();
       const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
@@ -5202,7 +5203,23 @@
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261026-railflat1";
+  const ASSET_VER = "20261026-windmill1";
+
+  // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
+  // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
+  // the value is the frame duration in ms.
+  const ANIM_SPRITES = { b04_windmill: 420, b05_watermill: 420 };
+  const ANIM_FRAMES = {};
+
+  function animateSprites(ts) {
+    for (const key in ANIM_FRAMES) {
+      const frames = ANIM_FRAMES[key];
+      if (!frames || frames.length < 2) continue;
+      const ms = ANIM_SPRITES[key] || 400;
+      const f = Math.floor(ts / ms) % frames.length;
+      if (frames[f]) SPRITES[key] = frames[f];
+    }
+  }
 
   function loadSprites() {
       const manifestUrl = "assets/tiles/manifest.json?v=" + Date.now();
@@ -5214,6 +5231,15 @@
         img.src = "assets/tiles/" + man[key][0] + "?v=" + ASSET_VER;
         SPRITES[key] = img;
         jobs.push(new Promise((res) => { img.onload = res; img.onerror = res; }));
+        // load the remaining frames only for keys we actually animate
+        if (ANIM_SPRITES[key] && man[key].length > 1) {
+          ANIM_FRAMES[key] = man[key].map((file, fi) => {
+            const f = new Image();
+            f.src = "assets/tiles/" + file + "?v=" + ASSET_VER;
+            if (fi > 0) jobs.push(new Promise((res) => { f.onload = res; f.onerror = res; }));
+            return f;
+          });
+        }
       });
       (man.unknown || []).slice(0, 80).forEach((file, i) => {
         const img = new Image(); img.src = "assets/tiles/" + file + "?v=" + ASSET_VER;
@@ -5233,6 +5259,48 @@
   window.LC = {
     S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt, startEvent,
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
+    // QA hook: which multi-frame tiles are animating, and which frame is live right now
+    animInfo: () => {
+      const out = {};
+      for (const k in ANIM_FRAMES) {
+        out[k] = {
+          frames: ANIM_FRAMES[k].length,
+          loaded: ANIM_FRAMES[k].filter((f) => f && f.complete && f.naturalWidth > 0).length,
+          current: SPRITES[k] ? SPRITES[k].src.split("/").pop() : null,
+        };
+      }
+      return out;
+    },
+    // QA hook: coordinates of built tiles that resolve to a given sprite key
+    findSprite: (key, limit) => {
+      const hits = [];
+      const cap = limit || 5;
+      for (let gx = 0; gx < GW * RS && hits.length < cap; gx++) {
+        for (let gy = 0; gy < GH * RS; gy++) {
+          const t = regionOf(gx, gy);
+          if (!t) continue;
+          const r = t.r, i = t.i;
+          if (!r.level[i] || !r.zone[i]) continue;
+          if (themeVariant(r.theme, r.zone[i], r.level[i], gx, gy) === key) {
+            hits.push({ gx, gy, zone: r.zone[i], level: r.level[i] });
+            break;
+          }
+        }
+      }
+      return hits;
+    },
+    // QA hook: what sprite key a tile resolves to, using the renderer's own rule
+    tileKey: (gx, gy) => {
+      const t = regionOf(gx, gy);
+      if (!t) return null;
+      const r = t.r, i = t.i;
+      let key = null;
+      if (r.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
+      else if (r.rail[i]) key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
+      else if (r.level[i]) key = themeVariant(r.theme, r.zone[i], r.level[i], gx, gy);
+      else if (r.svc[i]) key = SVC_SPRITE[SVC[r.svc[i]]];
+      return { key, theme: r.theme, zone: r.zone[i], level: r.level[i], terr: r.terrain[i] };
+    },
     counts: () => {
       let road = 0, r = 0, c = 0, i = 0, built = 0;
       claimedList().forEach((reg) => {
