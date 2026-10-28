@@ -21,6 +21,7 @@ import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAU
 import { pilot } from "./autopilot.js";
 import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js";
 import { createStartMenu } from "./startmenu.js";
+import { createGamepad } from "./gamepad.js";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -188,6 +189,7 @@ if (typeof audioModule?.initAudio === "function") {
   audioModule.initAudio().then((ctrl) => {
   audioController = ctrl;
   window.__fsSfx = (key, opts) => { try { return ctrl.playSfx(key, opts); } catch (e) { return false; } };
+  window.__fsPad = () => gamepad.status();
   ctrl.preload().then((n) => { window.__fsSfxLoaded = n; }).catch(() => {});
   // the browser will not start audio before a gesture: arm it on the first click/key
   const arm = () => { try { ctrl.playSfx("click", { volume: 0.0001 }); } catch (e) {} window.removeEventListener("pointerdown", arm); window.removeEventListener("keydown", arm); };
@@ -559,6 +561,31 @@ const startMenuUI = createStartMenu({
   },
 });
 
+// ── GAMEPAD ───────────────────────────────────────────────────────────────────
+// The pad feeds the same key path as the keyboard through studio.injectInput.
+const gamepad = createGamepad({
+  inject: (input) => { try { studioApi?.injectInput?.(input); } catch (e) {} },
+  getPhase: () => state.phase,
+  onConfirm: () => {
+    if (state.phase === "title") document.querySelector("#fs-start [data-enter]")?.click();
+    else if (state.phase === "loadout") document.querySelector("#cyborg-manager [data-launch]")?.click();
+    else if (state.phase === "results" || state.phase === "dead") {
+      state.phase = "loadout";
+      state._managerShown = false;
+      state.menuCooldown = 0.25;
+      hudPhase = null;
+    }
+  },
+  onBack: () => {
+    if (state.phase === "playing") { state.phase = "paused"; state.menuCooldown = 0.22; hudPhase = null; }
+    else if (state.phase === "options") { state.phase = "title"; state.menuCooldown = 0.22; hudPhase = null; }
+  },
+  onPause: () => {
+    if (state.phase === "playing") { state.phase = "paused"; state.menuCooldown = 0.22; hudPhase = null; }
+    else if (state.phase === "paused") { state.phase = "playing"; state.menuCooldown = 0.22; hudPhase = null; }
+  },
+});
+
 const managerUI = createManager({
   getProfile: () => state.cyborgProfile,
   arenaId: "arena1",
@@ -574,6 +601,7 @@ const managerUI = createManager({
     const idx = STARTER_LOADOUTS.findIndex((w) => w.id === equipped.weapon);
     state.loadoutIndex = idx >= 0 ? idx : 0;
     state.skinIndex = Number.isInteger(equipped.skin) ? equipped.skin : 0;
+    state.controlMode = equipped.mode === "manual" ? "manual" : "autonomous";
     const arenaIdx = menuModule.ARENAS.findIndex((a) => a.id === arenaId);
     if (arenaIdx >= 0) state.selectedArenaIndex = arenaIdx;
     startRun(arenaId);
@@ -772,7 +800,9 @@ function syncHud() {
         ? "R / SPACE / ENTER  ·  REDEPLOY"
         : state.phase === "title"
           ? "[C] CYCLE SUIT SKIN  ·  [V] CYCLE STARTER WEAPON  ·  [W / SPACE] DEPLOY"
-          : "WASD MOVE  ·  AUTO-FIRE & AUTO-RELOAD  ·  [L] DARKNESS WAVE  ·  Q SWAP  ·  1/2/3 CARDS";
+          : (state.controlMode === "manual"
+            ? "STICK / WASD MOVE  ·  AUTO-FIRE  ·  X RELOAD  ·  Y SWAP  ·  1/2/3 CARDS"
+            : "AUTONOMOUS  ·  YOU PLAY THE CARDS 1/2/3  ·  [L] DARKNESS WAVE  ·  Q SWAP");
     P("hint-panel", { x: 0.012, y: 0.902, w: 0.68, h: 0.048, radius: 0.008, fill: PALETTE.panels.hint, stroke: PALETTE.strokes.hint, width: 0.0015 });
     T("hint", hint, { x: 0.022, y: 0.916, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary, weight: 600 });
   }
@@ -1275,6 +1305,8 @@ function hurt(amount) {
 const held = (ctx, names) => names.some((name) => ctx.keys.has(name));
 
 function update(dt, ctx) {
+  gamepad.poll(state.phase === "playing");
+
   const dockEl = globalThis.document?.getElementById?.("siteDock");
   if (dockEl) dockEl.classList.toggle("bare", state.phase === "playing");
 
@@ -1557,7 +1589,7 @@ function update(dt, ctx) {
     if (held(ctx, ["KeyA", "a", "A", "ArrowLeft"])) { mx -= Math.cos(state.orbit); mz += Math.sin(state.orbit); }
     if (held(ctx, ["KeyD", "d", "D", "ArrowRight"])) { mx += Math.cos(state.orbit); mz -= Math.sin(state.orbit); }
     // CYBORG AUTOPILOT: the fighter flies itself, the player supplies power-ups
-    if (state.autopilot) {
+    if (state.autopilot && state.controlMode !== "manual") {
       const c = pilot(state, enemyManager, dt);
       mx = c.mx; mz = c.mz;
       state.pilotMode = c.mode;
@@ -1920,7 +1952,7 @@ function showBeatTransition(beatName) {
   console.log(`BEAT: ${beatName}`);
 }
 
-installStudio({
+const studioApi = installStudio({
   canvas: renderer.domElement,
   scene,
   renderer,

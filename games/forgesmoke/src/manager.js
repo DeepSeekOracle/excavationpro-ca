@@ -135,6 +135,9 @@ export function createManager(opts = {}) {
     <div class="mg-col mg-left">
       <h3>CHARACTER</h3>
       <div data-skins></div>
+      <h3 style="margin-top:16px">CONTROL MODE</h3>
+      <div data-modes></div>
+      <div class="mg-pad" data-pad></div>
       <h3 style="margin-top:16px">ATTRIBUTES</h3>
       <div class="mg-stats" data-stats></div>
       <h3>LIGHT MODS <span class="mg-tag">CARD-GATED</span></h3>
@@ -187,6 +190,30 @@ export function createManager(opts = {}) {
       item.onclick = () => { p.equipped.skin = i; persist(); };
       q("[data-skins]").appendChild(item);
     });
+
+    // control mode: autonomous by default (the game's focus), manual if the player wants the stick
+    const modes = [
+      { id: "autonomous", name: "AUTONOMOUS", desc: "cyborg flies itself · you play the cards" },
+      { id: "manual", name: "MANUAL", desc: "you steer · the gun still auto-fires" },
+    ];
+    const currentMode = p.equipped?.mode || "autonomous";
+    q("[data-modes]").innerHTML = "";
+    for (const m of modes) {
+      const on = m.id === currentMode;
+      const item = el("div", `mg-item${on ? " on" : ""}`,
+        `<div><div class="nm">${m.name}</div><div class="ds">${m.desc}</div></div>`);
+      item.onclick = () => { p.equipped.mode = m.id; persist(); };
+      q("[data-modes]").appendChild(item);
+    }
+
+    // gamepad readout
+    const padEl = q("[data-pad]");
+    if (padEl) {
+      const pad = globalThis.__fsPad ? globalThis.__fsPad() : null;
+      const on = Boolean(pad && pad.connected);
+      padEl.classList.toggle("on", on);
+      padEl.textContent = on ? "GAMEPAD: " + String(pad.id || "connected").slice(0, 30) : "GAMEPAD: press any button";
+    }
 
     const stats = statsForLevel(p.level, p.equipped || {});
     q("[data-stats]").innerHTML = STAT_KEYS
