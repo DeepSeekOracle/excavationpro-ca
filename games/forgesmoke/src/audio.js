@@ -61,6 +61,24 @@ function createSynthSfx(ctx, masterGain, sfxGain, key, options = {}) {
  * Initialize audio system (safe before or after user gesture)
  * @returns {Promise<AudioController>} Ready controller
  */
+/**
+ * Real samples, all already in this repo (lattice-arena SFX + the talk-radio laser bank), copied
+ * into ./assets/sfx at build time. The synth below stays as the fallback for anything missing or
+ * still loading, so a slow network never means silence.
+ */
+export const SAMPLE_MAP = {
+  fire: "./assets/sfx/fire.wav",
+  laser: "./assets/sfx/laser.mp3",
+  hit: "./assets/sfx/hit.wav",
+  kill: "./assets/sfx/kill.wav",
+  reload: "./assets/sfx/reload.wav",
+  click: "./assets/sfx/click.wav",
+  hurt: "./assets/sfx/hurt.wav",
+  launch: "./assets/sfx/launch.wav",
+  levelup: "./assets/sfx/levelup.wav",
+  death: "./assets/sfx/death.wav",
+};
+
 export async function initAudio() {
   const AudioCtx = globalThis.AudioContext || globalThis.webkitAudioContext;
   let ctx = null;
@@ -71,6 +89,8 @@ export async function initAudio() {
   let masterVol = 0.8;
   let sfxVol = 1.0;
   let musicVol = 0.6;
+  const buffers = new Map();
+  let loadPromise = null;
 
   function ensureContext() {
     if (!ctx && AudioCtx) {
@@ -92,9 +112,48 @@ export async function initAudio() {
     return ctx;
   }
 
+  async function loadSamples() {
+    const c = ensureContext();
+    if (!c) return buffers.size;
+    const jobs = Object.entries(SAMPLE_MAP).map(async ([key, url]) => {
+      try {
+        const res = await fetch(url, { cache: "force-cache" });
+        if (!res.ok) return;
+        const data = await res.arrayBuffer();
+        const buf = await c.decodeAudioData(data);
+        buffers.set(key, buf);
+      } catch (_) { /* fall back to the synth for this key */ }
+    });
+    await Promise.all(jobs);
+    return buffers.size;
+  }
+
+  function playSample(key, options = {}) {
+    const c = ensureContext();
+    const buf = buffers.get(key);
+    if (!c || !buf) return false;
+    try {
+      const src = c.createBufferSource();
+      src.buffer = buf;
+      const g = c.createGain();
+      const vol = Math.max(0, Math.min(1, options.volume ?? 1)) * 0.85;
+      const pitch = Math.max(0.4, Math.min(2.4, options.pitch ?? 1));
+      src.playbackRate.value = pitch;
+      const t0 = c.currentTime + (options.delay || 0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(Math.max(0.0002, vol), t0 + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + Math.min(1.4, buf.duration / pitch));
+      src.connect(g); g.connect(sfxGain);
+      src.start(t0);
+      src.stop(t0 + Math.min(1.5, buf.duration / pitch) + 0.02);
+      return true;
+    } catch (_) { return false; }
+  }
+
   const controller = {
     playSfx(key, options = {}) {
       const c = ensureContext();
+      if (playSample(key, options)) return true;      // real sample first
       return createSynthSfx(c, masterGain, sfxGain, key, options);
     },
     playMusic(key, options = {}) {
@@ -130,8 +189,12 @@ export async function initAudio() {
       if (musicGain) musicGain.gain.value = musicVol * 0.12;
     },
     async preload() {
-      return true;
+      if (!loadPromise) loadPromise = loadSamples();
+      await loadPromise;
+      return buffers.size;
     },
+    sampleCount() { return buffers.size; },
+    sampleKeys() { return [...buffers.keys()]; },
     suspend() {
       if (ctx && ctx.state === "running") {
         try { return ctx.suspend(); } catch (_) {}

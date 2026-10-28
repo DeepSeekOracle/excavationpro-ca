@@ -1,38 +1,86 @@
 <!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8" />
-<title>Forge Smoke | LYGO Forge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Forge Smoke — cyborg manager &amp; autonomous arena | Excavationpro</title>
+<meta name="description" content="Build a cyborg, launch it into the smoke, and keep it alive with power-up cards while it fights for you. A manager game from Excavationpro." />
+<link rel="canonical" href="https://excavationpro.ca/games/forgesmoke/" />
+<meta name="google-adsense-account" content="ca-pub-0646320966060599" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
 <link rel="icon" href="data:," />
 <style>
-  html,
-  body {
-    margin: 0;
-    height: 100%;
-    background: #05070d;
-    color: #cfd6e4;
-    font: 13px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif;
-    overflow: hidden;
+  html, body {
+    margin: 0; height: 100%; background: #05070d; color: #cfd6e4;
+    font: 13px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif; overflow: hidden;
   }
-  canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
+  canvas { display: block; width: 100%; height: 100%; }
   #fatal {
-    position: fixed;
-    inset: 0;
-    display: none;
-    place-items: center;
-    padding: 24px;
-    background: #10060a;
-    color: #ffb4b4;
-    font-family: ui-monospace, SFMono-Regular, monospace;
-    white-space: pre-wrap;
+    position: fixed; inset: 0; display: none; place-items: center; padding: 24px;
+    background: #10060a; color: #ffb4b4; font-family: ui-monospace, SFMono-Regular, monospace; white-space: pre-wrap;
   }
+
+  /* ── site dock: brand, links, donate, radio ─────────────────────────────── */
+  #siteDock{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;gap:14px;
+    padding:7px 14px;background:linear-gradient(180deg,rgba(5,7,13,0),rgba(5,7,13,.92) 40%);
+    font:600 10px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;color:#7E93A6;
+    transition:opacity .2s;pointer-events:none;
+  }
+  #siteDock > *{pointer-events:auto}
+  #siteDock.bare{opacity:.3}
+  #siteDock.bare:hover{opacity:1}
+  #siteDock .brand{color:#FFB347;letter-spacing:.2em;font-weight:800}
+  #siteDock a{color:#9FB3C8;text-decoration:none;letter-spacing:.14em}
+  #siteDock a:hover{color:#FFB347}
+  #siteDock .support{
+    color:#0A0D11;background:linear-gradient(180deg,#FFC463,#E79531);padding:6px 11px;border-radius:3px;
+    font-weight:800;letter-spacing:.16em;box-shadow:0 0 18px -8px rgba(255,179,71,.8)
+  }
+  #siteDock .support:hover{color:#0A0D11;filter:brightness(1.06)}
+  #siteDock .grow{flex:1}
+
+  /* radio (the shared LYGO listen player) */
+  #radioDock{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+  #radioDock button{
+    background:rgba(19,26,34,.92);border:1px solid #1E2A35;color:#E8F1F8;border-radius:3px;
+    padding:5px 9px;font:700 9.5px ui-monospace,Consolas,monospace;letter-spacing:.14em;cursor:pointer
+  }
+  #radioDock button:hover{border-color:#FFB347;color:#FFB347}
+  #radioDock .radio-vol{display:flex;align-items:center;gap:5px}
+  #radioDock input[type=range]{width:64px;accent-color:#FFB347}
+  #radioDock .radio-dsp{display:none}
+  #radioDock .radio-title-inline{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#9FB3C8;letter-spacing:.08em}
+  @media (max-width:760px){ #siteDock .hide-sm{display:none} #radioDock .radio-dsp{display:none}
+  #radioDock .radio-title-inline{display:none} }
+
+  /* ad slots are part of the kit: labelled, auto-format, never over the play area */
+  .ad-slot{padding:8px 0 4px}
+  .ad-label{font:600 8px ui-monospace,Consolas,monospace;letter-spacing:.22em;color:#54626F;margin-bottom:4px}
 </style>
-<!-- No DOM UI: every readout, bar and crosshair is drawn into the canvas through
-     __studio.hud, so the critic's capture and the player's screen are the same picture.
-     The only element besides the canvas is the fatal-error panel, hidden until a throw. -->
+</head>
+<body>
 <pre id="fatal"></pre>
+
+<div id="siteDock">
+  <span class="brand">EXCAVATIONPRO</span>
+  <a href="/games/" class="hide-sm">ALL GAMES</a>
+  <a href="https://asiancoastline.com/listen.html" target="_blank" rel="noopener noreferrer" class="hide-sm">LISTEN</a>
+  <a href="https://excavationpro.ca/" class="hide-sm">HOME</a>
+  <span class="grow"></span>
+  <div id="radioDock" class="radio-inline">
+    <button type="button" id="radioPlay">▶ RADIO</button>
+    <button type="button" id="radioNext">NEXT</button>
+    <button type="button" id="radioMute">MUTE</button>
+    <label class="radio-vol" title="Radio volume">
+      <input type="range" id="radioVol" min="0" max="100" step="1" value="50" aria-label="Radio volume">
+      <span id="radioVolPct">50%</span>
+    </label>
+    <span class="radio-title-inline" id="radioTitle">LYGO listen portal</span>
+  </div>
+  <a class="support" href="https://www.paypal.com/paypalme/ExcavationPro" target="_blank" rel="noopener noreferrer">SUPPORT</a>
+</div>
+<audio id="radioEl" preload="auto"></audio>
 
 <!-- three.js is vendored with the studio: games build and run with no network at all. -->
 <script type="importmap">
@@ -57,5 +105,8 @@
     window.__studio_error = { message: event.message, stack: event.error?.stack ?? "" };
   });
 </script>
-<script type="module" src="./src/main.js?v=20261028b"></script>
-
+<!-- the shared listen player: one audio element, keeps playing across start / manager / game -->
+<script src="./assets/radio.js?v=1"></script>
+<script type="module" src="./src/main.js?v=20261029b"></script>
+</body>
+</html>

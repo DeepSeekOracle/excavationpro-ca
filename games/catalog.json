@@ -433,7 +433,7 @@
       "slug": "forgesmoke",
       "title": "Forge Smoke",
       "tagline": "Hold the perimeter",
-      "blurb": "Rain, wreckage and a shrinking perimeter. WASD move, auto-fire, R reload, Q swap, M2 aim, 1/2/3 cards. THE DARKNESS COMES: light mods are cards you spec into - floodlight, light-orb rounds, solar aura. The armory is winning.",
+      "blurb": "A cyborg manager game. Build the fighter in the bay, launch it into the smoke, then keep it alive with power-up cards while it fights for you. Levels are permanent. Survive an arena for a legendary. THE DARKNESS COMES.",
       "status": "live",
       "featured": false,
       "order": 90,
@@ -445,7 +445,7 @@
         "survival"
       ],
       "players": "1",
-      "version": "1.1.0",
+      "version": "2.0.0",
       "links": []
     }
   ]

@@ -17,7 +17,10 @@ import { TUNING } from "./tuning.js";
 import { WeaponManager, CardSystem, Weapon } from "./weapons.js";
 import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE } from "./save.js";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js";
+import { pilot } from "./autopilot.js";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js";
+import { createStartMenu } from "./startmenu.js";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -182,7 +185,15 @@ const fxController = typeof fxModule?.createFx === "function" ? fxModule.createF
 const menuController = typeof menuModule?.createMenu === "function" ? menuModule.createMenu(renderer.domElement, {}) : null;
 let audioController = null;
 if (typeof audioModule?.initAudio === "function") {
-  audioModule.initAudio().then((ctrl) => { audioController = ctrl; }).catch(() => {});
+  audioModule.initAudio().then((ctrl) => {
+  audioController = ctrl;
+  window.__fsSfx = (key, opts) => { try { return ctrl.playSfx(key, opts); } catch (e) { return false; } };
+  ctrl.preload().then((n) => { window.__fsSfxLoaded = n; }).catch(() => {});
+  // the browser will not start audio before a gesture: arm it on the first click/key
+  const arm = () => { try { ctrl.playSfx("click", { volume: 0.0001 }); } catch (e) {} window.removeEventListener("pointerdown", arm); window.removeEventListener("keydown", arm); };
+  window.addEventListener("pointerdown", arm, { once: true });
+  window.addEventListener("keydown", arm, { once: true });
+}).catch(() => {});
 }
 if (typeof levelModule?.loadLevel === "function") {
   levelModule.loadLevel("arena1").catch(() => {});
@@ -528,10 +539,66 @@ if (testMode) {
   };
 }
 
+// ── CYBORG MANAGER ─────────────────────────────────────────────────────────────────────────
+// Between runs the player manages the fighter here; the run itself is autonomous.
+state.cyborgProfile = loadSave().profile;
+state.autopilot = true;
+const startMenuUI = createStartMenu({
+  getProfile: () => state.cyborgProfile,
+  onEnter: () => {
+    state.phase = "loadout";
+    state._managerShown = false;
+    state.menuCooldown = 0.25;
+    hudPhase = null;
+  },
+  onOptions: () => {
+    state.optionsCaller = "title";
+    state.phase = "options";
+    state.menuCooldown = 0.25;
+    hudPhase = null;
+  },
+});
+
+const managerUI = createManager({
+  getProfile: () => state.cyborgProfile,
+  arenaId: "arena1",
+  onLaunch: ({ arenaId, equipped, profile }) => {
+    state.cyborgProfile = profile;
+    state.cyborgEquipped = equipped;
+    state.banked = false;
+    state.autopilot = true;
+    const idx = STARTER_LOADOUTS.findIndex((w) => w.id === equipped.weapon);
+    state.loadoutIndex = idx >= 0 ? idx : 0;
+    state.skinIndex = Number.isInteger(equipped.skin) ? equipped.skin : 0;
+    const arenaIdx = menuModule.ARENAS.findIndex((a) => a.id === arenaId);
+    if (arenaIdx >= 0) state.selectedArenaIndex = arenaIdx;
+    startRun(arenaId);
+  },
+  onChange: (prof) => { state.cyborgProfile = prof; },
+});
+
 const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = new THREE.Vector3();
 let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null;
 
 function syncHud() {
+  // The DOM manager is the loadout screen now: clear the canvas HUD so its text does not bleed
+  // through the overlay, and let the 3D operator turntable show behind the panels.
+  if (state.phase === "title" && state._startShown) {
+    const hs = globalThis.__studio?.hud;
+    if (hs) { try { hs.clear(); } catch (e) {} try { hs.compose?.(); } catch (e) {} }
+    hudPhase = null;
+    return;
+  }
+
+  if (state.phase === "loadout" && state._managerShown) {
+    const h = globalThis.__studio?.hud;
+    if (h) {
+      try { h.clear(); } catch (e) { /* hud may not expose clear in older builds */ }
+      try { h.compose?.(); } catch (e) { /* compose is optional */ }
+    }
+    hudPhase = null;
+    return;
+  }
   const h = globalThis.__studio?.hud;
   if (!h) return;
   const T = (id, text, o) => h.text(id, text, o), P = (id, o) => h.panel(id, o), B = (id, f, o) => h.bar(id, f, o);
@@ -869,7 +936,17 @@ function startRun(arenaId = "arena1") {
     showResults: false,
     resultsScreen: null,
     lastRenderedWeaponStyle: chosenStyle,
+    // -- CYBORG MANAGER: the fighter is autonomous, the player plays cards --
+    autopilot: state.autopilot !== false,
+    runXp: 0,
+    pilotClock: 0,
+    pilotMode: "hold",
+    cardsPlayed: 0,
   });
+  audioController?.playSfx("launch", { volume: 0.7 });
+  // manager stat block -> real gameplay multipliers (integrity, speed, reload, damage, crit, tech)
+  applyStatsToRun(state, statsForLevel((state.cyborgProfile && state.cyborgProfile.level) || 1,
+    (state.cyborgProfile && state.cyborgProfile.equipped) || {}));
   state.pos.set(0, 0, 0);
   soldier.position.set(0, 0, 0);
   soldier.rotation.y = 0;
@@ -880,6 +957,10 @@ function startRun(arenaId = "arena1") {
   weaponManager.primary = new Weapon(chosenStyle);
   weaponManager.secondary = new Weapon(secondaryStyle);
   weaponManager.activeSlot = "primary";
+  // equipped light cards are spent in the manager, so the run starts with them already installed
+  for (const modId of ((state.cyborgEquipped && state.cyborgEquipped.lightMods) || [])) {
+    try { weaponManager.applyPart("primary", { id: modId }); } catch (e) { /* unknown mod id */ }
+  }
   weaponManager.isSwapping = false;
   weaponManager.swapTimer = 0;
   cardSystem.rng = state.rng;
@@ -994,7 +1075,17 @@ function spawnEnemy() {
   const beat = beatDirector.getCurrentBeat();
   const types = beat.enemyTypes || ["rifleman"];
   const type = types[Math.floor(state.rng() * types.length)];
-  enemyManager.spawn(type, state.pos, beatDirector.runTime / 60);
+  const enemy = enemyManager.spawn(type, state.pos, beatDirector.runTime / 60);
+  // DUAL RAMP: base level rises with the cyborg's profile, then climbs inside the arena
+  if (enemy && typeof enemy.hp === "number") {
+    const baseLevel = (state.cyborgProfile?.level || 1);
+    const baseScale = 1 + Math.max(0, baseLevel - 1) * 0.07;
+    const rampScale = 1 + Math.min(2.2, beatDirector.runTime / 240);
+    const scale = baseScale * rampScale;
+    enemy.hp = Math.round(enemy.hp * scale);
+    enemy.maxHp = enemy.hp;
+    enemy.scaleMult = scale;
+  }
 }
 
 function shoot(target) {
@@ -1005,6 +1096,8 @@ function shoot(target) {
 
   const fireData = weaponManager.fire(state.aimMode);
   if (!fireData) return;
+  const lightShot = typeof isLightGunStyle === "function" && isLightGunStyle(weaponManager.active?.styleKey);
+  audioController?.playSfx(lightShot ? "laser" : "fire", { volume: 0.55, pitch: 0.9 + state.rng() * 0.25 });
 
   // Spawn tracers + Travelling Light-Orb Projectiles
   const pelletCount = fireData.pellets || 1;
@@ -1118,8 +1211,10 @@ function shoot(target) {
     damageDealt = fireData.damage;
     if (result.killed) {
       state.kills++;
+      audioController?.playSfx("kill", { volume: 0.6, pitch: 0.95 + state.rng() * 0.1 });
       scoreSystem.recordKill(target.getScoreValue());
       cardSystem.addXp(target.getXpValue());
+      state.runXp = (state.runXp || 0) + target.getXpValue() * 1.5;
     }
   }
 
@@ -1130,12 +1225,41 @@ function nearest(maxDistance = 24) {
   return enemyManager.findNearest(state.pos, state.yaw, maxDistance, TAU); // Full 360° threat acquisition
 }
 
+/** Roll one legendary the profile does not own yet (light mods + perks are the drop pool). */
+function rollLegendary(profile) {
+  const pool = [...LIGHT_MODS.map((m) => m.id), ...PERKS.map((k) => k.id)]
+    .filter((id) => !(profile.legacy || []).includes(id));
+  if (!pool.length) return null;
+  return pool[Math.floor(state.rng() * pool.length)];
+}
+
+/** Bank a finished run: XP by survival time + kills, optional legendary on an arena clear. */
+function bankRun(cleared = false) {
+  const base = state.cyborgProfile || loadSave().profile;
+  const gained = Math.round((state.runXp || 0) + beatDirector.runTime * 2.5);
+  const res = addProfileXp(base, gained);
+  let prof = { ...res.profile };
+  prof.runs = (prof.runs || 0) + 1;
+  const legendary = cleared ? rollLegendary(prof) : null;
+  if (cleared) {
+    prof.arenasCleared = (prof.arenasCleared || 0) + 1;
+  }
+  if (legendary) prof = grantLegacy(prof, legendary);
+  prof.bestRunTime = Math.max(prof.bestRunTime || 0, beatDirector.runTime);
+  if (res.levelled > 0) audioController?.playSfx("levelup", { volume: 0.7 });
+  state.cyborgProfile = saveProfile(prof);
+  state.lastBank = { gained, levelled: res.levelled, legendary, cleared };
+  return state.lastBank;
+}
+
 function hurt(amount) {
   if (state.phase !== "playing") return;
   state.health = Math.max(0, state.health - amount);
+  audioController?.playSfx("hurt", { volume: 0.45, pitch: 1.0 });
   globalThis.__studio?.hud?.flash("#e5313b", 0.22);
   if (state.health <= 0) {
     state.phase = "dead";
+    if (!state.banked) { state.banked = true; bankRun(false); }
     globalThis.__studio?.hud?.flash("#e5313b", 0.55);
     syncHud();
   }
@@ -1144,6 +1268,22 @@ function hurt(amount) {
 const held = (ctx, names) => names.some((name) => ctx.keys.has(name));
 
 function update(dt, ctx) {
+  const dockEl = globalThis.document?.getElementById?.("siteDock");
+  if (dockEl) dockEl.classList.toggle("bare", state.phase === "playing");
+
+  // start menu is up exactly while the title phase is active
+  if (state.phase === "title") {
+    if (state._startShown !== true) { startMenuUI.show(); state._startShown = true; }
+  } else if (state._startShown) {
+    startMenuUI.hide(); state._startShown = false;
+  }
+
+  // manager terminal is up exactly while the loadout phase is active
+  if (state.phase === "loadout") {
+    if (state._managerShown !== true) { managerUI.show(state.cyborgProfile); state._managerShown = true; }
+  } else if (state._managerShown) {
+    managerUI.hide(); state._managerShown = false;
+  }
   state.menuCooldown = Math.max(0, (state.menuCooldown || 0) - dt);
   if (state.phase === "title") {
     state.t += dt;
@@ -1172,7 +1312,7 @@ function update(dt, ctx) {
       state.menuCooldown = 0.22;
       hudPhase = null;
     } else if (held(ctx, ["KeyW", "w", "W", "Space", "Enter", "ArrowRight"])) {
-      state.phase = "arenaSelect";
+      state.phase = "loadout";   // straight into the cyborg manager
       state.menuCooldown = 0.22;
       hudPhase = null;
     }
@@ -1221,6 +1361,16 @@ function update(dt, ctx) {
       }
     }
   } else if (state.phase === "loadout") {
+    // the DOM manager owns this screen; keep the turntable alive underneath it
+    if (state._managerShown) {
+      // clear the canvas HUD once on entry, then leave the DOM manager in charge
+      const h = globalThis.__studio?.hud;
+      if (h && hudPhase !== "manager") {
+        try { h.clear(); } catch (e) {}
+        hudPhase = "manager";
+      }
+      return;
+    }
     state.t += dt;
     state.orbit += dt * 0.26;
     soldier.rotation.y = Math.sin(state.t * 0.65) * 0.35;
@@ -1306,12 +1456,16 @@ function update(dt, ctx) {
       }
     }
   } else if (state.phase === "dead" || state.phase === "results") {
-    if (held(ctx, ["KeyR", "r", "R", "Space", "Enter", "Mouse1"])) {
+    // after a run the cyborg goes back to the manager terminal, not straight into another fight
+    if (held(ctx, ["KeyM", "m", "M", "KeyR", "r", "R", "Space", "Enter", "Mouse1"])) {
       if (state.phase === "results") {
         updateBestScore(scoreSystem.getCurrentScore(beatDirector.runTime));
         updateBestTime(beatDirector.runTime);
       }
-      startRun(menuModule.ARENAS[state.selectedArenaIndex].id);
+      state.phase = "loadout";
+      state._managerShown = false;
+      state.menuCooldown = 0.25;
+      hudPhase = null;
     } else if (held(ctx, ["KeyT", "t", "T", "Backspace", "Escape"])) {
       if (state.phase === "results") {
         updateBestScore(scoreSystem.getCurrentScore(beatDirector.runTime));
@@ -1343,6 +1497,13 @@ function update(dt, ctx) {
     if (held(ctx, ["KeyS", "s", "S", "ArrowDown"])) { mx += Math.sin(state.orbit); mz += Math.cos(state.orbit); }
     if (held(ctx, ["KeyA", "a", "A", "ArrowLeft"])) { mx -= Math.cos(state.orbit); mz += Math.sin(state.orbit); }
     if (held(ctx, ["KeyD", "d", "D", "ArrowRight"])) { mx += Math.cos(state.orbit); mz -= Math.sin(state.orbit); }
+    // CYBORG AUTOPILOT: the fighter flies itself, the player supplies power-ups
+    if (state.autopilot) {
+      const c = pilot(state, enemyManager, dt);
+      mx = c.mx; mz = c.mz;
+      state.pilotMode = c.mode;
+      state.pilotDistance = c.distance;
+    }
     if (mx !== 0 || mz !== 0) {
       const length = Math.hypot(mx, mz);
       mx /= length; mz /= length;
@@ -1395,7 +1556,7 @@ function update(dt, ctx) {
 
     // Reload (manual R or automatic when magazine hits 0)
     if (held(ctx, ["KeyR", "r", "R"])) {
-      weaponManager.tryReload();
+      if (weaponManager.tryReload()) audioController?.playSfx("reload", { volume: 0.5, pitch: 1.05 });
     }
     weaponManager.updateReload(dt);
     updateOperatorAnimation(soldier, gunPivot, dt, mx !== 0 || mz !== 0, weaponManager.active);
@@ -1549,10 +1710,27 @@ function update(dt, ctx) {
     camera.position.lerp(vDesired, lerpFactor);
     camera.lookAt(state.pos.x, 1.25, state.pos.z);
 
-    // Check death
+    // ARENA CLEAR: surviving past the final beat (the overtime line) rolls a legendary.
+    // The run keeps going into overtime; the drop is banked once.
+    if (!state.banked) {
+      const beats = beatDirector.beats || [];
+      const lastStart = beats.length ? beats[beats.length - 1].start : 660;
+      if (beatDirector.runTime >= lastStart + 60) {
+        state.banked = true;
+        state.arenaCleared = true;
+        const drop = bankRun(true);
+        if (drop && drop.legendary) {
+          globalThis.__studio?.hud?.flash("#a6ff7a", 0.4);
+        }
+      }
+    }
+
+    // Check death — this is the run's end, so the profile banks here
     if (state.health <= 0) {
       state.phase = "results";
       state.showResults = true;
+      audioController?.playSfx("death", { volume: 0.8 });
+      if (!state.banked) { state.banked = true; bankRun(false); }
       state.resultsScreen = new ResultsScreen(scoreSystem, beatDirector.runTime, state.health, beatDirector.currentBeatIndex);
       state.cardPickWindow = false;
       state.showCards = false;
@@ -1644,6 +1822,8 @@ function pickCard(index) {
   state.cardPickWindow = false;
   state.showCards = false;
   state.currentCardOptions = null;
+  state.cardsPlayed = (state.cardsPlayed || 0) + 1;
+  audioController?.playSfx("click", { volume: 0.5, pitch: 1.15 });
 
   if (option.type === "weapon") {
     const inactiveSlot = weaponManager.activeSlot === "primary" ? "secondary" : "primary";
