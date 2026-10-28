@@ -69,6 +69,12 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
   state.pilotClock = t;
   const strafeDir = Math.sin(t * 0.55) >= 0 ? 1 : -1;
 
+  // during a boss telegraph, break to range instead of brawling
+  if (state.bossWarning > 0 && isBoss) {
+    out.mx = -nx; out.mz = -nz;
+    out.mode = "dodge";
+    return out;
+  }
   const lowIntegrity = state.health <= (state.maxHealth || 100) * profile.retreatHealth;
   if (lowIntegrity) {
     out.mx = -nx; out.mz = -nz;                  // disengage straight back

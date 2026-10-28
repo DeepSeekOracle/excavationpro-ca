@@ -1978,6 +1978,32 @@ function update(dt, ctx) {
         audioController?.playSfx("launch", { volume: 0.6, pitch: 0.7 });
       }
     }
+    // ── BOSS PATTERN ─────────────────────────────────────────────────────────
+    // The boss telegraphs, then fires a salvo. Standing still in the open during the telegraph is
+    // what kills you; the pilot answers it by breaking off to range.
+    if (state.bossEnemy && state.bossEnemy.hp > 0) {
+      const b = state.bossEnemy;
+      const dist = Math.hypot(b.position.x - state.pos.x, b.position.z - state.pos.z);
+      state.bossTimer = (state.bossTimer || 0) + dt;
+      if (state.bossTimer > 6) {
+        state.bossTimer = 0;
+        state.bossWarning = 1.4;              // telegraph window
+      }
+      if (state.bossWarning > 0) {
+        state.bossWarning = Math.max(0, state.bossWarning - dt);
+        globalThis.__studio?.hud?.flash("#F2545B", 0.12);
+        if (state.bossWarning === 0) {
+          // salvo lands: heavy damage in a close band, lighter further out
+          const dmg = dist < 8 ? 34 : dist < 14 ? 18 : 6;
+          hurt(dmg);
+          audioController?.playSfx("kill", { volume: 0.55, pitch: 0.7 });
+        }
+      }
+    } else {
+      state.bossWarning = 0;
+      state.bossTimer = 0;
+    }
+
     // boss down: pay the run
     if (state.bossEnemy) {
       const stillUp = enemyManager.enemies.includes(state.bossEnemy) && state.bossEnemy.hp > 0;
