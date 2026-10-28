@@ -1127,7 +1127,8 @@ function shoot(target) {
 
       tracer.mesh.position.copy(vMuzzle).add(endPos).multiplyScalar(0.5);
       tracer.mesh.lookAt(endPos);
-      tracer.mesh.scale.set(1 + darkBoost * 0.6, 1 + darkBoost * 0.6, Math.max(0.4, vMuzzle.distanceTo(endPos)));
+      const tracerWidth = state.attractSim ? 0.42 : 1 + darkBoost * 0.6;
+      tracer.mesh.scale.set(tracerWidth, tracerWidth, Math.max(0.4, vMuzzle.distanceTo(endPos)));
       tracer.mesh.material.color.setHex(fireData.tracerColor);
       tracer.mesh.visible = true;
 
@@ -1135,14 +1136,14 @@ function shoot(target) {
         tracer.orb.position.copy(vMuzzle);
         tracer.orb.scale.setScalar(orbScaleBase);
         tracer.orb.material.color.setHex(fireData.tracerColor);
-        tracer.orb.visible = true;
+        tracer.orb.visible = !state.attractSim;   // the shop window gets tracers, not orbs
       }
     }
   }
 
   flash.position.copy(vMuzzle);
   flash.scale.setScalar(fireData.muzzleFlashSize / 0.24);
-  flash.visible = true;
+  flash.visible = !state.attractSim;   // no blown-out flash ball in the bay demo
   state.flash = fireData.muzzleFlashLife;
 
   if (state.blackoutActive) {
