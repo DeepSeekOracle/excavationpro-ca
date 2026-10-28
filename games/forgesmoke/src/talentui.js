@@ -4,11 +4,11 @@
  * Its own full-screen window, opened from the bay. A render of the command board sits underneath;
  * the tree is drawn on top of it in the board's own palette so nodes look etched into the plate.
  *
- * TREE   — pan / zoom, click a node to buy the cheapest chain to it, right-click to refund.
- * TRIALS — BONK-style boss fights resolved by src/battles.js, paying talent points.
+ * No trials, no free points: nodes are bought with points earned from runs (and the in-arena boss).
+ *
+ * TREE  — pan / zoom, click a node to buy the cheapest chain, right-click to refund.
  */
 import { TREE, BRANCHES, aggregate, toRunMods, pathTo, refund, nodeById, countAllocated } from "./talents.js";
-import { BOSSES, makeFighter, simulate, estimateDps } from "./battles.js";
 
 const ART = "./assets/tree/tree-bg.jpg";
 
@@ -77,8 +77,6 @@ const CSS = `
 #fs-talents .tip .cost{color:#FFB347}
 #fs-talents .tip .ref{color:#F2545B}
 
-#fs-talents .trials{position:absolute;inset:60px 0 0 0;overflow:auto;padding:22px;display:none}
-#fs-talents .trials.open{display:block}
 #fs-talents .bossrow{display:grid;grid-template-columns:1fr 140px 130px;gap:12px;align-items:center;max-width:900px;
   padding:14px 16px;margin-bottom:10px;border:1px solid #1E2A35;border-radius:4px;background:rgba(10,15,21,.86)}
 #fs-talents .bossrow h3{margin:0 0 4px;font:800 13px ui-monospace,Consolas,monospace;letter-spacing:.14em;color:#E8F1F8}
@@ -115,7 +113,6 @@ export function createTalentWindow(opts = {}) {
       <input class="search" data-search placeholder="SEARCH NODES…" spellcheck="false" />
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" data-tab="tree">TREE</button>
-        <button class="tab" role="tab" aria-selected="false" data-tab="trials">TRIALS</button>
       </div>
       <button class="close" data-close>CLOSE</button>
     </div>
@@ -125,7 +122,6 @@ export function createTalentWindow(opts = {}) {
         <div class="nodes" data-nodes></div>
       </div>
     </div>
-    <div class="trials" data-trials><div data-bosses></div><div class="result" data-result style="display:none"></div></div>
     <div class="tip" data-tip></div>
   `;
   document.body.appendChild(root);
@@ -136,7 +132,6 @@ export function createTalentWindow(opts = {}) {
   const tip = q("[data-tip]");
 
   let view = { x: 0, y: 0, s: 0.62 };
-  let mode = "tree";
 
   const profile = () => getProfile() || {};
   const allocated = () => new Set(profile().talents || []);
@@ -250,55 +245,12 @@ export function createTalentWindow(opts = {}) {
     hideTip();
   }
 
-  function renderBosses() {
-    const p = profile();
-    const mods = toRunMods(aggregate(p.talents || []));
-    const fighter = makeFighter(p, mods, p.talents || []);
-    q("[data-bosses]").innerHTML = BOSSES.map((b) => {
-      const dps = estimateDps(fighter, b);
-      const ttk = (b.hp / Math.max(1, dps)).toFixed(1);
-      return `<div class="bossrow">
-        <div><h3>${b.name}</h3><p>${b.blurb}</p></div>
-        <div class="num">${b.hp.toLocaleString()} HP<br><span style="color:#7E93A6">TTK ~${ttk} rounds</span></div>
-        <button class="fight" data-fight="${b.id}">FIGHT · +${b.reward}</button>
-      </div>`;
-    }).join("");
-    q("[data-bosses]").querySelectorAll("[data-fight]").forEach((btn) => {
-      btn.onclick = () => runTrial(btn.dataset.fight);
-    });
-  }
 
-  function runTrial(id) {
-    const boss = BOSSES.find((b) => b.id === id);
-    if (!boss) return;
-    const p = profile();
-    const mods = toRunMods(aggregate(p.talents || []));
-    const fighter = makeFighter(p, mods, p.talents || []);
-    const res = simulate(fighter, boss, (Date.now() % 100000) | 0);
-    const out = q("[data-result]");
-    out.style.display = "block";
-    out.innerHTML = `
-      <div><b>${res.won ? "TRIAL CLEARED" : '<span class="lose">CYBORG DESTROYED</span>'}</b> · ${boss.name} · ${res.rounds} rounds
-        · ${res.won ? `+${res.reward} talent points` : `+${res.reward} consolation point`}</div>
-      <div class="bars">
-        <div class="bar2"><i style="width:${Math.round((res.playerHpLeft / res.playerMaxHp) * 100)}%"></i></div>
-        <div class="bar2 boss"><i style="width:${Math.round((res.bossHpLeft / res.bossMaxHp) * 100)}%"></i></div>
-      </div>
-      <div>${res.log.join("\n")}</div>`;
-    p.talentPoints = (p.talentPoints ?? 0) + res.reward;
-    p.trials = p.trials || {};
-    p.trials[boss.id] = Math.max(p.trials[boss.id] || 0, res.won ? res.rounds : 0);
-    saveProfile(p);
-    onChange(p);
-    renderPoints();
-    if (window.__fsSfx) window.__fsSfx(res.won ? "levelup" : "hurt", { volume: 0.6 });
-  }
 
   function render() {
     renderPoints();
     renderEdges();
     renderNodes();
-    if (mode === "trials") renderBosses();
   }
 
   // ── search (the tree is too big to hunt through by eye) ──────────────────
@@ -318,13 +270,10 @@ export function createTalentWindow(opts = {}) {
 
   // ── tabs ──────────────────────────────────────────────────────────────────
   q("[data-tab='tree']").onclick = () => setMode("tree");
-  q("[data-tab='trials']").onclick = () => setMode("trials");
   q("[data-close]").onclick = () => hide();
 
   function setMode(next) {
-    mode = next;
-    q("[data-stage]").style.display = next === "tree" ? "block" : "none";
-    q("[data-trials]").classList.toggle("open", next === "trials");
+    q("[data-stage]").style.display = "block";
     root.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === next)));
     render();
     if (window.__fsSfx) window.__fsSfx("click", { volume: 0.4 });

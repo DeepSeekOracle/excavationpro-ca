@@ -170,7 +170,7 @@ export function createManager(opts = {}) {
       <h3 style="margin-top:16px">SPECIAL OPERATIONS</h3>
       <div class="mg-talwrap">
         <button class="mg-talent" data-talents>TALENT TREE <b data-tpoints>0</b> PTS</button>
-        <span class="mg-namehint">SPEND POINTS · KEYSTONES · BOSS TRIALS</span>
+        <span class="mg-namehint">SPEND POINTS · KEYSTONES · MASTERIES</span>
       </div>
       <h3>CHARACTER</h3>
       <div data-skins></div>

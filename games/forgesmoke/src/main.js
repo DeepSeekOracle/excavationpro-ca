@@ -18,12 +18,12 @@ import { WeaponManager, CardSystem, Weapon } from "./weapons.js";
 import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
 import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js";
-import { pilot } from "./autopilot.js?v=20261029i";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029i";
-import { createStartMenu } from "./startmenu.js?v=20261029i";
-import { createGamepad } from "./gamepad.js?v=20261029i";
-import { createTalentWindow } from "./talentui.js?v=20261029i";
-import { aggregate, toRunMods } from "./talents.js?v=20261029i";
+import { pilot } from "./autopilot.js?v=20261029j";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029j";
+import { createStartMenu } from "./startmenu.js?v=20261029j";
+import { createGamepad } from "./gamepad.js?v=20261029j";
+import { createTalentWindow } from "./talentui.js?v=20261029j";
+import { aggregate, toRunMods } from "./talents.js?v=20261029j";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -41,7 +41,7 @@ import {
 } from "./models.js";
 import * as levelModule from "./level.js";
 import * as menuModule from "./menu.js";
-import * as audioModule from "./audio.js?v=20261029i";
+import * as audioModule from "./audio.js?v=20261029j";
 import * as fxModule from "./fx.js";
 
 const TAU = Math.PI * 2;
@@ -1835,7 +1835,7 @@ function update(dt, ctx) {
 
     // ── BOSS WAVE ────────────────────────────────────────────────────────────
     // Later in a run a named boss walks in. It is a real enemy (scaled, tanky) with a HUD callout,
-    // and killing it pays talent points - the arena's answer to the Trials board.
+    // and killing it pays talent points. This is the only way to farm points besides finishing runs.
     if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 18)) {
       state.bossSpawned = true;
       const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
