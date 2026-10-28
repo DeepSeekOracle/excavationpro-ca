@@ -15,6 +15,26 @@ const RARITY = {
   epic: { name: "CLASSIFIED", a: "#7B5BD6", b: "#B79CFF", glow: "rgba(183,156,255,.6)", ink: "#ddd0ff" },
 };
 
+const CARD_ART = {
+  weapon: "./assets/cards/weapon.jpg",
+  explosive: "./assets/cards/explosive.jpg",
+  light: "./assets/cards/light.jpg",
+  armour: "./assets/cards/armour.jpg",
+  logistics: "./assets/cards/logistics.jpg",
+};
+
+/** Which artwork a card earns, from what it actually does. */
+function cardArt(card) {
+  const e = card.part?.effect || {};
+  const id = String(card.part?.id || "");
+  if (card.type === "weapon") return CARD_ART.weapon;
+  if (e.explosive || e.blast || e.shieldPierce || /frag|breach|grenade|satchel/.test(id)) return CARD_ART.explosive;
+  if (e.lightBeamMult || e.lightOrbMult || e.solarAura || e.lightDrone || e.lightBeacon || /light|flare|lumen|phosphor/.test(id)) return CARD_ART.light;
+  if (e.reloadMult || e.magMult || /mag|ammo|supply|quartermaster|rack/.test(id)) return CARD_ART.logistics;
+  if (e.hp || e.armor || /perk_armor|plate|trauma/.test(id)) return CARD_ART.armour;
+  return CARD_ART.weapon;
+}
+
 const ICONS = {
   weapon: "⌁", part: "✦", perk: "◈",
 };
@@ -47,6 +67,13 @@ const CSS = `
 #fs-cards .art{position:relative;height:118px;display:grid;place-items:center;
   background:radial-gradient(circle at 50% 42%,var(--a,rgba(255,179,71,.22)),rgba(8,12,18,.9) 68%);
   border-bottom:1px solid rgba(159,179,200,.16)}
+#fs-cards .artimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92;
+  filter:saturate(1.05) contrast(1.05);mask-image:linear-gradient(180deg,#000 62%,rgba(0,0,0,.35))}
+#fs-cards .art .glyph{position:relative;z-index:2;text-shadow:0 0 14px rgba(0,0,0,.9),0 0 26px var(--glow)}
+#fs-cards .art:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 20%,transparent 40%,rgba(6,10,16,.85)),linear-gradient(0deg,rgba(8,12,18,.9),transparent 55%);
+  mix-blend-mode:multiply}
+#fs-cards .art .rarity{position:relative;z-index:2}
 #fs-cards .art:before{content:"";position:absolute;inset:0;
   background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.045) 0 1px,transparent 1px 9px),
     repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 9px);
@@ -110,8 +137,9 @@ export function createCardTray(opts = {}) {
       el.innerHTML = `
         <div class="face">
           <div class="art">
+            <img class="artimg" src="${cardArt(card)}" alt="" loading="lazy" decoding="async" onerror="this.remove()" />
             <div class="rarity"><span>${rarity.name}</span><span>${ICONS[card.type] || "✦"} ${String(card.type).toUpperCase()}</span></div>
-            <b>${card.type === "weapon" ? "⌁" : (card.part?.id?.startsWith("light") || card.part?.effect?.lightBeamMult ? "✷" : "✦")}</b>
+            <b class="glyph">${card.type === "weapon" ? "⌁" : (card.part?.id?.startsWith("light") || card.part?.effect?.lightBeamMult ? "✷" : "✦")}</b>
           </div>
           <div class="body">
             <h4>${card.name || "Field Upgrade"}</h4>

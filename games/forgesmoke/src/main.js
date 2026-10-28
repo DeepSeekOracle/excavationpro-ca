@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029s";
-import { standardMaterial } from "./materials.js?v=20261029s";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029s";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029s";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029t";
+import { standardMaterial } from "./materials.js?v=20261029t";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029t";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029t";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,20 +12,21 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261029s";
-import { TUNING } from "./tuning.js?v=20261029s";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029s";
-import { createCardTray } from "./cardsui.js?v=20261029s";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029s";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029s";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029s";
-import { pilot } from "./autopilot.js?v=20261029s";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029s";
-import { createStartMenu } from "./startmenu.js?v=20261029s";
-import { createGamepad } from "./gamepad.js?v=20261029s";
-import { createTalentWindow } from "./talentui.js?v=20261029s";
-import { aggregate, toRunMods } from "./talents.js?v=20261029s";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029s";
+} from "./theme.js?v=20261029t";
+import { TUNING } from "./tuning.js?v=20261029t";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029t";
+import { createCardTray } from "./cardsui.js?v=20261029t";
+import { createSummary } from "./summaryui.js?v=20261029t";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029t";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029t";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029t";
+import { pilot } from "./autopilot.js?v=20261029t";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029t";
+import { createStartMenu } from "./startmenu.js?v=20261029t";
+import { createGamepad } from "./gamepad.js?v=20261029t";
+import { createTalentWindow } from "./talentui.js?v=20261029t";
+import { aggregate, toRunMods } from "./talents.js?v=20261029t";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029t";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -37,13 +38,14 @@ import {
   populateArenaProps,
   arenaColliders,
   resolveObstacleCollision,
+  steerAroundObstacles,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261029s";
-import * as levelModule from "./level.js?v=20261029s";
-import * as menuModule from "./menu.js?v=20261029s";
-import * as audioModule from "./audio.js?v=20261029s";
-import * as fxModule from "./fx.js?v=20261029s";
+} from "./models.js?v=20261029t";
+import * as levelModule from "./level.js?v=20261029t";
+import * as menuModule from "./menu.js?v=20261029t";
+import * as audioModule from "./audio.js?v=20261029t";
+import * as fxModule from "./fx.js?v=20261029t";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -512,6 +514,7 @@ if (testMode) {
     getGunPivot: () => gunPivot,
     getWeapons: () => weaponManager,
     getCards: () => cardSystem,
+    getManager: () => managerUI,
     getRainY: () => +rainPos[1].toFixed(3),
     getTreeSway: () => (trees[0] ? +trees[0].rotation.z.toFixed(4) : null),
     getGrenades: () => grenades.length,
@@ -614,6 +617,8 @@ const talentUI = createTalentWindow({
   saveProfile: (p) => { state.cyborgProfile = saveProfile(p); return state.cyborgProfile; },
   onChange: (p) => { state.cyborgProfile = p; },
 });
+
+const summaryUI = createSummary();
 
 const cardTray = createCardTray({ onPick: (i) => pickCard(i) });
 
@@ -1023,8 +1028,18 @@ function startRun(arenaId = "arena1") {
   // manager stat block -> real gameplay multipliers (integrity, speed, reload, damage, crit, tech)
   // special operations tree: fold its modifiers into this run
   state.talentMods = toRunMods(aggregate((state.cyborgProfile && state.cyborgProfile.talents) || []));
-  applyStatsToRun(state, statsForLevel((state.cyborgProfile && state.cyborgProfile.level) || 1,
-    (state.cyborgProfile && state.cyborgProfile.equipped) || {}));
+  const baseStats = statsForLevel((state.cyborgProfile && state.cyborgProfile.level) || 1,
+    (state.cyborgProfile && state.cyborgProfile.equipped) || {});
+  // attribute points are permanent and stack on top of the level block
+  const at = (state.cyborgProfile && state.cyborgProfile.attrs) || {};
+  baseStats.POWER += (at.power || 0) * 2;
+  baseStats.ARMOR += (at.armor || 0) * 2;
+  baseStats.AGILITY += (at.agility || 0);
+  baseStats.HANDLING += (at.handling || 0);
+  baseStats.TECH += (at.tech || 0);
+  baseStats.SIGNAL += (at.signal || 0);
+  state.cyborgStats = baseStats;
+  applyStatsToRun(state, baseStats);
   if (state.talentMods) {
     const tm = state.talentMods;
     state.maxHealth = Math.round(state.maxHealth * (tm.hpMult || 1));
@@ -1405,7 +1420,10 @@ function bankRun(cleared = false) {
   }
   if (legendary) prof = grantLegacy(prof, legendary);
   prof.bestRunTime = Math.max(prof.bestRunTime || 0, beatDirector.runTime);
-  if (res.levelled > 0) audioController?.playSfx("levelup", { volume: 0.7 });
+  if (res.levelled > 0) {
+    audioController?.playSfx("levelup", { volume: 0.7 });
+    prof.attrPoints = (prof.attrPoints ?? 0) + res.levelled;   // one attribute point per level
+  }
   state.cyborgProfile = saveProfile(prof);
 
   // ── special operations points (generous by design) ────────────────────────
@@ -1457,6 +1475,22 @@ function update(dt, ctx) {
 
   const dockEl = globalThis.document?.getElementById?.("siteDock");
   if (dockEl) dockEl.classList.toggle("bare", state.phase === "playing");
+
+  // run report on the results screen, and nowhere else
+  if (state.phase === "results") {
+    if (!summaryUI.open) {
+      summaryUI.show({
+        time: beatDirector.runTime,
+        kills: state.kills,
+        level: state.cyborgProfile?.level,
+        talentGain: state.lastTalentGain ?? 0,
+        bossDown: Boolean(state.bossPaid),
+        bank: state.lastBank || {},
+      });
+    }
+  } else if (summaryUI.open) {
+    summaryUI.hide();
+  }
 
   // start menu is up exactly while the title phase is active
   if (state.phase === "title") {
@@ -1716,7 +1750,9 @@ function update(dt, ctx) {
     // CYBORG AUTOPILOT: the fighter flies itself, the player supplies power-ups
     if (state.autopilot && state.controlMode !== "manual") {
       const c = pilot(state, enemyManager, dt);
-      mx = c.mx; mz = c.mz;
+      // route the autopilot around props, otherwise it walks into cover and looks frozen
+      const steered = steerAroundObstacles(state.pos, c.mx, c.mz, 0.55, arenaColliders);
+      mx = steered.x; mz = steered.z;
       state.pilotMode = c.mode;
       state.pilotDistance = c.distance;
     }
@@ -1921,7 +1957,7 @@ function update(dt, ctx) {
       const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
       const boss = enemyManager.spawn(kind, state.pos, beatDirector.runTime / 60);
       if (boss) {
-        boss.hp = Math.round(boss.hp * 7 + 900);
+        boss.hp = Math.round(boss.hp * 2 + 2600);   // hard, but a built cyborg can finish it
         boss.maxHp = boss.hp;
         boss.isBoss = true;
         boss.bossName = kind === "gunship" ? "GUNSHIP OVERSEER" : "FOUNDRY WARDEN";

@@ -17,6 +17,8 @@ export const DEFAULT_PROFILE = {
   arenasCleared: 0,
   bestRunTime: 0,
   legacy: [],                 // permanent unlocks: light cards, perks, legendary drops
+  attrPoints: 0,              // one per level, spent on the six attributes
+  attrs: { power: 0, armor: 0, agility: 0, handling: 0, tech: 0, signal: 0 },
   talentPoints: 6,            // spend in the Special Operations tree
   talents: [],                // allocated node ids
   equipped: {
@@ -62,6 +64,8 @@ function normalizeProfile(profile) {
   merged.legacy = Array.isArray(merged.legacy) ? merged.legacy : [];
   merged.talents = Array.isArray(merged.talents) ? merged.talents : [];
   if (typeof merged.talentPoints !== "number") merged.talentPoints = 6;
+  if (typeof merged.attrPoints !== "number") merged.attrPoints = 0;
+  merged.attrs = { power: 0, armor: 0, agility: 0, handling: 0, tech: 0, signal: 0, ...(merged.attrs || {}) };
   return merged;
 }
 

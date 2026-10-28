@@ -128,6 +128,13 @@ const CSS = `
   color:#FFB347;font:800 11px ui-monospace,Consolas,monospace;letter-spacing:.18em;text-align:left}
 #cyborg-manager .mg-talent b{color:#FFD166;font-size:14px}
 #cyborg-manager .mg-talent:hover{border-color:#FFD166;box-shadow:0 0 18px -6px rgba(255,179,71,.6)}
+#cyborg-manager .mg-attrs{display:grid;grid-template-columns:1fr auto;gap:4px 8px;margin-bottom:14px}
+#cyborg-manager .mg-attrs b{font:700 11px ui-monospace,Consolas,monospace;color:#E8F1F8}
+#cyborg-manager .mg-attrs span{font:600 10px ui-monospace,Consolas,monospace;color:#7E93A6}
+#cyborg-manager .mg-attrs button{width:22px;height:22px;border:1px solid #2C3A47;background:#0B1017;color:#9FB3C8;
+  border-radius:3px;cursor:pointer;font:700 12px/1 ui-monospace,Consolas,monospace}
+#cyborg-manager .mg-attrs button:hover:not(:disabled){border-color:#FFB347;color:#FFB347}
+#cyborg-manager .mg-attrs button:disabled{opacity:.35;cursor:not-allowed}
 #cyborg-manager .mg-pad{margin-top:8px;font:600 8.5px ui-monospace,Consolas,monospace;letter-spacing:.16em;color:#7E93A6}
 #cyborg-manager .mg-pad.on{color:#7CE6A8}
 
@@ -174,6 +181,8 @@ export function createManager(opts = {}) {
       </div>
       <h3>CHARACTER</h3>
       <div data-skins></div>
+      <h3 style="margin-top:16px">ATTRIBUTE POINTS <span class="mg-tag" data-attrpts>0</span></h3>
+      <div data-attrs class="mg-attrs"></div>
       <h3 style="margin-top:16px">CONTROL MODE</h3>
       <div data-modes></div>
       <div class="mg-pad" data-pad></div>
@@ -250,6 +259,33 @@ export function createManager(opts = {}) {
         e.target.value = p.name;
       });
       nameInput.addEventListener("change", () => { if (p.name) persist(); });
+    }
+
+    // attribute points
+    const ap = Number(p.attrPoints || 0);
+    const aptsEl = q("[data-attrpts]");
+    if (aptsEl) aptsEl.textContent = String(ap);
+    const rows = [["power","POWER"],["armor","ARMOR"],["agility","AGILITY"],["handling","HANDLING"],["tech","TECH"],["signal","SIGNAL"]];
+    const holder = q("[data-attrs]");
+    if (holder && p.__attrRendered !== ap) {
+      p.__attrRendered = ap;
+      holder.innerHTML = "";
+      for (const [k, label] of rows) {
+        const cur = Number((p.attrs && p.attrs[k]) || 0);
+        const b = el("div", "", `<b>${label}</b> <span>+${cur}</span>`);
+        const btn = document.createElement("button");
+        btn.textContent = "+";
+        btn.disabled = ap <= 0;
+        btn.onclick = () => {
+          // mutate the live profile (persist() uses the closure), then save + re-render
+          p.attrPoints = Math.max(0, ap - 1);
+          p.attrs = { ...(p.attrs || {}), [k]: cur + 1 };
+          p.__attrRendered = null;
+          persist();
+        };
+        b.appendChild(btn);
+        holder.appendChild(b);
+      }
     }
 
     // control mode: autonomous by default (the game's focus), manual if the player wants the stick

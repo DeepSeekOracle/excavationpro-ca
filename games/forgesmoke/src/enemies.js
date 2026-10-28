@@ -422,6 +422,23 @@ export class EnemyManager {
           enemy.position.z += steered.z * spd * dt;
         }
         resolveObstacleCollision(enemy.position, colRadius, arenaColliders);
+
+      // stuck-breaker: cover can wedge an enemy against a wall, which reads as a frozen AI. If it
+      // has not actually moved for a second while it is still far from you, slide it sideways.
+      const movedNow = Math.hypot(enemy.position.x - (enemy._lastX ?? enemy.position.x),
+                                  enemy.position.z - (enemy._lastZ ?? enemy.position.z));
+      enemy._lastX = enemy.position.x;
+      enemy._lastZ = enemy.position.z;
+      enemy._stuck = enemy._stuck || 0;
+      const distNow = Math.hypot(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+      if (movedNow < 0.02 && distNow > 6) enemy._stuck += dt;
+      else enemy._stuck = 0;
+      if (enemy._stuck > 1.0) {
+        const side = Math.sin((enemy.phase || 0) * 3.1) > 0 ? 1 : -1;
+        enemy.position.x += -dirZ * side * 1.6 * dt * 6;
+        enemy.position.z += dirX * side * 1.6 * dt * 6;
+        enemy._stuck = 0;
+      }
       } else {
         enemy.position.x += enemy.velocity.x * dt;
         enemy.position.z += enemy.velocity.z * dt;
