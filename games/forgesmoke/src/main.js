@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030g";
-import { standardMaterial } from "./materials.js?v=20261030g";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030g";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030g";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030j";
+import { standardMaterial } from "./materials.js?v=20261030j";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030j";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030j";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,21 +12,22 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261030g";
-import { TUNING } from "./tuning.js?v=20261030g";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030g";
-import { createCardTray } from "./cardsui.js?v=20261030g";
-import { createSummary } from "./summaryui.js?v=20261030g";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030g";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030g";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030g";
-import { pilot } from "./autopilot.js?v=20261030g";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030g";
-import { createStartMenu } from "./startmenu.js?v=20261030g";
-import { createGamepad } from "./gamepad.js?v=20261030g";
-import { createTalentWindow } from "./talentui.js?v=20261030g";
-import { aggregate, toRunMods } from "./talents.js?v=20261030g";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030g";
+} from "./theme.js?v=20261030j";
+import { TUNING } from "./tuning.js?v=20261030j";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030j";
+import { createCardTray } from "./cardsui.js?v=20261030j";
+import { createSummary } from "./summaryui.js?v=20261030j";
+import { createBarks } from "./barks.js?v=20261030j";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030j";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030j";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030j";
+import { pilot } from "./autopilot.js?v=20261030j";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030j";
+import { createStartMenu } from "./startmenu.js?v=20261030j";
+import { createGamepad } from "./gamepad.js?v=20261030j";
+import { createTalentWindow } from "./talentui.js?v=20261030j";
+import { aggregate, toRunMods } from "./talents.js?v=20261030j";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030j";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -42,11 +43,11 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261030g";
-import * as levelModule from "./level.js?v=20261030g";
-import * as menuModule from "./menu.js?v=20261030g";
-import * as audioModule from "./audio.js?v=20261030g";
-import * as fxModule from "./fx.js?v=20261030g";
+} from "./models.js?v=20261030j";
+import * as levelModule from "./level.js?v=20261030j";
+import * as menuModule from "./menu.js?v=20261030j";
+import * as audioModule from "./audio.js?v=20261030j";
+import * as fxModule from "./fx.js?v=20261030j";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -620,6 +621,7 @@ const talentUI = createTalentWindow({
 });
 
 const summaryUI = createSummary();
+const barks = createBarks();
 
 const cardTray = createCardTray({ onPick: (i) => pickCard(i) });
 
@@ -1449,6 +1451,7 @@ function bankRun(cleared = false) {
 }
 
 function hurt(amount) {
+  if (amount >= 22) barks.trigger("close_call");   // a big single hit is a close call
   if (state.phase !== "playing") return;
   state.health = Math.max(0, state.health - amount);
   audioController?.playSfx("hurt", { volume: 0.45, pitch: 1.0 });
@@ -1953,6 +1956,7 @@ function update(dt, ctx) {
         boss.hp = Math.round(boss.hp * 2 + 2600);   // hard, but a built cyborg can finish it
         boss.maxHp = boss.hp;
         boss.isBoss = true;
+        barks.trigger("boss_spawn");
         // give it the imported animated rig, not just a scaled grunt
         try {
           const bossMesh = buildBossMesh(enemyManager.materials);
@@ -1999,6 +2003,7 @@ function update(dt, ctx) {
       const stillUp = enemyManager.enemies.includes(state.bossEnemy) && state.bossEnemy.hp > 0;
       if (!stillUp && !state.bossPaid) {
         state.bossPaid = true;
+        barks.trigger("boss_kill");
         const prof = state.cyborgProfile || {};
         prof.talentPoints = (prof.talentPoints ?? 0) + 1;
         state.cyborgProfile = saveProfile(prof);
@@ -2030,6 +2035,13 @@ function update(dt, ctx) {
     }
     camera.lookAt(state.pos.x, 1.25, state.pos.z);
 
+    // speech bubble tracks the operator's head in screen space
+    const head = new THREE.Vector3(state.pos.x, 2.45, state.pos.z).project(camera);
+    if (head.z < 1) {
+      barks.place((head.x * 0.5 + 0.5) * globalThis.innerWidth, (-head.y * 0.5 + 0.5) * globalThis.innerHeight);
+    }
+    barks.update();
+
     // ARENA CLEAR: surviving past the final beat (the overtime line) rolls a legendary.
     // The run keeps going into overtime; the drop is banked once.
     if (!state.banked) {
@@ -2048,6 +2060,7 @@ function update(dt, ctx) {
     // Check death — this is the run's end, so the profile banks here
     if (state.health <= 0) {
       state.phase = "results";
+  barks.trigger(state.health <= 0 ? "died" : "clear_dead");
       state.showResults = true;
       audioController?.playSfx("death", { volume: 0.8 });
       if (!state.banked) { state.banked = true; bankRun(false); }
@@ -2136,6 +2149,7 @@ function pickCard(index) {
   cardTray.hide();
   state.cardsPlayed = (state.cardsPlayed || 0) + 1;
   audioController?.playSfx("click", { volume: 0.5, pitch: 1.15 });
+  barks.trigger("upgrade");
 
   if (option.type === "weapon") {
     const inactiveSlot = weaponManager.activeSlot === "primary" ? "secondary" : "primary";
