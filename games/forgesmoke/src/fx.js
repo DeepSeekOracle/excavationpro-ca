@@ -9,6 +9,8 @@ export const ParticlePresets = {
   spark: { color: "#ffd57a", size: [1, 3], speed: [100, 300], gravity: 0 },
   dust: { color: "#3a3f47", size: [2, 6], speed: [20, 80], gravity: 50 },
   hit: { color: "#ffedb0", size: [3, 8], speed: [80, 150], gravity: 100 },
+  tracer: { color: "#0000ff", size: [0.5, 1], speed: [10, 50], gravity: 0 },
+  blackout: { color: "#000000", size: [1, 1], speed: [0, 0], gravity: 0 },
 };
 
 const MAX_PARTICLES = 160;
@@ -23,6 +25,8 @@ export function createFx(canvas = null) {
   const particles = [];
   let activeShake = { intensity: 0, duration: 0, elapsed: 0, offsetX: 0, offsetY: 0 };
   let activeFlash = { color: "#ffedb0", duration: 0, elapsed: 0, alpha: 0 };
+  let activeBlackout = { color: "#000000", duration: 0, elapsed: 0, alpha: 0 };
+  let activeWeather = { type: null, intensity: 0, duration: 0, elapsed: 0 };
 
   const controller = {
     canvas,
@@ -31,118 +35,225 @@ export function createFx(canvas = null) {
       return { x: activeShake.offsetX, y: activeShake.offsetY };
     },
     get flashState() {
-      return { color: activeFlash.color, alpha: activeFlash.alpha };
+      return {
+        color: activeFlash.color,
+        duration: activeFlash.duration,
+        alpha: activeFlash.alpha,
+        elapsed: activeFlash.elapsed
+      };
     },
-    emit(config = {}) {
-      const preset = ParticlePresets[config.preset] || ParticlePresets.spark;
-      const count = Math.min(32, Math.max(1, config.count ?? 10));
-      const life = Math.max(50, config.life ?? 400);
-      const color = config.color || preset.color;
-      const id = nextId++;
-      for (let i = 0; i < count; i++) {
-        if (particles.length >= MAX_PARTICLES) particles.shift();
-        const angle = (i / count) * Math.PI * 2;
-        const speed = preset.speed[0] + ((i % 5) / 5) * (preset.speed[1] - preset.speed[0]);
-        particles.push({
-          id,
-          x: Number(config.x) || 0,
-          y: Number(config.y) || 0,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          gravity: preset.gravity || 0,
-          size: preset.size[0],
-          color,
-          life,
-          maxLife: life,
+    get blackoutState() {
+      return {
+        color: activeBlackout.color,
+        duration: activeBlackout.duration,
+        alpha: activeBlackout.alpha,
+        elapsed: activeBlackout.elapsed
+      };
+    },
+    get weatherState() {
+      return {
+        type: activeWeather.type,
+        intensity: activeWeather.intensity,
+        duration: activeWeather.duration,
+        elapsed: activeWeather.elapsed
+      };
+    },
+    // --- Particle System ---
+    addParticle(particle) {
+      if (this.particles.length >= MAX_PARTICLES) {
+        // Cap at MAX_PARTICLES; remove oldest if full
+        this.particles.shift();
+      }
+      this.particles.push(particle);
+    },
+    clearParticles() {
+      this.particles.length = 0;
+    },
+    // --- Screen Shake ---
+    shake(config) {
+      if (config.intensity === undefined || config.duration === undefined) {
+        return;
+      }
+      const intensity = config.intensity ?? 0.5;
+      const duration = config.duration ?? 100;
+      const offsetX = config.offsetX ?? 0;
+      const offsetY = config.offsetY ?? 0;
+      
+      activeShake.intensity = intensity;
+      activeShake.duration = duration;
+      activeShake.offsetX = offsetX;
+      activeShake.offsetY = offsetY;
+      activeShake.elapsed = 0;
+      
+      // Apply shake to canvas if available
+      if (this.canvas) {
+        this.canvas.style.transform = `translate(${activeShake.offsetX}px, ${activeShake.offsetY}px)`;
+      }
+    },
+    // --- Flash Effects ---
+    flash(fx, config) {
+      if (fx && typeof fx.flash === "function") {
+        fx.flash({
+          color: config.color ?? "#ffedb0",
+          duration: config.duration ?? 100,
         });
       }
-      return id;
     },
-    shake(config = {}) {
-      activeShake = {
-        intensity: Math.max(0, Number(config.intensity) || 4),
-        duration: Math.max(0, Number(config.duration) || 180),
-        elapsed: 0,
-        offsetX: 0,
-        offsetY: 0,
-      };
-    },
-    flash(config = {}) {
-      activeFlash = {
-        color: config.color || "#ffedb0",
-        duration: Math.max(1, Number(config.duration) || 160),
-        elapsed: 0,
-        alpha: 1,
-      };
-    },
-    update(dtMs = 16.67) {
-      const dt = Math.max(0, dtMs) / 1000;
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.life -= dtMs;
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-        p.x += p.vx * dt;
-        p.y += p.vy * dt;
-        p.vy += p.gravity * dt;
+    // --- Blackout Effects ---
+    blackout(fx, config) {
+      if (fx && typeof fx.blackout === "function") {
+        fx.blackout({
+          color: config.color ?? "#000000",
+          duration: config.duration ?? 100,
+        });
       }
+    },
+    // --- Weather Effects ---
+    weather(fx, config) {
+      if (fx && typeof fx.weather === "function") {
+        fx.weather({
+          type: config.type ?? 'none',
+          intensity: config.intensity ?? 0,
+          duration: config.duration ?? 100,
+        });
+      }
+    },
+    // --- Internal Update ---
+    update(dt) {
+      // Update shake
       if (activeShake.duration > 0) {
-        activeShake.elapsed += dtMs;
+        activeShake.elapsed += dt;
         if (activeShake.elapsed >= activeShake.duration) {
-          activeShake.duration = 0;
+          activeShake.elapsed = 0;
+          activeShake.intensity = 0;
           activeShake.offsetX = 0;
           activeShake.offsetY = 0;
         } else {
-          const damp = 1 - activeShake.elapsed / activeShake.duration;
-          activeShake.offsetX = Math.sin(activeShake.elapsed * 0.08) * activeShake.intensity * damp;
-          activeShake.offsetY = Math.cos(activeShake.elapsed * 0.11) * activeShake.intensity * damp;
+          const ratio = activeShake.elapsed / activeShake.duration;
+          const intensity = activeShake.intensity * (1 - ratio);
+          activeShake.offsetX = Math.sin(Math.PI * 2 * ratio) * intensity * 10;
+          activeShake.offsetY = Math.cos(Math.PI * 2 * ratio) * intensity * 10;
         }
       }
+      
+      // Update flash
       if (activeFlash.duration > 0) {
-        activeFlash.elapsed += dtMs;
+        activeFlash.elapsed += dt;
         if (activeFlash.elapsed >= activeFlash.duration) {
-          activeFlash.duration = 0;
+          activeFlash.elapsed = 0;
           activeFlash.alpha = 0;
         } else {
-          activeFlash.alpha = Math.max(0, 1 - activeFlash.elapsed / activeFlash.duration);
+          activeFlash.alpha = activeFlash.elapsed / activeFlash.duration;
         }
       }
-    },
-    render(ctx2d) {
-      if (!ctx2d || typeof ctx2d.fillRect !== "function") return;
-      ctx2d.save();
-      for (const p of particles) {
-        ctx2d.fillStyle = p.color;
-        ctx2d.globalAlpha = Math.max(0, Math.min(1, p.life / p.maxLife));
-        ctx2d.fillRect(p.x - p.size * 0.5, p.y - p.size * 0.5, p.size, p.size);
+      
+      // Update blackout
+      if (activeBlackout.duration > 0) {
+        activeBlackout.elapsed += dt;
+        if (activeBlackout.elapsed >= activeBlackout.duration) {
+          activeBlackout.elapsed = 0;
+          activeBlackout.alpha = 0;
+        } else {
+          activeBlackout.alpha = activeBlackout.elapsed / activeBlackout.duration;
+        }
       }
-      ctx2d.restore();
-    },
-    clear() {
-      particles.length = 0;
-      activeShake.duration = 0;
-      activeShake.offsetX = 0;
-      activeShake.offsetY = 0;
-      activeFlash.duration = 0;
-      activeFlash.alpha = 0;
-    },
-    destroy() {
-      controller.clear();
-    },
+      
+      // Update weather
+      if (activeWeather.duration > 0) {
+        activeWeather.elapsed += dt;
+        if (activeWeather.elapsed >= activeWeather.duration) {
+          activeWeather.elapsed = 0;
+          activeWeather.intensity = 0;
+        } else {
+          activeWeather.intensity = activeWeather.intensity * (1 - (activeWeather.elapsed / activeWeather.duration));
+        }
+      }
+    }
   };
+
   return controller;
 }
 
-export function emit(fx, config) {
-  return fx && typeof fx.emit === "function" ? fx.emit(config) : 0;
+// --- Effect Functions ---
+export function createMuzzleFlash(fx, config) {
+  if (!fx || !fx.flash) return;
+  const color = config.color ?? "#ff0000";
+  const intensity = config.intensity ?? 1;
+  const duration = config.duration ?? 100;
+  
+  fx.flash({
+    color,
+    duration,
+  });
 }
 
-export function shake(fx, config) {
-  if (fx && typeof fx.shake === "function") fx.shake(config);
+export function createImpactSparks(fx, config) {
+  if (!fx || !fx.particles) return;
+  const count = config.count ?? 10;
+  const color = config.color ?? "#ffd57a";
+  
+  for (let i = 0; i < count; i++) {
+    const particle = {
+      id: `spark-${Date.now()}-${i}`,
+      x: config.x ?? 0,
+      y: config.y ?? 0,
+      vx: (Math.random() - 0.5) * 200,
+      vy: (Math.random() - 0.5) * 200,
+      life: 100,
+      color,
+      size: 1,
+      gravity: 0
+    };
+    fx.particles.add(particle);
+  }
 }
 
-export function flash(fx, config) {
-  if (fx && typeof fx.flash === "function") fx.flash(config);
+export function createTracer(fx, config) {
+  if (!fx || !fx.tracer) return;
+  const color = config.color ?? "#0000ff";
+  const length = config.length ?? 10;
+  const width = config.width ?? 0.5;
+  
+  fx.tracer({
+    color,
+    length,
+    width,
+  });
+}
+
+export function createBlackoutRedOptics(fx, config) {
+  if (!fx || !fx.blackout) return;
+  const duration = config.duration ?? 100;
+  const color = config.color ?? "#ff0000";
+  
+  fx.blackout({
+    color,
+    duration,
+  });
+}
+
+export function createScreenShake(fx, config) {
+  if (!fx || !fx.shake) return;
+  const intensity = config.intensity ?? 0.5;
+  const duration = config.duration ?? 100;
+  
+  fx.shake({
+    intensity,
+    duration,
+    offsetX: config.offsetX ?? 0,
+    offsetY: config.offsetY ?? 0,
+  });
+}
+
+export function createWeather(fx, config) {
+  if (!fx || !fx.weather) return;
+  const type = config.type ?? 'none';
+  const intensity = config.intensity ?? 0;
+  const duration = config.duration ?? 100;
+  
+  fx.weather({
+    type,
+    intensity,
+    duration,
+  });
 }

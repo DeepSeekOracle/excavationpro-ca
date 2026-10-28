@@ -6,6 +6,13 @@
 import * as THREE from "three";
 import { TUNING } from "./tuning.js";
 import { enemyHpAt, enemySpeedAt, damageAfterArmour } from "./balance.js";
+import {
+  buildEnemyMesh,
+  animateEnemyMesh,
+  arenaColliders,
+  resolveObstacleCollision,
+  steerAroundObstacles,
+} from "./models.js";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -79,10 +86,29 @@ export class Enemy {
   }
 
   updateRifleman(dt, dirX, dirZ, distance) {
-    const meleeRange = this.config.meleeRange || 1.5;
-    if (distance > meleeRange) {
+    const meleeRange = this.config.meleeRange || 1.6;
+    const carbineRange = 10.5;
+    const strafeSign = this.phase > Math.PI ? 1 : -1;
+    if (distance > carbineRange) {
       this.velocity.x = dirX * this.speed;
       this.velocity.z = dirZ * this.speed;
+    } else if (distance > meleeRange) {
+      // Tactical strafing at carbine range while firing crimson bursts
+      const perpX = -dirZ * strafeSign;
+      const perpZ = dirX * strafeSign;
+      this.velocity.x = (dirX * 0.35 + perpX * 0.75) * this.speed;
+      this.velocity.z = (dirZ * 0.35 + perpZ * 0.75) * this.speed;
+      if (this.specialCooldown <= 0) {
+        this.specialCooldown = 1.6 + (this.phase % 0.5);
+        return {
+          type: "rangedShot",
+          dirX,
+          dirZ,
+          speed: 14.5,
+          damage: 6,
+          color: 0xff3b3b,
+        };
+      }
     } else {
       this.velocity.x = 0;
       this.velocity.z = 0;
@@ -95,18 +121,31 @@ export class Enemy {
   }
 
   updateSapper(dt, dirX, dirZ, distance) {
-    const chargeRange = 3.0;
+    const chargeRange = 2.8;
     if (distance > chargeRange) {
-      this.velocity.x = dirX * this.speed;
-      this.velocity.z = dirZ * this.speed;
+      // High-speed serpentine weave toward player
+      const weave = Math.sin(Date.now() * 0.005 + this.phase) * 0.55;
+      const wx = dirX - dirZ * weave;
+      const wz = dirZ + dirX * weave;
+      const len = Math.hypot(wx, wz) || 1;
+      this.velocity.x = (wx / len) * this.speed;
+      this.velocity.z = (wz / len) * this.speed;
     } else if (this.specialCooldown <= 0) {
-      this.velocity.x = 0;
-      this.velocity.z = 0;
-      this.specialCooldown = this.config.chargeFuse || 2.0;
-      return { type: "charge", fuse: this.config.chargeFuse, damage: this.config.chargeDamage };
+      // Plant proximity charge and leap back
+      this.velocity.x = -dirX * this.speed * 1.2;
+      this.velocity.z = -dirZ * this.speed * 1.2;
+      this.specialCooldown = (this.config.chargeFuse || 2.0) + 1.5;
+      return {
+        type: "charge",
+        x: this.position.x + dirX * 0.8,
+        z: this.position.z + dirZ * 0.8,
+        fuse: this.config.chargeFuse || 2.0,
+        radius: 3.4,
+        damage: this.config.chargeDamage || 32,
+      };
     } else {
-      this.velocity.x = 0;
-      this.velocity.z = 0;
+      this.velocity.x = -dirX * this.speed * 0.4;
+      this.velocity.z = -dirZ * this.speed * 0.4;
     }
     return null;
   }
@@ -136,16 +175,31 @@ export class Enemy {
   }
 
   updateSpotter(dt, dirX, dirZ, distance) {
-    const paintRange = 20.0;
+    const paintRange = 18.0;
+    const minRange = 10.0;
     if (distance > paintRange) {
       this.velocity.x = dirX * this.speed;
       this.velocity.z = dirZ * this.speed;
+    } else if (distance < minRange) {
+      this.velocity.x = -dirX * this.speed * 0.7;
+      this.velocity.z = -dirZ * this.speed * 0.7;
     } else {
-      this.velocity.x = 0;
-      this.velocity.z = 0;
+      const strafe = this.phase > Math.PI ? 0.55 : -0.55;
+      this.velocity.x = -dirZ * strafe * this.speed;
+      this.velocity.z = dirX * strafe * this.speed;
       if (this.specialCooldown <= 0) {
-        this.specialCooldown = 5.0;
-        return { type: "paint", duration: this.config.paintDuration, accuracyBonus: this.config.accuracyBonus };
+        this.specialCooldown = 2.4;
+        this.painted = true;
+        this.paintTimer = 2.4;
+        return {
+          type: "rangedShot",
+          dirX,
+          dirZ,
+          speed: 21.0,
+          damage: 10,
+          color: 0xff6fd6,
+          isSniper: true,
+        };
       }
     }
     return null;
@@ -314,16 +368,14 @@ export class EnemyManager {
       z: playerPos.z + Math.sin(angle) * radius,
       clone() { return { x: this.x, z: this.z }; },
     };
+    resolveObstacleCollision(position, 0.85, arenaColliders);
     const enemy = new Enemy(type, position, this.rng, timeMinutes);
     this.enemies.push(enemy);
-    // Create render mesh so spawned enemies are visible and targetable
-    const geo = this.materials?.enemyGeo;
+    // Create role-specific 3D model & skin so each enemy class reads at 32px+
     const mat = this.materials?.enemyMat;
-    if (geo && mat && this.scene) {
-      const mesh = new THREE.Mesh(geo, mat);
+    if (mat && this.scene) {
+      const mesh = buildEnemyMesh(type, this.materials);
       mesh.position.set(position.x, 0.72, position.z);
-      mesh.castShadow = true;
-      mesh.userData.tag = "enemy";
       this.scene.add(mesh);
       enemy.mesh = mesh;
       this.enemyMeshes.set(enemy, mesh);
@@ -353,16 +405,33 @@ export class EnemyManager {
       const action = enemy.update(dt, playerPos, timeMinutes);
       if (action) actions.push({ enemy, action });
 
-      // Update position
-      enemy.position.x += enemy.velocity.x * dt;
-      enemy.position.z += enemy.velocity.z * dt;
-      enemy.position.y = 0.72 + Math.sin(Date.now() * 0.001 * 4.5 + enemy.phase) * 0.09;
+      // Update position with obstacle pathfinding / steering + solid collider pushback
+      const isAerial = enemy.type === "drone" || enemy.type === "gunship";
+      if (!isAerial) {
+        const vx = enemy.velocity.x;
+        const vz = enemy.velocity.z;
+        const spd = Math.hypot(vx, vz);
+        const colRadius = enemy.type === "mech" ? 1.05 : enemy.type === "shieldbearer" ? 0.75 : 0.55;
+        if (spd > 0.01) {
+          const steered = steerAroundObstacles(enemy.position, vx / spd, vz / spd, colRadius, arenaColliders);
+          enemy.position.x += steered.x * spd * dt;
+          enemy.position.z += steered.z * spd * dt;
+        }
+        resolveObstacleCollision(enemy.position, colRadius, arenaColliders);
+      } else {
+        enemy.position.x += enemy.velocity.x * dt;
+        enemy.position.z += enemy.velocity.z * dt;
+      }
+      enemy.position.y = isAerial
+        ? 0.72 + Math.sin(Date.now() * 0.001 * 4.5 + enemy.phase) * 0.14
+        : 0.72;
 
       // Update mesh if exists
       const mesh = this.enemyMeshes.get(enemy);
       if (mesh) {
         mesh.position.set(enemy.position.x, enemy.position.y, enemy.position.z);
         mesh.rotation.y = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+        animateEnemyMesh(enemy, mesh, dt);
       }
 
       // Remove dead enemies

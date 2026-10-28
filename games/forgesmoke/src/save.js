@@ -15,6 +15,13 @@ export const DEFAULT_SAVE = {
     mute: false,
     reducedMotion: false,
     colourBlind: false,
+    masterVolume: 0.8,
+    sfxVolume: 1.0,
+    musicVolume: 0.6,
+    sensitivity: 1.0,
+    quality: "low",
+    showFPS: false,
+    fullscreen: false,
     keymap: {},
   },
 };

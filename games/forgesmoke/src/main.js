@@ -19,6 +19,20 @@ import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
 import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE } from "./save.js";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
+import {
+  PLAYER_SKINS,
+  STARTER_LOADOUTS,
+  isLightGunStyle,
+  buildOperatorRig,
+  updateOperatorAnimation,
+  rebuildWeaponMesh,
+  createEnemyMaterialBank,
+  populateArenaProps,
+  arenaColliders,
+  resolveObstacleCollision,
+  segmentHitsCollider,
+  warmGlbAssets,
+} from "./models.js";
 import * as levelModule from "./level.js";
 import * as menuModule from "./menu.js";
 import * as audioModule from "./audio.js";
@@ -229,36 +243,119 @@ function part(geo, mat, tag, x = 0, y = 0, z = 0) {
 }
 const soldier = new THREE.Group();
 soldier.userData.tag = "soldier";
-const cloth = standardMaterial({ ...MATERIAL_RECIPES.playerCloth, size: TEX_SIZE });
-const flesh = standardMaterial({ ...MATERIAL_RECIPES.playerFlesh, size: TEX_SIZE });
 const steel = standardMaterial({ ...MATERIAL_RECIPES.playerSteel, size: TEX_SIZE });
-soldier.add(part(new THREE.BoxGeometry(1.2, 1.5, 1.2), cloth, "player-body", 0, 0.8, 0));
-soldier.add(part(new THREE.BoxGeometry(0.8, 0.95, 0.4), cloth, "pack", 0, 0.95, -0.78));
-soldier.add(part(new THREE.BoxGeometry(0.72, 0.66, 0.72), flesh, "player-head", 0, 1.87, 0));
-soldier.add(part(new THREE.BoxGeometry(0.54, 0.16, 0.08), steel, "visor", 0, 1.91, 0.37));
 const gunPivot = new THREE.Group();
-gunPivot.position.set(0.46, 1.24, 0.34);
-soldier.add(gunPivot);
-const rifle = part(new THREE.BoxGeometry(0.2, 0.22, 1.35), steel, "rifle", 0, 0, 0.52);
-gunPivot.add(part(new THREE.BoxGeometry(0.28, 0.28, 0.22), steel, "muzzle-brake", 0, 0, 1.22));
-gunPivot.add(part(new THREE.BoxGeometry(0.16, 0.3, 0.34), steel, "magazine", 0, -0.26, 0.18));
-gunPivot.add(rifle);
+gunPivot.position.set(-0.08, 1.46, 0.16);
+
+// Weapon-Mounted Tactical Flashlight (SpotLight + Target) attached to gunPivot — OFF by default until card/light-gun unlocked
+const gunFlashlight = new THREE.SpotLight(0xffe8a3, 0, 22, 0.46, 0.45, 1.3);
+gunFlashlight.position.set(0, -0.02, 0.72);
+gunFlashlight.castShadow = false;
+gunFlashlight.userData.tag = "gun-flashlight";
+gunFlashlight.userData.preserveOnRebuild = true;
+const gunFlashlightTarget = new THREE.Object3D();
+gunFlashlightTarget.position.set(0, -0.25, 14);
+gunFlashlightTarget.userData.preserveOnRebuild = true;
+gunPivot.add(gunFlashlight);
+gunPivot.add(gunFlashlightTarget);
+gunFlashlight.target = gunFlashlightTarget;
+
+buildOperatorRig(soldier, gunPivot, TEX_SIZE, 0);
+let rifle = rebuildWeaponMesh(gunPivot, "spray", steel);
+const operatorKeyLight = new THREE.PointLight(0xffd699, 5.2, 15, 1.4);
+operatorKeyLight.position.set(0.9, 2.6, 1.9);
+operatorKeyLight.userData.tag = "operator-key-light";
+soldier.add(operatorKeyLight);
+
+// Solar Strobe 360° Aura Light & Ground Halo (ONLY active when Solar Halo Aura card is picked)
+const solarAuraLight = new THREE.PointLight(0x6fe3ff, 0, 16, 1.5);
+solarAuraLight.position.set(0, 1.6, 0);
+solarAuraLight.userData.tag = "solar-aura-light";
+soldier.add(solarAuraLight);
+
+const solarAuraRing = new THREE.Mesh(
+  new THREE.RingGeometry(1.3, 1.65, 28),
+  new THREE.MeshBasicMaterial({ color: 0x6fe3ff, side: THREE.DoubleSide, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false }),
+);
+solarAuraRing.rotation.x = -Math.PI / 2;
+solarAuraRing.position.y = 0.04;
+solarAuraRing.visible = false;
+solarAuraRing.userData.tag = "solar-aura-ring";
+soldier.add(solarAuraRing);
+
+// Helios Orbiting Light-Drone (ONLY active when Light-Drone card is picked)
+const lightDroneGroup = new THREE.Group();
+lightDroneGroup.visible = false;
+lightDroneGroup.userData.tag = "light-drone";
+const droneCore = new THREE.Mesh(
+  new THREE.SphereGeometry(0.18, 12, 12),
+  new THREE.MeshBasicMaterial({ color: 0x55f2ff }),
+);
+const droneHalo = new THREE.Mesh(
+  new THREE.TorusGeometry(0.32, 0.04, 8, 20),
+  new THREE.MeshBasicMaterial({ color: 0xffe484 }),
+);
+droneHalo.rotation.x = Math.PI / 2;
+const lightDronePoint = new THREE.PointLight(0x55f2ff, 0, 14, 1.5);
+lightDroneGroup.add(droneCore, droneHalo, lightDronePoint);
+scene.add(lightDroneGroup);
+
+// Flare-Drop Ground Beacons (ONLY spawned when Ground Beacons card is picked)
+const beaconList = [];
+const lightBlastRings = [];
+const enemyProjectiles = [];
+const chargeZones = [];
+const mortarZones = [];
+
 scene.add(soldier);
+
+const arenaPropsGroup = new THREE.Group();
+arenaPropsGroup.userData.tag = "arena-props";
+scene.add(arenaPropsGroup);
+warmGlbAssets();
 
 const enemyGeo = new THREE.BoxGeometry(1.05, 1.05, 1.05);
 const enemyMat = standardMaterial({ ...MATERIAL_RECIPES.enemyChitin, size: TEX_SIZE });
 enemyMat.emissive = new THREE.Color(hexInt(PALETTE.enemyEmissive));
 enemyMat.emissiveIntensity = 0.75;
+const enemyMaterials = createEnemyMaterialBank(enemyMat, TEX_SIZE);
 
 const tracerGeo = new THREE.BoxGeometry(0.055, 0.055, 1);
 const tracerMat = new THREE.MeshBasicMaterial({ color: hexInt(PALETTE.tracerDefault), transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false });
+const orbGeo = new THREE.SphereGeometry(0.14, 10, 10);
 const tracers = [];
 for (let i = 0; i < TUNING.feel.tracerPoolSize; i++) {
-  const mesh = new THREE.Mesh(tracerGeo, tracerMat);
+  const mesh = new THREE.Mesh(tracerGeo, tracerMat.clone());
   mesh.visible = false;
   mesh.userData.tag = "tracer";
   scene.add(mesh);
-  tracers.push({ mesh, life: 0 });
+
+  const orbMat = new THREE.MeshBasicMaterial({ color: hexInt(PALETTE.tracerDefault), transparent: true, opacity: 0.96, blending: THREE.AdditiveBlending, depthWrite: false });
+  const orb = new THREE.Mesh(orbGeo, orbMat);
+  orb.visible = false;
+  orb.userData.tag = "tracer-orb";
+  scene.add(orb);
+
+  tracers.push({
+    mesh,
+    orb,
+    life: 0,
+    maxLife: 0.1,
+    start: new THREE.Vector3(),
+    end: new THREE.Vector3(),
+    color: 0xffd57a,
+  });
+}
+
+// Pool of 8 dynamic travelling PointLights that ride along with Light-Orb Tracer Bullets
+const ORB_LIGHT_COUNT = lowEnd ? 3 : 8;
+const orbLights = [];
+for (let i = 0; i < ORB_LIGHT_COUNT; i++) {
+  const pt = new THREE.PointLight(0xffd57a, 0, 14, 1.6);
+  pt.visible = false;
+  pt.userData.tag = "tracer-orb-light";
+  scene.add(pt);
+  orbLights.push(pt);
 }
 const flash = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 8), new THREE.MeshBasicMaterial({ color: hexInt(PALETTE.muzzleFlash), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
 flash.visible = false;
@@ -279,6 +376,7 @@ let lightsOff = false;
 function applyArenaLighting(key) {
   const cfg = ARENA_LIGHTING[key] ? ARENA_LIGHTING[key] : ARENA_LIGHTING.perimeter;
   arenaKey = ARENA_LIGHTING[key] ? key : "perimeter";
+  populateArenaProps(arenaKey, arenaPropsGroup, TEX_SIZE);
   renderer.toneMappingExposure = cfg.exposure;
   scene.background.set(hexInt(cfg.background));
   scene.fog.color.set(hexInt(cfg.fog.color));
@@ -342,7 +440,7 @@ const rng = makeRng(initialSeed);
 
 const weaponManager = new WeaponManager(rng);
 const cardSystem = new CardSystem(rng);
-const enemyManager = new EnemyManager(rng, scene, { enemyMat, enemyGeo }, ENEMY_CAP);
+const enemyManager = new EnemyManager(rng, scene, enemyMaterials, ENEMY_CAP);
 const beatDirector = new BeatDirector(rng);
 const scoreSystem = new ScoreSystem();
 
@@ -363,6 +461,7 @@ const state = {
   seed: initialSeed,
   weaponManager,
   cardSystem,
+  enemyManager,
   beatDirector,
   scoreSystem,
   resultsScreen: null,
@@ -375,13 +474,28 @@ const state = {
   cardPickWindow: false,
   blackoutActive: false,
   blackoutTimer: 0,
+  darknessFactor: 0,
+  darknessForced: false,
+  darknessWaveActive: false,
   airdropState: null,
   showResults: false,
+  skinIndex: 0,
+  loadoutIndex: 0,
+  selectedArenaIndex: 0,
+  selectedOptionIndex: 0,
+  optionsCaller: "title",
+  menuCooldown: 0,
+  lastRenderedWeaponStyle: "spray",
 };
 
 if (testMode) {
   window.__forgeSmokeTest = {
     getState: () => state,
+    getScene: () => scene,
+    getSoldier: () => soldier,
+    getGunPivot: () => gunPivot,
+    getWeapons: () => weaponManager,
+    getCardSystem: () => cardSystem,
     setBeat(index) {
       const beats = beatDirector.beats;
       const i = Math.max(0, Math.min(beats.length - 1, Math.floor(index)));
@@ -415,7 +529,7 @@ if (testMode) {
 }
 
 const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = new THREE.Vector3();
-let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null;
+let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null;
 
 function syncHud() {
   const h = globalThis.__studio?.hud;
@@ -431,45 +545,65 @@ function syncHud() {
     hudBeat = null;
     hudScore = null;
     hudAirdrop = null;
+    hudCards = null;
+    hudBoss = null;
+    hudDarkness = null;
   }
+
+  const activeSkin = PLAYER_SKINS[state.skinIndex || 0] || PLAYER_SKINS[0];
+  const activeLoadout = STARTER_LOADOUTS[state.loadoutIndex || 0] || STARTER_LOADOUTS[0];
 
   if (state.phase === "playing") {
     const color = state.health > 60 ? PALETTE.healthOk : state.health > 30 ? PALETTE.healthWarn : PALETTE.healthCrit;
     if (hudHealth !== state.health) {
       hudHealth = state.health;
-      P("vitals", { x: 0.022, y: 0.03, w: 0.55, h: 0.155, radius: 0.014, fill: PALETTE.panels.status, stroke: PALETTE.strokes.status, width: 0.002 });
-      T("vitals-title", "FORGE SMOKE // ARMORY", { x: 0.032, y: 0.042, size: TYPE_SCALE.label, color: PALETTE.hudLabel, weight: 700 });
+      P("vitals", { x: 0.022, y: 0.03, w: 0.68, h: 0.165, radius: 0.014, fill: PALETTE.panels.status, stroke: PALETTE.strokes.status, width: 0.002 });
+      T("vitals-title", `FORGE SMOKE // ${activeSkin.name}`, { x: 0.032, y: 0.042, size: TYPE_SCALE.label, color: PALETTE.hudLabel, weight: 700 });
       B("health", state.health / state.maxHealth, { x: 0.032, y: 0.069, w: 0.18, h: 0.023, color, back: PALETTE.strokes.barBack });
       T("health-num", String(state.health), { x: 0.218, y: 0.064, size: TYPE_SCALE.numeral, color, weight: 800 });
     }
-    if (hudKills !== state.kills) {
-      hudKills = state.kills;
-      T("kills", `THREATS DOWN  ${state.kills}`, { x: 0.032, y: 0.125, size: TYPE_SCALE.small, color: PALETTE.hudSecondary });
+    const killsKey = `${state.kills}:${cardSystem.level}`;
+    if (hudKills !== killsKey) {
+      hudKills = killsKey;
+      weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
+      T("kills", `THREATS DOWN  ${state.kills}   ·   LV ${cardSystem.level}`, { x: 0.032, y: 0.125, size: TYPE_SCALE.small, color: PALETTE.hudSecondary });
     }
 
     const activeConfig = weaponManager.getActiveConfig();
     const inactiveConfig = weaponManager.getInactiveConfig();
     const activeWeapon = weaponManager.active;
-    const inactiveWeapon = weaponManager.inactive;
+    const rldSpd = activeWeapon.reloadSpeedMultiplier || 1;
 
-    let ammoText = activeWeapon.isReloading ? "RELOADING..." : `MAG  ${activeWeapon.magazine} / ${activeWeapon.maxMagazine}`;
+    let ammoText = activeWeapon.isReloading
+      ? `AUTO-RELOAD ${Math.round(activeWeapon.reloadProgress * 100)}%  ·  RLD ${rldSpd.toFixed(2)}x`
+      : `MAG  ${activeWeapon.magazine} / ${activeWeapon.maxMagazine}  ·  RLD ${rldSpd.toFixed(2)}x`;
     if (activeWeapon.isHeatWeapon) {
-      ammoText = activeWeapon.isReloading ? "VENTING..." : `HEAT  ${Math.round(activeWeapon.heat)} / ${activeWeapon.maxHeat}`;
+      ammoText = activeWeapon.isReloading
+        ? `VENTING ${Math.round(activeWeapon.reloadProgress * 100)}%  ·  RLD ${rldSpd.toFixed(2)}x`
+        : `HEAT  ${Math.round(activeWeapon.heat)} / ${activeWeapon.maxHeat}  ·  RLD ${rldSpd.toFixed(2)}x`;
     }
     if (hudAmmo !== ammoText) {
       hudAmmo = ammoText;
-      T("ammo", ammoText, { x: 0.032, y: 0.151, size: TYPE_SCALE.label, color: PALETTE.ui, weight: 700 });
+      T("ammo", ammoText, { x: 0.032, y: 0.151, size: TYPE_SCALE.label, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, weight: 700 });
+      const barFrac = activeWeapon.isReloading
+        ? activeWeapon.reloadProgress
+        : activeWeapon.isHeatWeapon
+          ? Math.max(0, 1 - activeWeapon.heat / Math.max(1, activeWeapon.maxHeat))
+          : activeWeapon.magazine / Math.max(1, activeWeapon.maxMagazine);
+      B("reload-bar", barFrac, { x: 0.032, y: 0.098, w: 0.18, h: 0.012, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, back: PALETTE.strokes.barBack });
     }
 
     // Weapon plates (ART-01 iconography): name + 48 px silhouette, one per style.
-    const activeName = activeConfig.style.toUpperCase();
-    const inactiveName = inactiveConfig.style.toUpperCase();
+    const activeStyle = activeConfig?.style || activeWeapon?.styleKey || "spray";
+    const inactiveStyle = inactiveConfig?.style || weaponManager.inactive?.styleKey || "pierce";
+    const activeName = String(activeStyle).toUpperCase();
+    const inactiveName = String(inactiveStyle).toUpperCase();
     T("weapon-active", `${activeName}`, { x: 0.325, y: 0.045, size: TYPE_SCALE.micro, color: PALETTE.ui, weight: 700 });
     T("weapon-inactive", `${inactiveName}`, { x: 0.325, y: 0.088, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 500 });
 
     // Weapon icons, drawn at 28 px from the 48 px sheet cells.
-    const activeIconSrc = weaponIconDataUrls[activeConfig.style];
-    const inactiveIconSrc = weaponIconDataUrls[inactiveConfig.style];
+    const activeIconSrc = weaponIconDataUrls[activeStyle];
+    const inactiveIconSrc = weaponIconDataUrls[inactiveStyle];
     if (activeIconSrc && h.get("weapon-icon-active")?.src !== activeIconSrc) {
       h.image("weapon-icon-active", activeIconSrc, { x: 0.278, y: 0.038, h: 0.039 });
     }
@@ -509,28 +643,154 @@ function syncHud() {
       h.remove("airdrop");
     }
 
+    // Boss HP readout when Mech or Gunship is active
+    const boss = enemyManager.getEnemies().find((e) => e.type === "gunship" || e.type === "mech");
+    if (boss) {
+      const bossKey = `${boss.type}:${Math.round(boss.hp)}`;
+      if (hudBoss !== bossKey) {
+        hudBoss = bossKey;
+        const bossLabel = boss.type === "gunship" ? "BOSS // ASSAULT GUNSHIP" : "ELITE // SIEGE MECH";
+        T("boss-label", `${bossLabel}  (${Math.max(0, Math.round(boss.hp))} HP)`, { x: 0.5, y: 0.11, size: TYPE_SCALE.micro, color: PALETTE.deadPrompt, weight: 700, align: "center" });
+        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.39, y: 0.132, w: 0.22, h: 0.014, color: PALETTE.healthCrit, back: PALETTE.strokes.barBack });
+      }
+    } else if (hudBoss !== null) {
+      hudBoss = null;
+      h.remove("boss-label");
+      h.remove("boss-bar");
+    }
+
+    // "THE DARKNESS COMES" status banner when ambient light dims
+    const darkPct = Math.round((state.darknessFactor || 0) * 100);
+    const darkKey = darkPct >= 15 ? `DARK:${Math.round(darkPct / 5) * 5}:${weaponManager.lightModLevel}` : null;
+    if (darkKey !== hudDarkness) {
+      hudDarkness = darkKey;
+      if (darkKey) {
+        const modTag = weaponManager.lightModLevel > 0 ? `LIGHT MODS LV ${weaponManager.lightModLevel} (+25% LIT DMG)` : "GUN FLOODLIGHT & LIGHT-ORB ROUNDS ENGAGED";
+        T("darkness-alert", `THE DARKNESS COMES (${darkPct}% DIM)  ·  ${modTag}`, { x: 0.5, y: 0.162, size: TYPE_SCALE.micro, color: "#ffd57a", weight: 800, align: "center" });
+      } else {
+        h.remove("darkness-alert");
+      }
+    }
+
+    // 3-Choice Tactical Upgrade Card Overlay
+    if (state.cardPickWindow && state.currentCardOptions && state.currentCardOptions.length > 0) {
+      const cardSig = state.currentCardOptions.map((c) => c.name || c.style || "card").join("|");
+      if (hudCards !== cardSig) {
+        hudCards = cardSig;
+        P("card-panel", { anchor: "bottom", x: 0, y: 0.11, w: 0.92, h: 0.14, radius: 0.014, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+        T("card-hdr", "TACTICAL FIELD UPGRADE READY — PRESS [1] [2] OR [3]", { anchor: "bottom", x: 0, y: 0.205, size: TYPE_SCALE.micro, color: PALETTE.healthOk, weight: 700 });
+        const line = state.currentCardOptions
+          .map((opt, idx) => `[${idx + 1}] ${(opt.name || opt.style || "UPGRADE").toUpperCase()}`)
+          .join("     ·     ");
+        T("card-options", line, { anchor: "bottom", x: 0, y: 0.145, size: TYPE_SCALE.label, color: PALETTE.titleText, weight: 800 });
+      }
+    } else if (hudCards !== null) {
+      hudCards = null;
+      h.remove("card-panel");
+      h.remove("card-hdr");
+      h.remove("card-options");
+    }
+
     if (!changed) return;
   }
 
   if (changed) {
-    const hint = state.phase === "dead" ? "R / SPACE / ENTER  ·  REDEPLOY" : state.phase === "results" ? "R / SPACE / ENTER  ·  REDEPLOY" : "WASD MOVE  ·  AUTO-FIRE  ·  R RELOAD  ·  Q SWAP  ·  M2 AIM  ·  1/2/3 CARDS";
-    P("hint-panel", { x: 0.012, y: 0.902, w: 0.40, h: 0.045, radius: 0.008, fill: PALETTE.panels.hint, stroke: PALETTE.strokes.hint, width: 0.0015 });
-    T("hint", hint, { x: 0.022, y: 0.928, size: TYPE_SCALE.small, color: PALETTE.hudSecondary, weight: 600 });
+    const hint = state.phase === "dead"
+      ? "R / SPACE / ENTER  ·  REDEPLOY"
+      : state.phase === "results"
+        ? "R / SPACE / ENTER  ·  REDEPLOY"
+        : state.phase === "title"
+          ? "[C] CYCLE SUIT SKIN  ·  [V] CYCLE STARTER WEAPON  ·  [W / SPACE] DEPLOY"
+          : "WASD MOVE  ·  AUTO-FIRE & AUTO-RELOAD  ·  [L] DARKNESS WAVE  ·  Q SWAP  ·  1/2/3 CARDS";
+    P("hint-panel", { x: 0.012, y: 0.902, w: 0.68, h: 0.048, radius: 0.008, fill: PALETTE.panels.hint, stroke: PALETTE.strokes.hint, width: 0.0015 });
+    T("hint", hint, { x: 0.022, y: 0.916, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary, weight: 600 });
   }
 
   if (state.phase === "title") {
-    P("title-panel", { anchor: "center", x: 0, y: 0, w: 0.72, h: 0.3, radius: 0.02, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
-    T("title", "FORGE SMOKE", { anchor: "center", x: 0, y: -0.075, size: TYPE_SCALE.display, color: PALETTE.titleText, weight: 800 });
-    T("title-sub", "Hold the perimeter. The armory is winning.", { anchor: "center", x: 0, y: 0.002, size: TYPE_SCALE.subhead, color: PALETTE.hudSubtitle });
-    T("title-prompt", "PRESS  W  OR  SPACE  TO DEPLOY", { anchor: "center", x: 0, y: 0.075, size: TYPE_SCALE.prompt, color: PALETTE.healthOk, weight: 700 });
+    // Top-Center Tactical Command Header (leaves center viewport clear for 3D Operator turntable)
+    P("title-panel", { anchor: "top", x: 0, y: 0.025, w: 0.78, h: 0.25, radius: 0.018, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+    T("title-kicker", "LYGO FORGE TACTICAL DIVISION // SECTOR 09", { anchor: "top", x: 0, y: 0.042, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 700 });
+    T("title", "FORGE SMOKE", { anchor: "top", x: 0, y: 0.072, size: TYPE_SCALE.display, color: PALETTE.titleText, weight: 800 });
+    T("title-sub", "Hold the perimeter. 3 Arenas · 8 Hostile Classes · 12 Weapons.", { anchor: "top", x: 0, y: 0.165, size: TYPE_SCALE.small, color: PALETTE.hudSubtitle });
+    T("title-prompt", "PRESS  W, SPACE OR ENTER TO CONTINUE  ·  [O] OPTIONS", { anchor: "top", x: 0, y: 0.212, size: TYPE_SCALE.prompt, color: PALETTE.healthOk, weight: 700 });
     if (saved.bestScore > 0) {
-      T("best-score", `BEST  ${saved.bestScore}`, { anchor: "center", x: 0, y: 0.12, size: TYPE_SCALE.label, color: PALETTE.hudSecondary });
+      T("best-score", `BEST  ${saved.bestScore}`, { anchor: "top", x: 0, y: 0.248, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
     }
+
+    // Left Flank Operator Suit Selector Panel
+    P("skin-panel", { x: 0.022, y: 0.32, w: 0.54, h: 0.20, radius: 0.014, fill: PALETTE.panels.status, stroke: PALETTE.strokes.status, width: 0.002 });
+    T("skin-hdr", "OPERATOR SUIT  [PRESS C]", { x: 0.034, y: 0.338, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 700 });
+    T("skin-name", activeSkin.name, { x: 0.034, y: 0.374, size: TYPE_SCALE.subhead, color: PALETTE.titleText, weight: 800 });
+    T("skin-role", activeSkin.desc, { x: 0.034, y: 0.418, size: TYPE_SCALE.micro, color: PALETTE.healthOk, weight: 700 });
+    T("skin-idx", `SUIT ${(state.skinIndex || 0) + 1} / ${PLAYER_SKINS.length}  ·  ARMORED RIG READY`, { x: 0.034, y: 0.458, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
+
+    // Right Flank Starter Weapon Loadout Selector Panel
+    P("loadout-panel", { anchor: "top-right", x: 0.022, y: 0.32, w: 0.56, h: 0.20, radius: 0.014, fill: PALETTE.panels.status, stroke: PALETTE.strokes.status, width: 0.002 });
+    T("loadout-hdr", "PRIMARY LOADOUT  [PRESS V]", { anchor: "top-right", x: 0.034, y: 0.338, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 700 });
+    T("loadout-name", `${activeLoadout.name}`, { anchor: "top-right", x: 0.034, y: 0.374, size: TYPE_SCALE.subhead, color: PALETTE.ui, weight: 800 });
+    T("loadout-role", `ROLE: ${activeLoadout.role}  ·  SEC: PIERCE RAIL`, { anchor: "top-right", x: 0.034, y: 0.418, size: TYPE_SCALE.micro, color: PALETTE.hudSubtitle, weight: 700 });
+    T("loadout-idx", `WEAPON ${(state.loadoutIndex || 0) + 1} / ${STARTER_LOADOUTS.length}  ·  12 STYLES ARMED`, { anchor: "top-right", x: 0.034, y: 0.458, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
+
+    // Bottom-Right Threat & Campaign Briefing Panel
+    P("briefing-panel", { anchor: "bottom-right", x: 0.022, y: 0.048, w: 0.72, h: 0.145, radius: 0.012, fill: PALETTE.panels.hint, stroke: PALETTE.strokes.status, width: 0.0018 });
+    T("briefing-1", "ARENAS: PERIMETER RAIN -> BREACH YARD -> GUNSHIP HELIPAD", { anchor: "bottom-right", x: 0.034, y: 0.142, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 700 });
+    T("briefing-2", "HOSTILES: RIFLEMAN · SAPPER · SHIELD · SPOTTER · DRONE · MORTAR · MECH · GUNSHIP", { anchor: "bottom-right", x: 0.034, y: 0.105, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
+    T("briefing-3", "ARMORY READY: 3D OPERATOR SKINS & WEAPON ATTACHMENTS ACTIVE", { anchor: "bottom-right", x: 0.034, y: 0.068, size: TYPE_SCALE.micro, color: PALETTE.healthOk, weight: 700 });
+  } else if (state.phase === "arenaSelect") {
+    P("as-panel", { anchor: "center", x: 0, y: 0, w: 0.82, h: 0.62, radius: 0.02, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+    T("as-title", "TACTICAL ARENA SELECTION", { anchor: "center", x: 0, y: -0.26, size: TYPE_SCALE.h2, color: PALETTE.titleText, weight: 800 });
+    T("as-sub", "[UP / DOWN] SELECT ARENA  ·  [ENTER / SPACE] CONFIRM  ·  [ESC] TITLE", { anchor: "center", x: 0, y: -0.19, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
+    
+    menuModule.ARENAS.forEach((a, i) => {
+      const unlocked = menuModule.isArenaUnlocked(a.id, loadSave());
+      const selected = state.selectedArenaIndex === i;
+      const color = selected ? PALETTE.titleText : unlocked ? PALETTE.ui : PALETTE.hudSubtitle;
+      const status = unlocked ? "UNLOCKED" : `LOCKED (REQ ${a.reqScore} PTS)`;
+      const prefix = selected ? "▶ " : "  ";
+      const y = -0.06 + i * 0.11;
+      T(`as-arena-${i}`, `${prefix}${a.name.toUpperCase()} — ${a.desc}  [${status}]`, { anchor: "center", x: 0, y, size: TYPE_SCALE.subhead, color, weight: selected ? 800 : 600 });
+    });
+  } else if (state.phase === "loadout") {
+    P("ld-panel", { anchor: "center", x: 0, y: 0, w: 0.75, h: 0.55, radius: 0.02, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+    T("ld-title", "ARMORY LOADOUT & DEPLOY", { anchor: "center", x: 0, y: -0.22, size: TYPE_SCALE.h2, color: PALETTE.titleText, weight: 800 });
+    T("ld-arena", `ARENA: ${menuModule.ARENAS[state.selectedArenaIndex].name.toUpperCase()}`, { anchor: "center", x: 0, y: -0.12, size: TYPE_SCALE.subhead, color: PALETTE.healthOk, weight: 700 });
+    T("ld-skin", `OPERATOR SUIT: ${activeSkin.name} [PRESS C TO CYCLE]`, { anchor: "center", x: 0, y: -0.04, size: TYPE_SCALE.label, color: PALETTE.ui });
+    T("ld-weapon", `PRIMARY WEAPON: ${activeLoadout.name} [PRESS V TO CYCLE]`, { anchor: "center", x: 0, y: 0.02, size: TYPE_SCALE.label, color: PALETTE.hudSecondary });
+    T("ld-prompt", "[1 / 2 / 3 / ENTER] DEPLOY INTO COMBAT  ·  [ESC] BACK", { anchor: "center", x: 0, y: 0.20, size: TYPE_SCALE.prompt, color: PALETTE.healthOk, weight: 700 });
+  } else if (state.phase === "paused") {
+    P("p-panel", { anchor: "center", x: 0, y: 0, w: 0.6, h: 0.45, radius: 0.02, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+    T("p-title", "TACTICAL PAUSE", { anchor: "center", x: 0, y: -0.16, size: TYPE_SCALE.h2, color: PALETTE.titleText, weight: 800 });
+    T("p-res", "[ESC / ENTER]  RESUME COMBAT", { anchor: "center", x: 0, y: -0.06, size: TYPE_SCALE.body, color: PALETTE.healthOk, weight: 700 });
+    T("p-rst", "[R]  RESTART RUN", { anchor: "center", x: 0, y: -0.01, size: TYPE_SCALE.body, color: PALETTE.ui, weight: 700 });
+    T("p-opt", "[O]  SETTINGS & OPTIONS", { anchor: "center", x: 0, y: 0.04, size: TYPE_SCALE.body, color: PALETTE.hudSecondary, weight: 700 });
+    T("p-quit", "[Q / BACKSPACE]  ABANDON TO TITLE", { anchor: "center", x: 0, y: 0.09, size: TYPE_SCALE.body, color: PALETTE.healthCrit, weight: 700 });
+  } else if (state.phase === "options") {
+    const currentSettings = getSettings();
+    P("opt-panel", { anchor: "center", x: 0, y: 0, w: 0.78, h: 0.68, radius: 0.02, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
+    T("opt-title", "SETTINGS & OPTIONS", { anchor: "center", x: 0, y: -0.28, size: TYPE_SCALE.h2, color: PALETTE.titleText, weight: 800 });
+    T("opt-sub", "[UP / DOWN] SELECT  ·  [LEFT / RIGHT] ADJUST  ·  [ESC] BACK", { anchor: "center", x: 0, y: -0.21, size: TYPE_SCALE.micro, color: PALETTE.hudSecondary });
+
+    const optItems = [
+      { label: "Master Volume", val: `${Math.round((currentSettings.masterVolume ?? 0.8) * 100)}%` },
+      { label: "SFX Volume", val: `${Math.round((currentSettings.sfxVolume ?? 1.0) * 100)}%` },
+      { label: "Music Volume", val: `${Math.round((currentSettings.musicVolume ?? 0.6) * 100)}%` },
+      { label: "Aim Sensitivity", val: `${(currentSettings.sensitivity ?? 1.0).toFixed(1)}x` },
+      { label: "Graphics Quality", val: (currentSettings.quality ?? "low").toUpperCase() },
+      { label: "Show FPS Overlay", val: currentSettings.showFPS ? "ON" : "OFF" }
+    ];
+
+    optItems.forEach((o, i) => {
+      const selected = state.selectedOptionIndex === i;
+      const color = selected ? PALETTE.titleText : PALETTE.ui;
+      const prefix = selected ? "▶ " : "  ";
+      const y = -0.12 + i * 0.07;
+      T(`opt-item-${i}`, `${prefix}${o.label.padEnd(20, ' ')} :  [${o.val}]`, { anchor: "center", x: 0, y, size: TYPE_SCALE.body, color, weight: selected ? 800 : 600 });
+    });
   } else if (state.phase === "dead") {
     P("dead-panel", { anchor: "center", x: 0, y: 0, w: 0.62, h: 0.27, radius: 0.02, fill: PALETTE.panels.dead, stroke: PALETTE.strokes.dead, width: 0.002 });
     T("dead-title", "PERIMETER LOST", { anchor: "center", x: 0, y: -0.065, size: TYPE_SCALE.deathTitle, color: PALETTE.deadTitle, weight: 800 });
     T("dead-sub", `THREATS DOWN  ${state.kills}`, { anchor: "center", x: 0, y: 0.005, size: TYPE_SCALE.subhead, color: PALETTE.deadSub });
-    T("dead-prompt", "PRESS  R  TO REDEPLOY", { anchor: "center", x: 0, y: 0.072, size: TYPE_SCALE.prompt, color: PALETTE.deadPrompt, weight: 700 });
+    T("dead-prompt", "PRESS  R  TO REDEPLOY  ·  [T] TITLE", { anchor: "center", x: 0, y: 0.072, size: TYPE_SCALE.prompt, color: PALETTE.deadPrompt, weight: 700 });
   } else if (state.phase === "results" && state.resultsScreen) {
     const r = state.resultsScreen.getFormatted();
     P("results-panel", { anchor: "center", x: 0, y: 0, w: 0.8, h: 0.85, radius: 0.02, fill: PALETTE.panels.results, stroke: PALETTE.strokes.results, width: 0.002 });
@@ -545,7 +805,7 @@ function syncHud() {
     T("results-base", `BASE  ${r.scoreBreakdown.base}`, { anchor: "center", x: 0, y, size: TYPE_SCALE.label, color: PALETTE.ui, weight: 700 }); y += 0.05;
     T("results-mult", `${r.scoreBreakdown.multiplier}  =  ${r.scoreBreakdown.final}`, { anchor: "center", x: 0, y, size: TYPE_SCALE.title, color: PALETTE.titleText, weight: 800 }); y += 0.07;
     T("results-unlocks", `UNLOCK TOKENS  +${r.unlockTokens}`, { anchor: "center", x: 0, y, size: TYPE_SCALE.subhead, color: PALETTE.healthOk, weight: 700 }); y += 0.05;
-    T("results-prompt", "PRESS  R  TO REDEPLOY", { anchor: "center", x: 0, y: 0.32, size: TYPE_SCALE.prompt, color: PALETTE.deadPrompt, weight: 700 });
+    T("results-prompt", "PRESS  R  TO REDEPLOY  ·  [T] TITLE", { anchor: "center", x: 0, y: 0.32, size: TYPE_SCALE.prompt, color: PALETTE.deadPrompt, weight: 700 });
   }
 }
 
@@ -560,6 +820,11 @@ function clearEffects() {
   for (const tracer of tracers) {
     tracer.life = 0;
     tracer.mesh.visible = false;
+    if (tracer.orb) tracer.orb.visible = false;
+  }
+  for (const pt of orbLights) {
+    pt.visible = false;
+    pt.intensity = 0;
   }
   state.flash = 0;
   flash.visible = false;
@@ -570,11 +835,17 @@ function placeCamera() {
   camera.lookAt(state.pos.x, 1.25, state.pos.z);
 }
 
-function startRun() {
+function startRun(arenaId = "arena1") {
   clearEnemies();
   clearEffects();
   const seed = state.seed;
   state.rng = makeRng(seed);
+  const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+  const secondaryStyle = chosenStyle === "pierce" ? "spray" : "pierce";
+  
+  const arenaKeyMap = { arena1: "perimeter", arena2: "breach", arena3: "gunship" };
+  const targetArenaKey = arenaKeyMap[arenaId] || "perimeter";
+
   Object.assign(state, {
     phase: "playing",
     health: 100,
@@ -597,16 +868,21 @@ function startRun() {
     airdropState: null,
     showResults: false,
     resultsScreen: null,
+    lastRenderedWeaponStyle: chosenStyle,
   });
   state.pos.set(0, 0, 0);
   soldier.position.set(0, 0, 0);
   soldier.rotation.y = 0;
   gunPivot.rotation.y = 0;
-  weaponManager.primary = new (weaponManager.primary.constructor)("spray");
-  weaponManager.secondary = new (weaponManager.secondary.constructor)("pierce");
+  buildOperatorRig(soldier, gunPivot, TEX_SIZE, state.skinIndex || 0);
+  rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
+  weaponManager.rng = state.rng;
+  weaponManager.primary = new Weapon(chosenStyle);
+  weaponManager.secondary = new Weapon(secondaryStyle);
   weaponManager.activeSlot = "primary";
   weaponManager.isSwapping = false;
   weaponManager.swapTimer = 0;
+  cardSystem.rng = state.rng;
   cardSystem.xp = 0;
   cardSystem.level = 1;
   cardSystem.nextLevelXp = TUNING.progression.levelBaseXp;
@@ -632,19 +908,12 @@ function startRun() {
   scoreSystem.evolutions = 0;
   scoreSystem.airdropsTaken = 0;
   scoreSystem.runStartTime = Date.now();
+  
+  applyArenaLighting(targetArenaKey);
+  setLightsEnabled(true);
   placeCamera();
+  hudPhase = null;
   syncHud();
-  weaponManager.rng = state.rng;
-  weaponManager.primary = new Weapon("spray");
-  weaponManager.secondary = new Weapon("pierce");
-  weaponManager.activeSlot = "primary";
-  weaponManager.isSwapping = false;
-  weaponManager.swapTimer = 0;
-  cardSystem.rng = state.rng;
-  cardSystem.xp = 0;
-  cardSystem.level = 1;
-  cardSystem.nextLevelXp = TUNING.progression.levelBaseXp;
-  cardSystem.queuedCards = [];
 }
 
 function reset(seed) {
@@ -652,6 +921,8 @@ function reset(seed) {
   state.rng = makeRng(state.seed);
   clearEnemies();
   clearEffects();
+  const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+  const secondaryStyle = chosenStyle === "pierce" ? "spray" : "pierce";
   Object.assign(state, {
     phase: "title",
     health: 100,
@@ -674,23 +945,21 @@ function reset(seed) {
     airdropState: null,
     showResults: false,
     resultsScreen: null,
+    lastRenderedWeaponStyle: chosenStyle,
   });
   state.pos.set(0, 0, 0);
   soldier.position.set(0, 0, 0);
   soldier.rotation.y = 0;
   gunPivot.rotation.y = 0;
+  buildOperatorRig(soldier, gunPivot, TEX_SIZE, state.skinIndex || 0);
+  rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
   weaponManager.rng = state.rng;
-  weaponManager.primary = new Weapon("spray");
-  weaponManager.secondary = new Weapon("pierce");
+  weaponManager.primary = new Weapon(chosenStyle);
+  weaponManager.secondary = new Weapon(secondaryStyle);
   weaponManager.activeSlot = "primary";
   weaponManager.isSwapping = false;
   weaponManager.swapTimer = 0;
   cardSystem.rng = state.rng;
-  cardSystem.xp = 0;
-  cardSystem.level = 1;
-  cardSystem.nextLevelXp = TUNING.progression.levelBaseXp;
-  cardSystem.queuedCards = [];
-  weaponManager.swapTimer = 0;
   cardSystem.xp = 0;
   cardSystem.level = 1;
   cardSystem.nextLevelXp = TUNING.progression.levelBaseXp;
@@ -715,6 +984,8 @@ function reset(seed) {
   scoreSystem.blackoutsSurvived = 0;
   scoreSystem.evolutions = 0;
   scoreSystem.airdropsTaken = 0;
+  applyArenaLighting("perimeter");
+  setLightsEnabled(true);
   placeCamera();
   syncHud();
 }
@@ -723,47 +994,50 @@ function spawnEnemy() {
   const beat = beatDirector.getCurrentBeat();
   const types = beat.enemyTypes || ["rifleman"];
   const type = types[Math.floor(state.rng() * types.length)];
-  const angle = state.rng() * TAU;
-  const radius = 18 + state.rng() * 10;
-  const position = new THREE.Vector3(state.pos.x + Math.cos(angle) * radius, 0.72, state.pos.z + Math.sin(angle) * radius);
-  const enemy = enemyManager.spawn(type, state.pos, beatDirector.runTime / 60);
-  if (enemy) {
-    enemy.position.copy(position);
-    // Create mesh
-    const mesh = new THREE.Mesh(enemyGeo, enemyMat);
-    mesh.position.copy(position);
-    mesh.castShadow = true;
-    mesh.userData.tag = "enemy";
-    scene.add(mesh);
-    enemy.mesh = mesh;
-    enemyManager.enemyMeshes.set(enemy, mesh);
-  }
+  enemyManager.spawn(type, state.pos, beatDirector.runTime / 60);
 }
 
 function shoot(target) {
   soldier.updateMatrixWorld(true);
-  vMuzzle.set(0, 0, 0.52);
-  rifle.localToWorld(vMuzzle);
+  vMuzzle.set(0, 0, 1.05);
+  gunPivot.localToWorld(vMuzzle);
   vTarget.set(target.mesh.position.x, target.mesh.position.y + 0.15, target.mesh.position.z);
 
   const fireData = weaponManager.fire(state.aimMode);
   if (!fireData) return;
 
-  // Spawn tracers
+  // Spawn tracers + Travelling Light-Orb Projectiles
   const pelletCount = fireData.pellets || 1;
+  const darkBoost = Math.max(state.darknessFactor || 0, state.blackoutActive ? 1 : 0);
+  const orbScaleBase = (weaponManager.hasLightOrbMod ? 1.75 : 1.0) * (1 + darkBoost * 0.85);
+  const orbLife = Math.max(fireData.tracerLife, 0.16 + darkBoost * 0.12 + (weaponManager.hasLightOrbMod ? 0.08 : 0));
+
   for (let p = 0; p < pelletCount; p++) {
     const tracer = tracers.find((t) => t.life <= 0);
     if (tracer) {
       const spreadAngle = (state.rng() - 0.5) * fireData.spread * (Math.PI / 180);
       const dir = new THREE.Vector3().subVectors(vTarget, vMuzzle).normalize();
       dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), spreadAngle);
-      const endPos = vMuzzle.clone().add(dir.clone().multiplyScalar(fireData.range * 30)); // Convert to px
+      const travelDist = Math.min(26, Math.max(5, vMuzzle.distanceTo(vTarget) + 3.5));
+      const endPos = vMuzzle.clone().add(dir.clone().multiplyScalar(travelDist));
+      tracer.start.copy(vMuzzle);
+      tracer.end.copy(endPos);
+      tracer.color = fireData.tracerColor;
+      tracer.maxLife = orbLife;
+      tracer.life = orbLife;
+
       tracer.mesh.position.copy(vMuzzle).add(endPos).multiplyScalar(0.5);
       tracer.mesh.lookAt(endPos);
-      tracer.mesh.scale.set(1, 1, Math.max(0.4, vMuzzle.distanceTo(endPos)));
+      tracer.mesh.scale.set(1 + darkBoost * 0.6, 1 + darkBoost * 0.6, Math.max(0.4, vMuzzle.distanceTo(endPos)));
       tracer.mesh.material.color.setHex(fireData.tracerColor);
       tracer.mesh.visible = true;
-      tracer.life = fireData.tracerLife;
+
+      if (tracer.orb) {
+        tracer.orb.position.copy(vMuzzle);
+        tracer.orb.scale.setScalar(orbScaleBase);
+        tracer.orb.material.color.setHex(fireData.tracerColor);
+        tracer.orb.visible = true;
+      }
     }
   }
 
@@ -786,7 +1060,9 @@ function shoot(target) {
   gunPivot.rotation.y += (state.rng() - 0.5) * fireData.recoilYaw * 2;
   gunPivot.rotation.x -= Math.abs(fireData.recoilPitch);
 
-  // Deal damage
+  // Deal damage (+25% bonus when target is illuminated in Darkness or with Floodlight/Light-Orb mods)
+  const litBonusMult = (state.darknessFactor > 0.25 || weaponManager.hasFloodlightMod || weaponManager.hasLightOrbMod) ? 1.25 : 1.0;
+  const effectiveDamage = Math.round(fireData.damage * litBonusMult);
   let damageDealt = 0;
   if (fireData.pierceCount > 0) {
     // Pierce: hit target and up to pierceCount enemies behind
@@ -799,8 +1075,8 @@ function shoot(target) {
     }).slice(0, fireData.pierceCount);
 
     for (const enemy of enemiesInLine) {
-      const result = enemyManager.damageEnemy(enemy, fireData.damage, false, 0);
-      damageDealt += fireData.damage;
+      const result = enemyManager.damageEnemy(enemy, effectiveDamage, false, 0);
+      damageDealt += effectiveDamage;
       if (result.killed) {
         state.kills++;
         scoreSystem.recordKill(enemy.getScoreValue());
@@ -850,8 +1126,8 @@ function shoot(target) {
   scoreSystem.recordDamage(damageDealt);
 }
 
-function nearest(maxDistance = 19) {
-  return enemyManager.findNearest(state.pos, state.yaw, maxDistance, TAU / 3); // 120° arc
+function nearest(maxDistance = 24) {
+  return enemyManager.findNearest(state.pos, state.yaw, maxDistance, TAU); // Full 360° threat acquisition
 }
 
 function hurt(amount) {
@@ -868,19 +1144,193 @@ function hurt(amount) {
 const held = (ctx, names) => names.some((name) => ctx.keys.has(name));
 
 function update(dt, ctx) {
+  state.menuCooldown = Math.max(0, (state.menuCooldown || 0) - dt);
   if (state.phase === "title") {
-    if (held(ctx, ["KeyW", "w", "W", "KeyA", "a", "A", "KeyS", "s", "S", "KeyD", "d", "D", "Space", "Enter"])) startRun();
+    state.t += dt;
+    state.orbit += dt * 0.26;
+    soldier.rotation.y = Math.sin(state.t * 0.65) * 0.35;
+    updateOperatorAnimation(soldier, gunPivot, dt, false, null);
+    camera.position.set(Math.sin(state.orbit) * 5.6, 2.75, Math.cos(state.orbit) * 5.6);
+    camera.lookAt(0, 1.25, 0);
+
+    if (state.menuCooldown <= 0 && held(ctx, ["KeyC", "c", "C"])) {
+      state.skinIndex = ((state.skinIndex || 0) + 1) % PLAYER_SKINS.length;
+      buildOperatorRig(soldier, gunPivot, TEX_SIZE, state.skinIndex);
+      const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+      rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
+      state.menuCooldown = 0.22;
+      hudPhase = null;
+    } else if (state.menuCooldown <= 0 && held(ctx, ["KeyV", "v", "V"])) {
+      state.loadoutIndex = ((state.loadoutIndex || 0) + 1) % STARTER_LOADOUTS.length;
+      const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+      rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
+      state.menuCooldown = 0.22;
+      hudPhase = null;
+    } else if (state.menuCooldown <= 0 && held(ctx, ["KeyO", "o", "O"])) {
+      state.optionsCaller = "title";
+      state.phase = "options";
+      state.menuCooldown = 0.22;
+      hudPhase = null;
+    } else if (held(ctx, ["KeyW", "w", "W", "Space", "Enter", "ArrowRight"])) {
+      state.phase = "arenaSelect";
+      state.menuCooldown = 0.22;
+      hudPhase = null;
+    }
+  } else if (state.phase === "arenaSelect") {
+    state.t += dt;
+    state.orbit += dt * 0.26;
+    soldier.rotation.y = Math.sin(state.t * 0.65) * 0.35;
+    camera.position.set(Math.sin(state.orbit) * 5.6, 2.75, Math.cos(state.orbit) * 5.6);
+    camera.lookAt(0, 1.25, 0);
+
+    if (state.menuCooldown <= 0) {
+      if (held(ctx, ["ArrowUp", "w", "W"])) {
+        state.selectedArenaIndex = (state.selectedArenaIndex - 1 + menuModule.ARENAS.length) % menuModule.ARENAS.length;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["ArrowDown", "s", "S"])) {
+        state.selectedArenaIndex = (state.selectedArenaIndex + 1) % menuModule.ARENAS.length;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Digit1", "Key1"])) {
+        state.selectedArenaIndex = 0;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Digit2", "Key2"])) {
+        state.selectedArenaIndex = 1;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Digit3", "Key3"])) {
+        state.selectedArenaIndex = 2;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Enter", "Space"])) {
+        const arena = menuModule.ARENAS[state.selectedArenaIndex];
+        if (menuModule.isArenaUnlocked(arena.id, loadSave())) {
+          state.phase = "loadout";
+          state.menuCooldown = 0.22;
+          hudPhase = null;
+        } else {
+          globalThis.__studio?.hud?.flash("#e5313b", 0.22);
+          state.menuCooldown = 0.3;
+        }
+      } else if (held(ctx, ["Escape", "Backspace"])) {
+        state.phase = "title";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      }
+    }
+  } else if (state.phase === "loadout") {
+    state.t += dt;
+    state.orbit += dt * 0.26;
+    soldier.rotation.y = Math.sin(state.t * 0.65) * 0.35;
+    camera.position.set(Math.sin(state.orbit) * 5.6, 2.75, Math.cos(state.orbit) * 5.6);
+    camera.lookAt(0, 1.25, 0);
+
+    if (state.menuCooldown <= 0) {
+      if (held(ctx, ["KeyC", "c", "C"])) {
+        state.skinIndex = ((state.skinIndex || 0) + 1) % PLAYER_SKINS.length;
+        buildOperatorRig(soldier, gunPivot, TEX_SIZE, state.skinIndex);
+        const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+        rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["KeyV", "v", "V"])) {
+        state.loadoutIndex = ((state.loadoutIndex || 0) + 1) % STARTER_LOADOUTS.length;
+        const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+        rifle = rebuildWeaponMesh(gunPivot, chosenStyle, steel);
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Enter", "Space", "Digit1", "Key1", "Digit2", "Key2", "Digit3", "Key3"])) {
+        startRun(menuModule.ARENAS[state.selectedArenaIndex].id);
+      } else if (held(ctx, ["Escape", "Backspace"])) {
+        state.phase = "arenaSelect";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      }
+    }
+  } else if (state.phase === "paused") {
+    if (state.menuCooldown <= 0) {
+      if (held(ctx, ["Escape", "Enter"])) {
+        state.phase = "playing";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["KeyR", "r", "R"])) {
+        startRun(menuModule.ARENAS[state.selectedArenaIndex].id);
+      } else if (held(ctx, ["KeyO", "o", "O"])) {
+        state.optionsCaller = "paused";
+        state.phase = "options";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["KeyQ", "q", "Q", "Backspace"])) {
+        state.phase = "title";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      }
+    }
+  } else if (state.phase === "options") {
+    if (state.menuCooldown <= 0) {
+      const currentSettings = getSettings();
+      if (held(ctx, ["ArrowUp", "w", "W"])) {
+        state.selectedOptionIndex = (state.selectedOptionIndex - 1 + 6) % 6;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["ArrowDown", "s", "S"])) {
+        state.selectedOptionIndex = (state.selectedOptionIndex + 1) % 6;
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["ArrowLeft", "a", "A", "ArrowRight", "d", "D", "Enter", "Space"])) {
+        const dir = held(ctx, ["ArrowLeft", "a", "A"]) ? -1 : 1;
+        if (state.selectedOptionIndex === 0) {
+          currentSettings.masterVolume = Math.max(0, Math.min(1, (currentSettings.masterVolume ?? 0.8) + dir * 0.1));
+        } else if (state.selectedOptionIndex === 1) {
+          currentSettings.sfxVolume = Math.max(0, Math.min(1, (currentSettings.sfxVolume ?? 1.0) + dir * 0.1));
+        } else if (state.selectedOptionIndex === 2) {
+          currentSettings.musicVolume = Math.max(0, Math.min(1, (currentSettings.musicVolume ?? 0.6) + dir * 0.1));
+        } else if (state.selectedOptionIndex === 3) {
+          currentSettings.sensitivity = Math.max(0.5, Math.min(2.0, (currentSettings.sensitivity ?? 1.0) + dir * 0.1));
+        } else if (state.selectedOptionIndex === 4) {
+          const qMap = ["low", "medium", "high"];
+          const qIdx = qMap.indexOf(currentSettings.quality ?? "low");
+          currentSettings.quality = qMap[(qIdx + 1 + qMap.length) % qMap.length];
+        } else if (state.selectedOptionIndex === 5) {
+          currentSettings.showFPS = !currentSettings.showFPS;
+        }
+        updateSettings(currentSettings);
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      } else if (held(ctx, ["Escape", "Backspace"])) {
+        state.phase = state.optionsCaller || "title";
+        state.menuCooldown = 0.22;
+        hudPhase = null;
+      }
+    }
   } else if (state.phase === "dead" || state.phase === "results") {
     if (held(ctx, ["KeyR", "r", "R", "Space", "Enter", "Mouse1"])) {
       if (state.phase === "results") {
         updateBestScore(scoreSystem.getCurrentScore(beatDirector.runTime));
         updateBestTime(beatDirector.runTime);
       }
-      startRun();
+      startRun(menuModule.ARENAS[state.selectedArenaIndex].id);
+    } else if (held(ctx, ["KeyT", "t", "T", "Backspace", "Escape"])) {
+      if (state.phase === "results") {
+        updateBestScore(scoreSystem.getCurrentScore(beatDirector.runTime));
+        updateBestTime(beatDirector.runTime);
+      }
+      state.phase = "title";
+      state.menuCooldown = 0.22;
+      hudPhase = null;
     }
   }
 
   if (state.phase === "playing") {
+    if (state.menuCooldown <= 0 && held(ctx, ["Escape"])) {
+      state.phase = "paused";
+      state.menuCooldown = 0.22;
+      hudPhase = null;
+      return;
+    }
+
     state.t += dt;
     beatDirector.runTime += dt;
 
@@ -903,6 +1353,8 @@ function update(dt, ctx) {
           : TUNING.player.baseSpeed;
       state.pos.x += mx * speed * dt;
       state.pos.z += mz * speed * dt;
+      // Solid arena props block the player (colliders registered by populateArenaProps)
+      resolveObstacleCollision(state.pos, 0.55, arenaColliders);
       const radius = Math.hypot(state.pos.x, state.pos.z);
       if (radius > TUNING.player.arenaRadius) {
         state.pos.x *= TUNING.player.arenaRadius / radius;
@@ -936,12 +1388,59 @@ function update(dt, ctx) {
     weaponManager.updateSwap(dt);
     state.isSwapping = weaponManager.isSwapping;
     state.swapProgress = weaponManager.getSwapProgress();
+    if (state.lastRenderedWeaponStyle !== weaponManager.active.styleKey) {
+      state.lastRenderedWeaponStyle = weaponManager.active.styleKey;
+      rifle = rebuildWeaponMesh(gunPivot, weaponManager.active.styleKey, steel);
+    }
 
-    // Reload
+    // Reload (manual R or automatic when magazine hits 0)
     if (held(ctx, ["KeyR", "r", "R"])) {
       weaponManager.tryReload();
     }
     weaponManager.updateReload(dt);
+    updateOperatorAnimation(soldier, gunPivot, dt, mx !== 0 || mz !== 0, weaponManager.active);
+
+    // Toggle "THE DARKNESS COMES" on demand with [L] key or periodic cycle every 34s
+    if (state.menuCooldown <= 0 && held(ctx, ["KeyL", "l", "L"])) {
+      state.darknessForced = !state.darknessForced;
+      state.menuCooldown = 0.28;
+    }
+    const darkCfg = TUNING.darkness || { firstWaveAt: 16, cycleSeconds: 32, durationSeconds: 14 };
+    const cycleElapsed = beatDirector.runTime - darkCfg.firstWaveAt;
+    const periodicDark = cycleElapsed >= 0 && (cycleElapsed % darkCfg.cycleSeconds) < darkCfg.durationSeconds;
+    state.darknessWaveActive = Boolean(state.darknessForced || periodicDark || state.blackoutActive);
+    const targetDarkness = state.darknessWaveActive ? 1.0 : 0.0;
+    state.darknessFactor += (targetDarkness - (state.darknessFactor || 0)) * Math.min(1, dt * 1.8);
+
+    // Apply smooth ambient dimming + gun floodlight & solar aura amplification during Darkness
+    const cfg = ARENA_LIGHTING[arenaKey] || ARENA_LIGHTING.perimeter;
+    const dimMult = 1 - (state.darknessFactor || 0) * 0.88;
+    if (!lightsOff) {
+      hemi.intensity = cfg.hemisphere.intensity * dimMult;
+      sun.intensity = cfg.sun.intensity * dimMult;
+      scene.fog.density = cfg.fog.density * (1 + (state.darknessFactor || 0) * 0.55);
+    }
+    // LIGHT MODS ARE CARD-GATED: no beam, no lamp housing, no aura until the player owns the card
+    // (or is holding a light gun, whose identity *is* the light). Darkness only amplifies what you own.
+    const dark = state.darknessFactor || 0;
+    const ownsFlood = Boolean(weaponManager.hasFloodlightMod)
+      || (typeof isLightGunStyle === "function" && isLightGunStyle(weaponManager.active?.styleKey));
+    const floodMult = weaponManager.hasFloodlightMod ? 1.85 : 1.0;
+    gunFlashlight.intensity = ownsFlood ? (5.5 + dark * 18.0) * floodMult : 0;
+    gunFlashlight.distance = ownsFlood ? (20 + dark * 10) * floodMult : 0;
+    gunFlashlight.angle = weaponManager.hasFloodlightMod ? 0.62 : 0.46;
+    const beamCone = gunPivot.userData.beamCone;
+    if (beamCone) {
+      beamCone.visible = ownsFlood;
+      if (ownsFlood) {
+        beamCone.material.opacity = (0.045 + dark * 0.13) * (weaponManager.hasFloodlightMod ? 1.35 : 1.0);
+      }
+    }
+    const lampBody = gunPivot.getObjectByName?.("tac-lamp-body")
+      || gunPivot.children.find((c) => c.userData?.tag === "tac-lamp-body");
+    if (lampBody) lampBody.visible = ownsFlood;
+    solarAuraLight.intensity = weaponManager.hasSolarAuraMod ? 6.5 + dark * 8.0 : 0;
+    if (solarAuraRing) solarAuraRing.visible = Boolean(weaponManager.hasSolarAuraMod) && dark > 0.15;
 
     // Card pick
     if (state.cardPickWindow && state.currentCardOptions) {
@@ -1014,10 +1513,17 @@ function update(dt, ctx) {
     const beat = beatDirector.getCurrentBeat();
     enemyManager.updateSpawning(dt, state.pos, beat);
 
-    // Targeting
+    // Targeting (auto-orient Operator & Gun Floodlight toward nearest threat)
     const target = state.phase === "playing" ? nearest() : null;
     if (target) {
-      let turn = Math.atan2(target.mesh.position.x - state.pos.x, target.mesh.position.z - state.pos.z) - state.yaw;
+      const targetYaw = Math.atan2(target.mesh.position.x - state.pos.x, target.mesh.position.z - state.pos.z);
+      if (mx === 0 && mz === 0) {
+        let bodyTurn = targetYaw - state.yaw;
+        bodyTurn = Math.atan2(Math.sin(bodyTurn), Math.cos(bodyTurn));
+        state.yaw += bodyTurn * Math.min(1, dt * TUNING.player.bodyYawSmoothing);
+        soldier.rotation.y = state.yaw;
+      }
+      let turn = targetYaw - state.yaw;
       turn = Math.atan2(Math.sin(turn), Math.cos(turn));
       const smoothing = state.aimMode ? TUNING.player.gunPivotYawSmoothing * 1.5 : TUNING.player.gunPivotYawSmoothing;
       gunPivot.rotation.y += (turn - gunPivot.rotation.y) * Math.min(1, dt * smoothing);
@@ -1082,11 +1588,34 @@ function update(dt, ctx) {
     }
   }
 
-  // Tracers
+  // Tracers & Travelling Light-Orb Bullets
+  let activeOrbLights = 0;
+  const darkBoost = Math.max(state.darknessFactor || 0, state.blackoutActive ? 1 : 0);
   for (const tracer of tracers) {
     if (tracer.life <= 0) continue;
     tracer.life -= dt;
-    if (tracer.life <= 0) tracer.mesh.visible = false;
+    if (tracer.life <= 0) {
+      tracer.mesh.visible = false;
+      if (tracer.orb) tracer.orb.visible = false;
+      continue;
+    }
+    const progress = 1 - tracer.life / Math.max(0.01, tracer.maxLife || 0.12);
+    if (tracer.orb) {
+      tracer.orb.position.lerpVectors(tracer.start, tracer.end, Math.min(1, progress));
+      if (activeOrbLights < orbLights.length) {
+        const pt = orbLights[activeOrbLights++];
+        pt.position.copy(tracer.orb.position);
+        pt.position.y = Math.max(0.6, pt.position.y);
+        pt.color.setHex(tracer.color || 0xffd57a);
+        pt.intensity = (3.8 + darkBoost * 11.5) * (weaponManager.hasLightOrbMod ? 1.65 : 1.0);
+        pt.distance = (10 + darkBoost * 7) * (weaponManager.hasLightOrbMod ? 1.4 : 1.0);
+        pt.visible = true;
+      }
+    }
+  }
+  for (let i = activeOrbLights; i < orbLights.length; i++) {
+    orbLights[i].visible = false;
+    orbLights[i].intensity = 0;
   }
   if (state.flash > 0) {
     state.flash -= dt;
@@ -1122,6 +1651,7 @@ function pickCard(index) {
   } else if (option.type === "part") {
     weaponManager.applyPart(weaponManager.activeSlot, option.part);
   }
+  weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
 
   // Check for evolution
   const activeWeapon = weaponManager.active;
@@ -1161,7 +1691,19 @@ installStudio({
   begin: startRun,
   flow: () => (state.phase === "playing" ? FlowPhase.Playing : state.phase === "dead" || state.phase === "results" ? FlowPhase.Results : FlowPhase.Menu),
   player: () => ({ x: state.pos.x, y: 0, z: state.pos.z, yaw: state.yaw }),
-  probes: () => ({ health: state.health, kills: state.kills, enemies: enemyManager.getCount(), phase: state.phase, score: scoreSystem.getCurrentScore(beatDirector.runTime), multiplier: scoreSystem.getMultiplier() }),
+  probes: () => ({
+    health: state.health,
+    kills: state.kills,
+    enemies: enemyManager.getCount(),
+    phase: state.phase,
+    score: scoreSystem.getCurrentScore(beatDirector.runTime),
+    multiplier: scoreSystem.getMultiplier(),
+    skin: PLAYER_SKINS[state.skinIndex || 0]?.id || "olive",
+    loadout: STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray",
+    magazine: weaponManager.active.magazine,
+    isReloading: weaponManager.active.isReloading,
+    reloadSpeed: weaponManager.active.reloadSpeedMultiplier,
+  }),
   cameras: { default: placeCamera },
   render() {
     renderer.render(scene, camera);

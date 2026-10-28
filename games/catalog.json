@@ -433,7 +433,7 @@
       "slug": "forgesmoke",
       "title": "Forge Smoke",
       "tagline": "Hold the perimeter",
-      "blurb": "Rain, wreckage and a shrinking perimeter. WASD move, auto-fire, R reload, Q swap, M2 aim, 1/2/3 cards. The armory is winning.",
+      "blurb": "Rain, wreckage and a shrinking perimeter. WASD move, auto-fire, R reload, Q swap, M2 aim, 1/2/3 cards. THE DARKNESS COMES: light mods are cards you spec into - floodlight, light-orb rounds, solar aura. The armory is winning.",
       "status": "live",
       "featured": false,
       "order": 90,
@@ -445,7 +445,7 @@
         "survival"
       ],
       "players": "1",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "links": []
     }
   ]

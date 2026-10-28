@@ -15,6 +15,12 @@ const CARD_POOL = [
 ];
 
 export const TUNING = {
+  reloadMeta: {
+    startMult: 1.40,
+    perLevelReduction: 0.06,
+    perCardReduction: 0.14,
+    minMult: 0.35,
+  },
   // Player
   player: {
     maxHealth: 100,

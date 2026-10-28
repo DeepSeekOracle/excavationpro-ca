@@ -1,80 +1,93 @@
 /**
  * Menu Module Contract & UI State Controller
- * Responsibilities: UI state machine, navigation, overlays, settings
+ * Responsibilities: UI state machine, navigation, overlays, settings, arena selection, unlock enforcement.
  * @module menu
  */
+import { loadSave, saveSave, getSettings, updateSettings } from "./save.js";
 
 export const MenuState = {
-  MAIN: "main",
-  PAUSE: "pause",
-  SETTINGS: "settings",
+  TITLE: "title",
+  ARENA_SELECT: "arenaSelect",
+  LOADOUT: "loadout",
+  PLAYING: "playing",
+  PAUSED: "paused",
+  OPTIONS: "options",
   GAME_OVER: "gameOver",
-  LEVEL_SELECT: "levelSelect",
+  RESULTS: "results",
   CREDITS: "credits",
 };
 
+export const ARENAS = [
+  { id: "arena1", name: "Perimeter", desc: "Beats 1-3 · Treeline Perimeter", reqScore: 0, defaultUnlocked: true },
+  { id: "arena2", name: "Breach Yard", desc: "Beats 4-6 · Blackout Zone", reqScore: 1000, defaultUnlocked: false },
+  { id: "arena3", name: "Gunship Pad", desc: "Beats 7-8 + Overtime · Boss Arena", reqScore: 5000, defaultUnlocked: false },
+];
+
+export function isArenaUnlocked(arenaId, save = loadSave()) {
+  const arena = ARENAS.find(a => a.id === arenaId);
+  if (!arena) return false;
+  if (arena.defaultUnlocked) return true;
+  if (save.bestScore >= arena.reqScore) return true;
+  if (Array.isArray(save.unlocks) && save.unlocks.includes(arenaId)) return true;
+  return false;
+}
+
 export function getDefaultSettings() {
+  const saved = getSettings();
   return {
-    masterVolume: 0.8,
-    sfxVolume: 1.0,
-    musicVolume: 0.6,
-    fullscreen: false,
-    showFPS: false,
-    controls: "keyboard",
+    masterVolume: saved.masterVolume ?? 0.8,
+    sfxVolume: saved.sfxVolume ?? 1.0,
+    musicVolume: saved.musicVolume ?? 0.6,
+    sensitivity: saved.sensitivity ?? 1.0,
+    quality: saved.quality ?? "low",
+    showFPS: saved.showFPS ?? false,
+    fullscreen: saved.fullscreen ?? false,
+    ...saved,
   };
 }
 
-/**
- * Initialize menu system
- * @param {HTMLCanvasElement} [canvas] - Render target
- * @param {Object} [callbacks] - Event callbacks
- * @returns {Object} Controller instance
- */
 export function createMenu(canvas = null, callbacks = {}) {
-  let state = MenuState.MAIN;
+  let state = MenuState.TITLE;
   let visible = true;
   let settings = { ...getDefaultSettings() };
+  let selectedArenaIndex = 0;
+  let selectedOptionIndex = 0;
+  let optionsCaller = MenuState.TITLE;
 
   return {
     canvas,
     get state() { return state; },
     get visible() { return visible; },
     get settings() { return settings; },
-    show(nextState = MenuState.MAIN) {
+    get selectedArenaIndex() { return selectedArenaIndex; },
+    get selectedOptionIndex() { return selectedOptionIndex; },
+    
+    show(nextState = MenuState.TITLE) {
       state = nextState;
       visible = true;
     },
     hide() {
       visible = false;
     },
-    update(_dtMs = 16.67) {},
-    render(_ctx2d) {},
-    handleInput(key) {
-      const k = String(key || "");
-      if (state === MenuState.MAIN && (k === "Enter" || k === "Space" || k === "KeyW")) {
-        visible = false;
-        if (typeof callbacks.onStart === "function") callbacks.onStart();
-        return true;
-      }
-      if (k === "Escape") {
-        if (state === MenuState.PAUSE) {
-          visible = false;
-          if (typeof callbacks.onResume === "function") callbacks.onResume();
-        } else {
-          state = MenuState.PAUSE;
-          visible = true;
-        }
-        return true;
-      }
-      if ((state === MenuState.GAME_OVER || state === MenuState.PAUSE) && (k === "KeyR" || k === "r")) {
-        visible = false;
-        if (typeof callbacks.onRestart === "function") callbacks.onRestart();
-        return true;
-      }
-      return false;
+    setState(newState) {
+      state = newState;
+      visible = true;
+    },
+    setSelectedArenaIndex(idx) {
+      selectedArenaIndex = Math.max(0, Math.min(ARENAS.length - 1, idx));
+    },
+    setSelectedOptionIndex(idx) {
+      selectedOptionIndex = Math.max(0, Math.min(5, idx));
+    },
+    setOptionsCaller(caller) {
+      optionsCaller = caller;
+    },
+    getOptionsCaller() {
+      return optionsCaller;
     },
     updateSettings(patch = {}) {
       settings = { ...settings, ...patch };
+      updateSettings(settings);
       if (typeof callbacks.onSettingsChange === "function") callbacks.onSettingsChange(settings);
       return settings;
     },
