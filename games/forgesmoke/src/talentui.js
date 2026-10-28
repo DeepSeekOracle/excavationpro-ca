@@ -226,8 +226,8 @@ export function createTalentWindow(opts = {}) {
       <h4>${node.name}</h4>
       <p>${node.desc || ""}</p>
       <div class="meta">${kindLabel}${branch ? " · " + branch.name : ""}</div>
-      <div class="meta">${n.requires && !alloc.has(n.requires)
-        ? `<span style="color:#8b6cff">OPENS WITH ${TREE.byId.get(n.requires)?.name || "ITS NOTABLE"}</span>`
+      <div class="meta">${node.requires && !alloc.has(node.requires)
+        ? `<span style="color:#8b6cff">OPENS WITH ${TREE.byId.get(node.requires)?.name || "ITS NOTABLE"}</span>`
         : isOn ? '<span class="ref">RIGHT-CLICK TO REFUND</span>'
         : cost == null ? "UNREACHABLE"
         : `<span class="cost">${cost} POINT${cost === 1 ? "" : "S"}</span>${cost > 1 ? " (chain included)" : ""}`}</div>`;

@@ -9,7 +9,7 @@
  */
 import { xpForLevel } from "./save.js";
 
-const ART = "./assets/start-bg-poster.jpg";
+const ART = "./assets/start-bg.gif";
 
 const CSS = `
 #fs-start{position:fixed;inset:0;z-index:50;display:none;align-items:stretch;
@@ -31,7 +31,7 @@ const CSS = `
 #fs-start.art{background-image:
     linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
     url("${ART}");
-  background-size:100% 100%,cover;
+  background-size:100% 100%,cover,cover;
   background-position:center,center;
   background-repeat:no-repeat,no-repeat}
 #fs-start .artvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;

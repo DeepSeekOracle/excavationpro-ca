@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029q";
-import { standardMaterial } from "./materials.js?v=20261029q";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029q";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029q";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029r";
+import { standardMaterial } from "./materials.js?v=20261029r";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029r";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029r";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,20 +12,20 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261029q";
-import { TUNING } from "./tuning.js?v=20261029q";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029q";
-import { createCardTray } from "./cardsui.js?v=20261029q";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029q";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029q";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029q";
-import { pilot } from "./autopilot.js?v=20261029q";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029q";
-import { createStartMenu } from "./startmenu.js?v=20261029q";
-import { createGamepad } from "./gamepad.js?v=20261029q";
-import { createTalentWindow } from "./talentui.js?v=20261029q";
-import { aggregate, toRunMods } from "./talents.js?v=20261029q";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029q";
+} from "./theme.js?v=20261029r";
+import { TUNING } from "./tuning.js?v=20261029r";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029r";
+import { createCardTray } from "./cardsui.js?v=20261029r";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029r";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029r";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029r";
+import { pilot } from "./autopilot.js?v=20261029r";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029r";
+import { createStartMenu } from "./startmenu.js?v=20261029r";
+import { createGamepad } from "./gamepad.js?v=20261029r";
+import { createTalentWindow } from "./talentui.js?v=20261029r";
+import { aggregate, toRunMods } from "./talents.js?v=20261029r";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029r";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -39,11 +39,11 @@ import {
   resolveObstacleCollision,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261029q";
-import * as levelModule from "./level.js?v=20261029q";
-import * as menuModule from "./menu.js?v=20261029q";
-import * as audioModule from "./audio.js?v=20261029q";
-import * as fxModule from "./fx.js?v=20261029q";
+} from "./models.js?v=20261029r";
+import * as levelModule from "./level.js?v=20261029r";
+import * as menuModule from "./menu.js?v=20261029r";
+import * as audioModule from "./audio.js?v=20261029r";
+import * as fxModule from "./fx.js?v=20261029r";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
