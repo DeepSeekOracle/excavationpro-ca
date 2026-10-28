@@ -17,6 +17,9 @@ export const DEFAULT_PROFILE = {
   arenasCleared: 0,
   bestRunTime: 0,
   legacy: [],                 // permanent unlocks: light cards, perks, legendary drops
+  talentPoints: 6,            // spend in the Special Operations tree
+  talents: [],                // allocated node ids
+  trials: {},                 // boss id -> best round count
   equipped: {
     weapon: "spray",
     secondary: "pierce",
@@ -58,6 +61,9 @@ function normalizeProfile(profile) {
   merged.equipped.lightMods = Array.isArray(merged.equipped.lightMods) ? merged.equipped.lightMods : [];
   merged.equipped.perks = Array.isArray(merged.equipped.perks) ? merged.equipped.perks : [];
   merged.legacy = Array.isArray(merged.legacy) ? merged.legacy : [];
+  merged.talents = Array.isArray(merged.talents) ? merged.talents : [];
+  merged.trials = (merged.trials && typeof merged.trials === "object") ? merged.trials : {};
+  if (typeof merged.talentPoints !== "number") merged.talentPoints = 6;
   return merged;
 }
 

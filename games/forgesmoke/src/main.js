@@ -22,6 +22,8 @@ import { pilot } from "./autopilot.js";
 import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js";
 import { createStartMenu } from "./startmenu.js";
 import { createGamepad } from "./gamepad.js";
+import { createTalentWindow } from "./talentui.js";
+import { aggregate, toRunMods } from "./talents.js";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -600,6 +602,12 @@ const gamepad = createGamepad({
   },
 });
 
+const talentUI = createTalentWindow({
+  getProfile: () => state.cyborgProfile,
+  saveProfile: (p) => { state.cyborgProfile = saveProfile(p); return state.cyborgProfile; },
+  onChange: (p) => { state.cyborgProfile = p; },
+});
+
 const managerUI = createManager({
   getProfile: () => state.cyborgProfile,
   arenaId: "arena1",
@@ -621,6 +629,7 @@ const managerUI = createManager({
     startRun(arenaId);
   },
   onChange: (prof) => { state.cyborgProfile = prof; },
+  onOpenTalents: () => talentUI.show(),
   onSkinChange: (idx) => {
     // picking a suit in the bay must change the model immediately, not only on the next run
     state.skinIndex = Number.isInteger(idx) ? idx : 0;
@@ -1000,8 +1009,17 @@ function startRun(arenaId = "arena1") {
   });
   audioController?.playSfx("launch", { volume: 0.7 });
   // manager stat block -> real gameplay multipliers (integrity, speed, reload, damage, crit, tech)
+  // special operations tree: fold its modifiers into this run
+  state.talentMods = toRunMods(aggregate((state.cyborgProfile && state.cyborgProfile.talents) || []));
   applyStatsToRun(state, statsForLevel((state.cyborgProfile && state.cyborgProfile.level) || 1,
     (state.cyborgProfile && state.cyborgProfile.equipped) || {}));
+  if (state.talentMods) {
+    const tm = state.talentMods;
+    state.maxHealth = Math.round(state.maxHealth * (tm.hpMult || 1));
+    state.health = state.maxHealth;
+    state.statSpeedMult = (state.statSpeedMult || 1) * (tm.speedMult || 1);
+    state.talentCrit = tm.critAdd || 0;
+  }
   state.pos.set(0, 0, 0);
   soldier.position.set(0, 0, 0);
   soldier.rotation.y = 0;
@@ -1214,7 +1232,8 @@ function shoot(target) {
   // Deal damage (+25% bonus when target is illuminated in Darkness or with Floodlight/Light-Orb mods)
   const litBonusMult = (state.darknessFactor > 0.25 || weaponManager.hasFloodlightMod || weaponManager.hasLightOrbMod) ? 1.25 : 1.0;
   const explosive = Boolean(weaponManager.hasExplosiveMod);
-  const effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1));
+  const talentDmg = state.talentMods?.damageMult || 1;
+  const effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1) * talentDmg);
   let damageDealt = 0;
   if (fireData.pierceCount > 0) {
     // Pierce: hit target and up to pierceCount enemies behind
@@ -1307,6 +1326,15 @@ function bankRun(cleared = false) {
   prof.bestRunTime = Math.max(prof.bestRunTime || 0, beatDirector.runTime);
   if (res.levelled > 0) audioController?.playSfx("levelup", { volume: 0.7 });
   state.cyborgProfile = saveProfile(prof);
+
+  // ── special operations points (generous by design) ────────────────────────
+  {
+    const tm = toRunMods(aggregate(prof.talents || []));
+    const gained = 2 + (cleared ? 6 : 0) + Math.floor(prof.level / 2) + (tm.pointsBonus || 0);
+    prof.talentPoints = (prof.talentPoints ?? 0) + gained;
+    state.lastTalentGain = gained;
+    state.cyborgProfile = saveProfile(prof);
+  }
 
   // ── public leaderboard: highest level, written to the arcade ledger ───────
   const cyName = String(prof.name || "").trim();

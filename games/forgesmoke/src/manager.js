@@ -122,6 +122,12 @@ const CSS = `
 #cyborg-manager .mg-board b{color:#FFD166;min-width:30px;text-align:right}
 #cyborg-manager .mg-board span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#E8F1F8}
 #cyborg-manager .mg-board em{color:#7E93A6;font-style:normal;font-size:9px}
+#cyborg-manager .mg-talwrap{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+#cyborg-manager .mg-talent{width:100%;padding:11px 14px;border-radius:3px;cursor:pointer;
+  border:1px solid rgba(255,179,71,.7);background:linear-gradient(180deg,rgba(255,196,99,.16),rgba(231,149,49,.10));
+  color:#FFB347;font:800 11px ui-monospace,Consolas,monospace;letter-spacing:.18em;text-align:left}
+#cyborg-manager .mg-talent b{color:#FFD166;font-size:14px}
+#cyborg-manager .mg-talent:hover{border-color:#FFD166;box-shadow:0 0 18px -6px rgba(255,179,71,.6)}
 #cyborg-manager .mg-pad{margin-top:8px;font:600 8.5px ui-monospace,Consolas,monospace;letter-spacing:.16em;color:#7E93A6}
 #cyborg-manager .mg-pad.on{color:#7CE6A8}
 
@@ -138,6 +144,7 @@ export function createManager(opts = {}) {
   const onLaunch = opts.onLaunch || (() => {});
   const onChange = opts.onChange || (() => {});
   const onSkinChange = opts.onSkinChange || (() => {});
+  const onOpenTalents = opts.onOpenTalents || (() => {});
   let profile = opts.getProfile ? opts.getProfile() : null;
 
   const root = el("div");
@@ -160,6 +167,11 @@ export function createManager(opts = {}) {
       </div>
       <h3>LEADERBOARD <span class="mg-tag">HIGHEST LEVEL</span></h3>
       <div data-board class="mg-board">loading…</div>
+      <h3 style="margin-top:16px">SPECIAL OPERATIONS</h3>
+      <div class="mg-talwrap">
+        <button class="mg-talent" data-talents>TALENT TREE <b data-tpoints>0</b> PTS</button>
+        <span class="mg-namehint">SPEND POINTS · KEYSTONES · BOSS TRIALS</span>
+      </div>
       <h3>CHARACTER</h3>
       <div data-skins></div>
       <h3 style="margin-top:16px">CONTROL MODE</h3>
@@ -205,6 +217,11 @@ export function createManager(opts = {}) {
     q("[data-xptext]").textContent = `${p.xp} / ${need} XP`;
     q("[data-xpfill]").style.width = `${Math.min(100, (p.xp / need) * 100)}%`;
     q("[data-record]").textContent = `${p.runs || 0} runs · ${p.arenasCleared || 0} arenas cleared`;
+
+    const tp = q("[data-tpoints]");
+    if (tp) tp.textContent = String(p.talentPoints ?? 0);
+    const talBtn = q("[data-talents]");
+    if (talBtn && !talBtn.dataset.bound) { talBtn.dataset.bound = "1"; talBtn.onclick = () => onOpenTalents(); }
 
     // character roster: the suit the cyborg launches in
     q("[data-skins]").innerHTML = "";
