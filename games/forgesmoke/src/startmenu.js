@@ -9,7 +9,7 @@
  */
 import { xpForLevel } from "./save.js";
 
-const ART = "./assets/start-art-v3.jpg";
+const ART = "./assets/start-bg-poster.jpg";
 
 const CSS = `
 #fs-start{position:fixed;inset:0;z-index:50;display:none;align-items:stretch;
@@ -149,9 +149,9 @@ export function createStartMenu(opts = {}) {
   root.innerHTML = `
     <div class="artwrap"></div>
     <video class="artvid" muted loop playsinline preload="auto" tabindex="-1"
-           poster="./assets/start-art-v3.jpg" aria-hidden="true">
+           poster="./assets/start-bg-poster.jpg" aria-hidden="true">
+      <source src="./assets/start-bg.mp4" type="video/mp4" />
       <source src="./assets/start-art-v3.webm" type="video/webm" />
-      <source src="./assets/start-art-v3.mp4" type="video/mp4" />
     </video>
     <div class="artfx" aria-hidden="true">
       <i class="lamp"></i>

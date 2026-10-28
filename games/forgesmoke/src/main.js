@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029m";
-import { standardMaterial } from "./materials.js?v=20261029m";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029m";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029m";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261029n";
+import { standardMaterial } from "./materials.js?v=20261029n";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261029n";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261029n";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,20 +12,20 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261029m";
-import { TUNING } from "./tuning.js?v=20261029m";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029m";
-import { createCardTray } from "./cardsui.js?v=20261029m";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029m";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029m";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029m";
-import { pilot } from "./autopilot.js?v=20261029m";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029m";
-import { createStartMenu } from "./startmenu.js?v=20261029m";
-import { createGamepad } from "./gamepad.js?v=20261029m";
-import { createTalentWindow } from "./talentui.js?v=20261029m";
-import { aggregate, toRunMods } from "./talents.js?v=20261029m";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029m";
+} from "./theme.js?v=20261029n";
+import { TUNING } from "./tuning.js?v=20261029n";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261029n";
+import { createCardTray } from "./cardsui.js?v=20261029n";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261029n";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261029n";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261029n";
+import { pilot } from "./autopilot.js?v=20261029n";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029n";
+import { createStartMenu } from "./startmenu.js?v=20261029n";
+import { createGamepad } from "./gamepad.js?v=20261029n";
+import { createTalentWindow } from "./talentui.js?v=20261029n";
+import { aggregate, toRunMods } from "./talents.js?v=20261029n";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261029n";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -39,11 +39,11 @@ import {
   resolveObstacleCollision,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261029m";
-import * as levelModule from "./level.js?v=20261029m";
-import * as menuModule from "./menu.js?v=20261029m";
-import * as audioModule from "./audio.js?v=20261029m";
-import * as fxModule from "./fx.js?v=20261029m";
+} from "./models.js?v=20261029n";
+import * as levelModule from "./level.js?v=20261029n";
+import * as menuModule from "./menu.js?v=20261029n";
+import * as audioModule from "./audio.js?v=20261029n";
+import * as fxModule from "./fx.js?v=20261029n";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -512,6 +512,8 @@ if (testMode) {
     getGunPivot: () => gunPivot,
     getWeapons: () => weaponManager,
     getCards: () => cardSystem,
+    getRainY: () => +rainPos[1].toFixed(3),
+    getTreeSway: () => (trees[0] ? +trees[0].rotation.z.toFixed(4) : null),
     getGrenades: () => grenades.length,
     getTracerColors: () => tracers.filter((t) => t.life > 0).map((t) => t.mesh.material.color.getHex()),
     getCruise: () => ({ style: weaponManager.active.styleKey, vfx: STYLE_VFX[weaponManager.active.styleKey] || null }),
@@ -1220,6 +1222,18 @@ function updateGrenades(dt) {
   }
 }
 
+/** Weather + foliage tick. Runs in EVERY phase, because a frozen rainfield in the bay looked
+ *  exactly like a broken game: the camera turned but nothing in the world moved. */
+function updateEnvironment(dt) {
+  for (let i = 0; i < RAIN; i++) {
+    rainPos[i * 6 + 1] -= 17 * dt;
+    rainPos[i * 6 + 4] -= 17 * dt;
+    if (rainPos[i * 6 + 1] < 0) seedDrop(i, state.pos.x, state.pos.z);
+  }
+  rainGeo.attributes.position.needsUpdate = true;
+  for (const tree of trees) swayTree(tree, state.t, { dir: [0.8, 0.35], strength: 0.55 });
+}
+
 function shoot(target) {
   soldier.updateMatrixWorld(true);
   vMuzzle.set(0, 0, 1.05);
@@ -1561,6 +1575,8 @@ function update(dt, ctx) {
       updateOperatorAnimation(soldier, gunPivot, dt, false, weaponManager.active);
       camera.position.set(Math.sin(state.orbit) * 5.6, 2.75, Math.cos(state.orbit) * 5.6);
       camera.lookAt(0, 1.25, 0);
+
+      updateEnvironment(dt);
 
       const h = globalThis.__studio?.hud;
       if (h && hudPhase !== "manager") {
@@ -2033,16 +2049,7 @@ function update(dt, ctx) {
     if (state.flash <= 0) flash.visible = false;
   }
 
-  // Rain
-  for (let i = 0; i < RAIN; i++) {
-    rainPos[i * 6 + 1] -= 17 * dt;
-    rainPos[i * 6 + 4] -= 17 * dt;
-    if (rainPos[i * 6 + 1] < 0) seedDrop(i, state.pos.x, state.pos.z);
-  }
-  rainGeo.attributes.position.needsUpdate = true;
-
-  // Tree sway
-  for (const tree of trees) swayTree(tree, state.t, { dir: [0.8, 0.35], strength: 0.55 });
+  updateEnvironment(dt);
 
   syncHud();
 }
