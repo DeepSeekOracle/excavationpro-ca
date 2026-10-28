@@ -1,0 +1,68 @@
+{
+  "project": "forge-smoke",
+  "version": "1.0.0",
+  "assets": [
+    {
+      "id": "art-weapon-silhouette",
+      "kind": "procedural",
+      "path": "src/art/weapon_silhouette_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-enemy-silhouette",
+      "kind": "procedural",
+      "path": "src/art/enemy_silhouette_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-boss-silhouette",
+      "kind": "procedural",
+      "path": "src/art/boss_silhouette_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-ground-texture",
+      "kind": "procedural",
+      "path": "src/art/ground_texture_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-wall-texture",
+      "kind": "procedural",
+      "path": "src/art/wall_texture_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-card-icon-sheet",
+      "kind": "procedural",
+      "path": "src/art/card_icon_sheet_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-muzzle-flash",
+      "kind": "procedural",
+      "path": "src/art/muzzle_flash_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "art-impact-spark",
+      "kind": "procedural",
+      "path": "src/art/impact_spark_module.js",
+      "export": "draw",
+      "consumer": "src/main.js"
+    },
+    {
+      "id": "hud-weapon-icons",
+      "kind": "sprite-sheet",
+      "path": "assets/icons/hud-weapon-icons.png",
+      "consumer": "src/main.js"
+    }
+  ]
+}

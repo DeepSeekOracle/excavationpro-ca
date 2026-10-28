@@ -1,0 +1,78 @@
+{
+  "id": "arena3",
+  "name": "Gunship Pad",
+  "theme": "open landing pad",
+  "version": 1,
+  "dimensions": { "width": 160, "depth": 160, "wallHeight": 2 },
+  "bounds": { "minX": -80, "maxX": 80, "minZ": -80, "maxZ": 80, "width": 160, "depth": 160 },
+  "playerSpawn": { "x": -64, "y": 0, "z": -64, "yaw": 0.785 },
+  "player_spawn": { "x": -64, "y": 0, "z": -64, "yaw": 0.785 },
+  "spawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 },
+    { "id": "spawn_west", "x": -74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_center_n", "x": 0, "z": -30, "weight": 0.6 }
+  ],
+  "enemySpawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 },
+    { "id": "spawn_west", "x": -74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_center_n", "x": 0, "z": -30, "weight": 0.6 }
+  ],
+  "enemy_spawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 },
+    { "id": "spawn_west", "x": -74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_center_n", "x": 0, "z": -30, "weight": 0.6 }
+  ],
+  "bossSpawn": { "id": "spawn_gunship", "x": 0, "y": 12, "z": 0, "yaw": 0 },
+  "cover": [
+    { "id": "cover_barrier_a", "type": "concrete_barrier", "x": -20, "z": -10, "width": 4, "depth": 0.8, "height": 1.0, "rotation": 0, "destructible": false },
+    { "id": "cover_barrier_b", "type": "concrete_barrier", "x": 22, "z": 12, "width": 4, "depth": 0.8, "height": 1.0, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_crate_a", "type": "crate_stack", "x": -8, "z": 18, "width": 3, "depth": 3, "height": 1.2, "rotation": 0, "destructible": true },
+    { "id": "cover_crate_b", "type": "crate_stack", "x": 10, "z": -16, "width": 3, "depth": 3, "height": 1.2, "rotation": 0, "destructible": true },
+    { "id": "cover_pillar_a", "type": "pillar", "x": -40, "z": 0, "width": 1.4, "depth": 1.4, "height": 3.0, "rotation": 0, "destructible": false },
+    { "id": "cover_pillar_b", "type": "pillar", "x": 40, "z": 0, "width": 1.4, "depth": 1.4, "height": 3.0, "rotation": 0, "destructible": false }
+  ],
+  "coverLayout": [
+    { "id": "cover_barrier_a", "type": "concrete_barrier", "x": -20, "z": -10, "width": 4, "depth": 0.8, "height": 1.0, "rotation": 0, "destructible": false },
+    { "id": "cover_barrier_b", "type": "concrete_barrier", "x": 22, "z": 12, "width": 4, "depth": 0.8, "height": 1.0, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_crate_a", "type": "crate_stack", "x": -8, "z": 18, "width": 3, "depth": 3, "height": 1.2, "rotation": 0, "destructible": true },
+    { "id": "cover_crate_b", "type": "crate_stack", "x": 10, "z": -16, "width": 3, "depth": 3, "height": 1.2, "rotation": 0, "destructible": true },
+    { "id": "cover_pillar_a", "type": "pillar", "x": -40, "z": 0, "width": 1.4, "depth": 1.4, "height": 3.0, "rotation": 0, "destructible": false },
+    { "id": "cover_pillar_b", "type": "pillar", "x": 40, "z": 0, "width": 1.4, "depth": 1.4, "height": 3.0, "rotation": 0, "destructible": false }
+  ],
+  "chokepoints": [
+    { "id": "choke_north", "x": 0, "z": -78, "width": 10, "orientation": "horizontal", "connects": ["exterior_north", "pad"] },
+    { "id": "choke_south", "x": 0, "z": 78, "width": 10, "orientation": "horizontal", "connects": ["pad", "exterior_south"] }
+  ],
+  "objectives": [
+    { "id": "obj_defeat_gunship", "type": "defeat_boss", "x": 0, "z": 0, "radius": 10 }
+  ],
+  "objective": { "id": "obj_defeat_gunship", "type": "defeat_boss", "x": 0, "z": 0, "radius": 10 },
+  "pickups": [
+    { "id": "pickup_airdrop_1", "type": "airdrop_node", "x": 30, "z": -30 },
+    { "id": "pickup_airdrop_2", "type": "airdrop_node", "x": -30, "z": 30 }
+  ],
+  "lighting": { "mode": "floodlight", "blackout": false, "floodlightPositions": [ { "x": 0, "z": 0, "intensity": 1.6 }, { "x": -60, "z": 0, "intensity": 1.0 }, { "x": 60, "z": 0, "intensity": 1.0 } ] },
+  "beats": [
+    { "name": "Siege", "start": 368, "end": 660, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech"], "spawnInterval": 0.35, "maxConcurrent": 80, "spawnMult": 2.2 },
+    { "name": "Gunship", "start": 660, "end": 720, "spawnPoints": ["spawn_gunship"], "enemyTypes": ["gunship"], "spawnInterval": 0, "maxConcurrent": 1, "boss": true },
+    { "name": "Overtime", "start": 720, "end": null, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech", "drone"], "spawnInterval": 0.3, "maxConcurrent": 120, "scaling": true }
+  ],
+  "beatHooks": [
+    { "name": "Siege", "start": 368, "end": 660, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech"], "spawnInterval": 0.35, "maxConcurrent": 80, "spawnMult": 2.2 },
+    { "name": "Gunship", "start": 660, "end": 720, "spawnPoints": ["spawn_gunship"], "enemyTypes": ["gunship"], "spawnInterval": 0, "maxConcurrent": 1, "boss": true },
+    { "name": "Overtime", "start": 720, "end": null, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech", "drone"], "spawnInterval": 0.3, "maxConcurrent": 120, "scaling": true }
+  ],
+  "beat_timing_hooks": [
+    { "name": "Siege", "start": 368, "end": 660, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech"], "spawnInterval": 0.35, "maxConcurrent": 80, "spawnMult": 2.2 },
+    { "name": "Gunship", "start": 660, "end": 720, "spawnPoints": ["spawn_gunship"], "enemyTypes": ["gunship"], "spawnInterval": 0, "maxConcurrent": 1, "boss": true },
+    { "name": "Overtime", "start": 720, "end": null, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south", "spawn_west"], "enemyTypes": ["rifleman", "shieldbearer", "mortar", "mech", "drone"], "spawnInterval": 0.3, "maxConcurrent": 120, "scaling": true }
+  ],
+  "winCondition": "defeat the Gunship (beat 8)",
+  "loseCondition": "health 0"
+}

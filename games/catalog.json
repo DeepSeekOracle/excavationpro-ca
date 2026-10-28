@@ -16,10 +16,16 @@
       "href": "/games/lattice-marines/",
       "cover": "/games/lattice-marines/assets/og.jpg",
       "coverAlt": "Lattice Marines island fortress",
-      "genre": ["strategy", "isometric"],
+      "genre": [
+        "strategy",
+        "isometric"
+      ],
       "players": "1 vs AI or 2 hot-seat",
       "links": [
-        { "label": "Win ledger", "href": "/games/lattice-marines/ledger.html" }
+        {
+          "label": "Win ledger",
+          "href": "/games/lattice-marines/ledger.html"
+        }
       ]
     },
     {
@@ -34,10 +40,16 @@
       "href": "/games/lattice-swarm/",
       "cover": "/games/lattice-swarm/og.jpg",
       "coverAlt": "Lattice Swarm hex command",
-      "genre": ["strategy", "hex"],
+      "genre": [
+        "strategy",
+        "hex"
+      ],
       "players": "1",
       "links": [
-        { "label": "Live hall", "href": "/games/lattice-swarm/ledger.html" }
+        {
+          "label": "Live hall",
+          "href": "/games/lattice-swarm/ledger.html"
+        }
       ]
     },
     {
@@ -52,10 +64,16 @@
       "href": "/games/stock-market-masters/",
       "cover": "/games/stock-market-masters/assets/og.jpg",
       "coverAlt": "Stock Market Masters trading floor",
-      "genre": ["strategy", "market"],
+      "genre": [
+        "strategy",
+        "market"
+      ],
       "players": "1–4 plus optional AI",
       "links": [
-        { "label": "TOP Cashout", "href": "/games/stock-market-masters/ledger.html" }
+        {
+          "label": "TOP Cashout",
+          "href": "/games/stock-market-masters/ledger.html"
+        }
       ]
     },
     {
@@ -70,10 +88,16 @@
       "href": "/games/eternal-lattice/",
       "cover": "/games/eternal-lattice/og.jpg",
       "coverAlt": "Eternal Lattice playmat",
-      "genre": ["cards", "campaign"],
+      "genre": [
+        "cards",
+        "campaign"
+      ],
       "players": "1",
       "links": [
-        { "label": "Live ladder", "href": "/games/eternal-lattice/ledger.html" }
+        {
+          "label": "Live ladder",
+          "href": "/games/eternal-lattice/ledger.html"
+        }
       ]
     },
     {
@@ -88,10 +112,16 @@
       "href": "/games/lattice-golf/",
       "cover": "/games/lattice-golf/assets/og.jpg",
       "coverAlt": "Lattice Golf twilight course",
-      "genre": ["sports", "golf"],
+      "genre": [
+        "sports",
+        "golf"
+      ],
       "players": "1–4 live",
       "links": [
-        { "label": "Live hall", "href": "/games/lattice-golf/ledger.html" }
+        {
+          "label": "Live hall",
+          "href": "/games/lattice-golf/ledger.html"
+        }
       ]
     },
     {
@@ -106,11 +136,20 @@
       "featured": true,
       "order": 6,
       "href": "/games/haven-rally/",
-      "genre": ["racing", "sports"],
+      "genre": [
+        "racing",
+        "sports"
+      ],
       "players": "1 vs ghost",
       "links": [
-        { "label": "Live hall", "href": "/games/haven-rally/ledger.html" },
-        { "label": "Whitepaper", "href": "/games/haven-rally/whitepaper.html" }
+        {
+          "label": "Live hall",
+          "href": "/games/haven-rally/ledger.html"
+        },
+        {
+          "label": "Whitepaper",
+          "href": "/games/haven-rally/whitepaper.html"
+        }
       ]
     },
     {
@@ -125,7 +164,9 @@
       "featured": true,
       "order": 6.5,
       "href": "/games/lattice-grand-prix/",
-      "genre": ["racing"],
+      "genre": [
+        "racing"
+      ],
       "players": "1"
     },
     {
@@ -140,7 +181,10 @@
       "featured": true,
       "order": 6.6,
       "href": "/games/lygo-dungeon/",
-      "genre": ["dungeon", "rpg"],
+      "genre": [
+        "dungeon",
+        "rpg"
+      ],
       "players": "1"
     },
     {
@@ -155,11 +199,21 @@
       "href": "/games/lattice-crypt/",
       "cover": "/games/lattice-crypt/assets/og.jpg",
       "coverAlt": "Lattice Crypt dungeon gate",
-      "genre": ["action", "co-op", "dungeon"],
+      "genre": [
+        "action",
+        "co-op",
+        "dungeon"
+      ],
       "players": "1–4 local, gamepad",
       "links": [
-        { "label": "Live hall", "href": "/games/lattice-crypt/ledger.html" },
-        { "label": "Whitepaper", "href": "/games/lattice-crypt/whitepaper.html" }
+        {
+          "label": "Live hall",
+          "href": "/games/lattice-crypt/ledger.html"
+        },
+        {
+          "label": "Whitepaper",
+          "href": "/games/lattice-crypt/whitepaper.html"
+        }
       ]
     },
     {
@@ -174,10 +228,15 @@
       "href": "/games/fish-tank/",
       "cover": "/games/fish-tank/assets/og.jpg?v=2",
       "coverAlt": "Daylight aquarium with plants, stones, and driftwood",
-      "genre": ["sim"],
+      "genre": [
+        "sim"
+      ],
       "players": "1, autonomous",
       "links": [
-        { "label": "Cemetery hall", "href": "/games/fish-tank/ledger.html" }
+        {
+          "label": "Cemetery hall",
+          "href": "/games/fish-tank/ledger.html"
+        }
       ]
     },
     {
@@ -192,10 +251,16 @@
       "href": "/games/lattice-corridor/",
       "cover": "/games/lattice-corridor/assets/og.jpg",
       "coverAlt": "A dark stone corridor with amber lattice light in the floor",
-      "genre": ["action", "fps"],
+      "genre": [
+        "action",
+        "fps"
+      ],
       "players": "1",
       "links": [
-        { "label": "Engine source", "href": "/games/lattice-corridor/SOURCE.md" }
+        {
+          "label": "Engine source",
+          "href": "/games/lattice-corridor/SOURCE.md"
+        }
       ]
     },
     {
@@ -210,10 +275,16 @@
       "href": "/games/moonlit-tactics/",
       "cover": "/games/moonlit-tactics/assets/og.jpg",
       "coverAlt": "Serenya and a small bronze-green dragon on a moonlit harbor balcony",
-      "genre": ["tactics", "story"],
+      "genre": [
+        "tactics",
+        "story"
+      ],
       "players": "1",
       "links": [
-        { "label": "Hall", "href": "/games/moonlit-tactics/ledger.html" }
+        {
+          "label": "Hall",
+          "href": "/games/moonlit-tactics/ledger.html"
+        }
       ]
     },
     {
@@ -228,10 +299,16 @@
       "href": "/games/haven-desk/",
       "cover": "/games/haven-desk/assets/og.jpg?v=lygo98",
       "coverAlt": "LYGO 98 on a teal field, with a gray window and a LYGO button",
-      "genre": ["desk", "retro"],
+      "genre": [
+        "desk",
+        "retro"
+      ],
       "players": "1",
       "links": [
-        { "label": "Hall", "href": "/games/haven-desk/ledger.html" }
+        {
+          "label": "Hall",
+          "href": "/games/haven-desk/ledger.html"
+        }
       ]
     },
     {
@@ -246,11 +323,20 @@
       "href": "/games/lattice-arena/",
       "cover": "/games/lattice-arena/assets/og.jpg?v=ring",
       "coverAlt": "Four fighters at a cyan lattice gate under the LYGO Arena wordmark",
-      "genre": ["battler", "spectate"],
+      "genre": [
+        "battler",
+        "spectate"
+      ],
       "players": "1 (watch two AI teams)",
       "links": [
-        { "label": "Whitepaper", "href": "/games/lattice-arena/whitepaper.html" },
-        { "label": "Live hall", "href": "/games/lattice-arena/ledger.html" }
+        {
+          "label": "Whitepaper",
+          "href": "/games/lattice-arena/whitepaper.html"
+        },
+        {
+          "label": "Live hall",
+          "href": "/games/lattice-arena/ledger.html"
+        }
       ]
     },
     {
@@ -265,7 +351,10 @@
       "href": "/games/lattice-chess/",
       "cover": "/games/lattice-chess/og.jpg",
       "coverAlt": "Lattice Chess 3D stone pieces on a cathedral chessboard",
-      "genre": ["strategy", "chess"],
+      "genre": [
+        "strategy",
+        "chess"
+      ],
       "players": "1 vs local AI",
       "links": []
     },
@@ -281,7 +370,10 @@
       "href": "/games/lattice-arcade/",
       "cover": "/games/lattice-arcade/og.jpg",
       "coverAlt": "Lattice Arcade neon maze with two pixel fighters",
-      "genre": ["arcade", "generator"],
+      "genre": [
+        "arcade",
+        "generator"
+      ],
       "players": "1 vs local AI",
       "links": []
     },
@@ -297,7 +389,10 @@
       "href": "/games/lattice-city/",
       "cover": "/games/lattice-city/og.jpg",
       "coverAlt": "Lattice City isometric pixel city with roads and a canal",
-      "genre": ["builder", "endless"],
+      "genre": [
+        "builder",
+        "endless"
+      ],
       "players": "1",
       "links": []
     },
@@ -313,7 +408,10 @@
       "href": "/games/lattice-tennis/",
       "cover": "/games/lattice-tennis/og.jpg",
       "coverAlt": "Lattice Tennis court with two pilots at the net",
-      "genre": ["sports", "tennis"],
+      "genre": [
+        "sports",
+        "tennis"
+      ],
       "players": "1 vs local AI or 1v1",
       "links": []
     },
@@ -326,7 +424,29 @@
       "status": "coming",
       "featured": false,
       "order": 90,
-      "genre": ["upcoming"]
+      "genre": [
+        "upcoming"
+      ]
+    },
+    {
+      "id": "forgesmoke",
+      "slug": "forgesmoke",
+      "title": "Forge Smoke",
+      "tagline": "Hold the perimeter",
+      "blurb": "Rain, wreckage and a shrinking perimeter. WASD move, auto-fire, R reload, Q swap, M2 aim, 1/2/3 cards. The armory is winning.",
+      "status": "live",
+      "featured": false,
+      "order": 90,
+      "href": "/games/forgesmoke/",
+      "cover": "/games/forgesmoke/og.jpg",
+      "coverAlt": "Forge Smoke title card over a rain-soaked arena",
+      "genre": [
+        "shooter",
+        "survival"
+      ],
+      "players": "1",
+      "version": "1.0.0",
+      "links": []
     }
   ]
 }

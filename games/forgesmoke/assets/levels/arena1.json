@@ -1,0 +1,81 @@
+{
+  "id": "arena1",
+  "name": "Perimeter",
+  "theme": "treeline perimeter",
+  "version": 1,
+  "dimensions": { "width": 160, "depth": 160, "wallHeight": 3 },
+  "bounds": { "minX": -80, "maxX": 80, "minZ": -80, "maxZ": 80, "width": 160, "depth": 160 },
+  "playerSpawn": { "x": -60, "y": 0, "z": -60, "yaw": 0.785 },
+  "player_spawn": { "x": -60, "y": 0, "z": -60, "yaw": 0.785 },
+  "spawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_northeast", "x": 56, "z": -56, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_southeast", "x": 56, "z": 56, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 }
+  ],
+  "enemySpawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_northeast", "x": 56, "z": -56, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_southeast", "x": 56, "z": 56, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 }
+  ],
+  "enemy_spawns": [
+    { "id": "spawn_north", "x": 0, "z": -74, "weight": 1.0 },
+    { "id": "spawn_northeast", "x": 56, "z": -56, "weight": 1.0 },
+    { "id": "spawn_east", "x": 74, "z": 0, "weight": 1.0 },
+    { "id": "spawn_southeast", "x": 56, "z": 56, "weight": 1.0 },
+    { "id": "spawn_south", "x": 0, "z": 74, "weight": 1.0 }
+  ],
+  "cover": [
+    { "id": "cover_crate_a", "type": "crate_stack", "x": -24, "z": 8, "width": 4, "depth": 2, "height": 1.2, "rotation": 0, "destructible": false },
+    { "id": "cover_crate_b", "type": "crate_stack", "x": 18, "z": -12, "width": 4, "depth": 2, "height": 1.2, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_barrier_a", "type": "concrete_barrier", "x": -8, "z": -22, "width": 6, "depth": 0.8, "height": 1.0, "rotation": 0, "destructible": false },
+    { "id": "cover_barrier_b", "type": "concrete_barrier", "x": 12, "z": 24, "width": 6, "depth": 0.8, "height": 1.0, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_log_a", "type": "log", "x": -36, "z": -28, "width": 2.4, "depth": 0.4, "height": 0.35, "rotation": 0.6, "destructible": false },
+    { "id": "cover_log_b", "type": "log", "x": 30, "z": 32, "width": 2.4, "depth": 0.4, "height": 0.35, "rotation": -0.4, "destructible": false },
+    { "id": "cover_tree_a", "type": "tree", "x": -44, "z": 16, "width": 1.0, "depth": 1.0, "height": 6.0, "rotation": 0, "destructible": false },
+    { "id": "cover_tree_b", "type": "tree", "x": 40, "z": -30, "width": 1.0, "depth": 1.0, "height": 6.0, "rotation": 0, "destructible": false }
+  ],
+  "coverLayout": [
+    { "id": "cover_crate_a", "type": "crate_stack", "x": -24, "z": 8, "width": 4, "depth": 2, "height": 1.2, "rotation": 0, "destructible": false },
+    { "id": "cover_crate_b", "type": "crate_stack", "x": 18, "z": -12, "width": 4, "depth": 2, "height": 1.2, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_barrier_a", "type": "concrete_barrier", "x": -8, "z": -22, "width": 6, "depth": 0.8, "height": 1.0, "rotation": 0, "destructible": false },
+    { "id": "cover_barrier_b", "type": "concrete_barrier", "x": 12, "z": 24, "width": 6, "depth": 0.8, "height": 1.0, "rotation": 1.5708, "destructible": false },
+    { "id": "cover_log_a", "type": "log", "x": -36, "z": -28, "width": 2.4, "depth": 0.4, "height": 0.35, "rotation": 0.6, "destructible": false },
+    { "id": "cover_log_b", "type": "log", "x": 30, "z": 32, "width": 2.4, "depth": 0.4, "height": 0.35, "rotation": -0.4, "destructible": false },
+    { "id": "cover_tree_a", "type": "tree", "x": -44, "z": 16, "width": 1.0, "depth": 1.0, "height": 6.0, "rotation": 0, "destructible": false },
+    { "id": "cover_tree_b", "type": "tree", "x": 40, "z": -30, "width": 1.0, "depth": 1.0, "height": 6.0, "rotation": 0, "destructible": false }
+  ],
+  "chokepoints": [
+    { "id": "choke_west", "x": -78, "z": 0, "width": 6, "orientation": "vertical", "connects": ["exterior_west", "interior"] },
+    { "id": "choke_east", "x": 78, "z": 0, "width": 6, "orientation": "vertical", "connects": ["interior", "exterior_east"] }
+  ],
+  "objectives": [
+    { "id": "obj_survive", "type": "survive", "x": 0, "z": 0, "radius": 6 }
+  ],
+  "objective": { "id": "obj_survive", "type": "survive", "x": 0, "z": 0, "radius": 6 },
+  "pickups": [
+    { "id": "pickup_airdrop_1", "type": "airdrop_node", "x": 20, "z": -10 },
+    { "id": "pickup_airdrop_2", "type": "airdrop_node", "x": -18, "z": 22 }
+  ],
+  "lighting": { "mode": "floodlight", "blackout": false, "floodlightPositions": [ { "x": 0, "z": 0, "intensity": 1.2 } ] },
+  "beats": [
+    { "name": "Contact", "start": 0, "end": 45, "spawnPoints": ["spawn_north", "spawn_east"], "enemyTypes": ["rifleman"], "spawnInterval": 1.2, "maxConcurrent": 20 },
+    { "name": "Suppression", "start": 45, "end": 90, "spawnPoints": ["spawn_northeast", "spawn_southeast", "spawn_south"], "enemyTypes": ["rifleman"], "spawnInterval": 0.8, "maxConcurrent": 25, "airdropAt": 90 },
+    { "name": "Breach", "start": 90, "end": 150, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south"], "enemyTypes": ["rifleman", "sapper"], "spawnInterval": 0.6, "maxConcurrent": 30 }
+  ],
+  "beatHooks": [
+    { "name": "Contact", "start": 0, "end": 45, "spawnPoints": ["spawn_north", "spawn_east"], "enemyTypes": ["rifleman"], "spawnInterval": 1.2, "maxConcurrent": 20 },
+    { "name": "Suppression", "start": 45, "end": 90, "spawnPoints": ["spawn_northeast", "spawn_southeast", "spawn_south"], "enemyTypes": ["rifleman"], "spawnInterval": 0.8, "maxConcurrent": 25, "airdropAt": 90 },
+    { "name": "Breach", "start": 90, "end": 150, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south"], "enemyTypes": ["rifleman", "sapper"], "spawnInterval": 0.6, "maxConcurrent": 30 }
+  ],
+  "beat_timing_hooks": [
+    { "name": "Contact", "start": 0, "end": 45, "spawnPoints": ["spawn_north", "spawn_east"], "enemyTypes": ["rifleman"], "spawnInterval": 1.2, "maxConcurrent": 20 },
+    { "name": "Suppression", "start": 45, "end": 90, "spawnPoints": ["spawn_northeast", "spawn_southeast", "spawn_south"], "enemyTypes": ["rifleman"], "spawnInterval": 0.8, "maxConcurrent": 25, "airdropAt": 90 },
+    { "name": "Breach", "start": 90, "end": 150, "spawnPoints": ["spawn_north", "spawn_east", "spawn_south"], "enemyTypes": ["rifleman", "sapper"], "spawnInterval": 0.6, "maxConcurrent": 30 }
+  ],
+  "winCondition": "clear beat 3 (Breach)",
+  "loseCondition": "health 0"
+}
