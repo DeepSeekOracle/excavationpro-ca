@@ -1428,8 +1428,10 @@ function bankRun(cleared = false) {
 
   // ── special operations points (generous by design) ────────────────────────
   {
-    // deliberately stingy: a tree point is a run's pay, not a drip. 1 for dying, 5 for clearing.
-    const gained = cleared ? 5 : 1;
+    // stingy on purpose: 1 for dying, 5 for clearing - and a death only pays after a real run,
+    // otherwise you farm points by dying at 5 seconds.
+    const MIN_PAY_SECONDS = 60;
+    const gained = cleared ? 5 : (beatDirector.runTime >= MIN_PAY_SECONDS ? 1 : 0);
     prof.talentPoints = (prof.talentPoints ?? 0) + gained;
     state.lastTalentGain = gained;
     state.cyborgProfile = saveProfile(prof);
