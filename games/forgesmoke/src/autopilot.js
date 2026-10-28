@@ -37,6 +37,10 @@ export function pickTarget(state, enemyManager) {
  * Compute this frame's movement intent. Returns a normalised {mx, mz} world vector plus diagnostics
  * the manager/HUD can show ("RANGE", "STRAFE", "DISENGAGE").
  */
+function lowIntegrityFor(state, profile) {
+  return state.health <= (state.maxHealth || 100) * (profile.retreatHealth || 0.35);
+}
+
 export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
   const out = { mx: 0, mz: 0, mode: "hold", target: null, distance: Infinity };
   const target = pickTarget(state, enemyManager);
@@ -75,6 +79,20 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
     out.mode = "dodge";
     return out;
   }
+  // OBJECTIVE FIRST: a live boss, then the zone rotation. Enemies are handled by the gun; the body
+  // works the objective, which is what stops the frantic circling.
+  if (!isBoss) {
+    const step = objectiveStep(state, dt, profile);
+    out.mx = step.mx; out.mz = step.mz;
+    out.mode = step.mode;
+    out.zone = step.zone || null;
+    out.inZone = Boolean(step.inZone);
+    if (lowIntegrityFor(state, profile)) { out.mx = -nx; out.mz = -nz; out.mode = "disengage"; }
+    const len2 = Math.hypot(out.mx, out.mz) || 1;
+    out.mx /= len2; out.mz /= len2;
+    return out;
+  }
+
   const lowIntegrity = state.health <= (state.maxHealth || 100) * profile.retreatHealth;
   if (lowIntegrity) {
     out.mx = -nx; out.mz = -nz;                  // disengage straight back
@@ -92,4 +110,57 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
   out.mx /= len;
   out.mz /= len;
   return out;
+}
+
+
+/* ── OBJECTIVES ──────────────────────────────────────────────────────────────
+ * The fighter is not a leaf in the wind: it works a rotation of capture zones. Stand in a zone for
+ * SECURE_SECONDS to bank it, then move to the next. Combat still happens on the way (the gun fires
+ * itself); this just gives the movement a reason.
+ */
+export const SECURE_SECONDS = 3;
+
+export function ensureZones(state, count = 4, radius = 22) {
+  if (state.objZones && state.objZones.length === count) return state.objZones;
+  const zones = [];
+  for (let i = 0; i < count; i += 1) {
+    const a = (i / count) * Math.PI * 2 + 0.4;
+    zones.push({ x: Math.cos(a) * radius, z: Math.sin(a) * radius, held: 0, done: false });
+  }
+  state.objZones = zones;
+  state.objIndex = 0;
+  state.objProgress = 0;
+  return zones;
+}
+
+/** Returns a movement intent toward the current zone plus progress state. */
+export function objectiveStep(state, dt, profile = {}) {
+  const zones = ensureZones(state);
+  const z = zones[state.objIndex % zones.length];
+  if (!z) return { mx: 0, mz: 0, mode: "idle" };
+  const dx = z.x - state.pos.x;
+  const dz = z.z - state.pos.z;
+  const d = Math.hypot(dx, dz) || 1;
+  const inZone = d < 2.2;
+
+  if (inZone) {
+    state.objProgress = (state.objProgress || 0) + dt;
+    if (state.objProgress >= SECURE_SECONDS) {
+      z.done = true;
+      state.objIndex = (state.objIndex + 1) % zones.length;
+      state.objProgress = 0;
+    }
+    // inside: small orbit so it is not a statue
+    const t = (state.t || 0) * 0.8;
+    return { mx: Math.cos(t) * 0.25, mz: Math.sin(t) * 0.25, mode: "securing", zone: z, inZone: true };
+  }
+  // outside: head for the zone, with a little weave so it reads as a soldier moving, not a bee
+  const weave = Math.sin((state.t || 0) * 1.7) * 0.18;
+  return {
+    mx: (dx / d) + (-dz / d) * weave,
+    mz: (dz / d) + (dx / d) * weave,
+    mode: "advance",
+    zone: z,
+    inZone: false,
+  };
 }
