@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030j";
-import { standardMaterial } from "./materials.js?v=20261030j";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030j";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030j";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030l";
+import { standardMaterial } from "./materials.js?v=20261030l";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030l";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030l";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,22 +12,22 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261030j";
-import { TUNING } from "./tuning.js?v=20261030j";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030j";
-import { createCardTray } from "./cardsui.js?v=20261030j";
-import { createSummary } from "./summaryui.js?v=20261030j";
-import { createBarks } from "./barks.js?v=20261030j";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030j";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030j";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030j";
-import { pilot } from "./autopilot.js?v=20261030j";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030j";
-import { createStartMenu } from "./startmenu.js?v=20261030j";
-import { createGamepad } from "./gamepad.js?v=20261030j";
-import { createTalentWindow } from "./talentui.js?v=20261030j";
-import { aggregate, toRunMods } from "./talents.js?v=20261030j";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030j";
+} from "./theme.js?v=20261030l";
+import { TUNING } from "./tuning.js?v=20261030l";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030l";
+import { createCardTray } from "./cardsui.js?v=20261030l";
+import { createSummary } from "./summaryui.js?v=20261030l";
+import { createBarks } from "./barks.js?v=20261030l";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030l";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030l";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030l";
+import { pilot } from "./autopilot.js?v=20261030l";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030l";
+import { createStartMenu } from "./startmenu.js?v=20261030l";
+import { createGamepad } from "./gamepad.js?v=20261030l";
+import { createTalentWindow } from "./talentui.js?v=20261030l";
+import { aggregate, toRunMods } from "./talents.js?v=20261030l";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030l";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -43,11 +43,11 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261030j";
-import * as levelModule from "./level.js?v=20261030j";
-import * as menuModule from "./menu.js?v=20261030j";
-import * as audioModule from "./audio.js?v=20261030j";
-import * as fxModule from "./fx.js?v=20261030j";
+} from "./models.js?v=20261030l";
+import * as levelModule from "./level.js?v=20261030l";
+import * as menuModule from "./menu.js?v=20261030l";
+import * as audioModule from "./audio.js?v=20261030l";
+import * as fxModule from "./fx.js?v=20261030l";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -520,6 +520,13 @@ if (testMode) {
     getRainY: () => +rainPos[1].toFixed(3),
     getTreeSway: () => (trees[0] ? +trees[0].rotation.z.toFixed(4) : null),
     getGrenades: () => grenades.length,
+    spawnAir: (type = "gunship") => {
+      const e = enemyManager.spawn(type, state.pos, 0);
+      if (e) e.position.y = 9;
+      return e ? { hp: e.hp, y: e.position.y } : null;
+    },
+    airState: () => enemyManager.enemies.filter((e) => e.mesh && e.mesh.position.y > 2)
+      .map((e) => ({ type: e.type, hp: Math.round(e.hp), y: +e.mesh.position.y.toFixed(1) })),
     getTracerColors: () => tracers.filter((t) => t.life > 0).map((t) => t.mesh.material.color.getHex()),
     getCruise: () => ({ style: weaponManager.active.styleKey, vfx: STYLE_VFX[weaponManager.active.styleKey] || null }),
     getEnemies: () => enemyManager,
@@ -1923,8 +1930,16 @@ function update(dt, ctx) {
     enemyManager.updateSpawning(dt, state.pos, beat);
 
     // Targeting (auto-orient Operator & Gun Floodlight toward nearest threat)
-    const target = state.phase === "playing" ? nearest() : null;
+    // anti-air: helicopters sit high, so acquire them from further out and pitch the gun at them
+    const anyAir = state.phase === "playing" &&
+      enemyManager.enemies.some((e) => e.mesh && e.mesh.position.y > 2.2);
+    const target = state.phase === "playing" ? nearest(anyAir ? 36 : 24) : null;
     if (target) {
+      const dy = target.mesh.position.y - 1.15;
+      const dxz = Math.hypot(target.mesh.position.x - state.pos.x, target.mesh.position.z - state.pos.z) || 1;
+      // three.js: negative X pitch tips the muzzle upward
+      const wantPitch = dy > 2.0 ? -Math.atan2(dy, dxz) : 0;
+      gunPivot.rotation.x += (wantPitch - gunPivot.rotation.x) * Math.min(1, dt * 6);
       const targetYaw = Math.atan2(target.mesh.position.x - state.pos.x, target.mesh.position.z - state.pos.z);
       if (mx === 0 && mz === 0) {
         let bodyTurn = targetYaw - state.yaw;

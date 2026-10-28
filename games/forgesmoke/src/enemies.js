@@ -446,9 +446,9 @@ export class EnemyManager {
         enemy.position.x += enemy.velocity.x * dt;
         enemy.position.z += enemy.velocity.z * dt;
       }
-      enemy.position.y = isAerial
-        ? 0.72 + Math.sin(Date.now() * 0.001 * 4.5 + enemy.phase) * 0.14
-        : 0.72;
+      const AIR_ALT = { gunship: 6.4, drone: 4.6 };
+    const alt = AIR_ALT[enemy.type] ?? (isAerial ? 3.4 : 0.72);
+    enemy.position.y = alt + Math.sin(Date.now() * 0.001 * 4.5 + enemy.phase) * (isAerial ? 0.35 : 0);
 
       // Update mesh if exists
       const mesh = this.enemyMeshes.get(enemy);
