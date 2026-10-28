@@ -435,8 +435,11 @@ export class EnemyManager {
       else enemy._stuck = 0;
       if (enemy._stuck > 1.0) {
         const side = Math.sin((enemy.phase || 0) * 3.1) > 0 ? 1 : -1;
-        enemy.position.x += -dirZ * side * 1.6 * dt * 6;
-        enemy.position.z += dirX * side * 1.6 * dt * 6;
+        const tdx = playerPos.x - enemy.position.x;
+        const tdz = playerPos.z - enemy.position.z;
+        const tlen = Math.hypot(tdx, tdz) || 1;
+        enemy.position.x += (-tdz / tlen) * side * 1.6 * dt * 6;
+        enemy.position.z += (tdx / tlen) * side * 1.6 * dt * 6;
         enemy._stuck = 0;
       }
       } else {
