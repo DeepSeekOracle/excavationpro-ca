@@ -153,7 +153,7 @@ export function createStartMenu(opts = {}) {
     <video class="artvid" muted loop playsinline autoplay preload="auto" tabindex="-1"
            poster="./assets/start-bg-poster.jpg" aria-hidden="true">
       <source src="./assets/start-bg.mp4" type="video/mp4" />
-      <source src="./assets/start-art-v3.webm" type="video/webm" />
+      <source src="./assets/start-bg.webm" type="video/webm" />
     </video>
     <div class="artfx" aria-hidden="true">
       <i class="lamp"></i>
