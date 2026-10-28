@@ -18,12 +18,12 @@ import { WeaponManager, CardSystem, Weapon } from "./weapons.js";
 import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
 import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js";
-import { pilot } from "./autopilot.js";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js";
-import { createStartMenu } from "./startmenu.js";
-import { createGamepad } from "./gamepad.js";
-import { createTalentWindow } from "./talentui.js";
-import { aggregate, toRunMods } from "./talents.js";
+import { pilot } from "./autopilot.js?v=20261029i";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029i";
+import { createStartMenu } from "./startmenu.js?v=20261029i";
+import { createGamepad } from "./gamepad.js?v=20261029i";
+import { createTalentWindow } from "./talentui.js?v=20261029i";
+import { aggregate, toRunMods } from "./talents.js?v=20261029i";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -41,7 +41,7 @@ import {
 } from "./models.js";
 import * as levelModule from "./level.js";
 import * as menuModule from "./menu.js";
-import * as audioModule from "./audio.js";
+import * as audioModule from "./audio.js?v=20261029i";
 import * as fxModule from "./fx.js";
 
 const TAU = Math.PI * 2;
@@ -1485,24 +1485,18 @@ function update(dt, ctx) {
         state._bayCleared = true;
       }
 
-      // stand at the centre, facing the bay, breathing - but ALIVE: the turntable has to read as
-      // motion even with panels over most of it, or it looks like a paused game.
+      // The intro the game opened with - reused here, because it read as alive: the camera
+      // orbits close (5.6 m) and the operator turns slowly side to side, so the whole frame moves.
+      state.t += dt;
+      state.orbit += dt * 0.26;
       state.pos.set(0, 0, 0);
       soldier.position.set(0, 0, 0);
-      soldier.rotation.y = Math.PI + Math.sin(state.t * 0.45) * 0.075;  // faces you, sways a little
-      gunPivot.rotation.y = Math.sin(state.t * 0.45 + 0.6) * 0.05;
+      soldier.rotation.y = Math.PI + Math.sin(state.t * 0.65) * 0.42;
+      gunPivot.rotation.y = Math.sin(state.t * 0.5 + 0.4) * 0.06;
       gunPivot.rotation.x = 0;
       updateOperatorAnimation(soldier, gunPivot, dt, false, weaponManager.active);
-
-      // a turntable you can actually see: ~12.6 degrees a second plus a slow rise and fall
-      state.orbit += dt * 0.22;
-      const camR = 7.4 + Math.sin(state.t * 0.28) * 0.55;
-      camera.position.set(
-        Math.sin(state.orbit) * camR,
-        2.72 + Math.sin(state.t * 0.42) * 0.16,
-        Math.cos(state.orbit) * camR
-      );
-      camera.lookAt(0, 1.26 + Math.sin(state.t * 0.3) * 0.03, 0);
+      camera.position.set(Math.sin(state.orbit) * 5.6, 2.75, Math.cos(state.orbit) * 5.6);
+      camera.lookAt(0, 1.25, 0);
 
       const h = globalThis.__studio?.hud;
       if (h && hudPhase !== "manager") {

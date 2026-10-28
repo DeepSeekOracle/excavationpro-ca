@@ -20,6 +20,14 @@ const CSS = `
     linear-gradient(160deg,#0A0F14,#06080B 60%,#070A0E);
   background-size:cover;background-position:center right;background-repeat:no-repeat}
 #fs-start.open{display:flex}
+#fs-start.art:not(.vid){animation:fsStillDrift 30s ease-in-out infinite alternate}
+@keyframes fsStillDrift{0%{background-position:center,50% 50%}100%{background-position:center,54% 47%}}
+#fs-start .artvid{animation:fsKenBurns 14s ease-in-out infinite alternate}
+@keyframes fsKenBurns{
+  0%{transform:scale(1.03) translate3d(0,0,0)}
+  50%{transform:scale(1.12) translate3d(-2.4%,1.8%,0)}
+  100%{transform:scale(1.06) translate3d(2.2%,-1.8%,0)}
+}
 #fs-start.art{background-image:
     linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
     url("${ART}");
@@ -46,6 +54,19 @@ const CSS = `
   background:radial-gradient(ellipse at 50% 50%,rgba(255,228,158,.62),rgba(255,150,40,.20) 44%,transparent 70%);
   filter:blur(5px);animation:fsEyes 3.6s ease-in-out infinite;mix-blend-mode:screen}
 @keyframes fsEyes{0%,100%{opacity:.62;transform:scale(1)}48%{opacity:1;transform:scale(1.045)}}
+#fs-start .artfx .sweep{position:absolute;inset:-20%;pointer-events:none;mix-blend-mode:screen;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,190,110,.10) 48%,rgba(255,214,150,.16) 50%,rgba(255,190,110,.08) 54%,transparent 64%);
+  animation:fsSweep 9s ease-in-out infinite}
+@keyframes fsSweep{0%{transform:translate3d(-42%,0,0)}100%{transform:translate3d(42%,0,0)}}
+#fs-start .artfx .motes{position:absolute;inset:-10%;pointer-events:none;opacity:.55;
+  background-image:radial-gradient(1.6px 1.6px at 12% 82%,rgba(255,226,180,.9) 50%,transparent 51%),
+    radial-gradient(1.2px 1.2px at 28% 64%,rgba(255,214,150,.8) 50%,transparent 51%),
+    radial-gradient(1.8px 1.8px at 47% 91%,rgba(255,236,200,.75) 50%,transparent 51%),
+    radial-gradient(1.3px 1.3px at 63% 72%,rgba(255,214,150,.8) 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 79% 88%,rgba(255,226,180,.85) 50%,transparent 51%),
+    radial-gradient(1.1px 1.1px at 91% 66%,rgba(255,214,150,.7) 50%,transparent 51%);
+  animation:fsMotes 17s linear infinite}
+@keyframes fsMotes{0%{transform:translate3d(0,6%,0)}100%{transform:translate3d(-4%,-14%,0)}}
 #fs-start .artfx .rain{position:absolute;inset:-30% -10%;opacity:.5;
   background-image:repeating-linear-gradient(104deg,transparent 0 7px,rgba(169,220,210,.055) 7px 8px,transparent 8px 15px);
   animation:fsRain 1.5s linear infinite}
@@ -137,6 +158,8 @@ export function createStartMenu(opts = {}) {
       <i class="eyes"></i>
       <i class="rain r1"></i>
       <i class="rain r2"></i>
+      <i class="sweep"></i>
+      <i class="motes"></i>
     </div>
     <div class="panel">
       <div class="kicker"><i></i> Δ9Φ963 · EXCAVATIONPRO · BAY 01</div>
