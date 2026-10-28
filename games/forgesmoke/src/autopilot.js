@@ -7,7 +7,9 @@
  */
 
 export const PILOT_PROFILE = {
-  idealRange: 9.5,     // metres it tries to hold from the current target
+  idealRange: 9.5,
+  bossRange: 13.5,   // bosses are fought from further out
+  bossStrafe: 1.05,     // metres it tries to hold from the current target
   strafeBias: 0.8,     // how much of the motion is tangential (orbit) vs radial (close/open)
   retreatHealth: 0.35, // below this fraction of integrity it disengages
   wanderBias: 0.25,
@@ -16,6 +18,9 @@ export const PILOT_PROFILE = {
 /** Pick the target the pilot cares about: nearest threat, 360°. */
 export function pickTarget(state, enemyManager) {
   if (!enemyManager || !enemyManager.enemies) return null;
+  // a live boss outranks everything else - that is what the run is about
+  const boss = state.bossEnemy;
+  if (boss && boss.hp > 0 && enemyManager.enemies.includes(boss)) return boss;
   if (typeof enemyManager.findNearest === "function") {
     return enemyManager.findNearest(state.pos, state.yaw, 42, Math.PI * 2) || null;
   }
@@ -53,7 +58,11 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
   const tx = -nz, tz = nx;                       // tangent (perpendicular) for orbiting
 
   // radial term: positive closes the gap, negative opens it
-  const radial = Math.max(-1, Math.min(1, (dist - profile.idealRange) / profile.idealRange));
+  // bosses get their own engagement envelope: stay further out, orbit harder, keep shooting
+  const isBoss = target === state.bossEnemy;
+  const idealRange = isBoss ? profile.bossRange || 13.5 : profile.idealRange;
+  const strafe = isBoss ? profile.bossStrafe || 1.05 : profile.strafeBias;
+  const radial = Math.max(-1, Math.min(1, (dist - idealRange) / idealRange));
 
   // flip strafe direction on a slow sine so it arcs rather than circling one way forever
   const t = (state.pilotClock || 0) + dt;
@@ -68,9 +77,9 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
     out.mx = nx; out.mz = nz;                    // too far to matter: close in
     out.mode = "close";
   } else {
-    out.mx = nx * radial + tx * strafeDir * profile.strafeBias;
-    out.mz = nz * radial + tz * strafeDir * profile.strafeBias;
-    out.mode = dist < profile.idealRange * 0.55 ? "open" : "hold";
+    out.mx = nx * radial + tx * strafeDir * strafe;
+    out.mz = nz * radial + tz * strafeDir * strafe;
+    out.mode = dist < idealRange * 0.55 ? "open" : (isBoss ? "boss" : "hold");
   }
 
   const len = Math.hypot(out.mx, out.mz) || 1;

@@ -39,6 +39,7 @@ import {
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
+  buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
 } from "./models.js?v=20261029t";
@@ -1962,6 +1963,15 @@ function update(dt, ctx) {
         boss.hp = Math.round(boss.hp * 2 + 2600);   // hard, but a built cyborg can finish it
         boss.maxHp = boss.hp;
         boss.isBoss = true;
+        // give it the imported animated rig, not just a scaled grunt
+        try {
+          const bossMesh = buildBossMesh(enemyManager.materials);
+          bossMesh.position.set(boss.position.x, 0.9, boss.position.z);
+          scene.add(bossMesh);
+          if (boss.mesh) { scene.remove(boss.mesh); }
+          boss.mesh = bossMesh;
+          enemyManager.enemyMeshes.set(boss, bossMesh);
+        } catch (e) { /* keep the original mesh if the rig fails */ }
         boss.bossName = kind === "gunship" ? "GUNSHIP OVERSEER" : "FOUNDRY WARDEN";
         state.bossEnemy = boss;
         globalThis.__studio?.hud?.flash("#FFB347", 0.35);
@@ -1995,6 +2005,13 @@ function update(dt, ctx) {
     vDesired.set(state.pos.x + Math.sin(state.orbit) * 9, 6.4, state.pos.z + Math.cos(state.orbit) * 9);
     const lerpFactor = 1 - Math.exp(-dt * 5.5);
     camera.position.lerp(vDesired, lerpFactor);
+    // keep the camera out of cover: a container swallowing the view reads as a broken game
+    const camProbe = { x: camera.position.x, z: camera.position.z };
+    if (resolveObstacleCollision(camProbe, 1.6, arenaColliders)) {
+      camera.position.x = camProbe.x;
+      camera.position.z = camProbe.z;
+      camera.position.y = Math.max(camera.position.y, 4.6);
+    }
     camera.lookAt(state.pos.x, 1.25, state.pos.z);
 
     // ARENA CLEAR: surviving past the final beat (the overtime line) rolls a legendary.
