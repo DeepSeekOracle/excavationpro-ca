@@ -22,7 +22,7 @@ const CSS = `
 #fs-start.open{display:flex}
 #fs-start.art:not(.vid){animation:fsStillDrift 30s ease-in-out infinite alternate}
 @keyframes fsStillDrift{0%{background-position:center,50% 50%}100%{background-position:center,54% 47%}}
-#fs-start .artvid{animation:fsKenBurns 14s ease-in-out infinite alternate}
+#fs-start .artvid{}  /* the supplied clip is already moving; do not reframe it */
 @keyframes fsKenBurns{
   0%{transform:scale(1.03) translate3d(0,0,0)}
   50%{transform:scale(1.12) translate3d(-2.4%,1.8%,0)}
@@ -78,6 +78,8 @@ const CSS = `
   #fs-start .artfx .eyes{opacity:.8}
 }
 
+#fs-start .fs-build{position:absolute;right:14px;bottom:10px;font:700 9px ui-monospace,Consolas,monospace;
+  letter-spacing:.2em;color:rgba(255,179,71,.55)}
 #fs-start .panel{position:relative;width:min(462px,46vw);display:flex;flex-direction:column;justify-content:center;overflow-y:auto;max-height:100vh;padding-block:26px;
   gap:0;padding:0 clamp(26px,3.4vw,54px);pointer-events:auto;
   background:linear-gradient(90deg,rgba(7,10,14,.94) 0%,rgba(7,10,14,.90) 74%,rgba(7,10,14,.55) 100%);
@@ -148,7 +150,7 @@ export function createStartMenu(opts = {}) {
   root.id = "fs-start";
   root.innerHTML = `
     <div class="artwrap"></div>
-    <video class="artvid" muted loop playsinline preload="auto" tabindex="-1"
+    <video class="artvid" muted loop playsinline autoplay preload="auto" tabindex="-1"
            poster="./assets/start-bg-poster.jpg" aria-hidden="true">
       <source src="./assets/start-bg.mp4" type="video/mp4" />
       <source src="./assets/start-art-v3.webm" type="video/webm" />
@@ -181,6 +183,7 @@ export function createStartMenu(opts = {}) {
         <div class="gold"><b data-legacy>0</b>LEGENDARY</div>
       </div>
       <div class="foot">[ENTER] ENTER THE BAY · [ESC] OPTIONS</div>
+      <div class="fs-build" data-build>BUILD —</div>
     </div>
     <div class="modal" data-modal>
       <div class="card">
@@ -229,18 +232,34 @@ export function createStartMenu(opts = {}) {
   modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("open"); });
 
   function show() {
+    const tag = q("[data-build]");
+    if (tag) {
+      const src = [...document.querySelectorAll('script[type="module"]')].map((n) => n.src).join(" ");
+      const m = src.match(/main\.js\?v=([\w]+)/);
+      tag.textContent = "BUILD " + (m ? m[1].slice(-1).toUpperCase() : "?") + " · VIDEO";
+    }
     render();
     mountAd();
     const vid = q(".artvid");
     const reduce = globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     if (vid && !reduce) {
+      // The video IS the background. Reveal it the moment it has a frame - do NOT gate that on
+      // play() succeeding, or a browser with a strict autoplay policy leaves the still showing and
+      // it looks like the video was never wired up.
       vid.muted = true;
-      const started = vid.play();
-      if (started && started.then) {
-        started.then(() => root.classList.add("vid")).catch(() => root.classList.remove("vid"));
-      } else {
-        root.classList.add("vid");
-      }
+      const reveal = () => root.classList.add("vid");
+      if (vid.readyState >= 2) reveal();
+      vid.addEventListener("loadeddata", reveal, { once: true });
+      vid.addEventListener("canplay", reveal, { once: true });
+      const tryPlay = () => {
+        const pr = vid.play();
+        if (pr && pr.catch) pr.catch(() => {});
+      };
+      tryPlay();
+      // a blocked autoplay starts on the first gesture anywhere
+      const kick = () => { if (vid.paused) tryPlay(); };
+      globalThis.addEventListener?.("pointerdown", kick, { once: true });
+      globalThis.addEventListener?.("keydown", kick, { once: true });
     }
     root.classList.add("open");
     // probe the art once; if it is missing the gradient stands in
