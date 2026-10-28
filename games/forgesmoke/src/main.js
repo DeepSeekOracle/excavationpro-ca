@@ -1006,6 +1006,9 @@ function startRun(arenaId = "arena1") {
     pilotClock: 0,
     pilotMode: "hold",
     cardsPlayed: 0,
+    bossSpawned: false,
+    bossPaid: false,
+    bossEnemy: null,
   });
   audioController?.playSfx("launch", { volume: 0.7 });
   // manager stat block -> real gameplay multipliers (integrity, speed, reload, damage, crit, tech)
@@ -1834,6 +1837,36 @@ function update(dt, ctx) {
     if (state.fire <= 0 && target && weaponManager.active.canFire) {
       shoot(target);
       state.fire = weaponManager.active.currentCycle;
+    }
+
+    // ── BOSS WAVE ────────────────────────────────────────────────────────────
+    // Later in a run a named boss walks in. It is a real enemy (scaled, tanky) with a HUD callout,
+    // and killing it pays talent points - the arena's answer to the Trials board.
+    if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 18)) {
+      state.bossSpawned = true;
+      const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
+      const boss = enemyManager.spawn(kind, state.pos, beatDirector.runTime / 60);
+      if (boss) {
+        boss.hp = Math.round(boss.hp * 7 + 900);
+        boss.maxHp = boss.hp;
+        boss.isBoss = true;
+        boss.bossName = kind === "gunship" ? "GUNSHIP OVERSEER" : "FOUNDRY WARDEN";
+        state.bossEnemy = boss;
+        globalThis.__studio?.hud?.flash("#FFB347", 0.35);
+        audioController?.playSfx("launch", { volume: 0.6, pitch: 0.7 });
+      }
+    }
+    // boss down: pay the run
+    if (state.bossEnemy) {
+      const stillUp = enemyManager.enemies.includes(state.bossEnemy) && state.bossEnemy.hp > 0;
+      if (!stillUp && !state.bossPaid) {
+        state.bossPaid = true;
+        const prof = state.cyborgProfile || {};
+        prof.talentPoints = (prof.talentPoints ?? 0) + 4;
+        state.cyborgProfile = saveProfile(prof);
+        globalThis.__studio?.hud?.flash("#7CE6A8", 0.4);
+        audioController?.playSfx("levelup", { volume: 0.8 });
+      }
     }
 
     // Check for card queue

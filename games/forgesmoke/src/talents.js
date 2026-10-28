@@ -1,157 +1,154 @@
 /**
  * FORGE SMOKE — SPECIAL OPERATIONS TREE
  *
- * A military passive tree in the shape of the PoE tree: a hub, eight branch spokes that follow the
- * conduits etched into the command board, small passives, notables, and a keystone at the end of
- * every branch. Allocation is cheapest-chain: clicking a far node buys the nodes between it and
- * whatever you already hold, exactly like the reference system.
+ * Structure follows the reference games (PoE2 passive tree, per poe2ref.com and the Maxroll beginner
+ * guide), reskinned military:
  *
- * Nodes cost 1 point. Points come from runs (generous) and from boss trials.
+ *   CLUSTER  = a ring of small passives capped by one NOTABLE, with a MASTERY at the cluster centre
+ *              that only opens once that cluster's notable is taken.
+ *   REGION   = a spoke of eight clusters (Spec Ops, Assault, Demolition, Armour, Recon, Drone Ops,
+ *              Logistics, Command), ending in a KEYSTONE with a real drawback.
+ *   HUB      = the bay; every region begins there.
  *
- * Effects are plain modifiers; `aggregate()` folds them into the multipliers the run reads.
+ * No jewel sockets (by request).
+ *
+ * 8 regions x 16 clusters x (8 small + 1 notable + 1 mastery) = 1,280, plus 8 keystones and the
+ * hub = 1,289 nodes, ~1,540 edges. Masteries gate on their cluster notable.
+ * Allocation is cheapest-chain (Dijkstra); masteries are gated on their cluster notable; refunds
+ * prune anything only reachable through the node.
  */
 
-export const BRANCHES = [
+const D2R = Math.PI / 180;
+
+/* ── content pools (military, not fantasy) ─────────────────────────────────── */
+
+const REGIONS = [
   {
-    id: "so", name: "SPEC OPS", angle: -90, color: "#8fd8ff", icon: "◈",
+    id: "so", name: "SPEC OPS", angle: -90, color: "#8fd8ff",
     blurb: "Long-range precision. Punish from outside their reach.",
-    nodes: [
-      { n: "Marksmanship", k: "small", m: { dmg: 6, rangeDmg: 4 }, d: "6% damage, 4% more at 12m+" },
-      { n: "Trigger Discipline", k: "small", m: { crit: 3, rangeDmg: 4 }, d: "3% crit chance, 4% range damage" },
-      { n: "Ballistic Table", k: "small", m: { dmg: 8 }, d: "8% damage" },
-      { n: "Optic Zero", k: "notable", m: { rangeDmg: 18, crit: 4 }, d: "18% range damage, 4% crit" },
-      { n: "Breath Control", k: "small", m: { crit: 4, rate: -2 }, d: "4% crit, 2% slower fire" },
-      { n: "Cold Bore", k: "small", m: { rangeDmg: 8 }, d: "8% range damage" },
-      { n: "Overwatch',", k: "small", m: { dmg: 6, armor: 4 }, d: "6% damage, 4% armour" },
-      { n: "Spotter Team", k: "notable", m: { crit: 8, dmg: 10 }, d: "8% crit, 10% damage" },
-      { n: "Suppressor", k: "small", m: { rate: 4 }, d: "4% fire rate" },
-      { n: "Dead Man's Click", k: "keystone", m: { rangeDmg: 60, crit: 15, dmg: -15 }, d: "60% range damage, +15% crit, -15% close damage" },
-    ],
+    small: [["Marksmanship", { dmg: 3, rangeDmg: 3 }], ["Breath Control", { crit: 2, rangeDmg: 2 }],
+      ["Zeroing", { rangeDmg: 5 }], ["Ballistic Table", { dmg: 4 }], ["Spotter Drill", { crit: 2, dmg: 2 }],
+      ["Cold Bore", { rangeDmg: 4 }], ["Trigger Discipline", { crit: 3 }], ["Optic Housing", { dmg: 2, armor: 2 }]],
+    notable: [["Zeroed Optic", { rangeDmg: 16, crit: 4 }], ["Overwatch Post", { dmg: 12, armor: 6 }],
+      ["Kill Zone", { rangeDmg: 14 }], ["Cold Shot", { crit: 10 }], ["Recon by Fire", { dmg: 10, rangeDmg: 8 }],
+      ["Long Watch", { rangeDmg: 12, xp: 8 }], ["One Shot Doctrine", { dmg: 14, rate: -4 }], ["Spotter Team", { crit: 8, dmg: 8 }]],
+    mastery: [["Range Mastery", { rangeDmg: 28 }, "Range damage is what you build around."],
+      ["Precision Mastery", { crit: 12 }, "Crit chance, no strings."]],
+    keystone: { n: "Dead Man's Click", m: { rangeDmg: 60, crit: 15, dmg: -15 },
+      d: "60% range damage and +15% crit, but 15% less damage up close." },
   },
   {
-    id: "as", name: "ASSAULT", angle: -45, color: "#ffc46b", icon: "❖",
+    id: "as", name: "ASSAULT", angle: -45, color: "#ffc46b",
     blurb: "Sustained machine-gun fire. Volume beats precision.",
-    nodes: [
-      { n: "Squad Automatic", k: "small", m: { rate: 5 }, d: "5% fire rate" },
-      { n: "Belt Fed", k: "small", m: { mag: 8 }, d: "8% magazine" },
-      { n: "Muzzle Brake", k: "small", m: { dmg: 5, rate: 3 }, d: "5% damage, 3% rate" },
-      { n: "Sustained Fire", k: "notable", m: { rate: 14, mag: 12 }, d: "14% fire rate, 12% magazine" },
-      { n: "Barrel Shroud", k: "small", m: { rate: 4 }, d: "4% fire rate" },
-      { n: "Gunner's Mate", k: "small", m: { dmg: 7 }, d: "7% damage" },
-      { n: "Bipod Stance", k: "small", m: { dmg: 6, armor: 4 }, d: "6% damage, 4% armour" },
-      { n: "Suppression Drill", k: "notable", m: { rate: 12, dmg: 8 }, d: "12% rate, 8% damage" },
-      { n: "Brass Everywhere", k: "small", m: { mag: 10 }, d: "10% magazine" },
-      { n: "Wall of Lead", k: "keystone", m: { rate: 45, dmg: -18, reload: 10 }, d: "45% fire rate, -18% damage, +10% reload" },
-    ],
+    small: [["Squad Automatic", { rate: 3 }], ["Belt Fed", { mag: 4 }], ["Muzzle Brake", { dmg: 2, rate: 2 }],
+      ["Barrel Shroud", { rate: 3 }], ["Gunner's Mate", { dmg: 3 }], ["Bipod Stance", { dmg: 2, armor: 2 }],
+      ["Brass Call", { mag: 5 }], ["Sustained Fire Drill", { rate: 4 }]],
+    notable: [["Wall of Lead", { rate: 14, mag: 10 }], ["Gunner's Nest", { dmg: 12, rate: 6 }],
+      ["Suppression Drill", { rate: 12 }], ["Ammo Bearer", { mag: 16 }], ["Heat Discipline", { rate: 10, dmg: 6 }],
+      ["Squad Automatic", { dmg: 10, mag: 8 }], ["Volume of Fire", { rate: 16, dmg: -4 }], ["Belt Team", { mag: 12, reload: 6 }]],
+    mastery: [["Rate Mastery", { rate: 26 }, "Cyclic rate, flat."],
+      ["Sustain Mastery", { mag: 30 }, "Magazine size, flat."]],
+    keystone: { n: "Wall of Lead", m: { rate: 45, dmg: -18, reload: 10 },
+      d: "45% fire rate at the cost of 18% damage — volume, not quality." },
   },
   {
-    id: "de", name: "DEMOLITION", angle: 0, color: "#ff8a5c", icon: "✸",
+    id: "de", name: "DEMOLITION", angle: 0, color: "#ff8a5c",
     blurb: "Explosives. Go over, around and through shields.",
-    nodes: [
-      { n: "Demo Basic", k: "small", m: { blast: 6 }, d: "6% blast damage" },
-      { n: "Frag Pack", k: "small", m: { blast: 5, shieldPierce: 4 }, d: "5% blast, 4% shield pierce" },
-      { n: "Primer Cord", k: "small", m: { blast: 7 }, d: "7% blast damage" },
-      { n: "Satchel Charge", k: "notable", m: { blast: 16, shieldPierce: 12 }, d: "16% blast, 12% shield pierce" },
-      { n: "Shaped Charge", k: "small", m: { shieldPierce: 8 }, d: "8% shield pierce" },
-      { n: "Cook Off", k: "small", m: { blast: 6, rate: 3 }, d: "6% blast, 3% rate" },
-      { n: "Thermobaric", k: "small", m: { blast: 8 }, d: "8% blast damage" },
-      { n: "Breach Kit", k: "notable", m: { shieldPierce: 18, dmg: 6 }, d: "18% shield pierce, 6% damage" },
-      { n: "Demo NCO", k: "small", m: { blast: 7, armor: 3 }, d: "7% blast, 3% armour" },
-      { n: "Sapper's Oath", k: "keystone", m: { shieldPierce: 100, blast: 40, dmg: -12 }, d: "explosions ignore shields, 40% blast, -12% damage" },
-    ],
+    small: [["Demo Basic", { blast: 4 }], ["Primer Cord", { blast: 3, rate: 2 }], ["Shaped Charge", { shieldPierce: 5 }],
+      ["Frag Pack", { blast: 3, shieldPierce: 3 }], ["Cook Off", { blast: 4 }], ["Thermobaric", { blast: 5 }],
+      ["Breach Math", { shieldPierce: 6 }], ["Sapper's Hands", { blast: 3, armor: 2 }]],
+    notable: [["Satchel Charge", { blast: 16, shieldPierce: 10 }], ["Breach Kit", { shieldPierce: 18, dmg: 6 }],
+      ["Cluster Munition", { blast: 14 }], ["Thermobaric Fill", { blast: 12, shieldPierce: 8 }],
+      ["Demo NCO", { blast: 10, armor: 6 }], ["Shaped Penetrator", { shieldPierce: 20 }],
+      ["Cook-Off Charge", { blast: 12, rate: 6 }], ["Crater Analysis", { dmg: 8, blast: 10 }]],
+    mastery: [["Blast Mastery", { blast: 30 }, "Explosive damage, flat."],
+      ["Breach Mastery", { shieldPierce: 30 }, "Shield pierce, flat."]],
+    keystone: { n: "Sapper's Oath", m: { shieldPierce: 100, blast: 40, dmg: -12 },
+      d: "Explosions ignore shields entirely and hit 40% harder; everything else is 12% weaker." },
   },
   {
-    id: "ar", name: "ARMOUR", angle: 45, color: "#a9b6c4", icon: "▰",
+    id: "ar", name: "ARMOUR", angle: 45, color: "#a9b6c4",
     blurb: "Plate and nerve. Live through what kills the rest.",
-    nodes: [
-      { n: "Plate Carrier", k: "small", m: { armor: 8 }, d: "8% armour" },
-      { n: "Ceramic Inserts", k: "small", m: { armor: 6, hp: 4 }, d: "6% armour, 4% integrity" },
-      { n: "Blast Diaper", k: "small", m: { armor: 5, blast: 4 }, d: "5% armour, 4% blast resist" },
-      { n: "Hard Point", k: "notable", m: { armor: 16, hp: 8 }, d: "16% armour, 8% integrity" },
-      { n: "Trauma Plate", k: "small", m: { hp: 6 }, d: "6% integrity" },
-      { n: "Webbing", k: "small", m: { armor: 7 }, d: "7% armour" },
-      { n: "Neck Guard", k: "small", m: { armor: 5, hp: 4 }, d: "5% armour, 4% integrity" },
-      { n: "Combat Medic", k: "notable", m: { hp: 14, heal: 3 }, d: "14% integrity, small regen" },
-      { n: "Reinforced Visor", k: "small", m: { armor: 6 }, d: "6% armour" },
-      { n: "Last Stand", k: "keystone", m: { hp: 45, armor: 30, speed: -10 }, d: "45% integrity, 30% armour, -10% speed" },
-    ],
+    small: [["Plate Carrier", { armor: 4 }], ["Ceramic Inserts", { armor: 3, hp: 3 }], ["Trauma Plate", { hp: 4 }],
+      ["Webbing", { armor: 3 }], ["Neck Guard", { armor: 2, hp: 2 }], ["Blast Diaper", { armor: 3, blast: 2 }],
+      ["Reinforced Visor", { armor: 3 }], ["Field Dressing", { hp: 5 }]],
+    notable: [["Hard Point", { armor: 16, hp: 8 }], ["Combat Medic", { hp: 14, heal: 3 }],
+      ["Blast Suit", { armor: 12, blast: 8 }], ["Trauma Kit", { hp: 12 }], ["Ablative Layer", { armor: 14 }],
+      ["Nerve Staples", { hp: 10, armor: 6 }], ["Walking Wall", { armor: 18, speed: -5 }], ["Triage Drill", { hp: 12, heal: 2 }]],
+    mastery: [["Armour Mastery", { armor: 30 }, "Armour, flat."],
+      ["Integrity Mastery", { hp: 30 }, "Maximum integrity, flat."]],
+    keystone: { n: "Last Stand", m: { hp: 45, armor: 30, speed: -10 },
+      d: "45% integrity and 30% armour; you move 10% slower for it." },
   },
   {
-    id: "rc", name: "RECON", angle: 90, color: "#7ce6a8", icon: "◇",
+    id: "rc", name: "RECON", angle: 90, color: "#7ce6a8",
     blurb: "Move quiet, move fast, see it first.",
-    nodes: [
-      { n: "Ruck March", k: "small", m: { speed: 5 }, d: "5% move speed" },
-      { n: "Light Kit", k: "small", m: { speed: 4, reload: 3 }, d: "4% speed, 3% reload" },
-      { n: "Low Crawl", k: "small", m: { speed: 6 }, d: "6% move speed" },
-      { n: "Pathfinder", k: "notable", m: { speed: 14, reload: 6 }, d: "14% speed, 6% reload" },
-      { n: "Silent Boots", k: "small", m: { speed: 5, crit: 2 }, d: "5% speed, 2% crit" },
-      { n: "Field Craft", k: "small", m: { xp: 8 }, d: "8% run XP" },
-      { n: "Sprint Cycle", k: "small", m: { speed: 5 }, d: "5% move speed" },
-      { n: "Recon Screen", k: "notable", m: { speed: 10, crit: 5 }, d: "10% speed, 5% crit" },
-      { n: "Escape Route", k: "small", m: { speed: 6, armor: 2 }, d: "6% speed, 2% armour" },
-      { n: "Ghost Protocol", k: "keystone", m: { speed: 35, crit: 10, armor: -12 }, d: "35% speed, +10% crit, -12% armour" },
-    ],
+    small: [["Ruck March", { speed: 3 }], ["Light Kit", { speed: 2, reload: 2 }], ["Low Crawl", { speed: 3 }],
+      ["Silent Boots", { speed: 2, crit: 2 }], ["Field Craft", { xp: 5 }], ["Sprint Cycle", { speed: 3 }],
+      ["Escape Route", { speed: 2, armor: 2 }], ["Route Recall", { xp: 4, speed: 2 }]],
+    notable: [["Pathfinder", { speed: 14, reload: 6 }], ["Recon Screen", { speed: 10, crit: 5 }],
+      ["Ghost Walk", { speed: 12 }], ["Field Notes", { xp: 16 }], ["Terrain Read", { speed: 8, armor: 4 }],
+      ["Exfil Drill", { speed: 10, hp: 5 }], ["Sight Picture", { crit: 8, speed: 6 }], ["Long Patrol", { xp: 12, speed: 6 }]],
+    mastery: [["Mobility Mastery", { speed: 28 }, "Movement, flat."],
+      ["Fieldcraft Mastery", { xp: 30 }, "Run XP, flat."]],
+    keystone: { n: "Ghost Protocol", m: { speed: 35, crit: 10, armor: -12 },
+      d: "35% speed and +10% crit; you give up 12% armour." },
   },
   {
-    id: "dr", name: "DRONE OPS", angle: 135, color: "#9fb3ff", icon: "⌁",
+    id: "dr", name: "DRONE OPS", angle: 135, color: "#9fb3ff",
     blurb: "Machines that fight beside you.",
-    nodes: [
-      { n: "Ground Station", k: "small", m: { drone: 1 }, d: "+1 drone power" },
-      { n: "Telemetry", k: "small", m: { drone: 1, crit: 2 }, d: "+1 drone power, 2% crit" },
-      { n: "Loiter Time", k: "small", m: { drone: 1 }, d: "+1 drone power" },
-      { n: "Orbit Pattern", k: "notable", m: { drone: 3, rate: 4 }, d: "+3 drone power, 4% rate" },
-      { n: "Swarm Logic", k: "small", m: { drone: 2 }, d: "+2 drone power" },
-      { n: "Laser Designator", k: "small", m: { crit: 4, drone: 1 }, d: "4% crit, +1 drone" },
-      { n: "Relay Hop", k: "small", m: { drone: 1, xp: 4 }, d: "+1 drone, 4% XP" },
-      { n: "Wing Pair", k: "notable", m: { drone: 4, dmg: 6 }, d: "+4 drone power, 6% damage" },
-      { n: "Autonomous Kill", k: "small", m: { drone: 2, crit: 3 }, d: "+2 drone, 3% crit" },
-      { n: "Drone Mother", k: "keystone", m: { drone: 12, dmg: -8 }, d: "+12 drone power, -8% personal damage" },
-    ],
+    small: [["Ground Station", { drone: 1 }], ["Telemetry", { drone: 1, crit: 2 }], ["Loiter Time", { drone: 1 }],
+      ["Swarm Logic", { drone: 2 }], ["Relay Hop", { drone: 1, xp: 3 }], ["Orbit Math", { drone: 1, rate: 2 }],
+      ["Laser Designator", { crit: 3 }], ["Autonomy Bit", { drone: 2 }]],
+    notable: [["Orbit Pattern", { drone: 3, rate: 4 }], ["Wing Pair", { drone: 4, dmg: 6 }],
+      ["Kill Box Link", { drone: 4, crit: 4 }], ["Autonomous Kill", { drone: 3, crit: 5 }],
+      ["Relay Chain", { drone: 3, xp: 8 }], ["Swarm Lead", { drone: 5 }], ["Designator Net", { crit: 10, drone: 2 }],
+      ["Machine Trust", { drone: 4, dmg: 4 }]],
+    mastery: [["Drone Mastery", { drone: 20 }, "Drone power, flat."],
+      ["Companion Mastery", { drone: 12, dmg: 8 }, "Drones and your own damage."]],
+    keystone: { n: "Drone Mother", m: { drone: 12, dmg: -8 },
+      d: "The swarm does the work: +12 drone power, 8% less personal damage." },
   },
   {
-    id: "lo", name: "LOGISTICS", angle: 180, color: "#ffd166", icon: "▣",
+    id: "lo", name: "LOGISTICS", angle: 180, color: "#ffd166",
     blurb: "Ammo, time, and the points to spend.",
-    nodes: [
-      { n: "Ammo Crate", k: "small", m: { mag: 8 }, d: "8% magazine" },
-      { n: "Speed Loader", k: "small", m: { reload: 6 }, d: "6% reload" },
-      { n: "Spare Barrel", k: "small", m: { reload: 5, rate: 2 }, d: "5% reload, 2% rate" },
-      { n: "Supply Chain", k: "notable", m: { reload: 14, points: 1 }, d: "14% reload, +1 point per arena clear" },
-      { n: "Pallet Drop", k: "small", m: { mag: 6, xp: 4 }, d: "6% magazine, 4% XP" },
-      { n: "NAFI Run", k: "small", m: { points: 1 }, d: "+1 point per run" },
-      { n: "Ordnance Handler", k: "small", m: { reload: 5, blast: 3 }, d: "5% reload, 3% blast" },
-      { n: "Quartermaster", k: "notable", m: { xp: 14, points: 1 }, d: "14% XP, +1 point per clear" },
-      { n: "Combat Resupply", k: "small", m: { mag: 7 }, d: "7% magazine" },
-      { n: "War Chest", k: "keystone", m: { points: 3, xp: 25, dmg: -10 }, d: "+3 points per run, 25% XP, -10% damage" },
-    ],
+    small: [["Ammo Crate", { mag: 4 }], ["Speed Loader", { reload: 3 }], ["Spare Barrel", { reload: 2, rate: 2 }],
+      ["Pallet Drop", { mag: 3, xp: 3 }], ["Ordnance Handler", { reload: 3, blast: 2 }],
+      ["Combat Resupply", { mag: 4 }], ["Manifest Sign", { xp: 4 }], ["Rack Drill", { reload: 4 }]],
+    notable: [["Supply Chain", { reload: 14, points: 1 }], ["Quartermaster", { xp: 14, points: 1 }],
+      ["NAFI Run", { points: 1 }], ["Fast Rack", { reload: 12, mag: 8 }], ["Deep Pockets", { mag: 16 }],
+      ["Ordnance Depot", { reload: 10, blast: 6 }], ["Night Drop", { xp: 10, mag: 8 }], ["War Stocks", { points: 1, reload: 8 }]],
+    mastery: [["Reload Mastery", { reload: 30 }, "Reload speed, flat."],
+      ["Logistics Mastery", { points: 2 }, "Two more points per run."]],
+    keystone: { n: "War Chest", m: { points: 3, xp: 25, dmg: -10 },
+      d: "+3 points every run and 25% XP; your damage drops 10%." },
   },
   {
-    id: "cm", name: "COMMAND", angle: 225, color: "#ff9ad5", icon: "✦",
+    id: "cm", name: "COMMAND", angle: 225, color: "#ff9ad5",
     blurb: "Lead from the front. Everything is a little better.",
-    nodes: [
-      { n: "Briefing", k: "small", m: { dmg: 4, xp: 4 }, d: "4% damage, 4% XP" },
-      { n: "NCO School", k: "small", m: { rate: 3, armor: 3 }, d: "3% rate, 3% armour" },
-      { n: "Battle Drill", k: "small", m: { dmg: 5 }, d: "5% damage" },
-      { n: "Command Presence", k: "notable", m: { dmg: 12, xp: 8 }, d: "12% damage, 8% XP" },
-      { n: "Cross Training", k: "small", m: { rate: 3, reload: 3 }, d: "3% rate, 3% reload" },
-      { n: "Staff Officer", k: "small", m: { xp: 10 }, d: "10% XP" },
-      { n: "Rules of Engagement", k: "small", m: { crit: 3, dmg: 4 }, d: "3% crit, 4% damage" },
-      { n: "War College", k: "notable", m: { crit: 10, dmg: 8 }, d: "10% crit, 8% damage" },
-      { n: "AAR Loop", k: "small", m: { xp: 8, points: 1 }, d: "8% XP, +1 point/run" },
-      { n: "Supreme Command", k: "keystone", m: { dmg: 20, crit: 12, rate: 8, hp: -10 }, d: "20% damage, +12% crit, +8% rate, -10% integrity" },
-    ],
+    small: [["Briefing", { dmg: 2, xp: 3 }], ["NCO School", { rate: 2, armor: 2 }], ["Battle Drill", { dmg: 3 }],
+      ["Cross Training", { rate: 2, reload: 2 }], ["Staff Officer", { xp: 4 }], ["Rules of Engagement", { crit: 2, dmg: 2 }],
+      ["AAR Loop", { xp: 3, points: 1 }], ["Command Voice", { dmg: 2, hp: 2 }]],
+    notable: [["Command Presence", { dmg: 12, xp: 8 }], ["War College", { crit: 10, dmg: 8 }],
+      ["Battle Rhythm", { rate: 8, dmg: 6 }], ["Officer's Eye", { crit: 8, rangeDmg: 6 }],
+      ["Staff Work", { xp: 14 }], ["Mentor", { xp: 10, hp: 6 }], ["Iron Example", { dmg: 10, armor: 6 }],
+      ["Campaign Log", { points: 1, xp: 8 }]],
+    mastery: [["Command Mastery", { dmg: 22 }, "Damage, flat."],
+      ["Doctrine Mastery", { crit: 10, dmg: 10 }, "Crit and damage together."]],
+    keystone: { n: "Supreme Command", m: { dmg: 20, crit: 12, rate: 8, hp: -10 },
+      d: "20% damage, +12% crit, 8% rate — at 10% less integrity." },
   },
 ];
 
-/** Stable numeric key for a node. */
-export const nodeKey = (branchId, i) => `${branchId}.${i}`;
+/* ── geometry ──────────────────────────────────────────────────────────────── */
 
-/** Radius (in tree units) for ring index. */
-const RING = (i) => 118 + i * 46;
+const CLUSTERS_PER_REGION = 16;
+const CLUSTER_START = 118;     // radius of the first cluster centre
+const CLUSTER_STEP = 36;       // radial gap between clusters
+const RING_R = 14;             // small-node ring radius inside a cluster
+const SMALLS = 8;              // smalls per cluster (notable caps the ring)
 
-/**
- * Build the graph: positions, edges, hub. Eight spokes at 45° steps, matching the board's conduits,
- * with cross-links between neighbouring branches mid-way so hybrid builds are possible.
- */
+/** Build the whole graph once. */
 export function buildTree() {
   const nodes = [];
   const edges = [];
@@ -159,55 +156,105 @@ export function buildTree() {
 
   const hub = {
     id: "hub", name: "COMMAND CORE", kind: "hub", branch: "hub",
-    x: 0, y: 0, color: "#ffb347",
-    desc: "The bay. Every branch starts here.",
-    mods: {},
+    x: 0, y: 0, color: "#ffb347", desc: "The bay. Every region starts here.", mods: {},
   };
-  nodes.push(hub);
-  byId.set(hub.id, hub);
+  nodes.push(hub); byId.set(hub.id, hub);
 
-  for (const b of BRANCHES) {
-    const a0 = (b.angle * Math.PI) / 180;
+  for (const r of REGIONS) {
+    const a0 = r.angle * D2R;
     let prevId = "hub";
-    b.nodes.forEach((n, i) => {
-      const id = nodeKey(b.id, i);
-      // gentle angular drift so the spokes read as forged, not stamped
-      const drift = Math.sin(i * 1.7 + b.angle) * 0.055;
-      const ang = a0 + drift;
-      const r = RING(i);
-      const node = {
-        id, name: n.n, kind: n.k || "small", branch: b.id,
-        x: Math.cos(ang) * r, y: Math.sin(ang) * r,
-        color: b.color, desc: n.d,
-        mods: n.m || {},
-        index: i,
+    for (let c = 0; c < CLUSTERS_PER_REGION; c += 1) {
+      const centreR = CLUSTER_START + c * CLUSTER_STEP;
+      const cx = Math.cos(a0) * centreR;
+      const cy = Math.sin(a0) * centreR;
+      const clusterKey = `${r.id}${c}`;
+
+      // ring of smalls, starting at the inbound angle
+      const ringIds = [];
+      for (let s = 0; s < SMALLS; s += 1) {
+        const sa = a0 + (s / SMALLS) * Math.PI * 2;
+        const nx = cx + Math.cos(sa) * RING_R;
+        const ny = cy + Math.sin(sa) * RING_R;
+        const [nm, mods] = r.small[(c * SMALLS + s) % r.small.length];
+        const id = `${clusterKey}.s${s}`;
+        const node = {
+          id, name: nm, kind: "small", branch: r.id, cluster: clusterKey,
+          x: +nx.toFixed(2), y: +ny.toFixed(2), color: r.color, mods, desc: describe(mods, nm),
+        };
+        nodes.push(node); byId.set(id, node); ringIds.push(id);
+      }
+      // chain the ring
+      for (let s = 0; s < SMALLS; s += 1) edges.push([ringIds[s], ringIds[(s + 1) % SMALLS]]);
+      // inbound link
+      edges.push([prevId, ringIds[0]]);
+
+      // notable caps the cluster
+      const [nn, nmods] = r.notable[c % r.notable.length];
+      const notableId = `${clusterKey}.n`;
+      const naive = a0 + Math.PI / SMALLS;
+      const notable = {
+        id: notableId, name: nn, kind: "notable", branch: r.id, cluster: clusterKey,
+        x: +(cx + Math.cos(naive) * (RING_R + 16)).toFixed(2),
+        y: +(cy + Math.sin(naive) * (RING_R + 16)).toFixed(2),
+        color: r.color, mods: nmods, desc: describe(nmods, nn),
       };
-      nodes.push(node);
-      byId.set(id, node);
-      edges.push([prevId, id]);
-      prevId = id;
-    });
+      nodes.push(notable); byId.set(notableId, notable);
+      edges.push([ringIds[1], notableId]);
+      edges.push([ringIds[SMALLS - 1], notableId]);
+
+      // mastery sits in the middle; opens only with the notable
+      const [mn, mmods, mdesc] = r.mastery[c % r.mastery.length];
+      const masteryId = `${clusterKey}.m`;
+      const mastery = {
+        id: masteryId, name: `${mn}${c >= 2 ? " II" : ""}`, kind: "mastery", branch: r.id, cluster: clusterKey,
+        requires: notableId, x: +cx.toFixed(2), y: +cy.toFixed(2),
+        color: r.color, mods: mmods, desc: `${mdesc} Opens with ${nn}.`,
+      };
+      nodes.push(mastery); byId.set(masteryId, mastery);
+      edges.push([notableId, masteryId]);
+
+      prevId = notableId;
+    }
+
+    // region keystone at the far end
+    const keyR = CLUSTER_START + CLUSTERS_PER_REGION * CLUSTER_STEP;
+    const ks = r.keystone;
+    const kId = `${r.id}.key`;
+    const key = {
+      id: kId, name: ks.n, kind: "keystone", branch: r.id, cluster: `${r.id}key`,
+      x: +(Math.cos(a0) * keyR).toFixed(2), y: +(Math.sin(a0) * keyR).toFixed(2),
+      color: r.color, mods: ks.m, desc: ks.d,
+    };
+    nodes.push(key); byId.set(kId, key);
+    edges.push([prevId, kId]);
   }
 
-  // cross-links: mid-branch to mid-branch, one ring step at a time (hybrid paths)
-  const order = BRANCHES.map((b) => b.id);
-  for (let i = 0; i < order.length; i += 1) {
-    const a = order[i];
-    const b = order[(i + 1) % order.length];
-    for (const ring of [3, 6]) {
-      edges.push([nodeKey(a, ring), nodeKey(b, ring)]);
-    }
+  // cross-links between neighbouring regions, so hybrid paths exist
+  for (let i = 0; i < REGIONS.length; i += 1) {
+    const a = REGIONS[i].id, b = REGIONS[(i + 1) % REGIONS.length].id;
+    for (const c of [2, 5]) edges.push([`${a}${c}.n`, `${b}${c}.n`]);
   }
 
   return { nodes, edges, byId, hub };
 }
 
-export const TREE = buildTree();
+/** Human-readable effect line from a modifier block. */
+function describe(mods, fallback) {
+  const names = {
+    dmg: "damage", rate: "fire rate", reload: "reload speed", armor: "armour", hp: "integrity",
+    crit: "critical chance", rangeDmg: "damage beyond 12m", blast: "explosive damage",
+    shieldPierce: "shield pierce", drone: "drone power", xp: "run XP", points: "talent points per run",
+    speed: "movement speed", heal: "integrity regen", mag: "magazine size",
+  };
+  const parts = Object.entries(mods || {}).map(([k, v]) => `${v > 0 ? "+" : ""}${v}% ${names[k] || k}`);
+  return parts.length ? parts.join(", ") : fallback;
+}
 
-/** Points a fresh profile starts with, and what a run is worth. */
+export const TREE = buildTree();
+export const BRANCHES = REGIONS.map((r) => ({ id: r.id, name: r.name, color: r.color, blurb: r.blurb, angle: r.angle }));
+
 export const TALENT_REWARD = { start: 6, perRun: 2, perClear: 6, perTwoLevels: 1, perBoss: 4 };
 
-/** Fold allocated nodes into one modifier block. */
 export function aggregate(allocated = []) {
   const acc = {
     dmg: 0, rate: 0, reload: 0, armor: 0, hp: 0, crit: 0, rangeDmg: 0,
@@ -216,14 +263,11 @@ export function aggregate(allocated = []) {
   for (const id of allocated) {
     const n = TREE.byId.get(id);
     if (!n) continue;
-    for (const [k, v] of Object.entries(n.mods || {})) {
-      acc[k] = (acc[k] || 0) + Number(v || 0);
-    }
+    for (const [k, v] of Object.entries(n.mods || {})) acc[k] = (acc[k] || 0) + Number(v || 0);
   }
   return acc;
 }
 
-/** Multipliers the run actually reads. */
 export function toRunMods(acc) {
   return {
     damageMult: 1 + acc.dmg / 100,
@@ -243,25 +287,31 @@ export function toRunMods(acc) {
   };
 }
 
-/** Is `id` adjacent to something already allocated (or the hub)? */
-export function isFrontier(id, allocatedSet) {
-  if (id === "hub") return false;
-  const adj = TREE.edges.filter(([a, b]) => a === id || b === id);
-  return adj.some(([a, b]) => (a === id ? b : a) === "hub" || allocatedSet.has(a) || allocatedSet.has(b));
+/** A mastery needs its cluster notable; everything else needs a path from the hub. */
+export function requirementMet(node, allocatedSet) {
+  if (!node) return false;
+  if (node.requires) return allocatedSet.has(node.requires);
+  return true;
 }
 
 /**
- * Cheapest chain from anything already allocated (the hub counts) to `id`.
- * Returns { path: [ids to buy, excluding owned], cost } or null when unreachable.
+ * Cheapest chain to `id`. Masteries cost their own node only, once their notable is held -
+ * you do not pay a path again for a node sitting in the middle of a cluster you already own.
  */
 export function pathTo(id, allocatedSet) {
+  const node = TREE.byId.get(id);
+  if (!node) return null;
   if (allocatedSet.has(id)) return { path: [], cost: 0 };
+  if (node.requires) {
+    if (!allocatedSet.has(node.requires)) return null;
+    return { path: [id], cost: allocatedSet.has(id) ? 0 : 1 };
+  }
   const dist = new Map([["hub", 0]]);
   const prev = new Map();
-  const queue = ["hub"];
-  while (queue.length) {
-    queue.sort((a, b) => (dist.get(a) ?? 1e9) - (dist.get(b) ?? 1e9));
-    const cur = queue.shift();
+  const open = ["hub"];
+  while (open.length) {
+    open.sort((a, b) => (dist.get(a) ?? 1e9) - (dist.get(b) ?? 1e9));
+    const cur = open.shift();
     if (cur === id) break;
     for (const [a, b] of TREE.edges) {
       let next = null;
@@ -271,44 +321,46 @@ export function pathTo(id, allocatedSet) {
       const stepCost = allocatedSet.has(next) || next === "hub" ? 0 : 1;
       const nd = (dist.get(cur) ?? 1e9) + stepCost;
       if (nd < (dist.get(next) ?? 1e9)) {
-        dist.set(next, nd);
-        prev.set(next, cur);
-        queue.push(next);
+        dist.set(next, nd); prev.set(next, cur); open.push(next);
       }
     }
-    if (dist.size > TREE.nodes.length + 4) break;
   }
   if (!dist.has(id)) return null;
   const path = [];
   let cur = id;
-  while (cur && cur !== "hub") {
-    if (!allocatedSet.has(cur)) path.unshift(cur);
-    cur = prev.get(cur);
-  }
+  while (cur && cur !== "hub") { if (!allocatedSet.has(cur)) path.unshift(cur); cur = prev.get(cur); }
   return { path, cost: path.length };
 }
 
-/** Remove a node and anything that is only reachable through it. */
 export function refund(id, allocatedSet) {
   const next = new Set(allocatedSet);
+  const node = TREE.byId.get(id);
   next.delete(id);
-  // re-derive reachability from the hub
+  // masteries whose notable just went away are dropped too
+  for (const n of [...next]) {
+    const t = TREE.byId.get(n);
+    if (t?.requires && !next.has(t.requires)) next.delete(n);
+  }
+  // prune anything no longer connected to the hub
   const reachable = new Set(["hub"]);
-  const queue = ["hub"];
-  while (queue.length) {
-    const cur = queue.shift();
+  const q = ["hub"];
+  while (q.length) {
+    const cur = q.shift();
     for (const [a, b] of TREE.edges) {
       const other = a === cur ? b : b === cur ? a : null;
       if (!other || reachable.has(other)) continue;
-      if (!next.has(other) && other !== "hub") continue;
-      reachable.add(other);
-      queue.push(other);
+      if (other !== "hub" && !next.has(other)) continue;
+      reachable.add(other); q.push(other);
     }
   }
   for (const n of [...next]) if (!reachable.has(n)) next.delete(n);
+  // mastery nodes are reached via their notable, not the edge graph alone
+  for (const n of [...next]) {
+    const t = TREE.byId.get(n);
+    if (t?.requires && !next.has(t.requires)) next.delete(n);
+  }
   return next;
 }
 
 export function nodeById(id) { return TREE.byId.get(id) || null; }
-export function branchOf(id) { return TREE.byId.get(id)?.branch || null; }
 export function countAllocated(allocated) { return allocated.filter((id) => id !== "hub").length; }

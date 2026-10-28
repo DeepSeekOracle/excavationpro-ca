@@ -23,6 +23,12 @@ const CSS = `
 #fs-talents .ttl span{color:#FFB347}
 #fs-talents .pts{font:700 11px ui-monospace,Consolas,monospace;letter-spacing:.16em;color:#FFB347}
 #fs-talents .pts b{font-size:19px;color:#FFD166}
+#fs-talents .search{width:190px;padding:7px 10px;border-radius:3px;border:1px solid #1E2A35;background:#0B1017;
+  color:#E8F1F8;font:700 10px ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase}
+#fs-talents .search::placeholder{color:#4A5A6B}
+#fs-talents .search:focus{outline:none;border-color:#6FE3FF}
+#fs-talents .node.dim{opacity:.16}
+#fs-talents .node.hit{border-color:#FFD166;box-shadow:0 0 12px rgba(255,209,102,.8)}
 #fs-talents .tabs{display:flex;gap:6px;margin-left:14px}
 #fs-talents .tab{background:rgba(19,26,34,.9);border:1px solid #1E2A35;color:#9FB3C8;border-radius:3px;padding:7px 12px;
   font:700 10px ui-monospace,Consolas,monospace;letter-spacing:.18em;cursor:pointer}
@@ -45,6 +51,10 @@ const CSS = `
   transition:transform .12s,border-color .12s,box-shadow .12s}
 #fs-talents .node.small{width:16px;height:16px}
 #fs-talents .node.notable{width:26px;height:26px;border-width:2px}
+#fs-talents .node.mastery{width:20px;height:20px;border-radius:4px;border-color:#8b6cff;background:#120d1d}
+#fs-talents .node.mastery.ready{border-color:#b59cff;box-shadow:0 0 10px rgba(139,108,255,.6)}
+#fs-talents .node.mastery.on{background:#8b6cff;border-color:#c5b2ff;box-shadow:0 0 16px rgba(139,108,255,.85)}
+#fs-talents .node.mastery.locked{opacity:.42;border-style:dashed;cursor:not-allowed}
 #fs-talents .node.keystone{width:34px;height:34px;border-width:2px;border-radius:6px;transform:translate(-50%,-50%) rotate(45deg)}
 #fs-talents .node.keystone > i{transform:rotate(-45deg);font-style:normal;font-size:13px}
 #fs-talents .node.hub{width:44px;height:44px;border-color:#FFB347;color:#FFB347;box-shadow:0 0 22px rgba(255,179,71,.35)}
@@ -102,6 +112,7 @@ export function createTalentWindow(opts = {}) {
     <div class="bar">
       <div class="ttl">SPECIAL <span>OPERATIONS</span> TREE</div>
       <div class="pts"><b data-points>0</b> POINTS · <span data-spent>0</span> SPENT</div>
+      <input class="search" data-search placeholder="SEARCH NODES…" spellcheck="false" />
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" aria-selected="true" data-tab="tree">TREE</button>
         <button class="tab" role="tab" aria-selected="false" data-tab="trials">TRIALS</button>
@@ -124,7 +135,7 @@ export function createTalentWindow(opts = {}) {
   const world = q("[data-world]");
   const tip = q("[data-tip]");
 
-  let view = { x: 0, y: 0, s: 1.05 };
+  let view = { x: 0, y: 0, s: 0.62 };
   let mode = "tree";
 
   const profile = () => getProfile() || {};
@@ -163,6 +174,7 @@ export function createTalentWindow(opts = {}) {
       const cls = ["node", n.kind, isOn ? "on" : ""];
       if (isOn && n.kind === "notable") cls.push("b");
       if (isOn && n.kind === "keystone") cls.push("k");
+      if (n.kind === "mastery" && n.requires && !alloc.has(n.requires)) cls.push("locked");
       el.className = cls.filter(Boolean).join(" ");
       el.style.left = `${n.x}px`;
       el.style.top = `${n.y}px`;
@@ -191,7 +203,9 @@ export function createTalentWindow(opts = {}) {
       <h4>${node.name}</h4>
       <p>${node.desc || ""}</p>
       <div class="meta">${kindLabel}${branch ? " · " + branch.name : ""}</div>
-      <div class="meta">${isOn ? '<span class="ref">RIGHT-CLICK TO REFUND</span>'
+      <div class="meta">${n.requires && !alloc.has(n.requires)
+        ? `<span style="color:#8b6cff">OPENS WITH ${TREE.byId.get(n.requires)?.name || "ITS NOTABLE"}</span>`
+        : isOn ? '<span class="ref">RIGHT-CLICK TO REFUND</span>'
         : cost == null ? "UNREACHABLE"
         : `<span class="cost">${cost} POINT${cost === 1 ? "" : "S"}</span>${cost > 1 ? " (chain included)" : ""}`}</div>`;
     tip.style.display = "block";
@@ -287,6 +301,21 @@ export function createTalentWindow(opts = {}) {
     if (mode === "trials") renderBosses();
   }
 
+  // ── search (the tree is too big to hunt through by eye) ──────────────────
+  const searchEl = q("[data-search]");
+  if (searchEl) {
+    searchEl.addEventListener("input", () => {
+      const term = searchEl.value.trim().toLowerCase();
+      root.querySelectorAll(".node").forEach((el) => {
+        const n = TREE.byId.get(el.dataset.id);
+        if (!n) return;
+        const hit = term && (`${n.name} ${n.desc || ""}`.toLowerCase().includes(term));
+        el.classList.toggle("dim", Boolean(term) && !hit);
+        el.classList.toggle("hit", Boolean(hit));
+      });
+    });
+  }
+
   // ── tabs ──────────────────────────────────────────────────────────────────
   q("[data-tab='tree']").onclick = () => setMode("tree");
   q("[data-tab='trials']").onclick = () => setMode("trials");
@@ -316,7 +345,7 @@ export function createTalentWindow(opts = {}) {
   window.addEventListener("pointerup", () => { drag = null; stage.classList.remove("drag"); });
   stage.addEventListener("wheel", (e) => {
     e.preventDefault();
-    const next = Math.max(0.45, Math.min(2.4, view.s * (e.deltaY > 0 ? 0.92 : 1.08)));
+    const next = Math.max(0.12, Math.min(2.6, view.s * (e.deltaY > 0 ? 0.92 : 1.08)));
     view.s = next;
     applyView();
   }, { passive: false });
