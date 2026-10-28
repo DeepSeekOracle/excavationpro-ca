@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030f";
-import { standardMaterial } from "./materials.js?v=20261030f";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030f";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030f";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030g";
+import { standardMaterial } from "./materials.js?v=20261030g";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030g";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030g";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,21 +12,21 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261030f";
-import { TUNING } from "./tuning.js?v=20261030f";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030f";
-import { createCardTray } from "./cardsui.js?v=20261030f";
-import { createSummary } from "./summaryui.js?v=20261030f";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030f";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030f";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030f";
-import { pilot } from "./autopilot.js?v=20261030f";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030f";
-import { createStartMenu } from "./startmenu.js?v=20261030f";
-import { createGamepad } from "./gamepad.js?v=20261030f";
-import { createTalentWindow } from "./talentui.js?v=20261030f";
-import { aggregate, toRunMods } from "./talents.js?v=20261030f";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030f";
+} from "./theme.js?v=20261030g";
+import { TUNING } from "./tuning.js?v=20261030g";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030g";
+import { createCardTray } from "./cardsui.js?v=20261030g";
+import { createSummary } from "./summaryui.js?v=20261030g";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030g";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030g";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030g";
+import { pilot } from "./autopilot.js?v=20261030g";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030g";
+import { createStartMenu } from "./startmenu.js?v=20261030g";
+import { createGamepad } from "./gamepad.js?v=20261030g";
+import { createTalentWindow } from "./talentui.js?v=20261030g";
+import { aggregate, toRunMods } from "./talents.js?v=20261030g";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030g";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -42,11 +42,11 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261030f";
-import * as levelModule from "./level.js?v=20261030f";
-import * as menuModule from "./menu.js?v=20261030f";
-import * as audioModule from "./audio.js?v=20261030f";
-import * as fxModule from "./fx.js?v=20261030f";
+} from "./models.js?v=20261030g";
+import * as levelModule from "./level.js?v=20261030g";
+import * as menuModule from "./menu.js?v=20261030g";
+import * as audioModule from "./audio.js?v=20261030g";
+import * as fxModule from "./fx.js?v=20261030g";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -817,18 +817,8 @@ function syncHud() {
     }
 
     // 3-Choice Tactical Upgrade Card Overlay
-    if (state.cardPickWindow && state.currentCardOptions && state.currentCardOptions.length > 0 && !cardTray.open) {
-      const cardSig = state.currentCardOptions.map((c) => c.name || c.style || "card").join("|");
-      if (hudCards !== cardSig) {
-        hudCards = cardSig;
-        P("card-panel", { anchor: "bottom", x: 0, y: 0.11, w: 0.92, h: 0.14, radius: 0.014, fill: PALETTE.panels.title, stroke: PALETTE.strokes.title, width: 0.002 });
-        T("card-hdr", "TACTICAL FIELD UPGRADE READY — PRESS [1] [2] OR [3]", { anchor: "bottom", x: 0, y: 0.205, size: TYPE_SCALE.micro, color: PALETTE.healthOk, weight: 700 });
-        const line = state.currentCardOptions
-          .map((opt, idx) => `[${idx + 1}] ${(opt.name || opt.style || "UPGRADE").toUpperCase()}`)
-          .join("     ·     ");
-        T("card-options", line, { anchor: "bottom", x: 0, y: 0.145, size: TYPE_SCALE.label, color: PALETTE.titleText, weight: 800 });
-      }
-    } else if (hudCards !== null) {
+    // (legacy canvas card banner removed: the DOM card tray owns card presentation)
+ else if (hudCards !== null) {
       hudCards = null;
       h.remove("card-panel");
       h.remove("card-hdr");
