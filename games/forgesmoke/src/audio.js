@@ -67,16 +67,16 @@ function createSynthSfx(ctx, masterGain, sfxGain, key, options = {}) {
  * still loading, so a slow network never means silence.
  */
 export const SAMPLE_MAP = {
-  fire: "./assets/sfx/fire.wav",
+  fire: "./assets/sfx/fire.mp3",
   laser: "./assets/sfx/laser.mp3",
-  hit: "./assets/sfx/hit.wav",
-  kill: "./assets/sfx/kill.wav",
-  reload: "./assets/sfx/reload.wav",
-  click: "./assets/sfx/click.wav",
-  hurt: "./assets/sfx/hurt.wav",
-  launch: "./assets/sfx/launch.wav",
-  levelup: "./assets/sfx/levelup.wav",
-  death: "./assets/sfx/death.wav",
+  hit: "./assets/sfx/hit.mp3",
+  kill: "./assets/sfx/kill.mp3",
+  reload: "./assets/sfx/reload.mp3",
+  click: "./assets/sfx/click.mp3",
+  hurt: "./assets/sfx/hurt.mp3",
+  launch: "./assets/sfx/launch.mp3",
+  levelup: "./assets/sfx/levelup.mp3",
+  death: "./assets/sfx/death.mp3",
 };
 
 export async function initAudio() {

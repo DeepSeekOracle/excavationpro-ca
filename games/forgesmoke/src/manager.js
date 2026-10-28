@@ -75,7 +75,7 @@ const CSS = `
 #cyborg-manager .mg-xpfill{height:100%;background:linear-gradient(90deg,#6fe3ff,#a6ff7a);width:0%}
 #cyborg-manager .mg-lvl{font-size:30px;font-weight:900;color:#ffd57a;min-width:64px;text-align:center;line-height:1}
 #cyborg-manager .mg-lvl small{display:block;font-size:9px;letter-spacing:.2em;color:#8a97a8;font-weight:700}
-#cyborg-manager .mg-col{position:absolute;top:86px;bottom:86px;width:352px;padding:16px;overflow:auto;pointer-events:auto;
+#cyborg-manager .mg-col{position:absolute;top:86px;bottom:124px;width:352px;padding:16px;overflow:auto;pointer-events:auto;
   background:linear-gradient(180deg,rgba(6,10,16,.9),rgba(6,10,16,.72));border:1px solid rgba(159,179,200,.16);border-radius:14px}
 #cyborg-manager .mg-left{left:22px}
 #cyborg-manager .mg-right{right:22px;width:330px}
@@ -92,9 +92,14 @@ const CSS = `
 #cyborg-manager .mg-item .ic{font-size:15px;line-height:1.2}
 #cyborg-manager .mg-item .nm{font-weight:700;font-size:12px;color:#e6edf8}
 #cyborg-manager .mg-item .ds{font-size:10.5px;color:#8a97a8}
+#cyborg-manager .mg-skin{display:flex;gap:10px;align-items:center}
+#cyborg-manager .mg-skin img{width:46px;height:58px;object-fit:cover;border-radius:2px;flex:0 0 auto;
+  border:1px solid rgba(159,179,200,.25);background:#0b1017}
+#cyborg-manager .mg-skin.on img{border-color:#6fe3ff;box-shadow:0 0 12px rgba(111,227,255,.35)}
+#cyborg-manager .mg-skin .txt{min-width:0}
 #cyborg-manager .mg-weap{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 #cyborg-manager .mg-weap .mg-item{margin:0;flex-direction:column;gap:2px;padding:7px}
-#cyborg-manager .mg-bot{position:absolute;left:22px;right:22px;bottom:18px;display:flex;gap:12px;align-items:center;pointer-events:auto}
+#cyborg-manager .mg-bot{position:absolute;left:22px;right:22px;bottom:50px;display:flex;gap:12px;align-items:center;pointer-events:auto}
 #cyborg-manager .mg-arena{display:flex;gap:8px;flex:1}
 #cyborg-manager .mg-arena .mg-item{flex:1;margin:0}
 #cyborg-manager .mg-launch{padding:15px 34px;border:0;border-radius:12px;cursor:pointer;font-weight:900;letter-spacing:.16em;font-size:14px;
@@ -175,8 +180,10 @@ export function createManager(opts = {}) {
     const skinIdx = p.equipped?.skin ?? 0;
     PLAYER_SKINS.forEach((skin, i) => {
       const on = i === skinIdx;
-      const item = el("div", `mg-item${on ? " on" : ""}`,
-        `<div><div class="nm">${skin.name}</div><div class="ds">${skin.badge}${on ? " · SELECTED" : ""}</div></div>`);
+      const item = el("div", `mg-item mg-skin${on ? " on" : ""}`,
+        `<img src="./assets/portraits/${skin.id}.jpg" alt="" loading="lazy" decoding="async"
+              onerror="this.remove()">
+         <div class="txt"><div class="nm">${skin.name}</div><div class="ds">${skin.badge}${on ? " · SELECTED" : ""}</div></div>`);
       item.onclick = () => { p.equipped.skin = i; persist(); };
       q("[data-skins]").appendChild(item);
     });

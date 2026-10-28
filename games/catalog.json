@@ -432,20 +432,20 @@
       "id": "forgesmoke",
       "slug": "forgesmoke",
       "title": "Forge Smoke",
-      "tagline": "Hold the perimeter",
+      "tagline": "Build a cyborg. Launch it. Keep it alive.",
       "blurb": "A cyborg manager game. Build the fighter in the bay, launch it into the smoke, then keep it alive with power-up cards while it fights for you. Levels are permanent. Survive an arena for a legendary. THE DARKNESS COMES.",
       "status": "live",
       "featured": false,
       "order": 90,
       "href": "/games/forgesmoke/",
       "cover": "/games/forgesmoke/og.jpg",
-      "coverAlt": "Forge Smoke title card over a rain-soaked arena",
+      "coverAlt": "An armoured cyborg under an amber work lamp in a rain-soaked industrial bay",
       "genre": [
         "shooter",
         "survival"
       ],
       "players": "1",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "links": []
     }
   ]
