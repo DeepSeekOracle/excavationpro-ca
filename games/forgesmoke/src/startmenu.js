@@ -9,7 +9,7 @@
  */
 import { xpForLevel } from "./save.js";
 
-const ART = "./assets/start-art-v2.jpg";
+const ART = "./assets/start-art-v3.jpg";
 
 const CSS = `
 #fs-start{position:fixed;inset:0;z-index:50;display:none;align-items:stretch;
@@ -21,14 +21,41 @@ const CSS = `
   background-size:cover;background-position:center right;background-repeat:no-repeat}
 #fs-start.open{display:flex}
 #fs-start.art{background-image:
-    linear-gradient(90deg,rgba(5,7,10,.985) 0%,rgba(5,7,10,.97) 30%,rgba(5,7,10,.82) 44%,rgba(5,7,10,.28) 56%,rgba(5,7,10,0) 68%),
+    linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
     url("${ART}");
-  background-size:100% 100%,auto 100%;
-  background-position:center,right center;
+  background-size:100% 100%,cover;
+  background-position:center,center;
   background-repeat:no-repeat,no-repeat}
-@media (max-aspect-ratio:1/1){#fs-start.art{background-size:100% 100%,auto 100%;background-position:center,88% center}}
+#fs-start .artvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity .7s ease;pointer-events:none}
+#fs-start.vid .artvid{opacity:1}
+#fs-start.vid .artfx .eyes,#fs-start.vid .artfx .lamp{display:none}
 #fs-start .artwrap{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(5,7,10,.55),transparent 22%,transparent 72%,rgba(5,7,10,.75))}
+
+/* ── living-photo treatment: the still breathes ───────────────────────────── */
+#fs-start .artfx{position:absolute;top:0;right:0;height:100%;width:100vh;pointer-events:none;overflow:hidden;display:none}
+#fs-start.art .artfx{display:block}
+#fs-start .artfx .lamp{position:absolute;left:2.5%;top:-1%;width:26%;height:19%;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,214,140,.30),rgba(255,170,70,.10) 52%,transparent 74%);
+  filter:blur(12px);animation:fsLamp 6.2s steps(1,end) infinite;mix-blend-mode:screen}
+@keyframes fsLamp{
+  0%,6%,8%,41%,43%,69%,71%,100%{opacity:.92}
+  7%{opacity:.30} 42%{opacity:.52} 44%{opacity:.98} 70%{opacity:.38} 72%{opacity:.85}}
+#fs-start .artfx .eyes{position:absolute;left:37%;top:9.6%;width:16%;height:6.6%;border-radius:50%;
+  background:radial-gradient(ellipse at 50% 50%,rgba(255,228,158,.62),rgba(255,150,40,.20) 44%,transparent 70%);
+  filter:blur(5px);animation:fsEyes 3.6s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes fsEyes{0%,100%{opacity:.62;transform:scale(1)}48%{opacity:1;transform:scale(1.045)}}
+#fs-start .artfx .rain{position:absolute;inset:-30% -10%;opacity:.5;
+  background-image:repeating-linear-gradient(104deg,transparent 0 7px,rgba(169,220,210,.055) 7px 8px,transparent 8px 15px);
+  animation:fsRain 1.5s linear infinite}
+#fs-start .artfx .rain.r2{opacity:.26;animation-duration:2.4s;animation-delay:-.7s;
+  background-image:repeating-linear-gradient(101deg,transparent 0 13px,rgba(200,235,230,.05) 13px 14px,transparent 14px 27px)}
+@keyframes fsRain{from{transform:translate3d(0,-6%,0)}to{transform:translate3d(-2%,6%,0)}}
+@media (prefers-reduced-motion:reduce){
+  #fs-start .artfx .lamp,#fs-start .artfx .eyes,#fs-start .artfx .rain{animation:none}
+  #fs-start .artfx .eyes{opacity:.8}
+}
 
 #fs-start .panel{position:relative;width:min(462px,46vw);display:flex;flex-direction:column;justify-content:center;overflow-y:auto;max-height:100vh;padding-block:26px;
   gap:0;padding:0 clamp(26px,3.4vw,54px);pointer-events:auto;
@@ -100,6 +127,17 @@ export function createStartMenu(opts = {}) {
   root.id = "fs-start";
   root.innerHTML = `
     <div class="artwrap"></div>
+    <video class="artvid" muted loop playsinline preload="auto" tabindex="-1"
+           poster="./assets/start-art-v3.jpg" aria-hidden="true">
+      <source src="./assets/start-art-v3.webm" type="video/webm" />
+      <source src="./assets/start-art-v3.mp4" type="video/mp4" />
+    </video>
+    <div class="artfx" aria-hidden="true">
+      <i class="lamp"></i>
+      <i class="eyes"></i>
+      <i class="rain r1"></i>
+      <i class="rain r2"></i>
+    </div>
     <div class="panel">
       <div class="kicker"><i></i> Δ9Φ963 · EXCAVATIONPRO · BAY 01</div>
       <h1>FORGE<em>SMOKE</em></h1>
@@ -170,6 +208,17 @@ export function createStartMenu(opts = {}) {
   function show() {
     render();
     mountAd();
+    const vid = q(".artvid");
+    const reduce = globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    if (vid && !reduce) {
+      vid.muted = true;
+      const started = vid.play();
+      if (started && started.then) {
+        started.then(() => root.classList.add("vid")).catch(() => root.classList.remove("vid"));
+      } else {
+        root.classList.add("vid");
+      }
+    }
     root.classList.add("open");
     // probe the art once; if it is missing the gradient stands in
     const img = new Image();
@@ -177,7 +226,12 @@ export function createStartMenu(opts = {}) {
     img.onerror = () => root.classList.remove("art");
     img.src = ART;
   }
-  function hide() { root.classList.remove("open"); modal.classList.remove("open"); }
+  function hide() {
+    root.classList.remove("open");
+    modal.classList.remove("open");
+    const vid = q(".artvid");
+    if (vid) { try { vid.pause(); } catch (e) {} }
+  }
 
   return { show, hide, render, root, get open() { return root.classList.contains("open"); } };
 }

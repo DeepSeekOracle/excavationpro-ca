@@ -567,6 +567,10 @@ const managerUI = createManager({
     state.cyborgEquipped = equipped;
     state.banked = false;
     state.autopilot = true;
+    state.attractSim = false;
+    state.attractTime = 0;
+    state.nextAttractSpawn = 0;
+    if (typeof clearEnemies === "function") clearEnemies();
     const idx = STARTER_LOADOUTS.findIndex((w) => w.id === equipped.weapon);
     state.loadoutIndex = idx >= 0 ? idx : 0;
     state.skinIndex = Number.isInteger(equipped.skin) ? equipped.skin : 0;
@@ -1097,7 +1101,9 @@ function shoot(target) {
   const fireData = weaponManager.fire(state.aimMode);
   if (!fireData) return;
   const lightShot = typeof isLightGunStyle === "function" && isLightGunStyle(weaponManager.active?.styleKey);
-  audioController?.playSfx(lightShot ? "laser" : "fire", { volume: 0.55, pitch: 0.9 + state.rng() * 0.25 });
+  if (!state.attractSim) {
+    audioController?.playSfx(lightShot ? "laser" : "fire", { volume: 0.55, pitch: 0.9 + state.rng() * 0.25 });
+  }
 
   // Spawn tracers + Travelling Light-Orb Projectiles
   const pelletCount = fireData.pellets || 1;
@@ -1361,9 +1367,60 @@ function update(dt, ctx) {
       }
     }
   } else if (state.phase === "loadout") {
-    // the DOM manager owns this screen; keep the turntable alive underneath it
+    // ── ATTRACT MODE ──────────────────────────────────────────────────────────
+    // While the manager is open, a live fight runs in the arena behind the panels:
+    // the autopilot flies the cyborg, enemies advance, tracers fly. Nothing is scored,
+    // nothing is banked, nothing can hurt the profile - this is a shop window.
     if (state._managerShown) {
-      // clear the canvas HUD once on entry, then leave the DOM manager in charge
+      state.attractSim = true;
+      state.t += dt;
+      state.attractTime = (state.attractTime || 0) + dt;
+
+      // keep a handful of threats on the field
+      if (enemyManager.enemies.length < 4 && state.attractTime >= (state.nextAttractSpawn || 0)) {
+        const kinds = ["rifleman", "sapper", "shieldbearer", "drone"];
+        enemyManager.spawn(kinds[Math.floor(state.rng() * kinds.length)], state.pos, 0);
+        state.nextAttractSpawn = state.attractTime + 1.1;
+      }
+
+      // the cyborg flies itself
+      const ctl = pilot(state, enemyManager, dt);
+      const spd = 3.1;
+      state.pos.x += ctl.mx * spd * dt;
+      state.pos.z += ctl.mz * spd * dt;
+      resolveObstacleCollision(state.pos, 0.55, arenaColliders);
+      const ar = Math.hypot(state.pos.x, state.pos.z);
+      if (ar > TUNING.player.arenaRadius) {
+        state.pos.x *= TUNING.player.arenaRadius / ar;
+        state.pos.z *= TUNING.player.arenaRadius / ar;
+      }
+      soldier.position.copy(state.pos);
+      const atk = nearest(26);
+      if (atk) {
+        const ty = Math.atan2(atk.mesh.position.x - state.pos.x, atk.mesh.position.z - state.pos.z);
+        let turn = ty - soldier.rotation.y;
+        turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+        soldier.rotation.y += turn * Math.min(1, dt * 6);
+        gunPivot.rotation.y += (turn - gunPivot.rotation.y) * Math.min(1, dt * 8);
+        state.fire -= dt;
+        if (state.fire <= 0 && weaponManager.active.canFire) {
+          shoot(atk);
+          state.fire = weaponManager.active.currentCycle;
+        }
+      }
+      // enemies move and animate; their attack actions are dropped on the floor (no damage)
+      enemyManager.update(dt, state.pos, 0);
+      updateOperatorAnimation(soldier, gunPivot, dt, true, weaponManager.active);
+
+      // camera orbits the CYBORG, not the world origin
+      state.orbit += dt * 0.16;
+      camera.position.set(
+        state.pos.x + Math.sin(state.orbit) * 8.2,
+        3.7,
+        state.pos.z + Math.cos(state.orbit) * 8.2
+      );
+      camera.lookAt(state.pos.x, 1.15, state.pos.z);
+
       const h = globalThis.__studio?.hud;
       if (h && hudPhase !== "manager") {
         try { h.clear(); } catch (e) {}
@@ -1371,6 +1428,7 @@ function update(dt, ctx) {
       }
       return;
     }
+    state.attractSim = false;
     state.t += dt;
     state.orbit += dt * 0.26;
     soldier.rotation.y = Math.sin(state.t * 0.65) * 0.35;
