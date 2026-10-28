@@ -107,6 +107,24 @@ const CSS = `
 #cyborg-manager .mg-launch:hover{filter:brightness(1.08)}
 #cyborg-manager .mg-hint{font-size:11px;color:#8a97a8;letter-spacing:.06em}
 #cyborg-manager .mg-tag{font-size:9px;letter-spacing:.16em;padding:2px 7px;border-radius:99px;border:1px solid rgba(159,179,200,.3);color:#9fb3c8}
+#cyborg-manager .mg-namewrap{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+#cyborg-manager .mg-nameinput{width:100%;box-sizing:border-box;padding:9px 11px;border-radius:3px;
+  border:1px solid #1E2A35;background:#0B1017;color:#E8F1F8;
+  font:700 14px ui-monospace,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;-webkit-appearance:none;appearance:none}
+#cyborg-manager .mg-nameinput::placeholder{color:#4A5A6B}
+#cyborg-manager .mg-nameinput:focus{outline:none;border-color:#6FE3FF;box-shadow:0 0 12px rgba(111,227,255,.25)}
+#cyborg-manager .mg-namehint{display:block;font:600 8px ui-monospace,Consolas,monospace;letter-spacing:.18em;color:#54626F}
+#cyborg-manager .mg-board{font:600 10.5px ui-monospace,Consolas,monospace;color:#9FB3C8;margin-bottom:6px}
+#cyborg-manager .mg-board ol{margin:0;padding:0;list-style:none;counter-reset:r}
+#cyborg-manager .mg-board li{counter-increment:r;display:flex;gap:8px;align-items:baseline;padding:3px 0;
+  border-bottom:1px dashed rgba(44,58,71,.55)}
+#cyborg-manager .mg-board li:before{content:counter(r,decimal-leading-zero);color:#54626F;min-width:18px}
+#cyborg-manager .mg-board b{color:#FFD166;min-width:30px;text-align:right}
+#cyborg-manager .mg-board span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#E8F1F8}
+#cyborg-manager .mg-board em{color:#7E93A6;font-style:normal;font-size:9px}
+#cyborg-manager .mg-pad{margin-top:8px;font:600 8.5px ui-monospace,Consolas,monospace;letter-spacing:.16em;color:#7E93A6}
+#cyborg-manager .mg-pad.on{color:#7CE6A8}
+
 `;
 
 function el(tag, cls, html) {
@@ -133,6 +151,14 @@ export function createManager(opts = {}) {
       </div>
     </div>
     <div class="mg-col mg-left">
+      <h3>DESIGNATION</h3>
+      <div class="mg-namewrap">
+        <input class="mg-nameinput" data-name maxlength="18" spellcheck="false" autocomplete="off"
+               placeholder="OPERATOR" aria-label="Cyborg name for the leaderboard" />
+        <span class="mg-namehint">SHOWN ON THE PUBLIC BOARD</span>
+      </div>
+      <h3>LEADERBOARD <span class="mg-tag">HIGHEST LEVEL</span></h3>
+      <div data-board class="mg-board">loading…</div>
       <h3>CHARACTER</h3>
       <div data-skins></div>
       <h3 style="margin-top:16px">CONTROL MODE</h3>
@@ -151,6 +177,7 @@ export function createManager(opts = {}) {
       <div class="mg-ad" data-ad></div>
       <h3 style="margin-top:16px">LEGACY</h3>
       <div data-legacy class="mg-hint">nothing unlocked yet</div>
+
     </div>
     <div class="mg-bot">
       <div class="mg-arena" data-arenas></div>
@@ -190,6 +217,18 @@ export function createManager(opts = {}) {
       item.onclick = () => { p.equipped.skin = i; persist(); };
       q("[data-skins]").appendChild(item);
     });
+
+    // designation (goes on the public board)
+    const nameInput = q("[data-name]");
+    if (nameInput && document.activeElement !== nameInput) nameInput.value = p.name || "";
+    if (nameInput && !nameInput.dataset.bound) {
+      nameInput.dataset.bound = "1";
+      nameInput.addEventListener("input", (e) => {
+        p.name = String(e.target.value || "").toUpperCase().replace(/[^A-Z0-9 _.-]/g, "").slice(0, 18);
+        e.target.value = p.name;
+      });
+      nameInput.addEventListener("change", () => { if (p.name) persist(); });
+    }
 
     // control mode: autonomous by default (the game's focus), manual if the player wants the stick
     const modes = [
@@ -282,6 +321,48 @@ export function createManager(opts = {}) {
     }
   }
 
+  // ── public leaderboard (HF dataset book, written by the ledger Space) ──────
+  const BOARD_FEEDS = [
+    "https://huggingface.co/datasets/DeepSeekOracle/lattice-marines-wins/resolve/main/arcade.json",
+    "https://deepseekoracle-lattice-marines-ledger.hf.space/arcade.json",
+  ];
+  let boardCache = { at: 0, rows: null };
+
+  async function loadBoard(force) {
+    const box = q("[data-board]");
+    if (!box) return;
+    if (!force && boardCache.rows && Date.now() - boardCache.at < 120000) {
+      paintBoard(box, boardCache.rows);
+      return;
+    }
+    for (const url of BOARD_FEEDS) {
+      try {
+        const r = await fetch(url, { cache: "no-store" });
+        if (!r.ok) continue;
+        const j = await r.json();
+        const rows = (j?.books?.forgesmoke?.rows) || [];
+        if (!rows.length) continue;
+        boardCache = { at: Date.now(), rows };
+        paintBoard(box, rows);
+        return;
+      } catch (e) { /* try the next feed */ }
+    }
+    if (!boardCache.rows) box.textContent = "no runs inscribed yet — set a name and launch one.";
+  }
+
+  function paintBoard(box, rows) {
+    const top = [...rows]
+      .sort((a, b) => (Number(b.level) || 0) - (Number(a.level) || 0) || (Number(b.ms) || 0) - (Number(a.ms) || 0))
+      .slice(0, 8);
+    if (!top.length) { box.textContent = "no runs inscribed yet."; return; }
+    box.innerHTML = "<ol>" + top.map((r) => {
+      const ms = Number(r.ms) || 0;
+      const mm = Math.floor(ms / 60000), ss = Math.floor((ms % 60000) / 1000);
+      const time = ms ? `${mm}:${String(ss).padStart(2, "0")}` : "—";
+      return `<li><b>${Number(r.level) || 1}</b><span>${String(r.name || "OPERATOR")}</span><em>${time} · ${String(r.mode || "auto").slice(0, 4)}</em></li>`;
+    }).join("") + "</ol>";
+  }
+
   function persist() {
     profile = saveProfile(profile);
     render();
@@ -308,6 +389,7 @@ export function createManager(opts = {}) {
     if (nextProfile) profile = nextProfile;
     render();
     mountAd();
+    loadBoard();
     root.classList.add("open");
   }
   function hide() { root.classList.remove("open"); }

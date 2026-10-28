@@ -1285,6 +1285,23 @@ function bankRun(cleared = false) {
   prof.bestRunTime = Math.max(prof.bestRunTime || 0, beatDirector.runTime);
   if (res.levelled > 0) audioController?.playSfx("levelup", { volume: 0.7 });
   state.cyborgProfile = saveProfile(prof);
+
+  // ── public leaderboard: highest level, written to the arcade ledger ───────
+  const cyName = String(prof.name || "").trim();
+  if (cyName && globalThis.ArcadeLedger?.forgesmoke) {
+    try {
+      globalThis.ArcadeLedger.forgesmoke({
+        name: cyName,
+        level: Math.max(1, Math.floor(prof.level)),
+        ms: Math.round(beatDirector.runTime * 1000),
+        mode: state.controlMode || "autonomous",
+        date: new Date().toISOString().slice(0, 10),
+      });
+      state.lastSubmit = { name: cyName, level: prof.level };
+    } catch (e) { state.lastSubmit = { error: "ledger unavailable" }; }
+  } else {
+    state.lastSubmit = { error: cyName ? "ledger unavailable" : "no name set" };
+  }
   state.lastBank = { gained, levelled: res.levelled, legendary, cleared };
   return state.lastBank;
 }

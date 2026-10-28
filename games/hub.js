@@ -391,6 +391,17 @@
       arenaSeen[k] = true;
       return !!(r.name || r.team);
     });
+    var fsRows = bookRows(books["forgesmoke"]).concat(lsJson("lygo-forgesmoke-ledger-q") || []);
+    fsRows.sort(function (a, b) { return (Number(b.level) || 0) - (Number(a.level) || 0); });
+    paintHall("forgesmoke", fsRows.length ? (stamp + fsRows.length + " cyborgs") : "No cyborgs inscribed yet.", fsRows.slice(0, 12).map(function (r) {
+      var ms = Number(r.ms) || 0, m = Math.floor(ms / 60000), sec = Math.floor((ms % 60000) / 1000);
+      return {
+        name: r.name || "Operator",
+        score: "LV " + (Number(r.level) || 1),
+        meta: [(ms ? m + ":" + String(sec).padStart(2, "0") : "—"), r.mode || "auto"].join(" · ")
+      };
+    }));
+
     paintHall("arena", arena.length ? (stamp + arena.length + " lineups") : "No named lineups yet.", arena.slice(0, 12).map(function (r) {
       var wins = r.wins != null ? r.wins : (r.outcome === "win" ? (r.score || 1) : 0);
       var losses = r.losses != null ? r.losses : (r.outcome === "loss" ? 1 : 0);

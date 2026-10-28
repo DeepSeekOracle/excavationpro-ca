@@ -87,6 +87,11 @@
       rec.event = rec.event || "run";
       return post("lygo-lattice-crypt-ledger-q", rec, SPACE + "/arcade/submit");
     },
+    forgesmoke: function (rec) {
+      rec.game = "forgesmoke";
+      rec.event = rec.event || "level";
+      return post("lygo-forgesmoke-ledger-q", rec, SPACE + "/arcade/submit");
+    },
     arena: function (rec) {
       rec.game = "lattice-arena";
       rec.event = rec.event || "match";
@@ -107,6 +112,7 @@
         flush("lygo-eternal-ledger-q", url);
         flush("lygo-lattice-crypt-ledger-q", url);
         flush("lygo-lattice-arena-ledger-q", url);
+        flush("lygo-forgesmoke-ledger-q", url);
         flush("lygo-fish-tank-ledger-q", SPACE + "/fish/submit");
       }
       pulse();
