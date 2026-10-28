@@ -1428,8 +1428,8 @@ function bankRun(cleared = false) {
 
   // ── special operations points (generous by design) ────────────────────────
   {
-    const tm = toRunMods(aggregate(prof.talents || []));
-    const gained = 2 + (cleared ? 6 : 0) + Math.floor(prof.level / 2) + (tm.pointsBonus || 0);
+    // deliberately stingy: a tree point is a run's pay, not a drip. 1 for dying, 5 for clearing.
+    const gained = cleared ? 5 : 1;
     prof.talentPoints = (prof.talentPoints ?? 0) + gained;
     state.lastTalentGain = gained;
     state.cyborgProfile = saveProfile(prof);
@@ -1972,7 +1972,7 @@ function update(dt, ctx) {
       if (!stillUp && !state.bossPaid) {
         state.bossPaid = true;
         const prof = state.cyborgProfile || {};
-        prof.talentPoints = (prof.talentPoints ?? 0) + 4;
+        prof.talentPoints = (prof.talentPoints ?? 0) + 1;
         state.cyborgProfile = saveProfile(prof);
         globalThis.__studio?.hud?.flash("#7CE6A8", 0.4);
         audioController?.playSfx("levelup", { volume: 0.8 });
