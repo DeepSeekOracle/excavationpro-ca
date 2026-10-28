@@ -1482,22 +1482,24 @@ function update(dt, ctx) {
         state._bayCleared = true;
       }
 
-      // stand still, face the bay (+Z), breathe
+      // stand at the centre, facing the bay, breathing - but ALIVE: the turntable has to read as
+      // motion even with panels over most of it, or it looks like a paused game.
       state.pos.set(0, 0, 0);
       soldier.position.set(0, 0, 0);
-      soldier.rotation.y = Math.PI;   // face the bay, towards the viewer
-      gunPivot.rotation.y = 0;
+      soldier.rotation.y = Math.PI + Math.sin(state.t * 0.45) * 0.075;  // faces you, sways a little
+      gunPivot.rotation.y = Math.sin(state.t * 0.45 + 0.6) * 0.05;
       gunPivot.rotation.x = 0;
       updateOperatorAnimation(soldier, gunPivot, dt, false, weaponManager.active);
 
-      // slow, wide orbit so the panels have something alive behind them
-      state.orbit += dt * 0.07;
+      // a turntable you can actually see: ~12.6 degrees a second plus a slow rise and fall
+      state.orbit += dt * 0.22;
+      const camR = 7.4 + Math.sin(state.t * 0.28) * 0.55;
       camera.position.set(
-        Math.sin(state.orbit) * 7.4,
-        2.9 + Math.sin(state.t * 0.5) * 0.05,
-        Math.cos(state.orbit) * 7.4
+        Math.sin(state.orbit) * camR,
+        2.72 + Math.sin(state.t * 0.42) * 0.16,
+        Math.cos(state.orbit) * camR
       );
-      camera.lookAt(0, 1.28, 0);
+      camera.lookAt(0, 1.26 + Math.sin(state.t * 0.3) * 0.03, 0);
 
       const h = globalThis.__studio?.hud;
       if (h && hudPhase !== "manager") {
