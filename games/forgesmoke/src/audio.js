@@ -160,15 +160,9 @@ export async function initAudio() {
       const c = ensureContext();
       if (!c) return;
       controller.stopMusic();
-      try {
-        musicOsc = c.createOscillator();
-        musicOsc.type = key === "blackout" ? "sawtooth" : "sine";
-        musicOsc.frequency.value = key === "blackout" ? 48 : 64;
-        musicOsc.connect(musicGain);
-        musicOsc.start();
-      } catch (_) {
-        musicOsc = null;
-      }
+      // No music bed. A bare 48-64 Hz sine/sawtooth read as an electrical hum, not atmosphere, and
+      // it ran under everything. Silence is better than a buzz; the SFX carry the scene.
+      musicOsc = null;
     },
     stopMusic() {
       if (musicOsc) {
