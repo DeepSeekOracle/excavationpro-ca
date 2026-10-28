@@ -140,16 +140,27 @@ const REGIONS = [
   },
 ];
 
-/* ── geometry ──────────────────────────────────────────────────────────────── */
+/* ── geometry: a constellation disc, not spokes ────────────────────────────── */
+/*
+ * Reference layout: clusters are scattered across a disc like constellations, each a small irregular
+ * group of passives, joined by short wandering links. Nothing radiates in a straight line. Branch
+ * membership is decided by the SECTOR a cluster falls in, so colours still group into regions, but
+ * the shape is a web.
+ */
 
-const CLUSTERS_PER_REGION = 16;
-const CLUSTER_START = 118;     // radius of the first cluster centre
-const CLUSTER_STEP = 36;       // radial gap between clusters
-const RING_R = 14;             // small-node ring radius inside a cluster
-const SMALLS = 8;              // smalls per cluster (notable caps the ring)
+const CLUSTERS = 96;
+const DISC_R = 620;
+const GOLDEN = Math.PI * (3 - Math.sqrt(5));   // sunflower distribution
+const SECTOR_NAMES = REGIONS.map((r) => r.id);
 
-/** Build the whole graph once. */
+/** Deterministic small PRNG so the layout is identical every load. */
+function lcg(seed) {
+  let a = seed >>> 0;
+  return () => { a = (a * 1664525 + 1013904223) >>> 0; return a / 4294967296; };
+}
+
 export function buildTree() {
+  const rnd = lcg(77021);
   const nodes = [];
   const edges = [];
   const byId = new Map();
@@ -160,80 +171,104 @@ export function buildTree() {
   };
   nodes.push(hub); byId.set(hub.id, hub);
 
-  for (const r of REGIONS) {
-    const a0 = r.angle * D2R;
-    let prevId = "hub";
-    for (let c = 0; c < CLUSTERS_PER_REGION; c += 1) {
-      const centreR = CLUSTER_START + c * CLUSTER_STEP;
-      const cx = Math.cos(a0) * centreR;
-      const cy = Math.sin(a0) * centreR;
-      const clusterKey = `${r.id}${c}`;
+  const clusters = [];
+  for (let i = 0; i < CLUSTERS; i += 1) {
+    // sunflower: even coverage, no spokes
+    const r = DISC_R * Math.sqrt((i + 0.6) / CLUSTERS);
+    const a = i * GOLDEN;
+    const cx = Math.cos(a) * r;
+    const cy = Math.sin(a) * r;
+    // sector decides the region (and therefore the colour)
+    const sector = ((Math.round(((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) / (Math.PI / 4))) % 8 + 8) % 8;
+    const region = REGIONS[sector];
+    clusters.push({ key: `${region.id}${i}`, cx, cy, region, idx: i });
+  }
+  // the hub joins the clusters closest to the middle
+  clusters.sort((p1, p2) => Math.hypot(p1.cx, p1.cy) - Math.hypot(p2.cx, p2.cy));
 
-      // ring of smalls, starting at the inbound angle
-      const ringIds = [];
-      for (let s = 0; s < SMALLS; s += 1) {
-        const sa = a0 + (s / SMALLS) * Math.PI * 2;
-        const nx = cx + Math.cos(sa) * RING_R;
-        const ny = cy + Math.sin(sa) * RING_R;
-        const [nm, mods] = r.small[(c * SMALLS + s) % r.small.length];
-        const id = `${clusterKey}.s${s}`;
-        const node = {
-          id, name: nm, kind: "small", branch: r.id, cluster: clusterKey,
-          x: +nx.toFixed(2), y: +ny.toFixed(2), color: r.color, mods, desc: describe(mods, nm),
-        };
-        nodes.push(node); byId.set(id, node); ringIds.push(id);
-      }
-      // chain the ring
-      for (let s = 0; s < SMALLS; s += 1) edges.push([ringIds[s], ringIds[(s + 1) % SMALLS]]);
-      // inbound link
-      edges.push([prevId, ringIds[0]]);
+  clusters.forEach((cl, ci) => {
+    const { region } = cl;
+    const key = cl.key;
+    const ringR = 30 + rnd() * 16;
+    const baseA = rnd() * Math.PI * 2;
+    const ringIds = [];
 
-      // notable caps the cluster
-      const [nn, nmods] = r.notable[c % r.notable.length];
-      const notableId = `${clusterKey}.n`;
-      const naive = a0 + Math.PI / SMALLS;
-      const notable = {
-        id: notableId, name: nn, kind: "notable", branch: r.id, cluster: clusterKey,
-        x: +(cx + Math.cos(naive) * (RING_R + 16)).toFixed(2),
-        y: +(cy + Math.sin(naive) * (RING_R + 16)).toFixed(2),
-        color: r.color, mods: nmods, desc: describe(nmods, nn),
+    for (let k = 0; k < 8; k += 1) {
+      const ang = baseA + (k / 8) * Math.PI * 2 + (rnd() - 0.5) * 0.34;
+      const rr = ringR * (0.82 + rnd() * 0.36);
+      const [nm, mods] = region.small[(ci * 8 + k) % region.small.length];
+      const id = `${key}.s${k}`;
+      const node = {
+        id, name: nm, kind: "small", branch: region.id, cluster: key,
+        x: +(cl.cx + Math.cos(ang) * rr).toFixed(2),
+        y: +(cl.cy + Math.sin(ang) * rr).toFixed(2),
+        color: region.color, mods, desc: describe(mods, nm),
       };
-      nodes.push(notable); byId.set(notableId, notable);
-      edges.push([ringIds[1], notableId]);
-      edges.push([ringIds[SMALLS - 1], notableId]);
-
-      // mastery sits in the middle; opens only with the notable
-      const [mn, mmods, mdesc] = r.mastery[c % r.mastery.length];
-      const masteryId = `${clusterKey}.m`;
-      const mastery = {
-        id: masteryId, name: `${mn}${c >= 2 ? " II" : ""}`, kind: "mastery", branch: r.id, cluster: clusterKey,
-        requires: notableId, x: +cx.toFixed(2), y: +cy.toFixed(2),
-        color: r.color, mods: mmods, desc: `${mdesc} Opens with ${nn}.`,
-      };
-      nodes.push(mastery); byId.set(masteryId, mastery);
-      edges.push([notableId, masteryId]);
-
-      prevId = notableId;
+      nodes.push(node); byId.set(id, node); ringIds.push(id);
     }
+    // the constellation's own path: a wandering chain, not a circle
+    const order = ringIds.slice().sort(() => rnd() - 0.5);
+    for (let k = 0; k < order.length - 1; k += 1) edges.push([order[k], order[k + 1]]);
+    edges.push([order[order.length - 1], order[0]]);
 
-    // region keystone at the far end
-    const keyR = CLUSTER_START + CLUSTERS_PER_REGION * CLUSTER_STEP;
-    const ks = r.keystone;
-    const kId = `${r.id}.key`;
+    const [nn, nmods] = region.notable[ci % region.notable.length];
+    const nAng = baseA + rnd() * Math.PI * 2;
+    const nid = `${key}.n`;
+    const notable = {
+      id: nid, name: nn, kind: "notable", branch: region.id, cluster: key,
+      x: +(cl.cx + Math.cos(nAng) * (ringR + 26)).toFixed(2),
+      y: +(cl.cy + Math.sin(nAng) * (ringR + 26)).toFixed(2),
+      color: region.color, mods: nmods, desc: describe(nmods, nn),
+    };
+    nodes.push(notable); byId.set(nid, notable);
+    edges.push([nid, order[0]]);
+    edges.push([nid, order[Math.floor(order.length / 2)]]);
+
+    const [mn, mmods, mdesc] = region.mastery[ci % region.mastery.length];
+    const mid = `${key}.m`;
+    const mastery = {
+      id: mid, name: mn, kind: "mastery", branch: region.id, cluster: key,
+      requires: nid, x: +cl.cx.toFixed(2), y: +cl.cy.toFixed(2),
+      color: region.color, mods: mmods, desc: `${mdesc} Opens with ${nn}.`,
+    };
+    nodes.push(mastery); byId.set(mid, mastery);
+    edges.push([nid, mid]);
+
+    cl.notableId = nid;
+    cl.entryId = order[0];
+  });
+
+  // hub joins the nearest constellations (six short links, no long spokes)
+  clusters.slice(0, 6).forEach((cl) => edges.push(["hub", cl.entryId]));
+
+  // cross-links: each constellation joins its two nearest neighbours -> a real web
+  for (let i = 0; i < clusters.length; i += 1) {
+    const a = clusters[i];
+    const near = clusters
+      .map((b, j) => ({ b, j, d: Math.hypot(a.cx - b.cx, a.cy - b.cy) }))
+      .filter((o) => o.j !== i)
+      .sort((u, v) => u.d - v.d)
+      .slice(0, 2);
+    for (const n of near) edges.push([a.notableId, n.b.notableId]);
+  }
+
+  // eight keystones on the rim, one per region, each hanging off its outermost constellation
+  REGIONS.forEach((region, ri) => {
+    const own = clusters.filter((c) => c.region.id === region.id);
+    if (!own.length) return;
+    const far = own.reduce((best, c) => (Math.hypot(c.cx, c.cy) > Math.hypot(best.cx, best.cy) ? c : best), own[0]);
+    const ang = Math.atan2(far.cy, far.cx);
+    const kId = `${region.id}.key`;
+    const ks = region.keystone;
     const key = {
-      id: kId, name: ks.n, kind: "keystone", branch: r.id, cluster: `${r.id}key`,
-      x: +(Math.cos(a0) * keyR).toFixed(2), y: +(Math.sin(a0) * keyR).toFixed(2),
-      color: r.color, mods: ks.m, desc: ks.d,
+      id: kId, name: ks.n, kind: "keystone", branch: region.id, cluster: `${region.id}key`,
+      x: +(Math.cos(ang) * (DISC_R + 90)).toFixed(2),
+      y: +(Math.sin(ang) * (DISC_R + 90)).toFixed(2),
+      color: region.color, mods: ks.m, desc: ks.d,
     };
     nodes.push(key); byId.set(kId, key);
-    edges.push([prevId, kId]);
-  }
-
-  // cross-links between neighbouring regions, so hybrid paths exist
-  for (let i = 0; i < REGIONS.length; i += 1) {
-    const a = REGIONS[i].id, b = REGIONS[(i + 1) % REGIONS.length].id;
-    for (const c of [2, 5]) edges.push([`${a}${c}.n`, `${b}${c}.n`]);
-  }
+    edges.push([far.notableId, kId]);
+  });
 
   return { nodes, edges, byId, hub };
 }

@@ -47,25 +47,40 @@ const CSS = `
 @keyframes dash{to{stroke-dashoffset:-28}}
 
 #fs-talents .node{position:absolute;transform:translate(-50%,-50%);border-radius:999px;cursor:pointer;
-  background:#0B1017;border:1px solid #35465A;display:grid;place-items:center;color:#9FB3C8;
-  transition:transform .12s,border-color .12s,box-shadow .12s}
-#fs-talents .node.small{width:16px;height:16px}
-#fs-talents .node.notable{width:26px;height:26px;border-width:2px}
-#fs-talents .node.mastery{width:20px;height:20px;border-radius:4px;border-color:#8b6cff;background:#120d1d}
-#fs-talents .node.mastery.ready{border-color:#b59cff;box-shadow:0 0 10px rgba(139,108,255,.6)}
-#fs-talents .node.mastery.on{background:#8b6cff;border-color:#c5b2ff;box-shadow:0 0 16px rgba(139,108,255,.85)}
-#fs-talents .node.mastery.locked{opacity:.42;border-style:dashed;cursor:not-allowed}
-#fs-talents .node.keystone{width:34px;height:34px;border-width:2px;border-radius:6px;transform:translate(-50%,-50%) rotate(45deg)}
-#fs-talents .node.keystone > i{transform:rotate(-45deg);font-style:normal;font-size:13px}
-#fs-talents .node.hub{width:44px;height:44px;border-color:#FFB347;color:#FFB347;box-shadow:0 0 22px rgba(255,179,71,.35)}
-#fs-talents .node:hover{transform:translate(-50%,-50%) scale(1.25);border-color:#6FE3FF;z-index:5}
-#fs-talents .node.keystone:hover{transform:translate(-50%,-50%) rotate(45deg) scale(1.18)}
-#fs-talents .node.ready{border-color:#6FE3FF;box-shadow:0 0 10px rgba(111,227,255,.45)}
-#fs-talents .node.on{background:#FFB347;border-color:#FFD166;color:#0A0D11;box-shadow:0 0 14px rgba(255,179,71,.7);
-  animation:nodePulse 2.4s ease-in-out infinite}
-#fs-talents .node.on.b{background:#6FE3FF;border-color:#9FEFFF;box-shadow:0 0 14px rgba(111,227,255,.7)}
-#fs-talents .node.on.k{background:#FFD166;border-color:#FFE9A8;box-shadow:0 0 22px rgba(255,209,102,.85);animation-duration:1.7s}
-@keyframes nodePulse{0%,100%{box-shadow:0 0 10px rgba(255,179,71,.45)}50%{box-shadow:0 0 22px rgba(255,179,71,.9)}}
+  display:grid;place-items:center;transition:transform .12s,box-shadow .12s,border-color .12s;
+  background:radial-gradient(circle at 42% 36%,#1d2836,#0a1017 72%);
+  border:1px solid #33465a;color:#9FB3C8;
+  box-shadow:inset 0 0 6px rgba(0,0,0,.8), 0 0 6px rgba(0,0,0,.5)}
+#fs-talents .node:before{content:"";position:absolute;inset:2px;border-radius:inherit;border:1px solid rgba(159,179,200,.12)}
+#fs-talents .node.small{width:13px;height:13px}
+#fs-talents .node.notable{width:25px;height:25px;border-width:2px;border-color:#4d6żół}
+#fs-talents .node.notable:after{content:"";position:absolute;inset:-4px;border-radius:inherit;border:1px solid rgba(159,179,200,.28)}
+#fs-talents .node.mastery{width:19px;height:19px;border-radius:4px;transform:translate(-50%,-50%) rotate(45deg);
+  border-color:#8b6cff;background:radial-gradient(circle,#221a3a,#0d0a18 72%)}
+#fs-talents .node.mastery > *{transform:rotate(-45deg)}
+#fs-talents .node.mastery.ready{border-color:#b59cff;box-shadow:0 0 12px rgba(139,108,255,.7)}
+#fs-talents .node.mastery.on{background:radial-gradient(circle,#b59cff,#6a4fd0 74%);border-color:#e0d4ff;box-shadow:0 0 20px rgba(139,108,255,.95)}
+#fs-talents .node.mastery.locked{opacity:.4;border-style:dashed;cursor:not-allowed}
+#fs-talents .node.keystone{width:44px;height:44px;border-radius:10px;transform:translate(-50%,-50%) rotate(45deg);
+  border:2px solid #7d8ea2;background:radial-gradient(circle at 42% 36%,#2a3646,#0a1017 74%);
+  box-shadow:inset 0 0 14px rgba(0,0,0,.9), 0 0 16px rgba(0,0,0,.6)}
+#fs-talents .node.keystone:before{content:"";position:absolute;inset:-7px;border-radius:14px;border:1px solid rgba(159,179,200,.3)}
+#fs-talents .node.keystone > i{transform:rotate(-45deg);font-style:normal;font-size:16px}
+#fs-talents .node.hub{width:52px;height:52px;border:2px solid #FFB347;color:#FFB347;
+  background:radial-gradient(circle at 42% 36%,#3a2a12,#0b0d12 74%);box-shadow:0 0 26px rgba(255,179,71,.45)}
+#fs-talents .node.hub > i{font-style:normal;font-size:20px}
+#fs-talents .node:hover{transform:translate(-50%,-50%) scale(1.35);border-color:#6FE3FF;z-index:5;
+  box-shadow:0 0 16px rgba(111,227,255,.8)}
+#fs-talents .node.keystone:hover,#fs-talents .node.mastery:hover{transform:translate(-50%,-50%) rotate(45deg) scale(1.25)}
+#fs-talents .node.ready{border-color:#6FE3FF;box-shadow:0 0 12px rgba(111,227,255,.55)}
+#fs-talents .node.on{background:radial-gradient(circle at 42% 36%,#ffd98f,#d98a2b 74%);border-color:#FFE0A8;
+  color:#0A0D11;box-shadow:0 0 18px rgba(255,179,71,.85);animation:nodeGlow 2.6s ease-in-out infinite}
+#fs-talents .node.on.k{background:radial-gradient(circle at 42% 36%,#ffe9a8,#d9a92b 74%);border-color:#ffe9a8;
+  box-shadow:0 0 26px rgba(255,209,102,.95);animation-duration:1.8s}
+@keyframes nodeGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
+#fs-talents .edge{fill:none;stroke:rgba(140,160,180,.20);stroke-width:1.1;stroke-linecap:round}
+#fs-talents .edge.on{stroke:#FFC463;stroke-width:2;stroke-dasharray:4 8;filter:drop-shadow(0 0 3px rgba(255,180,71,.9));
+  animation:dash 1.8s linear infinite}
 #fs-talents .node canvas{display:none}
 
 #fs-talents .tip{position:fixed;z-index:6;max-width:290px;padding:11px 13px;border-radius:4px;pointer-events:none;
@@ -151,11 +166,24 @@ export function createTalentWindow(opts = {}) {
     const alloc = allocated();
     const svg = q("[data-edges]");
     // svg is centred on the world origin
+    // every link bows slightly, and the bow direction/amount is derived from the node ids, so the
+    // web looks drawn by hand instead of printed as a ruler grid
+    const bowOf = (id) => {
+      let h = 0;
+      for (let i = 0; i < id.length; i += 1) h = (h * 31 + id.charCodeAt(i)) % 997;
+      return ((h % 15) - 7) * 0.9;
+    };
     svg.innerHTML = TREE.edges.map(([a, b]) => {
       const na = TREE.byId.get(a), nb = TREE.byId.get(b);
       if (!na || !nb) return "";
+      const x1 = 2000 + na.x, y1 = 2000 + na.y, x2 = 2000 + nb.x, y2 = 2000 + nb.y;
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      const dx = x2 - x1, dy = y2 - y1;
+      const len = Math.hypot(dx, dy) || 1;
+      const bow = bowOf(a + b);
+      const cx = mx - (dy / len) * bow, cy = my + (dx / len) * bow;
       const on = alloc.has(a) && (alloc.has(b) || b === "hub");
-      return `<line class="edge${on ? " on" : ""}" x1="${2000 + na.x}" y1="${2000 + na.y}" x2="${2000 + nb.x}" y2="${2000 + nb.y}" />`;
+      return `<path class="edge${on ? " on" : ""}" d="M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}" />`;
     }).join("");
   }
 

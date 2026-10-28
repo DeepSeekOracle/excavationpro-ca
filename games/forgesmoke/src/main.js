@@ -19,12 +19,12 @@ import { createCardTray } from "./cardsui.js";
 import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
 import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js";
-import { pilot } from "./autopilot.js?v=20261029k";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029k";
-import { createStartMenu } from "./startmenu.js?v=20261029k";
-import { createGamepad } from "./gamepad.js?v=20261029k";
-import { createTalentWindow } from "./talentui.js?v=20261029k";
-import { aggregate, toRunMods } from "./talents.js?v=20261029k";
+import { pilot } from "./autopilot.js?v=20261029l";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029l";
+import { createStartMenu } from "./startmenu.js?v=20261029l";
+import { createGamepad } from "./gamepad.js?v=20261029l";
+import { createTalentWindow } from "./talentui.js?v=20261029l";
+import { aggregate, toRunMods } from "./talents.js?v=20261029l";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -42,7 +42,7 @@ import {
 } from "./models.js";
 import * as levelModule from "./level.js";
 import * as menuModule from "./menu.js";
-import * as audioModule from "./audio.js?v=20261029k";
+import * as audioModule from "./audio.js?v=20261029l";
 import * as fxModule from "./fx.js";
 
 const TAU = Math.PI * 2;
