@@ -218,6 +218,10 @@ export function createManager(opts = {}) {
     q("[data-xpfill]").style.width = `${Math.min(100, (p.xp / need) * 100)}%`;
     q("[data-record]").textContent = `${p.runs || 0} runs · ${p.arenasCleared || 0} arenas cleared`;
 
+    // the board only accepts named cyborgs, so say so plainly
+    const hint = q(".mg-namehint");
+    if (hint) hint.textContent = (p.name || "").trim() ? "SHOWN ON THE PUBLIC BOARD" : "REQUIRED FOR THE PUBLIC BOARD";
+
     const tp = q("[data-tpoints]");
     if (tp) tp.textContent = String(p.talentPoints ?? 0);
     const talBtn = q("[data-talents]");
