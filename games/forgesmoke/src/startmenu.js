@@ -9,7 +9,7 @@
  */
 import { xpForLevel } from "./save.js";
 
-const ART = "./assets/start-bg-v1.jpg";
+const ART = "./assets/start-art-v2.jpg";
 
 const CSS = `
 #fs-start{position:fixed;inset:0;z-index:50;display:none;align-items:stretch;
@@ -20,11 +20,17 @@ const CSS = `
     linear-gradient(160deg,#0A0F14,#06080B 60%,#070A0E);
   background-size:cover;background-position:center right;background-repeat:no-repeat}
 #fs-start.open{display:flex}
-#fs-start.art{background-image:linear-gradient(90deg,rgba(5,7,10,.96) 0%,rgba(5,7,10,.86) 26%,rgba(5,7,10,.35) 52%,rgba(5,7,10,.12) 100%),url("${ART}")}
+#fs-start.art{background-image:
+    linear-gradient(90deg,rgba(5,7,10,.985) 0%,rgba(5,7,10,.97) 30%,rgba(5,7,10,.82) 44%,rgba(5,7,10,.28) 56%,rgba(5,7,10,0) 68%),
+    url("${ART}");
+  background-size:100% 100%,auto 100%;
+  background-position:center,right center;
+  background-repeat:no-repeat,no-repeat}
+@media (max-aspect-ratio:1/1){#fs-start.art{background-size:100% 100%,auto 100%;background-position:center,88% center}}
 #fs-start .artwrap{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(5,7,10,.55),transparent 22%,transparent 72%,rgba(5,7,10,.75))}
 
-#fs-start .panel{position:relative;width:min(462px,46vw);display:flex;flex-direction:column;justify-content:center;
+#fs-start .panel{position:relative;width:min(462px,46vw);display:flex;flex-direction:column;justify-content:center;overflow-y:auto;max-height:100vh;padding-block:26px;
   gap:0;padding:0 clamp(26px,3.4vw,54px);pointer-events:auto;
   background:linear-gradient(90deg,rgba(7,10,14,.94) 0%,rgba(7,10,14,.90) 74%,rgba(7,10,14,.55) 100%);
   border-right:1px solid rgba(255,179,71,.18);box-shadow:24px 0 60px -30px #000}
@@ -52,6 +58,16 @@ const CSS = `
 #fs-start button.primary .sub{color:rgba(10,13,17,.6)}
 #fs-start button.primary:hover{transform:translateX(4px);box-shadow:0 0 46px -12px rgba(255,179,71,.8)}
 
+@media (max-height:860px){
+  #fs-start h1{font-size:clamp(36px,4.2vw,54px)}
+  #fs-start .blurb{display:none}
+  #fs-start .kicker{margin-bottom:12px}
+  #fs-start .tag{margin-top:10px}
+  #fs-start .rule{margin:14px 0 12px}
+  #fs-start button{padding:11px 16px}
+  #fs-start .stats{margin-top:16px}
+  #fs-start .foot{margin-top:14px}
+}
 #fs-start .stats{margin-top:26px;display:flex;gap:20px;font:600 8px ui-monospace,Consolas,monospace;
   letter-spacing:.18em;color:#7E93A6}
 #fs-start .stats b{display:block;font:700 19px/1 ui-monospace,Consolas,monospace;letter-spacing:0;color:#E8F1F8;margin-bottom:3px}
