@@ -54,9 +54,6 @@ const CSS = `
   background:radial-gradient(ellipse at 50% 50%,rgba(255,228,158,.62),rgba(255,150,40,.20) 44%,transparent 70%);
   filter:blur(5px);animation:fsEyes 3.6s ease-in-out infinite;mix-blend-mode:screen}
 @keyframes fsEyes{0%,100%{opacity:.62;transform:scale(1)}48%{opacity:1;transform:scale(1.045)}}
-#fs-start .artfx .sweep{position:absolute;inset:-20%;pointer-events:none;mix-blend-mode:screen;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,190,110,.10) 48%,rgba(255,214,150,.16) 50%,rgba(255,190,110,.08) 54%,transparent 64%);
-  animation:fsSweep 9s ease-in-out infinite}
 @keyframes fsSweep{0%{transform:translate3d(-42%,0,0)}100%{transform:translate3d(42%,0,0)}}
 #fs-start .artfx .motes{position:absolute;inset:-10%;pointer-events:none;opacity:.55;
   background-image:radial-gradient(1.6px 1.6px at 12% 82%,rgba(255,226,180,.9) 50%,transparent 51%),
@@ -160,7 +157,6 @@ export function createStartMenu(opts = {}) {
       <i class="eyes"></i>
       <i class="rain r1"></i>
       <i class="rain r2"></i>
-      <i class="sweep"></i>
       <i class="motes"></i>
     </div>
     <div class="panel">
