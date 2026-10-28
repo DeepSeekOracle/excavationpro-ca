@@ -298,8 +298,8 @@ export const TUNING = {
     xpPerKill: 10,
     xpPerDamage: 1 / 25,
     xpPerSecond: 2,
-    levelBaseXp: 100,
-    maxQueuedCards: 2,
+    levelBaseXp: 300,
+    maxQueuedCards: 1,
     cardChoices: 3,
     parts: {
       barrel: [

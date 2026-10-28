@@ -570,3 +570,27 @@ export class CardSystem {
 function rollPart(rng, slotWeights, rarityWeights) {
   return _rollPart(rng, slotWeights, rarityWeights);
 }
+
+
+/**
+ * Per-weapon firing identity. Every style gets its own tracer colour, width, muzzle flash and
+ * report, so a shot is recognisable by its silhouette and its sound, not just its damage number.
+ * `kind` drives the special effect: tracer / lance / beam / arc / flame / grenade.
+ */
+export const STYLE_VFX = {
+  spray:    { color: 0xffd57a, tracer: 0.9, flash: 1.0, sound: "fire",  pitch: 1.00, kind: "tracer" },
+  cone:     { color: 0xff8a4a, tracer: 1.6, flash: 1.5, sound: "fire",  pitch: 0.78, kind: "spread" },
+  pierce:   { color: 0x6fe3ff, tracer: 0.5, flash: 0.9, sound: "laser", pitch: 1.18, kind: "lance" },
+  ricochet: { color: 0xa6ff7a, tracer: 0.9, flash: 1.0, sound: "laser", pitch: 1.32, kind: "tracer" },
+  burst:    { color: 0xffe36f, tracer: 0.8, flash: 1.2, sound: "fire",  pitch: 1.12, kind: "tracer" },
+  beam:     { color: 0x6fe3ff, tracer: 2.6, flash: 1.7, sound: "laser", pitch: 0.92, kind: "beam" },
+  chain:    { color: 0xc6a4ff, tracer: 1.4, flash: 1.3, sound: "laser", pitch: 1.26, kind: "arc" },
+  spinup:   { color: 0xff5a5a, tracer: 0.7, flash: 0.8, sound: "fire",  pitch: 1.28, kind: "rapid" },
+  rail:     { color: 0xf2f8ff, tracer: 3.4, flash: 2.1, sound: "laser", pitch: 0.68, kind: "lance" },
+  flamer:   { color: 0xffa23c, tracer: 1.9, flash: 2.3, sound: "fire",  pitch: 0.62, kind: "flame" },
+  arc:      { color: 0xff6fd6, tracer: 1.2, flash: 1.6, sound: "fire",  pitch: 0.70, kind: "grenade" },
+  sentry:   { color: 0x6fff9a, tracer: 0.8, flash: 1.0, sound: "laser", pitch: 1.42, kind: "tracer" },
+};
+
+/** The one style that carries a real grenade (and therefore bypasses shields). */
+export const GRENADE_STYLES = new Set(["arc"]);

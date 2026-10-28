@@ -14,16 +14,17 @@ import {
   hexInt,
 } from "./theme.js";
 import { TUNING } from "./tuning.js";
-import { WeaponManager, CardSystem, Weapon } from "./weapons.js";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js";
+import { createCardTray } from "./cardsui.js";
 import { EnemyManager, ENEMY_TYPES } from "./enemies.js";
 import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js";
 import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js";
-import { pilot } from "./autopilot.js?v=20261029j";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029j";
-import { createStartMenu } from "./startmenu.js?v=20261029j";
-import { createGamepad } from "./gamepad.js?v=20261029j";
-import { createTalentWindow } from "./talentui.js?v=20261029j";
-import { aggregate, toRunMods } from "./talents.js?v=20261029j";
+import { pilot } from "./autopilot.js?v=20261029k";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261029k";
+import { createStartMenu } from "./startmenu.js?v=20261029k";
+import { createGamepad } from "./gamepad.js?v=20261029k";
+import { createTalentWindow } from "./talentui.js?v=20261029k";
+import { aggregate, toRunMods } from "./talents.js?v=20261029k";
 import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js";
 import {
   PLAYER_SKINS,
@@ -41,7 +42,7 @@ import {
 } from "./models.js";
 import * as levelModule from "./level.js";
 import * as menuModule from "./menu.js";
-import * as audioModule from "./audio.js?v=20261029j";
+import * as audioModule from "./audio.js?v=20261029k";
 import * as fxModule from "./fx.js";
 
 const TAU = Math.PI * 2;
@@ -510,6 +511,10 @@ if (testMode) {
     getSoldier: () => soldier,
     getGunPivot: () => gunPivot,
     getWeapons: () => weaponManager,
+    getCards: () => cardSystem,
+    getGrenades: () => grenades.length,
+    getTracerColors: () => tracers.filter((t) => t.life > 0).map((t) => t.mesh.material.color.getHex()),
+    getCruise: () => ({ style: weaponManager.active.styleKey, vfx: STYLE_VFX[weaponManager.active.styleKey] || null }),
     getEnemies: () => enemyManager,
     getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
     testPush: (x, z, r = 0.55) => {
@@ -607,6 +612,8 @@ const talentUI = createTalentWindow({
   saveProfile: (p) => { state.cyborgProfile = saveProfile(p); return state.cyborgProfile; },
   onChange: (p) => { state.cyborgProfile = p; },
 });
+
+const cardTray = createCardTray({ onPick: (i) => pickCard(i) });
 
 const managerUI = createManager({
   getProfile: () => state.cyborgProfile,
@@ -802,7 +809,7 @@ function syncHud() {
     }
 
     // 3-Choice Tactical Upgrade Card Overlay
-    if (state.cardPickWindow && state.currentCardOptions && state.currentCardOptions.length > 0) {
+    if (state.cardPickWindow && state.currentCardOptions && state.currentCardOptions.length > 0 && !cardTray.open) {
       const cardSig = state.currentCardOptions.map((c) => c.name || c.style || "card").join("|");
       if (hudCards !== cardSig) {
         hudCards = cardSig;
@@ -1164,6 +1171,55 @@ function spawnEnemy() {
   }
 }
 
+/** Lobbed grenades: a visible charge that arcs to the target, then a blast ring. */
+const grenades = [];
+function spawnGrenade(from, to, color) {
+  const orb = new THREE.Mesh(
+    new THREE.SphereGeometry(0.13, 8, 8),
+    new THREE.MeshBasicMaterial({ color })
+  );
+  orb.position.copy(from);
+  scene.add(orb);
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.34, 0.52, 26),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false })
+  );
+  ring.rotation.x = -Math.PI / 2;
+  ring.visible = false;
+  scene.add(ring);
+  grenades.push({ orb, ring, from: from.clone(), to: to.clone(), t: 0, life: 0.42, boom: 0 });
+}
+
+function updateGrenades(dt) {
+  for (let i = grenades.length - 1; i >= 0; i -= 1) {
+    const g = grenades[i];
+    if (g.boom === 0) {
+      g.t += dt;
+      const k = Math.min(1, g.t / g.life);
+      g.orb.position.lerpVectors(g.from, g.to, k);
+      g.orb.position.y += Math.sin(k * Math.PI) * 1.7;
+      if (k >= 1) {
+        g.boom = 1e-3;
+        g.orb.visible = false;
+        g.ring.position.copy(g.to);
+        g.ring.visible = true;
+      }
+    } else {
+      g.boom += dt;
+      const k = Math.min(1, g.boom / 0.42);
+      g.ring.scale.setScalar(1 + k * 7);
+      g.ring.material.opacity = 0.9 * (1 - k);
+      if (k >= 1) {
+        scene.remove(g.orb);
+        scene.remove(g.ring);
+        g.orb.geometry.dispose();
+        g.ring.geometry.dispose();
+        grenades.splice(i, 1);
+      }
+    }
+  }
+}
+
 function shoot(target) {
   soldier.updateMatrixWorld(true);
   vMuzzle.set(0, 0, 1.05);
@@ -1172,9 +1228,10 @@ function shoot(target) {
 
   const fireData = weaponManager.fire(state.aimMode);
   if (!fireData) return;
-  const lightShot = typeof isLightGunStyle === "function" && isLightGunStyle(weaponManager.active?.styleKey);
+  const vfx = STYLE_VFX[weaponManager.active?.styleKey] || STYLE_VFX.spray;
+  const isGrenade = GRENADE_STYLES.has(weaponManager.active?.styleKey);
   if (!state.attractSim) {
-    audioController?.playSfx(lightShot ? "laser" : "fire", { volume: 0.55, pitch: 0.9 + state.rng() * 0.25 });
+    audioController?.playSfx(vfx.sound, { volume: 0.5, pitch: vfx.pitch * (0.96 + state.rng() * 0.08) });
   }
 
   // Spawn tracers + Travelling Light-Orb Projectiles
@@ -1199,9 +1256,9 @@ function shoot(target) {
 
       tracer.mesh.position.copy(vMuzzle).add(endPos).multiplyScalar(0.5);
       tracer.mesh.lookAt(endPos);
-      const tracerWidth = state.attractSim ? 0.42 : 1 + darkBoost * 0.6;
+      const tracerWidth = state.attractSim ? 0.42 : (1 + darkBoost * 0.6) * vfx.tracer;
       tracer.mesh.scale.set(tracerWidth, tracerWidth, Math.max(0.4, vMuzzle.distanceTo(endPos)));
-      tracer.mesh.material.color.setHex(fireData.tracerColor);
+      tracer.mesh.material.color.setHex(vfx.color);
       tracer.mesh.visible = true;
 
       if (tracer.orb) {
@@ -1214,7 +1271,8 @@ function shoot(target) {
   }
 
   flash.position.copy(vMuzzle);
-  flash.scale.setScalar(fireData.muzzleFlashSize / 0.24);
+  if (flash.material && flash.material.color) flash.material.color.setHex(vfx.color);
+  flash.scale.setScalar((fireData.muzzleFlashSize / 0.24) * vfx.flash);
   flash.visible = !state.attractSim;   // no blown-out flash ball in the bay demo
   state.flash = fireData.muzzleFlashLife;
 
@@ -1228,6 +1286,11 @@ function shoot(target) {
     shotLightTimer = blackout.shotLight.seconds;
   }
 
+  // Grenade styles throw a real object: a lobbed charge that arcs to the target and detonates.
+  if (isGrenade && !state.attractSim) {
+    spawnGrenade(vMuzzle.clone(), vTarget.clone(), vfx.color);
+  }
+
   // Apply recoil
   gunPivot.rotation.y += (state.rng() - 0.5) * fireData.recoilYaw * 2;
   gunPivot.rotation.x -= Math.abs(fireData.recoilPitch);
@@ -1235,6 +1298,7 @@ function shoot(target) {
   // Deal damage (+25% bonus when target is illuminated in Darkness or with Floodlight/Light-Orb mods)
   const litBonusMult = (state.darknessFactor > 0.25 || weaponManager.hasFloodlightMod || weaponManager.hasLightOrbMod) ? 1.25 : 1.0;
   const explosive = Boolean(weaponManager.hasExplosiveMod);
+  const shieldPierce = isGrenade ? 1 : (explosive ? 0.55 : 0);
   const talentDmg = state.talentMods?.damageMult || 1;
   const effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1) * talentDmg);
   let damageDealt = 0;
@@ -1249,7 +1313,7 @@ function shoot(target) {
     }).slice(0, fireData.pierceCount);
 
     for (const enemy of enemiesInLine) {
-      const result = enemyManager.damageEnemy(enemy, effectiveDamage, explosive, 0);
+      const result = enemyManager.damageEnemy(enemy, effectiveDamage, isGrenade, 0, shieldPierce);
       damageDealt += effectiveDamage;
       if (result.killed) {
         state.kills++;
@@ -1277,7 +1341,7 @@ function shoot(target) {
       if (best) {
         const falloff = Math.max(0, Math.min(1, 1 - (bestDist - fireData.falloffStart * 30) / ((fireData.falloffEnd - fireData.falloffStart) * 30)));
         const dmg = Math.round(fireData.damage * falloff);
-        const result = enemyManager.damageEnemy(best, dmg, explosive, 0);
+        const result = enemyManager.damageEnemy(best, dmg, isGrenade, 0, shieldPierce);
         damageDealt += dmg;
         if (result.killed) {
           state.kills++;
@@ -1288,7 +1352,7 @@ function shoot(target) {
     }
   } else {
     // Single shot
-    const result = enemyManager.damageEnemy(target, Math.round(fireData.damage * (explosive ? 1.15 : 1)), explosive, 0);
+    const result = enemyManager.damageEnemy(target, Math.round(fireData.damage * (explosive ? 1.15 : 1)), isGrenade, 0, shieldPierce);
     damageDealt = fireData.damage;
     if (result.killed) {
       state.kills++;
@@ -1863,11 +1927,14 @@ function update(dt, ctx) {
       }
     }
 
+    updateGrenades(dt);
+
     // Check for card queue
     if (cardSystem.queuedCards.length > 0 && !state.cardPickWindow) {
       state.currentCardOptions = cardSystem.queuedCards[0];
       state.cardPickWindow = true;
       state.showCards = true;
+      cardTray.show(state.currentCardOptions);
     }
 
     // Camera
@@ -1988,6 +2055,7 @@ function pickCard(index) {
   state.cardPickWindow = false;
   state.showCards = false;
   state.currentCardOptions = null;
+  cardTray.hide();
   state.cardsPlayed = (state.cardsPlayed || 0) + 1;
   audioController?.playSfx("click", { volume: 0.5, pitch: 1.15 });
 

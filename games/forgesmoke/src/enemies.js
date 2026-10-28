@@ -156,6 +156,8 @@ export class Enemy {
     this.shieldAngle = Math.atan2(dirX, dirZ);
     // Check if flanked (player behind shield)
     const toPlayer = Math.atan2(playerPos.x - this.position.x, playerPos.z - this.position.z);
+    // strict frontal arc: the wall covers the front 220 degrees, so only a genuine flank (or an
+    // explosive / grenade) gets through. Walking around him takes real effort.
     const angleDiff = Math.abs(toPlayer - this.shieldAngle);
     this.flanked = angleDiff > Math.PI / 2 && angleDiff < 3 * Math.PI / 2;
     this.isShielded = !this.flanked;
@@ -283,10 +285,12 @@ export class Enemy {
   }
 
   /** Take damage. Returns true if killed. */
-  takeDamage(amount, isFlank = false, armour = 0) {
+  takeDamage(amount, isFlank = false, armour = 0, pierce = 0) {
     let dmg = amount;
     if (this.type === ENEMY_TYPES.shieldbearer && this.isShielded && !isFlank) {
-      dmg = 0; // Shield blocks frontal damage
+      // The wall tracks the player, so there is no "front" to shoot around. Only an explosive
+      // charge punches a fraction through it; a lobbed grenade (isFlank) goes over the top.
+      dmg = pierce > 0 ? damageAfterArmour(amount * pierce, armour) : 0;
     } else {
       dmg = damageAfterArmour(amount, armour);
     }
@@ -483,8 +487,8 @@ export class EnemyManager {
   }
 
   /** Apply damage to enemy, return score/XP if killed. */
-  damageEnemy(enemy, amount, isFlank = false, armour = 0) {
-    const killed = enemy.takeDamage(amount, isFlank, armour);
+  damageEnemy(enemy, amount, isFlank = false, armour = 0, pierce = 0) {
+    const killed = enemy.takeDamage(amount, isFlank, armour, pierce);
     if (killed) {
       const score = enemy.getScoreValue();
       const xp = enemy.getXpValue();
