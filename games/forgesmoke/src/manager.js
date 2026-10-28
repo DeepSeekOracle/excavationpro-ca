@@ -137,6 +137,7 @@ function el(tag, cls, html) {
 export function createManager(opts = {}) {
   const onLaunch = opts.onLaunch || (() => {});
   const onChange = opts.onChange || (() => {});
+  const onSkinChange = opts.onSkinChange || (() => {});
   let profile = opts.getProfile ? opts.getProfile() : null;
 
   const root = el("div");
@@ -214,7 +215,7 @@ export function createManager(opts = {}) {
         `<img src="./assets/portraits/${skin.id}.jpg" alt="" loading="lazy" decoding="async"
               onerror="this.remove()">
          <div class="txt"><div class="nm">${skin.name}</div><div class="ds">${skin.badge}${on ? " · SELECTED" : ""}</div></div>`);
-      item.onclick = () => { p.equipped.skin = i; persist(); };
+      item.onclick = () => { p.equipped.skin = i; persist(); onSkinChange(i); };
       q("[data-skins]").appendChild(item);
     });
 

@@ -260,6 +260,7 @@ export class WeaponManager {
     this.hasFloodlightMod = false;
     this.hasLightOrbMod = false;
     this.hasSolarAuraMod = false;
+    this.hasExplosiveMod = false;
     this.hasLightDroneMod = false;
     this.hasLightBeaconMod = false;
     this.primary = new Weapon("spray");
@@ -377,6 +378,10 @@ export class WeaponManager {
         this.hasSolarAuraMod = true;
         this.lightModLevel += 1;
       }
+      if (part.id === "frag_rounds" || part.id === "breach_grenade" || part.effect?.explosive) {
+        this.hasExplosiveMod = true;
+        this.lightModLevel += 1;
+      }
       if (part.id === "light_drone" || part.effect?.lightDrone) {
         this.hasLightDroneMod = true;
         this.lightModLevel += 1;
@@ -485,6 +490,20 @@ export class CardSystem {
         slot: "plate",
         rarity: "common",
         effect: { lightBeacon: true, reloadMult: 0.85 },
+      },
+      {
+        id: "frag_rounds",
+        name: "Frag Rounds (Explosive — over the top of shields)",
+        slot: "magazine",
+        rarity: "rare",
+        effect: { explosive: true, damageMult: 1.10 },
+      },
+      {
+        id: "breach_grenade",
+        name: "Breach Grenade Rig (Blast — ignores shield facing)",
+        slot: "underbarrel",
+        rarity: "epic",
+        effect: { explosive: true, damageMult: 1.25, cycleMult: 1.12 },
       },
       {
         id: "fast_mag",

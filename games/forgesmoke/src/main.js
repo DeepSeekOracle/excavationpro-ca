@@ -508,6 +508,20 @@ if (testMode) {
     getSoldier: () => soldier,
     getGunPivot: () => gunPivot,
     getWeapons: () => weaponManager,
+    getEnemies: () => enemyManager,
+    getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
+    testPush: (x, z, r = 0.55) => {
+      const probe = { x, z };
+      const hit = resolveObstacleCollision(probe, r, arenaColliders);
+      return { start: { x, z }, end: { x: +probe.x.toFixed(2), z: +probe.z.toFixed(2) }, pushed: hit };
+    },
+    getSoldierTint: () => {
+      let hex = 0, n = 0;
+      soldier.traverse((o) => {
+        if (o.isMesh && o.material && o.material.color) { hex = (hex + o.material.color.getHex()) % 0xffffff; n++; }
+      });
+      return { hex, meshes: n };
+    },
     getCardSystem: () => cardSystem,
     setBeat(index) {
       const beats = beatDirector.beats;
@@ -607,6 +621,13 @@ const managerUI = createManager({
     startRun(arenaId);
   },
   onChange: (prof) => { state.cyborgProfile = prof; },
+  onSkinChange: (idx) => {
+    // picking a suit in the bay must change the model immediately, not only on the next run
+    state.skinIndex = Number.isInteger(idx) ? idx : 0;
+    buildOperatorRig(soldier, gunPivot, TEX_SIZE, state.skinIndex);
+    const style = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
+    rifle = rebuildWeaponMesh(gunPivot, style, steel);
+  },
 });
 
 const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = new THREE.Vector3();
@@ -1192,7 +1213,8 @@ function shoot(target) {
 
   // Deal damage (+25% bonus when target is illuminated in Darkness or with Floodlight/Light-Orb mods)
   const litBonusMult = (state.darknessFactor > 0.25 || weaponManager.hasFloodlightMod || weaponManager.hasLightOrbMod) ? 1.25 : 1.0;
-  const effectiveDamage = Math.round(fireData.damage * litBonusMult);
+  const explosive = Boolean(weaponManager.hasExplosiveMod);
+  const effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1));
   let damageDealt = 0;
   if (fireData.pierceCount > 0) {
     // Pierce: hit target and up to pierceCount enemies behind
@@ -1205,7 +1227,7 @@ function shoot(target) {
     }).slice(0, fireData.pierceCount);
 
     for (const enemy of enemiesInLine) {
-      const result = enemyManager.damageEnemy(enemy, effectiveDamage, false, 0);
+      const result = enemyManager.damageEnemy(enemy, effectiveDamage, explosive, 0);
       damageDealt += effectiveDamage;
       if (result.killed) {
         state.kills++;
@@ -1233,7 +1255,7 @@ function shoot(target) {
       if (best) {
         const falloff = Math.max(0, Math.min(1, 1 - (bestDist - fireData.falloffStart * 30) / ((fireData.falloffEnd - fireData.falloffStart) * 30)));
         const dmg = Math.round(fireData.damage * falloff);
-        const result = enemyManager.damageEnemy(best, dmg, false, 0);
+        const result = enemyManager.damageEnemy(best, dmg, explosive, 0);
         damageDealt += dmg;
         if (result.killed) {
           state.kills++;
@@ -1244,7 +1266,7 @@ function shoot(target) {
     }
   } else {
     // Single shot
-    const result = enemyManager.damageEnemy(target, fireData.damage, false, 0);
+    const result = enemyManager.damageEnemy(target, Math.round(fireData.damage * (explosive ? 1.15 : 1)), explosive, 0);
     damageDealt = fireData.damage;
     if (result.killed) {
       state.kills++;
@@ -1417,59 +1439,37 @@ function update(dt, ctx) {
       }
     }
   } else if (state.phase === "loadout") {
-    // ── ATTRACT MODE ──────────────────────────────────────────────────────────
-    // While the manager is open, a live fight runs in the arena behind the panels:
-    // the autopilot flies the cyborg, enemies advance, tracers fly. Nothing is scored,
-    // nothing is banked, nothing can hurt the profile - this is a shop window.
+    // ── BAY IDLE ─────────────────────────────────────────────────────────────
+    // The manager is a shop window, not a demo. The cyborg just stands there, facing the bay,
+    // breathing. Enemies behind the panels looked glitchy and shield units never died, which
+    // read as broken; a calm stance reads as a place.
     if (state._managerShown) {
       state.attractSim = true;
       state.t += dt;
-      state.attractTime = (state.attractTime || 0) + dt;
 
-      // keep a handful of threats on the field
-      if (enemyManager.enemies.length < 4 && state.attractTime >= (state.nextAttractSpawn || 0)) {
-        const kinds = ["rifleman", "sapper", "shieldbearer", "drone"];
-        enemyManager.spawn(kinds[Math.floor(state.rng() * kinds.length)], state.pos, 0);
-        state.nextAttractSpawn = state.attractTime + 1.1;
+      // clear anything a previous run left standing
+      if (!state._bayCleared) {
+        try { clearEnemies(); } catch (e) {}
+        try { clearEffects(); } catch (e) {}
+        state._bayCleared = true;
       }
 
-      // the cyborg flies itself
-      const ctl = pilot(state, enemyManager, dt);
-      const spd = 3.1;
-      state.pos.x += ctl.mx * spd * dt;
-      state.pos.z += ctl.mz * spd * dt;
-      resolveObstacleCollision(state.pos, 0.55, arenaColliders);
-      const ar = Math.hypot(state.pos.x, state.pos.z);
-      if (ar > TUNING.player.arenaRadius) {
-        state.pos.x *= TUNING.player.arenaRadius / ar;
-        state.pos.z *= TUNING.player.arenaRadius / ar;
-      }
-      soldier.position.copy(state.pos);
-      const atk = nearest(26);
-      if (atk) {
-        const ty = Math.atan2(atk.mesh.position.x - state.pos.x, atk.mesh.position.z - state.pos.z);
-        let turn = ty - soldier.rotation.y;
-        turn = Math.atan2(Math.sin(turn), Math.cos(turn));
-        soldier.rotation.y += turn * Math.min(1, dt * 6);
-        gunPivot.rotation.y += (turn - gunPivot.rotation.y) * Math.min(1, dt * 8);
-        state.fire -= dt;
-        if (state.fire <= 0 && weaponManager.active.canFire) {
-          shoot(atk);
-          state.fire = weaponManager.active.currentCycle;
-        }
-      }
-      // enemies move and animate; their attack actions are dropped on the floor (no damage)
-      enemyManager.update(dt, state.pos, 0);
-      updateOperatorAnimation(soldier, gunPivot, dt, true, weaponManager.active);
+      // stand still, face the bay (+Z), breathe
+      state.pos.set(0, 0, 0);
+      soldier.position.set(0, 0, 0);
+      soldier.rotation.y = Math.PI;   // face the bay, towards the viewer
+      gunPivot.rotation.y = 0;
+      gunPivot.rotation.x = 0;
+      updateOperatorAnimation(soldier, gunPivot, dt, false, weaponManager.active);
 
-      // camera orbits the CYBORG, not the world origin
-      state.orbit += dt * 0.16;
+      // slow, wide orbit so the panels have something alive behind them
+      state.orbit += dt * 0.07;
       camera.position.set(
-        state.pos.x + Math.sin(state.orbit) * 8.2,
-        3.7,
-        state.pos.z + Math.cos(state.orbit) * 8.2
+        Math.sin(state.orbit) * 7.4,
+        2.9 + Math.sin(state.t * 0.5) * 0.05,
+        Math.cos(state.orbit) * 7.4
       );
-      camera.lookAt(state.pos.x, 1.15, state.pos.z);
+      camera.lookAt(0, 1.28, 0);
 
       const h = globalThis.__studio?.hud;
       if (h && hudPhase !== "manager") {
@@ -1478,6 +1478,7 @@ function update(dt, ctx) {
       }
       return;
     }
+    state._bayCleared = false;
     state.attractSim = false;
     state.t += dt;
     state.orbit += dt * 0.26;

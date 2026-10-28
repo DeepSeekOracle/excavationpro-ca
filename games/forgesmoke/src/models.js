@@ -927,6 +927,35 @@ function spawnGlbProp(propGroup, gltfName, placements) {
         inst.position.set(p.x, p.y ?? 0, p.z);
       }
       if (p.rotY) inst.rotation.y = p.rotY;
+      // fitCollider: one solid box per visible PIECE of the asset, measured from its own geometry.
+      // A single box around a whole ruined complex became an invisible wall across open ground.
+      if (p.fitCollider) {
+        inst.updateMatrixWorld(true);
+        let pieces = 0;
+        inst.traverse((child) => {
+          if (!child.isMesh || pieces >= 24) return;
+          const cb = new THREE.Box3().setFromObject(child);
+          const sx = cb.max.x - cb.min.x;
+          const sz = cb.max.z - cb.min.z;
+          const sy = cb.max.y - cb.min.y;
+          // skip flat ground/decal pieces (they are not walls) and anything absurdly large
+          if (!isFinite(sx) || !isFinite(sz) || !isFinite(sy)) return;
+          if (sx < 1.2 || sz < 1.2) return;
+          if (sy < 1.0) return;
+          if (sx > 26 || sz > 26) return;
+          arenaColliders.push({
+            shape: "obb",
+            x: (cb.min.x + cb.max.x) / 2,
+            z: (cb.min.z + cb.max.z) / 2,
+            hx: sx * 0.5 * 0.95,
+            hz: sz * 0.5 * 0.95,
+            rotY: 0,
+            blocksProjectiles: true,
+            tag: "auto-piece",
+          });
+          pieces += 1;
+        });
+      }
       inst.userData.tag = p.tag || gltfName;
       inst.userData.asset = gltfName;
       if (p.tintHex) {
@@ -1089,6 +1118,8 @@ export function steerAroundObstacles(pos, dirX, dirZ, radius = 0.55, colliders =
  * AND register solid 2D OBB/circle colliders in `arenaColliders`.
  */
 export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
+  // rebuilding an arena must not stack its colliders on top of the previous arena's
+  arenaColliders.length = 0;
   while (propGroup.children.length > 0) {
     propGroup.remove(propGroup.children[0]);
   }
@@ -1121,11 +1152,9 @@ export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
 
   if (arenaKey === "perimeter") {
     spawnGlbProp(propGroup, "arena-ruins", [
-      { x: 0, y: -0.2, z: -32, scale: 0.62, rotY: 0, centerAndGround: true, tintHex: 0x4b5663, tag: "perimeter-ruins-north" },
-      { x: 0, y: -0.2, z: 32, scale: 0.62, rotY: Math.PI, centerAndGround: true, tintHex: 0x4b5663, tag: "perimeter-ruins-south" },
+      { x: 0, y: -0.2, z: -32, scale: 0.62, rotY: 0, centerAndGround: true, tintHex: 0x4b5663, tag: "perimeter-ruins-north", fitCollider: true },
+      { x: 0, y: -0.2, z: 32, scale: 0.62, rotY: Math.PI, centerAndGround: true, tintHex: 0x4b5663, tag: "perimeter-ruins-south", fitCollider: true },
     ]);
-    addBoxCollider(0, -32, 10.5, 3.2, 0, true, "ruins-north");
-    addBoxCollider(0, 32, 10.5, 3.2, 0, true, "ruins-south");
 
     const towers = [
       { x: -20, y: 0, z: -18, scale: 1.15, rotY: 0.6 },
@@ -1149,11 +1178,10 @@ export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
     for (const tu of turrets) addCircleCollider(tu.x, tu.z, 1.35, true, "turret");
   } else if (arenaKey === "breach") {
     spawnGlbProp(propGroup, "arena-ruins", [
-      { x: -30, y: -0.2, z: 0, scale: 0.58, rotY: Math.PI / 2, centerAndGround: true, tintHex: 0x5c4a3e, tag: "breach-ruins-west" },
-      { x: 30, y: -0.2, z: 0, scale: 0.58, rotY: -Math.PI / 2, centerAndGround: true, tintHex: 0x5c4a3e, tag: "breach-ruins-east" },
+      { x: -30, y: -0.2, z: 0, scale: 0.58, rotY: Math.PI / 2, centerAndGround: true, tintHex: 0x5c4a3e, tag: "breach-ruins-west", fitCollider: true },
+      { x: 30, y: -0.2, z: 0, scale: 0.58, rotY: -Math.PI / 2, centerAndGround: true, tintHex: 0x5c4a3e, tag: "breach-ruins-east", fitCollider: true },
     ]);
-    addBoxCollider(-30, 0, 3.2, 10.0, 0, true, "ruins-west");
-    addBoxCollider(30, 0, 3.2, 10.0, 0, true, "ruins-east");
+
 
     const containers = [
       { x: -14, y: 0, z: -8, scale: 1.15, rotY: 0.15 },

@@ -433,7 +433,7 @@
       "slug": "forgesmoke",
       "title": "Forge Smoke",
       "tagline": "Build a cyborg. Launch it. Keep it alive.",
-      "blurb": "A cyborg manager game. Build the fighter in the bay, launch it into the smoke, then keep it alive with power-up cards while it fights for you. Levels are permanent. Survive an arena for a legendary. THE DARKNESS COMES.",
+      "blurb": "A cyborg manager game. Build the fighter in the bay, launch it into the smoke, then keep it alive with power-up cards while it fights for you. Name your cyborg and climb the public level board. Levels are permanent. Survive an arena for a legendary. THE DARKNESS COMES.",
       "status": "live",
       "featured": false,
       "order": 90,
@@ -445,7 +445,7 @@
         "survival"
       ],
       "players": "1",
-      "version": "2.0.1",
+      "version": "2.1.0",
       "links": []
     }
   ]
