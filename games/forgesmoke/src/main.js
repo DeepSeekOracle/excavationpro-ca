@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610322r";
-import { standardMaterial } from "./materials.js?v=202610322r";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610322r";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610322r";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610322v";
+import { standardMaterial } from "./materials.js?v=202610322v";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610322v";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610322v";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,24 +12,24 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610322r";
-import { TUNING } from "./tuning.js?v=202610322r";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610322r";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610322r";
-import { createCardTray } from "./cardsui.js?v=202610322r";
-import { createSummary } from "./summaryui.js?v=202610322r";
-import { createBarks } from "./barks.js?v=202610322r";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610322r";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610322r";
-import { bossHp } from "./balance.js?v=202610322r";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610322r";
-import { pilot } from "./autopilot.js?v=202610322r";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610322r";
-import { createStartMenu } from "./startmenu.js?v=202610322r";
-import { createGamepad } from "./gamepad.js?v=202610322r";
-import { createTalentWindow } from "./talentui.js?v=202610322r";
-import { aggregate, toRunMods } from "./talents.js?v=202610322r";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610322r";
+} from "./theme.js?v=202610322v";
+import { TUNING } from "./tuning.js?v=202610322v";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610322v";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610322v";
+import { createCardTray } from "./cardsui.js?v=202610322v";
+import { createSummary } from "./summaryui.js?v=202610322v";
+import { createBarks } from "./barks.js?v=202610322v";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610322v";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610322v";
+import { bossHp } from "./balance.js?v=202610322v";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610322v";
+import { pilot } from "./autopilot.js?v=202610322v";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610322v";
+import { createStartMenu } from "./startmenu.js?v=202610322v";
+import { createGamepad } from "./gamepad.js?v=202610322v";
+import { createTalentWindow } from "./talentui.js?v=202610322v";
+import { aggregate, toRunMods } from "./talents.js?v=202610322v";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610322v";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -45,20 +45,20 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=202610322r";
-import * as levelModule from "./level.js?v=202610322r";
-import * as menuModule from "./menu.js?v=202610322r";
-import * as audioModule from "./audio.js?v=202610322r";
-import * as fxModule from "./fx.js?v=202610322r";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610322r";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610322r";
+} from "./models.js?v=202610322v";
+import * as levelModule from "./level.js?v=202610322v";
+import * as menuModule from "./menu.js?v=202610322v";
+import * as audioModule from "./audio.js?v=202610322v";
+import * as fxModule from "./fx.js?v=202610322v";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610322v";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610322v";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610322r";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610322r";
+import { createCasings } from "./casings.js?v=202610322v";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610322v";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1364,38 +1364,42 @@ function syncHud() {
     }
     if (hudHealth !== Math.round(state.health)) {
       hudHealth = Math.round(state.health);
-      // ── operator status card (top-left) ─────────────────────────────────────
-      // Photographic card skin: a still behind smoked glass, then hairline gold brackets.
-      h.image("vitals-photo", "./assets/start-still-a.jpg", { x: 0.015, y: 0.026, w: 0.292, h: 0.134 });
-      P("vitals", { x: 0.015, y: 0.026, w: 0.292, h: 0.134, radius: 0.009, fill: "rgba(6,10,16,0.84)", stroke: "rgba(160,184,208,0.34)", width: 0.0012 });
-      const br = "rgba(255,179,71,0.85)";
-      P("vitals-br-tl-h", { x: 0.015, y: 0.026, w: 0.022, h: 0.0022, fill: br });
-      P("vitals-br-tl-v", { x: 0.015, y: 0.026, w: 0.0022, h: 0.012, fill: br });
-      P("vitals-br-br-h", { x: 0.285, y: 0.158, w: 0.022, h: 0.0022, fill: br });
-      P("vitals-br-br-v", { x: 0.305, y: 0.148, w: 0.0022, h: 0.012, fill: br });
-      P("vitals-accent", { x: 0.015, y: 0.026, w: 0.292, h: 0.0038, radius: 0.002, fill: color, stroke: "rgba(0,0,0,0)", width: 0 });
-      P("vitals-tick", { x: 0.015, y: 0.026, w: 0.007, h: 0.020, radius: 0.002, fill: "rgba(255,179,71,0.22)", stroke: "rgba(0,0,0,0)", width: 0 });
-      T("vitals-title", activeSkin.name.toUpperCase(), { x: 0.028, y: 0.039, size: TYPE_SCALE.micro, color: "#aec2d6", weight: 800 });
-      T("vitals-sub", "AUTONOMOUS COMBAT FRAME", { x: 0.028, y: 0.056, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
-      B("health", ratio, { x: 0.028, y: 0.076, w: 0.196, h: 0.018, color, back: "rgba(255,255,255,0.07)" });
-      T("health-num", String(Math.round(state.health)), { x: 0.232, y: 0.069, size: TYPE_SCALE.numeral, color, weight: 800 });
-      T("health-cap", "INTEGRITY", { x: 0.028, y: 0.099, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
-      // ── weapon module (bottom-right) ────────────────────────────────────────
-      h.image("weapon-photo", "./assets/art-05.jpg", { x: 0.742, y: 0.826, w: 0.243, h: 0.128 });
-      P("weapon-module", { x: 0.742, y: 0.826, w: 0.243, h: 0.128, radius: 0.009, fill: "rgba(6,10,16,0.84)", stroke: "rgba(160,184,208,0.34)", width: 0.0012 });
-      P("weapon-br-tl-h", { x: 0.742, y: 0.826, w: 0.022, h: 0.0022, fill: "rgba(255,179,71,0.85)" });
-      P("weapon-br-tl-v", { x: 0.742, y: 0.826, w: 0.0022, h: 0.012, fill: "rgba(255,179,71,0.85)" });
-      P("weapon-br-br-h", { x: 0.963, y: 0.952, w: 0.022, h: 0.0022, fill: "rgba(255,179,71,0.85)" });
-      P("weapon-br-br-v", { x: 0.983, y: 0.942, w: 0.0022, h: 0.012, fill: "rgba(255,179,71,0.85)" });
-      P("weapon-accent", { x: 0.742, y: 0.826, w: 0.243, h: 0.0038, radius: 0.002, fill: PALETTE.ui, stroke: "rgba(0,0,0,0)", width: 0 });
-      T("weapon-tag", "PRIMARY", { x: 0.754, y: 0.830, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
+      // ── operator status card: one grid, one photo skin, no overlapping rows ──
+      const W2H = (globalThis.innerWidth || 1400) / (globalThis.innerHeight || 850);
+      const pw = (f) => f * W2H; // panel/image widths are height units in the HUD
+      const cx = 0.014, cy = 0.024, cw = pw(0.30), ch = 0.130;
+      const px = cx + 0.018;
+      h.image("vitals-photo", "./assets/start-still-a.jpg", { x: cx, y: cy, w: cw, h: ch });
+      P("vitals", { x: cx, y: cy, w: cw, h: ch, radius: 0.009, fill: "rgba(4,8,13,0.55)", stroke: "rgba(214,178,94,0.45)", width: 0.0012 });
+      const br = "rgba(255,196,104,0.92)";
+      P("vitals-br-tl-h", { x: cx, y: cy, w: pw(0.026), h: 0.0022, fill: br });
+      P("vitals-br-tl-v", { x: cx, y: cy, w: pw(0.0022), h: 0.014, fill: br });
+      P("vitals-br-br-h", { x: cx + 0.30 - 0.026, y: cy + ch - 0.0022, w: pw(0.026), h: 0.0022, fill: br });
+      P("vitals-br-br-v", { x: cx + 0.30 - 0.0022, y: cy + ch - 0.014, w: pw(0.0022), h: 0.014, fill: br });
+      P("vitals-accent", { x: cx, y: cy, w: cw, h: 0.0035, radius: 0.002, fill: color, stroke: "rgba(0,0,0,0)", width: 0 });
+      T("vitals-title", activeSkin.name.toUpperCase(), { x: px, y: 0.035, size: TYPE_SCALE.micro, color: "#e6eef7", weight: 800 });
+      T("vitals-sub", "AUTONOMOUS COMBAT FRAME", { x: px, y: 0.050, size: TYPE_SCALE.micro, color: "#8fa3b6", weight: 700 });
+      B("health", ratio, { x: px, y: 0.070, w: 0.200, h: 0.017, color, back: "rgba(255,255,255,0.10)" });
+      T("health-num", String(Math.round(state.health)), { x: 0.252, y: 0.058, size: TYPE_SCALE.subhead, color, weight: 800, align: "right" });
+
+      // ── weapon card: same grid, photo skin, ammo right-aligned inside the card ──
+      const wx = 0.722, wy = 0.812, ww = pw(0.264), wh = 0.146;
+      const wpx = wx + 0.014;
+      h.image("weapon-photo", "./assets/art-05.jpg", { x: wx, y: wy, w: ww, h: wh });
+      P("weapon-module", { x: wx, y: wy, w: ww, h: wh, radius: 0.009, fill: "rgba(4,8,13,0.55)", stroke: "rgba(214,178,94,0.45)", width: 0.0012 });
+      P("weapon-br-tl-h", { x: wx, y: wy, w: pw(0.026), h: 0.0022, fill: br });
+      P("weapon-br-tl-v", { x: wx, y: wy, w: pw(0.0022), h: 0.014, fill: br });
+      P("weapon-br-br-h", { x: wx + 0.264 - 0.026, y: wy + wh - 0.0022, w: pw(0.026), h: 0.0022, fill: br });
+      P("weapon-br-br-v", { x: wx + 0.264 - 0.0022, y: wy + wh - 0.014, w: pw(0.0022), h: 0.014, fill: br });
+      P("weapon-accent", { x: wx, y: wy, w: ww, h: 0.0035, radius: 0.002, fill: PALETTE.ui, stroke: "rgba(0,0,0,0)", width: 0 });
+      T("weapon-tag", "PRIMARY", { x: wpx, y: 0.822, size: TYPE_SCALE.micro, color: "#8fa3b6", weight: 700 });
     }
     const killsKey = `${state.kills}:${cardSystem.level}`;
     if (hudKills !== killsKey) {
       hudKills = killsKey;
       weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
-      T("kills", `THREATS ${state.kills}`, { x: 0.026, y: 0.113, size: TYPE_SCALE.small, color: "#cfdeee", weight: 700 });
-      T("level-chip", `LV ${cardSystem.level}`, { x: 0.196, y: 0.113, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800 });
+      T("kills", `THREATS ${state.kills}`, { x: 0.032, y: 0.108, size: TYPE_SCALE.small, color: "#dbe7f2", weight: 700 });
+      T("level-chip", `LV ${cardSystem.level}`, { x: 0.300, y: 0.108, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800, align: "right" });
     }
 
     const activeConfig = weaponManager.getActiveConfig();
@@ -1415,26 +1419,26 @@ function syncHud() {
       : `${ammoNow} / ${ammoMax}`;
     if (hudAmmo !== ammoText) {
       hudAmmo = ammoText;
-      T("weapon-active", activeName, { x: 0.754, y: 0.852, size: TYPE_SCALE.label, color: "#f2f7ff", weight: 800 });
-      T("weapon-inactive", `ALT  ${inactiveName}`, { x: 0.752, y: 0.919, size: TYPE_SCALE.micro, color: "#8ea3b8", weight: 600 });
-      T("ammo-tag", activeWeapon.isReloading ? "RELOADING" : (activeWeapon.isHeatWeapon ? "HEAT" : "MAGAZINE"), { x: 0.962, y: 0.880, size: TYPE_SCALE.micro, color: "#6b7f92", weight: 700, align: "right" });
-      T("ammo-count", ammoText, { x: 0.962, y: 0.850, size: TYPE_SCALE.subhead, color: activeWeapon.isReloading ? PALETTE.healthWarn : "#eaf3ff", weight: 800, align: "right" });
+      T("weapon-active", activeName, { x: 0.736, y: 0.838, size: TYPE_SCALE.label, color: "#f2f7ff", weight: 800 });
+      T("weapon-inactive", `ALT  ${inactiveName}`, { x: 0.760, y: 0.903, size: TYPE_SCALE.micro, color: "#a9bccd", weight: 600 });
+      T("ammo-tag", activeWeapon.isReloading ? "RELOADING" : (activeWeapon.isHeatWeapon ? "HEAT" : "MAGAZINE"), { x: 0.974, y: 0.862, size: TYPE_SCALE.micro, color: "#8fa3b6", weight: 700, align: "right" });
+      T("ammo-count", ammoText, { x: 0.974, y: 0.834, size: TYPE_SCALE.subhead, color: activeWeapon.isReloading ? PALETTE.healthWarn : "#eaf3ff", weight: 800, align: "right" });
       const barFrac = activeWeapon.isReloading
         ? activeWeapon.reloadProgress
         : activeWeapon.isHeatWeapon
           ? Math.max(0, 1 - activeWeapon.heat / Math.max(1, activeWeapon.maxHeat))
           : activeWeapon.magazine / Math.max(1, activeWeapon.maxMagazine);
-      B("reload-bar", barFrac, { x: 0.754, y: 0.902, w: 0.219, h: 0.007, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, back: "rgba(255,255,255,0.08)" });
+      B("reload-bar", barFrac, { x: 0.736, y: 0.890, w: 0.236, h: 0.006, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, back: "rgba(255,255,255,0.10)" });
     }
 
     // Weapon icons (ART-01 sheet), sized for the module.
     const activeIconSrc = weaponIconDataUrls[activeStyle];
     const inactiveIconSrc = weaponIconDataUrls[inactiveStyle];
     if (activeIconSrc && h.get("weapon-icon-active")?.src !== activeIconSrc) {
-      h.image("weapon-icon-active", activeIconSrc, { x: 0.946, y: 0.828, h: 0.016 });
+      h.image("weapon-icon-active", activeIconSrc, { x: 0.736, y: 0.928, h: 0.016 });
     }
     if (inactiveIconSrc && h.get("weapon-icon-inactive")?.src !== inactiveIconSrc) {
-      h.image("weapon-icon-inactive", inactiveIconSrc, { x: 0.946, y: 0.930, h: 0.010 });
+      h.image("weapon-icon-inactive", inactiveIconSrc, { x: 0.760, y: 0.932, h: 0.009 });
     }
 
     // Low-integrity wash: the HUD "flash" layer covers the whole frame (a panel is laid out in the
@@ -1443,7 +1447,7 @@ function syncHud() {
       const pulse = ratio < 0.25 ? 0.03 * Math.sin(state.t * 7) : 0;
       const alpha = Math.min(0.34, (0.5 - ratio) * 0.55 + pulse + 0.05);
       h.flash("#7e0c14", alpha * 0.55);
-      T("vitals-warning", ratio < 0.25 ? "INTEGRITY CRITICAL" : "INTEGRITY LOW", { x: 0.028, y: 0.128, size: TYPE_SCALE.micro, color: PALETTE.healthCrit, weight: 800 });
+      T("vitals-warning", ratio < 0.25 ? "INTEGRITY CRITICAL" : "INTEGRITY LOW", { x: 0.032, y: 0.126, size: TYPE_SCALE.micro, color: PALETTE.healthCrit, weight: 800 });
     } else {
       h.remove("vitals-warning");
     }
