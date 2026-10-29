@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610322i";
-import { PALETTE, hexInt } from "./theme.js?v=202610322i";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610322i";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610322n";
+import { PALETTE, hexInt } from "./theme.js?v=202610322n";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610322n";
 
 export const PLAYER_SKINS = [
   {
@@ -122,6 +122,7 @@ const ALL_GLB_NAMES = [
   "robot-rig",
   "xbot-rig",
   "soldier-rig-photo",
+  "hostile-rig",
   "damaged-helmet",
   "brain-stem",
   "gunship",
@@ -911,13 +912,13 @@ export function buildEnemyMesh(type, bank) {
     root.add(makePart(new THREE.BoxGeometry(0.08, 0.11, 0.68), armor, "enemy-carbine", -0.06, 0.54, 0.36));
     root.add(makePart(new THREE.BoxGeometry(0.05, 0.14, 0.09), armor, "enemy-mag", -0.06, 0.43, 0.34, 0.2, 0, 0));
     root.add(makePart(new THREE.CylinderGeometry(0.025, 0.025, 0.12, 8), redOptic, "enemy-muzzle", -0.06, 0.55, 0.72, Math.PI / 2, 0, 0));
-    attachRiggedEnemyGltf(root, "soldier-rig", {
+    attachRiggedEnemyGltf(root, "hostile-rig", {
       scale: 1.08,
       offsetY: -0.72,
       rotY: Math.PI,
       clipNames: ["Run", "Walk", "Idle"],
       timeScale: 1.15,
-      tintHex: 0xe07a7a,
+      tintHex: 0xffffff,
       emissiveHex: 0xff2e2e,
       emissiveIntensity: 1.8,
       fallbackGroup: fb,

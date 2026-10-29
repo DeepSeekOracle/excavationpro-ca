@@ -9,6 +9,7 @@
 const LIFE = 0.92;
 const MAX = 48;
 const items = [];
+let lastHit = { at: 0, slot: null, x: 0, y: 0, z: 0, player: false };
 let layer = null;
 let styled = false;
 
@@ -73,6 +74,18 @@ export function spawnDamageNumber(x, y, z, amount, opts = {}) {
   if (!host || !Number.isFinite(amount)) return;
   const value = Math.max(1, Math.round(amount));
   const kind = opts.player ? "player" : opts.kill ? "kill" : opts.crit ? "crit" : "enemy";
+  // Merge rapid hits on the same target (shotgun pellets / burst) into one readable number.
+  const now = (globalThis.performance?.now?.() || 0);
+  if (lastHit.slot && !opts.player && !lastHit.player && now - lastHit.at < 260
+      && Math.hypot(x - lastHit.x, z - lastHit.z) < 1.3) {
+    lastHit.slot.amount = (lastHit.slot.amount || 0) + value;
+    lastHit.slot.span.textContent = String(lastHit.slot.amount);
+    const mergedKind = opts.kill ? "kill" : lastHit.slot.amount >= 40 ? "crit" : "enemy";
+    lastHit.slot.el.className = "fs-dmg " + mergedKind;
+    lastHit.slot.life = LIFE;
+    lastHit.at = now;
+    return;
+  }
   // Reuse expired labels before creating new nodes.
   let slot = items.find((it) => it.life <= 0);
   if (!slot) {
@@ -96,6 +109,7 @@ export function spawnDamageNumber(x, y, z, amount, opts = {}) {
   slot.age = 0;
   slot.span.style.opacity = "1";
   slot.el.style.transform = "translate(-50%,-50%)";
+  lastHit = { at: now, slot, x, y, z, player: Boolean(opts.player) };
 }
 
 const _v = { x: 0, y: 0, z: 0 };
