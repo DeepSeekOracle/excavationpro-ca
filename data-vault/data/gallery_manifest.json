@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-29T19:09:39.676828+00:00",
-  "count": 904,
+  "generated_utc": "2026-10-29T19:10:13.504941+00:00",
+  "count": 910,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14543,7 +14543,103 @@
       "full_bytes": 104829,
       "width": 1024,
       "height": 572
+    },
+    {
+      "id": "ec949d1ac2858e9b",
+      "title": "1 memorial",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "1-memorial.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "1-memorial.jpg",
+      "original_bytes": 60078,
+      "full": "assets/gallery/full/ec949d1ac2858e9b.jpg",
+      "thumb": "assets/gallery/thumb/ec949d1ac2858e9b.jpg",
+      "full_bytes": 57210,
+      "width": 1118,
+      "height": 744
+    },
+    {
+      "id": "6604da2c027a619c",
+      "title": "1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "1-scene.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "1-scene.jpg",
+      "original_bytes": 46927,
+      "full": "assets/gallery/full/6604da2c027a619c.jpg",
+      "thumb": "assets/gallery/thumb/6604da2c027a619c.jpg",
+      "full_bytes": 36688,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "73cf0895bd04c493",
+      "title": "2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "2-object.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "2-object.jpg",
+      "original_bytes": 61105,
+      "full": "assets/gallery/full/73cf0895bd04c493.jpg",
+      "thumb": "assets/gallery/thumb/73cf0895bd04c493.jpg",
+      "full_bytes": 47924,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "93596bf4e2788c8a",
+      "title": "3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "3-afterimage.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "3-afterimage.jpg",
+      "original_bytes": 45230,
+      "full": "assets/gallery/full/93596bf4e2788c8a.jpg",
+      "thumb": "assets/gallery/thumb/93596bf4e2788c8a.jpg",
+      "full_bytes": 35281,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "946c1a5f8755a503",
+      "title": "4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "4-document.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "4-document.jpg",
+      "original_bytes": 38394,
+      "full": "assets/gallery/full/946c1a5f8755a503.jpg",
+      "thumb": "assets/gallery/thumb/946c1a5f8755a503.jpg",
+      "full_bytes": 28914,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "6c786a0f2572c1ce",
+      "title": "5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "5-future.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "5-future.jpg",
+      "original_bytes": 44276,
+      "full": "assets/gallery/full/6c786a0f2572c1ce.jpg",
+      "thumb": "assets/gallery/thumb/6c786a0f2572c1ce.jpg",
+      "full_bytes": 34089,
+      "width": 1024,
+      "height": 576
     }
   ],
-  "cache_bust": "904-auto-202610291309"
+  "cache_bust": "910-auto-202610291310"
 }
