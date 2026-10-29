@@ -8,7 +8,7 @@
  *
  * TREE  — pan / zoom, click a node to buy the cheapest chain, right-click to refund.
  */
-import { TREE, BRANCHES, aggregate, toRunMods, pathTo, refund, nodeById, countAllocated } from "./talents.js?v=202610321x";
+import { TREE, BRANCHES, aggregate, toRunMods, pathTo, refund, nodeById, countAllocated } from "./talents.js?v=202610322i";
 
 const ART = "./assets/tree/tree-bg.jpg";
 
