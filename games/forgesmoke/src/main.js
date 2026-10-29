@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610322v";
-import { standardMaterial } from "./materials.js?v=202610322v";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610322v";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610322v";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610323a";
+import { standardMaterial } from "./materials.js?v=202610323a";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610323a";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610323a";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,24 +12,24 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610322v";
-import { TUNING } from "./tuning.js?v=202610322v";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610322v";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610322v";
-import { createCardTray } from "./cardsui.js?v=202610322v";
-import { createSummary } from "./summaryui.js?v=202610322v";
-import { createBarks } from "./barks.js?v=202610322v";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610322v";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610322v";
-import { bossHp } from "./balance.js?v=202610322v";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610322v";
-import { pilot } from "./autopilot.js?v=202610322v";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610322v";
-import { createStartMenu } from "./startmenu.js?v=202610322v";
-import { createGamepad } from "./gamepad.js?v=202610322v";
-import { createTalentWindow } from "./talentui.js?v=202610322v";
-import { aggregate, toRunMods } from "./talents.js?v=202610322v";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610322v";
+} from "./theme.js?v=202610323a";
+import { TUNING } from "./tuning.js?v=202610323a";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610323a";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610323a";
+import { createCardTray } from "./cardsui.js?v=202610323a";
+import { createSummary } from "./summaryui.js?v=202610323a";
+import { createBarks } from "./barks.js?v=202610323a";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610323a";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610323a";
+import { bossHp } from "./balance.js?v=202610323a";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610323a";
+import { pilot } from "./autopilot.js?v=202610323a";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610323a";
+import { createStartMenu } from "./startmenu.js?v=202610323a";
+import { createGamepad } from "./gamepad.js?v=202610323a";
+import { createTalentWindow } from "./talentui.js?v=202610323a";
+import { aggregate, toRunMods } from "./talents.js?v=202610323a";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610323a";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -45,20 +45,20 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=202610322v";
-import * as levelModule from "./level.js?v=202610322v";
-import * as menuModule from "./menu.js?v=202610322v";
-import * as audioModule from "./audio.js?v=202610322v";
-import * as fxModule from "./fx.js?v=202610322v";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610322v";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610322v";
+} from "./models.js?v=202610323a";
+import * as levelModule from "./level.js?v=202610323a";
+import * as menuModule from "./menu.js?v=202610323a";
+import * as audioModule from "./audio.js?v=202610323a";
+import * as fxModule from "./fx.js?v=202610323a";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610323a";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610323a";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610322v";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610322v";
+import { createCasings } from "./casings.js?v=202610323a";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610323a";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1336,6 +1336,8 @@ function syncHud() {
   const activeLoadout = STARTER_LOADOUTS[state.loadoutIndex || 0] || STARTER_LOADOUTS[0];
 
   if (state.phase === "playing") {
+    const W2H = (globalThis.innerWidth || 1400) / (globalThis.innerHeight || 850);
+    const pw = (f) => f * W2H; // HUD panels/images are sized in height units
     const ratio = Math.max(0, state.health / Math.max(1, state.maxHealth));
     const color = ratio > 0.6 ? PALETTE.healthOk : ratio > 0.3 ? PALETTE.healthWarn : PALETTE.healthCrit;
 
@@ -1365,8 +1367,6 @@ function syncHud() {
     if (hudHealth !== Math.round(state.health)) {
       hudHealth = Math.round(state.health);
       // ── operator status card: one grid, one photo skin, no overlapping rows ──
-      const W2H = (globalThis.innerWidth || 1400) / (globalThis.innerHeight || 850);
-      const pw = (f) => f * W2H; // panel/image widths are height units in the HUD
       const cx = 0.014, cy = 0.024, cw = pw(0.30), ch = 0.130;
       const px = cx + 0.018;
       h.image("vitals-photo", "./assets/start-still-a.jpg", { x: cx, y: cy, w: cw, h: ch });
@@ -1452,24 +1452,30 @@ function syncHud() {
       h.remove("vitals-warning");
     }
 
-    // Beat name + timer, in a compact top-centre chip
+    // Arcade top-centre timer: no chip, outlined numerals with gold rules either side.
     const beat = beatDirector.getCurrentBeat();
     const beatText = beat.name.toUpperCase();
-    const beatTimer = `${beatDirector.getBeatTimeRemaining().toFixed(1)}s`;
-    const beatKey = `${beatText}:${beatTimer}`;
+    const timeLeft = beatDirector.getBeatTimeRemaining();
+    const timerText = timeLeft >= 10 ? timeLeft.toFixed(1) : `0${timeLeft.toFixed(1)}`;
+    const timerColor = timeLeft <= 10 ? "#ff5a5a" : "#ffd27a";
+    const timerFont = "ui-monospace, Consolas, monospace";
+    const beatKey = `${beatText}:${timerText}`;
     if (hudBeat !== beatKey) {
       hudBeat = beatKey;
-      P("beat-chip", { x: 0.398, y: 0.024, w: 0.204, h: 0.050, radius: 0.007, fill: "rgba(6,10,16,0.74)", stroke: "rgba(255,179,71,0.28)", width: 0.001, });
-      T("beat", beatText, { x: 0.5, y: 0.030, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800, align: "center" });
-      T("beat-timer", beatTimer, { x: 0.5, y: 0.047, size: TYPE_SCALE.micro, color: "#8ea3b8", weight: 700, align: "center" });
+      // two hairlines flanking the numerals, like an arcade countdown rail
+      P("timer-rule-l", { x: 0.330, y: 0.052, w: pw(0.070), h: 0.0016, fill: "rgba(255,196,104,0.55)" });
+      P("timer-rule-r", { x: 0.600, y: 0.052, w: pw(0.070), h: 0.0016, fill: "rgba(255,196,104,0.55)" });
+      T("beat-timer-shadow", timerText, { x: 0.5, y: 0.021, size: 54, color: "rgba(0,0,0,0.9)", weight: 900, align: "center", font: timerFont });
+      T("beat-timer", timerText, { x: 0.5, y: 0.018, size: 54, color: timerColor, weight: 900, align: "center", font: timerFont });
     }
+    T("timer-cap", timeLeft <= 10 ? "CONTACT // CLOSING" : "CONTACT", { x: 0.5, y: 0.006, size: TYPE_SCALE.micro, color: timeLeft <= 10 ? "#ff8a8a" : "#ffb347", weight: 800, align: "center" });
 
-    // Score
+    // Score under the timer, no frame.
     const currentScore = scoreSystem.getCurrentScore(beatDirector.runTime);
     if (hudScore !== currentScore) {
       hudScore = currentScore;
-      T("score", `${currentScore}`, { x: 0.5, y: 0.086, size: TYPE_SCALE.label, color: "#cfdeee", weight: 800, align: "center" });
-      T("score-cap", "SCORE", { x: 0.5, y: 0.098, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700, align: "center" });
+      T("score", `SCORE  ${currentScore}`, { x: 0.5, y: 0.094, size: TYPE_SCALE.small, color: "#b7c8d8", weight: 800, align: "center" });
+      
     }
 
     // Airdrop countdown
@@ -1481,7 +1487,7 @@ function syncHud() {
         const airdropText = `AIRDROP  ${timeLeft.toFixed(1)}s`;
         if (hudAirdrop !== airdropText) {
           hudAirdrop = airdropText;
-          T("airdrop", airdropText, { x: 0.5, y: 0.08, size: TYPE_SCALE.small, color: PALETTE.healthOk, weight: 700, align: "center" });
+          T("airdrop", airdropText, { x: 0.5, y: 0.128, size: TYPE_SCALE.small, color: PALETTE.healthOk, weight: 700, align: "center" });
         }
       }
     } else if (hudAirdrop !== null) {
