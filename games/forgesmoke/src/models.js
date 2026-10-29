@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610322n";
-import { PALETTE, hexInt } from "./theme.js?v=202610322n";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610322n";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610322r";
+import { PALETTE, hexInt } from "./theme.js?v=202610322r";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610322r";
 
 export const PLAYER_SKINS = [
   {
@@ -752,6 +752,7 @@ export function buildEnemyMesh(type, bank) {
   const redOptic = bank.redOptic || chitin;
   const orangeTank = bank.orangeTank || redOptic;
   const magentaOptic = bank.magentaOptic || redOptic;
+  const cyanTrim = bank.cyanTrim || new THREE.MeshStandardMaterial({ color: 0x0b2a30, emissive: 0x6fe3ff, emissiveIntensity: 1.7, roughness: 0.35, metalness: 0.2 });
   const sapperSuit = bank.sapperSuit || chitin;
   const spotterCamo = bank.spotterCamo || chitin;
 
@@ -768,6 +769,12 @@ export function buildEnemyMesh(type, bank) {
     const lanceBody = makePart(new THREE.CylinderGeometry(0.04, 0.05, 0.85, 8), armor, "sapper-lance", -0.24, 0.38, 0.36, Math.PI / 2, 0, 0);
     const lanceTip = makePart(new THREE.ConeGeometry(0.08, 0.26, 8), orangeTank, "sapper-lance-tip", -0.24, 0.38, 0.84, Math.PI / 2, 0, 0);
     root.add(tankL, tankR, lanceBody, lanceTip);
+    // hazard shoulder plates, amber goggles, tank hazard bands (sapper faction trim)
+    root.add(makePart(new THREE.IcosahedronGeometry(0.17, 1), armor, "sapper-pauldron-l", -0.46, 0.56, 0.02));
+    root.add(makePart(new THREE.IcosahedronGeometry(0.17, 1), armor, "sapper-pauldron-r", 0.46, 0.56, 0.02));
+    root.add(makePart(new THREE.BoxGeometry(0.34, 0.11, 0.06), orangeTank, "sapper-goggles", 0, 0.62, 0.31));
+    root.add(makePart(new THREE.BoxGeometry(0.32, 0.04, 0.03), orangeTank, "sapper-hazard-l", -0.18, 0.10, 0.32));
+    root.add(makePart(new THREE.BoxGeometry(0.32, 0.04, 0.03), orangeTank, "sapper-hazard-r", 0.18, 0.10, 0.32));
     root.userData.pulseParts = [tankL, tankR, lanceTip];
     attachRiggedEnemyGltf(root, "cesium-man", {
       scale: 1.24,
@@ -783,12 +790,28 @@ export function buildEnemyMesh(type, bank) {
   } else if (type === "shieldbearer") {
     // Rigged RobotExpressive heavy juggernaut carrying a Left-Arm Ballistic Riot Shield + Right-Arm Shock Mace
     fb.add(makePart(new THREE.BoxGeometry(1.14, 1.24, 0.88), chitin, "enemy-torso", 0, 0.22, 0));
-    const shield = makePart(new THREE.BoxGeometry(1.42, 1.64, 0.15), armor, "enemy-shield", -0.18, 0.22, 0.72, 0, 0.12, 0);
-    const slit = makePart(new THREE.BoxGeometry(0.92, 0.14, 0.18), redOptic, "shield-slit", -0.18, 0.72, 0.73, 0, 0.12, 0);
+    // Layered ballistic riot shield: back plate, face panel, viewport slit, hazard bars, rim.
+    const shield = new THREE.Group();
+    shield.position.set(-0.18, 0.24, 0.74);
+    shield.rotation.y = 0.12;
+    shield.add(makePart(new THREE.BoxGeometry(1.52, 1.78, 0.13), armor, "enemy-shield", 0, 0, 0));
+    shield.add(makePart(new THREE.BoxGeometry(1.34, 1.58, 0.05), chitin, "shield-face", 0, -0.02, 0.10));
+    shield.add(makePart(new THREE.BoxGeometry(0.82, 0.10, 0.04), cyanTrim, "shield-slit", 0, 0.56, 0.14));
+    for (let i = 0; i < 3; i += 1) {
+      shield.add(makePart(new THREE.BoxGeometry(0.34, 0.05, 0.03), orangeTank, "shield-hazard", -0.36 + i * 0.36, -0.62, 0.14));
+    }
+    shield.add(makePart(new THREE.BoxGeometry(1.58, 0.07, 0.19), cyanTrim, "shield-rim-top", 0, 0.92, 0.01));
+    shield.add(makePart(new THREE.BoxGeometry(1.58, 0.07, 0.19), armor, "shield-rim-bottom", 0, -0.92, 0.01));
+    root.add(shield);
+    // Heavy pauldrons + helmet so the juggernaut reads as a juggernaut
+    root.add(makePart(new THREE.IcosahedronGeometry(0.30, 1), armor, "shield-pauldron-l", -0.66, 0.80, 0.02));
+    root.add(makePart(new THREE.IcosahedronGeometry(0.30, 1), armor, "shield-pauldron-r", 0.66, 0.80, 0.02));
+    root.add(makePart(new THREE.BoxGeometry(0.44, 0.40, 0.42), armor, "shield-helm", 0, 0.92, 0.02));
+    root.add(makePart(new THREE.BoxGeometry(0.30, 0.06, 0.03), cyanTrim, "shield-visor", 0, 0.94, 0.23));
     // Heavy Shock Mace / Sidearm Cannon on right flank
     const maceShaft = makePart(new THREE.CylinderGeometry(0.06, 0.06, 0.92, 8), armor, "shock-mace", 0.56, 0.42, 0.44, Math.PI / 3, 0, 0);
     const maceHead = makePart(new THREE.CylinderGeometry(0.14, 0.14, 0.28, 8), redOptic, "shock-mace-head", 0.56, 0.64, 0.78, Math.PI / 3, 0, 0);
-    root.add(shield, slit, maceShaft, maceHead);
+    root.add(maceShaft, maceHead);
     attachRiggedEnemyGltf(root, "robot-rig", {
       scale: 0.44,
       offsetY: -0.72,
@@ -809,6 +832,10 @@ export function buildEnemyMesh(type, bank) {
     root.add(makePart(new THREE.BoxGeometry(0.075, 0.10, 0.96), armor, "spotter-sniper", -0.06, 0.66, 0.44));
     root.add(makePart(new THREE.CylinderGeometry(0.032, 0.032, 0.28, 8), magentaOptic, "spotter-scope", -0.06, 0.74, 0.36, Math.PI / 2, 0, 0));
     root.add(makePart(new THREE.CylinderGeometry(0.022, 0.022, 0.18, 8), magentaOptic, "spotter-muzzle", -0.06, 0.66, 0.96, Math.PI / 2, 0, 0));
+    // recon hood + cloak + lens ring (spotter faction trim)
+    root.add(makePart(new THREE.ConeGeometry(0.30, 0.40, 7), spotterCamo, "spotter-hood", 0, 0.94, -0.01, 0.12, 0, 0));
+    root.add(makePart(new THREE.BoxGeometry(0.52, 0.92, 0.07), spotterCamo, "spotter-cloak", 0, 0.38, -0.34, -0.08, 0, 0));
+    root.add(makePart(new THREE.CylinderGeometry(0.075, 0.075, 0.025, 10), magentaOptic, "spotter-lens-ring", -0.06, 0.74, 0.495, Math.PI / 2, 0, 0));
     attachRiggedEnemyGltf(root, "xbot-rig", {
       scale: 1.08,
       offsetY: -0.72,
