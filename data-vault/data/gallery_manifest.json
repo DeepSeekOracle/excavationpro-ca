@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-29T19:10:13.504941+00:00",
-  "count": 910,
+  "generated_utc": "2026-10-29T19:24:06.217441+00:00",
+  "count": 911,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -14639,7 +14639,23 @@
       "full_bytes": 34089,
       "width": 1024,
       "height": 576
+    },
+    {
+      "id": "db94d726246cb172",
+      "title": "emberion",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "emberion.png",
+      "source_root": "Publish Portal",
+      "original_name": "emberion.png",
+      "original_bytes": 736497,
+      "full": "assets/gallery/full/db94d726246cb172.jpg",
+      "thumb": "assets/gallery/thumb/db94d726246cb172.jpg",
+      "full_bytes": 86444,
+      "width": 790,
+      "height": 696
     }
   ],
-  "cache_bust": "910-auto-202610291310"
+  "cache_bust": "911-auto-202610291324"
 }
