@@ -13,9 +13,37 @@ export function damageAfterArmour(rawDamage, armour) {
   return effective;
 }
 
+/**
+ * Shield gate - the single source of truth for "did that shot get through?".
+ * The shieldbearer's wall tracks the player, so ordinary fire does nothing; explosive rounds punch
+ * `pierce` (0..1) of the damage through; a lobbed grenade (flanked) lands in full.
+ */
+export function shieldGate(damage, { shielded = false, flanked = false, pierce = 0, armour = 0 } = {}) {
+  if (!shielded || flanked) return damageAfterArmour(damage, armour);
+  if (pierce > 0) return damageAfterArmour(damage * pierce, armour);
+  return 0;
+}
+
+/**
+ * Boss HP for a run. Level 1 reproduces the old live formula exactly (base*2 + 2600); each player
+ * level above 1 adds 15% of the base, so a boss stays a boss as the cyborg grows.
+ */
+export function bossHp(baseHp, level = 1) {
+  const steps = Math.max(0, (Number(level) || 1) - 1);
+  return Math.round(baseHp * (2 + 0.15 * steps) + 2600);
+}
+
+/** Shots needed and seconds to kill, using the same armour model as live combat. */
+export function timeToKill(weapon, hp, armour = 0) {
+  const perShot = damageAfterArmour(weapon.damage, armour);
+  if (perShot <= 0) return Infinity;
+  return Math.ceil(hp / perShot) * weapon.cycle;
+}
+
 /** Enemy HP at time t (minutes): HP_E0 * (1 + 0.18 * t). No cap. */
 export function enemyHpAt(baseHp, tMinutes) {
-  return baseHp * (1 + TUNING.difficulty.hpScaling * tMinutes);
+  const mult = TUNING.difficulty.hpMult ?? 1;
+  return baseHp * mult * (1 + TUNING.difficulty.hpScaling * tMinutes);
 }
 
 /** Enemy speed at time t (minutes): v_E0 * min(1.45, 1 + 0.05 * t). */
@@ -38,9 +66,16 @@ export function multiplier(blackoutsSurvived, evolutions, airdropsTaken) {
   return Math.max(TUNING.scoring.multiplier.base, Math.min(TUNING.scoring.multiplier.cap, m));
 }
 
-/** XP threshold for level L: 100 * L. */
+/**
+ * XP required to advance out of level L: base * L * (L + 1) / 2 — a triangular curve.
+ * L1 300, L2 900, L3 1800, L4 3000, L5 4500. Linear thresholds handed out 13 cards in a 3-minute
+ * run (TUNE before-table); triangular lands a full run at 3-5.
+ */
 export function xpThreshold(level) {
-  return TUNING.progression.levelBaseXp * level;
+  const lv = Math.max(1, Math.floor(Number(level) || 1));
+  const pacing = TUNING.progression.cardPacing || {};
+  const base = pacing.levelXpBase ?? TUNING.progression.levelBaseXp;
+  return (base * lv * (lv + 1)) / 2;
 }
 
 /** Spawn budget at time t (minutes): min(400, floor(8 + 3.2 * t)). */
@@ -182,7 +217,7 @@ export function rollAirdropOptions(rng) {
   for (let i = 0; i < TUNING.airdrop.optionsCount; i++) {
     if (rng() < TUNING.airdrop.weaponChance) {
       // Weapon option - pick from available styles not already owned
-      const styles = ["spray", "pierce", "cone", "ricochet", "arc", "beam", "chain", "burst", "spinup", "rail", "flamer", "sentry"];
+      const styles = ["spray", "pierce", "cone", "ricochet", "arc", "beam", "chain", "burst", "spinup", "rail", "flamer", "sentry", "flak", "breach", "rail2"];
       options.push({ type: "weapon", style: styles[Math.floor(rng() * styles.length)] });
     } else {
       options.push({ type: "part", part: rollPart(rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights) });

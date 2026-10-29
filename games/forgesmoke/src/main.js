@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261030m";
-import { standardMaterial } from "./materials.js?v=20261030m";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261030m";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261030m";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610321q";
+import { standardMaterial } from "./materials.js?v=202610321q";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610321q";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610321q";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,22 +12,23 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=20261030m";
-import { TUNING } from "./tuning.js?v=20261030m";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261030m";
-import { createCardTray } from "./cardsui.js?v=20261030m";
-import { createSummary } from "./summaryui.js?v=20261030m";
-import { createBarks } from "./barks.js?v=20261030m";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261030m";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261030m";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261030m";
-import { pilot } from "./autopilot.js?v=20261030m";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261030m";
-import { createStartMenu } from "./startmenu.js?v=20261030m";
-import { createGamepad } from "./gamepad.js?v=20261030m";
-import { createTalentWindow } from "./talentui.js?v=20261030m";
-import { aggregate, toRunMods } from "./talents.js?v=20261030m";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261030m";
+} from "./theme.js?v=202610321q";
+import { TUNING } from "./tuning.js?v=202610321q";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610321q";
+import { createCardTray } from "./cardsui.js?v=202610321q";
+import { createSummary } from "./summaryui.js?v=202610321q";
+import { createBarks } from "./barks.js?v=202610321q";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610321q";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610321q";
+import { bossHp } from "./balance.js?v=202610321q";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610321q";
+import { pilot } from "./autopilot.js?v=202610321q";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610321q";
+import { createStartMenu } from "./startmenu.js?v=202610321q";
+import { createGamepad } from "./gamepad.js?v=202610321q";
+import { createTalentWindow } from "./talentui.js?v=202610321q";
+import { aggregate, toRunMods } from "./talents.js?v=202610321q";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610321q";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -43,11 +44,20 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=20261030m";
-import * as levelModule from "./level.js?v=20261030m";
-import * as menuModule from "./menu.js?v=20261030m";
-import * as audioModule from "./audio.js?v=20261030m";
-import * as fxModule from "./fx.js?v=20261030m";
+} from "./models.js?v=202610321q";
+import * as levelModule from "./level.js?v=202610321q";
+import * as menuModule from "./menu.js?v=202610321q";
+import * as audioModule from "./audio.js?v=202610321q";
+import * as fxModule from "./fx.js?v=202610321q";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610321q";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610321q";
+
+// D3: one readable build stamp, so a stale module in the console is obvious.
+const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
+window.__forgeBuild = BUILD;
+console.info("[forge] BUILD " + BUILD);
+import { createCasings } from "./casings.js?v=202610321q";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610321q";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -60,6 +70,16 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 const TEX_SIZE = lowEnd ? 128 : 512;
 const RAIN_COUNT = lowEnd ? 60 : 420;
+
+/** HUD vertical slots (fraction of viewport height): one block lays out every overlay. */
+const HUD_SLOTS = {
+  weaponActive: 0.045,
+  title: 0.072,
+  bossLabel: 0.110,
+  bossBar: 0.132,
+  statusBanner: 0.196,
+};
+
 const TREE_COUNT = lowEnd ? 6 : 16;
 const BUSH_COUNT = lowEnd ? 6 : 20;
 const LOG_COUNT = lowEnd ? 1 : 4;
@@ -146,23 +166,36 @@ const trees = [];
 const sharedBarkMat = standardMaterial({ ...MATERIAL_RECIPES.bark, size: TEX_SIZE });
 const sharedLeafMat = standardMaterial({ ...MATERIAL_RECIPES.leaf, size: TEX_SIZE });
 const sharedBushMat = standardMaterial({ ...MATERIAL_RECIPES.bush, size: TEX_SIZE });
+// a faint emissive keeps low bushes readable in the dark instead of reading as black shards
+sharedBushMat.emissive = new THREE.Color(0x101c0c);
+sharedBushMat.emissiveIntensity = 0.55;
 
 for (let i = 0; i < TREE_COUNT; i++) {
-  const a = worldRng() * TAU, r = 10 + worldRng() * 38;
+  const a = worldRng() * TAU, r = 26 + worldRng() * 24; // keep trunks out of the fighting ring: a tree at r=10 put the camera inside a leaf card
   const tree = makeTree({ height: 5.5 + worldRng() * 3.5, spread: 2.7 + worldRng() * 1.5, seed: 20 + i, cards: TREE_CARDS, bark: sharedBarkMat, leaf: sharedLeafMat, texSize: TEX_SIZE });
   tree.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
   tree.rotation.y = worldRng() * TAU;
   scene.add(tree);
   trees.push(tree);
 }
+// Shrubs are low-poly clumps, not single leaf cards: a flat card read as a black shard at ground level.
 for (let i = 0; i < BUSH_COUNT; i++) {
-  const a = worldRng() * TAU, r = 4 + worldRng() * 30;
-  const bush = makeBush({ radius: 0.65 + worldRng() * 0.9, seed: 90 + i, leaf: sharedBushMat, texSize: TEX_SIZE });
-  bush.position.set(Math.cos(a) * r, bush.position.y, Math.sin(a) * r);
-  scene.add(bush);
+  const a = worldRng() * TAU, r = 12 + worldRng() * 28;
+  const clump = new THREE.Group();
+  const parts = 2 + Math.floor(worldRng() * 3);
+  for (let k = 0; k < parts; k += 1) {
+    const blob = new THREE.Mesh(new THREE.IcosahedronGeometry(0.45 + worldRng() * 0.45, 0), sharedBushMat);
+    blob.position.set((worldRng() - 0.5) * 0.9, 0.28 + worldRng() * 0.25, (worldRng() - 0.5) * 0.9);
+    blob.scale.set(1, 0.62 + worldRng() * 0.2, 1);
+    blob.castShadow = true;
+    clump.add(blob);
+  }
+  clump.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
+  clump.rotation.y = worldRng() * TAU;
+  scene.add(clump);
 }
 for (let i = 0; i < LOG_COUNT; i++) {
-  const a = worldRng() * TAU, r = 8 + worldRng() * 24;
+  const a = worldRng() * TAU, r = 12 + worldRng() * 20;
   const log = makeLog({ length: 2 + worldRng() * 1.6, radius: 0.18 + worldRng() * 0.1, seed: 140 + i, bark: sharedBarkMat, texSize: TEX_SIZE });
   log.position.x = Math.cos(a) * r;
   log.position.z = Math.sin(a) * r;
@@ -190,6 +223,7 @@ weaponIconAtlas.userData.tag = "weapon-icon-atlas";
 
 const proceduralArtSprites = typeof bakeProceduralArtSprites === "function" ? bakeProceduralArtSprites() : {};
 const fxController = typeof fxModule?.createFx === "function" ? fxModule.createFx(renderer.domElement) : null;
+const casings = createCasings(scene);
 const menuController = typeof menuModule?.createMenu === "function" ? menuModule.createMenu(renderer.domElement, {}) : null;
 let audioController = null;
 if (typeof audioModule?.initAudio === "function") {
@@ -263,9 +297,21 @@ function part(geo, mat, tag, x = 0, y = 0, z = 0) {
 }
 const soldier = new THREE.Group();
 soldier.userData.tag = "soldier";
+// Contact shadow + cyan rim light: without them the operator reads as a floating low-poly blob.
+const playerShadow = new THREE.Mesh(
+  new THREE.CircleGeometry(0.74, 28),
+  new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.36, depthWrite: false })
+);
+playerShadow.rotation.x = -Math.PI / 2;
+playerShadow.position.y = 0.02;
+playerShadow.renderOrder = 1;
+scene.add(playerShadow);
+const playerRim = new THREE.PointLight(0x6fe3ff, 2.4, 8.5, 2);
+playerRim.position.set(0, 2.35, -1.45);
+soldier.add(playerRim);
 const steel = standardMaterial({ ...MATERIAL_RECIPES.playerSteel, size: TEX_SIZE });
 const gunPivot = new THREE.Group();
-gunPivot.position.set(-0.08, 1.46, 0.16);
+gunPivot.position.set(-0.2, 1.42, 0.3);
 
 // Weapon-Mounted Tactical Flashlight (SpotLight + Target) attached to gunPivot — OFF by default until card/light-gun unlocked
 const gunFlashlight = new THREE.SpotLight(0xffe8a3, 0, 22, 0.46, 0.45, 1.3);
@@ -282,6 +328,12 @@ gunFlashlight.target = gunFlashlightTarget;
 
 buildOperatorRig(soldier, gunPivot, TEX_SIZE, 0);
 let rifle = rebuildWeaponMesh(gunPivot, "spray", steel);
+// A soft, shadowless fill riding with the operator: in a dark wave the key light can sit outside a
+// shadowed pocket and the torso reads as missing ("invisible from the waist up" on BREACH YARD).
+const operatorFill = new THREE.PointLight(0xfff0d6, 3.2, 7, 2);
+operatorFill.position.set(0, 1.35, 0.85);
+operatorFill.userData.tag = "operator-fill";
+soldier.add(operatorFill);
 const operatorKeyLight = new THREE.PointLight(0xffd699, 5.2, 15, 1.4);
 operatorKeyLight.position.set(0.9, 2.6, 1.9);
 operatorKeyLight.userData.tag = "operator-key-light";
@@ -327,11 +379,421 @@ const enemyProjectiles = [];
 const chargeZones = [];
 const mortarZones = [];
 
+// ── enemy fire (visible bolts with travel time) ────────────────────────────────────────────────
+// Enemy shots used to be instant damage rolls with no visual. They are now real projectiles: a
+// muzzle flash at the shooter, a bolt in flight, a recoil pose, and a dodge window for the pilot.
+const ENEMY_SHOT_CAP = 40;
+const enemyShots = [];
+const enemyMuzzles = [];
+{
+  const shotGeo = new THREE.BoxGeometry(0.05, 0.05, 1.0);
+  const flashGeo = new THREE.SphereGeometry(0.17, 8, 8);
+  for (let i = 0; i < ENEMY_SHOT_CAP; i += 1) {
+    const mesh = new THREE.Mesh(shotGeo, new THREE.MeshBasicMaterial({
+      color: 0xff7a4a, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    mesh.visible = false;
+    scene.add(mesh);
+    enemyShots.push({ mesh, alive: false, vx: 0, vy: 0, vz: 0, dmg: 0, life: 0, x: 0, y: 0, z: 0 });
+    const flash = new THREE.Mesh(flashGeo, new THREE.MeshBasicMaterial({
+      color: 0xffd08a, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    flash.visible = false;
+    scene.add(flash);
+    enemyMuzzles.push({ mesh: flash, life: 0 });
+  }
+}
+let enemyShotCursor = 0;
+let enemyMuzzleCursor = 0;
+
+function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a) {
+  if (!enemy || !enemy.position) return;
+  const slot = enemyShots[enemyShotCursor % enemyShots.length];
+  enemyShotCursor += 1;
+  const ox = enemy.position.x;
+  const oz = enemy.position.z;
+  const oy = (enemy.mesh ? enemy.mesh.position.y : enemy.position.y) + 0.35;
+  // aim at where the player is, with a small lead and spread (a perfect aimbot is not dodgeable)
+  const lead = 0.22;
+  const tx = state.pos.x + (state.moveVel ? state.moveVel.x * lead : 0);
+  const tz = state.pos.z + (state.moveVel ? state.moveVel.z * lead : 0);
+  let dx = tx - ox;
+  let dz = tz - oz;
+  const len = Math.hypot(dx, dz) || 1;
+  dx /= len; dz /= len;
+  const spread = 0.055;
+  const ang = (state.rng() - 0.5) * spread * 2;
+  const ca = Math.cos(ang); const sa = Math.sin(ang);
+  const nx = dx * ca - dz * sa;
+  const nz = dx * sa + dz * ca;
+  slot.alive = true;
+  slot.x = ox + nx * 0.55;
+  slot.y = oy;
+  slot.z = oz + nz * 0.55;
+  slot.vx = nx * speed;
+  slot.vy = (1.15 - slot.y) / Math.max(0.15, len / speed);
+  slot.vz = nz * speed;
+  slot.dmg = damage;
+  slot.life = 1.6 + len / speed;
+  slot.mesh.position.set(slot.x, slot.y, slot.z);
+  slot.mesh.lookAt(slot.x + nx, slot.y, slot.z + nz);
+  slot.mesh.scale.set(1, 1, 0.6 + speed * 0.05);
+  slot.mesh.material.color.setHex(color);
+  slot.mesh.visible = true;
+
+  const muzzle = enemyMuzzles[enemyMuzzleCursor % enemyMuzzles.length];
+  enemyMuzzleCursor += 1;
+  muzzle.mesh.position.set(slot.x, slot.y, slot.z);
+  muzzle.mesh.material.color.setHex(color);
+  muzzle.mesh.visible = true;
+  muzzle.life = 0.06;
+  if (enemy.mesh) enemy.mesh.visible = true;
+  enemy._recoil = 0.2;
+  state.enemyShotsFired = (state.enemyShotsFired || 0) + 1;
+}
+
+/** Advance bolts, apply hits, and publish the nearest incoming threat for the pilot. */
+function updateEnemyShots(dt) {
+  let threat = null;
+  let bestT = 0.8;
+  for (const s of enemyShots) {
+    if (!s.alive) continue;
+    s.life -= dt;
+    const px = s.x;
+    const pz = s.z;
+    s.x += s.vx * dt;
+    s.y += s.vy * dt;
+    s.z += s.vz * dt;
+    s.mesh.position.set(s.x, s.y, s.z);
+    if (s.life <= 0) {
+      s.alive = false;
+      s.mesh.visible = false;
+      continue;
+    }
+    // cover stops bolts
+    if (segmentHitsCollider(px, pz, s.x, s.z, arenaColliders)) {
+      s.alive = false;
+      s.mesh.visible = false;
+      continue;
+    }
+    // hit test against the operator capsule
+    const d2 = Math.hypot(s.x - state.pos.x, s.z - state.pos.z);
+    if (d2 < 0.55 && s.y > 0.3 && s.y < 2.1) {
+      hurt(s.dmg);
+      state.enemyShotsHit = (state.enemyShotsHit || 0) + 1;
+      s.alive = false;
+      s.mesh.visible = false;
+      globalThis.__studio?.hud?.flash("#ff5a4a", 0.14);
+      continue;
+    }
+    // threat estimate: time to closest approach and miss distance at that moment
+    // R points from the player to the bolt; closest approach t = -(R.v)/|v|^2.
+    // (The old order flipped the sign, so an approaching bolt never registered as a threat.)
+    const rx = s.x - state.pos.x;
+    const rz = s.z - state.pos.z;
+    const v2 = s.vx * s.vx + s.vz * s.vz;
+    if (v2 < 1e-4) continue;
+    const t = -(rx * s.vx + rz * s.vz) / v2;
+    if (t > 0 && t < bestT) {
+      const cx = rx + s.vx * t;
+      const cz = rz + s.vz * t;
+      const miss = Math.hypot(cx, cz);
+      if (miss < 1.3) {
+        // step perpendicular to the bolt, to the side the player is already on
+        const inv = 1 / Math.sqrt(v2);
+        const perpX = -s.vz * inv;
+        const perpZ = s.vx * inv;
+        const side = (rx * perpX + rz * perpZ) >= 0 ? -1 : 1;
+        threat = { x: perpX * side, z: perpZ * side, t };
+        bestT = t;
+      }
+    }
+  }
+  state.incomingShot = threat;
+  if (threat) state.incomingFrames = (state.incomingFrames || 0) + 1;
+  for (const m of enemyMuzzles) {
+    if (m.life <= 0) { m.mesh.visible = false; continue; }
+    m.life -= dt;
+    if (m.life <= 0) m.mesh.visible = false;
+  }
+}
+
+function clearEnemyShots() {
+  for (const s of enemyShots) { s.alive = false; s.mesh.visible = false; }
+  for (const m of enemyMuzzles) { m.life = 0; m.mesh.visible = false; }
+  state.incomingShot = null;
+}
+
+// ── ground pickups (health regen, speed, power) ─────────────────────────────────────────────────
+// Auto-apply on touch, stack, respawn 60 s after being taken. Health sites are 68 m apart so a
+// base-speed operator cannot chain them within the 10 s regen window; a speed buff closes that.
+const pickupGroup = new THREE.Group();
+scene.add(pickupGroup);
+const pickupItems = [];
+const pickupCoreGeo = new THREE.IcosahedronGeometry(0.26, 0);
+const pickupRingGeo = new THREE.RingGeometry(0.52, 0.64, 24);
+
+function blockedAt(x, z) {
+  const probe = { x, z };
+  resolveObstacleCollision(probe, 0.9, arenaColliders);
+  return Math.hypot(probe.x - x, probe.z - z) > 0.01;
+}
+
+function buildPickup(site, rng) {
+  const def = PICKUP_DEFS[site.type];
+  // unlit core: a health pickup must read green at a glance, not pick up the arena's amber light
+  const core = new THREE.Mesh(pickupCoreGeo, new THREE.MeshBasicMaterial({ color: def.color }));
+  const ring = new THREE.Mesh(pickupRingGeo, new THREE.MeshBasicMaterial({
+    color: def.color, transparent: true, opacity: 0.5, side: THREE.DoubleSide, depthWrite: false,
+  }));
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = -0.7;
+  const grp = new THREE.Group();
+  grp.add(core, ring);
+  grp.position.set(site.x, 0.85, site.z);
+  pickupGroup.add(grp);
+  return { type: site.type, x: site.x, z: site.z, mesh: grp, core, ring, alive: true, respawnAt: 0, phase: rng() * 6.28 };
+}
+
+function resetPickups() {
+  while (pickupGroup.children.length) pickupGroup.remove(pickupGroup.children[0]);
+  pickupItems.length = 0;
+  const sites = planPickupSites({ rng: state.rng, blocked: blockedAt });
+  for (const site of sites) pickupItems.push(buildPickup(site, state.rng));
+  state.pickups = pickupItems;
+  state.regenTicks = [];
+  state.speedStacks = [];
+  state.powerStacks = [];
+  state.speedMult = 1;
+  state.powerMult = 1;
+  state.pickupGoal = null;
+}
+
+function respawnPickup(item) {
+  const rng = state.rng;
+  let spot = null;
+  for (let attempt = 0; attempt < 30 && !spot; attempt += 1) {
+    let x = null;
+    let z = null;
+    if (item.type === "health") {
+      // opposite the other health site, jittered: keeps the 64-80 m gap intact
+      const other = pickupItems.find((p) => p !== item && p.type === "health");
+      if (other) {
+        const a = Math.atan2(other.z, other.x) + Math.PI + (rng() - 0.5) * 0.16;
+        x = Math.cos(a) * HEALTH_SPACING.radius;
+        z = Math.sin(a) * HEALTH_SPACING.radius;
+      }
+    }
+    if (x === null) {
+      const a = rng() * Math.PI * 2;
+      const r = 18 + rng() * 22;
+      x = Math.cos(a) * r;
+      z = Math.sin(a) * r;
+    }
+    if (blockedAt(x, z)) continue;
+    const crowded = pickupItems.some((p) => p !== item && p.alive && Math.hypot(p.x - x, p.z - z) < 16);
+    if (crowded) continue;
+    spot = { x, z };
+  }
+  if (!spot) spot = { x: 0, z: 0 };
+  item.x = spot.x;
+  item.z = spot.z;
+  item.mesh.position.set(spot.x, 0.85, spot.z);
+  item.alive = true;
+  item.mesh.visible = true;
+  item.respawnAt = 0;
+}
+
+function collectPickup(item) {
+  const def = PICKUP_DEFS[item.type];
+  if (item.type === "health") {
+    state.regenTicks.push({ rate: (state.maxHealth * def.regen) / def.seconds, remaining: def.seconds });
+  } else if (item.type === "speed") {
+    state.speedStacks.push({ remaining: def.seconds });
+  } else {
+    state.powerStacks.push({ remaining: def.seconds });
+  }
+  state.pickupsTaken = (state.pickupsTaken || 0) + 1;
+  // Detour, not a treadmill: after taking an item the pilot returns to the fight for a while.
+  state.pickupCooldown = item.type === "health" ? 4 : 9;
+  item.alive = false;
+  item.mesh.visible = false;
+  item.respawnAt = beatDirector.runTime + 60;
+  audioController?.playSfx("pickup", { volume: 0.5 });
+  globalThis.__studio?.hud?.flash(item.type === "health" ? "#7CE6A8" : "#6FE3FF", 0.12);
+}
+
+function updatePickups(dt) {
+  const t = beatDirector.runTime;
+  for (const item of pickupItems) {
+    if (!item.alive) {
+      if (t >= item.respawnAt) respawnPickup(item);
+      continue;
+    }
+    item.mesh.rotation.y += dt * 1.5;
+    item.mesh.position.y = 0.85 + Math.sin(t * 2.2 + item.phase) * 0.1;
+    if (Math.hypot(item.x - state.pos.x, item.z - state.pos.z) < 1.15) collectPickup(item);
+  }
+  for (const tick of state.regenTicks) {
+    tick.remaining -= dt;
+    state.health = Math.min(state.maxHealth, state.health + tick.rate * dt);
+  }
+  state.regenTicks = state.regenTicks.filter((tick) => tick.remaining > 0);
+  for (const s of state.speedStacks) s.remaining -= dt;
+  for (const s of state.powerStacks) s.remaining -= dt;
+  state.speedStacks = state.speedStacks.filter((s) => s.remaining > 0);
+  state.powerStacks = state.powerStacks.filter((s) => s.remaining > 0);
+  state.speedMult = speedMultiplier(state.speedStacks.length);
+  state.powerMult = powerMultiplier(state.powerStacks.length);
+  state.pickupCooldown = Math.max(0, (state.pickupCooldown || 0) - dt);
+  state.pickupGoal = choosePickup(pickupItems, state.health / Math.max(1, state.maxHealth), { x: state.pos.x, z: state.pos.z, needHealthAt: 0.55 });
+}
+
+
+
 scene.add(soldier);
 
 const arenaPropsGroup = new THREE.Group();
 arenaPropsGroup.userData.tag = "arena-props";
 scene.add(arenaPropsGroup);
+
+// Ground detail: wet patches and tyre scars. No colliders - this is paint on the floor, and the
+// flat arena was the biggest "cheap" read in the visual pass.
+const groundDetailGroup = new THREE.Group();
+groundDetailGroup.userData.tag = "ground-detail";
+scene.add(groundDetailGroup);
+// unlit and faint: a dark standard puddle read as a hole in the floor
+const groundPuddleMat = new THREE.MeshBasicMaterial({
+  color: 0x2a3d4f, transparent: true, opacity: 0.22, depthWrite: false,
+});
+const groundTyreMat = new THREE.MeshBasicMaterial({ color: 0x070c12, transparent: true, opacity: 0.55, depthWrite: false });
+function buildGroundDetail() {
+  while (groundDetailGroup.children.length) groundDetailGroup.remove(groundDetailGroup.children[0]);
+  for (let i = 0; i < 12; i += 1) {
+    const a = worldRng() * TAU;
+    const r = 7 + worldRng() * 27;
+    const puddle = new THREE.Mesh(new THREE.CircleGeometry(0.35 + worldRng() * 0.6, 18), groundPuddleMat);
+    puddle.rotation.x = -Math.PI / 2;
+    puddle.rotation.z = worldRng() * Math.PI;
+    puddle.scale.x = 1.4 + worldRng() * 0.9;
+    puddle.position.set(Math.cos(a) * r, 0.015, Math.sin(a) * r);
+    groundDetailGroup.add(puddle);
+  }
+  for (let i = 0; i < 7; i += 1) {
+    const a = worldRng() * TAU;
+    const r = 10 + worldRng() * 18;
+    const cx = Math.cos(a) * r;
+    const cz = Math.sin(a) * r;
+    const len = 3 + worldRng() * 5;
+    const ang = worldRng() * Math.PI;
+    for (const side of [-0.42, 0.42]) {
+      const scar = new THREE.Mesh(new THREE.PlaneGeometry(0.24, len), groundTyreMat);
+      scar.rotation.x = -Math.PI / 2;
+      scar.rotation.z = ang;
+      scar.position.set(cx + Math.cos(ang + Math.PI / 2) * side, 0.012, cz + Math.sin(ang + Math.PI / 2) * side);
+      groundDetailGroup.add(scar);
+    }
+  }
+
+  // Cargo stencils painted on the floor beside the containers: the flat ground read as untextured.
+  const texts = ["LYGO CARGO", "EX-07", "HANDLE WITH CARE", "DEPOT 03"];
+  const cache = new Map();
+  const stencilTexture = (label) => {
+    if (cache.has(label)) return cache.get(label);
+    const c = document.createElement("canvas");
+    c.width = 256; c.height = 128;
+    const g = c.getContext("2d");
+    g.clearRect(0, 0, 256, 128);
+    g.strokeStyle = "rgba(255,179,71,0.85)";
+    g.lineWidth = 5;
+    g.strokeRect(6, 6, 244, 116);
+    g.fillStyle = "rgba(255,214,120,0.92)";
+    g.font = "800 30px ui-monospace, Consolas, monospace";
+    g.textAlign = "center";
+    g.textBaseline = "middle";
+    g.fillText(label, 128, 64);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    cache.set(label, tex);
+    return tex;
+  };
+  const props = (activeMap && activeMap.props) || [];
+  props.forEach((prop, i) => {
+    if (prop.kind !== "container" && prop.kind !== "barrier" && prop.kind !== "milk-truck") return;
+    const len = Math.hypot(prop.x, prop.z) || 1;
+    const outX = prop.x / len;
+    const outZ = prop.z / len;
+    const decal = new THREE.Mesh(new THREE.PlaneGeometry(2.0, 1.0),
+      new THREE.MeshBasicMaterial({ map: stencilTexture(texts[i % texts.length]), transparent: true,
+        opacity: 0.5, depthWrite: false }));
+    decal.rotation.x = -Math.PI / 2;
+    decal.rotation.z = Math.atan2(outX, outZ) + Math.PI / 2;
+    decal.position.set(prop.x + outX * 2.2, 0.013, prop.z + outZ * 2.2);
+    groundDetailGroup.add(decal);
+  });
+}
+
+// Enemy feet rings: a red ground ring makes hostiles readable at range without touching their rigs.
+const enemyRings = [];
+{
+  const ringGeo = new THREE.RingGeometry(0.52, 0.68, 28);
+  for (let i = 0; i < 24; i += 1) {
+    const ring = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({
+      color: 0xf2545b, transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide,
+    }));
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.03;
+    ring.visible = false;
+    scene.add(ring);
+    enemyRings.push(ring);
+  }
+}
+// Foot dust: pooled soft discs that rise and fade behind a running operator.
+const dustPool = [];
+{
+  const dustGeo = new THREE.CircleGeometry(0.26, 10);
+  for (let i = 0; i < 18; i += 1) {
+    const mesh = new THREE.Mesh(dustGeo, new THREE.MeshBasicMaterial({
+      color: 0x9c8a6c, transparent: true, opacity: 0, depthWrite: false,
+    }));
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.visible = false;
+    scene.add(mesh);
+    dustPool.push({ mesh, life: 0 });
+  }
+}
+let dustCursor = 0;
+let dustTimer = 0;
+function spawnDust(x, z) {
+  const slot = dustPool[dustCursor % dustPool.length];
+  dustCursor += 1;
+  slot.life = 0.5;
+  slot.mesh.visible = true;
+  slot.mesh.position.set(x + (state.rng() - 0.5) * 0.25, 0.05, z + (state.rng() - 0.5) * 0.25);
+  slot.mesh.scale.setScalar(0.7 + state.rng() * 0.6);
+  slot.mesh.material.opacity = 0.32;
+}
+function updateDust(dt) {
+  for (const d of dustPool) {
+    if (d.life <= 0) continue;
+    d.life -= dt;
+    if (d.life <= 0) { d.mesh.visible = false; continue; }
+    d.mesh.position.y += dt * 0.35;
+    d.mesh.scale.multiplyScalar(1 + dt * 1.6);
+    d.mesh.material.opacity = Math.max(0, d.life * 0.6);
+  }
+}
+
+function updateEnemyRings() {
+  const list = enemyManager.getEnemies();
+  for (let i = 0; i < enemyRings.length; i += 1) {
+    const e = list[i];
+    if (!e || !e.position || e.hp <= 0) { enemyRings[i].visible = false; continue; }
+    enemyRings[i].visible = e.position.y < 2.2;
+    enemyRings[i].position.set(e.position.x, 0.03, e.position.z);
+  }
+}
 warmGlbAssets();
 
 const enemyGeo = new THREE.BoxGeometry(1.05, 1.05, 1.05);
@@ -391,24 +853,33 @@ let shotLightTimer = 0;
 
 // ART-01 per-arena lighting. The arena switches at beat 3 (Breach Yard) and beat 6 (Gunship Pad).
 let arenaKey = "perimeter";
+let activeMap = null;
 let lightsOff = false;
 
 function applyArenaLighting(key) {
-  const cfg = ARENA_LIGHTING[key] ? ARENA_LIGHTING[key] : ARENA_LIGHTING.perimeter;
-  arenaKey = ARENA_LIGHTING[key] ? key : "perimeter";
-  populateArenaProps(arenaKey, arenaPropsGroup, TEX_SIZE);
+  // a map id ("depot"/"yard"/"foundry") owns its props; the lighting preset is borrowed from it.
+  // A beat transition passes a legacy lighting key ("gunship"): keep the map's props and only
+  // relight, otherwise every beat would rebuild the arena and forget which map is loaded.
+  const map = mapById(key);
+  const keepMap = !map && activeMap ? activeMap : null;
+  const lightKey = map ? map.light : (ARENA_LIGHTING[key] ? key : "perimeter");
+  const cfg = ARENA_LIGHTING[lightKey];
+  arenaKey = lightKey;
+  activeMap = map || keepMap;
+  populateArenaProps(map ? map.id : keepMap ? keepMap.id : lightKey, arenaPropsGroup, TEX_SIZE);
+  buildGroundDetail();
   renderer.toneMappingExposure = cfg.exposure;
   scene.background.set(hexInt(cfg.background));
   scene.fog.color.set(hexInt(cfg.fog.color));
-  scene.fog.density = cfg.fog.density;
+  scene.fog.density = cfg.fog.density * (activeMap?.fogScale || 1);
   hemi.color.set(hexInt(cfg.hemisphere.sky));
   hemi.groundColor.set(hexInt(cfg.hemisphere.ground));
   hemi.intensity = cfg.hemisphere.intensity;
   sun.color.set(hexInt(cfg.sun.color));
-  sun.intensity = cfg.sun.intensity;
+  sun.intensity = cfg.sun.intensity * (map?.lightBoost || 1);
   sun.position.set(...cfg.sun.position);
   rain.material.color.set(hexInt(PALETTE.rain));
-  rain.material.opacity = cfg.rainOpacity;
+  rain.material.opacity = cfg.rainOpacity * (map?.rainScale || 1);
   floodlights.forEach((fixture, index) => {
     const spec = cfg.floodlights[index];
     if (!spec) {
@@ -506,14 +977,25 @@ const state = {
   optionsCaller: "title",
   menuCooldown: 0,
   lastRenderedWeaponStyle: "spray",
+  // FX-03: camera kick accumulates from trigger pulls and decays; kickShots is the visible counter
+  camKick: { x: 0, y: 0, roll: 0, recover: 10 },
+  kickShots: 0,
 };
 
 if (testMode) {
-  window.__forgeSmokeTest = {
+  // Results-screen DOM button path: the keyboard redeploy lives in the ctx-based held() check, which a
+// synthetic key event cannot satisfy, so the button asks main directly.
+window.addEventListener("forge:redeploy", () => {
+  if (state.phase === "results") startRun(menuModule.ARENAS[state.selectedArenaIndex].id);
+});
+
+window.__forgeSmokeTest = {
     getState: () => state,
     getScene: () => scene,
     getSoldier: () => soldier,
     getGunPivot: () => gunPivot,
+    getScene: () => scene,
+    getSoldier: () => soldier,
     getWeapons: () => weaponManager,
     getCards: () => cardSystem,
     getManager: () => managerUI,
@@ -529,7 +1011,151 @@ if (testMode) {
       .map((e) => ({ type: e.type, hp: Math.round(e.hp), y: +e.mesh.position.y.toFixed(1) })),
     getTracerColors: () => tracers.filter((t) => t.life > 0).map((t) => t.mesh.material.color.getHex()),
     getCruise: () => ({ style: weaponManager.active.styleKey, vfx: STYLE_VFX[weaponManager.active.styleKey] || null }),
+    // FX-02 / FX-03 evidence: live casings, cases thrown, and camera-kick trigger pulls
+    getCasings: () => ({ live: casings.count(), total: casings.total(), cap: casings.cap }),
+    getFeel: () => ({
+      kickShots: state.kickShots || 0,
+      kick: { x: +(state.camKick?.x || 0).toFixed(4), y: +(state.camKick?.y || 0).toFixed(4) },
+      style: weaponManager.active?.styleKey || null,
+      feel: feelFor(weaponManager.active?.styleKey),
+    }),
+    // FX-03 acceptance: the added per-frame CPU cost of casings + kick authoring, in ms
+    benchFx: (n = 3000) => {
+      const t0 = performance.now();
+      for (let i = 0; i < n; i += 1) {
+        casings.update(1 / 60);
+        kickImpulse("cone", Math.random);
+      }
+      return (performance.now() - t0) / n;
+    },
     getEnemies: () => enemyManager,
+    // MOV-01..04 metrics: distance travelled, camera push, boss dodge, spacing, frozen frames
+    getPilot: () => {
+      const live = enemyManager.enemies.filter((e) => e.hp > 0 && e.mesh);
+      let sum = 0;
+      let pairs = 0;
+      for (let i = 0; i < live.length; i += 1) {
+        for (let j = i + 1; j < live.length; j += 1) {
+          sum += Math.hypot(live[i].mesh.position.x - live[j].mesh.position.x,
+            live[i].mesh.position.z - live[j].mesh.position.z);
+          pairs += 1;
+        }
+      }
+      return {
+        mode: state.pilotMode,
+        runTime: +beatDirector.runTime.toFixed(2),
+        distance: +(state.pilotDistance || 0).toFixed(2),
+        odometer: +(state.odometer || 0).toFixed(2),
+        camPushMax: +(state.camPushMax || 0).toFixed(3),
+        maxFrameAccel: +(state.maxFrameAccel || 0).toFixed(3),
+        holdBeats: state.holdBeats || 0,
+        moving: Boolean(state.pilotWantsMove),
+        bossDodgeMax: +(state.bossDodgeMax || 0).toFixed(2),
+        zeroMoveFrames: state.zeroMoveFrames || 0,
+        enemies: live.length,
+        spacing: pairs ? +(sum / pairs).toFixed(2) : 0,
+      };
+    },
+    getEnemyTypes: () => Object.keys(ENEMY_TYPES),
+    setPlayerPos: (x, z) => { state.pos.x = Number(x) || 0; state.pos.z = Number(z) || 0; return { x: state.pos.x, z: state.pos.z }; },
+    getPickups: () => ({
+      count: pickupItems.length,
+      alive: pickupItems.filter((p) => p.alive).map((p) => ({ type: p.type, x: +p.x.toFixed(1), z: +p.z.toFixed(1) })),
+      taken: state.pickupsTaken || 0,
+      regen: state.regenTicks.length,
+      speedStacks: state.speedStacks.length,
+      powerStacks: state.powerStacks.length,
+      speedMult: +(state.speedMult || 1).toFixed(2),
+      powerMult: +(state.powerMult || 1).toFixed(2),
+      goal: state.pickupGoal ? { type: state.pickupGoal.type, x: +state.pickupGoal.x.toFixed(1), z: +state.pickupGoal.z.toFixed(1) } : null,
+    }),
+    getRamp: () => ({
+      bodies: enemyManager.spawnBodies || 0,
+      shooters: enemyManager.spawnShooters || 0,
+      share: enemyManager.spawnBodies ? +((enemyManager.spawnShooters || 0) / enemyManager.spawnBodies).toFixed(2) : 0,
+      t: +beatDirector.runTime.toFixed(1),
+    }),
+    getCombat: () => ({
+      fired: state.enemyShotsFired || 0,
+      hit: state.enemyShotsHit || 0,
+      incoming: state.incomingShot ? +state.incomingShot.t.toFixed(2) : null,
+      incomingFrames: state.incomingFrames || 0,
+      mode: state.pilotMode,
+      health: Math.round(state.health),
+    }),
+    // MGR-07: nearest live body plus the state the pilot is reacting to
+    getNearest: () => {
+      const live = enemyManager.enemies.filter((e) => e.hp > 0);
+      if (!live.length) return null;
+      live.sort((a, b) => Math.hypot(a.position.x - state.pos.x, a.position.z - state.pos.z)
+        - Math.hypot(b.position.x - state.pos.x, b.position.z - state.pos.z));
+      const e = live[0];
+      const dx = e.position.x - state.pos.x;
+      const dz = e.position.z - state.pos.z;
+      let a = Math.atan2(dx, dz) - (e.shieldAngle ?? 0);
+      a = Math.atan2(Math.sin(a), Math.cos(a));
+      return {
+        type: e.type,
+        d: +Math.hypot(dx, dz).toFixed(2),
+        isShielded: Boolean(e.isShielded),
+        flanked: Boolean(e.flanked),
+        hp: Math.round(e.hp),
+        angleToShield: +a.toFixed(2),
+      };
+    },
+    // MOV-02 evidence: drop an archetype at a world point and read the live ring around the player
+    spawnAt: (t, x, z) => {
+      const e = enemyManager.spawn(String(t), { x, z }, 0);
+      if (!e) return null;
+      e.position.x = x;
+      e.position.z = z;
+      if (e.mesh) e.mesh.position.set(x, 0.72, z);
+      return { type: e.type, slot: e.slot, hp: Math.round(e.hp) };
+    },
+    // MOV-04: skip to the boss threshold so the telegraph dodge can be measured without an 80 s run
+    forceBoss: () => { state.kills = Math.max(state.kills || 0, 110); return state.kills; },
+    // MGR-06/08 evidence: what each equipped item does to the run's stat block, and the clear drop
+    getStatsFor: (equipped) => statsForLevel((state.cyborgProfile && state.cyborgProfile.level) || 1, equipped || {}),
+    grantClear: () => bankRun(true),
+    // TUNE-04 evidence hooks
+    setWeapon: (style) => { try { weaponManager.replaceWeapon("primary", String(style)); } catch (e) { return null; } return weaponManager.active.styleKey; },
+    forceBossKind: (kind) => { state.arenaBossKind = String(kind); return state.arenaBossKind; },
+    clearEnemies: () => { clearEnemies(); return true; },
+    setSpawns: (on) => { state.spawnsEnabled = Boolean(on); return state.spawnsEnabled; },
+    getBoss: () => (state.bossEnemy ? {
+      type: state.bossEnemy.type,
+      hp: Math.round(state.bossEnemy.hp),
+      maxHp: Math.round(state.bossEnemy.maxHp),
+      y: +(state.bossEnemy.mesh ? state.bossEnemy.mesh.position.y : state.bossEnemy.position.y).toFixed(2),
+      spawned: Boolean(state.bossSpawned),
+      paid: Boolean(state.bossPaid),
+    } : { spawned: Boolean(state.bossSpawned), hp: 0 }),
+    getSlots: () => enemyManager.enemies.filter((e) => e.hp > 0).map((e) => {
+      const dx = e.position.x - state.pos.x;
+      const dz = e.position.z - state.pos.z;
+      let a = Math.atan2(dx, dz) - state.yaw;
+      a = Math.atan2(Math.sin(a), Math.cos(a));
+      return { type: e.type, slot: e.slot, d: +Math.hypot(dx, dz).toFixed(2), angle: +a.toFixed(2) };
+    }),
+    // MGR-07: spawn a real archetype and report the stat block the run will fight
+    spawnType: (t) => {
+      const e = enemyManager.spawn(String(t), state.pos, 0);
+      return e ? {
+        type: e.type,
+        hp: Math.round(e.hp),
+        speed: Number((e.speed || 0).toFixed(2)),
+        behaviour: (e.config && e.config.behaviour) || "",
+      } : null;
+    },
+    // MGR-08: the legendary pool the manager can equip, plus what the profile already owns
+    getLegendaryPool: () => ({
+      lightMods: LIGHT_MODS.map((m) => m.id),
+      perks: PERKS.map((p) => p.id),
+      legacy: (state.cyborgProfile && state.cyborgProfile.legacy) || [],
+      equipped: (state.cyborgProfile && state.cyborgProfile.equipped) || {},
+    }),
+    // QA: end a run on demand so the results/summary screen can be photographed
+    hurt: (n = 9999) => { hurt(n); return state.phase; },
     getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
     testPush: (x, z, r = 0.55) => {
       const probe = { x, z };
@@ -560,7 +1186,8 @@ if (testMode) {
     },
     getLighting: () => ({
       arena: arenaKey,
-      arenaName: ARENA_LIGHTING[arenaKey].name,
+      map: activeMap ? activeMap.id : null,
+      mapName: activeMap ? activeMap.name : ARENA_LIGHTING[arenaKey].name,
       blackout: state.blackoutActive,
       exposure: renderer.toneMappingExposure,
       fogDensity: scene.fog ? scene.fog.density : null,
@@ -663,8 +1290,8 @@ const managerUI = createManager({
   },
 });
 
-const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = new THREE.Vector3();
-let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null;
+const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = new THREE.Vector3(), vShotDir = new THREE.Vector3();
+let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null, hudObjective = null;
 
 function syncHud() {
   // The DOM manager is the loadout screen now: clear the canvas HUD so its text does not bleed
@@ -707,19 +1334,54 @@ function syncHud() {
   const activeLoadout = STARTER_LOADOUTS[state.loadoutIndex || 0] || STARTER_LOADOUTS[0];
 
   if (state.phase === "playing") {
-    const color = state.health > 60 ? PALETTE.healthOk : state.health > 30 ? PALETTE.healthWarn : PALETTE.healthCrit;
-    if (hudHealth !== state.health) {
-      hudHealth = state.health;
-      P("vitals", { x: 0.022, y: 0.03, w: 0.68, h: 0.165, radius: 0.014, fill: PALETTE.panels.status, stroke: PALETTE.strokes.status, width: 0.002 });
-      T("vitals-title", `FORGE SMOKE // ${activeSkin.name}`, { x: 0.032, y: 0.042, size: TYPE_SCALE.label, color: PALETTE.hudLabel, weight: 700 });
-      B("health", state.health / state.maxHealth, { x: 0.032, y: 0.069, w: 0.18, h: 0.023, color, back: PALETTE.strokes.barBack });
-      T("health-num", String(state.health), { x: 0.218, y: 0.064, size: TYPE_SCALE.numeral, color, weight: 800 });
+    const ratio = Math.max(0, state.health / Math.max(1, state.maxHealth));
+    const color = ratio > 0.6 ? PALETTE.healthOk : ratio > 0.3 ? PALETTE.healthWarn : PALETTE.healthCrit;
+
+    // ── compact HUD for phones (the desktop layout is laid out in viewport-height units, so at
+    // 390 px wide the right-hand modules run off-screen) ─────────────────────────────
+    if ((globalThis.innerWidth || 1280) < 700) {
+      const w = weaponManager.active;
+      const beat = beatDirector.getCurrentBeat();
+      const ammo = w.isHeatWeapon ? `${Math.round(w.heat)} HEAT` : `${w.magazine} / ${w.maxMagazine}`;
+      T("vitals-title", activeSkin.name.toUpperCase(), { x: 0.012, y: 0.018, size: TYPE_SCALE.micro, color: "#aec2d6", weight: 800 });
+      B("health", ratio, { x: 0.012, y: 0.033, w: 0.24, h: 0.013, color, back: "rgba(255,255,255,0.08)" });
+      T("health-num", String(Math.round(state.health)), { x: 0.262, y: 0.028, size: TYPE_SCALE.numeral, color, weight: 800 });
+      T("kills", `THREATS ${state.kills}   LV ${cardSystem.level}`, { x: 0.012, y: 0.052, size: TYPE_SCALE.micro, color: "#cfdeee", weight: 700 });
+      T("beat", `${beat.name.toUpperCase()} ${beatDirector.getBeatTimeRemaining().toFixed(0)}s`, { x: 0.012, y: 0.070, size: TYPE_SCALE.micro, color: PALETTE.ui, weight: 800 });
+      T("ammo-count", `${String(weaponManager.active.styleKey).toUpperCase()}  ${ammo}`, { x: 0.012, y: 0.088, size: TYPE_SCALE.small, color: "#eaf3ff", weight: 800 });
+      const boss = enemyManager.getEnemies().find((e) => e.type === "gunship" || e.type === "mech");
+      if (boss) {
+        T("boss-label", `BOSS ${Math.max(0, Math.round(boss.hp))} HP`, { x: 0.012, y: 0.104, size: TYPE_SCALE.micro, color: "#ffb8bc", weight: 800 });
+        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.012, y: 0.116, w: 0.30, h: 0.008, color: PALETTE.healthCrit, back: "rgba(255,255,255,0.08)" });
+      } else {
+        h.remove("boss-label"); h.remove("boss-bar");
+      }
+      if (ratio < 0.5) h.flash("#7e0c14", Math.min(0.3, (0.5 - ratio) * 0.5));
+      if (changed) hudPhase = state.phase;
+      return;
+    }
+    if (hudHealth !== Math.round(state.health)) {
+      hudHealth = Math.round(state.health);
+      // ── operator status card (top-left) ─────────────────────────────────────
+      P("vitals", { x: 0.015, y: 0.026, w: 0.292, h: 0.134, radius: 0.009, fill: "rgba(6,10,16,0.86)", stroke: "rgba(126,150,176,0.20)", width: 0.0012 });
+      P("vitals-accent", { x: 0.015, y: 0.026, w: 0.292, h: 0.0038, radius: 0.002, fill: color, stroke: "rgba(0,0,0,0)", width: 0 });
+      P("vitals-tick", { x: 0.015, y: 0.026, w: 0.007, h: 0.020, radius: 0.002, fill: "rgba(255,179,71,0.22)", stroke: "rgba(0,0,0,0)", width: 0 });
+      T("vitals-title", activeSkin.name.toUpperCase(), { x: 0.026, y: 0.039, size: TYPE_SCALE.micro, color: "#aec2d6", weight: 800 });
+      T("vitals-sub", "AUTONOMOUS COMBAT FRAME", { x: 0.026, y: 0.056, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
+      B("health", ratio, { x: 0.026, y: 0.076, w: 0.193, h: 0.018, color, back: "rgba(255,255,255,0.07)" });
+      T("health-num", String(Math.round(state.health)), { x: 0.226, y: 0.069, size: TYPE_SCALE.numeral, color, weight: 800 });
+      T("health-cap", "INTEGRITY", { x: 0.026, y: 0.099, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
+      // ── weapon module (bottom-right) ────────────────────────────────────────
+      P("weapon-module", { x: 0.742, y: 0.826, w: 0.243, h: 0.128, radius: 0.009, fill: "rgba(6,10,16,0.86)", stroke: "rgba(126,150,176,0.20)", width: 0.0012 });
+      P("weapon-accent", { x: 0.742, y: 0.826, w: 0.243, h: 0.0038, radius: 0.002, fill: PALETTE.ui, stroke: "rgba(0,0,0,0)", width: 0 });
+      T("weapon-tag", "PRIMARY", { x: 0.752, y: 0.830, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
     }
     const killsKey = `${state.kills}:${cardSystem.level}`;
     if (hudKills !== killsKey) {
       hudKills = killsKey;
       weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
-      T("kills", `THREATS DOWN  ${state.kills}   ·   LV ${cardSystem.level}`, { x: 0.032, y: 0.125, size: TYPE_SCALE.small, color: PALETTE.hudSecondary });
+      T("kills", `THREATS ${state.kills}`, { x: 0.026, y: 0.113, size: TYPE_SCALE.small, color: "#cfdeee", weight: 700 });
+      T("level-chip", `LV ${cardSystem.level}`, { x: 0.196, y: 0.113, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800 });
     }
 
     const activeConfig = weaponManager.getActiveConfig();
@@ -727,56 +1389,69 @@ function syncHud() {
     const activeWeapon = weaponManager.active;
     const rldSpd = activeWeapon.reloadSpeedMultiplier || 1;
 
-    let ammoText = activeWeapon.isReloading
-      ? `AUTO-RELOAD ${Math.round(activeWeapon.reloadProgress * 100)}%  ·  RLD ${rldSpd.toFixed(2)}x`
-      : `MAG  ${activeWeapon.magazine} / ${activeWeapon.maxMagazine}  ·  RLD ${rldSpd.toFixed(2)}x`;
-    if (activeWeapon.isHeatWeapon) {
-      ammoText = activeWeapon.isReloading
-        ? `VENTING ${Math.round(activeWeapon.reloadProgress * 100)}%  ·  RLD ${rldSpd.toFixed(2)}x`
-        : `HEAT  ${Math.round(activeWeapon.heat)} / ${activeWeapon.maxHeat}  ·  RLD ${rldSpd.toFixed(2)}x`;
-    }
+    const activeStyle = activeConfig?.style || activeWeapon?.styleKey || "spray";
+    const inactiveStyle = inactiveConfig?.style || weaponManager.inactive?.styleKey || "pierce";
+    const activeName = String(activeStyle).toUpperCase();
+    const inactiveName = String(inactiveStyle).toUpperCase();
+
+    const ammoNow = activeWeapon.isHeatWeapon ? Math.round(activeWeapon.heat) : activeWeapon.magazine;
+    const ammoMax = activeWeapon.isHeatWeapon ? Math.max(1, activeWeapon.maxHeat) : activeWeapon.maxMagazine;
+    const ammoText = activeWeapon.isReloading
+      ? `RLD ${Math.round(activeWeapon.reloadProgress * 100)}%`
+      : `${ammoNow} / ${ammoMax}`;
     if (hudAmmo !== ammoText) {
       hudAmmo = ammoText;
-      T("ammo", ammoText, { x: 0.032, y: 0.151, size: TYPE_SCALE.label, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, weight: 700 });
+      T("weapon-active", activeName, { x: 0.752, y: 0.852, size: TYPE_SCALE.label, color: "#f2f7ff", weight: 800 });
+      T("weapon-inactive", `ALT  ${inactiveName}`, { x: 0.752, y: 0.919, size: TYPE_SCALE.micro, color: "#8ea3b8", weight: 600 });
+      T("ammo-tag", activeWeapon.isReloading ? "RELOADING" : (activeWeapon.isHeatWeapon ? "HEAT" : "MAGAZINE"), { x: 0.800, y: 0.884, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
+      T("ammo-count", ammoText, { x: 0.800, y: 0.862, size: TYPE_SCALE.subhead, color: activeWeapon.isReloading ? PALETTE.healthWarn : "#eaf3ff", weight: 800 });
       const barFrac = activeWeapon.isReloading
         ? activeWeapon.reloadProgress
         : activeWeapon.isHeatWeapon
           ? Math.max(0, 1 - activeWeapon.heat / Math.max(1, activeWeapon.maxHeat))
           : activeWeapon.magazine / Math.max(1, activeWeapon.maxMagazine);
-      B("reload-bar", barFrac, { x: 0.032, y: 0.098, w: 0.18, h: 0.012, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, back: PALETTE.strokes.barBack });
+      B("reload-bar", barFrac, { x: 0.752, y: 0.898, w: 0.168, h: 0.007, color: activeWeapon.isReloading ? PALETTE.healthWarn : PALETTE.ui, back: "rgba(255,255,255,0.08)" });
     }
 
-    // Weapon plates (ART-01 iconography): name + 48 px silhouette, one per style.
-    const activeStyle = activeConfig?.style || activeWeapon?.styleKey || "spray";
-    const inactiveStyle = inactiveConfig?.style || weaponManager.inactive?.styleKey || "pierce";
-    const activeName = String(activeStyle).toUpperCase();
-    const inactiveName = String(inactiveStyle).toUpperCase();
-    T("weapon-active", `${activeName}`, { x: 0.325, y: 0.045, size: TYPE_SCALE.micro, color: PALETTE.ui, weight: 700 });
-    T("weapon-inactive", `${inactiveName}`, { x: 0.325, y: 0.088, size: TYPE_SCALE.micro, color: PALETTE.hudLabel, weight: 500 });
-
-    // Weapon icons, drawn at 28 px from the 48 px sheet cells.
+    // Weapon icons (ART-01 sheet), sized for the module.
     const activeIconSrc = weaponIconDataUrls[activeStyle];
     const inactiveIconSrc = weaponIconDataUrls[inactiveStyle];
     if (activeIconSrc && h.get("weapon-icon-active")?.src !== activeIconSrc) {
-      h.image("weapon-icon-active", activeIconSrc, { x: 0.278, y: 0.038, h: 0.039 });
+      h.image("weapon-icon-active", activeIconSrc, { x: 0.752, y: 0.858, h: 0.026 });
     }
     if (inactiveIconSrc && h.get("weapon-icon-inactive")?.src !== inactiveIconSrc) {
-      h.image("weapon-icon-inactive", inactiveIconSrc, { x: 0.278, y: 0.082, h: 0.033 });
+      h.image("weapon-icon-inactive", inactiveIconSrc, { x: 0.752, y: 0.914, h: 0.014 });
     }
 
-    // Beat name + timer
+    // Low-integrity wash: the HUD "flash" layer covers the whole frame (a panel is laid out in the
+    // square HUD stage, so w:1 only covers one stage width, not the viewport).
+    if (ratio < 0.5) {
+      const pulse = ratio < 0.25 ? 0.03 * Math.sin(state.t * 7) : 0;
+      const alpha = Math.min(0.34, (0.5 - ratio) * 0.55 + pulse + 0.05);
+      h.flash("#7e0c14", alpha * 0.55);
+      T("vitals-warning", ratio < 0.25 ? "INTEGRITY CRITICAL" : "INTEGRITY LOW", { x: 0.026, y: 0.128, size: TYPE_SCALE.micro, color: PALETTE.healthCrit, weight: 800 });
+    } else {
+      h.remove("vitals-warning");
+    }
+
+    // Beat name + timer, in a compact top-centre chip
     const beat = beatDirector.getCurrentBeat();
-    const beatText = `${beat.name}  ${beatDirector.getBeatTimeRemaining().toFixed(1)}s`;
-    if (hudBeat !== beatText) {
-      hudBeat = beatText;
-      T("beat", beatText, { x: 0.5, y: 0.03, size: TYPE_SCALE.subhead, color: PALETTE.ui, weight: 700, align: "center" });
+    const beatText = beat.name.toUpperCase();
+    const beatTimer = `${beatDirector.getBeatTimeRemaining().toFixed(1)}s`;
+    const beatKey = `${beatText}:${beatTimer}`;
+    if (hudBeat !== beatKey) {
+      hudBeat = beatKey;
+      P("beat-chip", { x: 0.398, y: 0.024, w: 0.204, h: 0.050, radius: 0.007, fill: "rgba(6,10,16,0.74)", stroke: "rgba(255,179,71,0.28)", width: 0.001, });
+      T("beat", beatText, { x: 0.5, y: 0.030, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800, align: "center" });
+      T("beat-timer", beatTimer, { x: 0.5, y: 0.047, size: TYPE_SCALE.micro, color: "#8ea3b8", weight: 700, align: "center" });
     }
 
     // Score
     const currentScore = scoreSystem.getCurrentScore(beatDirector.runTime);
     if (hudScore !== currentScore) {
       hudScore = currentScore;
-      T("score", `SCORE  ${currentScore}`, { x: 0.5, y: 0.055, size: TYPE_SCALE.small, color: PALETTE.hudSecondary, align: "center" });
+      T("score", `${currentScore}`, { x: 0.5, y: 0.086, size: TYPE_SCALE.label, color: "#cfdeee", weight: 800, align: "center" });
+      T("score-cap", "SCORE", { x: 0.5, y: 0.098, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700, align: "center" });
     }
 
     // Airdrop countdown
@@ -803,13 +1478,115 @@ function syncHud() {
       if (hudBoss !== bossKey) {
         hudBoss = bossKey;
         const bossLabel = boss.type === "gunship" ? "BOSS // ASSAULT GUNSHIP" : "ELITE // SIEGE MECH";
-        T("boss-label", `${bossLabel}  (${Math.max(0, Math.round(boss.hp))} HP)`, { x: 0.5, y: 0.11, size: TYPE_SCALE.micro, color: PALETTE.deadPrompt, weight: 700, align: "center" });
-        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.39, y: 0.132, w: 0.22, h: 0.014, color: PALETTE.healthCrit, back: PALETTE.strokes.barBack });
+        P("boss-frame", { x: 0.352, y: 0.104, w: 0.296, h: 0.056, radius: 0.006, fill: "rgba(12,6,9,0.78)", stroke: "rgba(242,84,91,0.35)", width: 0.0012 });
+        P("boss-pip", { x: 0.352, y: 0.104, w: 0.004, h: 0.056, radius: 0.002, fill: PALETTE.healthCrit, stroke: "rgba(0,0,0,0)", width: 0 });
+        T("boss-label", `${bossLabel}   ${Math.max(0, Math.round(boss.hp))} HP`, { x: 0.5, y: 0.110, size: TYPE_SCALE.micro, color: "#ffb8bc", weight: 800, align: "center" });
+        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.362, y: 0.134, w: 0.276, h: 0.010, color: PALETTE.healthCrit, back: "rgba(255,255,255,0.08)" });
       }
     } else if (hudBoss !== null) {
       hudBoss = null;
       h.remove("boss-label");
       h.remove("boss-bar");
+      h.remove("boss-frame");
+      h.remove("boss-pip");
+    }
+
+    // Objective readout removed with the defend-location system: there are no capture zones.
+    if (hudObjective !== null) {
+      hudObjective = null;
+      h.remove("obj-hud");
+    }
+
+    // ── radar (bottom-left, 26 m range, up = facing) ─────────────────────────
+    {
+      const cx = 0.098;
+      const cy = 0.792;
+      P("radar", { x: cx - 0.082, y: cy - 0.082, w: 0.164, h: 0.164, radius: 0.082, fill: "rgba(6,10,16,0.64)", stroke: "rgba(126,150,176,0.24)", width: 0.0012 });
+      P("radar-ping", { x: cx - 0.030, y: cy - 0.030, w: 0.060, h: 0.060, radius: 0.030, fill: "rgba(111,227,255,0.05)", stroke: "rgba(111,227,255,0.12)", width: 0.0008 });
+      T("radar-self", "+", { x: cx, y: cy, size: TYPE_SCALE.micro, color: "#6fe3ff", weight: 800, align: "center" });
+      T("radar-label", "RADAR", { x: cx - 0.022, y: cy + 0.094, size: TYPE_SCALE.micro, color: "#576a7e", weight: 700 });
+      const live = enemyManager.enemies.filter((e) => e.hp > 0 && e.mesh).slice(0, 14);
+      for (let i = 0; i < 14; i += 1) {
+        const id = `radar-dot-${i}`;
+        const e = live[i];
+        if (!e) { h.remove(id); continue; }
+        const dx = e.position.x - state.pos.x;
+        const dz = e.position.z - state.pos.z;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 26 || dist < 0.4) { h.remove(id); continue; }
+        const rel = Math.atan2(dx, dz) - state.yaw;
+        const rr = Math.min(1, dist / 26) * 0.074;
+        P(id, {
+          x: cx + Math.sin(rel) * rr - 0.004,
+          y: cy - Math.cos(rel) * rr - 0.004,
+          w: 0.008, h: 0.008, radius: 0.004,
+          fill: (e.type === "gunship" || e.type === "mech") ? "#ffb347" : "#ff5a5a",
+          stroke: "rgba(0,0,0,0)", width: 0,
+        });
+      }
+      // pickups on the radar: green health, amber power, cyan speed
+      for (let i = 0; i < 8; i += 1) {
+        const id = "radar-pick-" + i;
+        const item = pickupItems[i];
+        if (!item || !item.alive) { h.remove(id); continue; }
+        const dx = item.x - state.pos.x;
+        const dz = item.z - state.pos.z;
+        const dist = Math.hypot(dx, dz);
+        if (dist > 26) { h.remove(id); continue; }
+        const rel = Math.atan2(dx, dz) - state.yaw;
+        const rr = Math.min(1, dist / 26) * 0.074;
+        P(id, {
+          x: cx + Math.sin(rel) * rr - 0.003,
+          y: cy - Math.cos(rel) * rr - 0.003,
+          w: 0.006, h: 0.006, radius: 0.003,
+          fill: item.type === "health" ? "#7ce6a8" : item.type === "speed" ? "#6fe3ff" : "#ffb347",
+          stroke: "rgba(0,0,0,0)", width: 0,
+        });
+      }
+    }
+
+    // ── active buffs (under the operator card) ───────────────────────────────
+    {
+      const parts = [];
+      if (state.regenTicks.length) {
+        const left = Math.ceil(Math.max(...state.regenTicks.map((t) => t.remaining)));
+        parts.push("REGEN " + left + "s x" + state.regenTicks.length);
+      }
+      if (state.speedStacks.length) {
+        const left = Math.ceil(Math.max(...state.speedStacks.map((s) => s.remaining)));
+        parts.push("SPEED +" + Math.round((state.speedMult - 1) * 100) + "% " + left + "s");
+      }
+      if (state.powerStacks.length) {
+        const left = Math.ceil(Math.max(...state.powerStacks.map((s) => s.remaining)));
+        parts.push("POWER +" + Math.round((state.powerMult - 1) * 100) + "% " + left + "s");
+      }
+      if (parts.length) T("buffs", parts.join("   ·   "), { x: 0.026, y: 0.168, size: TYPE_SCALE.micro, color: "#bcd2e6", weight: 700 });
+      else h.remove("buffs");
+    }
+
+    // ── kill feed (top-right) ────────────────────────────────────────────────
+    {
+      const feed = state.killFeed || [];
+      for (let i = 0; i < 3; i += 1) {
+        const id = `killfeed-${i}`;
+        const entry = feed[i];
+        if (!entry) { h.remove(id); continue; }
+        T(id, entry.text, { x: 0.585, y: 0.246 + i * 0.020, size: TYPE_SCALE.micro, color: i === 0 ? "#ffe9a8" : "#8ea3b8", weight: 800 });
+      }
+    }
+
+    // ── hit marker (screen centre) ───────────────────────────────────────────
+    if ((state.hitMarker || 0) > 0) {
+      // four diagonal ticks, not a giant letter X
+      const c = 0.5, i = 0.012, o = 0.026;
+      const color = state.hitMarkerKill ? "#ff5a5a" : "#ffe9a8";
+      const d = "M " + (c - o) + " " + (c - o) + " L " + (c - i) + " " + (c - i)
+        + " M " + (c + i) + " " + (c - i) + " L " + (c + o) + " " + (c - o)
+        + " M " + (c - i) + " " + (c + i) + " L " + (c - o) + " " + (c + o)
+        + " M " + (c + o) + " " + (c + i) + " L " + (c + i) + " " + (c + o);
+      P("hitmarker", { type: "path", x: 0.47, y: 0.47, w: 0.06, h: 0.06, d, viewBox: [0, 0, 1, 1], fill: null, stroke: color, width: 0.0035 });
+    } else {
+      h.remove("hitmarker");
     }
 
     // "THE DARKNESS COMES" status banner when ambient light dims
@@ -819,7 +1596,7 @@ function syncHud() {
       hudDarkness = darkKey;
       if (darkKey) {
         const modTag = weaponManager.lightModLevel > 0 ? `LIGHT MODS LV ${weaponManager.lightModLevel} (+25% LIT DMG)` : "GUN FLOODLIGHT & LIGHT-ORB ROUNDS ENGAGED";
-        T("darkness-alert", `THE DARKNESS COMES (${darkPct}% DIM)  ·  ${modTag}`, { x: 0.5, y: 0.162, size: TYPE_SCALE.micro, color: "#ffd57a", weight: 800, align: "center" });
+        T("darkness-alert", `THE DARKNESS COMES (${darkPct}% DIM)  ·  ${modTag}`, { x: 0.5, y: HUD_SLOTS.statusBanner, size: TYPE_SCALE.micro, color: "#ffd57a", weight: 800, align: "center" });
       } else {
         h.remove("darkness-alert");
       }
@@ -973,10 +1750,12 @@ function clearEffects() {
   }
   state.flash = 0;
   flash.visible = false;
+  casings.clear();
+  clearEnemyShots();
 }
 
 function placeCamera() {
-  camera.position.set(state.pos.x, 6.4, state.pos.z + 9);
+  camera.position.set(state.pos.x, 5.9, state.pos.z + 8.0);
   camera.lookAt(state.pos.x, 1.25, state.pos.z);
 }
 
@@ -988,8 +1767,18 @@ function startRun(arenaId = "arena1") {
   const chosenStyle = STARTER_LOADOUTS[state.loadoutIndex || 0]?.id || "spray";
   const secondaryStyle = chosenStyle === "pierce" ? "spray" : "pierce";
   
-  const arenaKeyMap = { arena1: "perimeter", arena2: "breach", arena3: "gunship" };
-  const targetArenaKey = arenaKeyMap[arenaId] || "perimeter";
+  // MAP-04: map selection. `?map=depot|yard|foundry` forces it (boot tests); otherwise rotate
+  // deterministically by seed + how many runs this profile has banked.
+  const forcedMap = urlParams.get("map");
+  const runNo = (state.cyborgProfile && state.cyborgProfile.runs) || 0;
+  const mapMode = TUNING.mapSelection || "rotate";
+  const chosenMap = forcedMap
+    ? (selectMap({ forced: forcedMap }) || MAPS[0])
+    : mapMode === "rotate"
+      ? selectMap({ seed, run: runNo })
+      : (MAPS[Math.max(0, Math.min(MAPS.length - 1, Number(String(arenaId).replace(/\D/g, "")) - 1 || 0))] || MAPS[0]);
+  state.mapId = chosenMap.id;
+  state.mapName = chosenMap.name;
 
   Object.assign(state, {
     phase: "playing",
@@ -1019,12 +1808,28 @@ function startRun(arenaId = "arena1") {
     runXp: 0,
     pilotClock: 0,
     pilotMode: "hold",
+    pilotVel: { x: 0, z: 0 },
+    moveVel: { x: 0, z: 0 },
+    pilotMoving: false,
+    pilotTimer: 0.4,
+    pilotStrafe: 1,
+    pilotWantsMove: false,
+    enemyShotsFired: 0,
+    spawnBodies: 0,
+    spawnShooters: 0,
+    enemyShotsHit: 0,
+    incomingShot: null,
+    odometer: 0,
+    camPushMax: 0,
+    bossDodgeMax: 0,
+    bossDodgeAccum: 0,
     cardsPlayed: 0,
     bossSpawned: false,
     bossPaid: false,
     bossEnemy: null,
   });
   audioController?.playSfx("launch", { volume: 0.7 });
+  audioController?.startAmbience?.();
   // manager stat block -> real gameplay multipliers (integrity, speed, reload, damage, crit, tech)
   // special operations tree: fold its modifiers into this run
   state.talentMods = toRunMods(aggregate((state.cyborgProfile && state.cyborgProfile.talents) || []));
@@ -1090,8 +1895,9 @@ function startRun(arenaId = "arena1") {
   scoreSystem.airdropsTaken = 0;
   scoreSystem.runStartTime = Date.now();
   
-  applyArenaLighting(targetArenaKey);
+  applyArenaLighting(chosenMap.id);
   setLightsEnabled(true);
+  resetPickups();
   placeCamera();
   hudPhase = null;
   syncHud();
@@ -1176,6 +1982,13 @@ function spawnEnemy() {
   const types = beat.enemyTypes || ["rifleman"];
   const type = types[Math.floor(state.rng() * types.length)];
   const enemy = enemyManager.spawn(type, state.pos, beatDirector.runTime / 60);
+  // Shooter ramp: early spawns are mostly melee-only bodies, and the share that can actually fire
+  // climbs across the whole round (12 % at t=0, ~85 % by ~110 s).
+  if (enemy) {
+    enemy.canShoot = state.rng() < Math.min(0.85, 0.12 + beatDirector.runTime / 150);
+    state.spawnBodies = (state.spawnBodies || 0) + 1;
+    if (enemy.canShoot) state.spawnShooters = (state.spawnShooters || 0) + 1;
+  }
   // DUAL RAMP: base level rises with the cyborg's profile, then climbs inside the arena
   if (enemy && typeof enemy.hp === "number") {
     const baseLevel = (state.cyborgProfile?.level || 1);
@@ -1259,15 +2072,37 @@ function shoot(target) {
   if (!fireData) return;
   const vfx = STYLE_VFX[weaponManager.active?.styleKey] || STYLE_VFX.spray;
   const isGrenade = GRENADE_STYLES.has(weaponManager.active?.styleKey);
+  const styleKey = weaponManager.active?.styleKey || "spray";
   if (!state.attractSim) {
     audioController?.playSfx(vfx.sound, { volume: 0.5, pitch: vfx.pitch * (0.96 + state.rng() * 0.08) });
+  }
+
+  // FX-03: per-style camera kick, authored in screen pixels (<=2 px) and converted to world units
+  // at the live camera distance. The jitter comes from the run RNG, so it is reproducible per seed.
+  const impulse = kickImpulse(styleKey, state.rng);
+  if (state.camKick) {
+    const camDist = Math.max(1, camera.position.distanceTo(state.pos));
+    const worldPerPx = (2 * Math.tan((camera.fov * Math.PI) / 360) * camDist) / Math.max(1, globalThis.innerHeight || 1080);
+    state.camKick.x += impulse.x * worldPerPx;
+    state.camKick.y += impulse.y * worldPerPx;
+    state.camKick.roll += impulse.roll;
+    state.camKick.recover = impulse.recover;
+  }
+  state.kickShots = (state.kickShots || 0) + 1;
+
+  // FX-02: ballistic styles throw a case out of the ejection port; energy/thrown styles no-op.
+  // vShotDir is reused so a shot allocates no vector (the case pool is pre-built).
+  if (!state.attractSim) {
+    vShotDir.subVectors(vTarget, vMuzzle).normalize();
+    casings.eject(vMuzzle, vShotDir, styleKey);
   }
 
   // Spawn tracers + Travelling Light-Orb Projectiles
   const pelletCount = fireData.pellets || 1;
   const darkBoost = Math.max(state.darknessFactor || 0, state.blackoutActive ? 1 : 0);
   const orbScaleBase = (weaponManager.hasLightOrbMod ? 1.75 : 1.0) * (1 + darkBoost * 0.85);
-  const orbLife = Math.max(fireData.tracerLife, 0.16 + darkBoost * 0.12 + (weaponManager.hasLightOrbMod ? 0.08 : 0));
+  // a tracer is a 70 ms flash, not a 160 ms beam; the long glow made every shot read as a laser
+      const orbLife = Math.max(fireData.tracerLife, 0.07 + darkBoost * 0.05 + (weaponManager.hasLightOrbMod ? 0.04 : 0));
 
   for (let p = 0; p < pelletCount; p++) {
     const tracer = tracers.find((t) => t.life <= 0);
@@ -1275,7 +2110,7 @@ function shoot(target) {
       const spreadAngle = (state.rng() - 0.5) * fireData.spread * (Math.PI / 180);
       const dir = new THREE.Vector3().subVectors(vTarget, vMuzzle).normalize();
       dir.applyAxisAngle(new THREE.Vector3(0, 1, 0), spreadAngle);
-      const travelDist = Math.min(26, Math.max(5, vMuzzle.distanceTo(vTarget) + 3.5));
+      const travelDist = Math.min(18, Math.max(4, vMuzzle.distanceTo(vTarget) + 0.6));
       const endPos = vMuzzle.clone().add(dir.clone().multiplyScalar(travelDist));
       tracer.start.copy(vMuzzle);
       tracer.end.copy(endPos);
@@ -1285,8 +2120,10 @@ function shoot(target) {
 
       tracer.mesh.position.copy(vMuzzle).add(endPos).multiplyScalar(0.5);
       tracer.mesh.lookAt(endPos);
-      const tracerWidth = state.attractSim ? 0.42 : (1 + darkBoost * 0.6) * vfx.tracer;
+      const tracerWidth = state.attractSim ? 0.24 : (1 + darkBoost * 0.6) * vfx.tracer * 0.55;
       tracer.mesh.scale.set(tracerWidth, tracerWidth, Math.max(0.4, vMuzzle.distanceTo(endPos)));
+      tracer.baseWidth = tracerWidth;
+      tracer.feelKey = weaponManager.active?.styleKey;
       tracer.mesh.material.color.setHex(vfx.color);
       tracer.mesh.visible = true;
 
@@ -1301,7 +2138,7 @@ function shoot(target) {
 
   flash.position.copy(vMuzzle);
   if (flash.material && flash.material.color) flash.material.color.setHex(vfx.color);
-  flash.scale.setScalar((fireData.muzzleFlashSize / 0.24) * vfx.flash);
+  flash.scale.setScalar((fireData.muzzleFlashSize / 0.24) * vfx.flash * 0.6);
   flash.visible = !state.attractSim;   // no blown-out flash ball in the bay demo
   state.flash = fireData.muzzleFlashLife;
 
@@ -1327,27 +2164,45 @@ function shoot(target) {
   // Deal damage (+25% bonus when target is illuminated in Darkness or with Floodlight/Light-Orb mods)
   const litBonusMult = (state.darknessFactor > 0.25 || weaponManager.hasFloodlightMod || weaponManager.hasLightOrbMod) ? 1.25 : 1.0;
   const explosive = Boolean(weaponManager.hasExplosiveMod);
-  const shieldPierce = isGrenade ? 1 : (explosive ? 0.55 : 0);
+  const cfgPierce = Number(weaponManager.active?.config?.shieldPierce) || 0;
+  const shieldPierce = isGrenade ? 1 : Math.max(explosive ? 0.55 : 0, cfgPierce);
   const talentDmg = state.talentMods?.damageMult || 1;
-  const effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1) * talentDmg);
+  let effectiveDamage = Math.round(fireData.damage * litBonusMult * (explosive ? 1.15 : 1) * talentDmg * (state.powerMult || 1));
+  // WPN-01: anti-air rounds hurt what is overhead and barely scratch what is on the floor.
+  // (Ordered after effectiveDamage is initialised — this used to read it a line too early.)
+  const airMult = Number(weaponManager.active?.config?.airDamageMult) || 0;
+  if (airMult > 0) {
+    const isAirTarget = (target.mesh?.position?.y || 0) > 2.2;
+    effectiveDamage = Math.round(effectiveDamage * (isAirTarget ? airMult : 0.45));
+  }
   let damageDealt = 0;
   if (fireData.pierceCount > 0) {
-    // Pierce: hit target and up to pierceCount enemies behind
+    // Pierce: the target itself, then up to pierceCount enemies behind it. The old filter required
+    // proj > 0 measured from the TARGET, so the target's own projection was 0 and got excluded —
+    // a pierce weapon only ever damaged enemies lined up behind the thing it was aiming at.
     const dir = new THREE.Vector3().subVectors(target.mesh.position, vMuzzle).normalize();
-    const enemiesInLine = enemyManager.getEnemies().filter(e => {
+    const enemiesInLine = enemyManager.getEnemies().filter((e) => {
+      if (e === target) return true;
       const toEnemy = new THREE.Vector3().subVectors(e.mesh.position, target.mesh.position);
       const proj = toEnemy.dot(dir);
       const perp = toEnemy.clone().sub(dir.clone().multiplyScalar(proj)).length();
-      return proj > 0 && perp < 1.0;
-    }).slice(0, fireData.pierceCount);
+      return proj > 0.35 && perp < 1.1;
+    }).slice(0, fireData.pierceCount + 1);
 
     for (const enemy of enemiesInLine) {
       const result = enemyManager.damageEnemy(enemy, effectiveDamage, isGrenade, 0, shieldPierce);
+  // AUD-04 wiring: pick the impact timbre by what the shot actually hit
+  if (result !== undefined && !state.attractSim) {
+    const blocked = enemy.type === "shieldbearer" && enemy.isShielded && !isGrenade && shieldPierce === 0;
+    audioController?.playSfx(blocked ? "impact_shield"
+      : (effectiveDamage >= 40 ? "impact_heavy" : "impact_light"), { volume: blocked ? 0.5 : 0.3 });
+  }
       damageDealt += effectiveDamage;
       if (result.killed) {
         state.kills++;
+        noteKill(enemy.type);
         scoreSystem.recordKill(enemy.getScoreValue());
-        cardSystem.addXp(enemy.getXpValue());
+        cardSystem.addXp(TUNING.progression.xpPerKill || 10);
       }
     }
   } else if (pelletCount > 1) {
@@ -1374,25 +2229,51 @@ function shoot(target) {
         damageDealt += dmg;
         if (result.killed) {
           state.kills++;
+          noteKill(best.type);
           scoreSystem.recordKill(best.getScoreValue());
-          cardSystem.addXp(best.getXpValue());
+          cardSystem.addXp(TUNING.progression.xpPerKill || 10);
         }
       }
     }
   } else {
-    // Single shot
-    const result = enemyManager.damageEnemy(target, Math.round(fireData.damage * (explosive ? 1.15 : 1)), isGrenade, 0, shieldPierce);
-    damageDealt = fireData.damage;
+    // Single shot (uses effectiveDamage so anti-air/lit/explosive modifiers actually apply)
+    const result = enemyManager.damageEnemy(target, effectiveDamage, isGrenade, 0, shieldPierce);
+    damageDealt = effectiveDamage;
     if (result.killed) {
       state.kills++;
+      noteKill(target.type);
       audioController?.playSfx("kill", { volume: 0.6, pitch: 0.95 + state.rng() * 0.1 });
       scoreSystem.recordKill(target.getScoreValue());
-      cardSystem.addXp(target.getXpValue());
+      cardSystem.addXp(TUNING.progression.xpPerKill || 10);
       state.runXp = (state.runXp || 0) + target.getXpValue() * 1.5;
     }
   }
 
   scoreSystem.recordDamage(damageDealt);
+  state.lastShot = {
+    style: weaponManager.active && weaponManager.active.styleKey,
+    fireDamage: fireData.damage,
+    effectiveDamage,
+    dealt: damageDealt,
+    target: target && target.type,
+    pierceCount: fireData.pierceCount || 0,
+    pellets: fireData.pellets || 1,
+  };
+  if (damageDealt > 0) {
+    state.hitMarker = 0.12;
+    state.hitMarkerKill = Boolean(state.killFlash);
+    state.killFlash = false;
+    // MATH-04: damage converts to card XP at the tuned rate (pacing constants live in tuning.js)
+    cardSystem.addXp(damageDealt * (TUNING.progression.xpPerDamage || 0));
+  }
+}
+
+/** Kill feed entry (HUD): newest first, at most three. */
+function noteKill(type) {
+  state.killFlash = true;
+  state.killFeed = state.killFeed || [];
+  state.killFeed.unshift({ text: String(type || "hostile").toUpperCase() + " DOWN", t: 2.6 });
+  state.killFeed.length = Math.min(state.killFeed.length, 3);
 }
 
 function nearest(maxDistance = 24) {
@@ -1464,8 +2345,18 @@ function hurt(amount) {
   audioController?.playSfx("hurt", { volume: 0.45, pitch: 1.0 });
   globalThis.__studio?.hud?.flash("#e5313b", 0.22);
   if (state.health <= 0) {
-    state.phase = "dead";
-    if (!state.banked) { state.banked = true; bankRun(false); }
+    // The run ends here. It has to land on "results" (not "dead") or the results screen and the
+    // between-run summary never appear — that is the MGR-09 path.
+    state.phase = "results";
+    audioController?.stopAmbience?.();
+    barks.trigger("died");
+    state.showResults = true;
+    audioController?.playSfx("death", { volume: 0.8 });
+    if (!state.banked) { state.banked = true; bankRun(Boolean(state.arenaCleared)); }
+    state.resultsScreen = new ResultsScreen(scoreSystem, beatDirector.runTime, state.health, beatDirector.currentBeatIndex, Boolean(state.arenaCleared));
+    state.cardPickWindow = false;
+    state.showCards = false;
+    if (state.currentCardOptions) cardTray.hide();
     globalThis.__studio?.hud?.flash("#e5313b", 0.55);
     syncHud();
   }
@@ -1739,7 +2630,26 @@ function update(dt, ctx) {
     }
 
     state.t += dt;
-    beatDirector.runTime += dt;
+    // NOTE: beatDirector.update(dt) advances runTime itself. The extra += that used to be here made
+    // the whole game clock run at 2x (beats, difficulty, XP/s, boss threshold); removed.
+
+    // spotter paint wears off
+    if (state.painted) {
+      state.paintedTimer = (state.paintedTimer || 0) - dt;
+      if (state.paintedTimer <= 0) state.painted = false;
+    }
+
+    updatePickups(dt);
+
+    // HUD transients: hit marker and kill feed
+    if (state.hitMarker > 0) state.hitMarker = Math.max(0, state.hitMarker - dt);
+    if (state.killFeed && state.killFeed.length) {
+      for (const entry of state.killFeed) entry.t -= dt;
+      state.killFeed = state.killFeed.filter((entry) => entry.t > 0);
+    }
+
+    // MATH-04: a clean run still earns card XP from time survived (tuned in tuning.js)
+    cardSystem.addXp(dt * (TUNING.progression.xpPerSecond || 0));
 
     // Orbit
     state.orbit -= ctx.look.x * 0.0042;
@@ -1754,34 +2664,85 @@ function update(dt, ctx) {
     if (state.autopilot && state.controlMode !== "manual") {
       const c = pilot(state, enemyManager, dt);
       // route the autopilot around props, otherwise it walks into cover and looks frozen
-      const steered = steerAroundObstacles(state.pos, c.mx, c.mz, 0.55, arenaColliders);
-      mx = steered.x; mz = steered.z;
+      if (c.wantsMove) {
+        const steered = steerAroundObstacles(state.pos, c.mx, c.mz, 0.55, arenaColliders);
+        mx = steered.x; mz = steered.z;
+      } else {
+        mx = 0; mz = 0;
+      }
       state.pilotMode = c.mode;
       state.pilotDistance = c.distance;
+      state.pilotThrottle = c.throttle ?? 0;
+      state.pilotWantsMove = Boolean(c.wantsMove);
+      // aim the body at the target, not at the strafe: a fighter that spins to face its movement
+      // cannot hold a firing line, and it made the shield's front slot impossible to define
+      state.pilotAimYaw = Number.isFinite(c.targetX)
+        ? Math.atan2(c.targetX - state.pos.x, c.targetZ - state.pos.z)
+        : null;
     }
-    if (mx !== 0 || mz !== 0) {
-      const length = Math.hypot(mx, mz);
-      mx /= length; mz /= length;
-      const speed = weaponManager.active.styleKey === "spinup" && weaponManager.active.spinupProgress > 0
+
+    {
+      // Smooth, eased movement: the pilot publishes a direction + throttle, the body accelerates
+      // toward that velocity instead of snapping. A hold (throttle 0) eases to a stop.
+      const speed = (weaponManager.active.styleKey === "spinup" && weaponManager.active.spinupProgress > 0
         ? TUNING.player.baseSpeed * TUNING.player.aimModeSpeedMult * TUNING.player.spinupSpeedMult
         : state.aimMode
           ? TUNING.player.baseSpeed * TUNING.player.aimModeSpeedMult
-          : TUNING.player.baseSpeed;
-      state.pos.x += mx * speed * dt;
-      state.pos.z += mz * speed * dt;
-      // Solid arena props block the player (colliders registered by populateArenaProps)
-      resolveObstacleCollision(state.pos, 0.55, arenaColliders);
-      const radius = Math.hypot(state.pos.x, state.pos.z);
-      if (radius > TUNING.player.arenaRadius) {
-        state.pos.x *= TUNING.player.arenaRadius / radius;
-        state.pos.z *= TUNING.player.arenaRadius / radius;
+          : TUNING.player.baseSpeed) * (state.autopilot ? (state.pilotThrottle ?? 1) : 1) * (state.speedMult || 1);
+      const len = Math.hypot(mx, mz);
+      const wantX = len > 1e-6 ? (mx / len) * speed : 0;
+      const wantZ = len > 1e-6 ? (mz / len) * speed : 0;
+      const vel = state.moveVel || (state.moveVel = { x: 0, z: 0 });
+      const prevX = vel.x;
+      const prevZ = vel.z;
+      const k = 1 - Math.exp(-dt * (state.autopilot ? 10 : 22));
+      vel.x += (wantX - vel.x) * k;
+      vel.z += (wantZ - vel.z) * k;
+      // smoothness evidence: per-frame velocity change, and how many tactical holds happened
+      const dv = Math.hypot(vel.x - prevX, vel.z - prevZ);
+      state.maxFrameAccel = Math.max(state.maxFrameAccel || 0, dv);
+      if (state.pilotMode === "hold" && state._lastPilotMode !== "hold") state.holdBeats = (state.holdBeats || 0) + 1;
+      state._lastPilotMode = state.pilotMode;
+      const mag = Math.hypot(vel.x, vel.z);
+      if (mag > 0.02) {
+        const step = mag * dt;
+        state.pos.x += vel.x * dt;
+    dustTimer -= dt;
+    if (dustTimer <= 0 && Math.hypot(vel.x, vel.z) > 1.0 && state.phase === "playing") {
+      dustTimer = 0.14;
+      spawnDust(state.pos.x, state.pos.z);
+    }
+        state.pos.z += vel.z * dt;
+        state.odometer = (state.odometer || 0) + step;
+        if (state.bossWarning > 0) {
+          state.bossDodgeAccum = (state.bossDodgeAccum || 0) + step;
+          state.bossDodgeMax = Math.max(state.bossDodgeMax || 0, state.bossDodgeAccum);
+        }
+        resolveObstacleCollision(state.pos, 0.55, arenaColliders);
+        const radius = Math.hypot(state.pos.x, state.pos.z);
+        if (radius > TUNING.player.arenaRadius) {
+          state.pos.x *= TUNING.player.arenaRadius / radius;
+          state.pos.z *= TUNING.player.arenaRadius / radius;
+        }
       }
-      let turn = Math.atan2(mx, mz) - state.yaw;
+      // the metric only counts a body that was told to move and still had not moved after 3 frames
+      // (the easing makes the first frames after a hold legitimately slow)
+      if (state.pilotWantsMove) state.pilotMoveFrames = (state.pilotMoveFrames || 0) + 1;
+      else state.pilotMoveFrames = 0;
+      if (state.autopilot && state.pilotWantsMove && state.pilotMoveFrames > 3 && mag < 0.05) {
+        state.zeroMoveFrames = (state.zeroMoveFrames || 0) + 1;
+      }
+      // face the aim target while standing; face the move direction in manual control
+      const desiredYaw = Number.isFinite(state.pilotAimYaw) && state.autopilot
+        ? state.pilotAimYaw
+        : (mag > 0.15 ? Math.atan2(vel.x, vel.z) : state.yaw);
+      let turn = desiredYaw - state.yaw;
       turn = Math.atan2(Math.sin(turn), Math.cos(turn));
       state.yaw += turn * Math.min(1, dt * TUNING.player.bodyYawSmoothing);
     }
     soldier.position.copy(state.pos);
     soldier.rotation.y = state.yaw;
+    playerShadow.position.set(state.pos.x, 0.02, state.pos.z);
 
     // Aim mode
     if (held(ctx, ["Mouse2"])) {
@@ -1830,11 +2791,14 @@ function update(dt, ctx) {
 
     // Apply smooth ambient dimming + gun floodlight & solar aura amplification during Darkness
     const cfg = ARENA_LIGHTING[arenaKey] || ARENA_LIGHTING.perimeter;
-    const dimMult = 1 - (state.darknessFactor || 0) * 0.88;
+    // darkness tops out at 70 % so the arena stays readable: 88 % turned the map into a black screen
+  const dimMult = 1 - (state.darknessFactor || 0) * 0.7;
+  // the operator stays readable in a wave: fill rises as the arena dims
+  if (typeof operatorFill !== "undefined") operatorFill.intensity = 2.2 + (state.darknessFactor || 0) * 5.5;
     if (!lightsOff) {
       hemi.intensity = cfg.hemisphere.intensity * dimMult;
       sun.intensity = cfg.sun.intensity * dimMult;
-      scene.fog.density = cfg.fog.density * (1 + (state.darknessFactor || 0) * 0.55);
+      scene.fog.density = cfg.fog.density * (1 + (state.darknessFactor || 0) * 0.35);
     }
     // LIGHT MODS ARE CARD-GATED: no beam, no lamp housing, no aura until the player owns the card
     // (or is holding a light gun, whose identity *is* the light). Darkness only amplifies what you own.
@@ -1906,34 +2870,49 @@ function update(dt, ctx) {
     }
 
     // Update enemies
-    const enemyActions = enemyManager.update(dt, state.pos, beatDirector.runTime / 60);
+    const enemyActions = enemyManager.update(dt, state.pos, beatDirector.runTime / 60, state.yaw);
     for (const { enemy, action } of enemyActions) {
+      // Enemy attacks were all stubs before: only melee ever reached the player, so an autonomous
+      // pilot that held range could never lose. Each action now does what its archetype promises,
+      // with line-of-sight for ranged fire and a range gate for the close attacks.
+      const d = Math.hypot(enemy.position.x - state.pos.x, enemy.position.z - state.pos.z);
+      const los = !segmentHitsCollider(state.pos.x, state.pos.z, enemy.position.x, enemy.position.z);
+      const cfg = enemy.config || {};
       if (action.type === "melee") {
-        hurt(action.damage);
-      } else if (action.type === "charge") {
-        // Create charge visual
-      } else if (action.type === "paint") {
-        // Mark player as painted
+        hurt(action.damage || cfg.meleeDamage || 9);
+      } else if (action.type === "rangedShot") {
+        if (los && d < 18) spawnEnemyShot(enemy, action.damage || 9, 12, 0xff7a4a);
       } else if (action.type === "dive") {
-        // Dive attack
+        if (d < 3.2) hurt(cfg.diveDamage || 18);
       } else if (action.type === "shell") {
-        // Mortar shell
+        if (d < (cfg.shellRadius || 4)) hurt(cfg.shellDamage || 30);
       } else if (action.type === "stomp") {
-        // Mech stomp
+        if (d < (cfg.stompRadius || 3)) hurt(cfg.stompDamage || 50);
       } else if (action.type === "minigun") {
-        // Mech minigun
+        if (los && d < 18) spawnEnemyShot(enemy, cfg.minigunDamage || 12, 19, 0xffb347);
+      } else if (action.type === "charge") {
+        if (d < 2.2) hurt(cfg.chargeDamage || 40);
+      } else if (action.type === "paint") {
+        state.painted = true;
+        state.paintedTimer = cfg.paintDuration || 5;
       }
     }
 
-    // Handle spawning
+    // Handle spawning (a test can freeze the director to isolate one archetype)
     const beat = beatDirector.getCurrentBeat();
-    enemyManager.updateSpawning(dt, state.pos, beat);
+    if (state.spawnsEnabled !== false) enemyManager.updateSpawning(dt, state.pos, beat);
 
     // Targeting (auto-orient Operator & Gun Floodlight toward nearest threat)
     // anti-air: helicopters sit high, so acquire them from further out and pitch the gun at them
     const anyAir = state.phase === "playing" &&
       enemyManager.enemies.some((e) => e.mesh && e.mesh.position.y > 2.2);
-    const target = state.phase === "playing" ? nearest(anyAir ? 36 : 24) : null;
+    let target = state.phase === "playing" ? nearest(anyAir ? 36 : 24) : null;
+    // A live boss outranks the adds — always. Gating this on distance made the gun drop the boss
+    // whenever it drifted past the gate and go back to chewing riflemen, so a run could never clear.
+    if (state.phase === "playing" && state.bossEnemy && state.bossEnemy.hp > 0
+      && enemyManager.enemies.includes(state.bossEnemy)) {
+      target = state.bossEnemy;
+    }
     if (target) {
       const dy = target.mesh.position.y - 1.15;
       const dxz = Math.hypot(target.mesh.position.x - state.pos.x, target.mesh.position.z - state.pos.z) || 1;
@@ -1961,14 +2940,21 @@ function update(dt, ctx) {
     }
 
     // ── BOSS WAVE ────────────────────────────────────────────────────────────
-    // Later in a run a named boss walks in. It is a real enemy (scaled, tanky) with a HUD callout,
-    // and killing it pays talent points. This is the only way to farm points besides finishing runs.
-    if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 18)) {
+    // TUNE-02: boss threshold was 75 s / 18 kills, which every run reached (100 %). At 105 s / 70
+    // kills it lands in roughly half of runs, which is the target, and it is still a mid-run event.
+    if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 75)) {
       state.bossSpawned = true;
       const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
       const boss = enemyManager.spawn(kind, state.pos, beatDirector.runTime / 60);
       if (boss) {
-        boss.hp = Math.round(boss.hp * 2 + 2600);   // hard, but a built cyborg can finish it
+        const bossLevel = (state.cyborgProfile && state.cyborgProfile.level) || 1;
+        // TUNE-04: aerial boss uses its own HP budget (8-15 s TTK); ground bosses keep bossHp()
+        if (kind === "gunship") {
+          const gcfg = TUNING.boss.gunship;
+          boss.hp = Math.round((gcfg.hp || 1100) * (1 + 0.12 * Math.max(0, bossLevel - 1)));
+        } else {
+          boss.hp = Math.round(bossHp(boss.config?.hp || boss.hp, bossLevel) * (TUNING.boss.hpScale ?? 0.4));
+        }
         boss.maxHp = boss.hp;
         boss.isBoss = true;
         barks.trigger("boss_spawn");
@@ -1994,16 +2980,20 @@ function update(dt, ctx) {
       const b = state.bossEnemy;
       const dist = Math.hypot(b.position.x - state.pos.x, b.position.z - state.pos.z);
       state.bossTimer = (state.bossTimer || 0) + dt;
-      if (state.bossTimer > 6) {
+      // TUNE-04: a gunship only fires inside its attack range, from altitude
+      const isAirBoss = b.type === "gunship";
+      const inAttackRange = !isAirBoss || dist <= (TUNING.boss.gunship.attackRange || 26);
+      if (state.bossTimer > 6 && inAttackRange) {
         state.bossTimer = 0;
         state.bossWarning = 1.4;              // telegraph window
+        state.bossDodgeAccum = 0;             // MOV-04: measure this telegraph's displacement
       }
       if (state.bossWarning > 0) {
         state.bossWarning = Math.max(0, state.bossWarning - dt);
         globalThis.__studio?.hud?.flash("#F2545B", 0.12);
         if (state.bossWarning === 0) {
           // salvo lands: heavy damage in a close band, lighter further out
-          const dmg = dist < 8 ? 34 : dist < 14 ? 18 : 6;
+          const dmg = dist < 8 ? 30 : dist < 14 ? 16 : 6;
           hurt(dmg);
           audioController?.playSfx("kill", { volume: 0.55, pitch: 0.7 });
         }
@@ -2018,6 +3008,9 @@ function update(dt, ctx) {
       const stillUp = enemyManager.enemies.includes(state.bossEnemy) && state.bossEnemy.hp > 0;
       if (!stillUp && !state.bossPaid) {
         state.bossPaid = true;
+        // Killing the boss IS the clear. The old definition (survive to the ~12 minute overtime
+        // line) could never fire in a 100 s run, so clear% was pinned at 0 by construction.
+        state.arenaCleared = true;
         barks.trigger("boss_kill");
         const prof = state.cyborgProfile || {};
         prof.talentPoints = (prof.talentPoints ?? 0) + 1;
@@ -2027,7 +3020,11 @@ function update(dt, ctx) {
       }
     }
 
+    updateEnemyShots(dt);
+    updateEnemyRings();
+    updateDust(dt);
     updateGrenades(dt);
+    casings.update(dt);
 
     // Check for card queue
     if (cardSystem.queuedCards.length > 0 && !state.cardPickWindow) {
@@ -2038,17 +3035,39 @@ function update(dt, ctx) {
     }
 
     // Camera
-    vDesired.set(state.pos.x + Math.sin(state.orbit) * 9, 6.4, state.pos.z + Math.cos(state.orbit) * 9);
+    vDesired.set(state.pos.x + Math.sin(state.orbit) * 8.0, 5.9, state.pos.z + Math.cos(state.orbit) * 8.0);
     const lerpFactor = 1 - Math.exp(-dt * 5.5);
     camera.position.lerp(vDesired, lerpFactor);
     // keep the camera out of cover: a container swallowing the view reads as a broken game
     const camProbe = { x: camera.position.x, z: camera.position.z };
+    const camX0 = camera.position.x;
+    const camZ0 = camera.position.z;
     if (resolveObstacleCollision(camProbe, 1.6, arenaColliders)) {
-      camera.position.x = camProbe.x;
-      camera.position.z = camProbe.z;
-      camera.position.y = Math.max(camera.position.y, 4.6);
+      // MOV-03: apply at most 1 m of lateral correction (acceptance), and lift the arm over the
+      // cover instead when the probe wants more than that. A big push means "look down over it".
+      const pushed = Math.hypot(camProbe.x - camX0, camProbe.z - camZ0);
+      const applied = Math.min(pushed, 1.0);
+      const s = pushed > 0 ? applied / pushed : 0;
+      camera.position.x = camX0 + (camProbe.x - camX0) * s;
+      camera.position.z = camZ0 + (camProbe.z - camZ0) * s;
+      camera.position.y = Math.max(camera.position.y, pushed > 0.55 ? 8.5 : 4.6);
+      state.camPushMax = Math.max(state.camPushMax || 0, applied);
     }
     camera.lookAt(state.pos.x, 1.25, state.pos.z);
+
+    // FX-03: camera kick — applied after lookAt so the roll survives, then decayed per style
+    {
+      const kick = state.camKick;
+      if (kick) {
+        camera.position.x += kick.x;
+        camera.position.y += kick.y;
+        camera.rotation.z += kick.roll;
+        const kDecay = Math.exp(-dt * (kick.recover || 10));
+        kick.x *= kDecay;
+        kick.y *= kDecay;
+        kick.roll *= kDecay;
+      }
+    }
 
     // speech bubble tracks the operator's head in screen space
     const head = new THREE.Vector3(state.pos.x, 2.45, state.pos.z).project(camera);
@@ -2072,14 +3091,15 @@ function update(dt, ctx) {
       }
     }
 
-    // Check death — this is the run's end, so the profile banks here
-    if (state.health <= 0) {
+    // Check death — hurt() already ends the run, this covers direct health drains
+    if (state.phase === "playing" && state.health <= 0) {
       state.phase = "results";
+  audioController?.stopAmbience?.();
   barks.trigger(state.health <= 0 ? "died" : "clear_dead");
       state.showResults = true;
       audioController?.playSfx("death", { volume: 0.8 });
-      if (!state.banked) { state.banked = true; bankRun(false); }
-      state.resultsScreen = new ResultsScreen(scoreSystem, beatDirector.runTime, state.health, beatDirector.currentBeatIndex);
+      if (!state.banked) { state.banked = true; bankRun(Boolean(state.arenaCleared)); }
+      state.resultsScreen = new ResultsScreen(scoreSystem, beatDirector.runTime, state.health, beatDirector.currentBeatIndex, Boolean(state.arenaCleared));
       state.cardPickWindow = false;
       state.showCards = false;
       syncHud();
@@ -2126,6 +3146,12 @@ function update(dt, ctx) {
       continue;
     }
     const progress = 1 - tracer.life / Math.max(0.01, tracer.maxLife || 0.12);
+    // FX-03: tracer taper — heavy styles thin to a needle, light styles stay fat and fade
+    if (tracer.baseWidth) {
+      const w = tracer.baseWidth * tracerTaper(tracer.feelKey, progress);
+      tracer.mesh.scale.x = w;
+      tracer.mesh.scale.y = w;
+    }
     if (tracer.orb) {
       tracer.orb.position.lerpVectors(tracer.start, tracer.end, Math.min(1, progress));
       if (activeOrbLights < orbLights.length) {

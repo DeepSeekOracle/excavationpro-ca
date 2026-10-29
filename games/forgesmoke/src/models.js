@@ -8,6 +8,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
 import { standardMaterial, bakeTexture } from "./materials.js";
 import { PALETTE, hexInt } from "./theme.js";
+import { mapById, PROP_COLLIDERS } from "./maps.js";
 
 export const PLAYER_SKINS = [
   {
@@ -73,6 +74,9 @@ export const STARTER_LOADOUTS = [
   { id: "flamer", name: "SOLAR PLASMA // FLAMER [LIGHT GUN]", role: "SOLAR FLARE IGNITER", color: "#ff6a2a", isLightGun: true },
   { id: "arc", name: "THUMPER // ARC", role: "LOBBED BLAST GRENADES", color: "#ff6fd6", isLightGun: false },
   { id: "sentry", name: "DEPLOYER // SENTRY", role: "AUTONOMOUS TURRET LINK", color: "#6fff9a", isLightGun: false },
+  { id: "flak", name: "AA FLAK // FLAK", role: "AIRBURST - AIR ONLY", color: "#ffb347", isLightGun: false },
+  { id: "breach", name: "BREACHER // BREACH", role: "CLOSE RANGE, SHIELD PIERCE", color: "#ff8a4a", isLightGun: false },
+  { id: "rail2", name: "SIEGE RAIL // RAIL2", role: "3-TARGET PENETRATION", color: "#f2f8ff", isLightGun: true },
 ];
 
 export function isLightGunStyle(styleKey) {
@@ -92,17 +96,32 @@ const STYLE_COLORS = {
   rail: 0xffffff,
   flamer: 0xff6a2a,
   sentry: 0x6fff9a,
+  flak: 0xffb347,
+  breach: 0xff8a4a,
+  rail2: 0xf2f8ff,
 };
 
 const gltfLoader = new GLTFLoader();
 const gltfCache = new Map();
 const gltfPromises = new Map();
 
+// ?rig=photo swaps the operator's skinned mesh for the photo-character rig exported by the
+// photo_pipeline (same Mixamo skeleton and Idle/Run/Walk actions).
+// The photo character is the default operator now; ?rig=classic keeps the placeholder for A/B.
+const USE_PHOTO_RIG = (() => {
+  try {
+    const rig = new URLSearchParams(globalThis.location?.search || "").get("rig");
+    return rig !== "classic";
+  } catch (_) { return true; }
+})();
+const OPERATOR_RIG_ASSET = USE_PHOTO_RIG ? "soldier-rig-photo" : "soldier-rig";
+
 const ALL_GLB_NAMES = [
   "soldier-rig",
   "cesium-man",
   "robot-rig",
   "xbot-rig",
+  "soldier-rig-photo",
   "damaged-helmet",
   "brain-stem",
   "gunship",
@@ -232,16 +251,23 @@ function cacheHumanoidArmBones(rig) {
  * tactical rifle firing stance right after `mixer.update(dt)`, so the legs/hips run naturally
  * while both hands grip the weapon at shoulder height (`y = 1.45m`).
  */
-function applyTwoHandedRiflePose(bones, aimYaw = 0, reloadTilt = 0) {
+function applyTwoHandedRiflePose(bones, aimYaw = 0, reloadTilt = 0, recoil = 0) {
   if (!bones || !bones.rArm || !bones.rFore || !bones.lArm || !bones.lFore) return;
-  const clampedYaw = Math.max(-0.55, Math.min(0.55, aimYaw));
+  const yawIn = Number.isFinite(aimYaw) ? aimYaw : 0;
+  const tiltIn = Number.isFinite(reloadTilt) ? reloadTilt : 0;
+  const clampedYaw = Math.max(-0.55, Math.min(0.55, yawIn));
+  const clampedTilt = Math.max(-1.4, Math.min(1.4, tiltIn));
+  const kick = Math.max(0, Math.min(0.35, Number.isFinite(recoil) ? recoil : 0));
   if (bones.spine2) {
-    bones.spine2.rotation.y += clampedYaw * 0.45;
+    // ABSOLUTE, not +=: this runs every frame and the old accumulation twisted the spine without
+    // bound, swinging the head and arms out of the torso ("invisible from the waist up").
+    bones.spine2.rotation.y = clampedYaw * 0.45;
+    bones.spine2.rotation.x = -kick * 0.55;   // shoulders rock back on the shot
   }
   // Right hand grips pistol grip at [-0.14, 1.45, 0.25]; Left hand cradles barrel at [0.00, 1.48, 0.36]
-  bones.rArm.rotation.set(0.63 + reloadTilt * 0.5, 0.17 - clampedYaw * 0.35, 1.35);
-  bones.rFore.rotation.set(1.01, -0.95, 0);
-  bones.lArm.rotation.set(-0.79 - reloadTilt * 0.6, -0.92 - clampedYaw * 0.35, 1.31);
+  bones.rArm.rotation.set(0.63 + clampedTilt * 0.5 - kick * 1.1, 0.17 - clampedYaw * 0.35, 1.35);
+  bones.rFore.rotation.set(1.01 - kick * 0.8, -0.95, 0);
+  bones.lArm.rotation.set(-0.79 - clampedTilt * 0.6 + kick * 0.7, -0.92 - clampedYaw * 0.35, 1.31);
   bones.lFore.rotation.set(-0.48, -1.76, -0.32);
 }
 
@@ -316,7 +342,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
 
   if (gunPivot) {
     // Positioned at the Vanguard Soldier's shoulder/hands rifle grip (rHand=[-0.14, 1.45, 0.25], lHand=[0.0, 1.48, 0.36])
-    gunPivot.position.set(-0.08, 1.46, 0.16);
+    gunPivot.position.set(-0.2, 1.42, 0.3);
     if (gunPivot.parent !== soldier) {
       soldier.add(gunPivot);
     }
@@ -337,32 +363,36 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
     return { clothMat, armorMat, visorMat, skin };
   }
 
-  withGltf("soldier-rig", (gltf) => {
+  withGltf(OPERATOR_RIG_ASSET, (gltf) => {
     if (soldier.userData.glbRig) {
-      applyOperatorSkinToRig(
-        soldier.userData.glbRig,
-        soldier.userData.skin || skin,
-        soldier.userData.clothMat || clothMat,
-        soldier.userData.armorMat || armorMat,
-        soldier.userData.visorMat || visorMat,
-      );
+      if (!USE_PHOTO_RIG) {
+        applyOperatorSkinToRig(
+          soldier.userData.glbRig,
+          soldier.userData.skin || skin,
+          soldier.userData.clothMat || clothMat,
+          soldier.userData.armorMat || armorMat,
+          soldier.userData.visorMat || visorMat,
+        );
+      }
       return;
     }
     const rig = skeletonClone(gltf.scene);
     rig.name = "OperatorVanguardRig";
     rig.userData.tag = "operator-rig";
-    rig.userData.asset = "soldier-rig";
-    rig.scale.setScalar(1.24);
+    rig.userData.asset = OPERATOR_RIG_ASSET;
+    rig.scale.setScalar(1.32);
     rig.position.set(0, 0, 0);
     rig.rotation.set(0, Math.PI, 0);
 
-    applyOperatorSkinToRig(
-      rig,
-      soldier.userData.skin || skin,
-      soldier.userData.clothMat || clothMat,
-      soldier.userData.armorMat || armorMat,
-      soldier.userData.visorMat || visorMat,
-    );
+    if (!USE_PHOTO_RIG) {
+      applyOperatorSkinToRig(
+        rig,
+        soldier.userData.skin || skin,
+        soldier.userData.clothMat || clothMat,
+        soldier.userData.armorMat || armorMat,
+        soldier.userData.visorMat || visorMat,
+      );
+    }
 
     if (soldier.userData.fallbackGroup) {
       soldier.remove(soldier.userData.fallbackGroup);
@@ -420,12 +450,17 @@ export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false,
   }
   let reloadTilt = 0;
   if (gunPivot) {
-    gunPivot.position.set(-0.08, 1.46, 0.16);
+    gunPivot.position.set(-0.2, 1.42, 0.3);
     if (activeWeapon && activeWeapon.isReloading) {
       const phase = activeWeapon.getReloadPhase();
-      const targetAngle = phase ? (phase.angle * Math.PI) / 180 : -0.38;
+      const rawAngle = phase && Number.isFinite(phase.angle) ? (phase.angle * Math.PI) / 180 : -0.38;
+      const targetAngle = Number.isFinite(rawAngle) ? rawAngle : 0;
+      if (!Number.isFinite(gunPivot.rotation.x)) gunPivot.rotation.x = 0;
       gunPivot.rotation.x += (targetAngle - gunPivot.rotation.x) * Math.min(1, dt * 14);
-      reloadTilt = gunPivot.rotation.x;
+      // keep the reload tilt sane: larger angles swing the rifle through the torso and it reads as
+      // "the gun disappeared"
+      gunPivot.rotation.x = Math.max(-0.55, Math.min(0.55, gunPivot.rotation.x));
+      reloadTilt = Number.isFinite(gunPivot.rotation.x) ? gunPivot.rotation.x : 0;
     } else {
       gunPivot.rotation.x += (0 - gunPivot.rotation.x) * Math.min(1, dt * 12);
     }
@@ -889,7 +924,8 @@ export function animateEnemyMesh(enemy, mesh, dt) {
   if (mesh.userData.mixer) {
     mesh.userData.mixer.update(dt);
     if (mesh.userData.armBones) {
-      applyTwoHandedRiflePose(mesh.userData.armBones, 0, 0);
+      if (enemy._recoil > 0) enemy._recoil = Math.max(0, enemy._recoil - dt * 1.6);
+      applyTwoHandedRiflePose(mesh.userData.armBones, 0, 0, enemy._recoil || 0);
     }
   }
   if (mesh.userData.rotors) {
@@ -1149,6 +1185,48 @@ export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
   const addCircleCollider = (x, z, radius, blocksProjectiles = true, tag = "prop") => {
     arenaColliders.push({ shape: "circle", x, z, radius, blocksProjectiles, tag });
   };
+
+  // ── MAP-01/02/03: the three named layouts live in src/maps.js ────────────────────────────────
+  const map = mapById(arenaKey);
+  if (map) {
+    // ruin clusters first (their colliders are fitted from the geometry)
+    (map.ruins || []).forEach((r, i) => {
+      spawnGlbProp(propGroup, "arena-ruins", [{
+        x: r.x, y: -0.2, z: r.z, scale: r.scale || 0.5, rotY: r.rotY || 0,
+        centerAndGround: true, tintHex: 0x4b5663, tag: `${map.id}-ruins-${i}`, fitCollider: true,
+      }]);
+    });
+
+    const byKind = new Map();
+    for (const p of map.props) {
+      if (!byKind.has(p.kind)) byKind.set(p.kind, []);
+      byKind.get(p.kind).push(p);
+    }
+    for (const [kind, list] of byKind) {
+      spawnGlbProp(propGroup, kind, list.map((p) => ({
+        x: p.x, y: 0, z: p.z, scale: p.scale || 1.15, rotY: p.rotY || 0,
+      })));
+      for (const p of list) {
+        const c = PROP_COLLIDERS[kind] || { shape: "obb", hx: 1.2, hz: 1.2 };
+        if (c.shape === "circle") addCircleCollider(p.x, p.z, c.radius, true, kind);
+        else addBoxCollider(p.x, p.z, c.hx, c.hz, p.rotY || 0, true, kind);
+      }
+    }
+
+    // FOUNDRY's hazard ring is paint on the floor, deliberately not a collider
+    if (map.hazardRing) {
+      const ring = makePart(new THREE.RingGeometry(map.hazardRing - 0.25, map.hazardRing, 40), hazardMat,
+        "foundry-hazard-ring", 0, 0.03, 0, -Math.PI / 2, 0, 0);
+      propGroup.add(ring);
+      for (let i = 0; i < 4; i += 1) {
+        const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+        const strip = makePart(new THREE.BoxGeometry(0.35, 0.04, 2.4), hazardMat, "foundry-hazard-strip",
+          Math.cos(a) * map.hazardRing, 0.03, Math.sin(a) * map.hazardRing, 0, -a, 0);
+        propGroup.add(strip);
+      }
+    }
+    return arenaColliders;
+  }
 
   if (arenaKey === "perimeter") {
     spawnGlbProp(propGroup, "arena-ruins", [

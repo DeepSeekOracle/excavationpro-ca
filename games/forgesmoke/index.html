@@ -141,10 +141,13 @@
     font: 13px/1.5 ui-sans-serif, system-ui, -apple-system, sans-serif; overflow: hidden;
   }
   canvas { display: block; width: 100%; height: 100%; }
-  #fatal {
-    position: fixed; inset: 0; display: none; place-items: center; padding: 24px;
-    background: #10060a; color: #ffb4b4; font-family: ui-monospace, SFMono-Regular, monospace; white-space: pre-wrap;
+  #errbar {
+    position: fixed; left: 0; right: 0; top: 0; z-index: 9999; display: none;
+    padding: 10px 14px; max-height: 35vh; overflow: auto;
+    background: #2a0b0f; color: #ffb4b4; border-bottom: 1px solid #f2545b;
+    font: 12px/1.45 ui-monospace, Consolas, monospace; white-space: pre-wrap;
   }
+  #errbar.show { display: block; }
   /* crawlable summary: present for search and screen readers, invisible to the player */
   .sr-only{
     position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
@@ -190,7 +193,7 @@
 </style>
 </head>
 <body>
-<pre id="fatal"></pre>
+<div id="errbar" role="alert" aria-live="assertive"></div>
 
 <!-- Crawlable identity. The game itself is canvas + JS; this is what a search engine,
      a screen reader or a link-preview crawler can read without running the game. -->
@@ -202,9 +205,9 @@
      permanently raise power, armour, agility, handling, tech and signal. Surviving past the final beat of
      an arena rolls a legendary drop. Enemy strength scales with your profile and rises inside each arena.</p>
   <nav aria-label="Site">
-    <a href="https://excavationpro.ca/">Excavationpro home</a>
-    <a href="https://excavationpro.ca/games/">All games</a>
-    <a href="https://asiancoastline.com/listen.html">Listen to the music catalogue</a>
+    <a href="https://excavationpro.ca/" tabindex="-1">Excavationpro home</a>
+    <a href="https://excavationpro.ca/games/" tabindex="-1">All games</a>
+    <a href="https://asiancoastline.com/listen.html" tabindex="-1">Listen to the music catalogue</a>
   </nav>
 </header>
 
@@ -245,16 +248,30 @@
   // rendered into the page and pushed into the studio contract instead of vanishing into a
   // console nobody reads.
   window.addEventListener("error", (event) => {
-    const box = document.getElementById("fatal");
-    box.style.display = "grid";
-    box.textContent = `${event.message}\n\n${event.error?.stack ?? ""}`;
-    window.__studio_error = { message: event.message, stack: event.error?.stack ?? "" };
+    const bar = document.getElementById("errbar");
+    if (!bar) return;
+    const entry = document.querySelector('script[type="module"][src*="main.js"]');
+    const build = entry ? ((entry.src.match(/[?&]v=([^&]+)/) || [])[1] || "unknown") : "unknown";
+    bar.classList.add("show");
+    bar.textContent = "[error] " + (event.message || "script error") + "\nbuild " + build
+      + (event.error?.stack ? "\n" + event.error.stack : "");
+    window.__studio_error = { kind: "error", message: event.message, stack: event.error?.stack ?? "", build };
+    console.error("[forge] error:", event.message);
+  });
+  window.addEventListener("unhandledrejection", (event) => {
+    const bar = document.getElementById("errbar");
+    if (!bar) return;
+    const reason = event.reason || {};
+    bar.classList.add("show");
+    bar.textContent = "[promise] " + String(reason.message || reason)
+      + (window.__forgeBuild ? "\nbuild " + window.__forgeBuild : "");
+    window.__studio_error = { kind: "promise", message: String(reason.message || reason), build: window.__forgeBuild || "unknown" };
   });
 </script>
 <!-- the shared listen player: one audio element, keeps playing across start / manager / game -->
-<script src="./assets/radio.js?v=1"></script>
+<script src="./assets/radio.js?v=202610321q"></script>
 <!-- arcade ledger: the shared write path for the live board (mirrors /games/arcade-ledger.js) -->
-<script src="./assets/arcade-ledger.js?v=1"></script>
-<script type="module" src="./src/main.js?v=20261030m"></script>
+<script src="./assets/arcade-ledger.js?v=202610321q"></script>
+<script type="module" src="./src/main.js?v=202610321q"></script>
 </body>
 </html>

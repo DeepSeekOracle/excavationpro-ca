@@ -4,7 +4,7 @@
  */
 
 import { TUNING } from "./tuning.js";
-import { weaponStatsWithParts, rollAirdropOptions, rollPart as _rollPart } from "./balance.js";
+import { weaponStatsWithParts, rollAirdropOptions, rollPart as _rollPart, xpThreshold } from "./balance.js";
 
 const DEFAULT_RELOAD_META = {
   startMult: 1.40,        // Starts 40% slower at Level 1 (~0.71x speed)
@@ -439,7 +439,7 @@ export class CardSystem {
     this.maxQueued = TUNING.progression.maxQueuedCards;
     this.xp = 0;
     this.level = 1;
-    this.nextLevelXp = TUNING.progression.levelBaseXp;
+    this.nextLevelXp = xpThreshold(1);
   }
 
   /** Add XP and check for level up. Returns card options if level up. */
@@ -447,7 +447,7 @@ export class CardSystem {
     this.xp += amount;
     if (this.xp >= this.nextLevelXp && this.queuedCards.length < this.maxQueued) {
       this.level++;
-      this.nextLevelXp = TUNING.progression.levelBaseXp * this.level;
+      this.nextLevelXp = xpThreshold(this.level);
       return this.generateCardOptions();
     }
     return null;
@@ -514,22 +514,43 @@ export class CardSystem {
       },
     ];
     const options = [];
+    const used = new Set();
+    const styles = ["spray", "pierce", "cone", "ricochet", "arc", "beam", "chain", "burst", "spinup", "rail", "flamer", "sentry", "flak", "breach", "rail2"];
+    const pickUnique = (pool) => {
+      let p = pool[Math.floor(this.rng() * pool.length)];
+      for (let k = 0; k < 6 && used.has(p.id); k += 1) p = pool[Math.floor(this.rng() * pool.length)];
+      used.add(p.id);
+      return p;
+    };
     for (let i = 0; i < TUNING.progression.cardChoices; i++) {
       if (i === 0) {
-        const chosenMod = lightAndReloadPool[Math.floor(this.rng() * lightAndReloadPool.length)];
+        const chosenMod = pickUnique(lightAndReloadPool);
         options.push({ type: "part", name: chosenMod.name, part: chosenMod });
       } else if (i === 1 && this.rng() < 0.65) {
-        const chosenMod = lightAndReloadPool[(Math.floor(this.rng() * lightAndReloadPool.length) + 1) % lightAndReloadPool.length];
+        const chosenMod = pickUnique(lightAndReloadPool);
         options.push({ type: "part", name: chosenMod.name, part: chosenMod });
-      } else if (this.rng() < 0.4) {
-        const styles = ["spray", "pierce", "cone", "ricochet", "arc", "beam", "chain", "burst", "spinup", "rail", "flamer", "sentry"];
-        const st = styles[Math.floor(this.rng() * styles.length)];
+      } else if (!this.lastHadWeapon && this.rng() < 0.16) {
+        // weapon cards are the rarest offer (16 %, and never two trays in a row)
+        // never offer the same weapon twice in one tray
+        const open = styles.filter((s) => !used.has(`wpn_${s}`));
+        const st = open.length ? open[Math.floor(this.rng() * open.length)] : styles[Math.floor(this.rng() * styles.length)];
+        used.add(`wpn_${st}`);
         options.push({ type: "weapon", name: `WEAPON: ${st.toUpperCase()}`, style: st });
       } else {
-        const p = rollPart(this.rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights);
-        options.push({ type: "part", name: p?.name || "Tactical Part", part: p });
+        let p = rollPart(this.rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights);
+        for (let k = 0; k < 6 && p && used.has(p.id); k += 1) {
+          p = rollPart(this.rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights);
+        }
+        if (p && !used.has(p.id)) {
+          used.add(p.id);
+          options.push({ type: "part", name: p.name, part: p });
+        } else {
+          const fallback = pickUnique(lightAndReloadPool);
+          options.push({ type: "part", name: fallback.name, part: fallback });
+        }
       }
     }
+    this.lastHadWeapon = options.some((o) => o.type === "weapon");
     this.queuedCards.push(options);
     return options;
   }
@@ -578,18 +599,21 @@ function rollPart(rng, slotWeights, rarityWeights) {
  * `kind` drives the special effect: tracer / lance / beam / arc / flame / grenade.
  */
 export const STYLE_VFX = {
-  spray:    { color: 0xffd57a, tracer: 0.9, flash: 1.0, sound: "fire",  pitch: 1.00, kind: "tracer" },
-  cone:     { color: 0xff8a4a, tracer: 1.6, flash: 1.5, sound: "fire",  pitch: 0.78, kind: "spread" },
-  pierce:   { color: 0x6fe3ff, tracer: 0.5, flash: 0.9, sound: "laser", pitch: 1.18, kind: "lance" },
-  ricochet: { color: 0xa6ff7a, tracer: 0.9, flash: 1.0, sound: "laser", pitch: 1.32, kind: "tracer" },
-  burst:    { color: 0xffe36f, tracer: 0.8, flash: 1.2, sound: "fire",  pitch: 1.12, kind: "tracer" },
-  beam:     { color: 0x6fe3ff, tracer: 2.6, flash: 1.7, sound: "laser", pitch: 0.92, kind: "beam" },
-  chain:    { color: 0xc6a4ff, tracer: 1.4, flash: 1.3, sound: "laser", pitch: 1.26, kind: "arc" },
-  spinup:   { color: 0xff5a5a, tracer: 0.7, flash: 0.8, sound: "fire",  pitch: 1.28, kind: "rapid" },
-  rail:     { color: 0xf2f8ff, tracer: 3.4, flash: 2.1, sound: "laser", pitch: 0.68, kind: "lance" },
-  flamer:   { color: 0xffa23c, tracer: 1.9, flash: 2.3, sound: "fire",  pitch: 0.62, kind: "flame" },
-  arc:      { color: 0xff6fd6, tracer: 1.2, flash: 1.6, sound: "fire",  pitch: 0.70, kind: "grenade" },
-  sentry:   { color: 0x6fff9a, tracer: 0.8, flash: 1.0, sound: "laser", pitch: 1.42, kind: "tracer" },
+  spray:    { color: 0xffd57a, tracer: 0.9, flash: 1.0, sound: "shot_smg",      pitch: 1.00, kind: "tracer" },
+  cone:     { color: 0xff8a4a, tracer: 1.6, flash: 1.5, sound: "shot_shotgun",  pitch: 0.78, kind: "spread" },
+  pierce:   { color: 0x6fe3ff, tracer: 0.5, flash: 0.9, sound: "shot_marksman", pitch: 1.18, kind: "lance" },
+  ricochet: { color: 0xa6ff7a, tracer: 0.9, flash: 1.0, sound: "laser3",        pitch: 1.32, kind: "tracer" },
+  burst:    { color: 0xffe36f, tracer: 0.8, flash: 1.2, sound: "shot_marksman", pitch: 1.12, kind: "tracer" },
+  beam:     { color: 0x6fe3ff, tracer: 2.6, flash: 1.7, sound: "shot_beam",     pitch: 0.92, kind: "beam" },
+  chain:    { color: 0xc6a4ff, tracer: 1.4, flash: 1.3, sound: "laser5",        pitch: 1.26, kind: "arc" },
+  spinup:   { color: 0xff5a5a, tracer: 0.7, flash: 0.8, sound: "shot_minigun",  pitch: 1.28, kind: "rapid" },
+  rail:     { color: 0xf2f8ff, tracer: 3.4, flash: 2.1, sound: "shot_rail",     pitch: 0.68, kind: "lance" },
+  flamer:   { color: 0xffa23c, tracer: 1.9, flash: 2.3, sound: "shot_flamer",   pitch: 0.62, kind: "flame" },
+  arc:      { color: 0xff6fd6, tracer: 1.2, flash: 1.6, sound: "shot_grenade",  pitch: 0.70, kind: "grenade" },
+  sentry:   { color: 0x6fff9a, tracer: 0.8, flash: 1.0, sound: "laser7",        pitch: 1.42, kind: "tracer" },
+  flak:     { color: 0xffb347, tracer: 1.3, flash: 1.8, sound: "shot_shotgun",  pitch: 0.72, kind: "spread" },
+  breach:   { color: 0xff8a4a, tracer: 2.0, flash: 2.2, sound: "shot_shotgun",  pitch: 0.58, kind: "spread" },
+  rail2:    { color: 0xf2f8ff, tracer: 3.6, flash: 2.4, sound: "shot_rail",     pitch: 0.60, kind: "lance" },
 };
 
 /** The one style that carries a real grenade (and therefore bypasses shields). */

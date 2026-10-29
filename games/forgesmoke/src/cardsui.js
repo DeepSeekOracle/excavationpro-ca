@@ -15,6 +15,113 @@ const RARITY = {
   epic: { name: "CLASSIFIED", a: "#7B5BD6", b: "#B79CFF", glow: "rgba(183,156,255,.6)", ink: "#ddd0ff" },
 };
 
+/**
+ * Procedural card plates (brief 01). Qwen generation is blocked on this 8 GB card (the diffusion
+ * model fails to allocate), so the six effect-family plates are drawn locally on a canvas instead:
+ * 768x512, dark military palette, no text baked in.
+ */
+const PLATE_CACHE = new Map();
+function plate(kind) {
+  if (PLATE_CACHE.has(kind)) return PLATE_CACHE.get(kind);
+  const c = document.createElement("canvas");
+  c.width = 768; c.height = 512;
+  const g = c.getContext("2d");
+  const bg = g.createLinearGradient(0, 0, 0, 512);
+  bg.addColorStop(0, "#121b26");
+  bg.addColorStop(0.55, "#0b121a");
+  bg.addColorStop(1, "#060a0f");
+  g.fillStyle = bg;
+  g.fillRect(0, 0, 768, 512);
+  g.strokeStyle = "rgba(159,179,200,0.07)";
+  g.lineWidth = 1;
+  for (let x = 0; x <= 768; x += 48) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 512); g.stroke(); }
+  for (let y = 0; y <= 512; y += 48) { g.beginPath(); g.moveTo(0, y); g.lineTo(768, y); g.stroke(); }
+  let seed = 96;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  g.fillStyle = "rgba(0,0,0,0.25)";
+  for (let i = 0; i < 160; i += 1) {
+    const r = 1 + rnd() * 3;
+    g.beginPath(); g.arc(rnd() * 768, rnd() * 512, r, 0, Math.PI * 2); g.fill();
+  }
+  const amber = "#ffb347", cyan = "#6fe3ff", green = "#a6ff7a", violet = "#b79cff", red = "#f2545b";
+  g.save();
+  g.translate(384, 256);
+  g.shadowBlur = 26;
+  if (kind === "pierce") {
+    g.shadowColor = cyan;
+    g.strokeStyle = cyan;
+    for (let i = -2; i <= 2; i += 1) {
+      g.lineWidth = 7;
+      g.beginPath(); g.moveTo(-260, 120 + i * 40); g.lineTo(240, -120 + i * 40); g.stroke();
+    }
+    g.fillStyle = "rgba(10,16,22,0.9)";
+    g.fillRect(-70, -150, 140, 300);
+    g.strokeStyle = "rgba(255,179,71,0.5)"; g.lineWidth = 2; g.strokeRect(-70, -150, 140, 300);
+  } else if (kind === "chain") {
+    g.shadowColor = violet;
+    g.strokeStyle = violet;
+    g.lineWidth = 6;
+    g.beginPath(); g.moveTo(-240, -40);
+    let x = -240, y = -40;
+    for (let i = 0; i < 9; i += 1) { x += 55; y = -40 + (i % 2 ? -55 : 55); g.lineTo(x, y); }
+    g.stroke();
+    g.fillStyle = amber;
+    g.fillRect(-270, -60, 30, 40); g.fillRect(210, -60, 30, 40);
+  } else if (kind === "spinup") {
+    g.shadowColor = amber;
+    g.strokeStyle = amber;
+    g.lineWidth = 10;
+    for (let i = 0; i < 8; i += 1) {
+      const a = (i / 8) * Math.PI * 2;
+      g.beginPath(); g.moveTo(Math.cos(a) * 40, Math.sin(a) * 40); g.lineTo(Math.cos(a) * 150, Math.sin(a) * 150); g.stroke();
+    }
+    g.fillStyle = "rgba(255,179,71,0.18)";
+    g.beginPath(); g.arc(0, 0, 70, 0, Math.PI * 2); g.fill();
+  } else if (kind === "ricochet") {
+    g.shadowColor = green;
+    g.strokeStyle = green;
+    g.lineWidth = 5;
+    g.beginPath(); g.moveTo(-260, 150); g.lineTo(-40, -40); g.lineTo(190, 120); g.stroke();
+    g.fillStyle = green;
+    for (const p of [[-40, -40], [190, 120], [-150, 60], [80, 40]]) { g.beginPath(); g.arc(p[0], p[1], 5, 0, Math.PI * 2); g.fill(); }
+    g.fillStyle = "rgba(10,16,22,0.9)"; g.fillRect(-90, -210, 180, 64);
+  } else if (kind === "drone") {
+    g.shadowColor = cyan;
+    g.fillStyle = "#1a2531"; g.strokeStyle = cyan; g.lineWidth = 4;
+    g.beginPath(); g.ellipse(0, 0, 70, 40, 0, 0, Math.PI * 2); g.fill(); g.stroke();
+    for (const s of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+      g.beginPath(); g.arc(s[0] * 110, s[1] * 70, 34, 0, Math.PI * 2); g.stroke();
+    }
+    const beam = g.createLinearGradient(0, 40, 0, 230);
+    beam.addColorStop(0, "rgba(111,227,255,0.55)"); beam.addColorStop(1, "rgba(111,227,255,0)");
+    g.fillStyle = beam;
+    g.beginPath(); g.moveTo(-24, 40); g.lineTo(24, 40); g.lineTo(150, 240); g.lineTo(-150, 240); g.closePath(); g.fill();
+  } else {
+    g.shadowColor = amber;
+    g.strokeStyle = amber; g.lineWidth = 4;
+    for (let i = 0; i < 3; i += 1) {
+      const w = 220 - i * 34;
+      g.beginPath();
+      for (let k = 0; k < 6; k += 1) {
+        const a = (k / 6) * Math.PI * 2 + Math.PI / 6;
+        const px = Math.cos(a) * (w * 0.5), py = Math.sin(a) * (w * 0.42);
+        if (k === 0) g.moveTo(px, py); else g.lineTo(px, py);
+      }
+      g.closePath(); g.stroke();
+    }
+    g.fillStyle = "rgba(255,179,71,0.12)"; g.fillRect(-110, -110, 220, 220);
+  }
+  g.restore();
+  g.strokeStyle = "rgba(255,179,71,0.35)";
+  g.lineWidth = 3;
+  g.strokeRect(10, 10, 748, 492);
+  g.fillStyle = "rgba(255,179,71,0.5)";
+  for (const p of [[22, 22], [746, 22], [22, 490], [746, 490]]) { g.fillRect(p[0] - 2, p[1] - 2, 4, 4); }
+  const url = c.toDataURL("image/jpeg", 0.86);
+  PLATE_CACHE.set(kind, url);
+  return url;
+}
+
 const CARD_ART = {
   weapon: "./assets/cards/weapon.jpg",
   explosive: "./assets/cards/explosive.jpg",
@@ -27,7 +134,20 @@ const CARD_ART = {
 function cardArt(card) {
   const e = card.part?.effect || {};
   const id = String(card.part?.id || "");
-  if (card.type === "weapon") return CARD_ART.weapon;
+  const style = String(card.style || "");
+  if (card.type === "weapon") {
+    if (style === "chain" || style === "arc") return plate("chain");
+    if (style === "spinup") return plate("spinup");
+    if (style === "ricochet") return plate("ricochet");
+    if (style === "rail" || style === "rail2" || style === "pierce" || style === "flak") return plate("pierce");
+    return CARD_ART.weapon;
+  }
+  if (/ap_rounds|pierce|rail|penetr/.test(id) || e.pierceCount) return plate("pierce");
+  if (/chain|tesla|arc_|overload/.test(id)) return plate("chain");
+  if (/spinup|minigun|gatling|drum/.test(id)) return plate("spinup");
+  if (/ricochet|bank/.test(id)) return plate("ricochet");
+  if (/drone/.test(id) || e.lightDrone) return plate("drone");
+  if (/plate|ceramic|reactive|armour|armor/.test(id) || e.armor) return plate("armour");
   if (e.explosive || e.blast || e.shieldPierce || /frag|breach|grenade|satchel/.test(id)) return CARD_ART.explosive;
   if (e.lightBeamMult || e.lightOrbMult || e.solarAura || e.lightDrone || e.lightBeacon || /light|flare|lumen|phosphor/.test(id)) return CARD_ART.light;
   if (e.reloadMult || e.magMult || /mag|ammo|supply|quartermaster|rack/.test(id)) return CARD_ART.logistics;
@@ -45,6 +165,9 @@ const CSS = `
   background:linear-gradient(180deg,transparent,rgba(4,6,9,.55) 42%,rgba(4,6,9,.86));
   font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:#E8F1F8}
 #fs-cards.open{display:flex}
+#fs-cards-scrim{position:fixed;inset:0;z-index:43;display:none;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 68%,rgba(2,5,9,.18) 0%,rgba(2,5,9,.62) 62%,rgba(2,5,9,.82) 100%)}
+#fs-cards-scrim.open{display:block}
 #fs-cards .hdr{position:absolute;left:0;right:0;top:calc(100% - 100%);text-align:center;font:800 11px ui-monospace,Consolas,monospace;
   letter-spacing:.3em;color:#FFB347;pointer-events:none}
 #fs-cards .card{pointer-events:auto;position:relative;width:212px;min-height:286px;border-radius:8px;cursor:pointer;
@@ -92,6 +215,28 @@ const CSS = `
 #fs-cards .tag{font:700 8px ui-monospace,Consolas,monospace;letter-spacing:.2em;color:#6F8296;margin-top:7px}
 @media (max-width:900px){#fs-cards{gap:10px;padding-bottom:64px}#fs-cards .card{width:170px;min-height:240px}
   #fs-cards .art{height:92px}}
+/* UI-10: a 390x844 phone must show all three cards without clipping or horizontal scroll.
+   3 x 116 + 2 x 6 gap + 16 padding = 376 of 390 available. */
+@media (max-width:480px){
+  #fs-cards{gap:6px;padding:0 8px 52px}
+  #fs-cards .card{width:min(29.5vw,116px);min-height:0;padding:1px;border-width:1px}
+  #fs-cards .card:hover{transform:none}
+  #fs-cards .art{height:66px}
+  #fs-cards .art b{font-size:24px}
+  #fs-cards .rarity{top:4px;left:5px;right:5px;font-size:5.5px;letter-spacing:.08em}
+  #fs-cards .body{padding:6px 6px 9px}
+  #fs-cards h4{font-size:9px;line-height:1.2;margin-bottom:2px}
+  #fs-cards li{font-size:6.8px;line-height:1.4;padding-left:7px}
+  #fs-cards li:before{font-size:6px}
+  #fs-cards .key{font-size:7px;padding:1px 4px;bottom:4px;right:5px}
+  #fs-cards .tag{display:none}
+  #fs-cards .hdr{display:none}
+}
+@media (max-width:340px){
+  #fs-cards{gap:4px;padding:0 5px 46px}
+  #fs-cards .card{width:min(30vw,100px)}
+  #fs-cards .art{height:58px}
+}
 `;
 
 export function createCardTray(opts = {}) {
@@ -151,10 +296,18 @@ export function createCardTray(opts = {}) {
       el.addEventListener("click", () => onPick(i));
       root.appendChild(el);
     });
+    let scrim = document.getElementById("fs-cards-scrim");
+    if (!scrim) { scrim = document.createElement("div"); scrim.id = "fs-cards-scrim"; document.body.appendChild(scrim); }
+    scrim.classList.add("open");
     root.classList.add("open");
   }
 
-  function hide() { root.classList.remove("open"); root.innerHTML = ""; }
+  function hide() {
+    root.classList.remove("open");
+    root.innerHTML = "";
+    const scrim = document.getElementById("fs-cards-scrim");
+    if (scrim) scrim.classList.remove("open");
+  }
 
   return { show: render, hide, root, get open() { return root.classList.contains("open"); } };
 }

@@ -14,6 +14,24 @@ const CARD_POOL = [
   { id: "ceramic", name: "Ceramic Plate", slot: "plate", rarity: "common", effect: { armour: 15 } },
 ];
 
+/**
+ * MATH-04 — XP and card pacing, one source of truth.
+ * Level L costs `base * L * (L + 1) / 2` (300, 900, 1800, 3000, 4500 …), a kill pays
+ * `xpPerKill`, damage pays `xpPerDamage` per point, and surviving pays `xpPerSecond`.
+ * Everything else in the file reads these numbers; none of them are re-typed elsewhere.
+ */
+const CARD_PACING = {
+  levelXpBase: 300,
+  levelXpShape: "triangular",
+  xpPerKill: 30,
+  xpPerDamage: 1 / 25,
+  xpPerSecond: 2,
+  maxQueuedCards: 1,
+  cardChoices: 3,
+  firstCardSeconds: 22,       // design target: first card around 0:22 of an average run
+  targetCardsPerMinute: 2.4,  // design target once the run is in full contact
+};
+
 export const TUNING = {
   reloadMeta: {
     startMult: 1.40,
@@ -21,6 +39,9 @@ export const TUNING = {
     perCardReduction: 0.14,
     minMult: 0.35,
   },
+  // Map selection: "rotate" by seed+run, or "fixed" to honour the bay's arena choice (MAP-04)
+  mapSelection: "rotate",
+
   // Player
   player: {
     maxHealth: 100,
@@ -237,8 +258,15 @@ export const TUNING = {
 
   // Boss (separate from the 7-enemy roster)
   boss: {
+    // TUNE-02: ground bosses are scaled from the bossHp() curve; that curve is tuned for a 34-damage
+    // rifle and left them unkillable inside a 100 s run, so the spawned boss takes this multiplier.
+    hpScale: 0.2,
     gunship: {
-      hp: 2600,
+      // TUNE-04: the aerial boss is tuned for an 8-15 s TTK with an anti-air weapon, not the
+      // +2600 flat HP that the ground boss uses. Flak: 22 x 2.6 = 57 per hit / 0.55 s = 104 DPS.
+      hp: 900,
+      attackRange: 26,
+      altitude: 6.4,
       strafeSpeed: 4.0,
       cannonDamage: 40,
       cannonCycle: 0.8,
@@ -295,12 +323,13 @@ export const TUNING = {
   // Level-up / Parts
   progression: {
     cards: CARD_POOL,
-    xpPerKill: 10,
-    xpPerDamage: 1 / 25,
-    xpPerSecond: 2,
-    levelBaseXp: 300,
-    maxQueuedCards: 1,
-    cardChoices: 3,
+    xpPerKill: CARD_PACING.xpPerKill,
+    xpPerDamage: CARD_PACING.xpPerDamage,
+    xpPerSecond: CARD_PACING.xpPerSecond,
+    levelBaseXp: CARD_PACING.levelXpBase,
+    maxQueuedCards: CARD_PACING.maxQueuedCards,
+    cardChoices: CARD_PACING.cardChoices,
+    cardPacing: CARD_PACING,
     parts: {
       barrel: [
         { id: "long_barrel", name: "Long Barrel", rarity: "common", effect: { rangeMult: 1.25, spreadMult: 0.8 } },
@@ -369,7 +398,10 @@ export const TUNING = {
 
   // Difficulty scaling
   difficulty: {
-    hpScaling: 0.18,
+    // TUNE-02: base HP is authored for one-shot kills on paper; the arena needs bodies that live
+    // long enough to use their cooldowns, so the curve multiplies the whole roster.
+    hpMult: 3.0,
+    hpScaling: 0.24,
     speedScaling: 0.05,
     speedCap: 1.45,
     spawnBudgetBase: 8,
@@ -419,3 +451,74 @@ export const TUNING = {
     screenShakeHeavyOnly: true,
   },
 };
+
+/* --- added for WPN-01..03: anti-air, breacher, heavy rail -------------------------------- */
+Object.assign(TUNING.weapons, {
+  // MGR-06 / MATH-04: the nine styles that used to fall back to spray stats now have their own
+  // numbers, so the manager can show real damage/RPM/mag and loadout choice actually changes play.
+  ricochet: {
+    ...TUNING.weapons.spray, style: "ricochet", family: "carbine", damage: 20, cycle: 0.42,
+    magazine: 12, reload: 1.5, range: 15, spread: 2.5, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xa6ff7a, tracerLife: 0.09, muzzleFlashSize: 0.3,
+  },
+  burst: {
+    ...TUNING.weapons.spray, style: "burst", family: "rifle", damage: 18, cycle: 0.62,
+    magazine: 24, reload: 1.9, range: 18, spread: 2, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xffe36f, tracerLife: 0.1, muzzleFlashSize: 0.3,
+  },
+  beam: {
+    ...TUNING.weapons.spray, style: "beam", family: "beam", damage: 9, cycle: 0.09,
+    magazine: 60, reload: 1.2, range: 16, spread: 1, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0x6fe3ff, tracerLife: 0.05, muzzleFlashSize: 0.26,
+  },
+  chain: {
+    ...TUNING.weapons.spray, style: "chain", family: "arc", damage: 12, cycle: 0.22,
+    magazine: 20, reload: 1.6, range: 13, spread: 2, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xc6a4ff, tracerLife: 0.08,
+  },
+  spinup: {
+    ...TUNING.weapons.spray, style: "spinup", family: "minigun", damage: 7, cycle: 0.07,
+    magazine: 100, reload: 2.4, range: 12, spread: 12, bloomPerShot: 0.4, maxBloom: 16,
+    tracerColor: 0xff5a5a, tracerLife: 0.06,
+  },
+  rail: {
+    ...TUNING.weapons.spray, style: "rail", family: "rail", damage: 120, cycle: 1.6,
+    magazine: 4, reload: 2.1, range: 34, spread: 0.2, pierceCount: 2, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xf2f8ff, tracerLife: 0.12, muzzleFlashSize: 0.5,
+  },
+  flamer: {
+    ...TUNING.weapons.spray, style: "flamer", family: "flamer", damage: 4, cycle: 0.05,
+    magazine: 120, reload: 1.8, range: 6.5, spread: 20, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xffa23c, tracerLife: 0.05, muzzleFlashSize: 0.4,
+  },
+  arc: {
+    ...TUNING.weapons.spray, style: "arc", family: "launcher", damage: 60, cycle: 1.1,
+    magazine: 5, reload: 2.6, range: 12, spread: 0, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0xff6fd6, tracerLife: 0.14, muzzleFlashSize: 0.4,
+  },
+  sentry: {
+    ...TUNING.weapons.spray, style: "sentry", family: "sentry", damage: 8, cycle: 0.15,
+    magazine: 40, reload: 1.5, range: 14, spread: 4, bloomPerShot: 0, maxBloom: 0,
+    tracerColor: 0x6fff9a, tracerLife: 0.08,
+  },
+  flak: {
+    ...TUNING.weapons.burst,
+    style: "flak", family: "aa", damage: 22, cycle: 0.55, magazine: 10, reload: 1.8,
+    range: 34, spread: 2.2, bloomPerShot: 0.2, maxBloom: 4,
+    tracerColor: 0xffb347, tracerLife: 0.09, muzzleFlashSize: 0.34, muzzleFlashLife: 0.07,
+    airDamageMult: 2.6, groundDamageMult: 0.45,
+  },
+  breach: {
+    ...TUNING.weapons.cone,
+    style: "breach", family: "shotgun", damage: 11, cycle: 0.78, magazine: 5, reload: 2.6,
+    range: 6.2, spread: 16, bloomPerShot: 0.9, maxBloom: 24,
+    tracerColor: 0xff8a4a, tracerLife: 0.06, muzzleFlashSize: 0.42, muzzleFlashLife: 0.09,
+    shieldPierce: 0.7,
+  },
+  rail2: {
+    ...TUNING.weapons.rail,
+    style: "rail2", family: "rail", damage: 190, cycle: 2.1, magazine: 2, reload: 3.4,
+    range: 40, pierceCount: 3,
+    tracerColor: 0xf2f8ff, tracerLife: 0.12, muzzleFlashSize: 0.5, muzzleFlashLife: 0.1,
+  },
+});

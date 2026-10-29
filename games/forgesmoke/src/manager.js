@@ -11,6 +11,7 @@
 import { ARENAS, isArenaUnlocked } from "./menu.js";
 import { STARTER_LOADOUTS, PLAYER_SKINS } from "./models.js";
 import { addProfileXp, grantLegacy, saveProfile, xpForLevel } from "./save.js";
+import { TUNING } from "./tuning.js";
 
 /** Light mods are cards. `starter` ones can be taken as equipped cards; the rest are found/earned. */
 export const LIGHT_MODS = [
@@ -339,8 +340,13 @@ export function createManager(opts = {}) {
     q("[data-weapons]").innerHTML = "";
     for (const w of STARTER_LOADOUTS) {
       const on = (p.equipped?.weapon || "spray") === w.id;
+      const cfg = TUNING.weapons[w.id] || {};
+      const dmg = cfg.pellets ? `${cfg.damage}x${cfg.pellets}` : (cfg.damage ?? "-");
+      const rpm = cfg.cycle ? Math.round(60 / cfg.cycle) : "-";
+      const mag = cfg.magazine ?? "-";
       const item = el("div", `mg-item${on ? " on" : ""}`,
-        `<div class="nm" style="color:${w.color}">${w.name}</div><div class="ds">${w.role}</div>`);
+        `<div class="nm" style="color:${w.color}">${w.name}</div><div class="ds">${w.role}</div>`
+        + `<div class="ds">DMG ${dmg} · ${rpm} RPM · MAG ${mag}</div>`);
       item.onclick = () => { p.equipped.weapon = w.id; persist(); };
       q("[data-weapons]").appendChild(item);
     }

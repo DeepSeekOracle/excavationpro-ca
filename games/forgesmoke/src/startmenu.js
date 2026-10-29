@@ -73,6 +73,16 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){
   #fs-start .artfx .lamp,#fs-start .artfx .eyes,#fs-start .artfx .rain{animation:none}
   #fs-start .artfx .eyes{opacity:.8}
+  /* ART-06: no movement means no GIF and no drift. The 1536x864 stills stand in. */
+  #fs-start.art:not(.vid){animation:none}
+  #fs-start.art{background-image:
+    linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
+    url("./assets/start-still-a.jpg")}
+}
+@media (prefers-reduced-motion:reduce) and (max-aspect-ratio:1/1){
+  #fs-start.art{background-image:
+    linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
+    url("./assets/start-still-b.jpg")}
 }
 
 #fs-start .fs-build{position:absolute;right:14px;bottom:10px;font:700 9px ui-monospace,Consolas,monospace;

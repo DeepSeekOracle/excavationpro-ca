@@ -5,7 +5,7 @@
 
 import * as THREE from "three";
 import { TUNING } from "./tuning.js";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour } from "./balance.js";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
@@ -23,6 +23,18 @@ export const ENEMY_TYPES = {
   mortar: "mortar",
   mech: "mech",
   gunship: "gunship",
+};
+
+/** MOV-02 slot bias: 0 is the front slot (where the player's gun points), PI is the rear. */
+const SLOT_BIAS = {
+  shieldbearer: 0,
+  rifleman: (Math.PI * 2) / 3,
+  spotter: Math.PI / 2,
+  sapper: Math.PI,
+  mortar: -Math.PI / 2,
+  mech: 0.35,
+  drone: 0,
+  gunship: 0,
 };
 
 export class Enemy {
@@ -87,7 +99,7 @@ export class Enemy {
 
   updateRifleman(dt, dirX, dirZ, distance) {
     const meleeRange = this.config.meleeRange || 1.6;
-    const carbineRange = 10.5;
+    const carbineRange = 14;
     const strafeSign = this.phase > Math.PI ? 1 : -1;
     if (distance > carbineRange) {
       this.velocity.x = dirX * this.speed;
@@ -98,8 +110,8 @@ export class Enemy {
       const perpZ = dirX * strafeSign;
       this.velocity.x = (dirX * 0.35 + perpX * 0.75) * this.speed;
       this.velocity.z = (dirZ * 0.35 + perpZ * 0.75) * this.speed;
-      if (this.specialCooldown <= 0) {
-        this.specialCooldown = 1.6 + (this.phase % 0.5);
+      if (this.specialCooldown <= 0 && this.canShoot !== false) {
+        this.specialCooldown = 1.15 + (this.phase % 0.4);
         return {
           type: "rangedShot",
           dirX,
@@ -152,14 +164,20 @@ export class Enemy {
 
   updateShieldbearer(dt, dirX, dirZ, distance, playerPos) {
     const meleeRange = this.config.meleeRange || 1.8;
-    // Shield faces player
-    this.shieldAngle = Math.atan2(dirX, dirZ);
+    // The wall turns toward the player at a limited rate. Snapping it instantly made `flanked`
+    // unreachable by position (angleDiff was always 0), so the shield could never be outmanoeuvred.
+    const want = Math.atan2(dirX, dirZ);
+    let turn = want - this.shieldAngle;
+    turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+    const maxTurn = 0.75 * dt; // ~43 deg/s: a heavy shield, a fighter can beat it on the outside
+    this.shieldAngle += Math.max(-maxTurn, Math.min(maxTurn, turn));
     // Check if flanked (player behind shield)
     const toPlayer = Math.atan2(playerPos.x - this.position.x, playerPos.z - this.position.z);
     // strict frontal arc: the wall covers the front 220 degrees, so only a genuine flank (or an
     // explosive / grenade) gets through. Walking around him takes real effort.
-    const angleDiff = Math.abs(toPlayer - this.shieldAngle);
-    this.flanked = angleDiff > Math.PI / 2 && angleDiff < 3 * Math.PI / 2;
+    let angleDiff = toPlayer - this.shieldAngle;
+    angleDiff = Math.atan2(Math.sin(angleDiff), Math.cos(angleDiff));
+    this.flanked = Math.abs(angleDiff) > Math.PI / 2;
     this.isShielded = !this.flanked;
 
     if (distance > meleeRange) {
@@ -191,6 +209,7 @@ export class Enemy {
       this.velocity.z = dirX * strafe * this.speed;
       if (this.specialCooldown <= 0) {
         this.specialCooldown = 2.4;
+        if (this.canShoot === false) return null;
         this.painted = true;
         this.paintTimer = 2.4;
         return {
@@ -242,7 +261,7 @@ export class Enemy {
     } else {
       this.velocity.x = 0;
       this.velocity.z = 0;
-      if (this.specialCooldown <= 0) {
+      if (this.specialCooldown <= 0 && this.canShoot !== false) {
         this.specialCooldown = this.config.shellCooldown || 4.0;
         return {
           type: "shell",
@@ -271,7 +290,7 @@ export class Enemy {
     } else {
       this.velocity.x = 0;
       this.velocity.z = 0;
-      if (this.specialCooldown <= 0) {
+      if (this.specialCooldown <= 0 && this.canShoot !== false) {
         this.specialCooldown = this.config.minigunCycle || 0.1;
         return { type: "minigun", damage: this.config.minigunDamage, dirX, dirZ };
       }
@@ -286,14 +305,12 @@ export class Enemy {
 
   /** Take damage. Returns true if killed. */
   takeDamage(amount, isFlank = false, armour = 0, pierce = 0) {
-    let dmg = amount;
-    if (this.type === ENEMY_TYPES.shieldbearer && this.isShielded && !isFlank) {
-      // The wall tracks the player, so there is no "front" to shoot around. Only an explosive
-      // charge punches a fraction through it; a lobbed grenade (isFlank) goes over the top.
-      dmg = pierce > 0 ? damageAfterArmour(amount * pierce, armour) : 0;
-    } else {
-      dmg = damageAfterArmour(amount, armour);
-    }
+    const dmg = shieldGate(amount, {
+      shielded: this.type === ENEMY_TYPES.shieldbearer && this.isShielded,
+      flanked: Boolean(isFlank),
+      pierce,
+      armour,
+    });
     this.hp -= dmg;
     return this.hp <= 0;
   }
@@ -374,6 +391,14 @@ export class EnemyManager {
     };
     resolveObstacleCollision(position, 0.85, arenaColliders);
     const enemy = new Enemy(type, position, this.rng, timeMinutes);
+    // Shooter ramp: 12 % of bodies can fire at t=0, climbing to 85 % by ~110 s. The rest still
+    // advance and melee; gating happens in the type updates via enemy.canShoot.
+    const minutes = Number(timeMinutes) || 0;
+    enemy.canShoot = this.rng() < Math.min(0.85, 0.12 + minutes * (60 / 150));
+    this.spawnBodies = (this.spawnBodies || 0) + 1;
+    if (enemy.canShoot) this.spawnShooters = (this.spawnShooters || 0) + 1;
+    enemy.slot = this.slotSeq || 0;
+    this.slotSeq = ((this.slotSeq || 0) + 1) % 8;
     this.enemies.push(enemy);
     // Create role-specific 3D model & skin so each enemy class reads at 32px+
     const mat = this.materials?.enemyMat;
@@ -399,7 +424,7 @@ export class EnemyManager {
   }
 
   /** Update all enemies. Returns array of actions. */
-  update(dt, playerPos, timeMinutes) {
+  update(dt, playerPos, timeMinutes, playerYaw = 0) {
     this.timeMinutes = timeMinutes;
     this.spawnTimer -= dt;
     const actions = [];
@@ -412,10 +437,71 @@ export class EnemyManager {
       // Update position with obstacle pathfinding / steering + solid collider pushback
       const isAerial = enemy.type === "drone" || enemy.type === "gunship";
       if (!isAerial) {
-        const vx = enemy.velocity.x;
-        const vz = enemy.velocity.z;
-        const spd = Math.hypot(vx, vz);
+        let vx = enemy.velocity.x;
+        let vz = enemy.velocity.z;
+        let spd = Math.hypot(vx, vz);
+        const dToPlayer = Math.hypot(enemy.position.x - playerPos.x, enemy.position.z - playerPos.z) || 1;
+        // a body that has reached its standoff can have zero velocity; the slot ring still needs to
+        // pull it round to its angle, so give the fan a floor speed to work with
+        const inRing = this.enemies.length > 1 && dToPlayer < 5;
+        if (inRing && spd < 0.4) {
+          spd = Math.max(0.8, Number(enemy.speed) || 1.2);
+          vx = 0;
+          vz = 0;
+        }
+        // the shield repositions at a trot: the front slot moves with the player's facing, and a
+        // shield that walks at 1.1 m/s can never catch a turning target
+        if (inRing && enemy.type === "shieldbearer") spd = Math.max(spd, 2.8);
+
+        // MOV-02: slot fanning + separation. The shield takes the front slot, riflemen the flanks,
+        // sappers the rear, so the crowd spreads around the player instead of stacking on one line.
+        if (spd > 0.01) {
+          if (enemy.type === "shieldbearer" && inRing) {
+            // the shield OWNS the front slot: it walks to the point in front of the player's gun
+            const ang = (Number(playerYaw) || 0);
+            const sx = playerPos.x + Math.sin(ang) * 1.9 - enemy.position.x;
+            const sz = playerPos.z + Math.cos(ang) * 1.9 - enemy.position.z;
+            const sl = Math.hypot(sx, sz) || 1;
+            vx = (sx / sl) * spd;
+            vz = (sz / sl) * spd;
+          } else if (inRing) {
+            const bias = SLOT_BIAS[enemy.type] ?? 0;
+            const spread = ((enemy.slot % 3) - 1) * 0.45;
+            const ang = (Number(playerYaw) || 0) + bias + spread;
+            const tX = playerPos.x + Math.sin(ang) * 2.3;
+            const tZ = playerPos.z + Math.cos(ang) * 2.3;
+            const sx = tX - enemy.position.x;
+            const sz = tZ - enemy.position.z;
+            const sl = Math.hypot(sx, sz) || 1;
+            vx = vx * 0.55 + (sx / sl) * spd * 0.45;
+            vz = vz * 0.55 + (sz / sl) * spd * 0.45;
+          }
+          // bodies inside 2.2 m push each other apart
+          let px = 0;
+          let pz = 0;
+          for (const other of this.enemies) {
+            if (other === enemy || other.hp <= 0) continue;
+            const ox = enemy.position.x - other.position.x;
+            const oz = enemy.position.z - other.position.z;
+            const od = Math.hypot(ox, oz);
+            if (od > 0.001 && od < 2.2) {
+              const w = (2.2 - od) / 2.2;
+              px += (ox / od) * w;
+              pz += (oz / od) * w;
+            }
+          }
+          if (px !== 0 || pz !== 0) {
+            const pl = Math.hypot(px, pz) || 1;
+            vx += (px / pl) * spd * 0.7;
+            vz += (pz / pl) * spd * 0.7;
+          }
+          const nl = Math.hypot(vx, vz) || 1;
+          vx = (vx / nl) * spd;
+          vz = (vz / nl) * spd;
+        }
+
         const colRadius = enemy.type === "mech" ? 1.05 : enemy.type === "shieldbearer" ? 0.75 : 0.55;
+        enemy._move = { x: vx, z: vz, spd };
         if (spd > 0.01) {
           const steered = steerAroundObstacles(enemy.position, vx / spd, vz / spd, colRadius, arenaColliders);
           enemy.position.x += steered.x * spd * dt;
