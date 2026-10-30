@@ -5410,7 +5410,9 @@
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
   // the value is the frame duration in ms.
-  const ANIM_SPRITES = { b04_windmill: 420, b05_watermill: 420 };
+  // ONLY the windmill turns. b05_watermill ships two frames, but the Water mill is a
+  // separate building and is not animated in this game (decided 2026-10-30) - do not add it back.
+  const ANIM_SPRITES = { b04_windmill: 420 };
   const ANIM_FRAMES = {};
 
   function animateSprites(ts) {
