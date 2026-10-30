@@ -40,7 +40,9 @@ export const TUNING = {
     minMult: 0.35,
   },
   // Map selection: "rotate" by seed+run, or "fixed" to honour the bay's arena choice (MAP-04)
-  mapSelection: "rotate",
+  // "select": the arena picked in the manager decides the map. "rotate" ignored the pick and
+  // rotated by run number, which is why every choice produced the same arena.
+  mapSelection: "select",
 
   // Player
   player: {

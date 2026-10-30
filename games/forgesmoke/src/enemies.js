@@ -4,8 +4,8 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610327n";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327n";
+import { TUNING } from "./tuning.js?v=202610327q";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327q";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
@@ -15,7 +15,7 @@ import {
   segmentHitsCollider,
   navStep,
   navDirection,
-} from "./models.js?v=202610327n";
+} from "./models.js?v=202610327q";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",

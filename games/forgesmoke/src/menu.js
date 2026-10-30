@@ -3,7 +3,7 @@
  * Responsibilities: UI state machine, navigation, overlays, settings, arena selection, unlock enforcement.
  * @module menu
  */
-import { loadSave, saveSave, getSettings, updateSettings } from "./save.js?v=202610327n";
+import { loadSave, saveSave, getSettings, updateSettings } from "./save.js?v=202610327q";
 
 export const MenuState = {
   TITLE: "title",
@@ -17,10 +17,12 @@ export const MenuState = {
   CREDITS: "credits",
 };
 
+// The three arenas are map CHOICES now (they used to be score-gated campaign beats, while the map
+// itself rotated by run number — so picking one changed nothing). Names match the actual maps.
 export const ARENAS = [
-  { id: "arena1", name: "Perimeter", desc: "Beats 1-3 · Treeline Perimeter", reqScore: 0, defaultUnlocked: true },
-  { id: "arena2", name: "Breach Yard", desc: "Beats 4-6 · Blackout Zone", reqScore: 1000, defaultUnlocked: false },
-  { id: "arena3", name: "Gunship Pad", desc: "Beats 7-8 + Overtime · Boss Arena", reqScore: 5000, defaultUnlocked: false },
+  { id: "arena1", name: "DEPOT", desc: "Container terminal · open avenue, gate checkpoints", reqScore: 0, defaultUnlocked: true },
+  { id: "arena2", name: "TOWN", desc: "Town square · streets, shopfronts, skyline", reqScore: 0, defaultUnlocked: true },
+  { id: "arena3", name: "FOUNDRY", desc: "Heavy plant · silos, machinery, hazard pad", reqScore: 0, defaultUnlocked: true },
 ];
 
 export function isArenaUnlocked(arenaId, save = loadSave()) {
