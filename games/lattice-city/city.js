@@ -211,32 +211,32 @@ window.DebugOverlay = DebugOverlay;
     oldtown: {
       label: "Old town",
       R: [["b01_cottage_red", "b02_tudor_inn"], ["b02_tudor_inn", "b01_cottage_red"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery", "b12_general_store"], ["b14_town_hall"]],
-      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b13_barn_silo"]],
+      C: [["b12_general_store"], ["b06_bakery", "b12_general_store"], ["b58_guildhall", "b14_town_hall"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b57_observatory", "b13_barn_silo"]],
     },
     chapel: {
       label: "Chapel town",
       R: [["b01_cottage_red"], ["b02_tudor_inn", "b09_chapel"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery"], ["b15_library_scholar"]],
+      C: [["b12_general_store"], ["b06_bakery"], ["b67_stone_chapel", "b15_library_scholar"]],
       I: [["b03_blacksmith_forge"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
     },
     mill: {
       label: "Mill country",
-      R: [["b01_cottage_red", "b04_windmill"], ["b02_tudor_inn"], ["b18_greenhouse_orangery"]],
+      R: [["b01_cottage_red", "b04_windmill"], ["b02_tudor_inn"], ["b59_conservatory", "b18_greenhouse_orangery"]],
       C: [["b12_general_store"], ["b06_bakery"], ["b16_alchemist_workshop"]],
-      I: [["b04_windmill", "b05_watermill"], ["b11_carpenter_sawmill"], ["b13_barn_silo"]],
+      I: [["b04_windmill", "b05_watermill"], ["b11_carpenter_sawmill"], ["b60_brewery", "b13_barn_silo"]],
     },
     watch: {
       label: "Watch country",
-      R: [["b01_cottage_red"], ["b02_tudor_inn"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b08_watchtower"], ["b14_town_hall"]],
-      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b17_twin_gatehouse"]],
+      R: [["b01_cottage_red"], ["b65_shepherd_croft", "b02_tudor_inn"], ["b20_noble_manor"]],
+      C: [["b12_general_store"], ["b68_watch_hut", "b08_watchtower"], ["b14_town_hall"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b66_whisky_barn", "b17_twin_gatehouse"]],
     },
     harbour: {
       label: "Harbour",
-      R: [["b01_cottage_red"], ["b02_tudor_inn", "b19_lighthouse_dock"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b14_town_hall"]],
-      I: [["b05_watermill"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
+      R: [["b01_cottage_red"], ["b61_fisher_hut", "b02_tudor_inn", "b19_lighthouse_dock"], ["b64_lighthouse_cottage", "b20_noble_manor"]],
+      C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b62_chandlery", "b14_town_hall"]],
+      I: [["b05_watermill"], ["b13_barn_silo"], ["b63_drydock_shed", "b11_carpenter_sawmill"]],
     },
   }
 
@@ -6259,7 +6259,7 @@ window.DebugOverlay = DebugOverlay;
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261030-water3";
+  const ASSET_VER = "20261030-art1";
 
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;

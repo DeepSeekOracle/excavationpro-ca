@@ -942,5 +942,41 @@
   ],
   "police_car": [
     "police_car.png"
+  ],
+  "b57_observatory": [
+    "b57_observatory.png"
+  ],
+  "b58_guildhall": [
+    "b58_guildhall.png"
+  ],
+  "b59_conservatory": [
+    "b59_conservatory.png"
+  ],
+  "b60_brewery": [
+    "b60_brewery.png"
+  ],
+  "b61_fisher_hut": [
+    "b61_fisher_hut.png"
+  ],
+  "b62_chandlery": [
+    "b62_chandlery.png"
+  ],
+  "b63_drydock_shed": [
+    "b63_drydock_shed.png"
+  ],
+  "b64_lighthouse_cottage": [
+    "b64_lighthouse_cottage.png"
+  ],
+  "b65_shepherd_croft": [
+    "b65_shepherd_croft.png"
+  ],
+  "b66_whisky_barn": [
+    "b66_whisky_barn.png"
+  ],
+  "b67_stone_chapel": [
+    "b67_stone_chapel.png"
+  ],
+  "b68_watch_hut": [
+    "b68_watch_hut.png"
   ]
 }
