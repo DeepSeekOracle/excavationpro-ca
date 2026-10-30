@@ -495,6 +495,7 @@ window.DebugOverlay = DebugOverlay;
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     rci: { r: 0.55, c: 0.35, i: 0.3, homes: 0, shops: 0, industry: 0, ic: 0.86 },
     taxRate: 7,                 // percent, SimCity default; 7-9 is the workable band
+    ordinances: { fines: false, cleanAir: false, watch: false, greenbelt: false },
     taxIncome: 0, bonds: 0, bondRate: 0.06,
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
     links: [], peds: [], cars: [], boats: [], smoke: [], clouds: [],
@@ -2661,6 +2662,8 @@ window.DebugOverlay = DebugOverlay;
       r.poll = new Uint8Array(n);       // pollution
       r.crime = new Uint8Array(n);      // crime
       r.policeOn = new Uint8Array(n);   // police coverage
+      r.density = new Uint8Array(n);    // 1x1 / 2x2 / 3x3 development
+      r.density = new Uint8Array(n).fill(1); // 1x1, 2x2, 3x3 density (1, 2, or 3)
 
     const hgt = valueNoise(RS, RS, 22, seed);
     const for1 = valueNoise(RS, RS, 14, seed + 991);
@@ -2835,6 +2838,7 @@ window.DebugOverlay = DebugOverlay;
     paint("power", r.powerOn, 10);
     paint("water", r.waterOn, 9);
     paint("police", r.policeOn, 9);
+    computeUtilities(r);
     for (let i = 0; i < n; i++) {
       const name = SVC[r.svc[i]];
       if (!name) continue;
@@ -2863,6 +2867,88 @@ window.DebugOverlay = DebugOverlay;
   // Land value, pollution and crime as real per-tile fields (SimCity 3000 style):
   // water/forest/road set the base, services add in recomputeRegion, industry and power
   // plant pollution subtract, density-driven crime subtracts, police and parks push back.
+  // ---------------------------------------------------------------- utilities
+  // Power and water are networks, not just radii: plants have capacity (MW / pressure
+  // units), every building draws by level, and when demand exceeds capacity the load
+  // sheds in priority order — industry first, then commerce, homes last. Water sheds by
+  // distance from the nearest pump (a BFS pressure field), so a far district browns out
+  // before the one next door.
+  function computeUtilities(r) {
+    const n = RS * RS;
+    let plants = 0, pumps = 0;
+    for (let i = 0; i < n; i++) {
+      const s = SVC[r.svc[i]];
+      if (s === "power") plants++;
+      else if (s === "water") pumps++;
+    }
+    const capP = 30 + plants * 24;
+    const capW = 24 + pumps * 28;
+    let demP = 0, demW = 0;
+    for (let i = 0; i < n; i++) {
+      const lv = r.level[i];
+      if (!lv) continue;
+      const z = r.zone[i];
+      const drawP = 1 + lv * 0.6 + (z === Z.I ? 0.8 : 0);
+      const drawW = 0.8 + lv * 0.4 + (z === Z.C ? 0.2 : 0);
+      if (r.powerOn[i]) demP += drawP;
+      if (r.waterOn[i]) demW += drawW;
+    }
+    r.powerCap = Math.round(capP);
+    r.powerDemand = Math.round(demP);
+    r.waterCap = Math.round(capW);
+    r.waterDemand = Math.round(demW);
+    r.brownout = 0;
+    if (demP > capP) {
+      // shed industry, then commerce, then homes until the load fits
+      let over = demP - capP;
+      const order = [Z.I, Z.C, Z.R];
+      for (const z of order) {
+        for (let i = 0; i < n && over > 0; i++) {
+          if (!r.powerOn[i] || r.zone[i] !== z || !r.level[i]) continue;
+          r.powerOn[i] = 0;
+          over -= 1 + r.level[i] * 0.6 + (z === Z.I ? 0.8 : 0);
+          r.brownout++;
+        }
+        if (over <= 0) break;
+      }
+    }
+    // water pressure field: BFS distance from every pump
+    if (!r.waterDist) r.waterDist = new Uint8Array(n).fill(255);
+    r.waterDist.fill(255);
+    const q = [];
+    for (let i = 0; i < n; i++) {
+      if (SVC[r.svc[i]] === "water") { r.waterDist[i] = 0; q.push(i); }
+    }
+    let head = 0;
+    while (head < q.length) {
+      const i = q[head++];
+      const d = r.waterDist[i];
+      if (d >= 12) continue;
+      const x = i % RS, y = (i / RS) | 0;
+      for (let k = 0; k < 4; k++) {
+        const nx = x + (k === 0 ? 1 : k === 1 ? -1 : 0);
+        const ny = y + (k === 2 ? 1 : k === 3 ? -1 : 0);
+        if (nx < 0 || ny < 0 || nx >= RS || ny >= RS) continue;
+        const j = ny * RS + nx;
+        if (r.waterDist[j] <= d + 1) continue;
+        r.waterDist[j] = d + 1;
+        q.push(j);
+      }
+    }
+    for (let i = 0; i < n; i++) r.waterOn[i] = r.waterDist[i] <= 9 ? 1 : 0;
+    if (demW > capW) {
+      let over = demW - capW;
+      for (let dist = 9; dist >= 0 && over > 0; dist--) {
+        for (let i = 0; i < n && over > 0; i++) {
+          if (!r.waterOn[i] || r.waterDist[i] !== dist || !r.level[i]) continue;
+          r.waterOn[i] = 0;
+          over -= 0.8 + r.level[i] * 0.4;
+          r.brownout++;
+        }
+      }
+    }
+  }
+
   function computeFields(r) {
     const n = RS * RS;
     r.poll.fill(0);
@@ -2892,7 +2978,7 @@ window.DebugOverlay = DebugOverlay;
       for (let x = 1; x < RS - 1; x++) {
         const j = y * RS + x;
         const avg = (tmp[j - 1] + tmp[j + 1] + tmp[j - RS] + tmp[j + RS]) >> 2;
-        r.poll[j] = Math.min(100, (tmp[j] * 2 + avg) / 3 | 0);
+        r.poll[j] = Math.min(100, ((tmp[j] * 2 + avg) / 3 | 0) * ((S.ordinances && S.ordinances.cleanAir) ? 0.75 : 1));
       }
     }
     // crime: neighbour density + unemployment, less police and parks
@@ -2914,7 +3000,8 @@ window.DebugOverlay = DebugOverlay;
         const base = 6 + near * 1.1 + unemp * 26 + density * 18;
         const safety = r.policeOn[j] ? 20 : 0;
         const green = SVC[r.svc[j]] === "park" ? 6 : 0;
-        r.crime[j] = clamp(Math.round(base - safety - green), 0, 100);
+        const watch = (S.ordinances && S.ordinances.watch) ? 8 : 0;
+        r.crime[j] = clamp(Math.round(base - safety - green - watch), 0, 100);
       }
     }
     // final land value: base terrain/access, + services, − pollution, − crime
@@ -2947,7 +3034,8 @@ window.DebugOverlay = DebugOverlay;
         }
         const commute = r.commuteDistance ? r.commuteDistance[j] : 0;
         if (commute > 12) base -= Math.min(15, (commute - 12) * 0.7);
-        const val = base + r.svcVal[j] - r.poll[j] * 0.45 - r.crime[j] * 0.30;
+        const ordGreen = (S.ordinances && S.ordinances.greenbelt) ? 6 : 0;
+        const val = base + r.svcVal[j] + ordGreen - r.poll[j] * 0.45 - r.crime[j] * 0.30;
         r.value[j] = clamp(Math.round(val), 0, 255);
       }
     }
@@ -2963,7 +3051,8 @@ window.DebugOverlay = DebugOverlay;
       if (!lv) continue;
       built++;
       const z = r.zone[i];
-      const cap = (z === Z.R ? 4 : 6) * lv;
+      const dens = r.density ? (r.density[i] || 1) : 1;
+      const cap = (z === Z.R ? 4 : 6) * lv * dens;
       if (z === Z.R) pop += cap; else jobs += cap;
     }
     r.pop = pop; r.jobs = jobs; r.built = built; r.roads = roads; r.parks = parks;
@@ -3105,6 +3194,7 @@ window.DebugOverlay = DebugOverlay;
       upkeep += r.upkeep || 0;
       moodSum += r.mood; n++;
     });
+    if (S.ordinances && S.ordinances.fines) income += Math.max(2, pop * 0.02);
     S.pop = pop; S.jobs = jobs; S.taxIncome = income; S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
     S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
@@ -3117,7 +3207,8 @@ window.DebugOverlay = DebugOverlay;
     claimedList().forEach((r) => {
       for (let i = 0; i < RS * RS; i++) {
         const z = r.zone[i]; if (!z || !r.level[i]) continue;
-        const cap = (z === Z.R ? 4 : 6) * r.level[i];
+        const dens = r.density ? (r.density[i] || 1) : 1;
+        const cap = (z === Z.R ? 4 : 6) * r.level[i] * dens;
         if (z === Z.C) shops += cap;
         if (z === Z.I) industry += cap;
         if (z === Z.R) homes += cap;
@@ -3127,7 +3218,9 @@ window.DebugOverlay = DebugOverlay;
     const moodFactor = S.mood < 40 ? -0.25 : (S.mood > 65 ? 0.15 : 0);
     // SimCity 3000 shape: industry is driven by outside demand and leads early,
     // commerce follows population and overtakes industry as the town matures.
-    const external = 0.34 - Math.min(0.20, (S.pop || 0) / 60000);
+    // every working inter-region link adds outside demand for goods (SimCity neighbour deals)
+    const trade = (S.links || []).filter((l) => l.kind === 'road' || l.kind === 'rail').length * 0.04;
+    const external = 0.34 + trade - Math.min(0.20, (S.pop || 0) / 60000);
     const mature = Math.min(0.22, (S.pop || 0) / 30000);
     const taxDrag = (S.taxRate || 7) > 9 ? ((S.taxRate || 7) - 9) * 0.045 : 0;
     const taxBoost = (S.taxRate || 7) < 5 ? (5 - (S.taxRate || 7)) * 0.03 : 0;
@@ -3166,10 +3259,23 @@ window.DebugOverlay = DebugOverlay;
       }
       const powered = r.powerOn[i] === 1, watered = r.waterOn[i] === 1;
       const lv = r.level[i];
+      const landVal = r.value[i] || 0;
+
+      // Determine density (1, 2, or 3) from road access, power/water and land value.
+      // A 3x3 needs land value above a threshold (140) and full services (power + water).
+      let dens = 1;
+      if (landVal > 140 && powered && watered) {
+        dens = 3;
+      } else if (landVal > 70 && powered) {
+        dens = 2;
+      }
+      if (!r.density) r.density = new Uint8Array(RS * RS).fill(1);
+      r.density[i] = dens;
+
       const canUp = lv === 0 ? true : lv === 1 ? powered : (powered && watered);
       let dem = z === Z.R ? S.demand.r : z === Z.C ? S.demand.c : S.demand.i;
       if (z === Z.R) dem = clamp(dem + accessBonus, 0, 1);
-      const value = r.value[i] / 255;
+      const value = landVal / 255;
       const evCom = eventCommerce(r);
       // shops grow on custom: a shop with no trade all day does not expand
       let commerce = 1;
@@ -4190,10 +4296,11 @@ window.DebugOverlay = DebugOverlay;
         }
         // contact shadow: buildings, services and vehicles sit ON the ground, not in it
         if ((reg.level[i] || reg.svc[i]) && cam.zoom > 0.45) {
-          getCtx().globalAlpha = 0.38;
+          // offset down and wider than the base so it reads under the 128x128 sprite
+          getCtx().globalAlpha = 0.32;
           getCtx().fillStyle = "#000";
           getCtx().beginPath();
-          getCtx().ellipse(cx0, cy0 + zh * 0.06, zw * 0.31, zh * 0.13, 0, 0, 6.2832);
+          getCtx().ellipse(cx0 + zw * 0.04, cy0 + zh * 0.22, zw * 0.42, zh * 0.16, 0, 0, 6.2832);
           getCtx().fill();
           getCtx().globalAlpha = 1;
         }
@@ -4427,7 +4534,56 @@ window.DebugOverlay = DebugOverlay;
                   getCtx().restore();
                                   });
 
-                          // rail: sleepers along the track the trains actually follow. The old
+                          // weather and night lights (VIS-02 / VIS-03), drawn over the tiles
+    if (S.rain > 0.02) {
+      const rain = Math.min(1, S.rain);
+      const t = now * (0.9 + rain * 0.4);
+      getCtx().strokeStyle = "rgba(180,210,235," + (0.10 + rain * 0.22).toFixed(2) + ")";
+      getCtx().lineWidth = Math.max(1, 1.2 * cam.zoom);
+      const drops = Math.round(70 + rain * 130);
+      for (let d = 0; d < drops; d++) {
+        const seedX = (d * 2654435761) % 1000003 / 1000003;
+        const seedY = (d * 40503 + 12345) % 1000003 / 1000003;
+        const x = ((seedX * 1.7 + t * 0.22) % 1) * getCanvas().clientWidth;
+        const y = ((seedY + t * (0.55 + rain * 0.5)) % 1) * getCanvas().clientHeight;
+        const len = 7 + rain * 12;
+        getCtx().beginPath();
+        getCtx().moveTo(x, y);
+        getCtx().lineTo(x - len * 0.28, y + len);
+        getCtx().stroke();
+      }
+      // puddle sheen on roads
+      getCtx().fillStyle = "rgba(150,190,215," + (0.05 + rain * 0.08).toFixed(2) + ")";
+      getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
+    }
+    if (night > 0.02) {
+      const r = visibleRange();
+      const zw2 = TW * cam.zoom, zh2 = TH * cam.zoom;
+      getCtx().globalAlpha = Math.min(0.75, night * 3.0);
+      for (let gx = r.x0; gx <= r.x1; gx++) {
+        for (let gy = r.y0; gy <= r.y1; gy++) {
+          const t = regionOf(gx, gy);
+          if (!t) continue;
+          const i = t.i;
+          const isLamp = (t.r.road[i] && ((gx * 5 + gy * 3) & 7) === 0) || SVC[t.r.svc[i]] === "plaza" || SVC[t.r.svc[i]] === "school";
+          if (!isLamp) continue;
+          if (cam.zoom < 0.5) continue;
+          const s = tileToScreen(gx, gy);
+          const cx = s.x + zw2 / 2, cy = s.y + zh2 / 2 - 6 * cam.zoom;
+          const rad = 18 * cam.zoom;
+          const grd = getCtx().createRadialGradient(cx, cy, 1, cx, cy, rad);
+          grd.addColorStop(0, "rgba(255,232,170,.55)");
+          grd.addColorStop(1, "rgba(255,232,170,0)");
+          getCtx().fillStyle = grd;
+          getCtx().beginPath();
+          getCtx().arc(cx, cy, rad, 0, 6.2832);
+          getCtx().fill();
+        }
+      }
+      getCtx().globalAlpha = 1;
+    }
+
+    // rail: sleepers along the track the trains actually follow. The old
     // version drew a straight line between depot centres, which cut across every
     // curve and drew a second railway over the tiles.
     const railLines = S.links.filter((l) => l.kind === "rail");
@@ -4952,10 +5108,16 @@ window.DebugOverlay = DebugOverlay;
       }
     });
     const pf = built ? powered / built : 0, wf = built ? watered / built : 0;
-    el("ui-power").style.width = Math.round(pf * 100) + "%";
-    el("ui-power-t").textContent = Math.round(pf * 100) + "%";
-    el("ui-water").style.width = Math.round(wf * 100) + "%";
-    el("ui-water-t").textContent = Math.round(wf * 100) + "%";
+    // capacity vs demand, not just coverage (SIM-07 / SIM-08)
+    let capP = 0, demP = 0, capW = 0, demW = 0;
+    claimedList().forEach((r) => {
+      capP += r.powerCap || 0; demP += r.powerDemand || 0;
+      capW += r.waterCap || 0; demW += r.waterDemand || 0;
+    });
+    el("ui-power").style.width = Math.round(Math.min(100, capP ? (demP / capP) * 100 : pf * 100)) + "%";
+    el("ui-power-t").textContent = capP ? demP + "/" + capP + " MW" : Math.round(pf * 100) + "%";
+    el("ui-water").style.width = Math.round(Math.min(100, capW ? (demW / capW) * 100 : wf * 100)) + "%";
+    el("ui-water-t").textContent = capW ? demW + "/" + capW : Math.round(wf * 100) + "%";
     el("ui-value").style.width = Math.round(((vn ? vsum / vn : 0) / 255) * 100) + "%";
     el("ui-value-t").textContent = money((vn ? vsum / vn : 0) * 12);
     // pollution / crime / budget (added 2026-10-30 with the field simulation)
@@ -5576,6 +5738,7 @@ window.DebugOverlay = DebugOverlay;
         reg.powerOn = new Uint8Array(RS * RS);
         reg.waterOn = new Uint8Array(RS * RS);
         reg.policeOn = new Uint8Array(RS * RS);
+        reg.density = new Uint8Array(RS * RS);
         reg.value = new Uint8Array(RS * RS);
         reg.svcVal = new Uint8Array(RS * RS);
         reg.poll = new Uint8Array(RS * RS);
@@ -5804,6 +5967,21 @@ window.DebugOverlay = DebugOverlay;
     const modal_close = el("modal-close"); if (modal_close) modal_close.onclick = () => el("modal").classList.add("hidden");
     const ins_close = el("ins-close"); if (ins_close) ins_close.onclick = () => el("inspector").classList.add("hidden");
     const ui_save = el("ui-save"); if (ui_save) ui_save.onclick = save;
+    // ordinance toggles (2026-10-30)
+    document.querySelectorAll(".ord").forEach((btn) => {
+      const name = btn.getAttribute("data-ord");
+      if (!name || !S.ordinances) return;
+      btn.classList.toggle("on", !!S.ordinances[name]);
+      btn.onclick = () => {
+        S.ordinances[name] = !S.ordinances[name];
+        btn.classList.toggle("on", S.ordinances[name]);
+        claimedList().forEach((r) => computeFields(r));
+        recalcWorld();
+        updateDemand();
+        refreshHud();
+        toast((S.ordinances[name] ? "On: " : "Off: ") + btn.textContent.trim());
+      };
+    });
     const ui_bond = el("ui-bond");
     if (ui_bond) ui_bond.onclick = () => {
       S.bonds = (S.bonds || 0) + 1;
@@ -5924,7 +6102,7 @@ window.DebugOverlay = DebugOverlay;
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261026-windmill1";
+  const ASSET_VER = "20261030-water3";
 
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
@@ -5932,7 +6110,15 @@ window.DebugOverlay = DebugOverlay;
   // ONLY the windmill turns. b05_watermill ships two frames, but the Water mill is a
   // separate building that is not animated in this game (Justin, 2026-10-30) — its second
   // frame is a variant, not a rotation, and flipping it read as a twitch. Do not add it back.
-  const ANIM_SPRITES = { b04_windmill: 420 };
+  // Water moves (3 generated frames, VIS-04). The windmill turns. The Water mill does not:
+  // b05_watermill is deliberately absent — do not add it back.
+  const ANIM_SPRITES = {
+    b04_windmill: 420,
+    c01_river_bend_ne: 320, c02_river_bend_nw: 320, c03_river_bend_se: 320, c04_river_bend_sw: 320,
+    c05_river_tjct_nse: 320, c06_river_tjct_ews: 320,
+    c11_waterfall_gorge_n: 260, c12_waterfall_gorge_w: 260,
+    d11_canal_straight: 320,
+  };
   const ANIM_FRAMES = {};
 
   function animateSprites(ts) {
@@ -5994,14 +6180,14 @@ window.DebugOverlay = DebugOverlay;
       return S.overlay;
     },
     fields: () => {
-      const out = { value: 0, poll: 0, crime: 0, n: 0 };
+      const out = { value: 0, poll: 0, crime: 0, density: 0, n: 0 };
       claimedList().forEach((r) => {
         for (let i = 0; i < RS * RS; i++) {
           if (!r.zone[i] && !r.level[i]) continue;
-          out.value += r.value[i]; out.poll += (r.poll ? r.poll[i] : 0); out.crime += (r.crime ? r.crime[i] : 0); out.n++;
+          out.value += r.value[i]; out.poll += (r.poll ? r.poll[i] : 0); out.crime += (r.crime ? r.crime[i] : 0); out.density += (r.density ? r.density[i] : 1); out.n++;
         }
       });
-      if (out.n) { out.value /= out.n; out.poll /= out.n; out.crime /= out.n; }
+      if (out.n) { out.value /= out.n; out.poll /= out.n; out.crime /= out.n; out.density /= out.n; }
       return out;
     },
     // QA hook: which multi-frame tiles are animating, and which frame is live right now
