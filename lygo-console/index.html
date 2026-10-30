@@ -89,6 +89,16 @@
     .hero-tv{display:none}
   }
 
+  .tv-card{display:grid;gap:8px;padding:22px;min-height:190px;align-content:end;
+    background:linear-gradient(180deg,rgba(216,180,90,.10),rgba(4,6,11,.65)),
+      radial-gradient(120% 120% at 100% 0%,rgba(0,229,255,.16),transparent 60%);
+    text-decoration:none}
+  .tv-card:hover{text-decoration:none}
+  .tv-k{font:600 .64rem/1 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#d8b45a}
+  .tv-t{font:700 1.12rem/1.25 'Syne',sans-serif;color:#eaeef7}
+  .tv-s{font:400 .78rem/1 'IBM Plex Mono',monospace;color:#9aa5bb}
+  .tv-card:hover .tv-s{color:#f2dda4}
+
   /* dock player */
   .dock{position:fixed;left:0;right:0;bottom:0;z-index:60;
     background:linear-gradient(180deg,rgba(8,12,20,.97),rgba(4,6,11,.99));
@@ -135,7 +145,14 @@
     </div>
     <p class="meta">8 GB RAM · GPU optional · works offline · free</p>
     </div>
-    <div class="hero-tv lygo-tv-wrap" aria-label="LYGO TV"><div data-lygo-tv></div></div>
+    <div class="hero-tv lygo-tv-wrap" aria-label="LYGO TV">
+      <div data-lygo-tv></div>
+      <a class="tv-card" href="/sources/">
+        <span class="tv-k">LYGO TV</span>
+        <span class="tv-t">Live rooms &amp; free channels</span>
+        <span class="tv-s">Open the TV room →</span>
+      </a>
+    </div>
   </div>
 </header>
 
