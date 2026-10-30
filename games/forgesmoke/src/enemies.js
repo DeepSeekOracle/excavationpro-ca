@@ -4,8 +4,8 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610327m";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327m";
+import { TUNING } from "./tuning.js?v=202610327n";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327n";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
@@ -15,7 +15,7 @@ import {
   segmentHitsCollider,
   navStep,
   navDirection,
-} from "./models.js?v=202610327m";
+} from "./models.js?v=202610327n";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -78,6 +78,11 @@ export class Enemy {
     const dirX = dx / distance;
     const dirZ = dz / distance;
 
+    // An unarmed rifle-carrier orbiting at carbine range did nothing for the rest of the run.
+    if (this.canShoot === false && (this.type === "rifleman" || this.type === "spotter")) {
+      return this.updateCharger(dt, dirX, dirZ, distance);
+    }
+
     // Type-specific behavior
     switch (this.type) {
       case ENEMY_TYPES.rifleman:
@@ -96,6 +101,23 @@ export class Enemy {
         return this.updateMech(dt, dirX, dirZ, distance);
       case ENEMY_TYPES.gunship:
         return this.updateGunship(dt, dirX, dirZ, distance);
+    }
+    return null;
+  }
+
+  /** No gun? Close the distance and swing. Used by any rifle-carrier that rolled "unarmed". */
+  updateCharger(dt, dirX, dirZ, distance) {
+    const meleeRange = (this.config.meleeRange || 1.6) * 0.9;
+    if (distance > meleeRange) {
+      this.velocity.x = dirX * this.speed * 1.15;
+      this.velocity.z = dirZ * this.speed * 1.15;
+    } else {
+      this.velocity.x = 0;
+      this.velocity.z = 0;
+      if (this.meleeCooldown <= 0) {
+        this.meleeCooldown = this.config.meleeCooldown || 1.0;
+        return { type: "melee", damage: this.config.meleeDamage || 9 };
+      }
     }
     return null;
   }
@@ -531,8 +553,8 @@ export class EnemyManager {
           if (enemy.type === "shieldbearer" && inRing) {
             // the shield OWNS the front slot: it walks to the point in front of the player's gun
             const ang = (Number(playerYaw) || 0);
-            const sx = playerPos.x + Math.sin(ang) * 1.9 - enemy.position.x;
-            const sz = playerPos.z + Math.cos(ang) * 1.9 - enemy.position.z;
+            const sx = playerPos.x + Math.sin(ang) * 1.35 - enemy.position.x;
+            const sz = playerPos.z + Math.cos(ang) * 1.35 - enemy.position.z;
             const sl = Math.hypot(sx, sz) || 1;
             vx = (sx / sl) * spd;
             vz = (sz / sl) * spd;
@@ -540,8 +562,8 @@ export class EnemyManager {
             const bias = SLOT_BIAS[enemy.type] ?? 0;
             const spread = ((enemy.slot % 3) - 1) * 0.45;
             const ang = (Number(playerYaw) || 0) + bias + spread;
-            const tX = playerPos.x + Math.sin(ang) * 2.3;
-            const tZ = playerPos.z + Math.cos(ang) * 2.3;
+            const tX = playerPos.x + Math.sin(ang) * 1.3;
+            const tZ = playerPos.z + Math.cos(ang) * 1.3;
             const sx = tX - enemy.position.x;
             const sz = tZ - enemy.position.z;
             const sl = Math.hypot(sx, sz) || 1;
@@ -556,8 +578,8 @@ export class EnemyManager {
             const ox = enemy.position.x - other.position.x;
             const oz = enemy.position.z - other.position.z;
             const od = Math.hypot(ox, oz);
-            if (od > 0.001 && od < 2.2) {
-              const w = (2.2 - od) / 2.2;
+            if (od > 0.001 && od < 1.5) {
+              const w = (1.5 - od) / 1.5;
               px += (ox / od) * w;
               pz += (oz / od) * w;
             }
@@ -596,18 +618,7 @@ export class EnemyManager {
             }
           }
         }
-        // FACING: a body that is walking a path around cover must look where it is going; the old
-        // code locked every body's yaw to the operator, so navigators walked sideways/backwards.
-        // Shooters still square up to the player when they are not actively routing.
-        {
-          const travelYaw = Math.atan2(vx, vz);
-          const aimYaw = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
-          let diff = travelYaw - aimYaw;
-          diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-          const moving = Math.hypot(vx, vz) > 0.8;
-          const backpedal = Math.abs(diff) > Math.PI * 0.5;
-          enemy.faceYaw = (moving && (backpedal || enemy._navActive)) ? travelYaw : aimYaw;
-        }
+        // FACING is computed after the step for every body (see below the movement block).
         enemy._move = { x: vx, z: vz, spd };
         const stepX0 = enemy.position.x;
         const stepZ0 = enemy.position.z;
@@ -679,6 +690,19 @@ export class EnemyManager {
           enemy.position.x *= k;
           enemy.position.z *= k;
         }
+      }
+      // FACING — every body, including mechs, mortars and aircraft. A body looks where it travels
+      // whenever it is routing around cover, backpedalling, or flying; otherwise it squares up.
+      {
+        const mvx = isAerial ? enemy.velocity.x : (enemy._move ? enemy._move.x : 0);
+        const mvz = isAerial ? enemy.velocity.z : (enemy._move ? enemy._move.z : 0);
+        const moving = Math.hypot(mvx, mvz) > 0.5;
+        const travelYaw = Math.atan2(mvx, mvz);
+        const aimYaw = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+        const turn = Math.atan2(Math.sin(travelYaw - aimYaw), Math.cos(travelYaw - aimYaw));
+        const backpedal = Math.abs(turn) > Math.PI * 0.5;
+        if (isAerial) enemy.faceYaw = moving ? travelYaw : aimYaw;
+        else enemy.faceYaw = (moving && (backpedal || enemy._navActive)) ? travelYaw : aimYaw;
       }
       const AIR_ALT = { gunship: 6.4, drone: 4.6 };
     const alt = AIR_ALT[enemy.type] ?? (isAerial ? 3.4 : 0.72);

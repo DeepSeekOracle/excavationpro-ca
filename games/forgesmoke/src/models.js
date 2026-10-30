@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610327m";
-import { PALETTE, hexInt } from "./theme.js?v=202610327m";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327m";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610327n";
+import { PALETTE, hexInt } from "./theme.js?v=202610327n";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327n";
 
 export const PLAYER_SKINS = [
   {
@@ -1191,9 +1191,8 @@ export function animateEnemyMesh(enemy, mesh, dt) {
       }
     }
   }
-  if (enemy.type === "shieldbearer" && typeof enemy.shieldAngle === "number") {
-    mesh.rotation.y = enemy.shieldAngle;
-  }
+  // (the shieldbearer used to hard-set the mesh yaw here, which bypassed the travel-facing rule and
+  // made it crab-walk around cover; the shield simply follows the body)
 }
 
 function spawnGlbProp(propGroup, gltfName, placements) {

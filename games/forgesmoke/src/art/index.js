@@ -1,11 +1,11 @@
-import { draw as drawWeaponSilhouette } from "./weapon_silhouette_module.js?v=202610327m";
-import { draw as drawEnemySilhouette } from "./enemy_silhouette_module.js?v=202610327m";
-import { draw as drawBossSilhouette } from "./boss_silhouette_module.js?v=202610327m";
-import { draw as drawGroundTexture } from "./ground_texture_module.js?v=202610327m";
-import { draw as drawWallTexture } from "./wall_texture_module.js?v=202610327m";
-import { draw as drawCardIconSheet } from "./card_icon_sheet_module.js?v=202610327m";
-import { draw as drawMuzzleFlash } from "./muzzle_flash_module.js?v=202610327m";
-import { draw as drawImpactSpark } from "./impact_spark_module.js?v=202610327m";
+import { draw as drawWeaponSilhouette } from "./weapon_silhouette_module.js?v=202610327n";
+import { draw as drawEnemySilhouette } from "./enemy_silhouette_module.js?v=202610327n";
+import { draw as drawBossSilhouette } from "./boss_silhouette_module.js?v=202610327n";
+import { draw as drawGroundTexture } from "./ground_texture_module.js?v=202610327n";
+import { draw as drawWallTexture } from "./wall_texture_module.js?v=202610327n";
+import { draw as drawCardIconSheet } from "./card_icon_sheet_module.js?v=202610327n";
+import { draw as drawMuzzleFlash } from "./muzzle_flash_module.js?v=202610327n";
+import { draw as drawImpactSpark } from "./impact_spark_module.js?v=202610327n";
 
 export const PROCEDURAL_ART_MODULES = {
   weaponSilhouette: drawWeaponSilhouette,

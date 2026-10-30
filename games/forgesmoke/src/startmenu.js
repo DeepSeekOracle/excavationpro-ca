@@ -7,7 +7,7 @@
  *
  * Pure DOM. The 3D turntable still runs behind, so if the art is missing the screen still looks alive.
  */
-import { xpForLevel } from "./save.js?v=202610327m";
+import { xpForLevel } from "./save.js?v=202610327n";
 
 const ART = "./assets/start-bg.gif";
 
