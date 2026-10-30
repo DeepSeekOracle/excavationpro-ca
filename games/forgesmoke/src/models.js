@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610327g";
-import { PALETTE, hexInt } from "./theme.js?v=202610327g";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327g";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610327h";
+import { PALETTE, hexInt } from "./theme.js?v=202610327h";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327h";
 
 export const PLAYER_SKINS = [
   {
@@ -1773,7 +1773,33 @@ export function navDirection(x, z) {
   const iz = Math.floor((z - NAV.min) / NAV.cell);
   if (ix < 0 || iz < 0 || ix >= N || iz >= N) return null;
   const here = NAV.dist[iz * N + ix];
-  if (here >= 9999) return null;
+  // A body can be pushed into a blocked cell (cover, silo, building overlap). Escape toward the
+  // nearest reachable cell instead of returning "no route" and falling back to local steering,
+  // which is exactly how a walker ends up vibrating against a wall.
+  if (here >= 9999 || NAV.blocked[iz * N + ix]) {
+    let best = null;
+    let bestD = 9999;
+    for (let r = 1; r <= 5 && !best; r += 1) {
+      for (let dz = -r; dz <= r; dz += 1) {
+        for (let dx = -r; dx <= r; dx += 1) {
+          if (Math.max(Math.abs(dx), Math.abs(dz)) !== r) continue;
+          const nx = ix + dx;
+          const nz = iz + dz;
+          if (nx < 0 || nz < 0 || nx >= N || nz >= N) continue;
+          const ni = nz * N + nx;
+          if (NAV.blocked[ni] || NAV.dist[ni] >= 9999) continue;
+          if (NAV.dist[ni] < bestD) { bestD = NAV.dist[ni]; best = { nx, nz }; }
+        }
+      }
+    }
+    if (!best) return null;
+    const tx0 = NAV.min + (best.nx + 0.5) * NAV.cell;
+    const tz0 = NAV.min + (best.nz + 0.5) * NAV.cell;
+    const dx0 = tx0 - x;
+    const dz0 = tz0 - z;
+    const len0 = Math.hypot(dx0, dz0) || 1;
+    return { x: dx0 / len0, z: dz0 / len0 };
+  }
   let bestD = here;
   let bx = 0;
   let bz = 0;

@@ -9,7 +9,7 @@
  * transparent gaps, scattered through an ellipsoid. The silhouette breaks, light passes
  * through, the underside darkens, and it sways as a whole.
  *
- *   import { makeTree, makeBush, makeLogPile, swayTree } from "./foliage.js?v=202610327g";
+ *   import { makeTree, makeBush, makeLogPile, swayTree } from "./foliage.js?v=202610327h";
  *   const oak = makeTree({ height: 8, spread: 4, seed: 12 });   // tag "tree"
  *   scene.add(oak);                                              // in update(): swayTree(oak, t, wind)
  *
@@ -17,7 +17,7 @@
  * DataTexture), so it runs under the harness's evaluator as well as in the game.
  */
 import * as THREE from "three";
-import { makeRng, standardMaterial } from "./materials.js?v=202610327g";
+import { makeRng, standardMaterial } from "./materials.js?v=202610327h";
 
 const TAU = Math.PI * 2;
 
