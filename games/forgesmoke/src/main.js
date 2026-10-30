@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327s";
-import { standardMaterial } from "./materials.js?v=202610327s";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327s";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327s";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610328b";
+import { standardMaterial } from "./materials.js?v=202610328b";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610328b";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610328b";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610327s";
-import { TUNING } from "./tuning.js?v=202610327s";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327s";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327s";
-import { createCardTray } from "./cardsui.js?v=202610327s";
-import { buildBrandProps } from "./branding.js?v=202610327s";
-import { createSummary } from "./summaryui.js?v=202610327s";
-import { createBarks } from "./barks.js?v=202610327s";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327s";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327s";
-import { bossHp } from "./balance.js?v=202610327s";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327s";
-import { pilot } from "./autopilot.js?v=202610327s";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327s";
-import { createStartMenu } from "./startmenu.js?v=202610327s";
-import { createGamepad } from "./gamepad.js?v=202610327s";
-import { createTalentWindow } from "./talentui.js?v=202610327s";
-import { aggregate, toRunMods } from "./talents.js?v=202610327s";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327s";
+} from "./theme.js?v=202610328b";
+import { TUNING } from "./tuning.js?v=202610328b";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610328b";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610328b";
+import { createCardTray } from "./cardsui.js?v=202610328b";
+import { buildBrandProps } from "./branding.js?v=202610328b";
+import { createSummary } from "./summaryui.js?v=202610328b";
+import { createBarks } from "./barks.js?v=202610328b";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610328b";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610328b";
+import { bossHp } from "./balance.js?v=202610328b";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610328b";
+import { pilot } from "./autopilot.js?v=202610328b";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610328b";
+import { createStartMenu } from "./startmenu.js?v=202610328b";
+import { createGamepad } from "./gamepad.js?v=202610328b";
+import { createTalentWindow } from "./talentui.js?v=202610328b";
+import { aggregate, toRunMods } from "./talents.js?v=202610328b";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610328b";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -49,20 +49,20 @@ import {
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
   navInfo,
-} from "./models.js?v=202610327s";
-import * as levelModule from "./level.js?v=202610327s";
-import * as menuModule from "./menu.js?v=202610327s";
-import * as audioModule from "./audio.js?v=202610327s";
-import * as fxModule from "./fx.js?v=202610327s";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610327s";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327s";
+} from "./models.js?v=202610328b";
+import * as levelModule from "./level.js?v=202610328b";
+import * as menuModule from "./menu.js?v=202610328b";
+import * as audioModule from "./audio.js?v=202610328b";
+import * as fxModule from "./fx.js?v=202610328b";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610328b";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610328b";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610327s";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327s";
+import { createCasings } from "./casings.js?v=202610328b";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610328b";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1422,6 +1422,8 @@ window.__forgeSmokeTest = {
     setSpawns: (on) => { state.spawnsEnabled = Boolean(on); return state.spawnsEnabled; },
     getBoss: () => (state.bossEnemy ? {
       type: state.bossEnemy.type,
+      bossPhase: state.bossEnemy.bossPhase || 1,
+      core: Boolean(state.bossEnemy.coreMesh),
       hp: Math.round(state.bossEnemy.hp),
       maxHp: Math.round(state.bossEnemy.maxHp),
       y: +(state.bossEnemy.mesh ? state.bossEnemy.mesh.position.y : state.bossEnemy.position.y).toFixed(2),
@@ -1459,6 +1461,18 @@ window.__forgeSmokeTest = {
     hurt: (n = 9999) => { hurt(n); return state.phase; },
     getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
     getNavInfo: () => navInfo(),
+    setBossHp: (hp) => {
+      if (!state.bossEnemy) return null;
+      state.bossEnemy.hp = Math.max(0, Math.min(state.bossEnemy.maxHp, Number(hp) || 0));
+      return Math.round(state.bossEnemy.hp);
+    },
+    hurtBoss: (amount) => {
+      if (!state.bossEnemy || state.bossEnemy.hp <= 0) return null;
+      enemyManager.damageEnemy(state.bossEnemy, Number(amount) || 0);
+      return { hp: Math.round(state.bossEnemy.hp), bossPhase: state.bossEnemy.bossPhase || 1, core: Boolean(state.bossEnemy.coreMesh) };
+    },
+    getTelegraphs: () => enemyManager.getEnemies().filter((e) => (e._telegraph || 0) > 0).map((e) => ({ type: e.type, t: +e._telegraph.toFixed(2), speed: +Math.hypot(e.velocity.x, e.velocity.z).toFixed(2) })),
+    getAudio: () => ({ ambient: Boolean(audioController && audioController.ambienceActive && audioController.ambienceActive()), state: audioController && audioController.contextState ? audioController.contextState() : null }),
     getEnemyMotion: () => enemyManager.getEnemies().map((e) => {
       const vx = e._move ? e._move.x : e.velocity.x;
       const vz = e._move ? e._move.z : e.velocity.z;
@@ -2509,6 +2523,62 @@ function updateGrenades(dt) {
 // resolved instantly against the distance to the ENEMY (so a shell could never land where it was
 // aimed). A blast now carries its own ground position, a fuse, a radius, and a telegraph ring.
 const pendingBlasts = [];
+/** Held attacks (wind-up) and the laser-sight pool. */
+const pendingAttacks = [];
+const telegraphPool = [];
+
+function ensureTelegraphPool() {
+  if (telegraphPool.length || typeof THREE === "undefined") return;
+  for (let i = 0; i < 10; i += 1) {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(6), 3));
+    const line = new THREE.Line(geo, new THREE.LineBasicMaterial({
+      color: 0xff3b3b, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending,
+    }));
+    line.frustumCulled = false;
+    line.visible = false;
+    scene.add(line);
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.1, 8, 6), new THREE.MeshBasicMaterial({
+      color: 0xff5544, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending,
+    }));
+    glow.visible = false;
+    scene.add(glow);
+    telegraphPool.push({ line, glow });
+  }
+}
+
+/** Draw a laser sight + charging muzzle for any enemy in its aim window. */
+function updateTelegraphs() {
+  ensureTelegraphPool();
+  let used = 0;
+  for (const enemy of enemyManager.enemies) {
+    const t = Number(enemy._telegraph) || 0;
+    if (t <= 0 || !enemy.mesh || enemy.hp <= 0) continue;
+    if (used >= telegraphPool.length) break;
+    const slot = telegraphPool[used];
+    used += 1;
+    const p = enemy.mesh.position;
+    const muzzle = enemy.type === "mech" ? 1.9 : 1.42;
+    const arr = slot.line.geometry.attributes.position.array;
+    arr[0] = p.x + Math.sin(enemy.mesh.rotation.y) * 0.35;
+    arr[1] = p.y + muzzle;
+    arr[2] = p.z + Math.cos(enemy.mesh.rotation.y) * 0.35;
+    arr[3] = state.pos.x;
+    arr[4] = 1.15;
+    arr[5] = state.pos.z;
+    slot.line.geometry.attributes.position.needsUpdate = true;
+    slot.line.material.opacity = 0.10 + 0.45 * t;
+    slot.line.visible = true;
+    slot.glow.position.set(arr[0], arr[1], arr[2]);
+    slot.glow.scale.setScalar(0.5 + t * 1.7);
+    slot.glow.material.opacity = 0.2 + 0.65 * t;
+    slot.glow.visible = true;
+  }
+  for (let i = used; i < telegraphPool.length; i += 1) {
+    telegraphPool[i].line.visible = false;
+    telegraphPool[i].glow.visible = false;
+  }
+}
 const blastRings = [];
 {
   const geo = new THREE.RingGeometry(0.86, 1.0, 40);
@@ -3477,15 +3547,14 @@ function update(dt, ctx) {
 
     // Update enemies
     const enemyActions = enemyManager.update(dt, state.pos, beatDirector.runTime / 60, state.yaw);
-    for (const { enemy, action } of enemyActions) {
-      // Enemy attacks were all stubs before: only melee ever reached the player, so an autonomous
-      // pilot that held range could never lose. Each action now does what its archetype promises,
-      // with line-of-sight for ranged fire and a range gate for the close attacks.
+    // An action with a wind-up is held for that long (the attack has already been telegraphed in
+    // the world: laser sight / raised shield), then resolved with fresh distance + line of sight.
+    const resolveEnemyAction = (enemy, action) => {
       const d = Math.hypot(enemy.position.x - state.pos.x, enemy.position.z - state.pos.z);
       const los = !segmentHitsCollider(state.pos.x, state.pos.z, enemy.position.x, enemy.position.z);
       const cfg = enemy.config || {};
       if (action.type === "melee") {
-        hurt(action.damage || cfg.meleeDamage || 9);
+        if (d < (cfg.meleeRange || 1.6) + 0.9) hurt(action.damage || cfg.meleeDamage || 9);
       } else if (action.type === "rangedShot") {
         if (los && d < 18) {
           spawnEnemyShot(enemy, action.damage || 9, action.speed || 12, action.color || 0xff7a4a, Boolean(action.isSniper));
@@ -3517,7 +3586,22 @@ function update(dt, ctx) {
         state.painted = true;
         state.paintedTimer = cfg.paintDuration || 5;
       }
+    };
+    for (const { enemy, action } of enemyActions) {
+      const windup = Number(action.windup) || 0;
+      if (windup > 0) { pendingAttacks.push({ t: windup, enemy, action }); continue; }
+      resolveEnemyAction(enemy, action);
     }
+    for (let i = pendingAttacks.length - 1; i >= 0; i -= 1) {
+      const pending = pendingAttacks[i];
+      pending.t -= dt;
+      if (pending.t > 0) continue;
+      pendingAttacks.splice(i, 1);
+      if (pending.enemy.hp > 0 && enemyManager.enemies.includes(pending.enemy)) {
+        resolveEnemyAction(pending.enemy, pending.action);
+      }
+    }
+    updateTelegraphs();
 
     // Handle spawning (a test can freeze the director to isolate one archetype)
     const beat = beatDirector.getCurrentBeat();
@@ -3606,14 +3690,45 @@ function update(dt, ctx) {
     if (state.bossEnemy && state.bossEnemy.hp > 0) {
       const b = state.bossEnemy;
       const dist = Math.hypot(b.position.x - state.pos.x, b.position.z - state.pos.z);
+      // ── PHASE 2 ──────────────────────────────────────────────────────────────
+      // At half health the boss vents its core: it glows, hits land 35 % harder (damageEnemy), the
+      // salvo cadence shortens, and it gains a telegraphed area attack per type.
+      if (b.bossPhase !== 2 && b.hp <= b.maxHp * 0.5) {
+        b.bossPhase = 2;
+        barks.trigger("boss_hit", { text: "Core's open. Put it down before it vents again." });
+        globalThis.__studio?.hud?.flash("#F2545B", 0.5);
+        audioController?.playSfx("hurt", { volume: 0.7, pitch: 0.6 });
+        if (b.mesh) {
+          const core = new THREE.Mesh(
+            new THREE.SphereGeometry(b.type === "gunship" ? 0.42 : 0.55, 12, 8),
+            new THREE.MeshBasicMaterial({ color: 0xff3b2f, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false }),
+          );
+          core.position.set(0, b.type === "gunship" ? 0.55 : 1.25, b.type === "gunship" ? 0 : 0.55);
+          core.userData.bossCore = true;
+          b.mesh.add(core);
+          const light = new THREE.PointLight(0xff3a2a, 6, 7, 2);
+          light.position.copy(core.position);
+          light.userData.bossCoreLight = true;
+          b.mesh.add(light);
+          b.coreMesh = core;
+        }
+      }
+      const enraged = b.bossPhase === 2;
       state.bossTimer = (state.bossTimer || 0) + dt;
       // TUNE-04: a gunship only fires inside its attack range, from altitude
       const isAirBoss = b.type === "gunship";
       const inAttackRange = !isAirBoss || dist <= (TUNING.boss.gunship.attackRange || 26);
-      if (state.bossTimer > 6 && inAttackRange) {
+      const salvoGap = enraged ? 4.2 : 6;
+      if (state.bossTimer > salvoGap && inAttackRange) {
         state.bossTimer = 0;
-        state.bossWarning = 1.4;              // telegraph window
-        state.bossDodgeAccum = 0;             // MOV-04: measure this telegraph's displacement
+        state.bossWarning = enraged ? 1.2 : 1.4;   // telegraph window
+        state.bossDodgeAccum = 0;                  // MOV-04: measure this telegraph's displacement
+        // phase 2 adds a second, dodgeable area attack on the same beat
+        if (enraged && isAirBoss) {
+          scheduleBlast(state.pos.x, state.pos.z, { damage: 22, radius: 4.6, fuse: 1.25, color: 0xff6a3c });
+        } else if (enraged) {
+          scheduleBlast(b.position.x, b.position.z, { damage: 30, radius: 6.5, fuse: 0.95, color: 0xffb347 });
+        }
       }
       if (state.bossWarning > 0) {
         state.bossWarning = Math.max(0, state.bossWarning - dt);
@@ -3624,6 +3739,12 @@ function update(dt, ctx) {
           hurt(dmg);
           audioController?.playSfx("kill", { volume: 0.55, pitch: 0.7 });
         }
+      }
+      // core pulse so the weak point reads at night
+      if (b.coreMesh) {
+        const pulse = 0.55 + 0.45 * Math.sin((state.t || 0) * 6);
+        b.coreMesh.material.opacity = 0.35 + 0.55 * pulse;
+        b.coreMesh.scale.setScalar(0.9 + 0.25 * pulse);
       }
     } else {
       state.bossWarning = 0;
@@ -4075,6 +4196,8 @@ const studioApi = installStudio({
     } else {
       clearDamageNumbers();
       if (dmgLayer) dmgLayer.style.display = "none";
+      // the rain bed is a run sound: fade it as soon as the phase leaves play (idempotent)
+      audioController?.stopAmbience?.();
     }
     // the operator's bark bubble sits over the results title otherwise
     if (state.phase !== "playing") {

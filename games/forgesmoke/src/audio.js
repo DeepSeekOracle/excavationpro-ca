@@ -124,6 +124,7 @@ export async function initAudio() {
   let ambienceSrc = null;
   let ambienceGain = null;
   let ambienceFilter = null;
+  let ambienceLfo = null;
   let masterVol = 0.8;
   let sfxVol = 1.0;
   let musicVol = 0.6;
@@ -202,39 +203,100 @@ export async function initAudio() {
       // it ran under everything. Silence is better than a buzz; the SFX carry the scene.
       musicOsc = null;
     },
-    /** Rain/wind bed: looped, lowpassed, low gain - atmosphere, not a hum. */
-    async startAmbience(file = "./assets/sfx/ambience-rain.mp3", volume = 0.1) {
+    /**
+     * Rain/wind bed. The sample file was never shipped, so this synthesises its own loop: two
+     * decorrelated pink-noise channels (rain hiss) with a slow wind LFO on the lowpass. No asset,
+     * seamless, and it fades instead of popping.
+     */
+    async startAmbience(volume = 0.1) {
       const c = ensureContext();
       if (!c) return;
-      if (ambienceSrc) return;
+      if (ambienceSrc) {
+        // already running: just bring it back up if a previous run faded it out
+        try {
+          ambienceGain.gain.cancelScheduledValues(c.currentTime);
+          ambienceGain.gain.setValueAtTime(ambienceGain.gain.value, c.currentTime);
+          ambienceGain.gain.linearRampToValueAtTime(Math.max(0.0001, Math.min(0.3, volume)), c.currentTime + 1.6);
+        } catch (_) {}
+        return;
+      }
       try {
-        if (!loadPromise) loadPromise = loadSamples();
-        await loadPromise;
-        let buf = buffers.get("ambience");
-        if (!buf) {
-          const res = await fetch(file);
-          buf = await c.decodeAudioData(await res.arrayBuffer());
-          buffers.set("ambience", buf);
+        const seconds = 8;
+        const rate = c.sampleRate;
+        const buf = c.createBuffer(2, Math.floor(rate * seconds), rate);
+        for (let ch = 0; ch < 2; ch += 1) {
+          const data = buf.getChannelData(ch);
+          // pink-ish noise: leaky integration of white noise, then a soft hiss layer
+          let b0 = 0, b1 = 0, b2 = 0;
+          let seed = 12345 + ch * 777;
+          for (let i = 0; i < data.length; i += 1) {
+            seed = (seed * 1664525 + 1013904223) >>> 0;
+            const white = (seed / 4294967296) * 2 - 1;
+            b0 = 0.99765 * b0 + white * 0.0990460;
+            b1 = 0.96300 * b1 + white * 0.2965164;
+            b2 = 0.57000 * b2 + white * 1.0526913;
+            const pink = (b0 + b1 + b2 + white * 0.1848) * 0.12;
+            data[i] = pink;
+          }
+          // crossfade the tail into the head so the loop point is inaudible
+          const fade = Math.floor(rate * 0.6);
+          for (let i = 0; i < fade; i += 1) {
+            const k = i / fade;
+            data[i] = data[i] * k + data[data.length - fade + i] * (1 - k);
+          }
         }
+        buffers.set("ambience", buf);
         ambienceSrc = c.createBufferSource();
         ambienceSrc.buffer = buf;
         ambienceSrc.loop = true;
         ambienceFilter = c.createBiquadFilter();
         ambienceFilter.type = "lowpass";
-        ambienceFilter.frequency.value = 1800;
+        ambienceFilter.frequency.value = 1150;
+        ambienceFilter.Q.value = 0.6;
+        // wind: slow LFO breathing the filter cutoff (+/- 220 Hz over ~17 s)
+        const lfo = c.createOscillator();
+        lfo.frequency.value = 0.06;
+        const lfoGain = c.createGain();
+        lfoGain.gain.value = 220;
+        lfo.connect(lfoGain).connect(ambienceFilter.frequency);
+        lfo.start();
         ambienceGain = c.createGain();
-        ambienceGain.gain.value = Math.max(0, Math.min(0.3, volume));
+        ambienceGain.gain.value = 0.0001;
         ambienceSrc.connect(ambienceFilter).connect(ambienceGain).connect(masterGain);
         ambienceSrc.start();
+        ambienceGain.gain.exponentialRampToValueAtTime(Math.max(0.0002, Math.min(0.3, volume)), c.currentTime + 2.4);
+        ambienceLfo = lfo;
       } catch (_) {
         ambienceSrc = null;
       }
     },
-    stopAmbience() {
-      try { if (ambienceSrc) { ambienceSrc.stop(); ambienceSrc.disconnect(); } } catch (_) {}
+    stopAmbience(fade = 1.4) {
+      const c = ctx;
+      if (!c || !ambienceSrc) return;
+      try {
+        const now = c.currentTime;
+        ambienceGain.gain.cancelScheduledValues(now);
+        ambienceGain.gain.setValueAtTime(Math.max(0.0001, ambienceGain.gain.value), now);
+        ambienceGain.gain.exponentialRampToValueAtTime(0.0001, now + fade);
+        const src = ambienceSrc;
+        const lfo = ambienceLfo;
+        setTimeout(() => {
+          try { src.stop(); src.disconnect(); } catch (_) {}
+          try { if (lfo) { lfo.stop(); lfo.disconnect(); } } catch (_) {}
+        }, Math.ceil(fade * 1000) + 60);
+      } catch (_) {
+        try { ambienceSrc.stop(); } catch (_) {}
+      }
       ambienceSrc = null;
       ambienceGain = null;
       ambienceFilter = null;
+      ambienceLfo = null;
+    },
+    ambienceActive() {
+      return Boolean(ambienceSrc);
+    },
+    contextState() {
+      return ctx ? ctx.state : "none";
     },
     stopMusic() {
       if (musicOsc) {
@@ -274,6 +336,7 @@ export async function initAudio() {
     },
     destroy() {
       controller.stopMusic();
+      controller.stopAmbience(0.2);
       if (ctx) {
         try { ctx.close(); } catch (_) {}
         ctx = null;

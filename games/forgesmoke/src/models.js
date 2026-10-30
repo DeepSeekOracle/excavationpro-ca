@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610327s";
-import { PALETTE, hexInt } from "./theme.js?v=202610327s";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327s";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610328b";
+import { PALETTE, hexInt } from "./theme.js?v=202610328b";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610328b";
 
 export const PLAYER_SKINS = [
   {
@@ -1464,6 +1464,30 @@ function levelMaterials(texSize) {
   return LEVEL_MATERIALS;
 }
 
+let _grimeTex = null;
+function grimeSkirtMaterial() {
+  if (!_grimeTex) {
+    const c = document.createElement("canvas");
+    c.width = 4;
+    c.height = 64;
+    const g = c.getContext("2d");
+    const grad = g.createLinearGradient(0, 64, 0, 0);   // v=0 is the TOP of the texture in three
+    grad.addColorStop(0, "rgba(8,9,11,0)");
+    grad.addColorStop(0.55, "rgba(8,9,11,0.28)");
+    grad.addColorStop(1, "rgba(6,7,9,0.72)");
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 4, 64);
+    _grimeTex = new THREE.CanvasTexture(c);
+    _grimeTex.colorSpace = THREE.SRGBColorSpace;
+  }
+  return new THREE.MeshBasicMaterial({ map: _grimeTex, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+}
+let _capMat = null;
+function levelCapMaterial() {
+  if (!_capMat) _capMat = new THREE.MeshStandardMaterial({ color: 0x1b1e22, roughness: 0.9, metalness: 0.1 });
+  return _capMat;
+}
+
 const KENNEY_SIZE = {
   "ki/building-a": [2.08, 1.47, 1.24], "ki/building-b": [2.08, 1.47, 1.26],
   "ki/building-c": [1.88, 1.25, 2.11], "ki/building-d": [0.88, 1.41, 1.42],
@@ -1512,15 +1536,31 @@ function addKenneyModel(group, name, x, z, rotY, targetHeight, addBox, addCircle
       const mats = Array.isArray(o.material) ? o.material : [o.material];
       for (const m of mats) {
         if (!m || !m.color) continue;
-        m.color.multiplyScalar(0.72);
-        m.roughness = Math.min(0.92, (m.roughness ?? 0.7) + 0.06);
-        if (m.emissive) { m.emissive.set(0x05070a); m.emissiveIntensity = 1; }
+        m.color.multiplyScalar(0.82);
+        m.roughness = Math.min(0.94, (m.roughness ?? 0.7) + 0.08);
+        // a faint self-lit floor keeps the facade readable at night without the cartoon glow
+        if (m.emissive) { m.emissive.copy(m.color).multiplyScalar(0.16); m.emissiveIntensity = 1; }
       }
     });
     wrap.add(inst);
     // warm lit-window bands on the long faces: the atlas windows are unlit, which is why the first
     // pass read as grey boxes in the dark
     const windowMat = LEVEL_MATERIALS.window;
+    // grime skirt + parapet cap: the flat Kenney boxes read as toys next to the soldier until they
+    // get a dirty base and a hard roofline
+    if (tag !== "skyline" && name.includes("building")) {
+      const bw = size[0] * scale;
+      const bd = size[2] * scale;
+      const skirtH = Math.min(1.6, targetHeight * 0.14);
+      const skirt = new THREE.Mesh(new THREE.BoxGeometry(bw * 1.004, skirtH, bd * 1.004), grimeSkirtMaterial());
+      skirt.position.y = skirtH / 2;
+      skirt.renderOrder = 1;
+      wrap.add(skirt);
+      const cap = new THREE.Mesh(new THREE.BoxGeometry(bw * 1.02, Math.min(0.35, targetHeight * 0.03), bd * 1.02), levelCapMaterial());
+      cap.position.y = targetHeight + 0.1;
+      cap.castShadow = true;
+      wrap.add(cap);
+    }
     // only actual buildings get window bands (the water tower and chimney were sprouting them)
     if (windowMat && tag !== "skyline" && name.includes("building")) {
       const faceW = size[0] * scale * 0.9;

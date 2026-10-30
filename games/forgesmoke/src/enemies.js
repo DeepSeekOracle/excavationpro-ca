@@ -4,8 +4,8 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610327s";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327s";
+import { TUNING } from "./tuning.js?v=202610328b";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610328b";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
@@ -15,7 +15,7 @@ import {
   segmentHitsCollider,
   navStep,
   navDirection,
-} from "./models.js?v=202610327s";
+} from "./models.js?v=202610328b";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -29,6 +29,9 @@ export const ENEMY_TYPES = {
 };
 
 /** MOV-02 slot bias: 0 is the front slot (where the player's gun points), PI is the rear. */
+/** Seconds a rifle-carrier holds its laser sight before the shot. */
+const AIM_TIME = 0.5;
+
 const SLOT_BIAS = {
   shieldbearer: 0,
   rifleman: (Math.PI * 2) / 3,
@@ -126,34 +129,51 @@ export class Enemy {
     const meleeRange = this.config.meleeRange || 1.6;
     const carbineRange = 14;
     const strafeSign = this.phase > Math.PI ? 1 : -1;
+    if (this.canShoot === false) return this.updateCharger(dt, dirX, dirZ, distance);
     if (distance > carbineRange) {
       this.velocity.x = dirX * this.speed;
       this.velocity.z = dirZ * this.speed;
-    } else if (distance > meleeRange) {
-      // Tactical strafing at carbine range while firing crimson bursts
-      const perpX = -dirZ * strafeSign;
-      const perpZ = dirX * strafeSign;
-      this.velocity.x = (dirX * 0.35 + perpX * 0.75) * this.speed;
-      this.velocity.z = (dirZ * 0.35 + perpZ * 0.75) * this.speed;
-      if (this.specialCooldown <= 0 && this.canShoot !== false) {
-        this.specialCooldown = 1.15 + (this.phase % 0.4);
-        return {
-          type: "rangedShot",
-          dirX,
-          dirZ,
-          speed: 14.5,
-          damage: 6,
-          color: 0xff3b3b,
-        };
-      }
-    } else {
+      this._aimT = 0;
+      this._coolT = 0;
+      this._telegraph = 0;
+      return null;
+    }
+    if (distance <= meleeRange) {
       this.velocity.x = 0;
       this.velocity.z = 0;
+      this._aimT = 0;
+      this._telegraph = 0;
       if (this.meleeCooldown <= 0) {
         this.meleeCooldown = this.config.meleeCooldown || 1.0;
-        return { type: "melee", damage: this.config.meleeDamage || 9 };
+        return { type: "melee", damage: this.config.meleeDamage || 9, windup: 0.3 };
       }
+      return null;
     }
+    // Carbine band: aim (planted, laser sight visible) -> shot -> short reposition. The old loop
+    // strafed continuously and fired on a cooldown, so the legs ran sideways under a forward clip.
+    if (this._aimT > 0) {
+      this._aimT -= dt;
+      this.velocity.x = 0;
+      this.velocity.z = 0;
+      this._telegraph = Math.min(1, 1 - this._aimT / AIM_TIME);
+      if (this._aimT <= 0) {
+        this._coolT = 0.85 + (this.phase % 0.3);
+        this._telegraph = 0;
+        this.specialCooldown = 0.85;
+        return { type: "rangedShot", dirX, dirZ, speed: 14.5, damage: 6, color: 0xff3b3b };
+      }
+      return null;
+    }
+    if (this._coolT > 0) {
+      this._coolT -= dt;
+      this.velocity.x = -dirZ * strafeSign * this.speed * 0.8;
+      this.velocity.z = dirX * strafeSign * this.speed * 0.8;
+      this._telegraph = 0;
+      return null;
+    }
+    this._aimT = AIM_TIME;
+    this.velocity.x = 0;
+    this.velocity.z = 0;
     return null;
   }
 
@@ -222,19 +242,31 @@ export class Enemy {
   updateSpotter(dt, dirX, dirZ, distance) {
     const paintRange = 18.0;
     const minRange = 10.0;
+    if (this.canShoot === false) return this.updateCharger(dt, dirX, dirZ, distance);
     if (distance > paintRange) {
       this.velocity.x = dirX * this.speed;
       this.velocity.z = dirZ * this.speed;
-    } else if (distance < minRange) {
+      this._aimT = 0;
+      this._telegraph = 0;
+      return null;
+    }
+    if (distance < minRange) {
       this.velocity.x = -dirX * this.speed * 0.7;
       this.velocity.z = -dirZ * this.speed * 0.7;
-    } else {
-      const strafe = this.phase > Math.PI ? 0.55 : -0.55;
-      this.velocity.x = -dirZ * strafe * this.speed;
-      this.velocity.z = dirX * strafe * this.speed;
-      if (this.specialCooldown <= 0) {
+      this._aimT = 0;
+      this._telegraph = 0;
+      return null;
+    }
+    // Sniper: a long, obvious paint-up before the tracer (0.75 s) - the shot should be dodgeable on
+    // the telegraph, not on reaction to the bolt.
+    if (this._aimT > 0) {
+      this._aimT -= dt;
+      this.velocity.x = 0;
+      this.velocity.z = 0;
+      this._telegraph = Math.min(1, 1 - this._aimT / 0.75);
+      if (this._aimT <= 0) {
+        this._telegraph = 0;
         this.specialCooldown = 2.4;
-        if (this.canShoot === false) return null;
         this.painted = true;
         this.paintTimer = 2.4;
         return {
@@ -247,7 +279,19 @@ export class Enemy {
           isSniper: true,
         };
       }
+      return null;
     }
+    if (this._coolT > 0) {
+      this._coolT -= dt;
+      const strafe = this.phase > Math.PI ? 0.55 : -0.55;
+      this.velocity.x = -dirZ * strafe * this.speed;
+      this.velocity.z = dirX * strafe * this.speed;
+      return null;
+    }
+    this._aimT = 0.75;
+    this._coolT = 1.6;
+    this.velocity.x = 0;
+    this.velocity.z = 0;
     return null;
   }
 
@@ -772,7 +816,10 @@ export class EnemyManager {
 
   /** Apply damage to enemy, return score/XP if killed. */
   damageEnemy(enemy, amount, isFlank = false, armour = 0, pierce = 0) {
-    const killed = enemy.takeDamage(amount, isFlank, armour, pierce);
+    // Phase-2 bosses vent their core: every hit lands 35 % harder while the core glows.
+    let dmg = amount;
+    if (enemy && enemy.isBoss && enemy.bossPhase === 2) dmg = amount * 1.35;
+    const killed = enemy.takeDamage(dmg, isFlank, armour, pierce);
     if (killed) {
       const score = enemy.getScoreValue();
       const xp = enemy.getXpValue();
