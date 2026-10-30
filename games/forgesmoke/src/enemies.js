@@ -4,15 +4,15 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610325v";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610325v";
+import { TUNING } from "./tuning.js?v=202610326m";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610326m";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
-} from "./models.js?v=202610325v";
+} from "./models.js?v=202610326m";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -288,8 +288,18 @@ export class Enemy {
       this.specialCooldown = this.config.stompCooldown || 5.0;
       return { type: "stomp", radius: this.config.stompRadius, damage: this.config.stompDamage };
     } else {
-      this.velocity.x = 0;
-      this.velocity.z = 0;
+      // keep a firing line: close to 14 m, open to 9 m, otherwise strafe across the operator
+      const sign = this.phase > Math.PI ? 1 : -1;
+      if (distance > 14) {
+        this.velocity.x = dirX * this.speed * 0.5;
+        this.velocity.z = dirZ * this.speed * 0.5;
+      } else if (distance < 9) {
+        this.velocity.x = -dirX * this.speed * 0.5;
+        this.velocity.z = -dirZ * this.speed * 0.5;
+      } else {
+        this.velocity.x = -dirZ * sign * this.speed * 0.6;
+        this.velocity.z = dirX * sign * this.speed * 0.6;
+      }
       if (this.specialCooldown <= 0 && this.canShoot !== false) {
         this.specialCooldown = this.config.minigunCycle || 0.1;
         return { type: "minigun", damage: this.config.minigunDamage, dirX, dirZ };
@@ -299,7 +309,22 @@ export class Enemy {
   }
 
   updateGunship(dt, dirX, dirZ, distance) {
-    // Gunship handled specially - strafing pattern
+    // The gunship used to return {type:"strafe"} and never write a velocity, so the boss hovered
+    // in one spot for the whole fight. It now holds a 14-24 m ring around the operator.
+    const speed = this.config.strafeSpeed || 4.0;
+    const sign = this.phase > Math.PI ? 1 : -1;
+    const perpX = -dirZ;
+    const perpZ = dirX;
+    if (distance > 24) {
+      this.velocity.x = dirX * speed;
+      this.velocity.z = dirZ * speed;
+    } else if (distance < 14) {
+      this.velocity.x = -dirX * speed * 0.85;
+      this.velocity.z = -dirZ * speed * 0.85;
+    } else {
+      this.velocity.x = perpX * sign * speed;
+      this.velocity.z = perpZ * sign * speed;
+    }
     return { type: "strafe" };
   }
 
@@ -386,19 +411,34 @@ export class EnemyManager {
   /** Spawn an enemy of given type at random angle around player. `force` ignores the body cap. */
   spawn(type, playerPos, timeMinutes = 0, force = false) {
     if (!force && this.enemies.length >= this.maxConcurrent) return null;
+    const arenaR = (TUNING.player && TUNING.player.arenaRadius) || 54;
+    const maxR = arenaR - 4;
+    const minFromPlayer = 9;
     let position = null;
-    for (let attempt = 0; attempt < 8; attempt += 1) {
+    for (let attempt = 0; attempt < 14; attempt += 1) {
       const angle = this.rng() * Math.PI * 2;
-      const radius = 13 + this.rng() * 13;   // 13-26 m: inside the ring, close enough to see
+      const radius = 13 + this.rng() * 13;   // 13-26 m from the player
       const candidate = {
         x: playerPos.x + Math.cos(angle) * radius,
         z: playerPos.z + Math.sin(angle) * radius,
         clone() { return { x: this.x, z: this.z }; },
       };
+      // A spawn is measured from the PLAYER, so at the arena edge it could land 20 m outside the
+      // wall (that is how a boss ended up in the dark). Pull it back onto the deck first.
+      const cr = Math.hypot(candidate.x, candidate.z);
+      if (cr > maxR) {
+        const k = maxR / cr;
+        candidate.x *= k;
+        candidate.z *= k;
+      }
+      // never spawn on top of the operator, or inside cover
+      if (Math.hypot(candidate.x - playerPos.x, candidate.z - playerPos.z) < minFromPlayer) {
+        if (!position) position = candidate;
+        continue;
+      }
       const ox = candidate.x;
       const oz = candidate.z;
       resolveObstacleCollision(candidate, 0.85, arenaColliders);
-      // a spawn inside a container pops the body out on frame one, which reads as a teleport
       if (Math.hypot(candidate.x - ox, candidate.z - oz) < 0.35) { position = candidate; break; }
       if (!position) position = candidate;
     }
@@ -545,6 +585,17 @@ export class EnemyManager {
           enemy.position.z += (steered.z / sl) * cap * spd * dt;
         }
         resolveObstacleCollision(enemy.position, colRadius, arenaColliders);
+        {
+          // soft arena edge: walkers cannot wander off the deck (they used to chase a target the
+          // player could not reach and disappear into the dark)
+          const er = Math.hypot(enemy.position.x, enemy.position.z);
+          const edge = ((TUNING.player && TUNING.player.arenaRadius) || 54) - 1.5;
+          if (er > edge) {
+            const k = edge / er;
+            enemy.position.x *= k;
+            enemy.position.z *= k;
+          }
+        }
         // If a body wanted to move but the world ate the step, remember it; 0.7 s of that is a wedge.
         const actualStep = Math.hypot(enemy.position.x - stepX0, enemy.position.z - stepZ0);
         const wantedStep = spd * dt;
@@ -587,6 +638,13 @@ export class EnemyManager {
       } else {
         enemy.position.x += enemy.velocity.x * dt;
         enemy.position.z += enemy.velocity.z * dt;
+        const er = Math.hypot(enemy.position.x, enemy.position.z);
+        const edge = ((TUNING.player && TUNING.player.arenaRadius) || 54) - 2.5;
+        if (er > edge) {
+          const k = edge / er;
+          enemy.position.x *= k;
+          enemy.position.z *= k;
+        }
       }
       const AIR_ALT = { gunship: 6.4, drone: 4.6 };
     const alt = AIR_ALT[enemy.type] ?? (isAerial ? 3.4 : 0.72);

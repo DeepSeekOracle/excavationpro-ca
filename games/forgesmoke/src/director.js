@@ -3,8 +3,8 @@
  * Pure logic, no rendering.
  */
 
-import { TUNING } from "./tuning.js?v=202610325v";
-import { spawnBudget, eliteChance, spawnInterval } from "./balance.js?v=202610325v";
+import { TUNING } from "./tuning.js?v=202610326m";
+import { spawnBudget, eliteChance, spawnInterval } from "./balance.js?v=202610326m";
 
 export const BEAT_NAMES = {
   CONTACT: "Contact",
@@ -65,6 +65,11 @@ export class BeatDirector {
       this.beatTimer = 0;
       this.killsThisBeat = 0;
       this.damageThisBeat = 0;
+      // each board gets its own crate; the flags must clear or the next beat never drops one
+      this.airdropPicked = false;
+      this.airdropPending = false;
+      this.airdropWarningGiven = false;
+      this.airdropOptions = null;
       events.push({ type: "beatChange", beat: this.getCurrentBeat() });
     }
 
@@ -87,7 +92,9 @@ export class BeatDirector {
       this.airdropWarningGiven = true;
       events.push({ type: "airdropWarning", timeUntilDrop: TUNING.airdrop.warningTime });
     }
-    if (beat.airdropAt && this.runTime >= beat.airdropAt && !this.airdropPending) {
+    // !airdropPicked matters: once the crate was taken, `pending` went false and this condition
+    // fired again on the very next frame, spawning an endless chain of crates.
+    if (beat.airdropAt && this.runTime >= beat.airdropAt && !this.airdropPending && !this.airdropPicked) {
       this.airdropPending = true;
       this.airdropTimer = 0;
       this.airdropWarningGiven = false;
@@ -130,9 +137,9 @@ export class BeatDirector {
     this.airdropPending = false;
 
     if (option.type === "weapon") {
-      // Replace inactive weapon
-      const inactiveSlot = weaponManager.activeSlot === "primary" ? "secondary" : "primary";
-      weaponManager.replaceWeapon(inactiveSlot, option.style);
+      // The autonomous fighter never presses Q, so a weapon that lands in the inactive slot is
+      // dead content. The crate upgrades the weapon it is actually holding.
+      weaponManager.replaceWeapon(weaponManager.activeSlot, option.style);
     } else if (option.type === "part") {
       // Apply to active weapon (or let player choose - simplified to active)
       weaponManager.applyPart(weaponManager.activeSlot, option.part);

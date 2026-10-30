@@ -5,9 +5,10 @@
  * leaves lanes wide enough for the fighter to cross without scraping a collider. The maps own their
  * props; the lighting presets in `ARENA_LIGHTING` stay separate, so a map can borrow a look.
  *
- * Placement rules (from .forge/briefs/02-maps.md):
+ * Placement rules (.forge/briefs/02-maps.md, updated 2026-10-30 when the arena was restored to a
+ * 54 m play radius):
  *   1. nothing inside 16 m  — an earlier build put containers at 8-13 m and buried the camera,
- *   2. cover radius 18-30 m,
+ *   2. cover rings at 17-33 m (inner fight) and 38-50 m (outer band),
  *   3. a clear centre pad (10 m on FOUNDRY, 12 m elsewhere),
  *   4. spawns are deterministic by seed and never inside a collider (EnemyManager resolves).
  */
@@ -55,6 +56,12 @@ export const MAPS = [
       { ...polar(75, 18.5), kind: "barrier", rotY: -1.2 },
       { ...polar(-15, 29), kind: "barrier", rotY: 0.2 },
       { ...polar(15, 29), kind: "barrier", rotY: -0.2 },
+      // outer band: the arena is 54 m across, so the 33-50 m ring needs cover of its own
+      { ...polar(-95, 40), kind: "container", rotY: 0.5 },
+      { ...polar(95, 40), kind: "container", rotY: -0.5 },
+      { ...polar(180, 46), kind: "container", rotY: 0.1 },
+      { ...polar(-140, 44), kind: "barrier", rotY: 1.1 },
+      { ...polar(140, 44), kind: "barrier", rotY: -1.1 },
     ],
     // The castle-like arena-ruins prop was removed from DEPOT (author: it snags the fighter and the
     // collider fit turns a ruin complex into an invisible wall). Other maps keep their ruins; DEPOT
@@ -75,6 +82,11 @@ export const MAPS = [
       { ...polar(60, 30), kind: "container", rotY: 0.5 },
       { ...polar(-115, 33), kind: "watchtower", rotY: 0.78 },
       { ...polar(115, 33), kind: "watchtower", rotY: -0.78 },
+      { ...polar(-30, 42), kind: "container", rotY: 0.25 },
+      { ...polar(30, 42), kind: "container", rotY: -0.25 },
+      { ...polar(180, 47), kind: "container", rotY: 0.0 },
+      { ...polar(-160, 45), kind: "barrier", rotY: 0.9 },
+      { ...polar(160, 45), kind: "barrier", rotY: -0.9 },
     ],
     ruins: [
       { ...polar(170, 28), rotY: Math.PI, scale: 0.4 },
@@ -100,6 +112,11 @@ export const MAPS = [
       { ...polar(90, 17.5), kind: "barrier", rotY: -1.4 },
       { ...polar(126, 23), kind: "turret", rotY: 0 },
       { ...polar(162, 20), kind: "turret", rotY: 0 },
+      { ...polar(-70, 41), kind: "container", rotY: 0.35 },
+      { ...polar(70, 41), kind: "container", rotY: -0.35 },
+      { ...polar(180, 46), kind: "container", rotY: 0.0 },
+      { ...polar(-40, 48), kind: "barrier", rotY: 1.2 },
+      { ...polar(40, 48), kind: "barrier", rotY: -1.2 },
     ],
     ruins: [
       { ...polar(-145, 26), rotY: 0.9, scale: 0.4 },
@@ -136,7 +153,7 @@ export function validateMap(map) {
     minR = Math.min(minR, r);
     maxR = Math.max(maxR, r);
     if (r < 16) problems.push(`${p.kind || "ruin"} at r=${r.toFixed(1)} is inside 16 m`);
-    if (r < 17 || r > 34) problems.push(`${p.kind || "ruin"} at r=${r.toFixed(1)} is outside 17-34 m`);
+    if (r < 17 || r > 52) problems.push(`${p.kind || "ruin"} at r=${r.toFixed(1)} is outside 17-52 m`);
     if (r < (map.centerClear || 10)) problems.push(`${p.kind || "ruin"} blocks the centre pad`);
   }
   return {

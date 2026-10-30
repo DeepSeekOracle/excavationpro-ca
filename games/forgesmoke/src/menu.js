@@ -3,7 +3,7 @@
  * Responsibilities: UI state machine, navigation, overlays, settings, arena selection, unlock enforcement.
  * @module menu
  */
-import { loadSave, saveSave, getSettings, updateSettings } from "./save.js?v=202610325v";
+import { loadSave, saveSave, getSettings, updateSettings } from "./save.js?v=202610326m";
 
 export const MenuState = {
   TITLE: "title",

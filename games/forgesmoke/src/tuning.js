@@ -50,7 +50,10 @@ export const TUNING = {
     spinupSpeedMult: 0.8,
     bodyYawSmoothing: 14,
     gunPivotYawSmoothing: 16,
-    arenaRadius: 30,
+    // RESTORED 2026-10-30: shrinking this to 30 put the map's own cover ring (17-33 m) on the
+    // boundary, so the fighter was clamped inside his own props and every outer asset was
+    // unreachable. The arena is 54 m again; the spawn and ring code now respects it.
+    arenaRadius: 54,
   },
 
   // Card pool (8)
@@ -284,13 +287,16 @@ export const TUNING = {
   // Spawn / Director
   director: {
     beats: [
-      { name: "Contact", start: 0, end: 45, spawnInterval: 1.2, enemyTypes: ["rifleman"], maxConcurrent: 20 },
-      { name: "Suppression", start: 45, end: 90, spawnInterval: 0.8, enemyTypes: ["rifleman"], maxConcurrent: 25, airdropAt: 90 },
-      { name: "Breach", start: 90, end: 150, spawnInterval: 0.6, enemyTypes: ["rifleman", "sapper"], maxConcurrent: 30 },
-      { name: "Blackout", start: 150, end: 158, spawnInterval: 0.4, enemyTypes: ["rifleman", "sapper", "shieldbearer"], maxConcurrent: 40, blackout: true },
-      { name: "CounterAttack", start: 158, end: 360, spawnInterval: 0.5, enemyTypes: ["rifleman", "shieldbearer", "mortar"], maxConcurrent: 50, airdropAt: 270 },
-      { name: "BlackoutII", start: 360, end: 368, spawnInterval: 0.3, enemyTypes: ["rifleman", "sapper", "shieldbearer", "drone"], maxConcurrent: 60, blackout: true },
-      { name: "Siege", start: 368, end: 660, spawnInterval: 0.35, enemyTypes: ["rifleman", "shieldbearer", "mortar", "mech"], maxConcurrent: 80 },
+      // ROSTER RAMP: every board used to be rifleman-only until 158 s, and a normal run is 60-90 s,
+      // so six of the eight archetypes were never seen. The roster now opens up inside the first
+      // 90 s, in order of how much they ask of the player.
+      { name: "Contact", start: 0, end: 35, spawnInterval: 1.2, enemyTypes: ["rifleman", "spotter"], maxConcurrent: 20 },
+      { name: "Suppression", start: 35, end: 70, spawnInterval: 0.85, enemyTypes: ["rifleman", "spotter", "sapper"], maxConcurrent: 25, airdropAt: 55 },
+      { name: "Breach", start: 70, end: 120, spawnInterval: 0.65, enemyTypes: ["rifleman", "sapper", "shieldbearer", "drone"], maxConcurrent: 30 },
+      { name: "Blackout", start: 120, end: 128, spawnInterval: 0.4, enemyTypes: ["rifleman", "sapper", "shieldbearer", "spotter"], maxConcurrent: 40, blackout: true },
+      { name: "CounterAttack", start: 128, end: 300, spawnInterval: 0.5, enemyTypes: ["rifleman", "shieldbearer", "mortar", "drone"], maxConcurrent: 50, airdropAt: 180 },
+      { name: "BlackoutII", start: 300, end: 308, spawnInterval: 0.3, enemyTypes: ["rifleman", "sapper", "shieldbearer", "drone", "mortar"], maxConcurrent: 60, blackout: true },
+      { name: "Siege", start: 308, end: 600, spawnInterval: 0.35, enemyTypes: ["rifleman", "shieldbearer", "mortar", "mech", "drone"], maxConcurrent: 80 },
       { name: "Gunship", start: 660, end: 720, spawnInterval: 0, enemyTypes: ["gunship"], maxConcurrent: 1 },
     ],
     baseSpawnInterval: 1.2,

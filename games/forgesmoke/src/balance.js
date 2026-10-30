@@ -3,7 +3,7 @@
  * All tuning values come from tuning.js.
  */
 
-import { TUNING } from "./tuning.js?v=202610325v";
+import { TUNING } from "./tuning.js?v=202610326m";
 
 /** Armour damage reduction: r = A / (A + 100), capped at 37.5% (A=60). */
 export function damageAfterArmour(rawDamage, armour) {
@@ -218,9 +218,13 @@ export function rollAirdropOptions(rng) {
     if (rng() < TUNING.airdrop.weaponChance) {
       // Weapon option - pick from available styles not already owned
       const styles = ["spray", "pierce", "cone", "ricochet", "arc", "beam", "chain", "burst", "spinup", "rail", "flamer", "sentry", "flak", "breach", "rail2"];
-      options.push({ type: "weapon", style: styles[Math.floor(rng() * styles.length)] });
+      const style = styles[Math.floor(rng() * styles.length)];
+      // the card tray prints `name`; the airdrop options never set it, so every crate card read
+      // "Field Upgrade" with no identity
+      options.push({ type: "weapon", style, name: `WEAPON: ${style.toUpperCase()}` });
     } else {
-      options.push({ type: "part", part: rollPart(rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights) });
+      const part = rollPart(rng, TUNING.airdrop.partSlotWeights, TUNING.airdrop.rarityWeights);
+      options.push({ type: "part", part, name: part?.name || "FIELD UPGRADE" });
     }
   }
   return options;

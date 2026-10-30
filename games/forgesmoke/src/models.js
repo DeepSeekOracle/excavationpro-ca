@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610325v";
-import { PALETTE, hexInt } from "./theme.js?v=202610325v";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610325v";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610326m";
+import { PALETTE, hexInt } from "./theme.js?v=202610326m";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610326m";
 
 export const PLAYER_SKINS = [
   {
@@ -749,10 +749,18 @@ export function createEnemyMaterialBank(baseEnemyMat, texSize = 256) {
   };
 }
 
+// Shared per (asset, source material, faction tint). Without this cache every spawned enemy cloned
+// its rig materials and `ensureBakedMaterial` baked three fresh 256px textures for each clone — the
+// renderer texture count climbed by ~10 per spawn for the life of the session.
+const tintedMaterialCache = new Map();
+
 function tintClonedRig(rig, assetName, tintHex, emissiveHex = null, emissiveIntensity = 0) {
   let slotCounter = 0;
   const styleOneMaterial = (origMat, meshName = "") => {
     if (!origMat) return origMat;
+    const cacheKey = `${assetName}|${tintHex}|${emissiveHex}|${emissiveIntensity}|${origMat.uuid}`;
+    const cached = tintedMaterialCache.get(cacheKey);
+    if (cached) return cached;
     const m = origMat.clone();
     const mName = (origMat.name || "").toLowerCase();
     const cName = (meshName || "").toLowerCase();
@@ -775,7 +783,9 @@ function tintClonedRig(rig, assetName, tintHex, emissiveHex = null, emissiveInte
       m.metalness = Math.min(0.5, m.metalness ?? 0.3);
       m.roughness = Math.max(0.5, m.roughness ?? 0.6);
     }
-    return ensureBakedMaterial(m, assetName, ++slotCounter);
+    const finished = ensureBakedMaterial(m, assetName, ++slotCounter);
+    tintedMaterialCache.set(cacheKey, finished);
+    return finished;
   };
 
   rig.traverse((child) => {

@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610325v";
-import { standardMaterial } from "./materials.js?v=202610325v";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610325v";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610325v";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610326m";
+import { standardMaterial } from "./materials.js?v=202610326m";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610326m";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610326m";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610325v";
-import { TUNING } from "./tuning.js?v=202610325v";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610325v";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610325v";
-import { createCardTray } from "./cardsui.js?v=202610325v";
-import { buildBrandProps } from "./branding.js?v=202610325v";
-import { createSummary } from "./summaryui.js?v=202610325v";
-import { createBarks } from "./barks.js?v=202610325v";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610325v";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610325v";
-import { bossHp } from "./balance.js?v=202610325v";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610325v";
-import { pilot } from "./autopilot.js?v=202610325v";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610325v";
-import { createStartMenu } from "./startmenu.js?v=202610325v";
-import { createGamepad } from "./gamepad.js?v=202610325v";
-import { createTalentWindow } from "./talentui.js?v=202610325v";
-import { aggregate, toRunMods } from "./talents.js?v=202610325v";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610325v";
+} from "./theme.js?v=202610326m";
+import { TUNING } from "./tuning.js?v=202610326m";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610326m";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610326m";
+import { createCardTray } from "./cardsui.js?v=202610326m";
+import { buildBrandProps } from "./branding.js?v=202610326m";
+import { createSummary } from "./summaryui.js?v=202610326m";
+import { createBarks } from "./barks.js?v=202610326m";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610326m";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610326m";
+import { bossHp } from "./balance.js?v=202610326m";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610326m";
+import { pilot } from "./autopilot.js?v=202610326m";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610326m";
+import { createStartMenu } from "./startmenu.js?v=202610326m";
+import { createGamepad } from "./gamepad.js?v=202610326m";
+import { createTalentWindow } from "./talentui.js?v=202610326m";
+import { aggregate, toRunMods } from "./talents.js?v=202610326m";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610326m";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -48,20 +48,20 @@ import {
   segmentHitsCollider,
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
-} from "./models.js?v=202610325v";
-import * as levelModule from "./level.js?v=202610325v";
-import * as menuModule from "./menu.js?v=202610325v";
-import * as audioModule from "./audio.js?v=202610325v";
-import * as fxModule from "./fx.js?v=202610325v";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610325v";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610325v";
+} from "./models.js?v=202610326m";
+import * as levelModule from "./level.js?v=202610326m";
+import * as menuModule from "./menu.js?v=202610326m";
+import * as audioModule from "./audio.js?v=202610326m";
+import * as fxModule from "./fx.js?v=202610326m";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610326m";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610326m";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610325v";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610325v";
+import { createCasings } from "./casings.js?v=202610326m";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610326m";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -220,49 +220,59 @@ function buildArenaRing() {
   const group = new THREE.Group();
   group.userData.tag = "arena-ring";
   const wallMat = new THREE.MeshStandardMaterial({
-    color: 0x2a3138, metalness: 0.42, roughness: 0.68, envMapIntensity: 0.7,
+    color: 0x39424c, metalness: 0.42, roughness: 0.68, envMapIntensity: 0.9,
+    emissive: 0x0e1216, emissiveIntensity: 0.55,
   });
   const stripMat = new THREE.MeshStandardMaterial({
-    color: 0x0c2a33, emissive: 0x6fe3ff, emissiveIntensity: 1.5, roughness: 0.4, metalness: 0.2,
+    color: 0x14262b, emissive: 0xffb347, emissiveIntensity: 0.55, roughness: 0.4, metalness: 0.2,
   });
   const towerMat = new THREE.MeshStandardMaterial({ color: 0x3a3f45, metalness: 0.6, roughness: 0.45 });
   const lampMat = new THREE.MeshStandardMaterial({
     color: 0xfff0cf, emissive: 0xffd9a0, emissiveIntensity: 2.6, roughness: 0.3,
   });
-  const N = 26;
-  const R = 34;
-  const H = 3.6;
-  const W = 8.6;
+  const N = 30;
+  const R = (TUNING.player.arenaRadius || 54) + 2.5;
+  const H = 8.0;
+  const W = ((2 * Math.PI * R) / N) * 1.04;
   const dummy = new THREE.Object3D();
   const wall = new THREE.InstancedMesh(new THREE.BoxGeometry(W, H, 0.8), wallMat, N);
   const strip = new THREE.InstancedMesh(new THREE.BoxGeometry(W * 0.9, 0.14, 0.2), stripMat, N);
+  const rail = new THREE.InstancedMesh(new THREE.BoxGeometry(W * 0.98, 0.22, 0.28), stripMat, N);
+  const inner = R - 0.45;
   for (let i = 0; i < N; i += 1) {
     const a = (i / N) * TAU;
     dummy.position.set(Math.cos(a) * R, H / 2, Math.sin(a) * R);
     dummy.rotation.set(0, a - Math.PI / 2, 0);
     dummy.updateMatrix();
     wall.setMatrixAt(i, dummy.matrix);
-    dummy.position.y = H - 0.42;
+    // strips sit on the INNER face; at the wall's centre line they were buried inside it
+    dummy.position.set(Math.cos(a) * inner, H - 0.5, Math.sin(a) * inner);
     dummy.updateMatrix();
     strip.setMatrixAt(i, dummy.matrix);
+    dummy.position.set(Math.cos(a) * inner, 1.55, Math.sin(a) * inner);
+    dummy.updateMatrix();
+    rail.setMatrixAt(i, dummy.matrix);
   }
+  rail.instanceMatrix.needsUpdate = true;
+  rail.userData.tag = "arena-wall-rail";
   wall.instanceMatrix.needsUpdate = true;
   strip.instanceMatrix.needsUpdate = true;
+  rail.instanceMatrix.needsUpdate = true;
   wall.userData.tag = "arena-wall";
   strip.userData.tag = "arena-wall-strip";
-  group.add(wall, strip);
+  group.add(wall, strip, rail);
 
   // four corner light towers with an emissive lamp head
-  const poleGeo = new THREE.CylinderGeometry(0.16, 0.26, 9.5, 8);
-  const headGeo = new THREE.BoxGeometry(1.9, 0.55, 0.8);
+  const poleGeo = new THREE.CylinderGeometry(0.16, 0.26, 11.5, 8);
+  const headGeo = new THREE.BoxGeometry(2.4, 0.7, 0.9);
   for (let i = 0; i < 4; i += 1) {
     const a = Math.PI / 4 + (i / 4) * TAU;
-    const x = Math.cos(a) * (R - 3.2);
-    const z = Math.sin(a) * (R - 3.2);
+    const x = Math.cos(a) * (R - 4.5);
+    const z = Math.sin(a) * (R - 4.5);
     const pole = new THREE.Mesh(poleGeo, towerMat);
-    pole.position.set(x, 4.75, z);
+    pole.position.set(x, 5.75, z);
     const head = new THREE.Mesh(headGeo, lampMat);
-    head.position.set(x, 9.4, z);
+    head.position.set(x, 11.3, z);
     head.rotation.y = -a;
     pole.userData.tag = "light-tower";
     head.userData.tag = "light-tower-head";
@@ -272,6 +282,45 @@ function buildArenaRing() {
   return group;
 }
 const arenaRing = buildArenaRing();
+
+// ── SKY DOME ────────────────────────────────────────────────────────────────────────────────
+// Above the perimeter wall the frame was flat black, which is what made the edge read as a void.
+// A two-colour vertical gradient on a back-side sphere costs one draw call and gives the arena a
+// horizon. The colours follow the active lighting preset.
+const skyUniforms = {
+  top: { value: new THREE.Color(0x0a0d12) },
+  horizon: { value: new THREE.Color(0x2a2f38) },
+};
+const skyDome = new THREE.Mesh(
+  new THREE.SphereGeometry(170, 24, 14),
+  new THREE.ShaderMaterial({
+    uniforms: skyUniforms,
+    side: THREE.BackSide,
+    depthWrite: false,
+    fog: false,
+    toneMapped: false,
+    vertexShader: `
+      varying vec3 vDir;
+      void main() {
+        vDir = normalize(position);
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 top;
+      uniform vec3 horizon;
+      varying vec3 vDir;
+      void main() {
+        float h = clamp(vDir.y * 1.15 + 0.06, 0.0, 1.0);
+        vec3 c = mix(horizon, top, pow(h, 0.62));
+        gl_FragColor = vec4(c, 1.0);
+      }
+    `,
+  }),
+);
+skyDome.renderOrder = -2;
+skyDome.frustumCulled = false;
+scene.add(skyDome);
 
 const trees = [];
 const sharedBarkMat = standardMaterial({ ...MATERIAL_RECIPES.bark, size: TEX_SIZE });
@@ -518,7 +567,7 @@ const enemyMuzzles = [];
 let enemyShotCursor = 0;
 let enemyMuzzleCursor = 0;
 
-function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a) {
+function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a, sniper = false) {
   if (!enemy || !enemy.position) return;
   const slot = enemyShots[enemyShotCursor % enemyShots.length];
   enemyShotCursor += 1;
@@ -533,7 +582,7 @@ function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a) {
   let dz = tz - oz;
   const len = Math.hypot(dx, dz) || 1;
   dx /= len; dz /= len;
-  const spread = 0.055;
+  const spread = state.painted ? 0.022 : 0.055;
   const ang = (state.rng() - 0.5) * spread * 2;
   const ca = Math.cos(ang); const sa = Math.sin(ang);
   const nx = dx * ca - dz * sa;
@@ -545,9 +594,10 @@ function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a) {
   slot.vx = nx * speed;
   slot.vy = (1.15 - slot.y) / Math.max(0.15, len / speed);
   slot.vz = nz * speed;
-  slot.dmg = damage;
+  slot.dmg = Math.round(damage * (state.painted ? 1.15 : 1));
   // not every bolt is readable: a share of them arrive too fast / off-line to react to
   slot.dodgeable = state.rng() < 0.7;
+  slot.sniper = Boolean(sniper);
   slot.life = 1.6 + len / speed;
   slot.mesh.position.set(slot.x, slot.y, slot.z);
   slot.mesh.lookAt(slot.x + nx, slot.y, slot.z + nz);
@@ -595,6 +645,13 @@ function updateEnemyShots(dt) {
     if (d2 < 0.55 && s.y > 0.3 && s.y < 2.1) {
       hurt(s.dmg);
       state.enemyShotsHit = (state.enemyShotsHit || 0) + 1;
+      // a connected SPOTTER round is what paints the operator (the mark used to be free on every
+      // shot, which kept the +15 % debuff up for most of the run)
+      if (s.sniper) {
+        state.painted = true;
+        state.paintedTimer = 5;
+        globalThis.__studio?.hud?.flash("#ff6fd6", 0.2);
+      }
       s.alive = false;
       s.mesh.visible = false;
       globalThis.__studio?.hud?.flash("#ff5a4a", 0.14);
@@ -1023,6 +1080,9 @@ function applyArenaLighting(key) {
   }
   renderer.toneMappingExposure = cfg.exposure;
   scene.background.set(hexInt(cfg.background));
+  // sky: a touch lighter than the fog at the horizon, darker overhead
+  skyUniforms.top.value.set(hexInt(cfg.background)).multiplyScalar(0.9);
+  skyUniforms.horizon.value.set(hexInt(cfg.fog.color)).multiplyScalar(2.6);
   scene.fog.color.set(hexInt(cfg.fog.color));
   scene.fog.density = cfg.fog.density * (activeMap?.fogScale || 1);
   hemi.color.set(hexInt(cfg.hemisphere.sky));
@@ -1290,6 +1350,13 @@ window.__forgeSmokeTest = {
     // TUNE-04 evidence hooks
     setWeapon: (style) => { try { weaponManager.replaceWeapon("primary", String(style)); } catch (e) { return null; } return weaponManager.active.styleKey; },
     forceBossKind: (kind) => { state.arenaBossKind = String(kind); return state.arenaBossKind; },
+    setRunTime: (seconds) => { beatDirector.runTime = Math.max(0, Number(seconds) || 0); return +beatDirector.runTime.toFixed(1); },
+    getCardsState: () => ({
+      window: Boolean(state.cardPickWindow), source: state.cardPickSource || null,
+      timer: +(state.cardPickTimer || 0).toFixed(1), queued: cardSystem.queuedCards.length,
+      cardsPlayed: state.cardsPlayed || 0, airdrop: state.airdropState ? true : false,
+      options: (state.currentCardOptions || []).map((o) => ({ type: o.type, name: o.name || null, style: o.style || null })),
+    }),
     clearEnemies: () => { clearEnemies(); return true; },
     setSpawns: (on) => { state.spawnsEnabled = Boolean(on); return state.spawnsEnabled; },
     getBoss: () => (state.bossEnemy ? {
@@ -1297,6 +1364,9 @@ window.__forgeSmokeTest = {
       hp: Math.round(state.bossEnemy.hp),
       maxHp: Math.round(state.bossEnemy.maxHp),
       y: +(state.bossEnemy.mesh ? state.bossEnemy.mesh.position.y : state.bossEnemy.position.y).toFixed(2),
+      x: +state.bossEnemy.position.x.toFixed(2),
+      z: +state.bossEnemy.position.z.toFixed(2),
+      r: +Math.hypot(state.bossEnemy.position.x, state.bossEnemy.position.z).toFixed(2),
       spawned: Boolean(state.bossSpawned),
       paid: Boolean(state.bossPaid),
     } : { spawned: Boolean(state.bossSpawned), hp: 0 }),
@@ -1510,6 +1580,7 @@ const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = n
 // Arcade broadcast director: the camera cuts between sports-style shots that keep the operator and
 // the nearest hostile in frame instead of sitting behind the player's shoulder.
 const _camPrev = new THREE.Vector3();
+const _moveProbe = new THREE.Vector3();
 const broadcast = {
   shot: "chase",
   shotName: "CAM 2",
@@ -1544,7 +1615,7 @@ function pickBroadcastShot() {
   return broadcast.shot;
 }
 
-let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null, hudObjective = null;
+let hudPhase = null, hudHealth = null, hudKills = null, hudAmmo = null, hudBeat = null, hudScore = null, hudAirdrop = null, hudCards = null, hudBoss = null, hudDarkness = null, hudObjective = null, hudPainted = null;
 
 function syncHud() {
   // The DOM manager is the loadout screen now: clear the canvas HUD so its text does not bleed
@@ -1853,6 +1924,21 @@ function syncHud() {
         if (!entry) { h.remove(id); continue; }
         // right lane: the centre-right was sitting on top of floating damage numbers
       T(id, entry.text, { x: 0.745, y: 0.238 + i * 0.020, size: TYPE_SCALE.micro, color: i === 0 ? "#ffe9a8" : "#8ea3b8", weight: 800 });
+      }
+    }
+
+    // ── painted (spotter mark) ───────────────────────────────────────────────
+    {
+      const paintedKey = state.painted ? `P${Math.ceil(state.paintedTimer || 0)}` : null;
+      if (paintedKey !== hudPainted) {
+        hudPainted = paintedKey;
+        if (paintedKey) {
+          T("painted-chip", `PAINTED · +15% INCOMING · ${Math.ceil(state.paintedTimer || 0)}s`, {
+            x: 0.5, y: 0.30, size: TYPE_SCALE.micro, color: "#ff9ae1", weight: 800, align: "center",
+          });
+        } else {
+          h.remove("painted-chip");
+        }
       }
     }
 
@@ -3081,23 +3167,61 @@ function update(dt, ctx) {
       const mag = Math.hypot(vel.x, vel.z);
       if (mag > 0.02) {
         const step = mag * dt;
-        state.pos.x += vel.x * dt;
-    dustTimer -= dt;
-    if (dustTimer <= 0 && Math.hypot(vel.x, vel.z) > 1.0 && state.phase === "playing") {
-      dustTimer = 0.14;
-      spawnDust(state.pos.x, state.pos.z);
-    }
-        state.pos.z += vel.z * dt;
+        // CONTACT SLIDE: walking straight into a container used to cancel the whole step, so the
+        // fighter pinned himself on cover and read as stuck. Resolve the step, then re-apply the
+        // part of the velocity that is tangential to the surface and take the slide.
+        const wantX = state.pos.x + vel.x * dt;
+        const wantZ = state.pos.z + vel.z * dt;
+        const probe = _moveProbe.set(wantX, 0, wantZ);
+        const hitObstacle = resolveObstacleCollision(probe, 0.55, arenaColliders);
+        if (hitObstacle) {
+          let nx = probe.x - wantX;
+          let nz = probe.z - wantZ;
+          const nl = Math.hypot(nx, nz);
+          if (nl > 1e-4) {
+            nx /= nl; nz /= nl;
+            const into = vel.x * nx + vel.z * nz;
+            if (into < 0) {
+              vel.x -= nx * into;
+              vel.z -= nz * into;
+              state.pos.x = probe.x + vel.x * dt;
+              state.pos.z = probe.z + vel.z * dt;
+              resolveObstacleCollision(state.pos, 0.55, arenaColliders);
+            } else {
+              state.pos.x = probe.x;
+              state.pos.z = probe.z;
+            }
+          } else {
+            state.pos.x = probe.x;
+            state.pos.z = probe.z;
+          }
+        } else {
+          state.pos.x = wantX;
+          state.pos.z = wantZ;
+        }
+        // RIM SLIDE: at the arena edge, keep the tangential component so a held key slides along
+        // the boundary instead of shoving the fighter into an invisible wall.
+        const radius = Math.hypot(state.pos.x, state.pos.z);
+        if (radius > TUNING.player.arenaRadius) {
+          const ux = state.pos.x / radius;
+          const uz = state.pos.z / radius;
+          const outward = vel.x * ux + vel.z * uz;
+          if (outward > 0) {
+            vel.x -= ux * outward;
+            vel.z -= uz * outward;
+          }
+          state.pos.x = ux * TUNING.player.arenaRadius;
+          state.pos.z = uz * TUNING.player.arenaRadius;
+        }
         state.odometer = (state.odometer || 0) + step;
         if (state.bossWarning > 0) {
           state.bossDodgeAccum = (state.bossDodgeAccum || 0) + step;
           state.bossDodgeMax = Math.max(state.bossDodgeMax || 0, state.bossDodgeAccum);
         }
-        resolveObstacleCollision(state.pos, 0.55, arenaColliders);
-        const radius = Math.hypot(state.pos.x, state.pos.z);
-        if (radius > TUNING.player.arenaRadius) {
-          state.pos.x *= TUNING.player.arenaRadius / radius;
-          state.pos.z *= TUNING.player.arenaRadius / radius;
+        dustTimer -= dt;
+        if (dustTimer <= 0 && mag > 1.0 && state.phase === "playing") {
+          dustTimer = 0.14;
+          spawnDust(state.pos.x, state.pos.z);
         }
       }
       // the metric only counts a body that was told to move and still had not moved after 3 frames
@@ -3224,9 +3348,17 @@ function update(dt, ctx) {
       } else if (event.type === "airdropWarning") {
         // B03 bark would play here
       } else if (event.type === "airdropSpawn") {
+        // The airdrop used to set cardPickWindow WITHOUT a timer or a tray. The 10 s auto-pick then
+        // called pickCard on an empty level-up queue, returned early, and left the card system
+        // stuck for the rest of the run (no tray, no more cards). It is a full card window now.
         state.airdropState = beatDirector.getAirdropState();
         state.currentCardOptions = event.options;
+        state.cardPickSource = "airdrop";
         state.cardPickWindow = true;
+        state.showCards = true;
+        state.cardPickTimer = 10;
+        cardTray.show(event.options);
+        cardTray.setCountdown(10);
         // Spawn crate visual
         const crate = scene.getObjectByProperty("userData.tag", "airdrop-crate");
         if (crate) {
@@ -3258,7 +3390,9 @@ function update(dt, ctx) {
       if (action.type === "melee") {
         hurt(action.damage || cfg.meleeDamage || 9);
       } else if (action.type === "rangedShot") {
-        if (los && d < 18) spawnEnemyShot(enemy, action.damage || 9, 12, 0xff7a4a);
+        if (los && d < 18) {
+          spawnEnemyShot(enemy, action.damage || 9, action.speed || 12, action.color || 0xff7a4a, Boolean(action.isSniper));
+        }
       } else if (action.type === "dive") {
         if (d < 3.2) hurt(cfg.diveDamage || 18);
       } else if (action.type === "shell") {
@@ -3423,6 +3557,7 @@ function update(dt, ctx) {
     // Check for card queue
     if (cardSystem.queuedCards.length > 0 && !state.cardPickWindow) {
       state.currentCardOptions = cardSystem.queuedCards[0];
+      state.cardPickSource = "level";
       state.cardPickWindow = true;
       state.showCards = true;
       state.cardPickTimer = 10;
@@ -3532,6 +3667,14 @@ function update(dt, ctx) {
           vDesired.y = Math.max(1.35, vDesired.y * (0.6 + f * 0.4));
         }
         if (full < 2.2) vDesired.y = Math.max(vDesired.y, 1.2);
+        // keep the camera inside the arena wall: at the rim the chase shot would otherwise sit
+        // outside the ring and film the back of the wall
+        const vr = Math.hypot(vDesired.x, vDesired.z);
+        const camEdge = (TUNING.player.arenaRadius || 54) - 1.2;
+        if (vr > camEdge) {
+          vDesired.x *= camEdge / vr;
+          vDesired.z *= camEdge / vr;
+        }
       }
       // drone pacing: a sane follow rate and a speed ceiling that cannot teleport the view, but
       // also cannot take 4 s to catch a shot change while the fighter walks out of the frame.
@@ -3692,31 +3835,52 @@ function update(dt, ctx) {
   syncHud();
 }
 
-function pickCard(index) {
-  if (!state.currentCardOptions) return;
-  const option = cardSystem.pickCard(index);
-  if (!option) return;
-
+function closeCardWindow() {
   state.cardPickWindow = false;
   state.cardPickTimer = 0;
   state.showCards = false;
   state.currentCardOptions = null;
+  state.cardPickSource = null;
   cardTray.hide();
+}
+
+function pickCard(index) {
+  if (!state.currentCardOptions) return;
+  const source = state.cardPickSource || "level";
+  let option = null;
+
+  if (source === "airdrop") {
+    option = beatDirector.pickAirdrop(index, weaponManager);
+    state.airdropState = null;
+    if (!option) { closeCardWindow(); return; }
+    // the director applies the part/weapon itself; the rig still has to show a new weapon
+    if (option.type === "weapon" && option.style) {
+      try {
+        state.lastRenderedWeaponStyle = option.style;
+        rifle = rebuildWeaponMesh(gunPivot, option.style, steel);
+      } catch (e) { /* unknown style: keep the current rifle */ }
+    }
+  } else {
+    option = cardSystem.pickCard(index);
+    if (!option) { closeCardWindow(); return; }
+    if (option.type === "weapon") {
+      // The fighter is autonomous: it never presses Q, so a card that filled the inactive slot did
+      // nothing at all. A weapon card now replaces the ACTIVE weapon and is rebuilt on the rig.
+      try {
+        weaponManager.replaceWeapon(weaponManager.activeSlot, option.style);
+        state.lastRenderedWeaponStyle = option.style;
+        rifle = rebuildWeaponMesh(gunPivot, option.style, steel);
+      } catch (e) { /* keep the current weapon if the style is unknown */ }
+    } else if (option.type === "part") {
+      weaponManager.applyPart(weaponManager.activeSlot, option.part);
+    }
+    cardSystem.queuedCards.shift();
+  }
+
+  closeCardWindow();
   state.cardsPlayed = (state.cardsPlayed || 0) + 1;
   audioController?.playSfx("click", { volume: 0.5, pitch: 1.15 });
   barks.trigger("upgrade");
-
-  if (option.type === "weapon") {
-    // The fighter is autonomous: it never presses Q, so a card that filled the inactive slot did
-    // nothing at all. A weapon card now replaces the ACTIVE weapon and is rebuilt on the rig.
-    try {
-      weaponManager.replaceWeapon(weaponManager.activeSlot, option.style);
-      state.lastRenderedWeaponStyle = option.style;
-      rifle = rebuildWeaponMesh(gunPivot, option.style, steel);
-    } catch (e) { /* keep the current weapon if the style is unknown */ }
-  } else if (option.type === "part") {
-    weaponManager.applyPart(weaponManager.activeSlot, option.part);
-  }
   weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
 
   // Check for evolution
@@ -3726,9 +3890,6 @@ function pickCard(index) {
     scoreSystem.recordEvolution();
     // Apply evolution effect
   }
-
-  // Remove from queue
-  cardSystem.queuedCards.shift();
 }
 
 function checkEvolution(styleKey, partIds) {
