@@ -7,7 +7,7 @@
  *
  * Pure DOM. The 3D turntable still runs behind, so if the art is missing the screen still looks alive.
  */
-import { xpForLevel } from "./save.js?v=202610323s";
+import { xpForLevel } from "./save.js?v=202610323v";
 
 const ART = "./assets/start-bg.gif";
 
@@ -20,7 +20,7 @@ const CSS = `
     linear-gradient(160deg,#0A0F14,#06080B 60%,#070A0E);
   background-size:cover;background-position:center right;background-repeat:no-repeat}
 #fs-start.open{display:flex}
-#fs-start.art:not(.vid){animation:fsStillDrift 30s ease-in-out infinite alternate}
+#fs-start.art:not(.playing){animation:fsStillDrift 30s ease-in-out infinite alternate}
 @keyframes fsStillDrift{0%{background-position:center,50% 50%}100%{background-position:center,54% 47%}}
 #fs-start .artvid{}  /* the supplied clip is already moving; do not reframe it */
 @keyframes fsKenBurns{
@@ -36,8 +36,8 @@ const CSS = `
   background-repeat:no-repeat,no-repeat}
 #fs-start .artvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
   transition:opacity .7s ease;pointer-events:none}
-#fs-start.vid .artvid{opacity:1}
-#fs-start.vid .artfx .eyes,#fs-start.vid .artfx .lamp{display:none}
+#fs-start.playing .artvid{opacity:1}
+#fs-start.playing .artfx .eyes,#fs-start.playing .artfx .lamp{display:none}
 #fs-start .artwrap{position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(180deg,rgba(5,7,10,.55),transparent 22%,transparent 72%,rgba(5,7,10,.75))}
 
@@ -157,11 +157,6 @@ export function createStartMenu(opts = {}) {
   root.id = "fs-start";
   root.innerHTML = `
     <div class="artwrap"></div>
-    <video class="artvid" muted loop playsinline autoplay preload="auto" tabindex="-1"
-           poster="./assets/start-bg-poster.jpg" aria-hidden="true">
-      <source src="./assets/start-bg.mp4" type="video/mp4" />
-      <source src="./assets/start-bg.webm" type="video/webm" />
-    </video>
     <div class="artfx" aria-hidden="true">
       <i class="lamp"></i>
       <i class="eyes"></i>
@@ -242,31 +237,10 @@ export function createStartMenu(opts = {}) {
     if (tag) {
       const src = [...document.querySelectorAll('script[type="module"]')].map((n) => n.src).join(" ");
       const m = src.match(/main\.js\?v=([\w]+)/);
-      tag.textContent = "BUILD " + (m ? m[1].slice(-1).toUpperCase() : "?") + " · VIDEO";
+      tag.textContent = "BUILD " + (m ? m[1].slice(-1).toUpperCase() : "?") + " · LIVE";
     }
     render();
     mountAd();
-    const vid = q(".artvid");
-    const reduce = globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-    if (vid && !reduce) {
-      // The video IS the background. Reveal it the moment it has a frame - do NOT gate that on
-      // play() succeeding, or a browser with a strict autoplay policy leaves the still showing and
-      // it looks like the video was never wired up.
-      vid.muted = true;
-      const reveal = () => root.classList.add("vid");
-      if (vid.readyState >= 2) reveal();
-      vid.addEventListener("loadeddata", reveal, { once: true });
-      vid.addEventListener("canplay", reveal, { once: true });
-      const tryPlay = () => {
-        const pr = vid.play();
-        if (pr && pr.catch) pr.catch(() => {});
-      };
-      tryPlay();
-      // a blocked autoplay starts on the first gesture anywhere
-      const kick = () => { if (vid.paused) tryPlay(); };
-      globalThis.addEventListener?.("pointerdown", kick, { once: true });
-      globalThis.addEventListener?.("keydown", kick, { once: true });
-    }
     root.classList.add("open");
     // probe the art once; if it is missing the gradient stands in
     const img = new Image();
@@ -277,8 +251,6 @@ export function createStartMenu(opts = {}) {
   function hide() {
     root.classList.remove("open");
     modal.classList.remove("open");
-    const vid = q(".artvid");
-    if (vid) { try { vid.pause(); } catch (e) {} }
   }
 
   return { show, hide, render, root, get open() { return root.classList.contains("open"); } };

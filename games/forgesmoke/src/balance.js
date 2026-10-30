@@ -3,7 +3,7 @@
  * All tuning values come from tuning.js.
  */
 
-import { TUNING } from "./tuning.js?v=202610323s";
+import { TUNING } from "./tuning.js?v=202610323v";
 
 /** Armour damage reduction: r = A / (A + 100), capped at 37.5% (A=60). */
 export function damageAfterArmour(rawDamage, armour) {
