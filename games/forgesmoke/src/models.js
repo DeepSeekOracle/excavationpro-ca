@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610323a";
-import { PALETTE, hexInt } from "./theme.js?v=202610323a";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323a";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610323d";
+import { PALETTE, hexInt } from "./theme.js?v=202610323d";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323d";
 
 export const PLAYER_SKINS = [
   {
@@ -123,6 +123,9 @@ const ALL_GLB_NAMES = [
   "xbot-rig",
   "soldier-rig-photo",
   "hostile-rig",
+  "hostile-cesium-man",
+  "hostile-robot-rig",
+  "hostile-xbot-rig",
   "damaged-helmet",
   "brain-stem",
   "gunship",
@@ -268,8 +271,8 @@ function applyTwoHandedRiflePose(bones, aimYaw = 0, reloadTilt = 0, recoil = 0) 
   // Right hand grips pistol grip at [-0.14, 1.45, 0.25]; Left hand cradles barrel at [0.00, 1.48, 0.36]
   bones.rArm.rotation.set(0.63 + clampedTilt * 0.5 - kick * 1.1, 0.17 - clampedYaw * 0.35, 1.35);
   bones.rFore.rotation.set(1.01 - kick * 0.8, -0.95, 0);
-  bones.lArm.rotation.set(-0.842 - clampedTilt * 0.6 + kick * 0.7, -0.822 - clampedYaw * 0.35, 1.333);
-  bones.lFore.rotation.set(-0.921, -0.618, -0.755);
+  bones.lArm.rotation.set(-1.619 - clampedTilt * 0.6 + kick * 0.7, -0.774 - clampedYaw * 0.35, 1.31);
+  bones.lFore.rotation.set(-0.421, -1.245, -0.391);
 }
 
 function applyOperatorSkinToRig(rigRoot, skin, clothMat, armorMat, visorMat) {
@@ -442,6 +445,8 @@ const _gunX = new THREE.Vector3();
 const _gunY = new THREE.Vector3();
 const _gunM = new THREE.Matrix4();
 const _gunQ = new THREE.Quaternion();
+const _gunTilt = new THREE.Quaternion();
+const _gunAxisX = new THREE.Vector3(1, 0, 0);
 const _gunGrip = new THREE.Vector3();
 
 export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false, activeWeapon = null) {
@@ -474,6 +479,29 @@ export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false,
       reloadTilt = Number.isFinite(gunPivot.rotation.x) ? gunPivot.rotation.x : 0;
     } else {
       gunPivot.rotation.x += (0 - gunPivot.rotation.x) * Math.min(1, dt * 12);
+    }
+
+    // The rifle rides the hands: grip locked to the right hand, barrel aimed at the left hand, so
+    // both hands are on the weapon in every pose (idle, run, aim, reload).
+    const rigBones = soldier.userData.armBones;
+    if (rigBones && rigBones.rHand && rigBones.lHand && !soldier.userData.noGunFollow) {
+      soldier.updateMatrixWorld(true);
+      const rHand = rigBones.rHand.getWorldPosition(_gunV1);
+      const lHand = rigBones.lHand.getWorldPosition(_gunV2);
+      _gunDir.subVectors(lHand, rHand);
+      if (_gunDir.lengthSq() > 1e-6) {
+        _gunDir.normalize();
+        _gunUp.set(0, 1, 0).applyQuaternion(soldier.quaternion).normalize();
+        _gunX.crossVectors(_gunUp, _gunDir).normalize();
+        _gunY.crossVectors(_gunDir, _gunX).normalize();
+        _gunM.makeBasis(_gunX, _gunY, _gunDir);
+        _gunQ.setFromRotationMatrix(_gunM);
+        _gunTilt.setFromAxisAngle(_gunAxisX, reloadTilt);
+        _gunQ.multiply(_gunTilt);
+        _gunGrip.set(0, -0.02, 0.10).applyQuaternion(_gunQ).add(rHand);
+        gunPivot.position.copy(soldier.worldToLocal(_gunGrip.clone()));
+        gunPivot.quaternion.copy(soldier.quaternion.clone().invert().multiply(_gunQ));
+      }
     }
   }
   if (soldier.userData.armBones) {
@@ -776,15 +804,15 @@ export function buildEnemyMesh(type, bank) {
     root.add(makePart(new THREE.BoxGeometry(0.32, 0.04, 0.03), orangeTank, "sapper-hazard-l", -0.18, 0.10, 0.32));
     root.add(makePart(new THREE.BoxGeometry(0.32, 0.04, 0.03), orangeTank, "sapper-hazard-r", 0.18, 0.10, 0.32));
     root.userData.pulseParts = [tankL, tankR, lanceTip];
-    attachRiggedEnemyGltf(root, "cesium-man", {
+    attachRiggedEnemyGltf(root, "hostile-cesium-man", {
       scale: 1.24,
       offsetY: -0.72,
       rotY: 0,
-      clipNames: ["animation_0"],
+      clipNames: ["Anim_0", "animation_0"],
       timeScale: 1.55,
-      tintHex: 0xffaa66,
-      emissiveHex: 0xff5500,
-      emissiveIntensity: 0.25,
+      tintHex: 0xffffff,
+      emissiveHex: null,
+      emissiveIntensity: 0,
       fallbackGroup: fb,
     });
   } else if (type === "shieldbearer") {
@@ -812,15 +840,15 @@ export function buildEnemyMesh(type, bank) {
     const maceShaft = makePart(new THREE.CylinderGeometry(0.06, 0.06, 0.92, 8), armor, "shock-mace", 0.56, 0.42, 0.44, Math.PI / 3, 0, 0);
     const maceHead = makePart(new THREE.CylinderGeometry(0.14, 0.14, 0.28, 8), redOptic, "shock-mace-head", 0.56, 0.64, 0.78, Math.PI / 3, 0, 0);
     root.add(maceShaft, maceHead);
-    attachRiggedEnemyGltf(root, "robot-rig", {
+    attachRiggedEnemyGltf(root, "hostile-robot-rig", {
       scale: 0.44,
       offsetY: -0.72,
       rotY: 0,
       clipNames: ["Walking", "Running", "Idle"],
       timeScale: 0.95,
-      tintHex: 0x6b7c85,
-      emissiveHex: 0xff3b3b,
-      emissiveIntensity: 1.5,
+      tintHex: 0xffffff,
+      emissiveHex: null,
+      emissiveIntensity: 0,
       fallbackGroup: fb,
     });
   } else if (type === "spotter") {
@@ -836,15 +864,15 @@ export function buildEnemyMesh(type, bank) {
     root.add(makePart(new THREE.ConeGeometry(0.30, 0.40, 7), spotterCamo, "spotter-hood", 0, 0.94, -0.01, 0.12, 0, 0));
     root.add(makePart(new THREE.BoxGeometry(0.52, 0.92, 0.07), spotterCamo, "spotter-cloak", 0, 0.38, -0.34, -0.08, 0, 0));
     root.add(makePart(new THREE.CylinderGeometry(0.075, 0.075, 0.025, 10), magentaOptic, "spotter-lens-ring", -0.06, 0.74, 0.495, Math.PI / 2, 0, 0));
-    attachRiggedEnemyGltf(root, "xbot-rig", {
+    attachRiggedEnemyGltf(root, "hostile-xbot-rig", {
       scale: 1.08,
       offsetY: -0.72,
       rotY: 0,
       clipNames: ["walk", "run", "idle"],
       timeScale: 1.15,
-      tintHex: 0x6ba888,
-      emissiveHex: 0xff6fd6,
-      emissiveIntensity: 1.4,
+      tintHex: 0xffffff,
+      emissiveHex: null,
+      emissiveIntensity: 0,
       fallbackGroup: fb,
       twoHandedRiflePose: true,
     });
