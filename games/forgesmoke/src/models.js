@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610323y";
-import { PALETTE, hexInt } from "./theme.js?v=202610323y";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323y";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610324c";
+import { PALETTE, hexInt } from "./theme.js?v=202610324c";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610324c";
 
 export const PLAYER_SKINS = [
   {
@@ -725,8 +725,14 @@ function attachRiggedEnemyGltf(root, gltfName, opts = {}) {
     rig.userData.tag = `${gltfName}-rig`;
     rig.userData.asset = gltfName;
     rig.scale.setScalar(scale);
-    rig.position.set(0, offsetY, 0);
+    rig.position.set(0, 0, 0);
     rig.rotation.set(0, rotY, 0);
+    rig.updateMatrixWorld(true);
+    // Measure the model and put its lowest point on the deck. Different Mixamo rigs have different
+    // bind-pose origins, which is why some bodies stood sunk into the ground.
+    const rigBox = new THREE.Box3().setFromObject(rig);
+    const feet = Number.isFinite(rigBox.min.y) ? rigBox.min.y : 0;
+    rig.position.set(0, offsetY - feet, 0);
     tintClonedRig(rig, gltfName, tintHex, emissiveHex, emissiveIntensity);
 
     if (fallbackGroup && fallbackGroup.parent === root) {

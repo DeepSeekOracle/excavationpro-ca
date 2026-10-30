@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610323y";
-import { standardMaterial } from "./materials.js?v=202610323y";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610323y";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610323y";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610324c";
+import { standardMaterial } from "./materials.js?v=202610324c";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610324c";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610324c";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610323y";
-import { TUNING } from "./tuning.js?v=202610323y";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610323y";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610323y";
-import { createCardTray } from "./cardsui.js?v=202610323y";
-import { buildBrandProps } from "./branding.js?v=202610323y";
-import { createSummary } from "./summaryui.js?v=202610323y";
-import { createBarks } from "./barks.js?v=202610323y";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610323y";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610323y";
-import { bossHp } from "./balance.js?v=202610323y";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610323y";
-import { pilot } from "./autopilot.js?v=202610323y";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610323y";
-import { createStartMenu } from "./startmenu.js?v=202610323y";
-import { createGamepad } from "./gamepad.js?v=202610323y";
-import { createTalentWindow } from "./talentui.js?v=202610323y";
-import { aggregate, toRunMods } from "./talents.js?v=202610323y";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610323y";
+} from "./theme.js?v=202610324c";
+import { TUNING } from "./tuning.js?v=202610324c";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610324c";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610324c";
+import { createCardTray } from "./cardsui.js?v=202610324c";
+import { buildBrandProps } from "./branding.js?v=202610324c";
+import { createSummary } from "./summaryui.js?v=202610324c";
+import { createBarks } from "./barks.js?v=202610324c";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610324c";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610324c";
+import { bossHp } from "./balance.js?v=202610324c";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610324c";
+import { pilot } from "./autopilot.js?v=202610324c";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610324c";
+import { createStartMenu } from "./startmenu.js?v=202610324c";
+import { createGamepad } from "./gamepad.js?v=202610324c";
+import { createTalentWindow } from "./talentui.js?v=202610324c";
+import { aggregate, toRunMods } from "./talents.js?v=202610324c";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610324c";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -46,20 +46,20 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=202610323y";
-import * as levelModule from "./level.js?v=202610323y";
-import * as menuModule from "./menu.js?v=202610323y";
-import * as audioModule from "./audio.js?v=202610323y";
-import * as fxModule from "./fx.js?v=202610323y";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610323y";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610323y";
+} from "./models.js?v=202610324c";
+import * as levelModule from "./level.js?v=202610324c";
+import * as menuModule from "./menu.js?v=202610324c";
+import * as audioModule from "./audio.js?v=202610324c";
+import * as fxModule from "./fx.js?v=202610324c";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610324c";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610324c";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610323y";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610323y";
+import { createCasings } from "./casings.js?v=202610324c";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610324c";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1081,7 +1081,6 @@ window.__forgeSmokeTest = {
       broadcast.shotName = SHOT_NAMES[shot];
       broadcast.timer = 9;
       broadcast.lock = true;
-      broadcast.cut = true;
       return broadcast.shot;
     },
     getRamp: () => ({
@@ -1309,6 +1308,7 @@ const vMuzzle = new THREE.Vector3(), vTarget = new THREE.Vector3(), vDesired = n
 
 // Arcade broadcast director: the camera cuts between sports-style shots that keep the operator and
 // the nearest hostile in frame instead of sitting behind the player's shoulder.
+const _camPrev = new THREE.Vector3();
 const broadcast = {
   shot: "chase",
   shotName: "CAM 2",
@@ -1339,7 +1339,7 @@ function pickBroadcastShot() {
     : ["chase", "orbit", "sideline", "sideline", "wide", "chase"];
   broadcast.shot = pool[Math.floor(state.rng() * pool.length)];
   broadcast.shotName = SHOT_NAMES[broadcast.shot] || "CAM 1";
-  broadcast.timer = 6.0 + state.rng() * 3.0;
+  broadcast.timer = 13.0 + state.rng() * 6.0;
   return broadcast.shot;
 }
 
@@ -3129,16 +3129,10 @@ function update(dt, ctx) {
     // Camera — arcade broadcast director (cuts + slow pushes, always framing the action)
     {
       const hostile = nearestHostileTo(state.pos.x, state.pos.z);
-      const kills = state.kills;
-      if (!broadcast.lock && broadcast.lastKills !== -1 && kills > broadcast.lastKills) {
-        // a kill is a highlight: hard cut to a fresh angle on the body
-        broadcast.cut = true;
-        pickBroadcastShot();
-      }
-      broadcast.lastKills = kills;
+      broadcast.lastKills = state.kills;
       broadcast.timer -= dt;
+      // Drone cam: hold a shot for a long time and glide to the next one; never cut on kills.
       if (!broadcast.lock && broadcast.timer <= 0) {
-        broadcast.cut = true;
         pickBroadcastShot();
       }
       const fwdX = Math.sin(state.yaw || 0);
@@ -3185,10 +3179,26 @@ function update(dt, ctx) {
         vDesired.set(state.pos.x + fwdX * 5.2, 1.75, state.pos.z + fwdZ * 5.2);
         broadcast.look.set(state.pos.x, 1.45, state.pos.z);
       }
-      const follow = broadcast.cut ? 1 : 1 - Math.exp(-dt * 3.2);
-      broadcast.cut = false;
+      // drone pacing: slow position glide, slower look drift, and a gentle float
+      const follow = 1 - Math.exp(-dt * 1.7);
       camera.position.lerp(vDesired, follow);
-      camera.lookAt(broadcast.look);
+      camera.position.y += Math.sin((state.t || 0) * 0.7) * 0.05;
+      // speed-limited drone: even a long frame or a shot change cannot teleport the view
+      if (_camPrev.lengthSq() > 0) {
+        const dx = camera.position.x - _camPrev.x;
+        const dy = camera.position.y - _camPrev.y;
+        const dz = camera.position.z - _camPrev.z;
+        const dist = Math.hypot(dx, dy, dz);
+        const cap = Math.min(0.08, Math.max(0.02, dt * 2.5));
+        if (dist > cap) {
+          const s = cap / dist;
+          camera.position.set(_camPrev.x + dx * s, _camPrev.y + dy * s, _camPrev.z + dz * s);
+        }
+      }
+      _camPrev.copy(camera.position);
+      if (!broadcast.lookSmooth) broadcast.lookSmooth = broadcast.look.clone();
+      broadcast.lookSmooth.lerp(broadcast.look, 1 - Math.exp(-dt * 2.6));
+      camera.lookAt(broadcast.lookSmooth);
     }
 
     // FX-03: camera kick — applied after lookAt so the roll survives, then decayed per style

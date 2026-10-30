@@ -114,7 +114,17 @@ function makeSign(texture, width = 3.8, height = 1.35) {
   const frame = new THREE.Mesh(new THREE.BoxGeometry(width, height, 0.12), frameMat);
   const face = new THREE.Mesh(new THREE.PlaneGeometry(width * 0.96, height * 0.9), faceMat);
   face.position.z = 0.07;
-  sign.add(frame, face);
+  // back face: mirrored map + rotated plane so the type reads correctly from behind
+  const backTex = texture.clone();
+  backTex.needsUpdate = true;
+  backTex.wrapS = THREE.RepeatWrapping;
+  backTex.repeat.x = -1;
+  backTex.offset.x = 1;
+  const backMat = new THREE.MeshBasicMaterial({ map: backTex, toneMapped: false });
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(width * 0.96, height * 0.9), backMat);
+  back.position.z = -0.07;
+  back.rotation.y = Math.PI;
+  sign.add(frame, face, back);
   // mounting posts down to the deck
   const postMat = new THREE.MeshStandardMaterial({ color: 0x2a2f36, metalness: 0.8, roughness: 0.45 });
   for (const px of [-width * 0.38, width * 0.38]) {
