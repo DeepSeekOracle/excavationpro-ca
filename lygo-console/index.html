@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LYGO LLM Console 1.9.1 — your own local AI, on your own machine</title>
+<meta name="description" content="A local AI console for Windows: engine, model and 40+ tools in one installer. No account, no telemetry, works offline. Public Beta 1.9.1 — install it yourself or hand it to your agent.">
+<link rel="canonical" href="https://excavationpro.ca/lygo-console/">
+<meta name="google-adsense-account" content="ca-pub-0646320966060599">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0646320966060599" crossorigin="anonymous"></script>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://excavationpro.ca/lygo-console/">
+<meta property="og:title" content="LYGO LLM Console 1.9.1 — your own local AI">
+<meta property="og:description" content="Engine, model and tools in one installer. Runs on your PC, offline, with no account.">
+<meta property="og:image" content="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
+<link rel="image_src" href="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/site-kit.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--lc-gold:#d8b45a;--lc-ink:#05070d;--lc-edge:#1c2438;--lc-muted:#9aa5bb}
+  .lc{max-width:1120px;margin:0 auto;padding:0 22px}
+  .lc-kick{font:600 .74rem/1 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--lc-gold);margin:0 0 14px}
+  .lc-hero{padding:76px 0 44px}
+  .lc-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.5rem);line-height:1.06;letter-spacing:-.02em;margin:0 0 18px}
+  .lc-hero .lead{font-size:1.08rem;color:var(--lc-muted);max-width:36em;margin:0 0 26px}
+  .lc-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .lc-meta{font:400 .8rem/1.6 'IBM Plex Mono',monospace;color:#59657e;margin-top:16px}
+  .lc-heroimg{margin:34px 0 0;border:1px solid var(--lc-edge);border-radius:14px;overflow:hidden;background:#070a12}
+  .lc-heroimg img{display:block;width:100%;height:auto}
+  .lc-sec{padding:56px 0;border-top:1px solid var(--lc-edge)}
+  .lc-sec h2{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.4rem,3vw,2rem);margin:0 0 10px;letter-spacing:-.01em}
+  .lc-sec p.sub{color:var(--lc-muted);max-width:44em;margin:0 0 28px}
+  .lc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:880px){.lc-grid{grid-template-columns:1fr}}
+  .lc-card{border:1px solid var(--lc-edge);border-radius:12px;padding:22px;background:rgba(255,255,255,.025)}
+  .lc-card h3{font-family:'Syne',sans-serif;font-size:1.05rem;margin:0 0 8px;color:#f0d99a}
+  .lc-card p{margin:0;font-size:.93rem;color:var(--lc-muted);line-height:1.6}
+  .lc-tag{display:inline-block;font:600 .62rem/1 'IBM Plex Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--lc-gold);border:1px solid rgba(216,180,90,.35);border-radius:999px;padding:4px 9px;margin-bottom:12px}
+  .lc-dl{display:grid;grid-template-columns:1.5fr 1fr;gap:16px;margin-top:6px}
+  @media(max-width:880px){.lc-dl{grid-template-columns:1fr}}
+  .lc-dlmain{border:1px solid rgba(216,180,90,.35);border-radius:12px;padding:26px;background:radial-gradient(120% 120% at 0 0,rgba(216,180,90,.10),transparent 60%)}
+  .lc-dlmain h3{font-family:'Syne',sans-serif;font-size:1.25rem;margin:0 0 4px}
+  .lc-tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+  .lc-tbl td{padding:8px 0;border-bottom:1px solid var(--lc-edge);color:var(--lc-muted)}
+  .lc-tbl td:last-child{text-align:right;color:#e8ecf5}
+  .lc-tbl tr:last-child td{border-bottom:0}
+  .lc-ol{counter-reset:n;list-style:none;padding:0;margin:0;display:grid;gap:16px}
+  .lc-ol li{display:grid;grid-template-columns:34px 1fr;gap:14px}
+  .lc-ol li::before{counter-increment:n;content:counter(n);display:grid;place-items:center;width:30px;height:30px;border:1px solid rgba(216,180,90,.35);border-radius:8px;color:#f0d99a;font:700 .85rem 'IBM Plex Mono',monospace}
+  .lc-ol p{margin:0;font-size:.95rem;color:var(--lc-muted);line-height:1.6}
+  .lc-ol b{color:#e8ecf5}
+  .lc-ad{margin:0 0 26px;text-align:center}
+  .lc-note{font-size:.85rem;color:#59657e;margin-top:18px}
+</style>
+</head>
+<body>
+
+<section class="lc-hero lc">
+  <p class="lc-kick">Public Beta · v1.9.1 · Windows</p>
+  <h1>Your own AI.<br>On your own machine.</h1>
+  <p class="lead">
+    A local language model with 40+ tools, a picture engine and a session vault — one installer,
+    about five minutes. The engine and the model are inside it, so it works the moment it opens.
+    No account. No telemetry. Nothing leaves your PC unless you tell it to.
+  </p>
+  <div class="lc-cta">
+    <a class="btn primary" href="https://github.com/DeepSeekOracle/lygo-console-builds/releases/tag/v1.9.1-beta">Download 1.9.1</a>
+    <a class="btn ghost" href="https://github.com/DeepSeekOracle/lygo-console">View source</a>
+    <a class="btn ghost" href="/music.html">Listen while it installs</a>
+  </div>
+  <p class="lc-meta">Windows 10/11 · 8 GB RAM · GPU optional · free</p>
+  <figure class="lc-heroimg"><img src="/assets/og-lygo-llm-console.jpg" alt="LYGO LLM Console — local AI console" width="1200" height="630" loading="eager"></figure>
+</section>
+
+<section class="lc-sec lc">
+  <p class="lc-kick">The loop</p>
+  <h2>Three apps. One loop.</h2>
+  <p class="sub">Each one runs on its own. Together they close a loop — the browser reads the web, the
+    console thinks about it, the Forge builds from it, and each can drive the other two.</p>
+  <div class="lc-grid">
+    <div class="lc-card"><span class="lc-tag">Read</span><h3>LYGO Browser</h3>
+      <p>A daily browser an agent can drive. Bookmark brain, encrypted vault, one-click page archive.
+        Exposes a loopback API and CDP so the console can open and read pages.</p></div>
+    <div class="lc-card"><span class="lc-tag">Think</span><h3>LYGO Console</h3>
+      <p>Your model and its tools. Reads files, runs scripts, makes images, remembers — all on your
+        hardware, with the engine and model bundled.</p></div>
+    <div class="lc-card"><span class="lc-tag">Build</span><h3>LYGO Forge</h3>
+      <p>A production workspace: task board, dispatcher, 400+ skills, asset registry, live preview.
+        Give it a project and it shows you the evidence.</p></div>
+  </div>
+</section>
+
+<section class="lc-sec lc" id="download">
+  <p class="lc-kick">Download</p>
+  <h2>Get 1.9.1</h2>
+  <div class="lc-dl">
+    <div class="lc-dlmain">
+      <h3>LYGO LLM Console — PC</h3>
+      <p class="sub" style="margin:6px 0 18px;font-size:.94rem">The complete console: engine, model,
+        tools and picture engine in one installer.</p>
+      <a class="btn primary" href="https://github.com/DeepSeekOracle/lygo-console-builds/releases/tag/v1.9.1-beta">Download installer</a>
+      <p class="lc-meta">3.88 GB, in two parts — the release page has the one-click combine step.
+        Verify against SHA256SUMS.txt.</p>
+    </div>
+    <div class="lc-card">
+      <h3>What you get</h3>
+      <table class="lc-tbl">
+        <tr><td>Local engine</td><td>included</td></tr>
+        <tr><td>4B model, 64K context</td><td>included</td></tr>
+        <tr><td>Tools + skills</td><td>40+</td></tr>
+        <tr><td>Picture engine (CPU)</td><td>included</td></tr>
+        <tr><td>Internet required</td><td>no</td></tr>
+        <tr><td>Cost</td><td>free</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="lc-sec lc" id="install">
+  <p class="lc-kick">Install</p>
+  <h2>Hand it to your agent</h2>
+  <p class="sub">This product is built to be installed by an AI agent. A human can do it by hand —
+    but the last mile, wiring the dispatcher, the model route and the browser link, is where
+    hand-installs stall. An agent finishes it.</p>
+  <ol class="lc-ol">
+    <li><p><b>Give your agent the runbook.</b> It is <code>AGENT-INSTALL.md</code>, on the release page
+      and inside the installer. Preflight, silent install, verification and the wiring checklist.</p></li>
+    <li><p><b>It installs and verifies.</b> Console on <code>127.0.0.1:9641</code>, browser on
+      <code>9337</code>/<code>9333</code>, Forge on <code>8796</code> — all loopback.</p></li>
+    <li><p><b>It wires the loop.</b> Model route to the local engine, browser endpoints handed to both
+      apps, one real task dispatched end to end, then swarms.</p></li>
+    <li><p><b>You get a report.</b> What answered, what it could not verify, and what it left alone.</p></li>
+  </ol>
+  <p class="lc-note">Prefer to do it yourself? The installer shows its notes when it finishes, and
+    <a href="https://github.com/DeepSeekOracle/lygo-console/blob/main/INSTALL.md">INSTALL.md</a>
+    covers the manual path.</p>
+</section>
+
+<section class="lc-sec lc">
+  <p class="lc-kick">Why local</p>
+  <h2>Your data doesn't need a round trip</h2>
+  <div class="lc-grid">
+    <div class="lc-card"><h3>It stays here</h3><p>Prompts, files and conversations are written to your
+      disk. No telemetry, no analytics, no auto-update.</p></div>
+    <div class="lc-card"><h3>It works offline</h3><p>The model is in the box. On a plane, in a basement,
+      on a machine with no network — it still answers.</p></div>
+    <div class="lc-card"><h3>You can read the code</h3><p>Source is public under
+      <a href="https://github.com/DeepSeekOracle/lygo-console">lygo-console</a>. Audit it, build it,
+      change it.</p></div>
+  </div>
+</section>
+
+<section class="lc-sec lc">
+  <div class="lc-ad">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-0646320966060599"
+         data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+  <div class="lc-grid" style="grid-template-columns:1fr 1fr">
+    <div class="lc-card"><h3>Keep it free</h3>
+      <p style="margin-bottom:14px">No subscription, no seat licence. If it earns a place in your day,
+        you can put something back.</p>
+      <a class="btn ghost" href="https://www.paypal.com/paypalme/ExcavationPro">PayPal</a></div>
+    <div class="lc-card"><h3>Something broken?</h3>
+      <p style="margin-bottom:14px">This is a Public Beta — report what you saw, on your machine, with
+        the version number.</p>
+      <a class="btn ghost" href="https://github.com/DeepSeekOracle/lygo-console/issues">Open an issue</a></div>
+  </div>
+</section>
+
+<footer class="site">
+  <nav aria-label="Footer">
+    <a href="/">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/music.html">Music</a>
+    <a href="/articles/">Writing</a>
+    <a href="/support.html">Support</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="https://excavationpro.ca/lygoskillhub.html">Skill Hub</a>
+  </nav>
+  <p class="family" style="display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.78rem;opacity:.85;margin:.6rem 0;">
+    <a href="https://eternalhaven.ca/">eternalhaven.ca</a>
+    <a href="https://excavationpro.ca/">excavationpro.ca</a>
+    <a href="https://justinhelmer.ca/">justinhelmer.ca</a>
+    <a href="https://deepseekoracle.com/">deepseekoracle.com</a>
+    <a href="https://chatagent.ca/">chatagent.ca</a>
+    <a href="https://asiancoastline.com/">asiancoastline.com</a>
+    <a href="https://bpmfinder.ca/">bpmfinder.ca</a>
+  </p>
+  <p>© <span class="y"></span> Justin Helmer / Excavationpro. LYGO Fair Usage v1.9.1 — Public Beta,
+    provided as is, no warranty. See the disclaimer shipped with the app.</p>
+</footer>
+
+<div class="sticky-cta" aria-label="Mobile actions">
+  <a class="pri" href="https://github.com/DeepSeekOracle/lygo-console-builds/releases/tag/v1.9.1-beta">Download</a>
+  <a class="sec" href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a>
+</div>
+
+<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+</body>
+</html>
