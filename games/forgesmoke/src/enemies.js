@@ -4,8 +4,8 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610327h";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327h";
+import { TUNING } from "./tuning.js?v=202610327m";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327m";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
@@ -15,7 +15,7 @@ import {
   segmentHitsCollider,
   navStep,
   navDirection,
-} from "./models.js?v=202610327h";
+} from "./models.js?v=202610327m";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -582,14 +582,31 @@ export class EnemyManager {
         const colRadius = enemy.type === "mech" ? 1.05 : enemy.type === "shieldbearer" ? 0.75 : 0.55;
         // NAV: if the straight line to the operator is blocked by a building, take the flow field;
         // otherwise blend a little of it in so the body rounds corners instead of scraping them.
+        enemy._navActive = false;
         if (WALKERS && spd > 0.05 && dToPlayer > 3.5) {
           const flow = navDirection(enemy.position.x, enemy.position.z);
           if (flow) {
             const blocked = segmentHitsCollider(enemy.position.x, enemy.position.z, playerPos.x, playerPos.z, arenaColliders);
-            const w = blocked ? 1.0 : 0.35;
-            vx = vx * (1 - w) + flow.x * spd * w;
-            vz = vz * (1 - w) + flow.z * spd * w;
+            // straight line clear -> walk straight. The old 35 % blend made every approach curve
+            // even with nothing in the way. Only the raster path steers when cover is in the line.
+            if (blocked) {
+              vx = flow.x * spd;
+              vz = flow.z * spd;
+              enemy._navActive = true;
+            }
           }
+        }
+        // FACING: a body that is walking a path around cover must look where it is going; the old
+        // code locked every body's yaw to the operator, so navigators walked sideways/backwards.
+        // Shooters still square up to the player when they are not actively routing.
+        {
+          const travelYaw = Math.atan2(vx, vz);
+          const aimYaw = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+          let diff = travelYaw - aimYaw;
+          diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+          const moving = Math.hypot(vx, vz) > 0.8;
+          const backpedal = Math.abs(diff) > Math.PI * 0.5;
+          enemy.faceYaw = (moving && (backpedal || enemy._navActive)) ? travelYaw : aimYaw;
         }
         enemy._move = { x: vx, z: vz, spd };
         const stepX0 = enemy.position.x;
@@ -671,7 +688,9 @@ export class EnemyManager {
       const mesh = this.enemyMeshes.get(enemy);
       if (mesh) {
         mesh.position.set(enemy.position.x, enemy.position.y, enemy.position.z);
-        const wantYaw = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+        const wantYaw = Number.isFinite(enemy.faceYaw)
+          ? enemy.faceYaw
+          : Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
         let dYaw = wantYaw - mesh.rotation.y;
         dYaw = Math.atan2(Math.sin(dYaw), Math.cos(dYaw));
         mesh.rotation.y += dYaw * Math.min(1, dt * 9);

@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327h";
-import { standardMaterial } from "./materials.js?v=202610327h";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327h";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327h";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327m";
+import { standardMaterial } from "./materials.js?v=202610327m";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327m";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327m";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610327h";
-import { TUNING } from "./tuning.js?v=202610327h";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327h";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327h";
-import { createCardTray } from "./cardsui.js?v=202610327h";
-import { buildBrandProps } from "./branding.js?v=202610327h";
-import { createSummary } from "./summaryui.js?v=202610327h";
-import { createBarks } from "./barks.js?v=202610327h";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327h";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327h";
-import { bossHp } from "./balance.js?v=202610327h";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327h";
-import { pilot } from "./autopilot.js?v=202610327h";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327h";
-import { createStartMenu } from "./startmenu.js?v=202610327h";
-import { createGamepad } from "./gamepad.js?v=202610327h";
-import { createTalentWindow } from "./talentui.js?v=202610327h";
-import { aggregate, toRunMods } from "./talents.js?v=202610327h";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327h";
+} from "./theme.js?v=202610327m";
+import { TUNING } from "./tuning.js?v=202610327m";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327m";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327m";
+import { createCardTray } from "./cardsui.js?v=202610327m";
+import { buildBrandProps } from "./branding.js?v=202610327m";
+import { createSummary } from "./summaryui.js?v=202610327m";
+import { createBarks } from "./barks.js?v=202610327m";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327m";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327m";
+import { bossHp } from "./balance.js?v=202610327m";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327m";
+import { pilot } from "./autopilot.js?v=202610327m";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327m";
+import { createStartMenu } from "./startmenu.js?v=202610327m";
+import { createGamepad } from "./gamepad.js?v=202610327m";
+import { createTalentWindow } from "./talentui.js?v=202610327m";
+import { aggregate, toRunMods } from "./talents.js?v=202610327m";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327m";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -49,20 +49,20 @@ import {
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
   navInfo,
-} from "./models.js?v=202610327h";
-import * as levelModule from "./level.js?v=202610327h";
-import * as menuModule from "./menu.js?v=202610327h";
-import * as audioModule from "./audio.js?v=202610327h";
-import * as fxModule from "./fx.js?v=202610327h";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610327h";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327h";
+} from "./models.js?v=202610327m";
+import * as levelModule from "./level.js?v=202610327m";
+import * as menuModule from "./menu.js?v=202610327m";
+import * as audioModule from "./audio.js?v=202610327m";
+import * as fxModule from "./fx.js?v=202610327m";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610327m";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327m";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610327h";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327h";
+import { createCasings } from "./casings.js?v=202610327m";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327m";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1459,6 +1459,22 @@ window.__forgeSmokeTest = {
     hurt: (n = 9999) => { hurt(n); return state.phase; },
     getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
     getNavInfo: () => navInfo(),
+    getEnemyMotion: () => enemyManager.getEnemies().map((e) => {
+      const vx = e._move ? e._move.x : e.velocity.x;
+      const vz = e._move ? e._move.z : e.velocity.z;
+      const sp = Math.hypot(vx, vz);
+      const fwdX = Math.sin(e.mesh ? e.mesh.rotation.y : 0);
+      const fwdZ = Math.cos(e.mesh ? e.mesh.rotation.y : 0);
+      return {
+        type: e.type,
+        d: +Math.hypot(e.position.x - state.pos.x, e.position.z - state.pos.z).toFixed(1),
+        v: [+vx.toFixed(2), +vz.toFixed(2)],
+        speed: +sp.toFixed(2),
+        yaw: +(e.mesh ? e.mesh.rotation.y : 0).toFixed(2),
+        dot: sp > 0.05 ? +((vx / sp) * fwdX + (vz / sp) * fwdZ).toFixed(2) : 0,
+        nav: Boolean(e._navActive),
+      };
+    }),
     testPush: (x, z, r = 0.55) => {
       const probe = { x, z };
       const hit = resolveObstacleCollision(probe, r, arenaColliders);
@@ -2660,7 +2676,8 @@ function shoot(target) {
 
   flash.position.copy(vMuzzle);
   if (flash.material && flash.material.color) flash.material.color.setHex(vfx.color);
-  flash.scale.setScalar((fireData.muzzleFlashSize / 0.24) * vfx.flash * 0.6);
+  // a smaller, shorter flash: the old 0.6 multiplier read as a white ball hanging off the barrel
+  flash.scale.setScalar((fireData.muzzleFlashSize / 0.24) * vfx.flash * 0.34);
   flash.visible = !state.attractSim;   // no blown-out flash ball in the bay demo
   state.flash = fireData.muzzleFlashLife;
 

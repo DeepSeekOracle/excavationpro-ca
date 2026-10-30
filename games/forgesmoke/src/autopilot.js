@@ -21,8 +21,8 @@ export const PILOT_PROFILE = {
   bossRange: 13.5,
   bossStrafe: 1.05,
   retreatHealth: 0.35,
-  separationRadius: 2.5,
-  separationWeight: 0.55,
+  separationRadius: 3.1,
+  separationWeight: 0.85,
   // tactical beat
   // A fighter that plants for 1.4-2.7 s at a time read as frozen: the arena is only 30 m across,
   // so the whole fight can happen while the body is standing still. Shorter holds keep the
