@@ -162,11 +162,11 @@ const ICONS = {
 const CSS = `
 #fs-cards{position:fixed;left:0;right:0;bottom:0;z-index:44;display:none;justify-content:center;align-items:flex-end;
   gap:18px;padding:0 20px 74px;pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(4,6,9,.55) 42%,rgba(4,6,9,.86));
+  background:linear-gradient(180deg,transparent,rgba(4,6,9,.28) 42%,rgba(4,6,9,.62));
   font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:#E8F1F8}
 #fs-cards.open{display:flex}
 #fs-cards-scrim{position:fixed;inset:0;z-index:43;display:none;pointer-events:none;
-  background:radial-gradient(ellipse at 50% 68%,rgba(2,5,9,.18) 0%,rgba(2,5,9,.62) 62%,rgba(2,5,9,.82) 100%)}
+  background:radial-gradient(ellipse at 50% 68%,rgba(2,5,9,.08) 0%,rgba(2,5,9,.38) 62%,rgba(2,5,9,.6) 100%)}
 #fs-cards-scrim.open{display:block}
 #fs-cards .hdr{position:absolute;left:0;right:0;top:calc(100% - 100%);text-align:center;font:800 11px ui-monospace,Consolas,monospace;
   letter-spacing:.3em;color:#FFB347;pointer-events:none}

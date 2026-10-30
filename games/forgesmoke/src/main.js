@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610326m";
-import { standardMaterial } from "./materials.js?v=202610326m";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610326m";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610326m";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610326u";
+import { standardMaterial } from "./materials.js?v=202610326u";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610326u";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610326u";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610326m";
-import { TUNING } from "./tuning.js?v=202610326m";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610326m";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610326m";
-import { createCardTray } from "./cardsui.js?v=202610326m";
-import { buildBrandProps } from "./branding.js?v=202610326m";
-import { createSummary } from "./summaryui.js?v=202610326m";
-import { createBarks } from "./barks.js?v=202610326m";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610326m";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610326m";
-import { bossHp } from "./balance.js?v=202610326m";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610326m";
-import { pilot } from "./autopilot.js?v=202610326m";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610326m";
-import { createStartMenu } from "./startmenu.js?v=202610326m";
-import { createGamepad } from "./gamepad.js?v=202610326m";
-import { createTalentWindow } from "./talentui.js?v=202610326m";
-import { aggregate, toRunMods } from "./talents.js?v=202610326m";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610326m";
+} from "./theme.js?v=202610326u";
+import { TUNING } from "./tuning.js?v=202610326u";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610326u";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610326u";
+import { createCardTray } from "./cardsui.js?v=202610326u";
+import { buildBrandProps } from "./branding.js?v=202610326u";
+import { createSummary } from "./summaryui.js?v=202610326u";
+import { createBarks } from "./barks.js?v=202610326u";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610326u";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610326u";
+import { bossHp } from "./balance.js?v=202610326u";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610326u";
+import { pilot } from "./autopilot.js?v=202610326u";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610326u";
+import { createStartMenu } from "./startmenu.js?v=202610326u";
+import { createGamepad } from "./gamepad.js?v=202610326u";
+import { createTalentWindow } from "./talentui.js?v=202610326u";
+import { aggregate, toRunMods } from "./talents.js?v=202610326u";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610326u";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -48,20 +48,20 @@ import {
   segmentHitsCollider,
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
-} from "./models.js?v=202610326m";
-import * as levelModule from "./level.js?v=202610326m";
-import * as menuModule from "./menu.js?v=202610326m";
-import * as audioModule from "./audio.js?v=202610326m";
-import * as fxModule from "./fx.js?v=202610326m";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610326m";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610326m";
+} from "./models.js?v=202610326u";
+import * as levelModule from "./level.js?v=202610326u";
+import * as menuModule from "./menu.js?v=202610326u";
+import * as audioModule from "./audio.js?v=202610326u";
+import * as fxModule from "./fx.js?v=202610326u";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610326u";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610326u";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610326m";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610326m";
+import { createCasings } from "./casings.js?v=202610326u";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610326u";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -1013,6 +1013,65 @@ for (let i = 0; i < ORB_LIGHT_COUNT; i++) {
   scene.add(pt);
   orbLights.push(pt);
 }
+// ── IMPACT SPARKS ────────────────────────────────────────────────────────────────────────────
+// A hit used to register only as a floating number: no spark, no flash, nothing on the body.
+// A small pool of additive points at the impact makes every shot land.
+const impactSparks = [];
+{
+  const sparkGeo = new THREE.SphereGeometry(0.028, 6, 6);
+  for (let i = 0; i < 28; i += 1) {
+    const mesh = new THREE.Mesh(sparkGeo, new THREE.MeshBasicMaterial({
+      color: 0xffd57a, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false,
+    }));
+    mesh.visible = false;
+    mesh.userData.tag = "impact-spark";
+    scene.add(mesh);
+    impactSparks.push({ mesh, life: 0, maxLife: 0.2, vx: 0, vy: 0, vz: 0, size: 1 });
+  }
+}
+let impactCursor = 0;
+function spawnImpact(x, y, z, color = 0xffd57a, count = 4, power = 1) {
+  state.impactsSpawned = (state.impactsSpawned || 0) + count;
+  for (let i = 0; i < count; i += 1) {
+    const s0 = impactSparks[impactCursor % impactSparks.length];
+    impactCursor += 1;
+    const a = state.rng() * TAU;
+    const up = 0.4 + state.rng() * 1.6;
+    const sp = (1.6 + state.rng() * 2.6) * power;
+    // start each spark at a slightly different point, or a burst is one white blob
+    s0.mesh.position.set(
+      x + (state.rng() - 0.5) * 0.18 * power,
+      y + (state.rng() - 0.5) * 0.18 * power,
+      z + (state.rng() - 0.5) * 0.18 * power,
+    );
+    s0.mesh.material.color.setHex(color);
+    s0.mesh.material.opacity = 0.62;
+    s0.mesh.visible = true;
+    s0.life = 0.16 + state.rng() * 0.14;
+    s0.maxLife = s0.life;
+    s0.vx = Math.cos(a) * sp;
+    s0.vz = Math.sin(a) * sp;
+    s0.vy = up * power;
+    s0.size = (0.55 + state.rng() * 0.55) * power;
+    s0.mesh.scale.setScalar(s0.size);
+  }
+}
+function updateImpactSparks(dt) {
+  for (const s0 of impactSparks) {
+    if (s0.life <= 0) continue;
+    s0.life -= dt;
+    if (s0.life <= 0) { s0.mesh.visible = false; continue; }
+    s0.vy -= 7.5 * dt;
+    s0.mesh.position.x += s0.vx * dt;
+    s0.mesh.position.y += s0.vy * dt;
+    s0.mesh.position.z += s0.vz * dt;
+    if (s0.mesh.position.y < 0.05) { s0.mesh.position.y = 0.05; s0.vy *= -0.25; }
+    const k = s0.life / s0.maxLife;
+    s0.mesh.material.opacity = Math.max(0, k * 0.62);
+    s0.mesh.scale.setScalar(s0.size * (0.5 + k * 0.8));
+  }
+}
+
 const flash = new THREE.Mesh(new THREE.SphereGeometry(0.24, 8, 8), new THREE.MeshBasicMaterial({ color: hexInt(PALETTE.muzzleFlash), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
 flash.visible = false;
 flash.userData.tag = "muzzle-flash";
@@ -1217,6 +1276,7 @@ window.__forgeSmokeTest = {
     getRainY: () => +rainPos[1].toFixed(3),
     getTreeSway: () => (trees[0] ? +trees[0].rotation.z.toFixed(4) : null),
     getGrenades: () => grenades.length,
+    getImpacts: () => state.impactsSpawned || 0,
     getBlasts: () => ({
       pending: pendingBlasts.length,
       detonated: state.blastsDetonated || 0,
@@ -1436,6 +1496,11 @@ window.__forgeSmokeTest = {
     },
     clearCam: () => { state.debugCam = null; return true; },
     setWeaponAnchor: (x, y, z) => setWeaponAnchorModel(x, y, z),
+    sparkAt: (x, y, z, color = 0xffd57a, count = 8, power = 1) => {
+      spawnImpact(x, y, z, color, count, power);
+      return { sparks: impactSparks.filter((s0) => s0.life > 0).length };
+    },
+    ringAt: (x, z, radius = 1, color = 0xff6a4a) => { showBlastRing(x, z, radius, 0.4, color, true); return true; },
     setTimeScale: (v) => {
       state.timeScale = Math.max(0.02, Math.min(2, Number(v) || 1));
       return state.timeScale;
@@ -2356,7 +2421,7 @@ function spawnEnemy() {
   if (enemy) {
     // same rule as EnemyManager.spawn: never disarm a body whose only attack is its role
     const armedRole = enemy.type === "mortar" || enemy.type === "mech" || enemy.type === "gunship" || enemy.type === "sapper";
-    enemy.canShoot = armedRole ? true : state.rng() < Math.min(0.85, 0.12 + beatDirector.runTime / 150);
+    enemy.canShoot = armedRole ? true : state.rng() < Math.min(0.85, 0.35 + beatDirector.runTime / 180);
     state.spawnBodies = (state.spawnBodies || 0) + 1;
     if (enemy.canShoot) state.spawnShooters = (state.spawnShooters || 0) + 1;
   }
@@ -2646,6 +2711,11 @@ function shoot(target) {
 
     for (const enemy of enemiesInLine) {
       const result = enemyManager.damageEnemy(enemy, effectiveDamage, isGrenade, 0, shieldPierce);
+      if (!state.attractSim) {
+        const hy = 1.05 + (enemy.mesh?.scale?.y || 1) * 0.2;
+        spawnImpact(enemy.position.x, hy, enemy.position.z, vfx.color, result.killed ? 9 : 4, result.killed ? 1.3 : 1);
+        if (result.killed) showBlastRing(enemy.position.x, enemy.position.z, 0.9, 0.32, 0xff6a4a, true);
+      }
   // AUD-04 wiring: pick the impact timbre by what the shot actually hit
   if (result !== undefined && !state.attractSim) {
     const blocked = enemy.type === "shieldbearer" && enemy.isShielded && !isGrenade && shieldPierce === 0;
@@ -2683,7 +2753,11 @@ function shoot(target) {
         const dmg = Math.round(fireData.damage * falloff);
         const result = enemyManager.damageEnemy(best, dmg, isGrenade, 0, shieldPierce);
         damageDealt += dmg;
-        if (!state.attractSim) spawnDamageNumber(best.position.x, 1.75, best.position.z, dmg, { kill: result.killed });
+        if (!state.attractSim) {
+          spawnDamageNumber(best.position.x, 1.75, best.position.z, dmg, { kill: result.killed });
+          spawnImpact(best.position.x, 1.15, best.position.z, vfx.color, result.killed ? 8 : 4, result.killed ? 1.3 : 1);
+          if (result.killed) showBlastRing(best.position.x, best.position.z, 0.9, 0.32, 0xff6a4a, true);
+        }
         if (result.killed) {
           state.kills++;
           noteKill(best.type);
@@ -2696,7 +2770,11 @@ function shoot(target) {
     // Single shot (uses effectiveDamage so anti-air/lit/explosive modifiers actually apply)
     const result = enemyManager.damageEnemy(target, effectiveDamage, isGrenade, 0, shieldPierce);
     damageDealt = effectiveDamage;
-    if (!state.attractSim) spawnDamageNumber(target.position.x, 1.8, target.position.z, effectiveDamage, { crit: effectiveDamage >= 40, kill: result.killed });
+    if (!state.attractSim) {
+      spawnDamageNumber(target.position.x, 1.8, target.position.z, effectiveDamage, { crit: effectiveDamage >= 40, kill: result.killed });
+      spawnImpact(target.position.x, 1.15, target.position.z, vfx.color, result.killed ? 10 : 5, result.killed ? 1.4 : 1);
+      if (result.killed) showBlastRing(target.position.x, target.position.z, 1.0, 0.34, 0xff6a4a, true);
+    }
     if (result.killed) {
       state.kills++;
       noteKill(target.type);
@@ -3466,7 +3544,9 @@ function update(dt, ctx) {
     // ── BOSS WAVE ────────────────────────────────────────────────────────────
     // TUNE-02: boss threshold was 75 s / 18 kills, which every run reached (100 %). At 105 s / 70
     // kills it lands in roughly half of runs, which is the target, and it is still a mid-run event.
-    if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 75)) {
+    // With the early shooter ramp the median run is now ~70-80 s, so a 75 s / 75 kill gate made
+    // the boss a coin flip. 65 s / 60 kills keeps it a mid-run event without weakening the fight.
+    if (!state.bossSpawned && (beatDirector.runTime > 65 || state.kills >= 60)) {
       state.bossSpawned = true;
       const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
       // force: the boss must exist even when the arena is already at the body cap, or the run
@@ -3547,6 +3627,7 @@ function update(dt, ctx) {
     }
 
     updateEnemyShots(dt);
+    updateImpactSparks(dt);
     updateBlasts(dt);
     updateBlastRings(dt);
     updateEnemyRings();

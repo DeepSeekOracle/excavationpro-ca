@@ -451,7 +451,8 @@ export const TUNING = {
   feel: {
     tracerPoolSize: 800,
     particleCap: 400,
-    casingCap: 6,
+    // 6 recycled the whole pool inside a single SMG burst; 24 lets a mag's worth of brass lie on the deck
+    casingCap: 24,
     groundFireCap: 24,
     groundFireLife: 4,
     screenShakeHeavyOnly: true,

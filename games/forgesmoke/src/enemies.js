@@ -4,15 +4,15 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610326m";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610326m";
+import { TUNING } from "./tuning.js?v=202610326u";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610326u";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
-} from "./models.js?v=202610326m";
+} from "./models.js?v=202610326u";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -449,7 +449,9 @@ export class EnemyManager {
     // never fire their only weapon, the same for mechs — their whole identity was switched off.
     const minutes = Number(timeMinutes) || 0;
     const alwaysArmed = type === "mortar" || type === "mech" || type === "gunship" || type === "sapper";
-    enemy.canShoot = alwaysArmed ? true : this.rng() < Math.min(0.85, 0.12 + minutes * (60 / 150));
+    // 12 % at t=0 meant a four-rifleman squad could fire ZERO shots (measured in fightlab). The ramp
+    // starts at 35 % and reaches 85 % by ~1.5 min, so the first contact already shoots back.
+    enemy.canShoot = alwaysArmed ? true : this.rng() < Math.min(0.85, 0.35 + minutes * 0.34);
     this.spawnBodies = (this.spawnBodies || 0) + 1;
     if (enemy.canShoot) this.spawnShooters = (this.spawnShooters || 0) + 1;
     enemy.slot = this.slotSeq || 0;
