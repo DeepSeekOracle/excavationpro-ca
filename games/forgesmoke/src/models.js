@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610323v";
-import { PALETTE, hexInt } from "./theme.js?v=202610323v";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323v";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610323y";
+import { PALETTE, hexInt } from "./theme.js?v=202610323y";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323y";
 
 export const PLAYER_SKINS = [
   {
@@ -271,8 +271,8 @@ function applyTwoHandedRiflePose(bones, aimYaw = 0, reloadTilt = 0, recoil = 0) 
   // Right hand grips pistol grip at [-0.14, 1.45, 0.25]; Left hand cradles barrel at [0.00, 1.48, 0.36]
   bones.rArm.rotation.set(0.63 + clampedTilt * 0.5 - kick * 1.1, 0.17 - clampedYaw * 0.35, 1.35);
   bones.rFore.rotation.set(1.01 - kick * 0.8, -0.95, 0);
-  bones.lArm.rotation.set(-1.619 - clampedTilt * 0.6 + kick * 0.7, -0.774 - clampedYaw * 0.35, 1.31);
-  bones.lFore.rotation.set(-0.421, -1.245, -0.391);
+  bones.lArm.rotation.set(-0.79 - clampedTilt * 0.6 + kick * 0.7, -0.92 - clampedYaw * 0.35, 1.31);
+  bones.lFore.rotation.set(-0.48, -1.76, -0.32);
 }
 
 function applyOperatorSkinToRig(rigRoot, skin, clothMat, armorMat, visorMat) {
@@ -346,7 +346,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
 
   if (gunPivot) {
     // Positioned at the Vanguard Soldier's shoulder/hands rifle grip (rHand=[-0.14, 1.45, 0.25], lHand=[0.0, 1.48, 0.36])
-    gunPivot.position.set(-0.2, 1.42, 0.3);
+    gunPivot.position.set(-0.08, 1.46, 0.16);
     if (gunPivot.parent !== soldier) {
       soldier.add(gunPivot);
     }
@@ -481,32 +481,22 @@ export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false,
       gunPivot.rotation.x += (0 - gunPivot.rotation.x) * Math.min(1, dt * 12);
     }
 
-    // The rifle rides the hands: grip locked to the right hand, barrel aimed at the left hand, so
-    // both hands are on the weapon in every pose (idle, run, aim, reload).
-    const rigBones = soldier.userData.armBones;
-    if (rigBones && rigBones.rHand && rigBones.lHand && !soldier.userData.noGunFollow) {
+    const handBones = soldier.userData.armBones;
+    if (handBones && handBones.rHand) {
       soldier.updateMatrixWorld(true);
-      const rHand = rigBones.rHand.getWorldPosition(_gunV1);
-      const lHand = rigBones.lHand.getWorldPosition(_gunV2);
-      _gunDir.subVectors(lHand, rHand);
-      if (_gunDir.lengthSq() > 1e-6) {
-        _gunDir.normalize();
-        _gunUp.set(0, 1, 0).applyQuaternion(soldier.quaternion).normalize();
-        _gunX.crossVectors(_gunUp, _gunDir).normalize();
-        _gunY.crossVectors(_gunDir, _gunX).normalize();
-        _gunM.makeBasis(_gunX, _gunY, _gunDir);
-        _gunQ.setFromRotationMatrix(_gunM);
-        _gunTilt.setFromAxisAngle(_gunAxisX, reloadTilt);
-        _gunQ.multiply(_gunTilt);
-        _gunGrip.set(0, -0.02, 0.10).applyQuaternion(_gunQ).add(rHand);
-        gunPivot.position.copy(soldier.worldToLocal(_gunGrip.clone()));
-        gunPivot.quaternion.copy(soldier.quaternion.clone().invert().multiply(_gunQ));
-      }
+      const hand = handBones.rHand.getWorldPosition(_gunV1);
+      const fwd = _gunV2.set(0, 0, 1).applyQuaternion(soldier.quaternion).normalize();
+      hand.addScaledVector(fwd, 0.16);
+      hand.y += 0.02;
+      const local = soldier.worldToLocal(hand.clone());
+      gunPivot.position.lerp(local, Math.min(1, dt * 18));
+      gunPivot.quaternion.slerp(soldier.quaternion, Math.min(1, dt * 12));
     }
+
   }
-  if (soldier.userData.armBones) {
-    applyTwoHandedRiflePose(soldier.userData.armBones, gunPivot ? gunPivot.rotation.y : 0, reloadTilt);
-  }
+  // NOTE: the player's arms are left to the Mixamo run/idle clips. The old hand-authored Euler
+  // pose sat the hands at the waist with the rifle inside the torso; the clips look correct and the
+  // gun is anchored to the right hand below instead.
 }
 
 /**
