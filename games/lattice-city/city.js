@@ -3364,7 +3364,7 @@ window.DebugOverlay = DebugOverlay;
     S.lastAnnounce = S.day;
     const hh = String(Math.floor(S.hour)).padStart(2, "0");
     log("Platform call · <b>" + town + "</b> · the " + hh + ":00 service is in.");
-    sfx("announce");
+    sfx("trainhorn"); setTimeout(() => sfx("announce"), 380);
   }
 
   function weekLine() {
@@ -3415,6 +3415,7 @@ window.DebugOverlay = DebugOverlay;
       }
 
       const town = towns[(Math.random() * towns.length) | 0];
+      if (chosenType === "fire") sfx("fire"); else if (chosenType === "storm") sfx("siren");
       const def = EVENTS[chosenType];
       S.event = { type: chosenType, region: town, until: S.day + def.days, started: S.day };
       S.eventHistory.push(chosenType);
@@ -4556,32 +4557,6 @@ window.DebugOverlay = DebugOverlay;
       getCtx().fillStyle = "rgba(150,190,215," + (0.05 + rain * 0.08).toFixed(2) + ")";
       getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
     }
-    if (night > 0.02) {
-      const r = visibleRange();
-      const zw2 = TW * cam.zoom, zh2 = TH * cam.zoom;
-      getCtx().globalAlpha = Math.min(0.75, night * 3.0);
-      for (let gx = r.x0; gx <= r.x1; gx++) {
-        for (let gy = r.y0; gy <= r.y1; gy++) {
-          const t = regionOf(gx, gy);
-          if (!t) continue;
-          const i = t.i;
-          const isLamp = (t.r.road[i] && ((gx * 5 + gy * 3) & 7) === 0) || SVC[t.r.svc[i]] === "plaza" || SVC[t.r.svc[i]] === "school";
-          if (!isLamp) continue;
-          if (cam.zoom < 0.5) continue;
-          const s = tileToScreen(gx, gy);
-          const cx = s.x + zw2 / 2, cy = s.y + zh2 / 2 - 6 * cam.zoom;
-          const rad = 18 * cam.zoom;
-          const grd = getCtx().createRadialGradient(cx, cy, 1, cx, cy, rad);
-          grd.addColorStop(0, "rgba(255,232,170,.55)");
-          grd.addColorStop(1, "rgba(255,232,170,0)");
-          getCtx().fillStyle = grd;
-          getCtx().beginPath();
-          getCtx().arc(cx, cy, rad, 0, 6.2832);
-          getCtx().fill();
-        }
-      }
-      getCtx().globalAlpha = 1;
-    }
 
     // rail: sleepers along the track the trains actually follow. The old
     // version drew a straight line between depot centres, which cut across every
@@ -4787,6 +4762,32 @@ window.DebugOverlay = DebugOverlay;
         // a colder cast deep in the night, so the two ends of it differ
         getCtx().fillStyle = "rgba(40,60,120," + (dark * 0.10).toFixed(3) + ")";
         getCtx().fillRect(0, 0, getCanvas().clientWidth, getCanvas().clientHeight);
+      // lamps sit ABOVE the night tint, or the tint buries them (VIS-02)
+      if (night > 0.02) {
+        const zw2 = TW * cam.zoom, zh2 = TH * cam.zoom;
+        getCtx().globalAlpha = Math.min(0.85, night * 3.4);
+        for (let gx = r.x0; gx <= r.x1; gx++) {
+          for (let gy = r.y0; gy <= r.y1; gy++) {
+            const tt = regionOf(gx, gy);
+            if (!tt) continue;
+            const ii = tt.i;
+            const isLamp = (tt.r.road[ii] && ((gx * 5 + gy * 3) & 7) === 0) || SVC[tt.r.svc[ii]] === "plaza" || SVC[tt.r.svc[ii]] === "school";
+            if (!isLamp || cam.zoom < 0.5) continue;
+            const ss = tileToScreen(gx, gy);
+            const cx = ss.x + zw2 / 2, cy = ss.y + zh2 / 2 - 6 * cam.zoom;
+            const rad = 20 * cam.zoom;
+            const grd = getCtx().createRadialGradient(cx, cy, 1, cx, cy, rad);
+            grd.addColorStop(0, "rgba(255,232,170,.75)");
+            grd.addColorStop(0.55, "rgba(255,220,150,.28)");
+            grd.addColorStop(1, "rgba(255,220,150,0)");
+            getCtx().fillStyle = grd;
+            getCtx().beginPath();
+            getCtx().arc(cx, cy, rad, 0, 6.2832);
+            getCtx().fill();
+          }
+        }
+        getCtx().globalAlpha = 1;
+      }
       }
       // cloud shadows: multiplied over everything, so they pass across roofs too
       const cloudAlpha = 0.16 * (1 - dark * 0.55);
@@ -4972,7 +4973,7 @@ window.DebugOverlay = DebugOverlay;
           if (r.terrain[i] === TERRAIN.WATER) return false;
           if (r.road[i] || r.zone[i] || r.level[i] || r.svc[i]) return false;
           r.rail[i] = 1; r.zoneDirty = true;
-          sfx("place");
+          sfx("rail");
           did = true;
         } else if (t.service) {
       if (r.svc[i]) return false;
@@ -5366,6 +5367,37 @@ window.DebugOverlay = DebugOverlay;
       case "deny":
         tone(ac, t0, 140, 110, 0.16, 0.05, "square");
         burst(ac, t0, 0.08, 500, 0.04);
+        break;
+      case "rail":
+        tone(ac, t0, 196, 196, 0.12, 0.04, "sawtooth");
+        tone(ac, t0 + 0.05, 294, 294, 0.16, 0.03, "sawtooth");
+        burst(ac, t0, 0.05, 2600, 0.03);
+        break;
+      case "coin":
+        tone(ac, t0, 1319, 1319, 0.07, 0.035, "sine");
+        tone(ac, t0 + 0.06, 1760, 1760, 0.09, 0.03, "sine");
+        break;
+      case "levelup":
+        [392, 523, 659].forEach((f, i) => tone(ac, t0 + i * 0.06, f, f, 0.3, 0.04, "triangle"));
+        break;
+      case "fire":
+        burst(ac, t0, 0.5, 900, 0.06);
+        tone(ac, t0, 90, 60, 0.5, 0.05, "sawtooth");
+        break;
+      case "siren":
+        tone(ac, t0, 440, 880, 0.5, 0.045, "square");
+        tone(ac, t0 + 0.5, 880, 440, 0.5, 0.045, "square");
+        break;
+      case "trainhorn":
+        tone(ac, t0, 165, 165, 0.55, 0.05, "sine");
+        tone(ac, t0, 247, 247, 0.55, 0.04, "sine");
+        break;
+      case "carhorn":
+        tone(ac, t0, 420, 420, 0.18, 0.03, "square");
+        tone(ac, t0 + 0.02, 520, 520, 0.16, 0.02, "square");
+        break;
+      case "click":
+        tone(ac, t0, 1200, 1200, 0.025, 0.02, "sine");
         break;
       default:
         tone(ac, t0, 880, 880, 0.03, 0.03, "sine");
@@ -5982,6 +6014,10 @@ window.DebugOverlay = DebugOverlay;
         toast((S.ordinances[name] ? "On: " : "Off: ") + btn.textContent.trim());
       };
     });
+    // one click cue for the whole UI (AUD-02)
+    document.addEventListener("click", (ev) => {
+      if (ev.target && ev.target.closest && ev.target.closest("button")) sfx("click");
+    }, { passive: true });
     const ui_bond = el("ui-bond");
     if (ui_bond) ui_bond.onclick = () => {
       S.bonds = (S.bonds || 0) + 1;
