@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610326u";
-import { PALETTE, hexInt } from "./theme.js?v=202610326u";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610326u";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610327g";
+import { PALETTE, hexInt } from "./theme.js?v=202610327g";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610327g";
 
 export const PLAYER_SKINS = [
   {
@@ -135,6 +135,15 @@ const ALL_GLB_NAMES = [
   "container",
   "barrier",
   "turret",
+  // vendored Kenney city kits (CC0) used by the level kit
+  "ki/building-a", "ki/building-b", "ki/building-c", "ki/building-d", "ki/building-e",
+  "ki/building-f", "ki/building-g", "ki/building-h", "ki/building-i", "ki/building-j",
+  "ki/water-tower", "ki/chimney-large", "ki/detail-tank-large", "ki/detail-tank",
+  "ki/shipping-container-a", "ki/shipping-container-b",
+  "kc/building-a", "kc/building-b", "kc/building-c", "kc/building-d", "kc/building-e",
+  "kc/building-f", "kc/building-g", "kc/building-h", "kc/building-i", "kc/building-j",
+  "kc/low-detail-building-a", "kc/low-detail-building-b", "kc/low-detail-building-c", "kc/low-detail-building-d",
+  "kr/dumpster", "kr/construction-light", "kr/electricity-pole",
 ];
 
 function ensureBakedMaterial(mat, assetName, slotIdx = 1) {
@@ -1046,24 +1055,10 @@ export function buildEnemyMesh(type, bank) {
       targetHeight: 3.1,
     });
   } else if (type === "gunship") {
-    const airframe = new THREE.Group();
-    airframe.position.y = 2.6;
-    airframe.add(makePart(new THREE.BoxGeometry(1.42, 1.12, 3.95), armor, "gunship-hull", 0, 0, 0));
-    airframe.add(makePart(new THREE.BoxGeometry(3.45, 0.2, 0.86), chitin, "gunship-wings", 0, 0.08, 0.24));
-    airframe.add(makePart(new THREE.CylinderGeometry(0.26, 0.26, 1.28, 10), armor, "gunship-pod-l", -1.38, -0.18, 0.3, Math.PI / 2, 0, 0));
-    airframe.add(makePart(new THREE.CylinderGeometry(0.26, 0.26, 1.28, 10), armor, "gunship-pod-r", 1.38, -0.18, 0.3, Math.PI / 2, 0, 0));
-    const mainRotor = makePart(new THREE.BoxGeometry(5.2, 0.06, 0.34), chitin, "gunship-rotor", 0, 0.82, 0);
-    airframe.add(mainRotor);
-    root.add(airframe);
-    root.userData.rotors = [mainRotor];
-    root.userData.hoverGroup = airframe;
-    withGltf("damaged-helmet", (gltf) => {
-      const nose = gltf.scene.clone(true);
-      nose.scale.setScalar(0.82);
-      nose.position.set(0, -0.05, 1.85);
-      tintClonedRig(nose, "damaged-helmet", 0xffffff, 0xff3b3b, 0.55);
-      airframe.add(nose);
-    });
+    const heli = buildGunshipModel(bank, { scale: 1.0 });
+    root.add(heli);
+    root.userData.rotors = heli.userData.rotors;
+    root.userData.hoverGroup = heli;
   } else {
     // Rifleman (default): Rigged Vanguard Soldier (`soldier-rig.glb`) holding a Crimson Assault Carbine at shoulder height
     fb.add(makePart(new THREE.BoxGeometry(0.88, 0.92, 0.58), chitin, "enemy-torso", 0, 0.22, 0));
@@ -1085,6 +1080,97 @@ export function buildEnemyMesh(type, bank) {
     });
   }
 
+  return root;
+}
+
+/**
+ * Attack helicopter. The old "gunship" was a box airframe with a damaged-helmet nose, and the arena
+ * BOSS used `buildBossMesh`, which was a 2.1x brain-stem model — the red mass flying at 6 m that
+ * never looked like an aircraft. This is a proper silhouette: hull, canopy, tail boom, tail rotor,
+ * four-blade main rotor, stub wings with rocket pods, chin gun, skids and nav lights.
+ */
+export function buildGunshipModel(bank, opts = {}) {
+  const scale = opts.scale || 1;
+  const root = new THREE.Group();
+  root.userData.tag = "gunship-model";
+  const armor = bank.darkArmor || bank.enemyMat;
+  const chitin = bank.chitin || bank.enemyMat;
+  const red = bank.redOptic || armor;
+  const hullMat = new THREE.MeshStandardMaterial({
+    color: 0x2f363d, metalness: 0.72, roughness: 0.4, emissive: 0x120709, emissiveIntensity: 0.3,
+  });
+  ensureBakedMaterial(hullMat, "gunship", 11);
+  const accentMat = new THREE.MeshStandardMaterial({
+    color: 0x7a1f22, metalness: 0.5, roughness: 0.45, emissive: 0x3a0406, emissiveIntensity: 0.5,
+  });
+  ensureBakedMaterial(accentMat, "gunship", 12);
+  const glassMat = new THREE.MeshStandardMaterial({
+    color: 0x0a1a22, metalness: 0.95, roughness: 0.08, emissive: 0x0d3446, emissiveIntensity: 0.65,
+  });
+  const lampRed = new THREE.MeshBasicMaterial({ color: 0xff2b2b });
+  const lampGreen = new THREE.MeshBasicMaterial({ color: 0x39ff88 });
+
+  // hull: slab with a tapered nose
+  root.add(makePart(new THREE.BoxGeometry(1.75, 1.45, 4.6), hullMat, "gs-hull", 0, 0.9, 0.1));
+  const nose = makePart(new THREE.CylinderGeometry(0.18, 0.92, 2.4, 10), hullMat, "gs-nose", 0, 0.86, 3.0, Math.PI / 2, 0, 0);
+  root.add(nose);
+  root.add(makePart(new THREE.BoxGeometry(1.5, 0.55, 1.6), accentMat, "gs-spine", 0, 1.62, -0.4));
+  // canopy
+  root.add(makePart(new THREE.BoxGeometry(1.18, 0.72, 1.9), glassMat, "gs-canopy", 0, 1.28, 1.7, -0.12, 0, 0));
+  root.add(makePart(new THREE.BoxGeometry(1.24, 0.12, 1.95), hullMat, "gs-canopy-frame", 0, 1.62, 1.65, -0.12, 0, 0));
+  // tail boom + fin
+  const boom = makePart(new THREE.CylinderGeometry(0.2, 0.36, 4.6, 8), hullMat, "gs-boom", 0, 1.02, -3.9, Math.PI / 2, 0, 0);
+  root.add(boom);
+  root.add(makePart(new THREE.BoxGeometry(0.16, 1.2, 0.9), accentMat, "gs-tail-fin", 0, 1.55, -6.0));
+  root.add(makePart(new THREE.BoxGeometry(1.5, 0.12, 0.55), hullMat, "gs-stabiliser", 0, 1.05, -5.95));
+  // skids
+  for (const sx of [-0.95, 0.95]) {
+    root.add(makePart(new THREE.BoxGeometry(0.1, 0.1, 3.3), hullMat, "gs-skid", sx, 0.06, 0.2));
+    root.add(makePart(new THREE.BoxGeometry(0.08, 0.5, 0.08), hullMat, "gs-skid-leg", sx, 0.32, 1.1));
+    root.add(makePart(new THREE.BoxGeometry(0.08, 0.5, 0.08), hullMat, "gs-skid-leg", sx, 0.32, -0.8));
+  }
+  // stub wings + rocket pods
+  root.add(makePart(new THREE.BoxGeometry(4.9, 0.16, 1.0), hullMat, "gs-wings", 0, 1.0, 0.35));
+  for (const sx of [-2.15, 2.15]) {
+    root.add(makePart(new THREE.CylinderGeometry(0.28, 0.28, 1.0, 10), chitin, "gs-pod", sx, 0.92, 0.45, Math.PI / 2, 0, 0));
+    root.add(makePart(new THREE.CylinderGeometry(0.3, 0.3, 0.1, 10), accentMat, "gs-pod-face", sx, 0.92, 0.98, Math.PI / 2, 0, 0));
+  }
+  // chin gun
+  root.add(makePart(new THREE.CylinderGeometry(0.1, 0.12, 1.1, 8), armor, "gs-chin-gun", 0, 0.32, 2.2, Math.PI / 2, 0, 0));
+  root.add(makePart(new THREE.BoxGeometry(0.3, 0.3, 0.4), hullMat, "gs-chin-mount", 0, 0.42, 1.85));
+  // engine exhausts + nav lights
+  for (const sx of [-0.55, 0.55]) {
+    root.add(makePart(new THREE.CylinderGeometry(0.13, 0.17, 0.5, 8), armor, "gs-exhaust", sx, 1.35, -1.55, Math.PI / 2, 0, 0));
+  }
+  root.add(makePart(new THREE.SphereGeometry(0.07, 8, 8), lampRed, "gs-nav-l", -0.9, 1.15, 0.5));
+  root.add(makePart(new THREE.SphereGeometry(0.07, 8, 8), lampGreen, "gs-nav-r", 0.9, 1.15, 0.5));
+  root.add(makePart(new THREE.SphereGeometry(0.06, 8, 8), lampRed, "gs-nav-tail", 0, 2.0, -6.05));
+  // main rotor
+  const mast = makePart(new THREE.CylinderGeometry(0.11, 0.13, 0.5, 8), armor, "gs-mast", 0, 1.95, 0.1);
+  root.add(mast);
+  const mainRotor = new THREE.Group();
+  mainRotor.position.set(0, 2.2, 0.1);
+  mainRotor.add(makePart(new THREE.CylinderGeometry(0.22, 0.22, 0.16, 10), accentMat, "gs-hub", 0, 0, 0));
+  for (let i = 0; i < 4; i += 1) {
+    const blade = makePart(new THREE.BoxGeometry(0.34, 0.05, 7.4), hullMat, "gs-blade", 0, 0, 0);
+    blade.rotation.y = (i / 4) * Math.PI * 2;
+    blade.position.set(Math.sin(blade.rotation.y) * 3.3, 0, Math.cos(blade.rotation.y) * 3.3);
+    mainRotor.add(blade);
+  }
+  root.add(mainRotor);
+  // tail rotor (disc in the XZ plane, mounted sideways)
+  const tailRotor = new THREE.Group();
+  tailRotor.position.set(0.28, 1.6, -6.0);
+  tailRotor.rotation.z = Math.PI / 2;
+  tailRotor.add(makePart(new THREE.CylinderGeometry(0.1, 0.1, 0.12, 8), accentMat, "gs-tail-hub", 0, 0, 0));
+  for (let i = 0; i < 2; i += 1) {
+    const blade = makePart(new THREE.BoxGeometry(0.16, 0.04, 2.1), hullMat, "gs-tail-blade", 0, 0, 0);
+    blade.rotation.y = i * Math.PI;
+    tailRotor.add(blade);
+  }
+  root.add(tailRotor);
+  root.userData.rotors = [mainRotor, tailRotor];
+  root.scale.setScalar(scale);
   return root;
 }
 
@@ -1321,6 +1407,398 @@ export function steerAroundObstacles(pos, dirX, dirZ, radius = 0.55, colliders =
  * Populate each of the 3 Arenas (`perimeter`, `breach`, `gunship`) with real 3D `.glb` map geometry
  * AND register solid 2D OBB/circle colliders in `arenaColliders`.
  */
+// ── LEVEL KIT ────────────────────────────────────────────────────────────────────────────────
+// Buildings, streets and street furniture for the three maps. Everything here is deliberately
+// placed from a layout table in maps.js — no random scatter, no repeated signage, and every solid
+// box registers a matching collider so the fighter and the AI can path around it.
+const LEVEL_MATERIALS = { ready: false };
+
+function levelMaterials(texSize) {
+  if (LEVEL_MATERIALS.ready) return LEVEL_MATERIALS;
+  const size = Math.min(512, texSize * 2);
+  // fbm noise, not stone blocks: the old ground read as a giant tiled chessboard
+  LEVEL_MATERIALS.asphalt = standardMaterial({
+    kind: "dirt", seed: 811, size: 512, palette: [0x13171b, 0x1c2127, 0x272d34],
+    repeat: 18, roughness: 0.86, metalness: 0.1, bump: 0.05,
+  });
+  LEVEL_MATERIALS.concrete = standardMaterial({
+    kind: "dirt", seed: 812, size: 512, palette: [0x2c3137, 0x3b4249, 0x4c545d],
+    repeat: 16, roughness: 0.92, metalness: 0.05, bump: 0.04,
+  });
+  LEVEL_MATERIALS.dirt = standardMaterial({
+    kind: "dirt", seed: 813, size: 512, palette: [0x241f18, 0x342c21, 0x453b2c],
+    repeat: 40, roughness: 0.95, metalness: 0.02, bump: 0.1,
+  });
+  LEVEL_MATERIALS.hazard = standardMaterial({
+    kind: "metal", seed: 814, size: 512, palette: [0x3a2a10, 0x6b4a12, 0xa8761a],
+    repeat: 6, roughness: 0.6, metalness: 0.3,
+  });
+  LEVEL_MATERIALS.facade = [
+    standardMaterial({ kind: "plaster", seed: 821, size, palette: [0x3c352c, 0x5a5142, 0x7a6e59], repeat: 3, roughness: 0.86, metalness: 0.05 }),
+    standardMaterial({ kind: "masonry", seed: 822, size, palette: [0x2e333a, 0x464d56, 0x606974], repeat: 3, roughness: 0.88, metalness: 0.06 }),
+    standardMaterial({ kind: "metal", seed: 823, size, palette: [0x252b31, 0x39424b, 0x515c67], repeat: 4, roughness: 0.62, metalness: 0.55 }),
+  ];
+  LEVEL_MATERIALS.roof = standardMaterial({
+    kind: "stone", seed: 824, size: 256, palette: [0x14181d, 0x1f242a, 0x2b3138], repeat: 4, roughness: 0.9, metalness: 0.1,
+  });
+  LEVEL_MATERIALS.window = (() => {
+    const c = document.createElement("canvas");
+    c.width = 256; c.height = 64;
+    const g = c.getContext("2d");
+    g.fillStyle = "#0c0f13"; g.fillRect(0, 0, 256, 64);
+    for (let i = 0; i < 8; i += 1) {
+      const lit = (i * 7 + 3) % 5 !== 0;
+      g.fillStyle = lit ? "#ffd9a0" : "#141a20";
+      g.fillRect(6 + i * 31, 12, 22, 40);
+      if (lit) { g.fillStyle = "rgba(255,217,160,0.22)"; g.fillRect(3 + i * 31, 9, 28, 46); }
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.wrapS = THREE.RepeatWrapping;
+    return new THREE.MeshBasicMaterial({ map: tex, toneMapped: false });
+  })();
+  LEVEL_MATERIALS.lampGlow = new THREE.MeshStandardMaterial({
+    color: 0xfff1cf, emissive: 0xffd9a0, emissiveIntensity: 2.2, roughness: 0.3, metalness: 0.2,
+  });
+  LEVEL_MATERIALS.lampPole = new THREE.MeshStandardMaterial({ color: 0x23282e, metalness: 0.75, roughness: 0.4 });
+  LEVEL_MATERIALS.ready = true;
+  return LEVEL_MATERIALS;
+}
+
+const KENNEY_SIZE = {
+  "ki/building-a": [2.08, 1.47, 1.24], "ki/building-b": [2.08, 1.47, 1.26],
+  "ki/building-c": [1.88, 1.25, 2.11], "ki/building-d": [0.88, 1.41, 1.42],
+  "ki/building-e": [1.68, 1.65, 1.29], "ki/building-f": [1.79, 1.92, 1.28],
+  "ki/building-g": [1.68, 1.28, 1.28], "ki/building-h": [1.32, 0.73, 1.31],
+  "ki/building-i": [1.03, 0.73, 1.30], "ki/building-j": [1.03, 0.86, 1.30],
+  "ki/chimney-large": [1.08, 1.70, 1.08], "ki/detail-tank-large": [1.51, 0.96, 1.65],
+  "ki/detail-tank": [0.85, 0.42, 0.52], "ki/water-tower": [0.85, 2.14, 0.83],
+  "ki/shipping-container-a": [0.37, 0.35, 0.82], "ki/shipping-container-b": [0.37, 0.35, 0.82],
+  "kc/building-a": [0.88, 1.29, 0.94], "kc/building-b": [0.97, 1.29, 0.94],
+  "kc/building-c": [0.88, 0.89, 1.09], "kc/building-d": [0.84, 1.29, 0.90],
+  "kc/building-e": [1.64, 0.89, 1.01], "kc/building-f": [0.84, 1.69, 1.03],
+  "kc/building-g": [0.97, 1.69, 0.92], "kc/building-h": [0.88, 1.29, 1.01],
+  "kc/building-i": [1.24, 1.68, 1.30], "kc/building-j": [2.08, 1.69, 1.34],
+  "kc/low-detail-building-a": [0.5, 2.00, 0.5], "kc/low-detail-building-b": [0.5, 2.23, 0.5],
+  "kc/low-detail-building-c": [0.5, 2.25, 0.5], "kc/low-detail-building-d": [0.5, 1.75, 0.5],
+  "kr/dumpster": [0.28, 0.21, 0.37], "kr/construction-light": [0.08, 0.23, 0.08],
+  "kr/construction-barrier": [0.14, 0.13, 0.22], "kr/construction-fence": [0.5, 0.3, 0.2],
+  "kr/electricity-pole": [0.58, 0.52, 0.21], "kr/electricity-pole-single": [0.08, 0.52, 0.21],
+  "kr/electricity-pole-wide": [1.08, 0.52, 0.21],
+};
+
+/**
+ * Place a vendored Kenney model at a target HEIGHT. The native kits are ~0.5 m per unit, so every
+ * placement is scaled by targetHeight / nativeHeight; the collider is registered from the same
+ * table immediately (before the GLB resolves) so the nav grid is correct on the first flood.
+ */
+function addKenneyModel(group, name, x, z, rotY, targetHeight, addBox, addCircle, tag) {
+  const size = KENNEY_SIZE[name];
+  if (!size) return false;
+  const scale = (targetHeight || size[1] * 6) / size[1];
+  const hw = (size[0] * scale) / 2;
+  const hd = (size[2] * scale) / 2;
+  withGltf(name, (gltf) => {
+    const wrap = new THREE.Group();
+    wrap.position.set(x, 0, z);
+    wrap.rotation.y = rotY || 0;
+    wrap.userData.tag = tag || name;
+    const inst = gltf.scene.clone(true);
+    inst.scale.setScalar(scale);
+    inst.traverse((o) => {
+      if (!o.isMesh) return;
+      o.castShadow = true;
+      o.receiveShadow = true;
+      // night-grade the flat Kenney palette; the lit windows are added as bands below
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      for (const m of mats) {
+        if (!m || !m.color) continue;
+        m.color.multiplyScalar(0.72);
+        m.roughness = Math.min(0.92, (m.roughness ?? 0.7) + 0.06);
+        if (m.emissive) { m.emissive.set(0x05070a); m.emissiveIntensity = 1; }
+      }
+    });
+    wrap.add(inst);
+    // warm lit-window bands on the long faces: the atlas windows are unlit, which is why the first
+    // pass read as grey boxes in the dark
+    const windowMat = LEVEL_MATERIALS.window;
+    // only actual buildings get window bands (the water tower and chimney were sprouting them)
+    if (windowMat && tag !== "skyline" && name.includes("building")) {
+      const faceW = size[0] * scale * 0.9;
+      const bandH = Math.min(1.5, targetHeight * 0.13);
+      for (const side of [1, -1]) {
+        for (const fy of [0.38, 0.7]) {
+          const band = new THREE.Mesh(new THREE.PlaneGeometry(faceW, bandH), windowMat.clone());
+          band.material.map = windowMat.map.clone();
+          band.material.map.needsUpdate = true;
+          band.material.map.repeat.set(Math.max(1, Math.round(faceW / 2.4)), 1);
+          band.position.set(0, targetHeight * fy, side * (size[2] * scale * 0.5 + 0.06));
+          band.rotation.y = side > 0 ? 0 : Math.PI;
+          wrap.add(band);
+        }
+      }
+    }
+    group.add(wrap);
+  });
+  if (addBox) addBox(x, z, hw * 0.9, hd * 0.9, rotY || 0, true, tag || name);
+  return true;
+}
+
+function groundPatch(group, mat, x, z, w, d, rotY = 0, y = 0.012) {
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, d), mat);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.rotation.z = rotY;
+  mesh.position.set(x, y, z);
+  mesh.receiveShadow = true;
+  mesh.userData.tag = "ground-patch";
+  group.add(mesh);
+  return mesh;
+}
+
+function laneStripe(group, mat, x, z, w, d, rotY = 0) {
+  const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, 0.012, d), mat);
+  mesh.position.set(x, 0.02, z);
+  mesh.rotation.y = rotY;
+  mesh.userData.tag = "lane-stripe";
+  group.add(mesh);
+  return mesh;
+}
+
+/**
+ * One building: body, roof, a lit window band on every face, a door and roof vents.
+ * Registers an OBB collider so the nav grid and the fighter both treat it as solid.
+ */
+function addBuilding(group, b, addBox, mats) {
+  const { x, z, w, d, h } = b;
+  const rotY = b.rot || 0;
+  const style = b.style || 0;
+  const g = new THREE.Group();
+  g.position.set(x, 0, z);
+  g.rotation.y = rotY;
+  g.userData.tag = "building";
+  const body = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mats.facade[style % mats.facade.length]);
+  body.position.y = h / 2;
+  body.castShadow = true;
+  body.receiveShadow = true;
+  g.add(body);
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(w + 0.5, 0.35, d + 0.5), mats.roof);
+  roof.position.y = h + 0.15;
+  g.add(roof);
+  // parapet
+  for (const [px, pz, pw, pd] of [[0, -d / 2, w + 0.5, 0.3], [0, d / 2, w + 0.5, 0.3], [-w / 2, 0, 0.3, d + 0.5], [w / 2, 0, 0.3, d + 0.5]]) {
+    const pp = new THREE.Mesh(new THREE.BoxGeometry(pw, 0.5, pd), mats.roof);
+    pp.position.set(px, h + 0.5, pz);
+    g.add(pp);
+  }
+  // window bands: two floors, on all four faces
+  const bands = Math.max(1, Math.min(3, Math.floor(h / 3.4)));
+  for (let floor = 0; floor < bands; floor += 1) {
+    const y = 1.6 + floor * 2.6;
+    for (const [nx, nz, len, ry] of [[0, d / 2 + 0.03, w * 0.86, 0], [0, -d / 2 - 0.03, w * 0.86, Math.PI], [w / 2 + 0.03, 0, d * 0.86, Math.PI / 2], [-w / 2 - 0.03, 0, d * 0.86, -Math.PI / 2]]) {
+      const band = new THREE.Mesh(new THREE.PlaneGeometry(len, 0.85), mats.window.clone());
+      band.material.map = mats.window.map.clone();
+      band.material.map.needsUpdate = true;
+      band.material.map.repeat.set(Math.max(1, Math.round(len / 2.4)), 1);
+      band.position.set(nx, y, nz);
+      band.rotation.y = ry;
+      g.add(band);
+    }
+  }
+  // door + roof vents
+  const door = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.2, 0.16), mats.roof);
+  door.position.set(0, 1.1, d / 2 + 0.06);
+  g.add(door);
+  for (let i = 0; i < 2; i += 1) {
+    const vent = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.7, 1.0), mats.lampPole);
+    vent.position.set((i === 0 ? -1 : 1) * w * 0.22, h + 0.75, -d * 0.18);
+    g.add(vent);
+  }
+  group.add(g);
+  const c = Math.abs(Math.cos(rotY)), s0 = Math.abs(Math.sin(rotY));
+  addBox(x, z, (w / 2) * c + (d / 2) * s0, (d / 2) * c + (w / 2) * s0, 0, true, "building");
+  return g;
+}
+
+/** A street lamp: pole, arm, emissive head. Lights are emissive only — no extra PointLights. */
+function addLamp(group, x, z, rotY, mats) {
+  const g = new THREE.Group();
+  g.position.set(x, 0, z);
+  g.rotation.y = rotY;
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.14, 5.6, 8), mats.lampPole);
+  pole.position.y = 2.8;
+  const arm = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 1.5), mats.lampPole);
+  arm.position.set(0, 5.5, 0.7);
+  const head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.16, 0.8), mats.lampGlow);
+  head.position.set(0, 5.4, 1.4);
+  g.add(pole, arm, head);
+  group.add(g);
+  return g;
+}
+
+/** Ground treatment + buildings + lamps for each map. */
+function buildMapLevel(map, group, addBox, addCircle, texSize) {
+  const mats = levelMaterials(texSize);
+  const level = map.level;
+  if (!level) return false;
+  // base surface
+  const base = level.ground === "concrete" ? mats.concrete : level.ground === "dirt" ? mats.dirt : mats.asphalt;
+  groundPatch(group, base, 0, 0, 132, 132, 0, 0.008);
+  // roads / pads
+  for (const r of level.roads || []) groundPatch(group, mats[r.mat || "asphalt"], r.x, r.z, r.w, r.d, r.rot || 0, 0.018);
+  for (const p of level.pads || []) groundPatch(group, mats[p.mat || "concrete"], p.x, p.z, p.w, p.d, p.rot || 0, 0.02);
+  // lane paint
+  const paint = new THREE.MeshBasicMaterial({ color: 0xd8d2c4 });
+  for (const s0 of level.stripes || []) laneStripe(group, paint, s0.x, s0.z, s0.w, s0.d, s0.rot || 0);
+  // buildings: a vendored Kenney model when the layout names one, otherwise the procedural block
+  for (const b of level.buildings || []) {
+    if (b.model && addKenneyModel(group, b.model, b.x, b.z, b.rot || 0, b.h, addBox, addCircle, "building")) continue;
+    addBuilding(group, b, addBox, mats);
+  }
+  // distant skyline (no colliders: it lives outside the wall)
+  for (const sb of level.skyline || []) {
+    addKenneyModel(group, sb.model, sb.x, sb.z, sb.rot || 0, sb.h, null, null, "skyline");
+  }
+  // small street props
+  for (const pr of level.streetProps || []) {
+    addKenneyModel(group, pr.model, pr.x, pr.z, pr.rot || 0, pr.h, (x, z, hx, hz, ry) => addCircle(x, z, Math.max(hx, hz) * 0.8), null, "street-prop");
+  }
+  // silos (foundry)
+  for (const s0 of level.silos || []) {
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(s0.r, s0.r, s0.h, 16), mats.facade[2]);
+    body.position.set(s0.x, s0.h / 2, s0.z);
+    body.castShadow = true;
+    body.receiveShadow = true;
+    group.add(body);
+    const cap = new THREE.Mesh(new THREE.CylinderGeometry(s0.r * 0.55, s0.r, 1.2, 16), mats.roof);
+    cap.position.set(s0.x, s0.h + 0.6, s0.z);
+    group.add(cap);
+    addCircle(s0.x, s0.z, s0.r);
+  }
+  // machinery blocks
+  for (const m of level.machines || []) {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(m.w, m.h, m.d), mats.facade[2]);
+    body.position.set(m.x, m.h / 2, m.z);
+    body.rotation.y = m.rot || 0;
+    body.castShadow = true;
+    body.receiveShadow = true;
+    group.add(body);
+    const hatch = new THREE.Mesh(new THREE.BoxGeometry(m.w * 0.6, 0.18, m.d * 0.6), mats.hazard);
+    hatch.position.set(m.x, m.h + 0.09, m.z);
+    hatch.rotation.y = m.rot || 0;
+    group.add(hatch);
+    addBox(m.x, m.z, m.w / 2, m.d / 2, m.rot || 0, true, "machine");
+  }
+  // street furniture
+  for (const l of level.lamps || []) addLamp(group, l.x, l.z, l.rot || 0, mats);
+  return true;
+}
+
+// ── NAV GRID (flow field) ─────────────────────────────────────────────────────────────────────
+// Buildings are big; local whisker steering alone walks enemies into corners. A 2.5 m grid marks
+// everything solid, a BFS from the operator produces a distance field, and a walker reads the
+// steepest descent. Rebuilt on map change, re-flooded ~3x a second.
+const NAV = {
+  cell: 2.5, min: -58, size: 47, blocked: null, dist: null, queue: null,
+  timer: 0, curIx: -1, curIz: -1, ready: false,
+};
+
+/** Mark solid cells from the current collider set. Call after a map is built. */
+export function rebuildNavGrid(colliders = arenaColliders) {
+  const N = NAV.size;
+  const n = N * N;
+  if (!NAV.blocked) {
+    NAV.blocked = new Uint8Array(n);
+    NAV.dist = new Int16Array(n);
+    NAV.queue = new Int16Array(n);
+  }
+  NAV.blocked.fill(0);
+  for (let iz = 0; iz < N; iz += 1) {
+    for (let ix = 0; ix < N; ix += 1) {
+      const cx = NAV.min + (ix + 0.5) * NAV.cell;
+      const cz = NAV.min + (iz + 0.5) * NAV.cell;
+      const i = iz * N + ix;
+      if (Math.hypot(cx, cz) > 56 || pointHitsCollider(cx, cz, 0.7, colliders)) NAV.blocked[i] = 1;
+    }
+  }
+  NAV.ready = true;
+  NAV.timer = 0;
+  NAV.curIx = -1;
+}
+
+const NAV_DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+
+/** Re-flood the field toward `target` when it moves a cell (or every 0.35 s). */
+export function navStep(dt, target) {
+  if (!NAV.ready || !target) return;
+  const N = NAV.size;
+  const ix = Math.floor((target.x - NAV.min) / NAV.cell);
+  const iz = Math.floor((target.z - NAV.min) / NAV.cell);
+  if (ix < 0 || iz < 0 || ix >= N || iz >= N) return;
+  NAV.timer -= dt;
+  if (NAV.timer > 0 && ix === NAV.curIx && iz === NAV.curIz) return;
+  NAV.timer = 0.35;
+  NAV.curIx = ix;
+  NAV.curIz = iz;
+  NAV.dist.fill(9999);
+  const q = NAV.queue;
+  let head = 0;
+  let tail = 0;
+  const start = iz * N + ix;
+  NAV.dist[start] = 0;
+  q[tail++] = start;
+  while (head < tail) {
+    const idx = q[head++];
+    const d = NAV.dist[idx];
+    const cx = idx % N;
+    const cz = (idx / N) | 0;
+    for (const [dx, dz] of NAV_DIRS) {
+      const nx = cx + dx;
+      const nz = cz + dz;
+      if (nx < 0 || nz < 0 || nx >= N || nz >= N) continue;
+      const ni = nz * N + nx;
+      if (NAV.blocked[ni]) continue;
+      if (dx !== 0 && dz !== 0 && (NAV.blocked[cz * N + nx] || NAV.blocked[nz * N + cx])) continue;
+      if (NAV.dist[ni] <= d + 1) continue;
+      NAV.dist[ni] = d + 1;
+      q[tail++] = ni;
+    }
+  }
+}
+
+/** Steepest-descent direction for a world point, or null when no route exists. */
+export function navDirection(x, z) {
+  if (!NAV.ready || !NAV.dist) return null;
+  const N = NAV.size;
+  const ix = Math.floor((x - NAV.min) / NAV.cell);
+  const iz = Math.floor((z - NAV.min) / NAV.cell);
+  if (ix < 0 || iz < 0 || ix >= N || iz >= N) return null;
+  const here = NAV.dist[iz * N + ix];
+  if (here >= 9999) return null;
+  let bestD = here;
+  let bx = 0;
+  let bz = 0;
+  for (const [dx, dz] of NAV_DIRS) {
+    const nx = ix + dx;
+    const nz = iz + dz;
+    if (nx < 0 || nz < 0 || nx >= N || nz >= N) continue;
+    const ni = nz * N + nx;
+    if (NAV.blocked[ni]) continue;
+    if (dx !== 0 && dz !== 0 && (NAV.blocked[iz * N + nx] || NAV.blocked[nz * N + ix])) continue;
+    if (NAV.dist[ni] < bestD) { bestD = NAV.dist[ni]; bx = dx; bz = dz; }
+  }
+  if (bx === 0 && bz === 0) return null;
+  const len = Math.hypot(bx, bz) || 1;
+  return { x: bx / len, z: bz / len };
+}
+
+/** QA: report the nav grid so a test can prove routes exist. */
+export function navInfo() {
+  if (!NAV.ready) return { ready: false };
+  let blocked = 0;
+  for (let i = 0; i < NAV.blocked.length; i += 1) blocked += NAV.blocked[i];
+  return { ready: true, cells: NAV.blocked.length, blocked, reachable: NAV.dist ? Array.from(NAV.dist).filter((d) => d < 9999).length : 0 };
+}
+
 export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
   // rebuilding an arena must not stack its colliders on top of the previous arena's
   arenaColliders.length = 0;
@@ -1380,6 +1858,12 @@ export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
         else addBoxCollider(p.x, p.z, c.hx, c.hz, p.rotY || 0, true, kind);
       }
     }
+
+    // the level kit: ground treatment, buildings, silos, machinery, street lamps
+    buildMapLevel(map, propGroup, addBoxCollider, addCircleCollider, texSize);
+    rebuildNavGrid(arenaColliders);
+    // Kenney models arrive asynchronously on first load; re-flood the field once they exist
+    setTimeout(() => { try { rebuildNavGrid(arenaColliders); } catch (e) {} }, 1600);
 
     // FOUNDRY's hazard ring is paint on the floor, deliberately not a collider
     if (map.hazardRing) {
@@ -1494,14 +1978,61 @@ export function populateArenaProps(arenaKey, propGroup, texSize = 256) {
 
 
 /** The arena boss: the imported animated BrainStem rig, scaled up and tinted hostile. */
-export function buildBossMesh(materials) {
+function buildMechBossModel(bank) {
   const root = new THREE.Group();
-  root.userData.tag = "boss";
-  attachRiggedEnemyGltf(root, "brain-stem", {
-    scale: 2.1,
-    tintHex: 0x7d1419,
-    emissiveHex: 0x3a0406,
-    emissiveIntensity: 0.45,
+  root.userData.tag = "mech-boss";
+  const armor = bank.darkArmor || bank.enemyMat;
+  const chitin = bank.chitin || bank.enemyMat;
+  const red = bank.redOptic || armor;
+  const plate = new THREE.MeshStandardMaterial({
+    color: 0x3a3038, metalness: 0.7, roughness: 0.42, emissive: 0x1a0507, emissiveIntensity: 0.4,
   });
+  ensureBakedMaterial(plate, "mech-boss", 1);
+  const core = new THREE.MeshStandardMaterial({
+    color: 0xff3b3b, emissive: 0xff2a2a, emissiveIntensity: 2.0, roughness: 0.2, metalness: 0.5,
+  });
+  const leg = (sx) => {
+    root.add(makePart(new THREE.BoxGeometry(0.62, 1.9, 0.72), plate, "mb-thigh", sx, 1.75, 0));
+    root.add(makePart(new THREE.BoxGeometry(0.5, 1.7, 0.62), armor, "mb-shin", sx, 0.85, 0.06));
+    root.add(makePart(new THREE.BoxGeometry(0.78, 0.3, 1.25), plate, "mb-foot", sx, 0.15, 0.22));
+    root.add(makePart(new THREE.BoxGeometry(0.4, 0.4, 0.4), red, "mb-knee", sx, 1.15, 0.3));
+  };
+  leg(-0.85);
+  leg(0.85);
+  root.add(makePart(new THREE.BoxGeometry(2.0, 0.5, 1.1), plate, "mb-hips", 0, 2.75, 0));
+  root.add(makePart(new THREE.BoxGeometry(2.3, 1.55, 1.35), plate, "mb-torso", 0, 3.8, 0));
+  root.add(makePart(new THREE.BoxGeometry(1.15, 0.42, 0.2), core, "mb-visor", 0, 4.25, 0.72));
+  root.add(makePart(new THREE.BoxGeometry(1.5, 0.35, 0.3), armor, "mb-collar", 0, 4.6, 0.1));
+  for (const sx of [-1.5, 1.5]) {
+    root.add(makePart(new THREE.BoxGeometry(0.7, 0.8, 0.9), armor, "mb-shoulder", sx, 4.2, 0));
+    root.add(makePart(new THREE.BoxGeometry(0.45, 1.5, 0.45), plate, "mb-arm", sx, 3.3, 0.1));
+    root.add(makePart(new THREE.BoxGeometry(0.55, 0.45, 0.7), plate, "mb-fist", sx, 2.55, 0.25));
+  }
+  // right arm rotary cannon
+  for (let i = 0; i < 3; i += 1) {
+    root.add(makePart(new THREE.CylinderGeometry(0.07, 0.07, 1.5, 6), armor, "mb-barrel", 1.75 + (i - 1) * 0.16, 2.7, 0.85, Math.PI / 2, 0, 0));
+  }
+  root.add(makePart(new THREE.CylinderGeometry(0.22, 0.22, 0.5, 8), plate, "mb-cannon", 1.75, 2.7, 0.2, Math.PI / 2, 0, 0));
+  // left arm missile pod
+  for (let i = 0; i < 4; i += 1) {
+    const sx = -1.75 + (i % 2) * 0.3;
+    const sy = 2.95 - Math.floor(i / 2) * 0.32;
+    root.add(makePart(new THREE.CylinderGeometry(0.11, 0.11, 0.24, 8), red, "mb-missile", sx, sy, 0.62, Math.PI / 2, 0, 0));
+  }
+  root.add(makePart(new THREE.BoxGeometry(0.7, 0.75, 0.6), plate, "mb-pod", -1.75, 2.8, 0.35));
+  // backpack vents + antenna
+  root.add(makePart(new THREE.BoxGeometry(1.5, 0.9, 0.4), armor, "mb-pack", 0, 4.0, -0.8));
+  root.add(makePart(new THREE.CylinderGeometry(0.04, 0.04, 1.2, 6), armor, "mb-antenna", -0.8, 4.9, -0.6));
+  root.scale.setScalar(1.15);
   return root;
+}
+
+/** The arena boss. `kind` picks the right body: the gunship flies, the warden walks. */
+export function buildBossMesh(materials, kind = "mech") {
+  if (kind === "gunship") {
+    const heli = buildGunshipModel(materials, { scale: 1.3 });
+    heli.userData.tag = "boss";
+    return heli;
+  }
+  return buildMechBossModel(materials);
 }

@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610326u";
-import { standardMaterial } from "./materials.js?v=202610326u";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610326u";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610326u";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327g";
+import { standardMaterial } from "./materials.js?v=202610327g";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327g";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327g";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610326u";
-import { TUNING } from "./tuning.js?v=202610326u";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610326u";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610326u";
-import { createCardTray } from "./cardsui.js?v=202610326u";
-import { buildBrandProps } from "./branding.js?v=202610326u";
-import { createSummary } from "./summaryui.js?v=202610326u";
-import { createBarks } from "./barks.js?v=202610326u";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610326u";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610326u";
-import { bossHp } from "./balance.js?v=202610326u";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610326u";
-import { pilot } from "./autopilot.js?v=202610326u";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610326u";
-import { createStartMenu } from "./startmenu.js?v=202610326u";
-import { createGamepad } from "./gamepad.js?v=202610326u";
-import { createTalentWindow } from "./talentui.js?v=202610326u";
-import { aggregate, toRunMods } from "./talents.js?v=202610326u";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610326u";
+} from "./theme.js?v=202610327g";
+import { TUNING } from "./tuning.js?v=202610327g";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327g";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327g";
+import { createCardTray } from "./cardsui.js?v=202610327g";
+import { buildBrandProps } from "./branding.js?v=202610327g";
+import { createSummary } from "./summaryui.js?v=202610327g";
+import { createBarks } from "./barks.js?v=202610327g";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327g";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327g";
+import { bossHp } from "./balance.js?v=202610327g";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327g";
+import { pilot } from "./autopilot.js?v=202610327g";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327g";
+import { createStartMenu } from "./startmenu.js?v=202610327g";
+import { createGamepad } from "./gamepad.js?v=202610327g";
+import { createTalentWindow } from "./talentui.js?v=202610327g";
+import { aggregate, toRunMods } from "./talents.js?v=202610327g";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327g";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -48,20 +48,21 @@ import {
   segmentHitsCollider,
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
-} from "./models.js?v=202610326u";
-import * as levelModule from "./level.js?v=202610326u";
-import * as menuModule from "./menu.js?v=202610326u";
-import * as audioModule from "./audio.js?v=202610326u";
-import * as fxModule from "./fx.js?v=202610326u";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610326u";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610326u";
+  navInfo,
+} from "./models.js?v=202610327g";
+import * as levelModule from "./level.js?v=202610327g";
+import * as menuModule from "./menu.js?v=202610327g";
+import * as audioModule from "./audio.js?v=202610327g";
+import * as fxModule from "./fx.js?v=202610327g";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610327g";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327g";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610326u";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610326u";
+import { createCasings } from "./casings.js?v=202610327g";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327g";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -331,7 +332,7 @@ sharedBushMat.emissive = new THREE.Color(0x101c0c);
 sharedBushMat.emissiveIntensity = 0.55;
 
 for (let i = 0; i < TREE_COUNT; i++) {
-  const a = worldRng() * TAU, r = 26 + worldRng() * 24; // keep trunks out of the fighting ring: a tree at r=10 put the camera inside a leaf card
+  const a = worldRng() * TAU, r = 40 + worldRng() * 15; // outside the fighting floor and the streets
   const tree = makeTree({ height: 5.5 + worldRng() * 3.5, spread: 2.7 + worldRng() * 1.5, seed: 20 + i, cards: TREE_CARDS, bark: sharedBarkMat, leaf: sharedLeafMat, texSize: TEX_SIZE });
   tree.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
   tree.rotation.y = worldRng() * TAU;
@@ -340,7 +341,7 @@ for (let i = 0; i < TREE_COUNT; i++) {
 }
 // Shrubs are low-poly clumps, not single leaf cards: a flat card read as a black shard at ground level.
 for (let i = 0; i < BUSH_COUNT; i++) {
-  const a = worldRng() * TAU, r = 12 + worldRng() * 28;
+  const a = worldRng() * TAU, r = 34 + worldRng() * 18; // outer band only: bushes in the streets read as clutter
   const clump = new THREE.Group();
   const parts = 2 + Math.floor(worldRng() * 3);
   for (let k = 0; k < parts; k += 1) {
@@ -355,7 +356,7 @@ for (let i = 0; i < BUSH_COUNT; i++) {
   scene.add(clump);
 }
 for (let i = 0; i < LOG_COUNT; i++) {
-  const a = worldRng() * TAU, r = 12 + worldRng() * 20;
+  const a = worldRng() * TAU, r = 30 + worldRng() * 16;
   const log = makeLog({ length: 2 + worldRng() * 1.6, radius: 0.18 + worldRng() * 0.1, seed: 140 + i, bark: sharedBarkMat, texSize: TEX_SIZE });
   log.position.x = Math.cos(a) * r;
   log.position.z = Math.sin(a) * r;
@@ -1457,6 +1458,7 @@ window.__forgeSmokeTest = {
     // QA: end a run on demand so the results/summary screen can be photographed
     hurt: (n = 9999) => { hurt(n); return state.phase; },
     getColliders: () => arenaColliders.map((c) => ({ tag: c.tag, shape: c.shape, hx: +(c.hx || c.radius || 0).toFixed(1), hz: +(c.hz || 0).toFixed(1), x: +c.x.toFixed(1), z: +c.z.toFixed(1) })),
+    getNavInfo: () => navInfo(),
     testPush: (x, z, r = 0.55) => {
       const probe = { x, z };
       const hit = resolveObstacleCollision(probe, r, arenaColliders);
@@ -3566,7 +3568,9 @@ function update(dt, ctx) {
         barks.trigger("boss_spawn");
         // give it the imported animated rig, not just a scaled grunt
         try {
-          const bossMesh = buildBossMesh(enemyManager.materials);
+          // build the boss body for its TYPE: this used to be a 2.1x brain-stem model for every boss,
+          // which is why the "gunship" flew around as a red organic mass.
+          const bossMesh = buildBossMesh(enemyManager.materials, kind);
           bossMesh.position.set(boss.position.x, 0.9, boss.position.z);
           scene.add(bossMesh);
           if (boss.mesh) { scene.remove(boss.mesh); }

@@ -144,32 +144,30 @@ function makeSign(texture, width = 3.8, height = 1.35) {
 export function buildBrandProps(group, map) {
   if (!group) return;
   const boardTex = wordmarkTexture(["LYGO"], { sub: "EXCAVATIONPRO.CA  //  FORGE SMOKE", size: 112 });
-  const urlTex = wordmarkTexture(["EXCAVATIONPRO"], { sub: ".CA  //  SECTOR 09", size: 76 });
   const emblemTex = emblemTexture();
 
-  // Big stadium board behind the spawn, squared to the chase camera so it reads in every run.
+  // ONE board per map, at the entrance the map defines (`map.sign`). The old build dropped a big
+  // board in the middle of the arena plus a second side board on every map, which is the signage
+  // spam that made the arenas read as clutter.
+  const sign = (map && map.sign) || { x: 0, z: -26, rot: 0 };
   const board = makeSign(boardTex, 7.4, 2.15);
-  board.position.set(0, 3.9, -11.5);
+  board.position.set(sign.x, 4.2, sign.z);
+  board.rotation.y = sign.rot || 0;
+  board.userData.cameraBlocker = { hx: 4.1, hz: 0.6 };
   group.add(board);
-
-  // Side board angled toward the arena centre.
-  const side = makeSign(urlTex, 4.4, 1.5);
-  side.position.set(-9.8, 2.8, -4.6);
-  side.rotation.y = 0.55;
-  group.add(side);
 
   // spawn emblem painted on the deck, just ahead of the operator's start
   const emblem = new THREE.Mesh(
     new THREE.PlaneGeometry(4.6, 4.6),
-    new THREE.MeshBasicMaterial({ map: emblemTex, transparent: true, opacity: 0.5, depthWrite: false }),
+    new THREE.MeshBasicMaterial({ map: emblemTex, transparent: true, opacity: 0.42, depthWrite: false }),
   );
   emblem.rotation.x = -Math.PI / 2;
   emblem.position.set(0, 0.028, 1.6);
   group.add(emblem);
   if (map && map.id === "foundry") emblem.position.set(-2.4, 0.028, 2.6);
 
-  // warm sign wash so the branding reads at night
-  const glow = new THREE.PointLight(0xffb347, 4.5, 9, 2);
-  glow.position.set(0, 2.6, 0.5);
+  // a warm wash under the board so it reads at night
+  const glow = new THREE.PointLight(0xffb347, 3.2, 10, 2);
+  glow.position.set(sign.x, 3.2, sign.z + 2.5);
   group.add(glow);
 }

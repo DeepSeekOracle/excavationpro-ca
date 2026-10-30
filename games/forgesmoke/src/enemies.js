@@ -4,15 +4,18 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610326u";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610326u";
+import { TUNING } from "./tuning.js?v=202610327g";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610327g";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
-} from "./models.js?v=202610326u";
+  segmentHitsCollider,
+  navStep,
+  navDirection,
+} from "./models.js?v=202610327g";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -483,6 +486,7 @@ export class EnemyManager {
   /** Update all enemies. Returns array of actions. */
   update(dt, playerPos, timeMinutes, playerYaw = 0) {
     this.timeMinutes = timeMinutes;
+    navStep(dt, playerPos);
     this.spawnTimer -= dt;
     const actions = [];
 
@@ -576,6 +580,17 @@ export class EnemyManager {
         }
 
         const colRadius = enemy.type === "mech" ? 1.05 : enemy.type === "shieldbearer" ? 0.75 : 0.55;
+        // NAV: if the straight line to the operator is blocked by a building, take the flow field;
+        // otherwise blend a little of it in so the body rounds corners instead of scraping them.
+        if (WALKERS && spd > 0.05 && dToPlayer > 3.5) {
+          const flow = navDirection(enemy.position.x, enemy.position.z);
+          if (flow) {
+            const blocked = segmentHitsCollider(enemy.position.x, enemy.position.z, playerPos.x, playerPos.z, arenaColliders);
+            const w = blocked ? 1.0 : 0.35;
+            vx = vx * (1 - w) + flow.x * spd * w;
+            vz = vz * (1 - w) + flow.z * spd * w;
+          }
+        }
         enemy._move = { x: vx, z: vz, spd };
         const stepX0 = enemy.position.x;
         const stepZ0 = enemy.position.z;
