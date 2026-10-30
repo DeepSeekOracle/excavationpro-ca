@@ -3300,14 +3300,18 @@ window.DebugOverlay = DebugOverlay;
   let lastTickWall = Date.now();
   function pumpTicks() {
     const now = Date.now();
+    // speed control (ENG-01): 0 pauses, 1/2/3 multiply the day rate
+    const rate = S.speed == null ? 1 : S.speed;
+    if (rate <= 0) { lastTickWall = now; return; }
+    const step = (TICK_SECONDS * 1000) / rate;
     let n = 0;
-    while (now - lastTickWall >= TICK_SECONDS * 1000 && n < 12) {
-      lastTickWall += TICK_SECONDS * 1000;
+    while (now - lastTickWall >= step && n < 12) {
+      lastTickWall += step;
       tick();
       n++;
     }
     // a tab that slept for hours replays a bounded stretch, same as a load
-    const maxGap = TICK_SECONDS * 1000 * 80;
+    const maxGap = step * 80;
     if (now - lastTickWall > maxGap) lastTickWall = now - maxGap;
   }
 
@@ -5730,9 +5734,10 @@ window.DebugOverlay = DebugOverlay;
     window.addEventListener("resize", resize);
   }
 
-  function setSpeed() {
-    // kept for callers that used to change pace; the city runs on real time now
-    return false;
+  function setSpeed(v) {
+    // 0 pauses, 1/2/3 multiply the day rate (ENG-01). The sky still follows the wall clock.
+    if (typeof v === "number") { S.speed = clamp(Math.round(v), 0, 3); refreshHud(); }
+    return S.speed;
   }
 
   // ---------------------------------------------------------------- save / load
@@ -6099,6 +6104,16 @@ window.DebugOverlay = DebugOverlay;
     document.addEventListener("click", (ev) => {
       if (ev.target && ev.target.closest && ev.target.closest("button")) sfx("click");
     }, { passive: true });
+    // speed buttons (ENG-01)
+    document.querySelectorAll(".spd").forEach((btn) => {
+      const v = Number(btn.getAttribute("data-spd"));
+      btn.classList.toggle("on", (S.speed == null ? 1 : S.speed) === v);
+      btn.onclick = () => {
+        setSpeed(v);
+        document.querySelectorAll(".spd").forEach((b) => b.classList.toggle("on", Number(b.getAttribute("data-spd")) === v));
+        toast(v === 0 ? "Paused" : "Speed " + v + "x");
+      };
+    });
     const ui_bond = el("ui-bond");
     if (ui_bond) ui_bond.onclick = () => {
       if ((S.bonds || 0) > 0 && S.cash >= 10600) {
