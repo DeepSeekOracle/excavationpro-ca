@@ -3,8 +3,8 @@
  * Pure logic, no rendering. Rendering handled by main.js.
  */
 
-import { TUNING } from "./tuning.js?v=202610323f";
-import { weaponStatsWithParts, rollAirdropOptions, rollPart as _rollPart, xpThreshold } from "./balance.js?v=202610323f";
+import { TUNING } from "./tuning.js?v=202610323p";
+import { weaponStatsWithParts, rollAirdropOptions, rollPart as _rollPart, xpThreshold } from "./balance.js?v=202610323p";
 
 const DEFAULT_RELOAD_META = {
   startMult: 1.40,        // Starts 40% slower at Level 1 (~0.71x speed)

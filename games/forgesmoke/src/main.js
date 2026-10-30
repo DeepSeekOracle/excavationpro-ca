@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610323f";
-import { standardMaterial } from "./materials.js?v=202610323f";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610323f";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610323f";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610323p";
+import { standardMaterial } from "./materials.js?v=202610323p";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610323p";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610323p";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,24 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610323f";
-import { TUNING } from "./tuning.js?v=202610323f";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610323f";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610323f";
-import { createCardTray } from "./cardsui.js?v=202610323f";
-import { createSummary } from "./summaryui.js?v=202610323f";
-import { createBarks } from "./barks.js?v=202610323f";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610323f";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610323f";
-import { bossHp } from "./balance.js?v=202610323f";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610323f";
-import { pilot } from "./autopilot.js?v=202610323f";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610323f";
-import { createStartMenu } from "./startmenu.js?v=202610323f";
-import { createGamepad } from "./gamepad.js?v=202610323f";
-import { createTalentWindow } from "./talentui.js?v=202610323f";
-import { aggregate, toRunMods } from "./talents.js?v=202610323f";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610323f";
+} from "./theme.js?v=202610323p";
+import { TUNING } from "./tuning.js?v=202610323p";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610323p";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610323p";
+import { createCardTray } from "./cardsui.js?v=202610323p";
+import { buildBrandProps } from "./branding.js?v=202610323p";
+import { createSummary } from "./summaryui.js?v=202610323p";
+import { createBarks } from "./barks.js?v=202610323p";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610323p";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610323p";
+import { bossHp } from "./balance.js?v=202610323p";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610323p";
+import { pilot } from "./autopilot.js?v=202610323p";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610323p";
+import { createStartMenu } from "./startmenu.js?v=202610323p";
+import { createGamepad } from "./gamepad.js?v=202610323p";
+import { createTalentWindow } from "./talentui.js?v=202610323p";
+import { aggregate, toRunMods } from "./talents.js?v=202610323p";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610323p";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -45,20 +46,20 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=202610323f";
-import * as levelModule from "./level.js?v=202610323f";
-import * as menuModule from "./menu.js?v=202610323f";
-import * as audioModule from "./audio.js?v=202610323f";
-import * as fxModule from "./fx.js?v=202610323f";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610323f";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610323f";
+} from "./models.js?v=202610323p";
+import * as levelModule from "./level.js?v=202610323p";
+import * as menuModule from "./menu.js?v=202610323p";
+import * as audioModule from "./audio.js?v=202610323p";
+import * as fxModule from "./fx.js?v=202610323p";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610323p";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610323p";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610323f";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610323f";
+import { createCasings } from "./casings.js?v=202610323p";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610323p";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -698,7 +699,7 @@ function buildGroundDetail() {
   }
 
   // Cargo stencils painted on the floor beside the containers: the flat ground read as untextured.
-  const texts = ["LYGO CARGO", "EX-07", "HANDLE WITH CARE", "DEPOT 03"];
+  const texts = ["LYGO CARGO", "EXCAVATIONPRO.CA", "HANDLE WITH CARE", "EX-07", "LYGO"];
   const cache = new Map();
   const stencilTexture = (label) => {
     if (cache.has(label)) return cache.get(label);
@@ -869,6 +870,7 @@ function applyArenaLighting(key) {
   arenaKey = lightKey;
   activeMap = map || keepMap;
   populateArenaProps(map ? map.id : keepMap ? keepMap.id : lightKey, arenaPropsGroup, TEX_SIZE);
+  buildBrandProps(arenaPropsGroup, activeMap || map || keepMap || null);
   buildGroundDetail();
   renderer.toneMappingExposure = cfg.exposure;
   scene.background.set(hexInt(cfg.background));
@@ -1071,6 +1073,17 @@ window.__forgeSmokeTest = {
       powerMult: +(state.powerMult || 1).toFixed(2),
       goal: state.pickupGoal ? { type: state.pickupGoal.type, x: +state.pickupGoal.x.toFixed(1), z: +state.pickupGoal.z.toFixed(1) } : null,
     }),
+    getBroadcast: () => ({ shot: broadcast.shot, name: broadcast.shotName, timer: +broadcast.timer.toFixed(1), look: [ +broadcast.look.x.toFixed(1), +broadcast.look.y.toFixed(1), +broadcast.look.z.toFixed(1) ] }),
+    getCamera: () => ({ x: +camera.position.x.toFixed(2), y: +camera.position.y.toFixed(2), z: +camera.position.z.toFixed(2) }),
+    setBroadcastShot: (shot) => {
+      if (!SHOT_NAMES[shot]) return null;
+      broadcast.shot = shot;
+      broadcast.shotName = SHOT_NAMES[shot];
+      broadcast.timer = 9;
+      broadcast.lock = true;
+      broadcast.cut = true;
+      return broadcast.shot;
+    },
     getRamp: () => ({
       bodies: enemyManager.spawnBodies || 0,
       shooters: enemyManager.spawnShooters || 0,
@@ -3117,14 +3130,14 @@ function update(dt, ctx) {
     {
       const hostile = nearestHostileTo(state.pos.x, state.pos.z);
       const kills = state.kills;
-      if (broadcast.lastKills !== -1 && kills > broadcast.lastKills) {
+      if (!broadcast.lock && broadcast.lastKills !== -1 && kills > broadcast.lastKills) {
         // a kill is a highlight: hard cut to a fresh angle on the body
         broadcast.cut = true;
         pickBroadcastShot();
       }
       broadcast.lastKills = kills;
       broadcast.timer -= dt;
-      if (broadcast.timer <= 0) {
+      if (!broadcast.lock && broadcast.timer <= 0) {
         broadcast.cut = true;
         pickBroadcastShot();
       }
@@ -3135,14 +3148,18 @@ function update(dt, ctx) {
       let az = state.pos.z;
       let ay = 1.2;
       if (hostile) {
-        ax = state.pos.x * 0.62 + hostile.position.x * 0.38;
-        az = state.pos.z * 0.62 + hostile.position.z * 0.38;
+        // only let a hostile pull the frame if it is close enough to be in shot; a distant target
+        // was dragging the look point off into the dark
+        const hd = Math.hypot(hostile.position.x - state.pos.x, hostile.position.z - state.pos.z);
+        const w = Math.min(0.38, Math.max(0.12, 0.38 - hd / 60));
+        ax = state.pos.x * (1 - w) + hostile.position.x * w;
+        az = state.pos.z * (1 - w) + hostile.position.z * w;
         ay = 1.05;
       }
       if (broadcast.shot === "chase") {
         const a = (state.orbit || 0) + 0.6;
         vDesired.set(state.pos.x + Math.sin(a) * 7.4, 4.9, state.pos.z + Math.cos(a) * 7.4);
-        broadcast.look.set(ax, 1.25, az);
+        broadcast.look.set(state.pos.x, 1.25, state.pos.z);
       } else if (broadcast.shot === "orbit") {
         const a = (state.orbit || 0) + 1.9;
         vDesired.set(state.pos.x + Math.sin(a) * 8.4, 3.4, state.pos.z + Math.cos(a) * 8.4);
