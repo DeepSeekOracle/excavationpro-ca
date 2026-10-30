@@ -119,7 +119,7 @@ const DebugOverlay = (function() {
     }
   }
 
-  document.addEventListener('keydown', handleKeyDown);
+  // key handling lives in the main input handler (single toggle, no double-fire)
 
   return {
     toggle,
@@ -3365,6 +3365,14 @@ window.DebugOverlay = DebugOverlay;
     const hh = String(Math.floor(S.hour)).padStart(2, "0");
     log("Platform call · <b>" + town + "</b> · the " + hh + ":00 service is in.");
     sfx("trainhorn"); setTimeout(() => sfx("announce"), 380);
+    // duck the radio while the platform call plays (AUD-04)
+    try {
+      if (window.LatticeRadio && window.LatticeRadio.playing()) {
+        const base = window.LatticeRadio.vol();
+        window.LatticeRadio.setVol(Math.max(0, base * 0.35));
+        setTimeout(() => { try { window.LatticeRadio.setVol(base); } catch (e) {} }, 2600);
+      }
+    } catch (e) {}
   }
 
   function weekLine() {
@@ -4298,10 +4306,10 @@ window.DebugOverlay = DebugOverlay;
         // contact shadow: buildings, services and vehicles sit ON the ground, not in it
         if ((reg.level[i] || reg.svc[i]) && cam.zoom > 0.45) {
           // offset down and wider than the base so it reads under the 128x128 sprite
-          getCtx().globalAlpha = 0.32;
+          getCtx().globalAlpha = 0.45;
           getCtx().fillStyle = "#000";
           getCtx().beginPath();
-          getCtx().ellipse(cx0 + zw * 0.04, cy0 + zh * 0.22, zw * 0.42, zh * 0.16, 0, 0, 6.2832);
+          getCtx().ellipse(cx0 + zw * 0.05, cy0 + zh * 0.26, zw * 0.50, zh * 0.19, 0, 0, 6.2832);
           getCtx().fill();
           getCtx().globalAlpha = 1;
         }
@@ -5609,7 +5617,29 @@ window.DebugOverlay = DebugOverlay;
     const c = getCanvas();
     if (!c) return;
     let painting = false, panning = false, panStart = null, spaceDown = false, lastTile = null;
+    // touch: one finger pans, two fingers pinch, a tap paints (ENG-06)
+    const touchPts = new Map();
+    let pinch = null, touchMoved = false, touchStartTile = null;
+    const touchDist = () => {
+      const ids = Array.from(touchPts.keys());
+      if (ids.length < 2) return 0;
+      const a = touchPts.get(ids[0]), b = touchPts.get(ids[1]);
+      return Math.hypot(a.x - b.x, a.y - b.y);
+    };
     c.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") {
+        touchPts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (touchPts.size === 1) {
+          panning = true; touchMoved = false;
+          panStart = { x: e.clientX, y: e.clientY, cx: cam.x, cy: cam.y };
+          touchStartTile = screenToTile(e.offsetX, e.offsetY);
+        } else if (touchPts.size === 2) {
+          panning = false;
+          pinch = { d: touchDist(), zoom: cam.zoom };
+        }
+        c.setPointerCapture(e.pointerId);
+        return;
+      }
       if (!audioOn) { audioOn = true; el("ui-sound").classList.remove("off"); startAmbient(); }
       const t = screenToTile(e.offsetX, e.offsetY);
       if (e.button === 1 || e.button === 2 || spaceDown) {
@@ -5622,6 +5652,20 @@ window.DebugOverlay = DebugOverlay;
       paint(toolById(S.tool), t.gx, t.gy);
     });
     c.addEventListener("pointermove", (e) => {
+      if (e.pointerType === "touch") {
+        if (touchPts.has(e.pointerId)) touchPts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pinch && touchPts.size >= 2) {
+          const d = touchDist();
+          if (pinch.d > 8) cam.zoom = clamp(pinch.zoom * (d / pinch.d), 0.25, 8);
+          return;
+        }
+        if (panning && panStart) {
+          const dx = e.clientX - panStart.x, dy = e.clientY - panStart.y;
+          if (Math.abs(dx) + Math.abs(dy) > 6) touchMoved = true;
+          cam.x = panStart.cx + dx; cam.y = panStart.cy + dy;
+        }
+        return;
+      }
       const t = screenToTile(e.offsetX, e.offsetY);
       hover = t;
       if (panning && panStart) {
@@ -5631,7 +5675,19 @@ window.DebugOverlay = DebugOverlay;
       }
       if (painting) { paintLine(toolById(S.tool), lastTile, t); lastTile = t; }
     });
-    window.addEventListener("pointerup", () => { painting = false; panning = false; panStart = null; lastTile = null; });
+    window.addEventListener("pointerup", (e) => {
+      if (e && e.pointerType === "touch") {
+        touchPts.delete(e.pointerId);
+        if (touchPts.size < 2) pinch = null;
+        if (!touchMoved && touchStartTile && touchPts.size === 0) {
+          if (S.tool === "inspect") inspect(touchStartTile.gx, touchStartTile.gy);
+          else paint(toolById(S.tool), touchStartTile.gx, touchStartTile.gy);
+        }
+        if (touchPts.size === 0) { panning = false; panStart = null; touchStartTile = null; }
+        return;
+      }
+      painting = false; panning = false; panStart = null; lastTile = null;
+    });
     c.addEventListener("contextmenu", (e) => e.preventDefault());
     c.addEventListener("wheel", (e) => {
       e.preventDefault();
@@ -5657,11 +5713,17 @@ window.DebugOverlay = DebugOverlay;
           if (e.key === "l" || e.key === "L") { S.overlay = S.overlay === "lv" ? null : "lv"; toast(S.overlay ? "Land value overlay" : "Overlay off"); }
           if (e.key === "k" || e.key === "K") { S.overlay = S.overlay === "crime" ? null : "crime"; toast(S.overlay ? "Crime overlay" : "Overlay off"); }
           if (e.key === "j" || e.key === "J") { S.overlay = S.overlay === "poll" ? null : "poll"; toast(S.overlay ? "Pollution overlay" : "Overlay off"); }
-          if (e.key === "[" || e.key === "]") {
-            const cur = S.taxRate == null ? 7 : S.taxRate;
-            S.taxRate = clamp(cur + (e.key === "]" ? 1 : -1), 1, 15);
-            refreshHud();
-            toast("Tax " + S.taxRate + "%");
+          if (e.key === "[") {
+            S.taxRate = clamp((S.taxRate == null ? 7 : S.taxRate) - 1, 1, 15);
+            recalcWorld(); updateDemand(); refreshHud(); toast("Tax " + S.taxRate + "%");
+          }
+          if (e.key === "]") {
+            S.taxRate = clamp((S.taxRate == null ? 7 : S.taxRate) + 1, 1, 15);
+            recalcWorld(); updateDemand(); refreshHud(); toast("Tax " + S.taxRate + "%");
+          }
+          if (e.key === "F3" || e.code === "F3") {
+            e.preventDefault();
+            if (typeof DebugOverlay !== "undefined") DebugOverlay.toggle();
           }
         });
     window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; c.style.cursor = "crosshair"; } });
@@ -5712,7 +5774,7 @@ window.DebugOverlay = DebugOverlay;
                 })),
               });
       });
-      const data = { v: 4, seed: S.seed, cash: S.cash, day: S.day, unlocked: S.unlocked, regions,
+      const data = { schema: 2, v: 4, seed: S.seed, cash: S.cash, day: S.day, taxRate: S.taxRate, ordinances: S.ordinances, bonds: S.bonds, unlocked: S.unlocked, regions,
             savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
             fireTrucks: fireTrucks.map(t => ({ id: t.id, x: t.x, y: t.y, state: t.state, targetFire: t.targetFire, routeIdx: t.routeIdx, stationId: t.stationId })),
             ambulances: ambulances.map(a => ({ id: a.id, x: a.x, y: a.y, state: a.state, targetCall: a.targetCall, routeIdx: a.routeIdx, clinicId: a.clinicId })),
@@ -5736,7 +5798,19 @@ window.DebugOverlay = DebugOverlay;
       try {
         localStorage.setItem(SAVE_KEY, JSON.stringify(data));
         toast("World saved · " + regions.length + " region" + (regions.length === 1 ? "" : "s"));
-      } catch (e) { toast("Could not save: browser storage is full"); }
+      } catch (e) {
+        // Quota or a bad blob: keep the city geometry, drop the citizen/truck detail, and say so.
+        try {
+          const slim = Object.assign({}, data);
+          ["citizens", "fireTrucks", "ambulances", "policeCars", "activeFires", "medicalCalls", "policeCalls"].forEach((k) => { delete slim[k]; });
+          slim.regions = data.regions.map((r) => Object.assign({}, r, { households: [] }));
+          const bytes = JSON.stringify(slim);
+          localStorage.setItem(SAVE_KEY, bytes);
+          toast("Saved without citizen detail (storage was tight, " + Math.round(bytes.length / 1024) + " KB)");
+        } catch (e2) {
+          toast("Could not save: browser storage is full");
+        }
+      }
     }
   function load() {
     let raw = null;
@@ -5745,6 +5819,13 @@ window.DebugOverlay = DebugOverlay;
     try {
       const d = JSON.parse(raw);
       if (!d || !Array.isArray(d.regions) || !d.regions.length) throw new Error("empty save");
+      // schema v2: keep the raw pre-v2 payload so a failed migration is always recoverable
+      if (!d.schema) {
+        try { localStorage.setItem("lattice-city-v1-backup", raw); } catch (e) {}
+      }
+      if (typeof d.taxRate === "number") S.taxRate = d.taxRate;
+      if (d.ordinances) S.ordinances = Object.assign({ fines: false, cleanAir: false, watch: false, greenbelt: false }, d.ordinances);
+      if (typeof d.bonds === "number") S.bonds = d.bonds;
       const next = new Array(GW * GH).fill(null);
       S.seed = d.seed; S.cash = d.cash; S.day = d.day || 0; S.unlocked = d.unlocked || 0;
       S.hour = localHour();   // the sky belongs to the player's clock, not the save
@@ -6020,6 +6101,12 @@ window.DebugOverlay = DebugOverlay;
     }, { passive: true });
     const ui_bond = el("ui-bond");
     if (ui_bond) ui_bond.onclick = () => {
+      if ((S.bonds || 0) > 0 && S.cash >= 10600) {
+        S.bonds -= 1; S.cash -= 10600;
+        recalcWorld(); refreshHud();
+        toast("Bond repaid · $10,600");
+        return;
+      }
       S.bonds = (S.bonds || 0) + 1;
       S.cash += 10000;
       recalcWorld();
@@ -6207,6 +6294,7 @@ window.DebugOverlay = DebugOverlay;
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
+    debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
     taxRate: (v) => {
       if (typeof v === "number") { S.taxRate = clamp(v, 1, 15); recalcWorld(); updateDemand(); refreshHud(); }
       return S.taxRate;
