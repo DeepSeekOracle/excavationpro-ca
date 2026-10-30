@@ -2731,6 +2731,8 @@
   // ---------------------------------------------------------------- links
   function refreshLinks() {
     S.links = [];
+    // any lay/bulldoze/claim bumps this; the rail line cache keys off it
+    S.railVer = (S.railVer || 0) + 1;
     const list = claimedList();
     const byKey = {};
     list.forEach((r) => { byKey[regionKey(r.rx, r.ry)] = r; });
@@ -3203,7 +3205,57 @@
     return riders;
   }
 
-  function spawnTrain() {
+  // A line inside ONE region: two depots joined by laid track. Rail used to need two
+  // claimed regions with a depot each before a single train existed, so a player could
+  // lay a full rail loop in their first town and watch nothing move. This is the same
+  // route/dwell/fare machinery, pointed at a local pair.
+  function localRailLine(r) {
+    if (S.links.some((l) => l.kind === "rail" && (l.a === r || l.b === r))) return null;
+    const pts = [];
+    for (let i = 0; i < RS * RS; i++) {
+      if (SVC[r.svc[i]] === "rail") pts.push({ x: r.rx * RS + (i % RS), y: r.ry * RS + ((i / RS) | 0) });
+    }
+    if (pts.length < 2) return null;
+    let best = null;
+    const cap = Math.min(pts.length, 8);
+    for (let i = 0; i < cap; i++) {
+      for (let j = i + 1; j < cap; j++) {
+        const A = pts[i], B = pts[j];
+        const span = Math.abs(A.x - B.x) + Math.abs(A.y - B.y);
+        if (best && span > best.span * 2) continue;   // far pair: not worth the BFS
+        const route = railRoute(A, B);
+        if (!route) continue;
+        if (!best || route.length < best.route.length) best = { A, B, span, route };
+      }
+    }
+    if (!best) return null;
+    return { a: best.A, b: best.B, route: best.route, regionName: r.name || "the town", local: true };
+  }
+
+  // Cache: the BFS above must not run every frame. refreshLinks() bumps S.railVer on
+  // every lay, bulldoze and claim, which is exactly when the lines can change.
+  let railLineCache = { ver: -1, lines: [] };
+  let railVerSeen = -1;
+  function localRailLines() {
+    const ver = S.railVer || 0;
+    if (railLineCache.ver === ver) return railLineCache.lines;
+    const lines = [];
+    claimedList().forEach((r) => {
+      const l = localRailLine(r);
+      if (l) lines.push(l);
+    });
+    railLineCache = { ver, lines };
+    return lines;
+  }
+
+  function spawnTrain(line) {
+    if (line) {
+      // local shuttle: lighter and quicker than the inter-region freight
+      return { ax: line.a.x, ay: line.a.y, bx: line.b.x, by: line.b.y, t: 0, dir: 1, speed: rnd(0.16, 0.24),
+               from: line.regionName, to: line.regionName,
+               route: line.route, idx: 0, seg: 0, dwell: 0, atEnd: false,
+               demandA: stationDemand(line.a), demandB: stationDemand(line.b), riders: 0, local: true };
+    }
     const depots = railCentres();
     const track = S.links.filter((l) => l.kind === "rail");
     if (!track.length || depots.length < 2) return null;
@@ -3294,10 +3346,18 @@
       S.boats.push(b);
     }
     S.trains = S.trains || [];
-    const wantTrains = S.links.filter((l) => l.kind === "rail").length;
+    const railLinks = S.links.filter((l) => l.kind === "rail");
+    const localLines = localRailLines();
+    if (railVerSeen !== (S.railVer || 0)) {
+      railVerSeen = S.railVer || 0;
+      // a bulldozed tile leaves no train floating over grass
+      S.trains = S.trains.filter((tr) => !tr.route || tr.route.every((p) => hasRail(p.x, p.y)));
+    }
+    const wantTrains = railLinks.length + localLines.length;
     let trainGuard = 0;
     while (S.trains.length < wantTrains && trainGuard++ < 12) {
-      const t = spawnTrain();
+      const n = S.trains.length;
+      const t = spawnTrain(n < railLinks.length ? null : localLines[n - railLinks.length]);
       if (!t) break;
       S.trains.push(t);
     }
@@ -4014,30 +4074,51 @@
                   getCtx().restore();
                                   });
 
-                          // rail: sleepers between depots, then the trains on them
+                          // rail: sleepers along the track the trains actually follow. The old
+    // version drew a straight line between depot centres, which cut across every
+    // curve and drew a second railway over the tiles.
     const railLines = S.links.filter((l) => l.kind === "rail");
     const depots = railLines.length ? railCentres() : [];
+    const drawSleeperRun = (route) => {
+      if (!route || route.length < 2) return;
+      const pts = route.map((p) => { const s = tileToScreen(p.x, p.y); return { x: s.x + zw / 2, y: s.y + zh / 2 }; });
+      getCtx().strokeStyle = "rgba(60,52,44,.75)";
+      getCtx().lineWidth = Math.max(1.5, 2.4 * cam.zoom);
+      getCtx().beginPath(); getCtx().moveTo(pts[0].x, pts[0].y);
+      for (let i = 1; i < pts.length; i++) getCtx().lineTo(pts[i].x, pts[i].y);
+      getCtx().stroke();
+      getCtx().strokeStyle = "rgba(190,175,150,.55)";
+      getCtx().lineWidth = Math.max(1, 1.2 * cam.zoom);
+      const step = Math.max(6, 10 * cam.zoom);
+      let travelled = 0;
+      for (let i = 0; i < pts.length - 1; i++) {
+        const a = pts[i], b = pts[i + 1];
+        const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy);
+        if (len < 0.5) continue;
+        const ux = dx / len, uy = dy / len;
+        for (let d = (step - (travelled % step)) % step; d < len; d += step) {
+          const px = a.x + ux * d, py = a.y + uy * d;
+          getCtx().beginPath();
+          getCtx().moveTo(px - uy * 4 * cam.zoom, py + ux * 4 * cam.zoom);
+          getCtx().lineTo(px + uy * 4 * cam.zoom, py - ux * 4 * cam.zoom);
+          getCtx().stroke();
+        }
+        travelled += len;
+      }
+    };
+    const sleeperDrawn = new Set();
+    (S.trains || []).forEach((tr) => {
+      // a routed train runs on real track tiles, which already draw rails and ties;
+      // painting a second set of sleepers over them read as a smeared double line
+      if (tr.route && tr.route.length > 1) sleeperDrawn.add(tr.ax + "," + tr.ay + ">" + tr.bx + "," + tr.by);
+    });
     railLines.forEach((l) => {
       const a = depots.find((d) => d.r === l.a), b = depots.find((d) => d.r === l.b);
       if (!a || !b) return;
-      const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
-      const ax = pa.x + zw / 2, ay = pa.y + zh / 2, bx = pb.x + zw / 2, by = pb.y + zh / 2;
-      const dx = bx - ax, dy = by - ay;
-      const len = Math.hypot(dx, dy) || 1;
-      const ux = dx / len, uy = dy / len;
-      getCtx().strokeStyle = "rgba(60,52,44,.75)";
-      getCtx().lineWidth = Math.max(1.5, 2.4 * cam.zoom);
-      getCtx().beginPath(); getCtx().moveTo(ax, ay); getCtx().lineTo(bx, by); getCtx().stroke();
-      getCtx().strokeStyle = "rgba(190,175,150,.55)";
-      getCtx().lineWidth = Math.max(1, 1.2 * cam.zoom);
-      const sleepers = Math.min(60, Math.floor(len / (10 * cam.zoom)));
-      for (let i = 1; i < sleepers; i++) {
-        const px = ax + ux * (len * i / sleepers), py = ay + uy * (len * i / sleepers);
-        getCtx().beginPath();
-        getCtx().moveTo(px - uy * 4 * cam.zoom, py + ux * 4 * cam.zoom);
-        getCtx().lineTo(px + uy * 4 * cam.zoom, py - ux * 4 * cam.zoom);
-        getCtx().stroke();
-      }
+      const k = a.x + "," + a.y + ">" + b.x + "," + b.y;
+      if (sleeperDrawn.has(k)) return;
+      // no track tiles between these depots: the region link is drawn as a straight span
+      drawSleeperRun([{ x: a.x, y: a.y }, { x: b.x, y: b.y }]);
     });
 
     (S.trains || []).forEach((tr) => {
@@ -4059,25 +4140,40 @@
         px = x0 + (x1 - x0) * tr.t;
         py = y0 + (y1 - y0) * tr.t;
       }
-      const L = Math.max(8, 26 * cam.zoom), W = Math.max(3, 7 * cam.zoom);
+      const L = Math.max(7, 20 * cam.zoom), W = Math.max(2.5, 5.4 * cam.zoom);
       const dirSign = tr.dir >= 0 ? 1 : -1;
-      for (let car = 0; car < 3; car++) {
-        const off = (car - 1) * L * 0.95 * dirSign;
+      const CARS = 3;
+      const step = L * 1.22;                 // a real coupling gap: three cars must read as three
+      for (let car = 0; car < CARS; car++) {
+        const off = ((CARS - 1) / 2 - car) * step * dirSign;   // car 0 leads
         getCtx().save();
         getCtx().translate(px + Math.cos(ang) * off, py + Math.sin(ang) * off);
-        ctx.rotate(ang);
-        getCtx().fillStyle = "rgba(0,0,0,.35)";
-        getCtx().fillRect(-L / 2, -W / 2 + W * 0.7, L, Math.max(1.5, W * 0.4));
-        getCtx().fillStyle = car === 0 ? "#7a3b2e" : "#3f4a52";
+        getCtx().rotate(ang);
+        // ground shadow
+        getCtx().fillStyle = "rgba(0,0,0,.32)";
+        getCtx().fillRect(-L / 2 + L * 0.04, W * 0.55, L, Math.max(1.4, W * 0.34));
+        // bogies
+        getCtx().fillStyle = "#1d1915";
+        getCtx().fillRect(-L * 0.38, W * 0.28, L * 0.18, Math.max(1.2, W * 0.30));
+        getCtx().fillRect(L * 0.20, W * 0.28, L * 0.18, Math.max(1.2, W * 0.30));
+        // body + roof highlight
+        getCtx().fillStyle = car === 0 ? "#8a4030" : "#46525c";
         getCtx().fillRect(-L / 2, -W / 2, L, W);
-        getCtx().fillStyle = "rgba(210,225,240,.7)";
-        getCtx().fillRect(-L * 0.34, -W / 2 + W * 0.18, L * 0.24, W * 0.42);
+        getCtx().fillStyle = car === 0 ? "rgba(255,190,150,.35)" : "rgba(190,215,235,.22)";
+        getCtx().fillRect(-L / 2, -W / 2, L, Math.max(1, W * 0.22));
+        // two window panes, so a car is countable at play zoom
+        getCtx().fillStyle = "rgba(205,225,240,.75)";
+        getCtx().fillRect(-L * 0.30, -W * 0.18, L * 0.20, W * 0.40);
+        getCtx().fillRect(L * 0.08, -W * 0.18, L * 0.20, W * 0.40);
         if (car === 0) {
+          // one chimney and a low cab roof on the loco — two dark blocks read as two funnels
           getCtx().fillStyle = "#241d18";
-          getCtx().fillRect(-L * 0.05, -W * 1.25, L * 0.14, W * 0.8);
+          getCtx().fillRect(L * 0.24, -W * 1.15, L * 0.16, W * 0.75);
+          getCtx().fillStyle = "rgba(40,24,20,.85)";
+          getCtx().fillRect(-L * 0.44, -W * 0.62, L * 0.26, W * 0.20);
           if (night > 0.2) {
             getCtx().fillStyle = "rgba(255,236,170,.95)";
-            getCtx().fillRect(L * 0.4, -W * 0.3, Math.max(1, 1.8 * cam.zoom), Math.max(1, 1.6 * cam.zoom));
+            getCtx().fillRect(L * 0.44, -W * 0.3, Math.max(1, 1.8 * cam.zoom), Math.max(1, 1.5 * cam.zoom));
           }
         }
         getCtx().restore();
