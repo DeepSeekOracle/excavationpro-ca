@@ -1117,14 +1117,8 @@ window.DebugOverlay = DebugOverlay;
         else { unit.state = "idle"; if (unit.parkX != null) { unit.x = unit.parkX; unit.y = unit.parkY; } }
         return;
       }
-      if (unit.state === "idle" && Math.random() < 0.05) {
-        const spots = (S.roadSpots || []).filter(s => Math.abs(s.x - unit.x) <= 10 && Math.abs(s.y - unit.y) <= 10);
-        if (spots.length) {
-          const dest = spots[(Math.random() * spots.length) | 0];
-          const path = findRoadPath(unit.x, unit.y, dest.x, dest.y);
-          if (path && path.length > 1) { unit.route = path; unit.routeIdx = 0; unit.acc = 0; unit.state = "patrol"; }
-        }
-      }
+      // No idle patrols: a unit moves only for a real call, then returns to its park spot.
+      // Anything else is visual spam that hides the response-time pressure the city is meant to feel.
     });
   }
 
@@ -1327,12 +1321,46 @@ window.DebugOverlay = DebugOverlay;
         const stations = [];
         claimedList().forEach(r => {
           for (let i = 0; i < RS * RS; i++) {
-            if (SVC[r.svc[i]] === "fire") {
+    if (SVC[r.svc[i]] === "police") {   // was "fire": police cars spawned at fire stations
               stations.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, cars: POLICE.carsPerStation[Math.min(2, r.level[i] || 1)] });
             }
           }
         });
         return stations;
+      }
+
+      // ---- response capacity -------------------------------------------------
+      // Every station has a fixed number of units. A call with no free unit waits in
+      // the queue; the queue is the whole management game: it costs mood, and unmet
+      // demand feeds more crime, which feeds more calls. That is the collapse loop.
+      function responseBacklog() {
+        const policeWaiting = policeCalls.filter(c => c.status === "waiting").length;
+        const medicalWaiting = medicalCalls.filter(m => m.status === "waiting").length;
+        const fireWaiting = activeFires.filter(f => !f.contained && !fireTrucks.some(t => t.targetFire === f.id && t.state !== "idle")).length;
+        const policeUnits = policeCars.length;
+        const fireUnits = fireTrucks.length;
+        const medUnits = ambulances.length;
+        return {
+          police: policeWaiting, medical: medicalWaiting, fire: fireWaiting,
+          total: policeWaiting + medicalWaiting + fireWaiting,
+          capacity: { police: policeUnits, fire: fireUnits, medical: medUnits },
+        };
+      }
+
+      function applyBacklogPressure(dt) {
+        const b = responseBacklog();
+        const changed = S.backlog !== b.total;
+        S.backlog = b.total;
+        // unmet calls erode the city; per real second, not per frame
+        const step = Math.max(0, Math.min(0.25, dt || 0.016));
+        if (b.total > 0) S.unrest = clamp((S.unrest || 0) + 0.02 * b.total * step, 0, 1);
+        else S.unrest = clamp((S.unrest || 0) - 0.06 * step, 0, 1);
+        if (b.total >= 3 && S.backlogWarnDay !== S.day) {
+          S.backlogWarnDay = S.day;
+          logEvent("police", b.total + " calls queuing - no free units. Build a station.", { }, "high");
+        }
+        if (changed) { try { refreshHud(); } catch (e) {} }
+        return b;
       }
 
       function computeCrimeRate() {
@@ -1357,6 +1385,9 @@ window.DebugOverlay = DebugOverlay;
         if (isNight) rate *= 1.5;
         // Rain multiplier (fewer witnesses)
         if (S.rain > 0.3) rate *= 1.3;
+        // Unmet calls feed more crime: the queue is the collapse loop
+        rate *= 1 + (S.unrest || 0) * 0.8;
+        rate *= 1 + responseBacklog().police * 0.15;
         return Math.max(0, rate);
       }
 
@@ -1402,6 +1433,18 @@ window.DebugOverlay = DebugOverlay;
         logEvent("police", type.label + " at " + spot.gx + "," + spot.gy, { gx: spot.gx, gy: spot.gy }, type.urgency === "critical" ? "emergency" : "high");
         dispatchPolice(call);
       }
+
+    // QA hook: inject a police call at a road tile so the queue can be exercised on demand
+    function debugPoliceCall() {
+      const spots = [];
+      claimedList().forEach(r => { for (let i = 0; i < RS * RS; i++) if (r.road[i]) spots.push({ gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }); });
+      if (!spots.length) return null;
+      const spot = spots[(Math.random() * spots.length) | 0];
+      const call = { id: "pol_" + Date.now() + "_" + Math.floor(Math.random() * 1000), type: "crime", label: "Reported Crime", urgency: "high", gx: spot.gx, gy: spot.gy, time: S.hour * 3600 + S.day * 86400, assignedUnit: null, status: "waiting" };
+      policeCalls.push(call);
+      dispatchPolice(call);
+      return call;
+    }
 
     function dispatchPolice(call) {
           const stations = getPoliceStations();
@@ -4285,6 +4328,7 @@ window.DebugOverlay = DebugOverlay;
       // Emergency spawns now happen in tick() once per day, not every frame
       updateMedicalCalls(dt);
       updatePoliceCalls(dt);
+      applyBacklogPressure(dt);
       if (S.boats) {
       S.boats.forEach((b) => {
         if (b.route && b.route.length > 1) {
@@ -5358,6 +5402,12 @@ window.DebugOverlay = DebugOverlay;
       el("ui-poll-t").textContent = Math.round(pollAvg);
       el("ui-crime").style.width = Math.round(crimeAvg) + "%";
       el("ui-crime-t").textContent = Math.round(crimeAvg);
+    const backlogNow = (typeof responseBacklog === "function") ? responseBacklog() : null;
+    if (backlogNow && el("ui-backlog")) {
+      const units = backlogNow.capacity.police + backlogNow.capacity.fire + backlogNow.capacity.medical;
+      el("ui-backlog").style.width = Math.min(100, Math.round((backlogNow.total / Math.max(1, units)) * 100)) + "%";
+      el("ui-backlog-t").textContent = backlogNow.total + " / " + units;
+    }
       el("ui-tax").textContent = (S.taxRate || 7) + "%";
       el("ui-income").textContent = money(S.taxIncome || 0);
       el("ui-upkeep").textContent = money(S.upkeep || 0);
@@ -6522,6 +6572,9 @@ window.DebugOverlay = DebugOverlay;
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
+    backlog: () => responseBacklog(),
+    debugCall: () => debugPoliceCall(),
+    debugFire: (gx, gy) => { const t = regionOf(gx, gy); if (t) startFire(t.r, t.i); },
     units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })) }),
     debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
     taxRate: (v) => {
