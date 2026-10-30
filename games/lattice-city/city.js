@@ -441,7 +441,7 @@ window.DebugOverlay = DebugOverlay;
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
-    dock: "c08_river_quay_dock",
+    dock: "b69_ferry_terminal",
     rail: "b17_twin_gatehouse",
     fire: "b08_watchtower",
     police: "b17_twin_gatehouse",
@@ -2721,6 +2721,40 @@ window.DebugOverlay = DebugOverlay;
       else if (for1[i] > qForest) t = TERRAIN.FOREST;
       r.terrain[i] = t;
     }
+    // Rivers must read as water, not as a thread: widen every water body by one tile so
+    // the narrowest channel is 3 wide (was often 1, which looked blocky on the diagonals),
+    // then rebuild the sand shoreline around the new edges.
+    (function widenWater() {
+      const src = r.terrain.slice();
+      for (let y = 1; y < RS - 1; y++) {
+        for (let x = 1; x < RS - 1; x++) {
+          const i = y * RS + x;
+          if (src[i] !== TERRAIN.WATER) continue;
+          for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+            const j = (y + dy) * RS + (x + dx);
+            const t = src[j];
+            if (t === TERRAIN.MEADOW || t === TERRAIN.FOREST || t === TERRAIN.SAND) r.terrain[j] = TERRAIN.WATER;
+          }
+        }
+      }
+      // shoreline: land next to water becomes sand so the edge reads as a beach
+      const after = r.terrain.slice();
+      for (let y = 1; y < RS - 1; y++) {
+        for (let x = 1; x < RS - 1; x++) {
+          const i = y * RS + x;
+          if (after[i] === TERRAIN.WATER || after[i] === TERRAIN.MOUNTAIN || after[i] === TERRAIN.ROCK) continue;
+          let edge = false;
+          for (let dy = -1; dy <= 1 && !edge; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+              if (!dx && !dy) continue;
+              if (after[(y + dy) * RS + (x + dx)] === TERRAIN.WATER) { edge = true; break; }
+            }
+          }
+          if (edge) r.terrain[i] = TERRAIN.SAND;
+        }
+      }
+    })();
+
     // a few islands so open water is somewhere, not just a wall
     let waterCount = 0;
     for (let i = 0; i < r.terrain.length; i++) if (r.terrain[i] === TERRAIN.WATER) waterCount++;
@@ -3767,11 +3801,72 @@ window.DebugOverlay = DebugOverlay;
     return { ax: a.x, ay: a.y, bx: b.x, by: b.y, t: Math.random(), dir: 1, speed: rnd(0.05, 0.09) };
   }
 
+  // BFS over water tiles: boats and ferries follow the river instead of drifting through land
+  function waterRoute(ax, ay, bx, by) {
+    const start = regionOf(ax, ay), goal = regionOf(bx, by);
+    if (!start || !goal) return null;
+    if (start.r.terrain[start.i] !== TERRAIN.WATER || goal.r.terrain[goal.i] !== TERRAIN.WATER) return null;
+    const w = (gx, gy) => { const t = regionOf(gx, gy); return t && t.r.terrain[t.i] === TERRAIN.WATER; };
+    const key = (gx, gy) => gx + "," + gy;
+    const prev = new Map(), seen = new Set([key(ax, ay)]);
+    const q = [[ax, ay]];
+    let guard = 0;
+    while (q.length && guard++ < 6000) {
+      const [gx, gy] = q.shift();
+      if (gx === bx && gy === by) {
+        const path = [];
+        let cx = bx, cy = by, k = key(cx, cy);
+        while (k) { path.push({ x: cx, y: cy }); const p = prev.get(k); if (!p) break; cx = p[0]; cy = p[1]; k = key(cx, cy); }
+        return path.reverse();
+      }
+      for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+        const nx = gx + dx, ny = gy + dy, nk = key(nx, ny);
+        if (seen.has(nk) || !w(nx, ny)) continue;
+        seen.add(nk); prev.set(nk, [gx, gy]); q.push([nx, ny]);
+      }
+    }
+    return null;
+  }
+
+  function nearestWaterTile(gx, gy, maxR) {
+    for (let rad = 1; rad <= (maxR || 4); rad++) {
+      for (let dx = -rad; dx <= rad; dx++) {
+        for (let dy = -rad; dy <= rad; dy++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== rad) continue;
+          const t = regionOf(gx + dx, gy + dy);
+          if (t && t.r.terrain[t.i] === TERRAIN.WATER) return { x: gx + dx, y: gy + dy };
+        }
+      }
+    }
+    return null;
+  }
+
   function spawnBoat() {
     const water = S.waterSpots || [];
     if (water.length < 4) return null;
-    const a = water[(Math.random() * water.length) | 0];
-    return { x: a.x, y: a.y, t: Math.random(), speed: rnd(0.15, 0.3), dir: (Math.random() * 4) | 0, kind: Math.random() < 0.5 ? "skiff" : "barge" };
+    // boats leave from a dock when there is one, otherwise from open water
+    const docks = dockCentres();
+    let start = null;
+    if (docks.length) {
+      const d = docks[(Math.random() * docks.length) | 0];
+      start = nearestWaterTile(Math.round(d.x), Math.round(d.y), 5);
+    }
+    if (!start) { const a = water[(Math.random() * water.length) | 0]; start = { x: a.x, y: a.y }; }
+    let target = null, route = null;
+    for (let tries = 0; tries < 12 && !target; tries++) {
+      const cand = water[(Math.random() * water.length) | 0];
+      const dist = Math.abs(cand.x - start.x) + Math.abs(cand.y - start.y);
+      if (dist < 6 || dist > 40) continue;
+      const r = waterRoute(start.x, start.y, cand.x, cand.y);
+      if (r && r.length > 3) { target = cand; route = r; }
+    }
+    const kind = Math.random() < 0.5 ? "skiff" : "barge";
+    return {
+      x: start.x, y: start.y, kind,
+      route: route || null, idx: 0, acc: 0,
+      speed: kind === "barge" ? rnd(0.55, 0.8) : rnd(1.0, 1.5),   // tiles per second
+      t: Math.random(), dir: (Math.random() * 4) | 0,
+    };
   }
 
   function refreshSpots() {
@@ -4126,16 +4221,28 @@ window.DebugOverlay = DebugOverlay;
       updatePoliceCalls(dt);
       if (S.boats) {
       S.boats.forEach((b) => {
-        b.t += dt * sim * b.speed;
-        if (b.t >= 1) {
-          b.t = 0;
-          const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-          const ok = dirs.filter(([dx, dy]) => {
-            const t = regionOf(b.x + dx, b.y + dy);
-            return t && t.r.terrain[t.i] === TERRAIN.WATER;
-          });
-          if (ok.length) { const [dx, dy] = ok[(Math.random() * ok.length) | 0]; b.x += dx; b.y += dy; b.dir = dx === 1 ? 0 : dy === 1 ? 1 : dx === -1 ? 2 : 3; }
-          else b.t = Math.random();
+        if (b.route && b.route.length > 1) {
+          b.acc = (b.acc || 0) + dt * sim * b.speed;
+          while (b.acc >= 1 && b.idx < b.route.length - 1) { b.acc -= 1; b.idx++; }
+          const p = b.route[Math.min(b.idx, b.route.length - 1)];
+          if (p) { b.x = p.x; b.y = p.y; }
+          if (b.idx >= b.route.length - 1) {
+            // arrived: pick another reachable stretch of water, or drift in place
+            const water = S.waterSpots || [];
+            let next = null;
+            for (let tries = 0; tries < 10 && !next; tries++) {
+              const cand = water[(Math.random() * water.length) | 0];
+              if (!cand) break;
+              const dist = Math.abs(cand.x - b.x) + Math.abs(cand.y - b.y);
+              if (dist < 6 || dist > 40) continue;
+              const route = waterRoute(b.x, b.y, cand.x, cand.y);
+              if (route && route.length > 3) next = route;
+            }
+            b.route = next; b.idx = 0; b.acc = 0;
+          }
+        } else {
+          b.t += dt * sim * 0.2;
+          if (b.t >= 1) b.t = 0;
         }
       });
     }
@@ -4324,6 +4431,7 @@ window.DebugOverlay = DebugOverlay;
 
         let key = null;
         let railOverlay = null;
+        let flipX = false;
                 if (reg.road[i]) {
                   if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
                   else if (terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) key = slopeRoadKey(roadMask(gx, gy));
@@ -4340,7 +4448,15 @@ window.DebugOverlay = DebugOverlay;
                   key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
                 }
                 else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
-        else if (reg.svc[i]) key = SVC_SPRITE[SVC[reg.svc[i]]];
+        else if (reg.svc[i]) {
+          key = SVC_SPRITE[SVC[reg.svc[i]]];
+          // directional pieces (the ferry terminal) face the water: mirror when the
+          // water side is the opposite one, so the gangway always meets the river
+          if (SVC[reg.svc[i]] === "dock") {
+            const isWater = (x, y) => { const t = regionOf(x, y); return !!t && t.r.terrain[t.i] === TERRAIN.WATER; };
+            if (isWater(gx - 1, gy) || isWater(gx, gy - 1)) flipX = true;
+          }
+        }
         else if (reg.decor[i] === 1) key = "d05_pine_grove";
         else if (reg.decor[i] === 2) key = "d04_oak_tree_park";
         else if (reg.decor[i] === 0 && terr === TERRAIN.FOREST && hash2(gx + 5, gy + 19) > 0.82) key = hash2(gx, gy) > 0.5 ? "d05_pine_grove" : "d04_oak_tree_park";
@@ -4382,7 +4498,15 @@ window.DebugOverlay = DebugOverlay;
           getCtx().globalAlpha = 1;
         }
         if (key && SPRITES[key] && SPRITES[key].complete) {
-          getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
+          if (flipX) {
+            getCtx().save();
+            getCtx().translate(s.x + TW * cam.zoom, s.y - GROUND_OFFSET * cam.zoom);
+            getCtx().scale(-1, 1);
+            getCtx().drawImage(SPRITES[key], 0, 0, TW * cam.zoom, TW * cam.zoom);
+            getCtx().restore();
+          } else {
+            getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
+          }
         }
         if (railOverlay && SPRITES[railOverlay] && SPRITES[railOverlay].complete) {
           // level crossing: rails and ties drawn over the road, centred on the same tile box
@@ -4781,13 +4905,35 @@ window.DebugOverlay = DebugOverlay;
       const s0 = tileToScreen(b.x, b.y);
       const cx = s0.x + zw / 2, cy = s0.y + zh / 2;
       const L = Math.max(4, (b.kind === "barge" ? 16 : 10) * zoom), W = Math.max(2, 4 * zoom);
+      let angle = 0;
+      if (b.route && b.idx < b.route.length - 1) {
+        const a = b.route[Math.min(b.idx, b.route.length - 1)];
+        const n = b.route[Math.min(b.idx + 1, b.route.length - 1)];
+        const pa = tileToScreen(a.x, a.y), pn = tileToScreen(n.x, n.y);
+        angle = Math.atan2(pn.y - pa.y, pn.x - pa.x);
+      }
+      getCtx().save();
+      getCtx().translate(cx, cy);
+      // wake shadow
       getCtx().fillStyle = "rgba(10,25,35,.55)";
-      getCtx().beginPath(); getCtx().ellipse(cx, cy + W * 0.4, L * 0.7, W * 0.7, 0, 0, 6.28); getCtx().fill();
+      getCtx().beginPath(); getCtx().ellipse(0, W * 0.4, L * 0.7, W * 0.7, 0, 0, 6.28); getCtx().fill();
+      getCtx().rotate(angle);
+      // hull with a pointed bow so the heading reads
       getCtx().fillStyle = b.kind === "barge" ? "#5c4030" : "#e6e0cf";
-      getCtx().fillRect(cx - L / 2, cy - W * 0.4, L, W);
-      getCtx().fillStyle = "rgba(255,255,255,.6)";
-      getCtx().fillRect(cx + L * 0.1, cy - W * 1.1, L * 0.16, W * 0.9);
-      if (night > 0.2) { getCtx().fillStyle = "rgba(255,220,140,.9)"; getCtx().fillRect(cx - L * 0.1, cy - W * 0.9, Math.max(1, 1.6 * zoom), Math.max(1, 1.6 * zoom)); }
+      getCtx().beginPath();
+      getCtx().moveTo(L / 2, 0);
+      getCtx().lineTo(L * 0.15, -W / 2);
+      getCtx().lineTo(-L / 2, -W / 2);
+      getCtx().lineTo(-L / 2, W / 2);
+      getCtx().lineTo(L * 0.15, W / 2);
+      getCtx().closePath(); getCtx().fill();
+      getCtx().fillStyle = b.kind === "barge" ? "#8a6a4a" : "#f6f2e6";
+      getCtx().fillRect(-L * 0.18, -W * 0.38, L * 0.34, W * 0.76);
+      if (night > 0.2) {
+        getCtx().fillStyle = "rgba(255,220,140,.9)";
+        getCtx().fillRect(L * 0.05, -Math.max(1, 1.6 * zoom) / 2, Math.max(1, 1.6 * zoom), Math.max(1, 1.6 * zoom));
+      }
+      getCtx().restore();
     });
 
     (S.smoke || []).forEach((puff) => {
@@ -6313,7 +6459,7 @@ window.DebugOverlay = DebugOverlay;
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261030-cross1";
+  const ASSET_VER = "20261030-river1";
 
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
