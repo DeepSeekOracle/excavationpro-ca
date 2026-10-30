@@ -3,7 +3,7 @@
  * which files made by studio tools (Blender first) enter a game. Nothing here downloads:
  * `assets/<name>.glb` is committed with the game, served by the studio and copied by export.
  *
- *   import { loadAsset } from "./assets.js?v=202610324d";
+ *   import { loadAsset } from "./assets.js?v=202610324e";
  *   const dog = await loadAsset("dog", { tag: "dog", scale: 0.6 });   // a Group tagged "dog"
  *   scene.add(dog);
  *
@@ -20,7 +20,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { KTX2Loader } from "three/addons/loaders/KTX2Loader.js";
-import { KINDS, bakeTexture } from "./materials.js?v=202610324d";
+import { KINDS, bakeTexture } from "./materials.js?v=202610324e";
 
 const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
 /** Call once after creating the renderer before loading Genex KTX2 desktop variants. */

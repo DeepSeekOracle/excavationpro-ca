@@ -7,7 +7,7 @@
  *
  * Pure DOM. The 3D turntable still runs behind, so if the art is missing the screen still looks alive.
  */
-import { xpForLevel } from "./save.js?v=202610324d";
+import { xpForLevel } from "./save.js?v=202610324e";
 
 const ART = "./assets/start-bg.gif";
 
@@ -30,10 +30,13 @@ const CSS = `
 }
 #fs-start.art{background-image:
     linear-gradient(90deg,rgba(5,7,10,.975) 0%,rgba(5,7,10,.94) 26%,rgba(5,7,10,.60) 44%,rgba(5,7,10,.18) 58%,rgba(5,7,10,0) 70%),
-    url("${ART}");
-  background-size:100% 100%,cover,cover;
+    url("./assets/start-bg-poster.jpg");
+  background-size:100% 100%,cover;
   background-position:center,center;
   background-repeat:no-repeat,no-repeat}
+#fs-start .artgif{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center right;opacity:0;transition:opacity .6s ease;pointer-events:none}
+#fs-start.art .artgif{opacity:1}
 #fs-start .artvid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
   transition:opacity .7s ease;pointer-events:none}
 #fs-start.playing .artvid{opacity:1}
@@ -157,6 +160,7 @@ export function createStartMenu(opts = {}) {
   root.id = "fs-start";
   root.innerHTML = `
     <div class="artwrap"></div>
+    <img class="artgif" src="./assets/start-bg.gif" alt="" aria-hidden="true" decoding="async" />
     <div class="artfx" aria-hidden="true">
       <i class="lamp"></i>
       <i class="eyes"></i>
@@ -242,11 +246,16 @@ export function createStartMenu(opts = {}) {
     render();
     mountAd();
     root.classList.add("open");
-    // probe the art once; if it is missing the gradient stands in
-    const img = new Image();
-    img.onload = () => root.classList.add("art");
-    img.onerror = () => root.classList.remove("art");
-    img.src = ART;
+    // the GIF element is the backdrop; if it fails the poster/gradient stands in
+    const gif = q(".artgif");
+    if (gif) {
+      const mark = () => root.classList.add("art");
+      if (gif.complete && gif.naturalWidth > 0) mark();
+      else {
+        gif.addEventListener("load", mark, { once: true });
+        gif.addEventListener("error", () => root.classList.remove("art"), { once: true });
+      }
+    }
   }
   function hide() {
     root.classList.remove("open");
