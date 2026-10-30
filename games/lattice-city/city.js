@@ -1182,7 +1182,7 @@ window.DebugOverlay = DebugOverlay;
         responseRadius: 200,
         // Per-capita rates (events per person per day)
         BASE_RATE_PER_CAPITA: 0.0008,      // ~0.8 per 1000 people per day
-        MIN_POPULATION: 150,               // No medical emergencies below this pop
+        MIN_POPULATION: 60,                // emergencies start once there are people to have them
         MAX_DAILY_EVENTS: 8,               // Cap daily events even for huge cities
       };
 
@@ -1208,23 +1208,56 @@ window.DebugOverlay = DebugOverlay;
         return ambulances.filter(a => a.clinicId === clinicId(clinic) && a.state === "idle").length;
       }
 
+      // ---- incidence model -------------------------------------------------
+      // Anchored on real-world rates per 1,000 people per year, converted to a day:
+      //   EMS calls        ~44/1k/yr -> 0.12/day   (most common by far)
+      //   reported crime   ~11/1k/yr -> 0.030/day
+      //   structure fires   ~2.6/1k/yr -> 0.007/day (rarest)
+      // Small places run below the metro average, so each population band scales the rate
+      // down: a village is quiet, a city earns its emergencies. Caps also scale with size,
+      // which keeps a bad day from becoming a wall of events.
+      const INCIDENCE = {
+        medical: 0.12, crime: 0.030, fire: 0.007,
+        bands: [
+          { max: 300,  scale: { medical: 0.6, crime: 0.0, fire: 0.0 } },
+          { max: 1500, scale: { medical: 0.8, crime: 0.5, fire: 0.0 } },
+          { max: 6000, scale: { medical: 1.0, crime: 1.0, fire: 0.6 } },
+          { max: 1e9,  scale: { medical: 1.1, crime: 1.2, fire: 1.0 } },
+        ],
+        perCapitaForCap: { medical: 600, crime: 1200, fire: 2500 },
+      };
+      function incidenceBand(pop) {
+        for (const b of INCIDENCE.bands) if (pop <= b.max) return b;
+        return INCIDENCE.bands[INCIDENCE.bands.length - 1];
+      }
+      function dailyExpectation(kind) {
+        const band = incidenceBand(S.pop);
+        return INCIDENCE[kind] * (S.pop / 1000) * band.scale[kind];
+      }
+      function eventTickProbability(kind) {
+        return Math.min(1, dailyExpectation(kind) / (86400 / TICK_SECONDS));
+      }
+      function dailyCapFor(kind) {
+        return Math.max(1, Math.round(S.pop / INCIDENCE.perCapitaForCap[kind]));
+      }
+      function countEvent(kind) {
+        if (!S.eventCounts) S.eventCounts = { medical: 0, crime: 0, fire: 0 };
+        S.eventCounts[kind] = (S.eventCounts[kind] || 0) + 1;
+      }
+
       function spawnMedicalEmergency() {
         // Reset daily counter
         if (S.day !== medicalLastDay) {
           medicalDailyCount = 0;
           medicalLastDay = S.day;
         }
-        if (medicalDailyCount >= MEDICAL.MAX_DAILY_EVENTS) return;
+        if (medicalDailyCount >= dailyCapFor("medical")) return;
 
         // Population threshold
         if (S.pop < MEDICAL.MIN_POPULATION) return;
 
-        // Per-capita probability scaled by population
-        // At MIN_POPULATION: ~0.012% per tick (very rare)
-        // At 1000 pop: ~0.08% per tick
-        // At 5000 pop: ~0.4% per tick
-        const perCapitaRate = MEDICAL.BASE_RATE_PER_CAPITA * (S.pop / 1000);
-        const tickProbability = perCapitaRate / (86400 / TICK_SECONDS); // Convert daily rate to per-tick
+        // Real incidence, scaled by population band: EMS is the common one
+        const tickProbability = eventTickProbability("medical");
         if (Math.random() > tickProbability) return;
 
         if (S.peds.length === 0) return;
@@ -1397,13 +1430,15 @@ window.DebugOverlay = DebugOverlay;
           policeDailyCount = 0;
           policeLastDay = S.day;
         }
-        if (policeDailyCount >= POLICE.MAX_DAILY_EVENTS) return;
+        if (policeDailyCount >= dailyCapFor("crime")) return;
 
         const crimeRate = computeCrimeRate();
         if (crimeRate === 0) return;
 
-        // Convert daily rate to per-tick probability
-        const tickProbability = crimeRate / (86400 / TICK_SECONDS);
+
+        // incidence bands give the base; the city own pressure (unrest, unemployment) scales it
+        const pressure = clamp(1 + (S.unrest || 0) * 1.2 + Math.max(0, (S.pop - S.jobs) / Math.max(1, S.pop)) * 1.5, 0.3, 3);
+        const tickProbability = Math.min(1, dailyExpectation("crime") * pressure / (86400 / TICK_SECONDS));
         if (Math.random() > tickProbability) return;
 
         const roadsWithCars = [];
@@ -1574,17 +1609,18 @@ window.DebugOverlay = DebugOverlay;
         fireDailyIgnitions = 0;
         fireLastDay = S.day;
       }
-      if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
+        if (fireDailyIgnitions >= dailyCapFor("fire")) return;
 
       if (S.pop < FIRE.MIN_POPULATION) return;
 
       claimedList().forEach(region => {
-        if (fireDailyIgnitions >= FIRE.MAX_DAILY_IGNITIONS) return;
+        if (fireDailyIgnitions >= dailyCapFor("fire")) return;
         const risk = assessFireRisk(region);
         if (risk <= 0) return;
 
         // Convert risk to daily probability, then to per-tick
-        const dailyProb = Math.min(0.15, risk * FIRE.BASE_IGNITION_RATE * region.built);
+        // Real fire incidence by population band, nudged by this district fire risk
+        const dailyProb = Math.min(0.2, dailyExpectation("fire") * clamp(risk / 2, 0.15, 2));
         const tickProb = dailyProb / (86400 / TICK_SECONDS);
 
         if (Math.random() < tickProb) {
@@ -1597,6 +1633,7 @@ window.DebugOverlay = DebugOverlay;
           const tileIdx = industrialTiles[Math.floor(Math.random() * industrialTiles.length)];
           startFire(region, tileIdx);
           fireDailyIgnitions++;
+          countEvent("fire");
         }
       });
     }
@@ -6573,6 +6610,7 @@ window.DebugOverlay = DebugOverlay;
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
     backlog: () => responseBacklog(),
+    rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
     debugFire: (gx, gy) => { const t = regionOf(gx, gy); if (t) startFire(t.r, t.i); },
     units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })) }),
