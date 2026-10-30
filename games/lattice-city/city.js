@@ -3841,6 +3841,71 @@ window.DebugOverlay = DebugOverlay;
     return null;
   }
 
+  // Emergency vehicle drawing: iso-facing that never flips upside down, plus a live beacon.
+  // The old code rotated by atan2 of WORLD deltas, which in this diamond view meant the
+  // sprite swung through 180 degrees mid-route and drove on its roof.
+  function drawEmergencyUnit(unit, sprKey, night) {
+    const ctx = getCtx();
+    const p = tileToScreen(unit.x, unit.y);
+    const zw = TW * cam.zoom, zh = TH * cam.zoom;
+    const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
+    let angle = 0, mirror = false;
+    if (unit.route && unit.routeIdx < unit.route.length - 1) {
+      const a = unit.route[unit.routeIdx], b = unit.route[unit.routeIdx + 1];
+      const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
+      const dx = pb.x - pa.x, dy = pb.y - pa.y;
+      if (dx < -0.01) mirror = true;                     // travelling left: mirror, never spin
+      angle = clamp(Math.atan2(dy, Math.abs(dx)) * 0.35, -0.30, 0.30);
+    }
+    ctx.save();
+    unit.faceAngle = angle; unit.faceMirror = mirror;   // QA: facing must stay within +-0.3 rad
+    ctx.translate(cx, cy);
+    if (mirror) ctx.scale(-1, 1);
+    ctx.rotate(angle);
+    const spr = SPRITES[sprKey];
+    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
+    if (spr && spr.complete) ctx.drawImage(spr, -sw / 2, -sh / 2, sw, sh);
+    else {
+      ctx.fillStyle = sprKey === "police_car" ? "#111133" : sprKey === "ambulance" ? "#e8e8ee" : "#cc2222";
+      ctx.fillRect(-sw * 0.4, -sh * 0.3, sw * 0.8, sh * 0.6);
+    }
+    // beacon: two lamps trading, with a real glow (police red/blue, fire red/amber);
+    // a parked unit keeps its lamps off so a quiet station stays quiet
+    const active = unit.state !== "idle";
+    const t = performance.now() / 1000;
+    const on = Math.sin(t * 9) > 0;
+    const police = sprKey === "police_car";
+    const colA = police ? (on ? "#ff2a2a" : "#2f6bff") : "#ff3b1f";
+    const colB = police ? (on ? "#2f6bff" : "#ff2a2a") : "#ffb020";
+    if (active) {
+      S.beaconDraws = (S.beaconDraws || 0) + 1;
+      ctx.globalCompositeOperation = "lighter";
+      ctx.shadowBlur = (6 + 6 * (night || 0)) * cam.zoom;
+      ctx.fillStyle = colA;
+      ctx.shadowColor = colA;
+      ctx.fillRect(-sw * 0.26, -sh * 0.34, sw * 0.16, sh * 0.09);
+      ctx.fillStyle = colB;
+      ctx.shadowColor = colB;
+      ctx.fillRect(sw * 0.10, -sh * 0.34, sw * 0.16, sh * 0.09);
+      ctx.shadowBlur = 0;
+      ctx.globalCompositeOperation = "source-over";
+    }
+    if (active && (night || 0) > 0.15) {
+      // light pool on the road under the unit
+      ctx.globalCompositeOperation = "lighter";
+      ctx.globalAlpha = 0.22 * Math.min(1, night);
+      const g = ctx.createRadialGradient(0, sh * 0.15, 1, 0, sh * 0.15, sw * 0.6);
+      g.addColorStop(0, police ? "rgba(255,80,80,0.9)" : "rgba(255,120,40,0.9)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.ellipse(0, sh * 0.15, sw * 0.55, sh * 0.3, 0, 0, 6.28); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
+    }
+    ctx.restore();
+    return { cx, cy };
+  }
+
   function spawnBoat() {
     const water = S.waterSpots || [];
     if (water.length < 4) return null;
@@ -4644,33 +4709,7 @@ window.DebugOverlay = DebugOverlay;
         // fire trucks
         fireTrucks.forEach((truck) => {
                   if (truck.state === "idle") return;
-                  const p = tileToScreen(truck.x, truck.y);
-                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-                  getCtx().save();
-                  getCtx().translate(cx, cy);
-                  let angle = 0;
-                  if (truck.route && truck.routeIdx < truck.route.length - 1) {
-                    const next = truck.route[truck.routeIdx + 1];
-                    const curr = truck.route[truck.routeIdx];
-                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-                  }
-                  getCtx().rotate(angle);
-                  const spr = SPRITES["fire_truck"];
-                  if (spr && spr.complete) {
-                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
-                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
-                  } else {
-                    getCtx().fillStyle = "#cc2222";
-                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-                    getCtx().fillStyle = "#ffffff";
-                    getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.15);
-                    const flash = Math.floor(performance.now() / 200) % 2 === 0;
-                    getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
-                    getCtx().fillRect(-zw * 0.2, -zh * 0.35, zw * 0.15, zh * 0.1);
-                    getCtx().fillStyle = flash ? "#0000ff" : "#ff0000";
-                    getCtx().fillRect(zw * 0.05, -zh * 0.35, zw * 0.15, zh * 0.1);
-                  }
-                  getCtx().restore();
+                  const { cx, cy } = drawEmergencyUnit(truck, "fire_truck", night);
                   if (truck.state === "responding" && truck.eta > 0) {
                     const etaSec = Math.max(0, truck.eta - (S.hour * 3600 + S.day * 86400));
                     const etaMin = Math.ceil(etaSec / 60);
@@ -4684,60 +4723,14 @@ window.DebugOverlay = DebugOverlay;
                 // ambulances
                 ambulances.forEach((amb) => {
                   if (amb.state === "idle") return;
-                  const p = tileToScreen(amb.x, amb.y);
-                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-                  getCtx().save();
-                  getCtx().translate(cx, cy);
-                  let angle = 0;
-                  if (amb.route && amb.routeIdx < amb.route.length - 1) {
-                    const next = amb.route[amb.routeIdx + 1];
-                    const curr = amb.route[amb.routeIdx];
-                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-                  }
-                  getCtx().rotate(angle);
-                  const spr = SPRITES["ambulance"];
-                  if (spr && spr.complete) {
-                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
-                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
-                  } else {
-                    getCtx().fillStyle = "#ffffff";
-                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-                    getCtx().fillStyle = "#cc0000";
-                    getCtx().fillRect(-zw * 0.35, -zh * 0.25, zw * 0.7, zh * 0.5);
-                    getCtx().fillStyle = "#ffffff";
-                    getCtx().fillRect(-zw * 0.05, -zh * 0.3, zw * 0.1, zh * 0.6);
-                    getCtx().fillRect(-zw * 0.2, -zh * 0.05, zw * 0.4, zh * 0.1);
-                  }
-                  getCtx().restore();
+                  drawEmergencyUnit(amb, "ambulance", night);
                 });
 
                 // police cars
                 policeCars.forEach((cop) => {
                   if (cop.state === "idle") return;
-                  const p = tileToScreen(cop.x, cop.y);
-                  const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-                  getCtx().save();
-                  getCtx().translate(cx, cy);
-                  let angle = 0;
-                  if (cop.route && cop.routeIdx < cop.route.length - 1) {
-                    const next = cop.route[cop.routeIdx + 1];
-                    const curr = cop.route[cop.routeIdx];
-                    angle = Math.atan2(next.y - curr.y, next.x - curr.x);
-                  }
-                  getCtx().rotate(angle);
-                  const spr = SPRITES["police_car"];
-                  if (spr && spr.complete) {
-                    const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
-                    getCtx().drawImage(spr, -sw / 2, -sh / 2, sw, sh);
-                  } else {
-                    getCtx().fillStyle = "#111133";
-                    getCtx().fillRect(-zw * 0.4, -zh * 0.3, zw * 0.8, zh * 0.6);
-                    const flash = Math.floor(performance.now() / 150) % 2 === 0;
-                    getCtx().fillStyle = flash ? "#ff0000" : "#0000ff";
-                    getCtx().fillRect(-zw * 0.35, -zh * 0.35, zw * 0.7, zh * 0.1);
-                  }
-                  getCtx().restore();
-                                  });
+                  drawEmergencyUnit(cop, "police_car", night);
+                });
 
                           // weather and night lights (VIS-02 / VIS-03), drawn over the tiles
     if (S.rain > 0.02) {
@@ -6528,7 +6521,7 @@ window.DebugOverlay = DebugOverlay;
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
-    units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })) }),
+    units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })) }),
     debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
     taxRate: (v) => {
       if (typeof v === "number") { S.taxRate = clamp(v, 1, 15); recalcWorld(); updateDemand(); refreshHud(); }
