@@ -3,16 +3,16 @@
  "artist": "Excavationpro / Justin Helmer",
  "note": "match=existing|title|near-title|instrumental means that title has its own catalog file. match=instrumental-fit means the catalog holds no stream for the title, so an instrumental bed was chosen by the mood of the lyric (mood + mood_hits record which). display = the catalog title with production/processing suffixes stripped for the dock.",
  "stats": {
-  "total": 646,
-  "with_audio": 646,
+  "total": 824,
+  "with_audio": 824,
   "by_type": {
-   "instrumental-fit": 354,
+   "instrumental-fit": 513,
    "existing": 212,
    "instrumental-bed": 11,
    "near-title": 18,
-   "title": 51
+   "title": 70
   },
-  "distinct_files": 280
+  "distinct_files": 318
  },
  "tracks": [
   {
@@ -38,6 +38,25 @@
    "display": "GALLOPING GHOST (Instrumental)"
   },
   {
+   "slug": "a-quiet-madness",
+   "title": "A QUIET MADNESS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "shadow",
+    "dark",
+    "night",
+    "mirror",
+    "silence",
+    "sin"
+   ]
+  },
+  {
    "slug": "acorda",
    "title": "ACORDA",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4b8e5b8cb8076de64074cedcf6f516561573f3cc54096f64dbfade8806d8279e.mp3",
@@ -47,6 +66,25 @@
    "score": null,
    "mood": "dark",
    "display": "Monster They Made (Instrumental)"
+  },
+  {
+   "slug": "adrenaline",
+   "title": "ADRENALINE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0220cd0bc45e7b9dbc2aae52f6cc5d7f3049abbbd13114a3e06bab05d8164162.mp3",
+   "sha256": "0220cd0bc45e7b9dbc2aae52f6cc5d7f3049abbbd13114a3e06bab05d8164162",
+   "stream_title": "This Will Kill Me Beat Stars Instrumental no tag",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "This Will Kill Me Beat Stars (Instrumental)",
+   "mood_hits": [
+    "war",
+    "riot",
+    "blood",
+    "pit",
+    "adrenaline",
+    "bass"
+   ]
   },
   {
    "slug": "afterglow",
@@ -313,6 +351,22 @@
    "display": "Monster They Made (Instrumental)"
   },
   {
+   "slug": "bass-in-the-blood",
+   "title": "BASS IN THE BLOOD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1645fe23b869458c76fefcd2a3b31159913275e77f167c9f56225d1dfd194c51.mp3",
+   "sha256": "1645fe23b869458c76fefcd2a3b31159913275e77f167c9f56225d1dfd194c51",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 mixed",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "riot",
+    "blood",
+    "bass"
+   ]
+  },
+  {
    "slug": "bass-quake",
    "title": "BASS QUAKE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fdba8d67ce57dce293747c483353e77b7d2312517cadf337ea926884f599642d.mp3",
@@ -368,6 +422,24 @@
    "display": "Better"
   },
   {
+   "slug": "big-brother",
+   "title": "BIG BROTHER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "mirror",
+    "silence",
+    "fear",
+    "sin",
+    "big brother"
+   ]
+  },
+  {
    "slug": "black-swan",
    "title": "BLACK SWAN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0510532dbb250743fac4f2f2dd6425324242e47a46b54a098225239610111c12.mp3",
@@ -421,6 +493,22 @@
    "score": 1.0,
    "mood": null,
    "display": "Water (feat. Justin Helmer)"
+  },
+  {
+   "slug": "blood-moon",
+   "title": "BLOOD MOON",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6b9aaa2fc33bf04b8b87abd4c5427b8446792252e6cea677700c1f6256a974ce.mp3",
+   "sha256": "6b9aaa2fc33bf04b8b87abd4c5427b8446792252e6cea677700c1f6256a974ce",
+   "stream_title": "This Will Kill Me Beat Stars Instrumental No tag",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "This Will Kill Me Beat Stars (Instrumental)",
+   "mood_hits": [
+    "war",
+    "fight",
+    "blood"
+   ]
   },
   {
    "slug": "blue-danube-dream",
@@ -621,6 +709,36 @@
    "display": "Broken (feat. Justin Helmer)"
   },
   {
+   "slug": "broken-trust",
+   "title": "BROKEN TRUST",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "sin"
+   ]
+  },
+  {
+   "slug": "brutal-honesty",
+   "title": "BRUTAL HONESTY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "alone"
+   ]
+  },
+  {
    "slug": "burden-you-ain-t",
    "title": "BURDEN (YOU AIN'T)",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2f/2fc2069bc8ab0b983000e95be6acb7b70876da3e29c61c0e25eaf3bcd7be84b5.mp3",
@@ -654,6 +772,17 @@
    "display": "Burn it Down"
   },
   {
+   "slug": "burn-it-down-just-kidding-maybe",
+   "title": "BURN IT DOWN (JUST KIDDING, MAYBE)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)"
+  },
+  {
    "slug": "burn-the-mask",
    "title": "BURN THE MASK",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/058e2b83221f9c67e6404c1f3900bbd5bd56bae364e56eff81ab728cd151cdbd.mp3",
@@ -663,6 +792,21 @@
    "score": null,
    "mood": "war",
    "display": "Deserve my Hate 1 Memos (Instrumental)"
+  },
+  {
+   "slug": "burning-embers",
+   "title": "BURNING EMBERS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/125701d62959ba34b98601cefea5f0aaad57a69e06df8cca1adf775392788a2a.mp3",
+   "sha256": "125701d62959ba34b98601cefea5f0aaad57a69e06df8cca1adf775392788a2a",
+   "stream_title": "Love Life",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "love",
+   "display": "Love Life (Instrumental)",
+   "mood_hits": [
+    "hold",
+    "burning embers"
+   ]
   },
   {
    "slug": "burning-out-loud",
@@ -731,6 +875,74 @@
    "display": "Kiss Me"
   },
   {
+   "slug": "catharsis",
+   "title": "CATHARSIS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/794bbf1e1d141ce7b3074f9b1f69293197d493e5b1c06261e9b016f4a9bc37e1.mp3",
+   "sha256": "794bbf1e1d141ce7b3074f9b1f69293197d493e5b1c06261e9b016f4a9bc37e1",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 vtrack",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war",
+    "riot",
+    "rage",
+    "kill",
+    "bass",
+    "catharsis"
+   ]
+  },
+  {
+   "slug": "cathedral",
+   "title": "CATHEDRAL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/52/52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d.mp3",
+   "sha256": "52b3feebbbf694a85d07b0f7aa2d47a10fae03baba404acee2296bf2468f633d",
+   "stream_title": "THE CATHEDRAL - Architecture of My Peace",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "THE CATHEDRAL - Architecture of My Peace"
+  },
+  {
+   "slug": "cathedral-of-static",
+   "title": "CATHEDRAL OF STATIC",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "night",
+    "silence",
+    "static",
+    "cold"
+   ]
+  },
+  {
+   "slug": "chasing-shadows",
+   "title": "CHASING SHADOWS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dark",
+    "bone",
+    "cold",
+    "sin"
+   ]
+  },
+  {
    "slug": "choppin-up-the-block",
    "title": "CHOPPIN' UP THE BLOCK",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c.mp3",
@@ -797,6 +1009,22 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "clock-in",
+   "title": "CLOCK IN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "alone",
+    "home",
+    "nothing"
+   ]
+  },
+  {
    "slug": "cold",
    "title": "COLD",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/06c9fbadbedf0d6358c1ea7bc910a352856eabed87dd859298b81140ab2c3065.mp3",
@@ -819,6 +1047,25 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "cold-river",
+   "title": "COLD RIVER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dark",
+    "night",
+    "mirror",
+    "silence"
+   ]
+  },
+  {
    "slug": "cold-steel",
    "title": "COLD STEEL",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/06c9fbadbedf0d6358c1ea7bc910a352856eabed87dd859298b81140ab2c3065.mp3",
@@ -828,6 +1075,42 @@
    "score": 1.0,
    "mood": null,
    "display": "Cold"
+  },
+  {
+   "slug": "concrete-jungle",
+   "title": "CONCRETE JUNGLE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2.mp3",
+   "sha256": "12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2",
+   "stream_title": "Emotion Ocean Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Emotion Ocean (Instrumental)",
+   "mood_hits": [
+    "street",
+    "concrete",
+    "city",
+    "pressure"
+   ]
+  },
+  {
+   "slug": "concrete-king",
+   "title": "CONCRETE KING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c.mp3",
+   "sha256": "78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c",
+   "stream_title": "1 Hawk on the Block (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Hawk on the Block (Instrumental)",
+   "mood_hits": [
+    "street",
+    "king",
+    "crown",
+    "concrete",
+    "city",
+    "game"
+   ]
   },
   {
    "slug": "concrete-kisses",
@@ -907,6 +1190,25 @@
    "display": "Teeth"
   },
   {
+   "slug": "crowd-killer",
+   "title": "CROWD KILLER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8b1e68f78f8e8a9728ef91e70df1f4c341ff48351a6f1513527073817c4936f6.mp3",
+   "sha256": "8b1e68f78f8e8a9728ef91e70df1f4c341ff48351a6f1513527073817c4936f6",
+   "stream_title": "20250324 0739 58.881 Underground Male Rapper with West Coast beats clear crisp bass drops with a lyrical smooth flow seed123 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 31",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "fight",
+    "riot",
+    "blood",
+    "rage",
+    "kill",
+    "pit"
+   ]
+  },
+  {
    "slug": "crown",
    "title": "CROWN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4664250fff6d0a94f928a728e27e33cd31c4d351a9fcd12a7e19e9728e8ba268.mp3",
@@ -938,6 +1240,25 @@
    "score": null,
    "mood": "hustle",
    "display": "Monatomic Gold"
+  },
+  {
+   "slug": "cut-the-leash",
+   "title": "CUT THE LEASH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "night",
+    "machine",
+    "hollow",
+    "cult",
+    "bone",
+    "cold"
+   ]
   },
   {
    "slug": "dance-of-the-damned",
@@ -993,6 +1314,25 @@
    "score": 1.0,
    "mood": null,
    "display": "Dead (feat. Justin Helmer)"
+  },
+  {
+   "slug": "dead-man-walking",
+   "title": "DEAD MAN WALKING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "night",
+    "grave",
+    "silence",
+    "fear"
+   ]
   },
   {
    "slug": "dead-phone",
@@ -1083,6 +1423,25 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "dissolve",
+   "title": "DISSOLVE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dark",
+    "night",
+    "void",
+    "silence",
+    "hollow"
+   ]
+  },
+  {
    "slug": "doble-cara",
    "title": "DOBLE CARA",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -1114,6 +1473,24 @@
    "score": null,
    "mood": "neutral",
    "display": "Voices (Instrumental)"
+  },
+  {
+   "slug": "doublethink",
+   "title": "DOUBLETHINK",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "static",
+    "bone",
+    "sin",
+    "doublethink"
+   ]
   },
   {
    "slug": "dressing-room",
@@ -1204,6 +1581,24 @@
    "display": "Empty (feat. Justin Helmer)"
   },
   {
+   "slug": "empty-houses",
+   "title": "EMPTY HOUSES",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "rain",
+    "empty",
+    "quiet",
+    "house",
+    "nothing"
+   ]
+  },
+  {
    "slug": "empty-like-the-apartment",
    "title": "EMPTY LIKE THE APARTMENT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/5835e98760e7cbe2503d62c886054a9a5683864533d44613544bdbc8bd42cd1d.mp3",
@@ -1235,6 +1630,25 @@
    "score": 1.0,
    "mood": null,
    "display": "Empty (feat. Justin Helmer)"
+  },
+  {
+   "slug": "empty-rooms",
+   "title": "EMPTY ROOMS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "alone",
+    "empty",
+    "memory",
+    "gone",
+    "holding on",
+    "nothing"
+   ]
   },
   {
    "slug": "empty-vessels",
@@ -1323,6 +1737,25 @@
    "score": null,
    "mood": "love",
    "display": "Kiss Me"
+  },
+  {
+   "slug": "fading-out",
+   "title": "FADING OUT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "memory",
+    "fade",
+    "quiet",
+    "house",
+    "holding on",
+    "nothing"
+   ]
   },
   {
    "slug": "fairweather",
@@ -1622,6 +2055,17 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "fuck-the-smile",
+   "title": "FUCK THE SMILE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)"
+  },
+  {
    "slug": "full-of-tears",
    "title": "FULL OF TEARS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -1710,6 +2154,25 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "gasoline-gospel",
+   "title": "GASOLINE GOSPEL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "night",
+    "mirror",
+    "static",
+    "cult"
+   ]
+  },
+  {
    "slug": "gave-you-my-all",
    "title": "GAVE YOU MY ALL",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/21ca90d95eb002434f35fb5b45304314df4884d7a9e861748b4612d6c5f3bdd4.mp3",
@@ -1752,6 +2215,60 @@
    "score": 1.0,
    "mood": null,
    "display": "Instrumental bed (fits this lyric)"
+  },
+  {
+   "slug": "glass-ceiling",
+   "title": "GLASS CEILING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ec1b22af9911a093164756433f4a01a7581844bd261540078ce5a70b61f5bc55.mp3",
+   "sha256": "ec1b22af9911a093164756433f4a01a7581844bd261540078ce5a70b61f5bc55",
+   "stream_title": "1 Crown From The Dirt (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Crown From The Dirt (Instrumental)",
+   "mood_hits": [
+    "king",
+    "game",
+    "glass ceiling"
+   ]
+  },
+  {
+   "slug": "glitch",
+   "title": "GLITCH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "shadow",
+    "machine",
+    "glitch",
+    "system",
+    "code",
+    "static"
+   ]
+  },
+  {
+   "slug": "glitch-god",
+   "title": "GLITCH GOD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "machine",
+    "glitch",
+    "system",
+    "code",
+    "cold"
+   ]
   },
   {
    "slug": "glitch-in-my-chest",
@@ -1952,6 +2469,25 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "harder",
+   "title": "HARDER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/92d504acb3ed5d24b3babdd29fc309cc14d8efb30ff70f00156a69104ce5d5eb.mp3",
+   "sha256": "92d504acb3ed5d24b3babdd29fc309cc14d8efb30ff70f00156a69104ce5d5eb",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 itrack",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war",
+    "riot",
+    "scream",
+    "pit",
+    "harder",
+    "bass"
+   ]
+  },
+  {
    "slug": "hate-fuel",
    "title": "HATE FUEL",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e8951aaef3314fc33d3bc7b614230a53f5e0c8da5c437860edb0f3e098e3195.mp3",
@@ -2073,6 +2609,23 @@
    "display": "Higher ( 65 bpm )"
   },
   {
+   "slug": "holding-on-to-nothing",
+   "title": "HOLDING ON TO NOTHING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "quiet",
+    "distance",
+    "holding on",
+    "nothing"
+   ]
+  },
+  {
    "slug": "holding-up-the-sky",
    "title": "HOLDING UP THE SKY",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fa94d983c1510d1e0ecbae85c12323440dae32f4914c27018b2e0574e96a8eb8.mp3",
@@ -2106,6 +2659,44 @@
    "display": "Hollow Hands"
   },
   {
+   "slug": "hollow-vessel",
+   "title": "HOLLOW VESSEL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "dark",
+    "mirror",
+    "hollow",
+    "cold",
+    "hell"
+   ]
+  },
+  {
+   "slug": "hologram-ghost",
+   "title": "HOLOGRAM GHOST",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "dark",
+    "night",
+    "glitch",
+    "system"
+   ]
+  },
+  {
    "slug": "hood-ghost",
    "title": "HOOD GHOST",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/741543b28d0aa50c2b4a02e4d1dc691bedcfba6b353e2a65b7f0897bf9519794.mp3",
@@ -2115,6 +2706,17 @@
    "score": 1.0,
    "mood": null,
    "display": "Instrumental bed (fits this lyric)"
+  },
+  {
+   "slug": "horizon",
+   "title": "HORIZON",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/034477cae44f838b145dce3ac824fe7d3610500cb08a276cb343957403ea5b1d.mp3",
+   "sha256": "034477cae44f838b145dce3ac824fe7d3610500cb08a276cb343957403ea5b1d",
+   "stream_title": "Horizon",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Horizon"
   },
   {
    "slug": "hunted",
@@ -2315,6 +2917,25 @@
    "display": "This Will Kill Me Beat Stars (Instrumental)"
   },
   {
+   "slug": "judgment-the-code",
+   "title": "JUDGMENT (THE CODE)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "machine",
+    "system",
+    "code",
+    "mirror",
+    "silence"
+   ]
+  },
+  {
    "slug": "judgment-day",
    "title": "JUDGMENT DAY",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -2357,6 +2978,22 @@
    "score": 1.0,
    "mood": null,
    "display": "King (feat. Justin Helmer)"
+  },
+  {
+   "slug": "kingdom-come",
+   "title": "KINGDOM COME",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2.mp3",
+   "sha256": "12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2",
+   "stream_title": "Emotion Ocean Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Emotion Ocean (Instrumental)",
+   "mood_hits": [
+    "king",
+    "crown",
+    "kingdom"
+   ]
   },
   {
    "slug": "kraken",
@@ -2480,6 +3117,25 @@
    "display": "Stay With Me"
   },
   {
+   "slug": "leviathan",
+   "title": "LEVIATHAN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "dead",
+    "dark",
+    "night",
+    "silence",
+    "bone"
+   ]
+  },
+  {
    "slug": "lion-s-den",
    "title": "LION'S DEN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -2546,6 +3202,23 @@
    "display": "Deserve my Hate 1 Memos (Instrumental)"
   },
   {
+   "slug": "meat",
+   "title": "MEAT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "cult",
+    "flesh",
+    "bone",
+    "sin"
+   ]
+  },
+  {
    "slug": "medusa",
    "title": "MEDUSA",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -2566,6 +3239,25 @@
    "score": null,
    "mood": "dark",
    "display": "GALLOPING GHOST (Instrumental)"
+  },
+  {
+   "slug": "mile-marker-66",
+   "title": "MILE MARKER 66",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "void",
+    "machine",
+    "static",
+    "cult"
+   ]
   },
   {
    "slug": "minor-key",
@@ -2623,6 +3315,24 @@
    "display": "This Will Kill Me Beat Stars (Instrumental)"
   },
   {
+   "slug": "monochrome",
+   "title": "MONOCHROME",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c.mp3",
+   "sha256": "78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c",
+   "stream_title": "1 Hawk on the Block (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Hawk on the Block (Instrumental)",
+   "mood_hits": [
+    "street",
+    "king",
+    "concrete",
+    "game",
+    "monochrome"
+   ]
+  },
+  {
    "slug": "morning-never-came",
    "title": "MORNING NEVER CAME",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b5bd0e787dcda6e6695fc9652cd258483f3eb433456a5ab68251e7a57ae79e3c.mp3",
@@ -2643,6 +3353,17 @@
    "score": 0.96,
    "mood": null,
    "display": "Mothers Song"
+  },
+  {
+   "slug": "motion",
+   "title": "MOTION",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dea6fc48f144452f37c0641ed781710e073d4f9bd600fb5695aed594bffafb06.mp3",
+   "sha256": "dea6fc48f144452f37c0641ed781710e073d4f9bd600fb5695aed594bffafb06",
+   "stream_title": "Motion",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Motion"
   },
   {
    "slug": "mountain-king",
@@ -2667,6 +3388,25 @@
    "display": "Take Me Away (Instrumental)"
   },
   {
+   "slug": "murda-mode",
+   "title": "MURDA MODE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9c35dafe0690b8e32e09d9ab86b12266da05532a6077d7bc1f0b05af2e479243.mp3",
+   "sha256": "9c35dafe0690b8e32e09d9ab86b12266da05532a6077d7bc1f0b05af2e479243",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 mixed",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war",
+    "riot",
+    "rage",
+    "scream",
+    "pit",
+    "harder"
+   ]
+  },
+  {
    "slug": "my-own-worst-enemy",
    "title": "MY OWN WORST ENEMY",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -2676,6 +3416,44 @@
    "score": null,
    "mood": "melancholy",
    "display": "Turning Broken Wheels (1) (Instrumental)"
+  },
+  {
+   "slug": "neon-grave",
+   "title": "NEON GRAVE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dark",
+    "grave",
+    "machine",
+    "system"
+   ]
+  },
+  {
+   "slug": "neon-reaper",
+   "title": "NEON REAPER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "dark",
+    "night",
+    "machine",
+    "system",
+    "code"
+   ]
   },
   {
    "slug": "never-felt-loved",
@@ -2720,6 +3498,24 @@
    "score": null,
    "mood": "love",
    "display": "Stay With Me"
+  },
+  {
+   "slug": "no-audience",
+   "title": "NO AUDIENCE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "dark",
+    "night",
+    "void",
+    "silence",
+    "sin"
+   ]
   },
   {
    "slug": "no-chains",
@@ -2775,6 +3571,24 @@
    "score": null,
    "mood": "love",
    "display": "Love Life BeatStars (Instrumental)"
+  },
+  {
+   "slug": "no-memory-of-the-sun",
+   "title": "NO MEMORY OF THE SUN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "empty",
+    "memory",
+    "house",
+    "gone",
+    "frozen"
+   ]
   },
   {
    "slug": "no-more-heroes",
@@ -2909,6 +3723,23 @@
    "display": "Smash Heads Dirty (Instrumental)"
   },
   {
+   "slug": "no-shade",
+   "title": "NO SHADE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dark",
+    "code",
+    "silence",
+    "sin"
+   ]
+  },
+  {
    "slug": "no-signal",
    "title": "NO SIGNAL",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -2929,6 +3760,20 @@
    "score": null,
    "mood": "love",
    "display": "Kiss Me"
+  },
+  {
+   "slug": "no-warning",
+   "title": "NO WARNING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a723c67f43223f7f489b961024892dc49fa1f50557658bdd81188e3d362202b8.mp3",
+   "sha256": "a723c67f43223f7f489b961024892dc49fa1f50557658bdd81188e3d362202b8",
+   "stream_title": "20250324 0739 58.881 Underground Male Rapper with West Coast beats clear crisp bass drops with a lyrical smooth flow seed123 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war"
+   ]
   },
   {
    "slug": "no-witness",
@@ -3096,6 +3941,25 @@
    "display": "NumberCheck"
   },
   {
+   "slug": "o-death-the-glitch",
+   "title": "O DEATH (THE GLITCH)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "death",
+    "dead",
+    "grave",
+    "machine",
+    "glitch"
+   ]
+  },
+  {
    "slug": "okay-right-now",
    "title": "OKAY RIGHT NOW",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -3116,6 +3980,17 @@
    "score": null,
    "mood": "love",
    "display": "Kiss Me"
+  },
+  {
+   "slug": "open-frequency",
+   "title": "OPEN FREQUENCY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8c/8c2d43ac403f5b036da80745943d94613cd96f225f8a71330ce5815f57687242.mp3",
+   "sha256": "8c2d43ac403f5b036da80745943d94613cd96f225f8a71330ce5815f57687242",
+   "stream_title": "Open Frequency",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Open Frequency"
   },
   {
    "slug": "orphan-soul",
@@ -3239,6 +4114,21 @@
    "display": "Predators in Skin (1)"
   },
   {
+   "slug": "pressure",
+   "title": "PRESSURE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ec1b22af9911a093164756433f4a01a7581844bd261540078ce5a70b61f5bc55.mp3",
+   "sha256": "ec1b22af9911a093164756433f4a01a7581844bd261540078ce5a70b61f5bc55",
+   "stream_title": "1 Crown From The Dirt (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Crown From The Dirt (Instrumental)",
+   "mood_hits": [
+    "game",
+    "pressure"
+   ]
+  },
+  {
    "slug": "pretend-i-m-okay",
    "title": "PRETEND I'M OKAY",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/59e99abef1c7c2c196d3db6f24b21cd22ca2b803db6c82cab13d100b0073fa71.mp3",
@@ -3294,6 +4184,25 @@
    "display": "prometheanglow"
   },
   {
+   "slug": "protocol-zero",
+   "title": "PROTOCOL ZERO",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "system",
+    "code",
+    "mirror",
+    "silence",
+    "cold"
+   ]
+  },
+  {
    "slug": "prototype",
    "title": "PROTOTYPE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f921be9fec55b1c32eb7fa43dc0b39af8e0c749b6d9a87c2fbc5f5d0e29b0ef3.mp3",
@@ -3303,6 +4212,24 @@
    "score": 1.0,
    "mood": null,
    "display": "Prototype"
+  },
+  {
+   "slug": "purgatory-engine",
+   "title": "PURGATORY ENGINE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "hollow",
+    "static",
+    "cult",
+    "flesh"
+   ]
   },
   {
    "slug": "rage-in-the-static",
@@ -3404,6 +4331,43 @@
    "display": "Volcano (Instrumental)"
   },
   {
+   "slug": "riot",
+   "title": "RIOT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b27c2e7922419835bf23c52fe6740d596dc676be9dbc27cffb7641defa2c42fa.mp3",
+   "sha256": "b27c2e7922419835bf23c52fe6740d596dc676be9dbc27cffb7641defa2c42fa",
+   "stream_title": "Venom Spitting Viper instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Venom Spitting Viper (Instrumental)",
+   "mood_hits": [
+    "war",
+    "riot",
+    "blood",
+    "pit",
+    "bass"
+   ]
+  },
+  {
+   "slug": "room-101",
+   "title": "ROOM 101",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "death",
+    "dark",
+    "night",
+    "grave",
+    "silence",
+    "fear"
+   ]
+  },
+  {
    "slug": "rot",
    "title": "ROT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -3435,6 +4399,25 @@
    "score": null,
    "mood": "melancholy",
    "display": "Turning Broken Wheels (1) (Instrumental)"
+  },
+  {
+   "slug": "rusted-crown",
+   "title": "RUSTED CROWN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "night",
+    "grave",
+    "void",
+    "silence"
+   ]
   },
   {
    "slug": "same-ghost",
@@ -3613,6 +4596,44 @@
    "display": "Serenade in Red"
   },
   {
+   "slug": "shadow-lover",
+   "title": "SHADOW LOVER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/21ca90d95eb002434f35fb5b45304314df4884d7a9e861748b4612d6c5f3bdd4.mp3",
+   "sha256": "21ca90d95eb002434f35fb5b45304314df4884d7a9e861748b4612d6c5f3bdd4",
+   "stream_title": "Kiss Me",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "love",
+   "display": "Kiss Me (Instrumental)",
+   "mood_hits": [
+    "love",
+    "lover",
+    "hold",
+    "grace",
+    "shadow lover",
+    "my side"
+   ]
+  },
+  {
+   "slug": "shadow-sync",
+   "title": "SHADOW SYNC",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "dark",
+    "night",
+    "glitch",
+    "system",
+    "silence"
+   ]
+  },
+  {
    "slug": "shatter-choir",
    "title": "SHATTER CHOIR",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -3622,6 +4643,23 @@
    "score": null,
    "mood": "melancholy",
    "display": "The Cold Heart Routine (Instrumental)"
+  },
+  {
+   "slug": "shattered-glass",
+   "title": "SHATTERED GLASS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "night",
+    "silence",
+    "demon",
+    "sin"
+   ]
   },
   {
    "slug": "she-shoulda-stayed-quiet",
@@ -3666,6 +4704,22 @@
    "score": null,
    "mood": "dark",
    "display": "Monster They Made (Instrumental)"
+  },
+  {
+   "slug": "silent-battles",
+   "title": "SILENT BATTLES",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bb7c0285c9a15942080af5a3efdfdb0cb02aacb72b0ac44025ad5a7c3468de6e.mp3",
+   "sha256": "bb7c0285c9a15942080af5a3efdfdb0cb02aacb72b0ac44025ad5a7c3468de6e",
+   "stream_title": "20250324 0739 58.881 Underground Male Rapper with West Coast beats clear crisp bass drops with a lyrical smooth flow seed123 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental UVR MDX NET Inst full 2",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war",
+    "fight",
+    "battle"
+   ]
   },
   {
    "slug": "silhouette",
@@ -3866,6 +4920,22 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "sovereign-source-the-light-army",
+   "title": "SOVEREIGN SOURCE (THE LIGHT ARMY)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1874c39736365b784e2d039c9fe93a4c17c64633b22c006b33c00c36107fffe8.mp3",
+   "sha256": "1874c39736365b784e2d039c9fe93a4c17c64633b22c006b33c00c36107fffe8",
+   "stream_title": "Soul Crusher",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Soul Crusher (Instrumental)",
+   "mood_hits": [
+    "light",
+    "gate",
+    "source"
+   ]
+  },
+  {
    "slug": "spark",
    "title": "SPARK",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -3886,6 +4956,17 @@
    "score": null,
    "mood": "melancholy",
    "display": "Turning Broken Wheels (1) (Instrumental)"
+  },
+  {
+   "slug": "static",
+   "title": "STATIC",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/14/14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0.mp3",
+   "sha256": "14c8fdfad9e6cdb332de669c7178dd9e68016fc30357d0d72533f502d3fe7bf0",
+   "stream_title": "THE STATIC - Truth Without The Mask",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "THE STATIC - Truth Without The Mask"
   },
   {
    "slug": "static-heart",
@@ -4020,6 +5101,58 @@
    "display": "Deserve my Hate 1 Memos (Instrumental)"
   },
   {
+   "slug": "street-code",
+   "title": "STREET CODE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2.mp3",
+   "sha256": "12a2e6d0245fc849063bac6f9e748a146fec187d785072c0f2430b1da84075a2",
+   "stream_title": "Emotion Ocean Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Emotion Ocean (Instrumental)",
+   "mood_hits": [
+    "street",
+    "king",
+    "concrete",
+    "street code"
+   ]
+  },
+  {
+   "slug": "street-prophet",
+   "title": "STREET PROPHET",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c.mp3",
+   "sha256": "78bb9e3354296c22842eacee356cb1de50f447e272666cd89863c2700b49c11c",
+   "stream_title": "1 Hawk on the Block (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "hustle",
+   "display": "Hawk on the Block (Instrumental)",
+   "mood_hits": [
+    "street",
+    "king",
+    "game",
+    "prophet"
+   ]
+  },
+  {
+   "slug": "submerge",
+   "title": "SUBMERGE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "dark",
+    "night",
+    "grave",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "sunday-dinner",
    "title": "SUNDAY DINNER",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -4064,6 +5197,43 @@
    "display": "SURVIVOR'S PACE"
   },
   {
+   "slug": "synthetic",
+   "title": "SYNTHETIC",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cd2a0f98a3a911586a503a799859776159cb5ed29e2b6809a8f0dd0732b20cd8.mp3",
+   "sha256": "cd2a0f98a3a911586a503a799859776159cb5ed29e2b6809a8f0dd0732b20cd8",
+   "stream_title": "20250324 0739 58.881 Underground Male Rapper with West Coast beats clear crisp bass drops with a lyrical smooth flow seed123 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental MDX23C D1581",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "fight",
+    "riot",
+    "blood",
+    "rage",
+    "pit"
+   ]
+  },
+  {
+   "slug": "system-break",
+   "title": "SYSTEM BREAK",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "shadow",
+    "dark",
+    "night",
+    "system",
+    "code",
+    "silence"
+   ]
+  },
+  {
    "slug": "system-failure",
    "title": "SYSTEM FAILURE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6e2d7e89b1c1fb170e272bc1923f9f608e156c270f3fff6ea84ab80d7d75fcff.mp3",
@@ -4073,6 +5243,25 @@
    "score": null,
    "mood": "neutral",
    "display": "Got Got Got Eww (Instrumental)"
+  },
+  {
+   "slug": "system-override",
+   "title": "SYSTEM OVERRIDE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "machine",
+    "system",
+    "code",
+    "mirror"
+   ]
   },
   {
    "slug": "system-reboot",
@@ -4174,6 +5363,41 @@
    "display": "ACCUSATION OF THE ELEMENTS"
   },
   {
+   "slug": "the-algorithm",
+   "title": "THE ALGORITHM",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "night",
+    "machine",
+    "code",
+    "mirror",
+    "silence",
+    "hollow"
+   ]
+  },
+  {
+   "slug": "the-appeal",
+   "title": "THE APPEAL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "silence",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-army-on-the-march",
    "title": "THE ARMY ON THE MARCH",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/371ef6601dd246fad4ae5fdf22af923b2fd0aad44ddbc7928b558ffbd5d59bb5.mp3",
@@ -4194,6 +5418,32 @@
    "score": null,
    "mood": "neutral",
    "display": "Crashed Out (Instrumental)"
+  },
+  {
+   "slug": "the-ashes",
+   "title": "THE ASHES",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d02cbed950d8177e3f100decc04ec5f756340d2fac780c145525cca2bc98ed73.mp3",
+   "sha256": "d02cbed950d8177e3f100decc04ec5f756340d2fac780c145525cca2bc98ed73",
+   "stream_title": "124ashes",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Ashes"
+  },
+  {
+   "slug": "the-awakening",
+   "title": "THE AWAKENING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d62c58ff33392f9773b9e772036dfc6c91a5c2dc7346f4f081916b65b14c62d8.mp3",
+   "sha256": "d62c58ff33392f9773b9e772036dfc6c91a5c2dc7346f4f081916b65b14c62d8",
+   "stream_title": "Warm Up Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Warm Up (Instrumental)",
+   "mood_hits": [
+    "war",
+    "kill"
+   ]
   },
   {
    "slug": "the-beast",
@@ -4227,6 +5477,25 @@
    "score": 1.0,
    "mood": null,
    "display": "THE BECOMING - Carnival of Suffering"
+  },
+  {
+   "slug": "the-bells-of-the-forgotten-temple",
+   "title": "THE BELLS OF THE FORGOTTEN TEMPLE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "night",
+    "machine",
+    "system",
+    "hollow",
+    "static"
+   ]
   },
   {
    "slug": "the-binding",
@@ -4273,6 +5542,22 @@
    "display": "BLESSING AND THE CURSE"
   },
   {
+   "slug": "the-body",
+   "title": "THE BODY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "fade",
+    "house",
+    "nothing"
+   ]
+  },
+  {
    "slug": "the-book-of-destruction",
    "title": "THE BOOK OF DESTRUCTION",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -4317,6 +5602,21 @@
    "display": "books"
   },
   {
+   "slug": "the-bottle",
+   "title": "THE BOTTLE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "quiet",
+    "distance"
+   ]
+  },
+  {
    "slug": "the-break",
    "title": "THE BREAK",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4f/4fc6efef45e6180a546b37f83eb10e1c02e9fb603d96c192cc05f0690d1bdb6e.mp3",
@@ -4326,6 +5626,42 @@
    "score": 1.0,
    "mood": null,
    "display": "THE BREAK - The Honesty I Craved"
+  },
+  {
+   "slug": "the-brotherhood",
+   "title": "THE BROTHERHOOD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "silence",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-bunker",
+   "title": "THE BUNKER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "death",
+    "dark",
+    "grave",
+    "machine",
+    "silence",
+    "sin"
+   ]
   },
   {
    "slug": "the-burning",
@@ -4394,6 +5730,24 @@
    "display": "CELESTIAL OATH"
   },
   {
+   "slug": "the-chanting",
+   "title": "THE CHANTING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "night",
+    "cult",
+    "bone",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-chasm-widens",
    "title": "THE CHASM WIDENS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/946dcdf036ca6879bf195a544746f1faf99eccd9454802b4a4e1a357d39b77a3.mp3",
@@ -4436,6 +5790,25 @@
    "score": null,
    "mood": "melancholy",
    "display": "The Cold Heart Routine (Instrumental)"
+  },
+  {
+   "slug": "the-cold-march",
+   "title": "THE COLD MARCH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "dark",
+    "grave",
+    "silence",
+    "cold",
+    "frost"
+   ]
   },
   {
    "slug": "the-con",
@@ -4504,6 +5877,24 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "the-countdown",
+   "title": "THE COUNTDOWN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "empty",
+    "quiet",
+    "nothing",
+    "fading",
+    "countdown"
+   ]
+  },
+  {
    "slug": "the-crowd",
    "title": "THE CROWD",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/765ace677b491001a1977c64ddffdf809fae4217a02119512c90079a50958468.mp3",
@@ -4513,6 +5904,21 @@
    "score": 1.0,
    "mood": null,
    "display": "Crow"
+  },
+  {
+   "slug": "the-crowd-the-orator",
+   "title": "THE CROWD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e0967aa75c935d3ad546a3b070619770510b46a061d196e53ec3bc470e358276.mp3",
+   "sha256": "e0967aa75c935d3ad546a3b070619770510b46a061d196e53ec3bc470e358276",
+   "stream_title": "Mixea MediumWarmer hd Instrumental 3 clean",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Mixea MediumWarmer hd (Instrumental)",
+   "mood_hits": [
+    "blood",
+    "rage"
+   ]
   },
   {
    "slug": "the-crumb",
@@ -4557,6 +5963,22 @@
    "score": 1.0,
    "mood": null,
    "display": "CYCLE BREAKS HERE"
+  },
+  {
+   "slug": "the-daemon-lover-offline",
+   "title": "THE DAEMON LOVER (OFFLINE)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/538dab3add5e8143a27065598c9406db7612f28f492b9ba7ef8f168592cd2ad0.mp3",
+   "sha256": "538dab3add5e8143a27065598c9406db7612f28f492b9ba7ef8f168592cd2ad0",
+   "stream_title": "Love Life",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "love",
+   "display": "Love Life (Instrumental)",
+   "mood_hits": [
+    "love",
+    "lover",
+    "hold"
+   ]
   },
   {
    "slug": "the-debt-you-owe",
@@ -4614,6 +6036,22 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "the-distance-between-us",
+   "title": "THE DISTANCE BETWEEN US",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "lost",
+    "house",
+    "distance"
+   ]
+  },
+  {
    "slug": "the-door-you-left-open",
    "title": "THE DOOR YOU LEFT OPEN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/125701d62959ba34b98601cefea5f0aaad57a69e06df8cca1adf775392788a2a.mp3",
@@ -4634,6 +6072,25 @@
    "score": null,
    "mood": "dark",
    "display": "GALLOPING GHOST (Instrumental)"
+  },
+  {
+   "slug": "the-dweller-on-the-threshold",
+   "title": "THE DWELLER ON THE THRESHOLD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2fba34472b7b1d23b9774608509ded1d0a46e3f1317a6cf48b28d429d8a4cd8f.mp3",
+   "sha256": "2fba34472b7b1d23b9774608509ded1d0a46e3f1317a6cf48b28d429d8a4cd8f",
+   "stream_title": "Eagle Eye",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Eagle Eye (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
   },
   {
    "slug": "the-dwelling-of-the-elect",
@@ -4680,6 +6137,25 @@
    "display": "Echo"
   },
   {
+   "slug": "the-echo-chamber-the-machine-that-dreams",
+   "title": "THE ECHO CHAMBER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "machine",
+    "glitch",
+    "code",
+    "mirror",
+    "silence"
+   ]
+  },
+  {
    "slug": "the-edge-of-everything",
    "title": "THE EDGE OF EVERYTHING",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d24375b3638b1d2f4b8bce68908d6dace26f65cbf43f9e7385914a3ff451d338.mp3",
@@ -4689,6 +6165,25 @@
    "score": null,
    "mood": "love",
    "display": "Love Life BeatStars (Instrumental)"
+  },
+  {
+   "slug": "the-edge-of-the-map",
+   "title": "THE EDGE OF THE MAP",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "shadow",
+    "dead",
+    "night",
+    "system",
+    "mirror",
+    "silence"
+   ]
   },
   {
    "slug": "the-elect-one",
@@ -4757,6 +6252,23 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "the-enemy-the-orator",
+   "title": "THE ENEMY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e985ff84aca854413d22a3b3bed39927714786839220cea9eb3d2fdd1d8b5729.mp3",
+   "sha256": "e985ff84aca854413d22a3b3bed39927714786839220cea9eb3d2fdd1d8b5729",
+   "stream_title": "Warrior Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Warrior (Instrumental)",
+   "mood_hits": [
+    "war",
+    "fight",
+    "army",
+    "enemy"
+   ]
+  },
+  {
    "slug": "the-epilogue-the-end-of-all-things",
    "title": "THE EPILOGUE: THE END OF ALL THINGS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b5bd0e787dcda6e6695fc9652cd258483f3eb433456a5ab68251e7a57ae79e3c.mp3",
@@ -4777,6 +6289,25 @@
    "score": null,
    "mood": "war",
    "display": "Smash Heads Dirty (Instrumental)"
+  },
+  {
+   "slug": "the-eternal-light",
+   "title": "THE ETERNAL LIGHT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/495f62443fe3e16d9205f99ca86572db99e910b37f6cd3b33b3abff7eec69039.mp3",
+   "sha256": "495f62443fe3e16d9205f99ca86572db99e910b37f6cd3b33b3abff7eec69039",
+   "stream_title": "Eagle Eye",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Eagle Eye (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
   },
   {
    "slug": "the-eternal-return",
@@ -4801,6 +6332,21 @@
    "display": "Eternal"
   },
   {
+   "slug": "the-ex",
+   "title": "THE EX",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "memory",
+    "holding on"
+   ]
+  },
+  {
    "slug": "the-fadeout",
    "title": "THE FADEOUT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f8/f808ac220d093843c472dfc820efbbbd19878405c0b6a58cf9794b1da31f03fc.mp3",
@@ -4810,6 +6356,25 @@
    "score": 1.0,
    "mood": null,
    "display": "THE Fadeout — Rest Between Movements"
+  },
+  {
+   "slug": "the-fall-of-the-unfinished",
+   "title": "THE FALL OF THE UNFINISHED",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fceff7451a703ad4fc1211ece67d42805950cf6d9105361213d1d292d7da560.mp3",
+   "sha256": "8fceff7451a703ad4fc1211ece67d42805950cf6d9105361213d1d292d7da560",
+   "stream_title": "1 1COSMIC SECRETS (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "soul",
+    "temple"
+   ]
   },
   {
    "slug": "the-feed",
@@ -4823,6 +6388,41 @@
    "display": "Severing the Feed"
   },
   {
+   "slug": "the-fighter",
+   "title": "THE FIGHTER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fe/fed30f356e52aa313c0cbedc68785ec8e3762f05902c5aa785a720d8326301b4.mp3",
+   "sha256": "fed30f356e52aa313c0cbedc68785ec8e3762f05902c5aa785a720d8326301b4",
+   "stream_title": "This Will Kill Me Beat Stars Instrumental No tag",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "This Will Kill Me Beat Stars (Instrumental)",
+   "mood_hits": [
+    "war",
+    "fight",
+    "fighter",
+    "kill",
+    "knife"
+   ]
+  },
+  {
+   "slug": "the-filing",
+   "title": "THE FILING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "night",
+    "code",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-final-exhortation",
    "title": "THE FINAL EXHORTATION",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/53dcbf83a1341df5e5a33b688c3933a83e9ee6596fc62f6c85c73bb794a7733d.mp3",
@@ -4832,6 +6432,17 @@
    "score": null,
    "mood": "love",
    "display": "Always Be Mine (Instrumental)"
+  },
+  {
+   "slug": "the-final-frame",
+   "title": "THE FINAL FRAME",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/f682ee48f607451d98332ee5bc419bf554eb204b3852330056ebbd6813f2d196.mp3",
+   "sha256": "f682ee48f607451d98332ee5bc419bf554eb204b3852330056ebbd6813f2d196",
+   "stream_title": "13Final Frame",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Final Frame"
   },
   {
    "slug": "the-final-resurrection",
@@ -4878,6 +6489,25 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "the-fire-in-the-room",
+   "title": "THE FIRE IN THE ROOM",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "night",
+    "silence",
+    "cold",
+    "snow"
+   ]
+  },
+  {
    "slug": "the-fire-of-the-sun",
    "title": "THE FIRE OF THE SUN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e7/e792c29f0e926663df916464a1054b29d8c584801f0ffed8ce7d8f67eed233fc.mp3",
@@ -4887,6 +6517,63 @@
    "score": null,
    "mood": "cosmic",
    "display": "Country (Instrumental)"
+  },
+  {
+   "slug": "the-first-flash",
+   "title": "THE FIRST FLASH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "death",
+    "dead",
+    "dark",
+    "night",
+    "silence"
+   ]
+  },
+  {
+   "slug": "the-first-leaf",
+   "title": "THE FIRST LEAF",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90f857ca21b8392e7747673d0402b3dde70ff29b2653f8e92ba9b259fd9f09ff.mp3",
+   "sha256": "90f857ca21b8392e7747673d0402b3dde70ff29b2653f8e92ba9b259fd9f09ff",
+   "stream_title": "Priceless Souls",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Priceless Souls (Instrumental)",
+   "mood_hits": [
+    "light",
+    "eye",
+    "key",
+    "voynich",
+    "leaf",
+    "codex"
+   ]
+  },
+  {
+   "slug": "the-first-statement",
+   "title": "THE FIRST STATEMENT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "machine",
+    "system",
+    "silence",
+    "cold",
+    "fear"
+   ]
   },
   {
    "slug": "the-flatline",
@@ -4933,6 +6620,25 @@
    "display": "Flood"
   },
   {
+   "slug": "the-floor",
+   "title": "THE FLOOR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0220cd0bc45e7b9dbc2aae52f6cc5d7f3049abbbd13114a3e06bab05d8164162.mp3",
+   "sha256": "0220cd0bc45e7b9dbc2aae52f6cc5d7f3049abbbd13114a3e06bab05d8164162",
+   "stream_title": "This Will Kill Me Beat Stars Instrumental no tag",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "This Will Kill Me Beat Stars (Instrumental)",
+   "mood_hits": [
+    "fight",
+    "army",
+    "enemy",
+    "riot",
+    "harder",
+    "bass"
+   ]
+  },
+  {
    "slug": "the-four-faces-of-the-throne",
    "title": "THE FOUR FACES OF THE THRONE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/dc84465f657dbb7183543296e6db7d85dd10ce37cc2d347d773b718002be6700.mp3",
@@ -4977,6 +6683,17 @@
    "display": "FRAGRANT TREES"
   },
   {
+   "slug": "the-frequency",
+   "title": "THE FREQUENCY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fe/fe4dc3f47994d2825e67e6fe5f95090462ae2134ba49b33ac87aa92fe9689f28.mp3",
+   "sha256": "fe4dc3f47994d2825e67e6fe5f95090462ae2134ba49b33ac87aa92fe9689f28",
+   "stream_title": "Frequency",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Frequency"
+  },
+  {
    "slug": "the-frequency-remains",
    "title": "THE FREQUENCY REMAINS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fe/fe4dc3f47994d2825e67e6fe5f95090462ae2134ba49b33ac87aa92fe9689f28.mp3",
@@ -4986,6 +6703,44 @@
    "score": 1.0,
    "mood": null,
    "display": "Frequency"
+  },
+  {
+   "slug": "the-frequency-that-programs",
+   "title": "THE FREQUENCY THAT PROGRAMS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "shadow",
+    "night",
+    "machine",
+    "glitch",
+    "code",
+    "mirror"
+   ]
+  },
+  {
+   "slug": "the-frozen-man",
+   "title": "THE FROZEN MAN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "rain",
+    "alone",
+    "empty",
+    "quiet",
+    "road",
+    "gone"
+   ]
   },
   {
    "slug": "the-funeral",
@@ -5010,6 +6765,20 @@
    "display": "21GARDEN OF SOULS (No Noise)"
   },
   {
+   "slug": "the-gathering",
+   "title": "THE GATHERING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "gone"
+   ]
+  },
+  {
    "slug": "the-ghost",
    "title": "THE GHOST",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/a847eaf54869344eb6685c666f9f547552d8381378e88f5b6076054b7234f458.mp3",
@@ -5019,6 +6788,44 @@
    "score": 1.0,
    "mood": null,
    "display": "Track THE GHOST ARTIST"
+  },
+  {
+   "slug": "the-ghost-in-the-mirror",
+   "title": "THE GHOST IN THE MIRROR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "night",
+    "machine",
+    "glitch",
+    "code"
+   ]
+  },
+  {
+   "slug": "the-ghost-in-the-server",
+   "title": "THE GHOST IN THE SERVER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "machine",
+    "system",
+    "code",
+    "static"
+   ]
   },
   {
    "slug": "the-ghost-of-what-i-gave",
@@ -5032,6 +6839,42 @@
    "display": "Instrumental bed (fits this lyric)"
   },
   {
+   "slug": "the-ghost-town-revival",
+   "title": "THE GHOST TOWN REVIVAL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dead",
+    "night",
+    "grave",
+    "silence",
+    "cult"
+   ]
+  },
+  {
+   "slug": "the-ghosts-of-who-i-was",
+   "title": "THE GHOSTS OF WHO I WAS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "dark",
+    "cold",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-giver",
    "title": "THE GIVER",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b9657392122e799e004ac9a2a80423e6771a60416fd47b6313ec3f423b723ea6.mp3",
@@ -5041,6 +6884,40 @@
    "score": null,
    "mood": "war",
    "display": "Fury (Instrumental)"
+  },
+  {
+   "slug": "the-glass-diner",
+   "title": "THE GLASS DINER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "grave",
+    "silence",
+    "cold",
+    "frost"
+   ]
+  },
+  {
+   "slug": "the-golden-country",
+   "title": "THE GOLDEN COUNTRY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "grave",
+    "sin"
+   ]
   },
   {
    "slug": "the-grave-you-dug",
@@ -5076,6 +6953,42 @@
    "display": "Fury (Instrumental)"
   },
   {
+   "slug": "the-great-sacrifice",
+   "title": "THE GREAT SACRIFICE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9dc8140fd045e41e5ff9e798a7701a20af3c911e52df7e959f8da5bf13bc8d31.mp3",
+   "sha256": "9dc8140fd045e41e5ff9e798a7701a20af3c911e52df7e959f8da5bf13bc8d31",
+   "stream_title": "Soul Crusher",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Soul Crusher (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
+  },
+  {
+   "slug": "the-great-unraveling",
+   "title": "THE GREAT UNRAVELING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "night",
+    "system",
+    "cold",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-grind",
    "title": "THE GRIND",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/983363b7cd7412aa780c2226d5c33bf3f7cebe20dde5b8485222228e986da035.mp3",
@@ -5098,6 +7011,25 @@
    "display": "Ground I Came From"
   },
   {
+   "slug": "the-halls-of-amenti",
+   "title": "THE HALLS OF AMENTI",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bcf5c7d3de35458781621b8dcb6e2215d2d05bdcb5d37b5d6a6b11f76706138f.mp3",
+   "sha256": "bcf5c7d3de35458781621b8dcb6e2215d2d05bdcb5d37b5d6a6b11f76706138f",
+   "stream_title": "Priceless Souls",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Priceless Souls (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "soul",
+    "eternal"
+   ]
+  },
+  {
    "slug": "the-hand-that-made-me",
    "title": "THE HAND THAT MADE ME",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fa94d983c1510d1e0ecbae85c12323440dae32f4914c27018b2e0574e96a8eb8.mp3",
@@ -5118,6 +7050,25 @@
    "score": null,
    "mood": "melancholy",
    "display": "The Cold Heart Routine (Instrumental)"
+  },
+  {
+   "slug": "the-haunted-mile",
+   "title": "THE HAUNTED MILE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "rain",
+    "alone",
+    "empty",
+    "fade",
+    "house",
+    "road"
+   ]
   },
   {
    "slug": "the-head-of-days",
@@ -5208,6 +7159,20 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "the-integration",
+   "title": "THE INTEGRATION",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "quiet"
+   ]
+  },
+  {
    "slug": "the-invisible-man",
    "title": "THE INVISIBLE MAN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -5252,6 +7217,25 @@
    "display": "King (feat. Justin Helmer)"
   },
   {
+   "slug": "the-key-to-the-gate",
+   "title": "THE KEY TO THE GATE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e4/e4ac226b723bd874c375ba21fe8c391dc906fe27eba4e605dee8923c74b9eaf1.mp3",
+   "sha256": "e4ac226b723bd874c375ba21fe8c391dc906fe27eba4e605dee8923c74b9eaf1",
+   "stream_title": "Priceless Souls Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Priceless Souls (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
+  },
+  {
    "slug": "the-kingdom-of-the-elect",
    "title": "THE KINGDOM OF THE ELECT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c45f07b6e7515dd71deef442ca3835c3c4e416c340316fcd8e19a547e96e54a6.mp3",
@@ -5272,6 +7256,81 @@
    "score": null,
    "mood": "war",
    "display": "This Will Kill Me Beat Stars (Instrumental)"
+  },
+  {
+   "slug": "the-last-human",
+   "title": "THE LAST HUMAN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dark",
+    "machine",
+    "static",
+    "flesh",
+    "bone"
+   ]
+  },
+  {
+   "slug": "the-last-lie",
+   "title": "THE LAST LIE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "rain",
+    "empty",
+    "memory",
+    "fade",
+    "last lie"
+   ]
+  },
+  {
+   "slug": "the-last-match",
+   "title": "THE LAST MATCH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "silence",
+    "cold",
+    "frost",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-last-mile",
+   "title": "THE LAST MILE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "mirror",
+    "silence",
+    "cold",
+    "frost"
+   ]
   },
   {
    "slug": "the-last-page",
@@ -5340,6 +7399,17 @@
    "display": "Burn it Down"
   },
   {
+   "slug": "the-last-witness",
+   "title": "THE LAST WITNESS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/28/288343efb4a21f9da78a4a2e1b6511c705e821e0bdf7664d7d37d6657192cb0e.mp3",
+   "sha256": "288343efb4a21f9da78a4a2e1b6511c705e821e0bdf7664d7d37d6657192cb0e",
+   "stream_title": "The Last Witness",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "The Last Witness"
+  },
+  {
    "slug": "the-last-word",
    "title": "THE LAST WORD",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6b9aaa2fc33bf04b8b87abd4c5427b8446792252e6cea677700c1f6256a974ce.mp3",
@@ -5349,6 +7419,25 @@
    "score": null,
    "mood": "war",
    "display": "This Will Kill Me Beat Stars (Instrumental)"
+  },
+  {
+   "slug": "the-law-of-correspondence",
+   "title": "THE LAW OF CORRESPONDENCE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1874c39736365b784e2d039c9fe93a4c17c64633b22c006b33c00c36107fffe8.mp3",
+   "sha256": "1874c39736365b784e2d039c9fe93a4c17c64633b22c006b33c00c36107fffe8",
+   "stream_title": "Soul Crusher",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Soul Crusher (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "soul",
+    "eternal"
+   ]
   },
   {
    "slug": "the-leech",
@@ -5395,6 +7484,17 @@
    "display": "Kiss Me (Instrumental)"
   },
   {
+   "slug": "the-lover",
+   "title": "THE LOVER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b0c5aed9e312c9add632509aa5607028e038dd26e025ec700b372ef6da0e496f.mp3",
+   "sha256": "b0c5aed9e312c9add632509aa5607028e038dd26e025ec700b372ef6da0e496f",
+   "stream_title": "Lover (feat. Justin Helmer)",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Lover (feat. Justin Helmer)"
+  },
+  {
    "slug": "the-machine",
    "title": "THE MACHINE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9e0ced393f6dc7acb1c52718011cf7900e7eb5c4672c979c5875e1c8819d67c5.mp3",
@@ -5404,6 +7504,44 @@
    "score": 1.0,
    "mood": null,
    "display": "Smashing The Machine"
+  },
+  {
+   "slug": "the-machine-that-dreams",
+   "title": "THE MACHINE THAT DREAMS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "dark",
+    "machine",
+    "code",
+    "silence",
+    "cold"
+   ]
+  },
+  {
+   "slug": "the-machine-that-sold-you",
+   "title": "THE MACHINE THAT SOLD YOU",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "void",
+    "machine",
+    "system",
+    "mirror",
+    "sin",
+    "chain"
+   ]
   },
   {
    "slug": "the-mark",
@@ -5439,6 +7577,17 @@
    "display": "9Stranger in the Frame (Instrumental)"
   },
   {
+   "slug": "the-masters-of-the-light",
+   "title": "THE MASTERS OF THE LIGHT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/eb64ba32405f348461c4fd23b13a6eb5c7a2db6a6c1686f79f649dc3ddb41d02.mp3",
+   "sha256": "eb64ba32405f348461c4fd23b13a6eb5c7a2db6a6c1686f79f649dc3ddb41d02",
+   "stream_title": "5MASTERS OF THE LIGHT",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "MASTERS OF THE LIGHT"
+  },
+  {
    "slug": "the-maze-i-built",
    "title": "THE MAZE I BUILT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2fba35bd7de8d21d05eb638aaf721bfc3159cba2b897de62b5cf7ac892aca3a5.mp3",
@@ -5448,6 +7597,60 @@
    "score": null,
    "mood": "war",
    "display": "Deserve my Hate 1 Memos (Instrumental)"
+  },
+  {
+   "slug": "the-meat",
+   "title": "THE MEAT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "machine",
+    "system",
+    "silence",
+    "flesh",
+    "bone",
+    "cold"
+   ]
+  },
+  {
+   "slug": "the-memory-loss",
+   "title": "THE MEMORY LOSS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "machine",
+    "system",
+    "code",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-ministry-of-truth",
+   "title": "THE MINISTRY OF TRUTH",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "night",
+    "fear",
+    "sin"
+   ]
   },
   {
    "slug": "the-mirror",
@@ -5461,6 +7664,28 @@
    "display": "THE MIRROR - The Monster I Shaped"
   },
   {
+   "slug": "the-mirror-the-eight-doors",
+   "title": "THE MIRROR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/26b0fbdd1d1a365db56601917774fabb4d494d84443075f663e48f6ac334b297.mp3",
+   "sha256": "26b0fbdd1d1a365db56601917774fabb4d494d84443075f663e48f6ac334b297",
+   "stream_title": "Mirror",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Mirror"
+  },
+  {
+   "slug": "the-mirror-the-orator",
+   "title": "THE MIRROR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/26b0fbdd1d1a365db56601917774fabb4d494d84443075f663e48f6ac334b297.mp3",
+   "sha256": "26b0fbdd1d1a365db56601917774fabb4d494d84443075f663e48f6ac334b297",
+   "stream_title": "Mirror",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Mirror"
+  },
+  {
    "slug": "the-mirror-speaks",
    "title": "THE MIRROR SPEAKS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9c136c22a29a6f3641c870e178c22ee150edb6de075282184d0b58453c3c41e3.mp3",
@@ -5470,6 +7695,23 @@
    "score": null,
    "mood": "war",
    "display": "Smash Heads Dirty (Instrumental)"
+  },
+  {
+   "slug": "the-mirror-that-remembers",
+   "title": "THE MIRROR THAT REMEMBERS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "mirror",
+    "hollow",
+    "sin"
+   ]
   },
   {
    "slug": "the-moon-s-cycle",
@@ -5489,6 +7731,17 @@
    "sha256": "aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0",
    "stream_title": "THE Morning After — The Routine Dance",
    "match": "existing",
+   "score": 1.0,
+   "mood": null,
+   "display": "THE Morning After — The Routine Dance"
+  },
+  {
+   "slug": "the-morning-after-open-frequency",
+   "title": "THE MORNING AFTER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/aa/aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0.mp3",
+   "sha256": "aac0d48a114d1d0dda23a54d2500a3927d2f0dcd7f88a0b49d648e44c500fcd0",
+   "stream_title": "THE Morning After — The Routine Dance",
+   "match": "title",
    "score": 1.0,
    "mood": null,
    "display": "THE Morning After — The Routine Dance"
@@ -5615,6 +7868,60 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "the-ones-who-saw",
+   "title": "THE ONES WHO SAW",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "night",
+    "silence",
+    "static",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-orator",
+   "title": "THE ORATOR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1645fe23b869458c76fefcd2a3b31159913275e77f167c9f56225d1dfd194c51.mp3",
+   "sha256": "1645fe23b869458c76fefcd2a3b31159913275e77f167c9f56225d1dfd194c51",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 mixed",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "fight",
+    "soldier",
+    "blade",
+    "pit"
+   ]
+  },
+  {
+   "slug": "the-other",
+   "title": "THE OTHER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dead",
+    "grave",
+    "silence",
+    "cold"
+   ]
+  },
+  {
    "slug": "the-other-me",
    "title": "THE OTHER ME",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0220cd0bc45e7b9dbc2aae52f6cc5d7f3049abbbd13114a3e06bab05d8164162.mp3",
@@ -5670,6 +7977,23 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "the-pill-that-divides",
+   "title": "THE PILL THAT DIVIDES",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "mirror",
+    "cold",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-pillars-of-the-throne",
    "title": "THE PILLARS OF THE THRONE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/16a76451bf9c27441b9d79d4b1266ba6764bcf570860ca02135a16c8c728cbb6.mp3",
@@ -5679,6 +8003,25 @@
    "score": 1.0,
    "mood": null,
    "display": "Throne"
+  },
+  {
+   "slug": "the-pines-shiver",
+   "title": "THE PINES (SHIVER)",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dead",
+    "dark",
+    "night",
+    "machine"
+   ]
   },
   {
    "slug": "the-portals-of-the-ends",
@@ -5712,6 +8055,73 @@
    "score": 1.0,
    "mood": null,
    "display": "Stars"
+  },
+  {
+   "slug": "the-prophecy-of-the-return",
+   "title": "THE PROPHECY OF THE RETURN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/3600f0eb2b9c8103d29c33f0df91ea5d614cf7fc1a32c74d8fcc0ee7add79d19.mp3",
+   "sha256": "3600f0eb2b9c8103d29c33f0df91ea5d614cf7fc1a32c74d8fcc0ee7add79d19",
+   "stream_title": "17PROPHECY OF THE RETURN",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "PROPHECY OF THE RETURN"
+  },
+  {
+   "slug": "the-purity",
+   "title": "THE PURITY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6b9aaa2fc33bf04b8b87abd4c5427b8446792252e6cea677700c1f6256a974ce.mp3",
+   "sha256": "6b9aaa2fc33bf04b8b87abd4c5427b8446792252e6cea677700c1f6256a974ce",
+   "stream_title": "This Will Kill Me Beat Stars Instrumental No tag",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "This Will Kill Me Beat Stars (Instrumental)",
+   "mood_hits": [
+    "enemy",
+    "blade"
+   ]
+  },
+  {
+   "slug": "the-question",
+   "title": "THE QUESTION",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/cd/cd75a9fdc0f443bdc0dad7798fee0d781e85022d8f7f919038e8b4f5db250451.mp3",
+   "sha256": "cd75a9fdc0f443bdc0dad7798fee0d781e85022d8f7f919038e8b4f5db250451",
+   "stream_title": "2045-question",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Question"
+  },
+  {
+   "slug": "the-quiet-after",
+   "title": "THE QUIET AFTER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90/90022f9af7bad61a43ed6d83d32493592588dfd131c9eb0ac7b3a91d46ffac40.mp3",
+   "sha256": "90022f9af7bad61a43ed6d83d32493592588dfd131c9eb0ac7b3a91d46ffac40",
+   "stream_title": "The Quiet After",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "The Quiet After"
+  },
+  {
+   "slug": "the-quiet-hours",
+   "title": "THE QUIET HOURS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "rain",
+    "lost",
+    "memory",
+    "quiet",
+    "house",
+    "home"
+   ]
   },
   {
    "slug": "the-quiet-part",
@@ -5791,6 +8201,25 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "the-recantation",
+   "title": "THE RECANTATION",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "dark",
+    "night",
+    "silence",
+    "bone",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-reckoning",
    "title": "THE RECKONING",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/43235ae88f3a7bb4d6afc6a057e3729f8ff3bf13303de0de43d3c4fe36d33c97.mp3",
@@ -5802,6 +8231,22 @@
    "display": "The Ledger At The Door"
   },
   {
+   "slug": "the-record",
+   "title": "THE RECORD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "silence",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-record-of-the-fallen",
    "title": "THE RECORD OF THE FALLEN",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/37b7d3457e87f6f551687001bf7592e76cc4785c9304b49e58dbcecae4601b27.mp3",
@@ -5811,6 +8256,43 @@
    "score": 1.0,
    "mood": null,
    "display": "RECORD OF THE FALLEN"
+  },
+  {
+   "slug": "the-recycled",
+   "title": "THE RECYCLED",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "void",
+    "mirror",
+    "silence",
+    "static",
+    "fear",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-relic",
+   "title": "THE RELIC",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "system",
+    "cold",
+    "sin"
+   ]
   },
   {
    "slug": "the-resurrection-and-the-end",
@@ -5868,6 +8350,21 @@
    "display": "Road to Know Where"
   },
   {
+   "slug": "the-room",
+   "title": "THE ROOM",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "home",
+    "nothing"
+   ]
+  },
+  {
    "slug": "the-room-where-you-used-to-be",
    "title": "THE ROOM WHERE YOU USED TO BE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -5879,6 +8376,38 @@
    "display": "The Cold Heart Routine (Instrumental)"
   },
   {
+   "slug": "the-room-with-no-windows",
+   "title": "THE ROOM WITH NO WINDOWS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "silence",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-saviors-quake",
+   "title": "THE SAVIORS' QUAKE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "void",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-scales-of-judgment",
    "title": "THE SCALES OF JUDGMENT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -5888,6 +8417,21 @@
    "score": null,
    "mood": "melancholy",
    "display": "Turning Broken Wheels (1) (Instrumental)"
+  },
+  {
+   "slug": "the-screen",
+   "title": "THE SCREEN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "alone",
+    "lost"
+   ]
   },
   {
    "slug": "the-script",
@@ -5978,6 +8522,24 @@
    "display": "Sentence of the Watchers"
   },
   {
+   "slug": "the-sermon",
+   "title": "THE SERMON",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "cult",
+    "flesh",
+    "bone",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-serpent",
    "title": "THE SERPENT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/058e2b83221f9c67e6404c1f3900bbd5bd56bae364e56eff81ab728cd151cdbd.mp3",
@@ -6009,6 +8571,25 @@
    "score": null,
    "mood": "melancholy",
    "display": "The Cold Heart Routine (Instrumental)"
+  },
+  {
+   "slug": "the-seven-lords-of-cycles",
+   "title": "THE SEVEN LORDS OF CYCLES",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2fba34472b7b1d23b9774608509ded1d0a46e3f1317a6cf48b28d429d8a4cd8f.mp3",
+   "sha256": "2fba34472b7b1d23b9774608509ded1d0a46e3f1317a6cf48b28d429d8a4cd8f",
+   "stream_title": "Eagle Eye",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Eagle Eye (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "soul",
+    "eternal"
+   ]
   },
   {
    "slug": "the-seven-mountains-of-punishment",
@@ -6143,6 +8724,17 @@
    "display": "THE Silence — Two Ghosts In A House"
   },
   {
+   "slug": "the-silence-the-orator",
+   "title": "THE SILENCE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2b/2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487.mp3",
+   "sha256": "2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487",
+   "stream_title": "THE Silence — Two Ghosts In A House",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "THE Silence — Two Ghosts In A House"
+  },
+  {
    "slug": "the-silence-spoke",
    "title": "THE SILENCE SPOKE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/2b/2b1506a7d63cdae91fa37f83343c647ed8b129ca961565e2cde440c6c9d17487.mp3",
@@ -6196,6 +8788,25 @@
    "score": 1.0,
    "mood": null,
    "display": "Reversed Spirits"
+  },
+  {
+   "slug": "the-sprawl",
+   "title": "THE SPRAWL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dead",
+    "grave",
+    "silence",
+    "hollow"
+   ]
   },
   {
    "slug": "the-stars-that-failed",
@@ -6253,6 +8864,25 @@
    "display": "Turning Broken Wheels (1) (Instrumental)"
   },
   {
+   "slug": "the-stranger",
+   "title": "THE STRANGER",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "mirror",
+    "bone",
+    "cold",
+    "hell"
+   ]
+  },
+  {
    "slug": "the-strong-one",
    "title": "THE STRONG ONE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -6262,6 +8892,25 @@
    "score": null,
    "mood": "melancholy",
    "display": "Turning Broken Wheels (1) (Instrumental)"
+  },
+  {
+   "slug": "the-sun-rose-anyway",
+   "title": "THE SUN ROSE ANYWAY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "night",
+    "silence",
+    "hollow",
+    "cold",
+    "frost"
+   ]
   },
   {
    "slug": "the-sun-s-gate",
@@ -6275,6 +8924,38 @@
    "display": "Beyond the Sun s Gate"
   },
   {
+   "slug": "the-surgery",
+   "title": "THE SURGERY",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "cult",
+    "flesh",
+    "cold",
+    "sin",
+    "prison"
+   ]
+  },
+  {
+   "slug": "the-survivor",
+   "title": "THE SURVIVOR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "house"
+   ]
+  },
+  {
    "slug": "the-swipe",
    "title": "THE SWIPE",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/125701d62959ba34b98601cefea5f0aaad57a69e06df8cca1adf775392788a2a.mp3",
@@ -6284,6 +8965,25 @@
    "score": null,
    "mood": "love",
    "display": "Love Life"
+  },
+  {
+   "slug": "the-telescreen",
+   "title": "THE TELESCREEN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "night",
+    "machine",
+    "mirror",
+    "silence",
+    "static",
+    "fear"
+   ]
   },
   {
    "slug": "the-third-law",
@@ -6308,6 +9008,41 @@
    "display": "Throne"
   },
   {
+   "slug": "the-town",
+   "title": "THE TOWN",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "home",
+    "gone",
+    "diner"
+   ]
+  },
+  {
+   "slug": "the-transmutation-of-the-soul",
+   "title": "THE TRANSMUTATION OF THE SOUL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/495f62443fe3e16d9205f99ca86572db99e910b37f6cd3b33b3abff7eec69039.mp3",
+   "sha256": "495f62443fe3e16d9205f99ca86572db99e910b37f6cd3b33b3abff7eec69039",
+   "stream_title": "Eagle Eye",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Eagle Eye (Instrumental)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
+  },
+  {
    "slug": "the-tree-of-judgment",
    "title": "THE TREE OF JUDGMENT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ee79bb69621c31e51d7f53df2ca6f0795ef57a23f89c70c2aa9745dbf734ae9a.mp3",
@@ -6317,6 +9052,62 @@
    "score": 1.0,
    "mood": null,
    "display": "TREE OF JUDGMENT"
+  },
+  {
+   "slug": "the-two-minutes-hate",
+   "title": "THE TWO MINUTES HATE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "machine",
+    "mirror",
+    "silence",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-unveiling-of-the-all-seeing-eye",
+   "title": "THE UNVEILING OF THE ALL-SEEING EYE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fceff7451a703ad4fc1211ece67d42805950cf6d9105361213d1d292d7da560.mp3",
+   "sha256": "8fceff7451a703ad4fc1211ece67d42805950cf6d9105361213d1d292d7da560",
+   "stream_title": "1 1COSMIC SECRETS (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "cosmic",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "thoth",
+    "amenti",
+    "halls",
+    "light",
+    "eye",
+    "soul"
+   ]
+  },
+  {
+   "slug": "the-upload",
+   "title": "THE UPLOAD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "ghost",
+    "machine",
+    "system",
+    "code",
+    "silence",
+    "cold"
+   ]
   },
   {
    "slug": "the-use-of-spies",
@@ -6374,6 +9165,42 @@
    "display": "THE Vanished — The Temporary Man"
   },
   {
+   "slug": "the-venom-hour",
+   "title": "THE VENOM HOUR",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19.mp3",
+   "sha256": "08b2ed3bfd50d958255b2570d9c8529329880f928bbe5a04b233f66333707f19",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental mel band roformer instrument",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "dark",
+    "night",
+    "silence",
+    "static",
+    "sin"
+   ]
+  },
+  {
+   "slug": "the-verdict",
+   "title": "THE VERDICT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6.mp3",
+   "sha256": "0b655f2a5fbe653ecdbb2a033ecb2d116fddfad63d342c5c44c59134a9b2b0b6",
+   "stream_title": "Gravel Road Memories Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "silence",
+    "cold",
+    "fear",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-vision-of-the-beasts",
    "title": "THE VISION OF THE BEASTS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
@@ -6407,6 +9234,23 @@
    "display": "Echoes in the Void"
   },
   {
+   "slug": "the-waiting-room",
+   "title": "THE WAITING ROOM",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d.mp3",
+   "sha256": "18e29f6fa0e6ce7c8df6101fc43aeae05cd082451c8745665241d6c99f9afd2d",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "night",
+    "silence",
+    "sin"
+   ]
+  },
+  {
    "slug": "the-wall",
    "title": "THE WALL",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8fb26b327ca63b1b3622fa591e688e2ba8f46d986a8f6a542bf8b9691987a396.mp3",
@@ -6429,6 +9273,21 @@
    "display": "Burn it Down"
   },
   {
+   "slug": "the-warning",
+   "title": "THE WARNING",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/794bbf1e1d141ce7b3074f9b1f69293197d493e5b1c06261e9b016f4a9bc37e1.mp3",
+   "sha256": "794bbf1e1d141ce7b3074f9b1f69293197d493e5b1c06261e9b016f4a9bc37e1",
+   "stream_title": "20250522 0516 52.264 Instrumental hard hitting dance dubstep deep beat with bass dropping cryptic instrumentals no lyrics seed381281768 tp0.93 T1.0 rp1.2 maxtk4200 vtrack",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "war",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "war",
+    "scream"
+   ]
+  },
+  {
    "slug": "the-watcher",
    "title": "THE WATCHER",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/394cf9a2750cbaf0d55ff0620dc855f00cf22ae3c78200143b47a18b1e93205d.mp3",
@@ -6438,6 +9297,25 @@
    "score": 1.0,
    "mood": null,
    "display": "Sentence of the Watchers"
+  },
+  {
+   "slug": "the-way-it-was",
+   "title": "THE WAY IT WAS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66.mp3",
+   "sha256": "6776489b791fd130d3f0885d4511a46f35bf4768e0f6c14e5ecce03edbee1f66",
+   "stream_title": "Gone Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Gone (Instrumental)",
+   "mood_hits": [
+    "lost",
+    "memory",
+    "quiet",
+    "house",
+    "road",
+    "nothing"
+   ]
   },
   {
    "slug": "the-weight-on-your-shoulder",
@@ -6462,6 +9340,22 @@
    "display": "THE WHISPER - Gravitys Reminder"
   },
   {
+   "slug": "the-whole",
+   "title": "THE WHOLE",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760.mp3",
+   "sha256": "87b376e2dd8e86c39c1fe0610bffe2f5e88e49f1a97285a2ee331495b226d760",
+   "stream_title": "Alone instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "melancholy",
+   "display": "Alone (Instrumental)",
+   "mood_hits": [
+    "empty",
+    "quiet",
+    "house"
+   ]
+  },
+  {
    "slug": "the-winds-of-the-quarters",
    "title": "THE WINDS OF THE QUARTERS",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9e6c8b2e8e03dd73f92f981e6f24966eda18ddb9174a86716c2e833a1f0dc300.mp3",
@@ -6484,6 +9378,25 @@
    "display": "The Witness"
   },
   {
+   "slug": "the-words-that-stung",
+   "title": "THE WORDS THAT STUNG",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53.mp3",
+   "sha256": "1e4be959abdb91cdb0a676e8cf000eadc30ac79d9353c37cae3be4e4dace4c53",
+   "stream_title": "Night Crawler Instrumental",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Night Crawler (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "death",
+    "dark",
+    "machine",
+    "silence",
+    "cold"
+   ]
+  },
+  {
    "slug": "the-wrath-of-the-elect",
    "title": "THE WRATH OF THE ELECT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b30ecc0c401a12547294a487fcdf5f01a40d839258cc0e61efbcc432d05db798.mp3",
@@ -6504,6 +9417,25 @@
    "score": 1.0,
    "mood": null,
    "display": "WRITTEN PLEA"
+  },
+  {
+   "slug": "the-you-that-remains",
+   "title": "THE YOU THAT REMAINS",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea.mp3",
+   "sha256": "4e9691ca21b99407837f795bce3c5e31d0b0fb8e4a27422f1eb6506e083a0bea",
+   "stream_title": "Gravel Road Memories",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Gravel Road Memories (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dead",
+    "night",
+    "machine",
+    "mirror"
+   ]
   },
   {
    "slug": "these-empty-rooms",
@@ -6537,6 +9469,24 @@
    "score": null,
    "mood": "love",
    "display": "Warm Up (Instrumental)"
+  },
+  {
+   "slug": "thoughtcrime",
+   "title": "THOUGHTCRIME",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf.mp3",
+   "sha256": "8a4b3078ec753d86f259abd6c1397b62e7555944ee69432073499854f0ba7eaf",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "grave",
+    "silence",
+    "fear",
+    "sin"
+   ]
   },
   {
    "slug": "throne-of-graves",
@@ -6737,6 +9687,25 @@
    "display": "Venom"
   },
   {
+   "slug": "venom-spitting-viper-pt-2",
+   "title": "VENOM SPITTING VIPER, PT. 2",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146.mp3",
+   "sha256": "90b08ab35125157d5570c8dfed2d84c0c570874f8918df3aea98712e957db146",
+   "stream_title": "1 The Cold Heart Routine (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "The Cold Heart Routine (Instrumental)",
+   "mood_hits": [
+    "ghost",
+    "shadow",
+    "dead",
+    "machine",
+    "glitch",
+    "system"
+   ]
+  },
+  {
    "slug": "vent",
    "title": "VENT",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/0935d9e9bcdd92d9e42587c8204d3dbf82e352b79136011263b6b5c26243ec3d.mp3",
@@ -6825,6 +9794,36 @@
    "display": "Smash Heads Dirty (Instrumental)"
   },
   {
+   "slug": "watching-the-sky-fall",
+   "title": "WATCHING THE SKY FALL",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/d2/d223531b027923306ae784178e0e6fce67959dd553e37ca94e4ac97874e56713.mp3",
+   "sha256": "d223531b027923306ae784178e0e6fce67959dd553e37ca94e4ac97874e56713",
+   "stream_title": "Watching the Sky Fall",
+   "match": "title",
+   "score": 1.0,
+   "mood": null,
+   "display": "Watching the Sky Fall"
+  },
+  {
+   "slug": "we-are-the-dead",
+   "title": "WE ARE THE DEAD",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e.mp3",
+   "sha256": "db3a07770c2c462ceab9aaed23de616af56613603103d0c7f2c31797cd4dc50e",
+   "stream_title": "1 GALLOPING GHOST (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "GALLOPING GHOST (Instrumental)",
+   "mood_hits": [
+    "dead",
+    "silence",
+    "hollow",
+    "static",
+    "bone",
+    "fear"
+   ]
+  },
+  {
    "slug": "weak-points-and-strong",
    "title": "WEAK POINTS AND STRONG",
    "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/fa94d983c1510d1e0ecbae85c12323440dae32f4914c27018b2e0574e96a8eb8.mp3",
@@ -6911,6 +9910,43 @@
    "score": 1.0,
    "mood": null,
    "display": "THE Silence — Two Ghosts In A House"
+  },
+  {
+   "slug": "what-they-buried",
+   "title": "WHAT THEY BURIED",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a.mp3",
+   "sha256": "ea142fff49a6bb3b09d043eb4ace40932d5c4991953468e0c98f362fd266618a",
+   "stream_title": "1 Suitcase of Ghosts (Instrumental)",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Suitcase of Ghosts (Instrumental)",
+   "mood_hits": [
+    "night",
+    "grave",
+    "silence",
+    "bone",
+    "sin"
+   ]
+  },
+  {
+   "slug": "when-the-lights-go-out",
+   "title": "WHEN THE LIGHTS GO OUT",
+   "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0.mp3",
+   "sha256": "053f26fb277aee9747bcb01f836d642a8f8f4a3f660951463795fac60736f7a0",
+   "stream_title": "20250618 1504 06.812 A soulful gangster rap with deep emotional pull perfect for a late night story telling vibe seed125 tp0.93 T1.0 rp1.2 maxtk3900 mixed Instrumental model bs roformer ep 317 sdr",
+   "match": "instrumental-fit",
+   "score": null,
+   "mood": "dark",
+   "display": "Instrumental bed (fits this lyric)",
+   "mood_hits": [
+    "dead",
+    "dark",
+    "silence",
+    "cold",
+    "snow",
+    "sin"
+   ]
   },
   {
    "slug": "where-were-you",
