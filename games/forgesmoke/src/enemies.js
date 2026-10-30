@@ -4,15 +4,15 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610323p";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610323p";
+import { TUNING } from "./tuning.js?v=202610323s";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610323s";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
-} from "./models.js?v=202610323p";
+} from "./models.js?v=202610323s";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -382,14 +382,22 @@ export class EnemyManager {
   /** Spawn an enemy of given type at random angle around player. */
   spawn(type, playerPos, timeMinutes = 0) {
     if (this.enemies.length >= this.maxConcurrent) return null;
-    const angle = this.rng() * Math.PI * 2;
-    const radius = 18 + this.rng() * 30;
-    const position = {
-      x: playerPos.x + Math.cos(angle) * radius,
-      z: playerPos.z + Math.sin(angle) * radius,
-      clone() { return { x: this.x, z: this.z }; },
-    };
-    resolveObstacleCollision(position, 0.85, arenaColliders);
+    let position = null;
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const angle = this.rng() * Math.PI * 2;
+      const radius = 18 + this.rng() * 30;
+      const candidate = {
+        x: playerPos.x + Math.cos(angle) * radius,
+        z: playerPos.z + Math.sin(angle) * radius,
+        clone() { return { x: this.x, z: this.z }; },
+      };
+      const ox = candidate.x;
+      const oz = candidate.z;
+      resolveObstacleCollision(candidate, 0.85, arenaColliders);
+      // a spawn inside a container pops the body out on frame one, which reads as a teleport
+      if (Math.hypot(candidate.x - ox, candidate.z - oz) < 0.35) { position = candidate; break; }
+      if (!position) position = candidate;
+    }
     const enemy = new Enemy(type, position, this.rng, timeMinutes);
     // Shooter ramp: 12 % of bodies can fire at t=0, climbing to 85 % by ~110 s. The rest still
     // advance and melee; gating happens in the type updates via enemy.canShoot.
@@ -441,6 +449,17 @@ export class EnemyManager {
         let vz = enemy.velocity.z;
         let spd = Math.hypot(vx, vz);
         const dToPlayer = Math.hypot(enemy.position.x - playerPos.x, enemy.position.z - playerPos.z) || 1;
+        // A walker that has stalled far away (wedged branch of its behaviour, blocked by cover) gets
+        // a floor approach speed so it never reads as a frozen prop.
+        const WALKERS = enemy.type === "rifleman" || enemy.type === "sapper" || enemy.type === "shieldbearer" || enemy.type === "spotter";
+        if (WALKERS && spd < 0.35 && dToPlayer > 3.2) {
+          const ax = playerPos.x - enemy.position.x;
+          const az = playerPos.z - enemy.position.z;
+          const al = Math.hypot(ax, az) || 1;
+          spd = Math.max(0.75, (Number(enemy.speed) || 1.2) * 0.8);
+          vx = (ax / al) * spd;
+          vz = (az / al) * spd;
+        }
         // a body that has reached its standoff can have zero velocity; the slot ring still needs to
         // pull it round to its angle, so give the fan a floor speed to work with
         const inRing = this.enemies.length > 1 && dToPlayer < 5;
@@ -500,33 +519,63 @@ export class EnemyManager {
           vz = (vz / nl) * spd;
         }
 
+        // Active detour: slide tangentially around whatever has been blocking this body.
+        if (enemy._detour && enemy._detour.t > 0) {
+          enemy._detour.t -= dt;
+          vx = enemy._detour.x * spd;
+          vz = enemy._detour.z * spd;
+        }
+
         const colRadius = enemy.type === "mech" ? 1.05 : enemy.type === "shieldbearer" ? 0.75 : 0.55;
         enemy._move = { x: vx, z: vz, spd };
+        const stepX0 = enemy.position.x;
+        const stepZ0 = enemy.position.z;
         if (spd > 0.01) {
           const steered = steerAroundObstacles(enemy.position, vx / spd, vz / spd, colRadius, arenaColliders);
-          enemy.position.x += steered.x * spd * dt;
-          enemy.position.z += steered.z * spd * dt;
+          const sl = Math.hypot(steered.x, steered.z) || 1;
+          const cap = Math.min(1, sl);
+          enemy.position.x += (steered.x / sl) * cap * spd * dt;
+          enemy.position.z += (steered.z / sl) * cap * spd * dt;
         }
         resolveObstacleCollision(enemy.position, colRadius, arenaColliders);
+        // If a body wanted to move but the world ate the step, remember it; 0.7 s of that is a wedge.
+        const actualStep = Math.hypot(enemy.position.x - stepX0, enemy.position.z - stepZ0);
+        const wantedStep = spd * dt;
+        if (wantedStep > 1e-4 && actualStep < wantedStep * 0.35) enemy._blocked = (enemy._blocked || 0) + dt;
+        else enemy._blocked = Math.max(0, (enemy._blocked || 0) - dt * 2);
+        if (enemy._blocked > 0.7 && (!enemy._detour || enemy._detour.t <= 0)) {
+          const tdx = playerPos.x - enemy.position.x;
+          const tdz = playerPos.z - enemy.position.z;
+          const tl = Math.hypot(tdx, tdz) || 1;
+          const side = ((enemy.slot || 0) % 2 === 0) ? 1 : -1;
+          enemy._detour = { x: (-tdz / tl) * side, z: (tdx / tl) * side, t: 1.2 };
+          enemy._blocked = 0;
+        }
 
-      // stuck-breaker: cover can wedge an enemy against a wall, which reads as a frozen AI. If it
-      // has not actually moved for a second while it is still far from you, slide it sideways.
-      const movedNow = Math.hypot(enemy.position.x - (enemy._lastX ?? enemy.position.x),
-                                  enemy.position.z - (enemy._lastZ ?? enemy.position.z));
-      enemy._lastX = enemy.position.x;
-      enemy._lastZ = enemy.position.z;
-      enemy._stuck = enemy._stuck || 0;
+      // stuck-breaker: cover wedges bodies into a steer/push loop that reads as vibrating in place.
+      // A per-frame check cannot see that (the jitter moves > 2 cm every frame), so compare against a
+      // 0.6 s reference point: if the net gain is tiny while it wanted to move, detour tangentially.
       const distNow = Math.hypot(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
-      if (movedNow < 0.02 && distNow > 6) enemy._stuck += dt;
-      else enemy._stuck = 0;
-      if (enemy._stuck > 1.0) {
-        const side = Math.sin((enemy.phase || 0) * 3.1) > 0 ? 1 : -1;
-        const tdx = playerPos.x - enemy.position.x;
-        const tdz = playerPos.z - enemy.position.z;
-        const tlen = Math.hypot(tdx, tdz) || 1;
-        enemy.position.x += (-tdz / tlen) * side * 1.6 * dt * 6;
-        enemy.position.z += (tdx / tlen) * side * 1.6 * dt * 6;
-        enemy._stuck = 0;
+      enemy._movCheck = (enemy._movCheck || 0) + dt;
+      if (enemy._movCheck >= 0.6) {
+        enemy._movCheck = 0;
+        const rx = enemy._movRefX ?? enemy.position.x;
+        const rz = enemy._movRefZ ?? enemy.position.z;
+        const net = Math.hypot(enemy.position.x - rx, enemy.position.z - rz);
+        const wantsMove = spd > 0.6 && distNow > 2.4;
+        if (wantsMove && net < 0.30) {
+          const tdx = playerPos.x - enemy.position.x;
+          const tdz = playerPos.z - enemy.position.z;
+          const tl = Math.hypot(tdx, tdz) || 1;
+          const side = ((enemy.slot || 0) % 2 === 0) ? 1 : -1;
+          enemy._detour = { x: (-tdz / tl) * side, z: (tdx / tl) * side, t: 0.9 };
+          enemy._stuckCount = (enemy._stuckCount || 0) + 1;
+
+        } else {
+          enemy._stuckCount = 0;
+        }
+        enemy._movRefX = enemy.position.x;
+        enemy._movRefZ = enemy.position.z;
       }
       } else {
         enemy.position.x += enemy.velocity.x * dt;
@@ -540,7 +589,10 @@ export class EnemyManager {
       const mesh = this.enemyMeshes.get(enemy);
       if (mesh) {
         mesh.position.set(enemy.position.x, enemy.position.y, enemy.position.z);
-        mesh.rotation.y = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+        const wantYaw = Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z);
+        let dYaw = wantYaw - mesh.rotation.y;
+        dYaw = Math.atan2(Math.sin(dYaw), Math.cos(dYaw));
+        mesh.rotation.y += dYaw * Math.min(1, dt * 9);
         animateEnemyMesh(enemy, mesh, dt);
       }
 

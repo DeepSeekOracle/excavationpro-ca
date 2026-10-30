@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610323p";
-import { PALETTE, hexInt } from "./theme.js?v=202610323p";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323p";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610323s";
+import { PALETTE, hexInt } from "./theme.js?v=202610323s";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610323s";
 
 export const PLAYER_SKINS = [
   {
@@ -750,7 +750,10 @@ function attachRiggedEnemyGltf(root, gltfName, opts = {}) {
 
     if (gltf.animations && gltf.animations.length > 0) {
       const mixer = new THREE.AnimationMixer(rig);
-      const clip = findClip(gltf.animations, clipNames);
+      let clip = findClip(gltf.animations, clipNames);
+      // A rig whose clip names do not match would otherwise stand in its bind pose while the body
+      // slides around — the "enemy glides / does not move" look. Fall back to its first clip.
+      if (!clip && gltf.animations.length) clip = gltf.animations[0];
       if (clip) {
         const action = mixer.clipAction(clip);
         action.timeScale = timeScale;
