@@ -4,15 +4,15 @@
  */
 
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610324e";
-import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610324e";
+import { TUNING } from "./tuning.js?v=202610325v";
+import { enemyHpAt, enemySpeedAt, damageAfterArmour, shieldGate } from "./balance.js?v=202610325v";
 import {
   buildEnemyMesh,
   animateEnemyMesh,
   arenaColliders,
   resolveObstacleCollision,
   steerAroundObstacles,
-} from "./models.js?v=202610324e";
+} from "./models.js?v=202610325v";
 
 export const ENEMY_TYPES = {
   rifleman: "rifleman",
@@ -371,6 +371,10 @@ export class EnemyManager {
     this.scene = scene;
     this.materials = materials;
     this.maxConcurrent = maxConcurrent;
+    // The director raises `maxConcurrent` with difficulty; this is the ceiling it may never pass.
+    // Before, the budget (8 + 3.2/min, cap 400) overwrote the 20-body cap, so a long run could
+    // field scores of full skeletal rigs and the frame rate fell off a cliff.
+    this.hardCap = maxConcurrent;
     this.enemies = [];
     this.enemyMeshes = new Map(); // enemy -> mesh
     this.spawnTimer = 0;
@@ -379,13 +383,13 @@ export class EnemyManager {
     this.currentBeat = null;
   }
 
-  /** Spawn an enemy of given type at random angle around player. */
-  spawn(type, playerPos, timeMinutes = 0) {
-    if (this.enemies.length >= this.maxConcurrent) return null;
+  /** Spawn an enemy of given type at random angle around player. `force` ignores the body cap. */
+  spawn(type, playerPos, timeMinutes = 0, force = false) {
+    if (!force && this.enemies.length >= this.maxConcurrent) return null;
     let position = null;
     for (let attempt = 0; attempt < 8; attempt += 1) {
       const angle = this.rng() * Math.PI * 2;
-      const radius = 18 + this.rng() * 30;
+      const radius = 13 + this.rng() * 13;   // 13-26 m: inside the ring, close enough to see
       const candidate = {
         x: playerPos.x + Math.cos(angle) * radius,
         z: playerPos.z + Math.sin(angle) * radius,
@@ -401,8 +405,11 @@ export class EnemyManager {
     const enemy = new Enemy(type, position, this.rng, timeMinutes);
     // Shooter ramp: 12 % of bodies can fire at t=0, climbing to 85 % by ~110 s. The rest still
     // advance and melee; gating happens in the type updates via enemy.canShoot.
+    // The ramp is for RIFLE-CARRIERS only. Applying it to a mortar meant 88 % of mortars could
+    // never fire their only weapon, the same for mechs — their whole identity was switched off.
     const minutes = Number(timeMinutes) || 0;
-    enemy.canShoot = this.rng() < Math.min(0.85, 0.12 + minutes * (60 / 150));
+    const alwaysArmed = type === "mortar" || type === "mech" || type === "gunship" || type === "sapper";
+    enemy.canShoot = alwaysArmed ? true : this.rng() < Math.min(0.85, 0.12 + minutes * (60 / 150));
     this.spawnBodies = (this.spawnBodies || 0) + 1;
     if (enemy.canShoot) this.spawnShooters = (this.spawnShooters || 0) + 1;
     enemy.slot = this.slotSeq || 0;
@@ -623,11 +630,12 @@ export class EnemyManager {
     }
   }
 
-  /** Find nearest enemy to position within angle. */
+  /** Find nearest enemy to position within angle. Dead bodies are not targets. */
   findNearest(playerPos, playerYaw, maxDistance = 19, angle = Math.PI * 2 / 3) {
     let best = null;
     let bestDist = maxDistance;
     for (const enemy of this.enemies) {
+      if (enemy.hp <= 0) continue;
       const dx = enemy.position.x - playerPos.x;
       const dz = enemy.position.z - playerPos.z;
       const dist = Math.hypot(dx, dz);
@@ -676,9 +684,10 @@ export class EnemyManager {
     this.enemyMeshes.clear();
   }
 
-  /** Set max concurrent (for difficulty scaling). */
+  /** Set max concurrent (for difficulty scaling). Never above the hard cap from the constructor. */
   setMaxConcurrent(max) {
-    this.maxConcurrent = max;
+    const n = Math.max(1, Math.floor(Number(max) || 1));
+    this.maxConcurrent = Math.min(this.hardCap || n, n);
   }
 
   /** Serialize for save. */

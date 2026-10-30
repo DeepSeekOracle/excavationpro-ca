@@ -125,6 +125,9 @@ function makeSign(texture, width = 3.8, height = 1.35) {
   back.position.z = -0.07;
   back.rotation.y = Math.PI;
   sign.add(frame, face, back);
+  // Exposed for the camera: a sign is not a movement collider (the fighter must walk under it),
+  // but the broadcast camera must not end up inside one.
+  sign.userData.cameraBlocker = { hx: width / 2 + 0.4, hz: 0.6 };
   // mounting posts down to the deck
   const postMat = new THREE.MeshStandardMaterial({ color: 0x2a2f36, metalness: 0.8, roughness: 0.45 });
   for (const px of [-width * 0.38, width * 0.38]) {
@@ -148,12 +151,12 @@ export function buildBrandProps(group, map) {
 
   // Big stadium board behind the spawn, squared to the chase camera so it reads in every run.
   const board = makeSign(boardTex, 7.4, 2.15);
-  board.position.set(0, 3.4, -11.5);
+  board.position.set(0, 3.9, -11.5);
   group.add(board);
 
   // Side board angled toward the arena centre.
   const side = makeSign(urlTex, 4.4, 1.5);
-  side.position.set(-9.8, 2.35, -4.6);
+  side.position.set(-9.8, 2.8, -4.6);
   side.rotation.y = 0.55;
   group.add(side);
 

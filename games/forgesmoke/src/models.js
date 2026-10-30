@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610324e";
-import { PALETTE, hexInt } from "./theme.js?v=202610324e";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610324e";
+import { standardMaterial, bakeTexture } from "./materials.js?v=202610325v";
+import { PALETTE, hexInt } from "./theme.js?v=202610325v";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610325v";
 
 export const PLAYER_SKINS = [
   {
@@ -338,6 +338,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
   });
   ensureBakedMaterial(visorMat, "soldier-rig", 2);
 
+  const previousSkinId = soldier.userData.skinId;
   soldier.userData.skinId = skin.id;
   soldier.userData.clothMat = clothMat;
   soldier.userData.armorMat = armorMat;
@@ -345,8 +346,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
   soldier.userData.skin = skin;
 
   if (gunPivot) {
-    // Positioned at the Vanguard Soldier's shoulder/hands rifle grip (rHand=[-0.14, 1.45, 0.25], lHand=[0.0, 1.48, 0.36])
-    gunPivot.position.set(-0.08, 1.46, 0.16);
+    // the actual carry anchor is solved every frame in updateOperatorAnimation (WEAPON_ANCHOR)
     if (gunPivot.parent !== soldier) {
       soldier.add(gunPivot);
     }
@@ -363,7 +363,11 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
   }
 
   if (soldier.userData.glbRig) {
-    applyOperatorSkinToRig(soldier.userData.glbRig, skin, clothMat, armorMat, visorMat);
+    // Re-cloning every material on every run start cost a visible stall (each new material is a
+    // fresh shader compile). Only repaint when the suit actually changed.
+    if (previousSkinId !== skin.id) {
+      applyOperatorSkinToRig(soldier.userData.glbRig, skin, clothMat, armorMat, visorMat);
+    }
     return { clothMat, armorMat, visorMat, skin };
   }
 
@@ -426,7 +430,6 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
       soldier.userData.actions = actions;
       soldier.userData.activeAnim = "idle";
       mixer.update(0.01);
-      applyTwoHandedRiflePose(soldier.userData.armBones, 0, 0);
     }
   });
 
@@ -434,20 +437,116 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
 }
 
 /**
- * Step the Operator's skeletal AnimationMixer (`Idle` <-> `Run`), pose both arms to hold
- * the weapon at shoulder height, and tilt the rifle during reload phases.
+ * Step the Operator's skeletal AnimationMixer (`Idle` <-> `Run`) and solve both arms onto the
+ * weapon so the rifle is actually held.
+ *
+ * The old code let the Mixamo clip swing the arms while the gun was parented to the right hand
+ * bone, so the rifle hung at the hip and the hands never touched it. A two-bone IK solve per arm
+ * (shoulder -> elbow -> hand) is the only version that survives every clip: the animation still
+ * drives hips, legs and torso, and the arms are then aimed at the weapon's two grips.
  */
 const _gunV1 = new THREE.Vector3();
 const _gunV2 = new THREE.Vector3();
-const _gunDir = new THREE.Vector3();
-const _gunUp = new THREE.Vector3();
-const _gunX = new THREE.Vector3();
-const _gunY = new THREE.Vector3();
-const _gunM = new THREE.Matrix4();
-const _gunQ = new THREE.Quaternion();
-const _gunTilt = new THREE.Quaternion();
-const _gunAxisX = new THREE.Vector3(1, 0, 0);
-const _gunGrip = new THREE.Vector3();
+const _ikS = new THREE.Vector3();
+const _ikE = new THREE.Vector3();
+const _ikH = new THREE.Vector3();
+const _ikT = new THREE.Vector3();
+const _ikDir = new THREE.Vector3();
+const _ikPole = new THREE.Vector3();
+const _ikPerp = new THREE.Vector3();
+const _ikTmp = new THREE.Vector3();
+const _ikV1 = new THREE.Vector3();
+const _ikV2 = new THREE.Vector3();
+const _ikTargetR = new THREE.Vector3();
+const _ikTargetL = new THREE.Vector3();
+const _ikPoleR = new THREE.Vector3();
+const _ikPoleL = new THREE.Vector3();
+const _ikQ = new THREE.Quaternion();
+const _ikParentQ = new THREE.Quaternion();
+const _ikOldQ = new THREE.Quaternion();
+const _ikNewQ = new THREE.Quaternion();
+const _ikParentInv = new THREE.Quaternion();
+
+/** Rotate `bone` in world space so its current (from) direction becomes (to). */
+function rotateBoneWorld(bone, fromDir, toDir) {
+  if (!bone || !bone.parent) return;
+  if (fromDir.lengthSq() < 1e-8 || toDir.lengthSq() < 1e-8) return;
+  _ikQ.setFromUnitVectors(fromDir.normalize(), toDir.normalize());
+  bone.parent.getWorldQuaternion(_ikParentQ);
+  bone.getWorldQuaternion(_ikOldQ);
+  _ikNewQ.copy(_ikQ).multiply(_ikOldQ);
+  _ikParentInv.copy(_ikParentQ).invert();
+  bone.quaternion.copy(_ikParentInv).multiply(_ikNewQ);
+  bone.updateMatrixWorld(true);
+}
+
+/**
+ * Two-bone analytic IK for one arm. Puts `handBone` on `target` with the elbow pushed toward
+ * `pole` (a world-space direction). Lengths are measured from the live pose, so it works for any
+ * humanoid rig without hard-coded bone lengths.
+ */
+function solveArm(shoulder, elbowBone, handBone, target, pole) {
+  if (!shoulder || !elbowBone || !handBone || !target) return;
+  shoulder.getWorldPosition(_ikS);
+  elbowBone.getWorldPosition(_ikE);
+  handBone.getWorldPosition(_ikH);
+  const l1 = _ikS.distanceTo(_ikE) || 0.28;
+  const l2 = _ikE.distanceTo(_ikH) || 0.27;
+  _ikDir.copy(target).sub(_ikS);
+  const d = _ikDir.length();
+  if (d < 1e-5) return;
+  const dClamped = Math.min(l1 + l2 - 0.015, Math.max(Math.abs(l1 - l2) + 0.015, d));
+  _ikDir.multiplyScalar(1 / d);
+  const a = (l1 * l1 - l2 * l2 + dClamped * dClamped) / (2 * dClamped);
+  const h = Math.sqrt(Math.max(0, l1 * l1 - a * a));
+  // perpendicular part of the pole, so the elbow lands on the side the pole asks for
+  _ikPerp.copy(pole).addScaledVector(_ikDir, -pole.dot(_ikDir));
+  if (_ikPerp.lengthSq() < 1e-6) _ikPerp.set(0, -1, 0);
+  _ikPerp.normalize();
+  _ikTmp.copy(_ikS).addScaledVector(_ikDir, a).addScaledVector(_ikPerp, h);   // elbow target
+  // 1) upper arm points at the elbow target
+  _ikV1.copy(_ikE).sub(_ikS);
+  _ikV2.copy(_ikTmp).sub(_ikS);
+  rotateBoneWorld(shoulder, _ikV1, _ikV2);
+  // 2) forearm points at the hand target (recomputed after the upper arm moved)
+  elbowBone.getWorldPosition(_ikE);
+  handBone.getWorldPosition(_ikH);
+  _ikV1.copy(_ikH).sub(_ikE);
+  _ikV2.copy(target).sub(_ikE);
+  rotateBoneWorld(elbowBone, _ikV1, _ikV2);
+}
+
+/**
+ * The weapon's carry pose in soldier-local space: muzzle forward (+Z), grip just in front of the
+ * chest. Kept out of the torso so the rifle silhouette reads from every camera.
+ */
+export const WEAPON_ANCHOR = { x: 0.12, y: 1.56, z: 0.28 };
+
+/** QA-only: move the carry anchor while tuning the hold pose (used by ?test=1 hooks). */
+export function setWeaponAnchor(x, y, z) {
+  if (Number.isFinite(x)) WEAPON_ANCHOR.x = x;
+  if (Number.isFinite(y)) WEAPON_ANCHOR.y = y;
+  if (Number.isFinite(z)) WEAPON_ANCHOR.z = z;
+  return { ...WEAPON_ANCHOR };
+}
+
+function poseWeaponHold(soldier, gunPivot) {
+  const bones = soldier.userData.armBones;
+  if (!bones || !bones.rArm || !bones.lArm) return;
+  soldier.updateMatrixWorld(true);
+  const q = soldier.getWorldQuaternion(_ikParentQ);
+  // right hand on the pistol grip, left hand on the foregrip
+  const rightTarget = _ikTargetR.set(-0.03, -0.025, 0.07).applyMatrix4(gunPivot.matrixWorld);
+  const leftTarget = _ikTargetL.set(0.0, 0.0, 0.34).applyMatrix4(gunPivot.matrixWorld);
+  // elbows down and out, mirrored per side
+  const poleR = _ikPoleR.set(1.1, -1.0, -0.15).applyQuaternion(q);
+  const poleL = _ikPoleL.set(-1.1, -1.0, -0.15).applyQuaternion(q);
+  solveArm(bones.rArm, bones.rFore, bones.rHand, rightTarget, poleR);
+  solveArm(bones.lArm, bones.lFore, bones.lHand, leftTarget, poleL);
+  // a small wrist cant so the palms face the grips instead of the sky
+  if (bones.rHand) bones.rHand.rotation.z += (0.35 - bones.rHand.rotation.z) * 0.25;
+  if (bones.lHand) bones.lHand.rotation.z += (-0.3 - bones.lHand.rotation.z) * 0.25;
+}
 
 export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false, activeWeapon = null) {
   if (!soldier) return;
@@ -464,39 +563,19 @@ export function updateOperatorAnimation(soldier, gunPivot, dt, isMoving = false,
     }
     mixer.update(dt);
   }
-  let reloadTilt = 0;
-  if (gunPivot) {
-    gunPivot.position.set(-0.08, 1.46, 0.16);
-    if (activeWeapon && activeWeapon.isReloading) {
-      const phase = activeWeapon.getReloadPhase();
-      const rawAngle = phase && Number.isFinite(phase.angle) ? (phase.angle * Math.PI) / 180 : -0.38;
-      const targetAngle = Number.isFinite(rawAngle) ? rawAngle : 0;
-      if (!Number.isFinite(gunPivot.rotation.x)) gunPivot.rotation.x = 0;
-      gunPivot.rotation.x += (targetAngle - gunPivot.rotation.x) * Math.min(1, dt * 14);
-      // keep the reload tilt sane: larger angles swing the rifle through the torso and it reads as
-      // "the gun disappeared"
-      gunPivot.rotation.x = Math.max(-0.55, Math.min(0.55, gunPivot.rotation.x));
-      reloadTilt = Number.isFinite(gunPivot.rotation.x) ? gunPivot.rotation.x : 0;
-    } else {
-      gunPivot.rotation.x += (0 - gunPivot.rotation.x) * Math.min(1, dt * 12);
-    }
-
-    const handBones = soldier.userData.armBones;
-    if (handBones && handBones.rHand) {
-      soldier.updateMatrixWorld(true);
-      const hand = handBones.rHand.getWorldPosition(_gunV1);
-      const fwd = _gunV2.set(0, 0, 1).applyQuaternion(soldier.quaternion).normalize();
-      hand.addScaledVector(fwd, 0.16);
-      hand.y += 0.02;
-      const local = soldier.worldToLocal(hand.clone());
-      gunPivot.position.lerp(local, Math.min(1, dt * 18));
-      gunPivot.quaternion.slerp(soldier.quaternion, Math.min(1, dt * 12));
-    }
-
+  if (!gunPivot) return;
+  // The weapon lives at a fixed chest anchor in soldier space: stable aim for the hitscan muzzle,
+  // and always outside the torso. The arms are solved onto it afterwards.
+  gunPivot.position.set(WEAPON_ANCHOR.x, WEAPON_ANCHOR.y, WEAPON_ANCHOR.z);
+  // reload: cant the rifle instead of pitching it through the chest (which used to hide it)
+  let cant = 0;
+  if (activeWeapon && activeWeapon.isReloading) {
+    const phase = activeWeapon.getReloadPhase();
+    const rawAngle = phase && Number.isFinite(phase.angle) ? (phase.angle * Math.PI) / 180 : -0.38;
+    cant = Number.isFinite(rawAngle) ? Math.max(-0.5, Math.min(0.5, rawAngle)) : 0;
   }
-  // NOTE: the player's arms are left to the Mixamo run/idle clips. The old hand-authored Euler
-  // pose sat the hands at the waist with the rifle inside the torso; the clips look correct and the
-  // gun is anchored to the right hand below instead.
+  gunPivot.rotation.z += (cant - gunPivot.rotation.z) * Math.min(1, dt * 12);
+  poseWeaponHold(soldier, gunPivot);
 }
 
 /**
@@ -521,19 +600,32 @@ export function rebuildWeaponMesh(gunPivot, styleKey, steelMat) {
 
   const lightGun = isLightGunStyle(styleKey);
   const accentHex = STYLE_COLORS[styleKey] || 0xffb347;
+  // The rifle gets its own steel: the shared world steel is 0.8 metalness with almost no specular
+  // response, so the weapon read as a black stick against the deck. A lighter, rougher alloy plus
+  // the scene environment makes the receiver, barrel and optic legible at 5-10 m.
+  const gunSteel = steelMat?.clone ? steelMat.clone() : new THREE.MeshStandardMaterial({ color: 0x6c7783 });
+  gunSteel.color = new THREE.Color(0x8a949e);
+  gunSteel.metalness = 0.62;
+  gunSteel.roughness = 0.34;
+  gunSteel.envMapIntensity = 1.6;
+  gunSteel.emissive = new THREE.Color(0x0a0d10);
+  gunSteel.emissiveIntensity = 0.35;
   const trimMat = new THREE.MeshStandardMaterial({
-    color: lightGun ? accentHex : 0x2b333a,
+    color: lightGun ? accentHex : 0x37434c,
     emissive: new THREE.Color(lightGun ? accentHex : 0x000000),
     emissiveIntensity: lightGun ? 1.85 : 0.0,
     roughness: lightGun ? 0.15 : 0.55,
     metalness: 0.85,
   });
   ensureBakedMaterial(trimMat, "operator", 3);
+  ensureBakedMaterial(gunSteel, "operator", 5);
+  // every part below that used to take the shared world steel now takes the readable gun alloy
+  steelMat = gunSteel;
 
   const stockMat = new THREE.MeshStandardMaterial({
-    color: 0x1c2226,
-    roughness: 0.65,
-    metalness: 0.35,
+    color: 0x2a3238,
+    roughness: 0.6,
+    metalness: 0.4,
   });
   ensureBakedMaterial(stockMat, "operator", 4);
 
@@ -665,28 +757,23 @@ function tintClonedRig(rig, assetName, tintHex, emissiveHex = null, emissiveInte
     const mName = (origMat.name || "").toLowerCase();
     const cName = (meshName || "").toLowerCase();
 
-    const isVisorOrEye = mName.includes("visor") || mName.includes("eye") || mName.includes("black");
+    // Deterministic faction paint: body = the type's tint, joints = dark, and NO per-material
+    // emissive guesswork. Guessing "this material looks like an eye" from a name turned whole
+    // bodies into glowing red/magenta blobs (a material literally named "black" was the body suit).
+    // The readable hostile cue is the ground ring plus the silhouette, not a glowing mesh.
     const isJoint = mName.includes("grey") || mName.includes("joint") || cName.includes("joint");
-
-    if (isVisorOrEye && emissiveHex) {
-      m.color = new THREE.Color(emissiveHex);
-      m.emissive = new THREE.Color(emissiveHex);
-      m.emissiveIntensity = Math.max(1.4, emissiveIntensity);
-    } else if (isJoint) {
-      m.color = new THREE.Color(0x222a30);
+    if (isJoint) {
+      m.color = new THREE.Color(0x1d242a);
       m.emissive = new THREE.Color(0x000000);
       m.emissiveIntensity = 0;
-      m.metalness = 0.75;
-      m.roughness = 0.35;
+      m.metalness = 0.72;
+      m.roughness = 0.38;
     } else {
       if (tintHex) m.color = new THREE.Color(tintHex);
-      if (emissiveHex && emissiveIntensity > 0) {
-        m.emissive = new THREE.Color(emissiveHex);
-        m.emissiveIntensity = Math.min(0.08, emissiveIntensity * 0.2);
-      } else {
-        m.emissive = new THREE.Color(0x000000);
-        m.emissiveIntensity = 0;
-      }
+      m.emissive = new THREE.Color(0x000000);
+      m.emissiveIntensity = 0;
+      m.metalness = Math.min(0.5, m.metalness ?? 0.3);
+      m.roughness = Math.max(0.5, m.roughness ?? 0.6);
     }
     return ensureBakedMaterial(m, assetName, ++slotCounter);
   };
@@ -718,6 +805,7 @@ function attachRiggedEnemyGltf(root, gltfName, opts = {}) {
     emissiveIntensity = 0.25,
     fallbackGroup = null,
     twoHandedRiflePose = false,
+    targetHeight = 0,
   } = opts;
 
   withGltf(gltfName, (gltf) => {
@@ -728,9 +816,19 @@ function attachRiggedEnemyGltf(root, gltfName, opts = {}) {
     rig.position.set(0, 0, 0);
     rig.rotation.set(0, rotY, 0);
     rig.updateMatrixWorld(true);
+    // HEIGHT NORMALISATION: every humanoid hostile is fitted to the same silhouette height, because
+    // the role gear (shield, lance, carbine, scope) is authored in root space for a ~1.78 m body.
+    // Without this the rigs arrived at 1.3-2.7 m and the gear floated at the wrong height.
+    let rigBox = new THREE.Box3().setFromObject(rig);
+    const rawHeight = rigBox.max.y - rigBox.min.y;
+    if (targetHeight > 0.5 && Number.isFinite(rawHeight) && rawHeight > 0.4) {
+      const fitted = scale * (targetHeight / rawHeight);
+      rig.scale.setScalar(fitted);
+      rig.updateMatrixWorld(true);
+      rigBox = new THREE.Box3().setFromObject(rig);
+    }
     // Measure the model and put its lowest point on the deck. Different Mixamo rigs have different
     // bind-pose origins, which is why some bodies stood sunk into the ground.
-    const rigBox = new THREE.Box3().setFromObject(rig);
     const feet = Number.isFinite(rigBox.min.y) ? rigBox.min.y : 0;
     rig.position.set(0, offsetY - feet, 0);
     tintClonedRig(rig, gltfName, tintHex, emissiveHex, emissiveIntensity);
@@ -758,9 +856,6 @@ function attachRiggedEnemyGltf(root, gltfName, opts = {}) {
       }
       root.userData.mixer = mixer;
       mixer.update(0.01);
-      if (root.userData.armBones) {
-        applyTwoHandedRiflePose(root.userData.armBones, 0, 0);
-      }
     }
   });
 }
@@ -806,49 +901,47 @@ export function buildEnemyMesh(type, bank) {
     attachRiggedEnemyGltf(root, "hostile-cesium-man", {
       scale: 1.24,
       offsetY: -0.72,
-      rotY: 0,
+      rotY: Math.PI,
       clipNames: ["Anim_0", "animation_0"],
       timeScale: 1.55,
-      tintHex: 0xffffff,
-      emissiveHex: null,
-      emissiveIntensity: 0,
+      tintHex: 0x4a3a2c,
+      emissiveHex: 0xff8a3a,
+      emissiveIntensity: 1.0,
       fallbackGroup: fb,
+      targetHeight: 1.78,
     });
   } else if (type === "shieldbearer") {
     // Rigged RobotExpressive heavy juggernaut carrying a Left-Arm Ballistic Riot Shield + Right-Arm Shock Mace
     fb.add(makePart(new THREE.BoxGeometry(1.14, 1.24, 0.88), chitin, "enemy-torso", 0, 0.22, 0));
     // Layered ballistic riot shield: back plate, face panel, viewport slit, hazard bars, rim.
+    // Riot wall: fitted to the 1.88 m body and held in FRONT of it, which is exactly where the
+    // front-arc damage gate lives. The old 1.78 m plate sat 0.74 m ahead of a 0.8 m rig.
     const shield = new THREE.Group();
-    shield.position.set(-0.18, 0.24, 0.74);
-    shield.rotation.y = 0.12;
-    shield.add(makePart(new THREE.BoxGeometry(1.52, 1.78, 0.13), armor, "enemy-shield", 0, 0, 0));
-    shield.add(makePart(new THREE.BoxGeometry(1.34, 1.58, 0.05), chitin, "shield-face", 0, -0.02, 0.10));
-    shield.add(makePart(new THREE.BoxGeometry(0.82, 0.10, 0.04), cyanTrim, "shield-slit", 0, 0.56, 0.14));
+    shield.position.set(0, 0.62, 0.62);
+    shield.add(makePart(new THREE.BoxGeometry(1.16, 1.34, 0.12), armor, "enemy-shield", 0, 0, 0));
+    shield.add(makePart(new THREE.BoxGeometry(1.02, 1.18, 0.04), chitin, "shield-face", 0, -0.02, 0.08));
+    shield.add(makePart(new THREE.BoxGeometry(0.62, 0.075, 0.03), cyanTrim, "shield-slit", 0, 0.42, 0.11));
     for (let i = 0; i < 3; i += 1) {
-      shield.add(makePart(new THREE.BoxGeometry(0.34, 0.05, 0.03), orangeTank, "shield-hazard", -0.36 + i * 0.36, -0.62, 0.14));
+      shield.add(makePart(new THREE.BoxGeometry(0.26, 0.04, 0.03), orangeTank, "shield-hazard", -0.28 + i * 0.28, -0.46, 0.11));
     }
-    shield.add(makePart(new THREE.BoxGeometry(1.58, 0.07, 0.19), cyanTrim, "shield-rim-top", 0, 0.92, 0.01));
-    shield.add(makePart(new THREE.BoxGeometry(1.58, 0.07, 0.19), armor, "shield-rim-bottom", 0, -0.92, 0.01));
+    shield.add(makePart(new THREE.BoxGeometry(1.2, 0.06, 0.16), cyanTrim, "shield-rim-top", 0, 0.69, 0.01));
+    shield.add(makePart(new THREE.BoxGeometry(1.2, 0.06, 0.16), armor, "shield-rim-bottom", 0, -0.69, 0.01));
     root.add(shield);
-    // Heavy pauldrons + helmet so the juggernaut reads as a juggernaut
-    root.add(makePart(new THREE.IcosahedronGeometry(0.30, 1), armor, "shield-pauldron-l", -0.66, 0.80, 0.02));
-    root.add(makePart(new THREE.IcosahedronGeometry(0.30, 1), armor, "shield-pauldron-r", 0.66, 0.80, 0.02));
-    root.add(makePart(new THREE.BoxGeometry(0.44, 0.40, 0.42), armor, "shield-helm", 0, 0.92, 0.02));
-    root.add(makePart(new THREE.BoxGeometry(0.30, 0.06, 0.03), cyanTrim, "shield-visor", 0, 0.94, 0.23));
-    // Heavy Shock Mace / Sidearm Cannon on right flank
-    const maceShaft = makePart(new THREE.CylinderGeometry(0.06, 0.06, 0.92, 8), armor, "shock-mace", 0.56, 0.42, 0.44, Math.PI / 3, 0, 0);
-    const maceHead = makePart(new THREE.CylinderGeometry(0.14, 0.14, 0.28, 8), redOptic, "shock-mace-head", 0.56, 0.64, 0.78, Math.PI / 3, 0, 0);
+    // right-hand shock mace, sized to the fitted body
+    const maceShaft = makePart(new THREE.CylinderGeometry(0.05, 0.05, 0.8, 8), armor, "shock-mace", 0.5, 0.5, 0.3, Math.PI / 3, 0, 0);
+    const maceHead = makePart(new THREE.CylinderGeometry(0.12, 0.12, 0.24, 8), redOptic, "shock-mace-head", 0.5, 0.72, 0.62, Math.PI / 3, 0, 0);
     root.add(maceShaft, maceHead);
     attachRiggedEnemyGltf(root, "hostile-robot-rig", {
       scale: 0.44,
       offsetY: -0.72,
-      rotY: 0,
+      rotY: Math.PI,
       clipNames: ["Walking", "Running", "Idle"],
       timeScale: 0.95,
-      tintHex: 0xffffff,
-      emissiveHex: null,
-      emissiveIntensity: 0,
+      tintHex: 0x39434c,
+      emissiveHex: 0x6fe3ff,
+      emissiveIntensity: 1.0,
       fallbackGroup: fb,
+      targetHeight: 1.88,
     });
   } else if (type === "spotter") {
     // Rigged Xbot cybernetic sniper holding a Long-Barrel Marksman Laser Rifle at shoulder height
@@ -859,21 +952,21 @@ export function buildEnemyMesh(type, bank) {
     root.add(makePart(new THREE.BoxGeometry(0.075, 0.10, 0.96), armor, "spotter-sniper", -0.06, 0.66, 0.44));
     root.add(makePart(new THREE.CylinderGeometry(0.032, 0.032, 0.28, 8), magentaOptic, "spotter-scope", -0.06, 0.74, 0.36, Math.PI / 2, 0, 0));
     root.add(makePart(new THREE.CylinderGeometry(0.022, 0.022, 0.18, 8), magentaOptic, "spotter-muzzle", -0.06, 0.66, 0.96, Math.PI / 2, 0, 0));
-    // recon hood + cloak + lens ring (spotter faction trim)
-    root.add(makePart(new THREE.ConeGeometry(0.30, 0.40, 7), spotterCamo, "spotter-hood", 0, 0.94, -0.01, 0.12, 0, 0));
-    root.add(makePart(new THREE.BoxGeometry(0.52, 0.92, 0.07), spotterCamo, "spotter-cloak", 0, 0.38, -0.34, -0.08, 0, 0));
-    root.add(makePart(new THREE.CylinderGeometry(0.075, 0.075, 0.025, 10), magentaOptic, "spotter-lens-ring", -0.06, 0.74, 0.495, Math.PI / 2, 0, 0));
+    // a low recon antenna and a lens ring only: the old hood cone and cloak slab floated off the
+    // rigged body and made the spotter read as a traffic cone on legs
+    root.add(makePart(new THREE.CylinderGeometry(0.02, 0.02, 0.34, 6), armor, "whip-antenna", 0.16, 1.42, -0.24));
+    root.add(makePart(new THREE.CylinderGeometry(0.07, 0.07, 0.03, 12), magentaOptic, "spotter-lens-ring", -0.06, 0.74, 0.50, Math.PI / 2, 0, 0));
     attachRiggedEnemyGltf(root, "hostile-xbot-rig", {
       scale: 1.08,
       offsetY: -0.72,
-      rotY: 0,
+      rotY: Math.PI,
       clipNames: ["walk", "run", "idle"],
       timeScale: 1.15,
-      tintHex: 0xffffff,
-      emissiveHex: null,
-      emissiveIntensity: 0,
+      tintHex: 0x2b3634,
+      emissiveHex: 0xff6fd6,
+      emissiveIntensity: 1.0,
       fallbackGroup: fb,
-      twoHandedRiflePose: true,
+      targetHeight: 1.8,
     });
   } else if (type === "drone") {
     const chassis = new THREE.Group();
@@ -914,10 +1007,11 @@ export function buildEnemyMesh(type, bank) {
       rotY: 0,
       clipNames: ["animation_0"],
       timeScale: 0.85,
-      tintHex: 0xe6994d,
+      tintHex: 0x6a553f,
       emissiveHex: 0xff6a2a,
-      emissiveIntensity: 0.3,
+      emissiveIntensity: 0.6,
       fallbackGroup: fb,
+      targetHeight: 1.62,
     });
   } else if (type === "mech") {
     fb.add(makePart(new THREE.BoxGeometry(1.62, 1.18, 1.15), chitin, "mech-hull", 0, 0.88, 0));
@@ -932,13 +1026,14 @@ export function buildEnemyMesh(type, bank) {
     attachRiggedEnemyGltf(root, "robot-rig", {
       scale: 0.68,
       offsetY: -0.72,
-      rotY: 0,
+      rotY: Math.PI,
       clipNames: ["Walking", "Punch", "Running"],
       timeScale: 0.85,
-      tintHex: 0xd96b43,
+      tintHex: 0x7a4a34,
       emissiveHex: 0xff3b3b,
-      emissiveIntensity: 1.6,
+      emissiveIntensity: 1.0,
       fallbackGroup: fb,
+      targetHeight: 3.1,
     });
   } else if (type === "gunship") {
     const airframe = new THREE.Group();
@@ -972,11 +1067,11 @@ export function buildEnemyMesh(type, bank) {
       rotY: Math.PI,
       clipNames: ["Run", "Walk", "Idle"],
       timeScale: 1.15,
-      tintHex: 0xffffff,
+      tintHex: 0x333a42,
       emissiveHex: 0xff2e2e,
-      emissiveIntensity: 1.8,
+      emissiveIntensity: 1.0,
       fallbackGroup: fb,
-      twoHandedRiflePose: true,
+      targetHeight: 1.8,
     });
   }
 
@@ -987,11 +1082,9 @@ export function buildEnemyMesh(type, bank) {
 export function animateEnemyMesh(enemy, mesh, dt) {
   if (!mesh) return;
   if (mesh.userData.mixer) {
+    // Arms stay with the clip. The old hard-coded two-handed Euler pose was authored for one rig and
+    // produced a T-pose / arms-out silhouette on every other one.
     mesh.userData.mixer.update(dt);
-    if (mesh.userData.armBones) {
-      if (enemy._recoil > 0) enemy._recoil = Math.max(0, enemy._recoil - dt * 1.6);
-      applyTwoHandedRiflePose(mesh.userData.armBones, 0, 0, enemy._recoil || 0);
-    }
   }
   if (mesh.userData.rotors) {
     for (const r of mesh.userData.rotors) {

@@ -23,7 +23,7 @@ export const PALETTE = {
   flesh: { dark: "#57432f", mid: "#81664a", light: "#a88763" },
   enemyChitin: { dark: "#3d080b", mid: "#7d1419", light: "#c02a2a" },
   foliage: { dark: "#242a22", mid: "#333a2e", light: "#4b5340" },
-  groundMoss: { dark: "#1a1d22", mid: "#2a2e35", light: "#3a3f47" },
+  groundMoss: { dark: "#252a31", mid: "#363d46", light: "#4a525d" },
 
   healthOk: "#7ce6a8",
   healthWarn: "#e8c25a",
@@ -113,8 +113,10 @@ export const MATERIAL_RECIPES = {
     repeat: 24, roughness: 0.62, metalness: 0.14,
   },
   puddle: {
-    kind: "metal", seed: 33, palette: ["#1d2228", "#2c333b", "#3d454f"],
-    repeat: 2, roughness: 0.16, metalness: 0.55,
+    // Wet tarmac, not a hole: a mirror-ish surface picks up the environment map and reads as water.
+    // The old near-black disc read as a crater punched in the deck (playtest 2026-10-30).
+    kind: "metal", seed: 33, palette: ["#54657a", "#68798c", "#7d8fa2"],
+    repeat: 2, roughness: 0.07, metalness: 0.92,
   },
   bark: {
     kind: "wood", seed: 999, palette: ["#3b2f24", "#5a4a3a", "#746152"],
@@ -183,15 +185,20 @@ export const ARENA_LIGHTING = {
   perimeter: {
     id: "arena1",
     name: "Perimeter",
-    exposure: 1.28,
-    background: "#0b0d11",
-    fog: { color: "#0b0d11", density: 0.028 },
-    hemisphere: { sky: "#8fa6c0", ground: "#141821", intensity: 0.85 },
-    sun: { color: "#cfe0f5", intensity: 1.7, position: [16, 30, 12] },
+    // READABILITY PASS: the old values (exposure 1.28 / hemi 0.85 / fog 0.028) rendered the arena
+    // as a black void on a real GPU; enemies 20 m out were invisible. These are the measured
+    // replacements — see .forge/STATE.md and the playtest shots in docs/QA.
+    exposure: 1.55,
+    background: "#141a22",
+    fog: { color: "#161d26", density: 0.015 },
+    hemisphere: { sky: "#a8bed6", ground: "#262a24", intensity: 1.25 },
+    sun: { color: "#dbe8fb", intensity: 2.4, position: [16, 30, 12] },
     floodlights: [
-      { x: 0, z: 0, height: 6, color: "#ffe7c2", intensity: 1.2, distance: 18 },
+      { x: 0, z: -6, height: 8, color: "#ffe7c2", intensity: 2.1, distance: 34 },
+      { x: -22, z: 14, height: 7, color: "#ffd9a0", intensity: 1.6, distance: 30 },
+      { x: 22, z: 14, height: 7, color: "#ffd9a0", intensity: 1.6, distance: 30 },
     ],
-    rainOpacity: 0.32,
+    rainOpacity: 0.26,
     blackout: {
       duration: 8.0,
       sun: 0,
@@ -204,16 +211,17 @@ export const ARENA_LIGHTING = {
   breach: {
     id: "arena2",
     name: "Breach Yard",
-    exposure: 1.24,
-    background: "#0c0a08",
-    fog: { color: "#0c0a08", density: 0.034 },
-    hemisphere: { sky: "#9a8f7d", ground: "#17130f", intensity: 0.62 },
-    sun: { color: "#e0c9a0", intensity: 1.25, position: [-18, 26, -8] },
+    exposure: 1.52,
+    background: "#1a150f",
+    fog: { color: "#1d1811", density: 0.018 },
+    hemisphere: { sky: "#c0ad8f", ground: "#2c241b", intensity: 1.15 },
+    sun: { color: "#f2d6a8", intensity: 2.3, position: [-18, 26, -8] },
     floodlights: [
-      { x: -40, z: 0, height: 6, color: "#ffd9a0", intensity: 1.4, distance: 18 },
-      { x: 40, z: 0, height: 6, color: "#ffd9a0", intensity: 1.4, distance: 18 },
+      { x: -20, z: -14, height: 7, color: "#ffd9a0", intensity: 2.0, distance: 32 },
+      { x: 20, z: -14, height: 7, color: "#ffd9a0", intensity: 2.0, distance: 32 },
+      { x: 0, z: 22, height: 8, color: "#ffe7c2", intensity: 1.7, distance: 34 },
     ],
-    rainOpacity: 0.28,
+    rainOpacity: 0.24,
     blackout: {
       duration: 8.0,
       sun: 0,
@@ -226,16 +234,17 @@ export const ARENA_LIGHTING = {
   gunship: {
     id: "arena3",
     name: "Gunship Pad",
-    exposure: 1.3,
-    background: "#0a0d12",
-    fog: { color: "#0a0d12", density: 0.022 },
-    hemisphere: { sky: "#93a9c8", ground: "#10141a", intensity: 0.92 },
-    sun: { color: "#c4d8f2", intensity: 1.6, position: [20, 34, 0] },
+    exposure: 1.55,
+    background: "#121a26",
+    fog: { color: "#141d29", density: 0.013 },
+    hemisphere: { sky: "#a6bcdc", ground: "#1c222a", intensity: 1.3 },
+    sun: { color: "#d6e6ff", intensity: 2.5, position: [20, 34, 0] },
     floodlights: [
-      { x: 0, z: 0, height: 7, color: "#eaf3ff", intensity: 1.6, distance: 20 },
-      { x: -60, z: 0, height: 6, color: "#ffd9a0", intensity: 1.0, distance: 18 },
-      { x: 60, z: 0, height: 6, color: "#ffd9a0", intensity: 1.0, distance: 18 },
+      { x: 0, z: 0, height: 8, color: "#eaf3ff", intensity: 2.2, distance: 36 },
+      { x: -26, z: -10, height: 6, color: "#ffd9a0", intensity: 1.5, distance: 28 },
+      { x: 26, z: -10, height: 6, color: "#ffd9a0", intensity: 1.5, distance: 28 },
     ],
+
     rainOpacity: 0.24,
     blackout: {
       duration: 8.0,

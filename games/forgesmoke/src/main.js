@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610324e";
-import { standardMaterial } from "./materials.js?v=202610324e";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610324e";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610324e";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610325v";
+import { standardMaterial } from "./materials.js?v=202610325v";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610325v";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610325v";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610324e";
-import { TUNING } from "./tuning.js?v=202610324e";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610324e";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610324e";
-import { createCardTray } from "./cardsui.js?v=202610324e";
-import { buildBrandProps } from "./branding.js?v=202610324e";
-import { createSummary } from "./summaryui.js?v=202610324e";
-import { createBarks } from "./barks.js?v=202610324e";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610324e";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610324e";
-import { bossHp } from "./balance.js?v=202610324e";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610324e";
-import { pilot } from "./autopilot.js?v=202610324e";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610324e";
-import { createStartMenu } from "./startmenu.js?v=202610324e";
-import { createGamepad } from "./gamepad.js?v=202610324e";
-import { createTalentWindow } from "./talentui.js?v=202610324e";
-import { aggregate, toRunMods } from "./talents.js?v=202610324e";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610324e";
+} from "./theme.js?v=202610325v";
+import { TUNING } from "./tuning.js?v=202610325v";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610325v";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610325v";
+import { createCardTray } from "./cardsui.js?v=202610325v";
+import { buildBrandProps } from "./branding.js?v=202610325v";
+import { createSummary } from "./summaryui.js?v=202610325v";
+import { createBarks } from "./barks.js?v=202610325v";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610325v";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610325v";
+import { bossHp } from "./balance.js?v=202610325v";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610325v";
+import { pilot } from "./autopilot.js?v=202610325v";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610325v";
+import { createStartMenu } from "./startmenu.js?v=202610325v";
+import { createGamepad } from "./gamepad.js?v=202610325v";
+import { createTalentWindow } from "./talentui.js?v=202610325v";
+import { aggregate, toRunMods } from "./talents.js?v=202610325v";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610325v";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -39,6 +39,7 @@ import {
   updateOperatorAnimation,
   rebuildWeaponMesh,
   createEnemyMaterialBank,
+  buildEnemyMesh,
   populateArenaProps,
   arenaColliders,
   resolveObstacleCollision,
@@ -46,20 +47,21 @@ import {
   buildBossMesh,
   segmentHitsCollider,
   warmGlbAssets,
-} from "./models.js?v=202610324e";
-import * as levelModule from "./level.js?v=202610324e";
-import * as menuModule from "./menu.js?v=202610324e";
-import * as audioModule from "./audio.js?v=202610324e";
-import * as fxModule from "./fx.js?v=202610324e";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610324e";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610324e";
+  setWeaponAnchor as setWeaponAnchorModel,
+} from "./models.js?v=202610325v";
+import * as levelModule from "./level.js?v=202610325v";
+import * as menuModule from "./menu.js?v=202610325v";
+import * as audioModule from "./audio.js?v=202610325v";
+import * as fxModule from "./fx.js?v=202610325v";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610325v";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610325v";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610324e";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610324e";
+import { createCasings } from "./casings.js?v=202610325v";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610325v";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -95,6 +97,51 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(hexInt(ARENA_LIGHTING.perimeter.background));
 scene.fog = new THREE.FogExp2(hexInt(ARENA_LIGHTING.perimeter.fog.color), ARENA_LIGHTING.perimeter.fog.density);
+
+// ── IMAGE-BASED LIGHTING ──────────────────────────────────────────────────────────────────────
+// A MeshStandardMaterial with metalness > 0.5 and no environment map has nothing to reflect, so
+// every steel surface in the game rendered black: the operator's rifle, enemy armour, the prop
+// gantries. That is why the gun "wasn't there" and why a lit arena still read as a void. A tiny
+// procedural equirect (sky / warm horizon / ground + six arena lanterns) is pre-filtered once at
+// boot and becomes the scene environment; it costs one texture and zero draw calls.
+function buildEnvironmentMap(rendererRef) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 256;
+  canvas.height = 128;
+  const g = canvas.getContext("2d");
+  const sky = g.createLinearGradient(0, 0, 0, 128);
+  sky.addColorStop(0.0, "#2a3c52");
+  sky.addColorStop(0.38, "#4a5566");
+  sky.addColorStop(0.50, "#8a7b64");
+  sky.addColorStop(0.56, "#41382d");
+  sky.addColorStop(0.75, "#1b1a1a");
+  sky.addColorStop(1.0, "#0a0b0d");
+  g.fillStyle = sky;
+  g.fillRect(0, 0, 256, 128);
+  // arena lanterns along the horizon: small bright sources for specular highlights
+  for (let i = 0; i < 6; i += 1) {
+    const x = 18 + i * 42;
+    const lamp = g.createRadialGradient(x, 58, 0, x, 58, 22);
+    lamp.addColorStop(0, "rgba(255,232,182,0.95)");
+    lamp.addColorStop(0.4, "rgba(255,210,140,0.35)");
+    lamp.addColorStop(1, "rgba(255,210,140,0)");
+    g.fillStyle = lamp;
+    g.fillRect(x - 22, 36, 44, 44);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.mapping = THREE.EquirectangularReflectionMapping;
+  const pmrem = new THREE.PMREMGenerator(rendererRef);
+  pmrem.compileEquirectangularShader();
+  const env = pmrem.fromEquirectangular(tex).texture;
+  pmrem.dispose();
+  tex.dispose();
+  return env;
+}
+scene.environment = buildEnvironmentMap(renderer);
+const ENV_INTENSITY = 0.6;
+scene.environmentIntensity = ENV_INTENSITY;
+
 const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 240);
 function resize() {
   const width = Math.max(1, innerWidth), height = Math.max(1, innerHeight);
@@ -163,6 +210,68 @@ for (let i = 0; i < 22; i++) {
   puddle.userData.tag = "puddle";
   scene.add(puddle);
 }
+
+// ── ARENA PERIMETER ──────────────────────────────────────────────────────────────────────────
+// The play space used to be a 108 m-wide plane fading into fog: the fighter stood in an empty
+// parking lot and enemies 20 m out were invisible. A walled ring at 34 m plus four light towers
+// gives the arena an edge, a horizon and something for the broadcast camera to frame. Two
+// InstancedMeshes for the wall and its light strip keep it at four draw calls.
+function buildArenaRing() {
+  const group = new THREE.Group();
+  group.userData.tag = "arena-ring";
+  const wallMat = new THREE.MeshStandardMaterial({
+    color: 0x2a3138, metalness: 0.42, roughness: 0.68, envMapIntensity: 0.7,
+  });
+  const stripMat = new THREE.MeshStandardMaterial({
+    color: 0x0c2a33, emissive: 0x6fe3ff, emissiveIntensity: 1.5, roughness: 0.4, metalness: 0.2,
+  });
+  const towerMat = new THREE.MeshStandardMaterial({ color: 0x3a3f45, metalness: 0.6, roughness: 0.45 });
+  const lampMat = new THREE.MeshStandardMaterial({
+    color: 0xfff0cf, emissive: 0xffd9a0, emissiveIntensity: 2.6, roughness: 0.3,
+  });
+  const N = 26;
+  const R = 34;
+  const H = 3.6;
+  const W = 8.6;
+  const dummy = new THREE.Object3D();
+  const wall = new THREE.InstancedMesh(new THREE.BoxGeometry(W, H, 0.8), wallMat, N);
+  const strip = new THREE.InstancedMesh(new THREE.BoxGeometry(W * 0.9, 0.14, 0.2), stripMat, N);
+  for (let i = 0; i < N; i += 1) {
+    const a = (i / N) * TAU;
+    dummy.position.set(Math.cos(a) * R, H / 2, Math.sin(a) * R);
+    dummy.rotation.set(0, a - Math.PI / 2, 0);
+    dummy.updateMatrix();
+    wall.setMatrixAt(i, dummy.matrix);
+    dummy.position.y = H - 0.42;
+    dummy.updateMatrix();
+    strip.setMatrixAt(i, dummy.matrix);
+  }
+  wall.instanceMatrix.needsUpdate = true;
+  strip.instanceMatrix.needsUpdate = true;
+  wall.userData.tag = "arena-wall";
+  strip.userData.tag = "arena-wall-strip";
+  group.add(wall, strip);
+
+  // four corner light towers with an emissive lamp head
+  const poleGeo = new THREE.CylinderGeometry(0.16, 0.26, 9.5, 8);
+  const headGeo = new THREE.BoxGeometry(1.9, 0.55, 0.8);
+  for (let i = 0; i < 4; i += 1) {
+    const a = Math.PI / 4 + (i / 4) * TAU;
+    const x = Math.cos(a) * (R - 3.2);
+    const z = Math.sin(a) * (R - 3.2);
+    const pole = new THREE.Mesh(poleGeo, towerMat);
+    pole.position.set(x, 4.75, z);
+    const head = new THREE.Mesh(headGeo, lampMat);
+    head.position.set(x, 9.4, z);
+    head.rotation.y = -a;
+    pole.userData.tag = "light-tower";
+    head.userData.tag = "light-tower-head";
+    group.add(pole, head);
+  }
+  scene.add(group);
+  return group;
+}
+const arenaRing = buildArenaRing();
 
 const trees = [];
 const sharedBarkMat = standardMaterial({ ...MATERIAL_RECIPES.bark, size: TEX_SIZE });
@@ -349,8 +458,8 @@ solarAuraLight.userData.tag = "solar-aura-light";
 soldier.add(solarAuraLight);
 
 const solarAuraRing = new THREE.Mesh(
-  new THREE.RingGeometry(1.3, 1.65, 28),
-  new THREE.MeshBasicMaterial({ color: 0x6fe3ff, side: THREE.DoubleSide, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false }),
+  new THREE.RingGeometry(0.86, 1.02, 32),
+  new THREE.MeshBasicMaterial({ color: 0x8fe6ff, side: THREE.DoubleSide, transparent: true, opacity: 0.26, blending: THREE.AdditiveBlending, depthWrite: false }),
 );
 solarAuraRing.rotation.x = -Math.PI / 2;
 solarAuraRing.position.y = 0.04;
@@ -437,6 +546,8 @@ function spawnEnemyShot(enemy, damage, speed = 16, color = 0xff7a4a) {
   slot.vy = (1.15 - slot.y) / Math.max(0.15, len / speed);
   slot.vz = nz * speed;
   slot.dmg = damage;
+  // not every bolt is readable: a share of them arrive too fast / off-line to react to
+  slot.dodgeable = state.rng() < 0.7;
   slot.life = 1.6 + len / speed;
   slot.mesh.position.set(slot.x, slot.y, slot.z);
   slot.mesh.lookAt(slot.x + nx, slot.y, slot.z + nz);
@@ -497,6 +608,7 @@ function updateEnemyShots(dt) {
     const v2 = s.vx * s.vx + s.vz * s.vz;
     if (v2 < 1e-4) continue;
     const t = -(rx * s.vx + rz * s.vz) / v2;
+    if (s.dodgeable === false) continue;
     if (t > 0 && t < bestT) {
       const cx = rx + s.vx * t;
       const cz = rz + s.vz * t;
@@ -828,6 +940,8 @@ for (let i = 0; i < TUNING.feel.tracerPoolSize; i++) {
     maxLife: 0.1,
     start: new THREE.Vector3(),
     end: new THREE.Vector3(),
+    dir: new THREE.Vector3(),
+    len: 0,
     color: 0xffd57a,
   });
 }
@@ -858,6 +972,34 @@ let shotLightTimer = 0;
 let arenaKey = "perimeter";
 let activeMap = null;
 let lightsOff = false;
+let builtMapId = null;   // which map's props are currently in the scene (see applyArenaLighting)
+
+// Signs and stadium boards that the camera may not sit inside (they are not movement colliders).
+const cameraBlockers = [];
+function collectCameraBlockers() {
+  cameraBlockers.length = 0;
+  const v = new THREE.Vector3();
+  arenaPropsGroup.traverse((o) => {
+    const b = o.userData && o.userData.cameraBlocker;
+    if (!b) return;
+    o.getWorldPosition(v);
+    cameraBlockers.push({ x: v.x, z: v.z, y: v.y, hx: b.hx, hz: b.hz });
+  });
+}
+function cameraTraceBlocked(x0, z0, x1, z1, camY = 2.5) {
+  for (const b of cameraBlockers) {
+    // a shot that passes under the board is fine; only a camera at board height is occluded
+    if (camY < b.y - 1.5 || camY > b.y + 1.5) continue;
+    const steps = 8;
+    for (let i = 1; i <= steps; i += 1) {
+      const t = i / steps;
+      const px = x0 + (x1 - x0) * t;
+      const pz = z0 + (z1 - z0) * t;
+      if (Math.abs(px - b.x) < b.hx && Math.abs(pz - b.z) < b.hz) return true;
+    }
+  }
+  return false;
+}
 
 function applyArenaLighting(key) {
   // a map id ("depot"/"yard"/"foundry") owns its props; the lighting preset is borrowed from it.
@@ -869,9 +1011,16 @@ function applyArenaLighting(key) {
   const cfg = ARENA_LIGHTING[lightKey];
   arenaKey = lightKey;
   activeMap = map || keepMap;
-  populateArenaProps(map ? map.id : keepMap ? keepMap.id : lightKey, arenaPropsGroup, TEX_SIZE);
-  buildBrandProps(arenaPropsGroup, activeMap || map || keepMap || null);
-  buildGroundDetail();
+  // Rebuilding the props (and their procedural textures/materials) on every lighting change cost
+  // a visible stall at run start and at every beat. Only rebuild when the MAP actually changed.
+  const nextMapId = (map ? map.id : keepMap ? keepMap.id : lightKey);
+  if (builtMapId !== nextMapId) {
+    builtMapId = nextMapId;
+    populateArenaProps(map ? map.id : keepMap ? keepMap.id : lightKey, arenaPropsGroup, TEX_SIZE);
+    buildBrandProps(arenaPropsGroup, activeMap || map || keepMap || null);
+    buildGroundDetail();
+    collectCameraBlockers();
+  }
   renderer.toneMappingExposure = cfg.exposure;
   scene.background.set(hexInt(cfg.background));
   scene.fog.color.set(hexInt(cfg.fog.color));
@@ -899,12 +1048,14 @@ function applyArenaLighting(key) {
     fixture.housing.position.set(spec.x, spec.height, spec.z);
     fixture.housing.visible = true;
   });
+  scene.environmentIntensity = lightsOff ? 0.06 : ENV_INTENSITY;
 }
 
 function setLightsEnabled(on) {
   lightsOff = !on;
   hemi.visible = on;
   sun.visible = on;
+  scene.environmentIntensity = on ? ENV_INTENSITY : 0.06;
   const cfg = ARENA_LIGHTING[arenaKey];
   floodlights.forEach((fixture, index) => {
     fixture.light.visible = on && Boolean(cfg.floodlights[index]);
@@ -1006,6 +1157,11 @@ window.__forgeSmokeTest = {
     getRainY: () => +rainPos[1].toFixed(3),
     getTreeSway: () => (trees[0] ? +trees[0].rotation.z.toFixed(4) : null),
     getGrenades: () => grenades.length,
+    getBlasts: () => ({
+      pending: pendingBlasts.length,
+      detonated: state.blastsDetonated || 0,
+      ringsVisible: blastRings.filter((b) => b.life > 0).length,
+    }),
     spawnAir: (type = "gunship") => {
       const e = enemyManager.spawn(type, state.pos, 0);
       if (e) e.position.y = 9;
@@ -1198,6 +1354,51 @@ window.__forgeSmokeTest = {
       applyArenaLighting(ARENA_BY_BEAT[i] || "gunship");
       syncHud();
     },
+    // ── QA-ONLY CAMERA / TIME HOOKS ──────────────────────────────────────────
+    // A fixed camera and a slow clock are the only way to photograph a rig or watch an animation
+    // frame by frame. Both live behind ?test=1 and are inert in a normal page load.
+    freeCam: (px, py, pz, tx, ty, tz) => {
+      state.debugCam = {
+        pos: [Number(px) || 0, Number(py) || 0, Number(pz) || 0],
+        look: [Number(tx) || 0, Number(ty) || 0, Number(tz) || 0],
+      };
+      return state.debugCam;
+    },
+    clearCam: () => { state.debugCam = null; return true; },
+    setWeaponAnchor: (x, y, z) => setWeaponAnchorModel(x, y, z),
+    setTimeScale: (v) => {
+      state.timeScale = Math.max(0.02, Math.min(2, Number(v) || 1));
+      return state.timeScale;
+    },
+    getInfo: () => ({
+      calls: renderer.info.render.calls,
+      triangles: renderer.info.render.triangles,
+      programs: renderer.info.programs ? renderer.info.programs.length : null,
+      geometries: renderer.info.memory.geometries,
+      textures: renderer.info.memory.textures,
+    }),
+    getRig: () => {
+      const rig = soldier.userData.glbRig;
+      const out = { hasRig: Boolean(rig), anim: soldier.userData.activeAnim, hasMixer: Boolean(soldier.userData.mixer) };
+      if (rig) {
+        const v = new THREE.Vector3();
+        const p = new THREE.Vector3();
+        gunPivot.getWorldPosition(p);
+        soldier.getWorldPosition(v);
+        out.rigYaw = +rig.rotation.y.toFixed(3);
+        out.soldierYaw = +state.yaw.toFixed(3);
+        out.gunWorld = p.toArray().map((n) => +n.toFixed(2));
+        out.soldierWorld = v.toArray().map((n) => +n.toFixed(2));
+        const head = rig.getObjectByName("mixamorigHead") || rig.getObjectByName("Head");
+        if (head) {
+          const q = new THREE.Quaternion();
+          head.getWorldQuaternion(q);
+          // head-local +Z in world space tells us which way the face points
+          out.headFwd = new THREE.Vector3(0, 0, 1).applyQuaternion(q).toArray().map((n) => +n.toFixed(2));
+        }
+      }
+      return out;
+    },
     getLighting: () => ({
       arena: arenaKey,
       map: activeMap ? activeMap.id : null,
@@ -1335,11 +1536,11 @@ function pickBroadcastShot() {
   const boss = state.bossEnemy && state.bossEnemy.hp > 0;
   const hurt = state.health / Math.max(1, state.maxHealth) < 0.35;
   const pool = boss || hurt
-    ? ["hero", "sideline", "wide", "chase"]
-    : ["chase", "orbit", "sideline", "sideline", "wide", "chase"];
+    ? ["hero", "sideline", "chase", "orbit"]
+    : ["chase", "orbit", "sideline", "sideline", "chase", "orbit", "wide"];
   broadcast.shot = pool[Math.floor(state.rng() * pool.length)];
   broadcast.shotName = SHOT_NAMES[broadcast.shot] || "CAM 1";
-  broadcast.timer = 13.0 + state.rng() * 6.0;
+  broadcast.timer = 8.0 + state.rng() * 5.0;
   return broadcast.shot;
 }
 
@@ -1400,7 +1601,7 @@ function syncHud() {
       T("vitals-title", activeSkin.name.toUpperCase(), { x: 0.012, y: 0.018, size: TYPE_SCALE.micro, color: "#aec2d6", weight: 800 });
       B("health", ratio, { x: 0.012, y: 0.033, w: 0.24, h: 0.013, color, back: "rgba(255,255,255,0.08)" });
       T("health-num", String(Math.round(state.health)), { x: 0.262, y: 0.028, size: TYPE_SCALE.numeral, color, weight: 800 });
-      T("kills", `THREATS ${state.kills}   LV ${cardSystem.level}`, { x: 0.012, y: 0.052, size: TYPE_SCALE.micro, color: "#cfdeee", weight: 700 });
+      T("kills", `KILLS ${state.kills}   LV ${cardSystem.level}`, { x: 0.012, y: 0.052, size: TYPE_SCALE.micro, color: "#cfdeee", weight: 700 });
       T("beat", `${beat.name.toUpperCase()} ${beatDirector.getBeatTimeRemaining().toFixed(0)}s`, { x: 0.012, y: 0.070, size: TYPE_SCALE.micro, color: PALETTE.ui, weight: 800 });
       T("ammo-count", `${String(weaponManager.active.styleKey).toUpperCase()}  ${ammo}`, { x: 0.012, y: 0.088, size: TYPE_SCALE.small, color: "#eaf3ff", weight: 800 });
       const boss = enemyManager.getEnemies().find((e) => e.type === "gunship" || e.type === "mech");
@@ -1448,7 +1649,7 @@ function syncHud() {
     if (hudKills !== killsKey) {
       hudKills = killsKey;
       weaponManager.syncReloadMeta(cardSystem.level, weaponManager.reloadUpgradesCount);
-      T("kills", `THREATS ${state.kills}`, { x: 0.032, y: 0.108, size: TYPE_SCALE.small, color: "#dbe7f2", weight: 700 });
+      T("kills", `KILLS ${state.kills}`, { x: 0.032, y: 0.108, size: TYPE_SCALE.small, color: "#dbe7f2", weight: 700 });
       T("level-chip", `LV ${cardSystem.level}`, { x: 0.300, y: 0.108, size: TYPE_SCALE.small, color: PALETTE.ui, weight: 800, align: "right" });
     }
 
@@ -1546,17 +1747,21 @@ function syncHud() {
       h.remove("airdrop");
     }
 
-    // Boss HP readout when Mech or Gunship is active
-    const boss = enemyManager.getEnemies().find((e) => e.type === "gunship" || e.type === "mech");
+    // Boss HP readout — ONLY the actual arena boss. This used to match any mech or gunship in the
+    // arena, so a routine mech spawn put a full boss bar on screen and the player read it as the
+    // run's boss being up.
+    const boss = state.bossEnemy && state.bossEnemy.hp > 0 && enemyManager.getEnemies().includes(state.bossEnemy)
+      ? state.bossEnemy
+      : null;
     if (boss) {
       const bossKey = `${boss.type}:${Math.round(boss.hp)}`;
       if (hudBoss !== bossKey) {
         hudBoss = bossKey;
-        const bossLabel = boss.type === "gunship" ? "BOSS // ASSAULT GUNSHIP" : "ELITE // SIEGE MECH";
-        P("boss-frame", { x: 0.352, y: 0.104, w: 0.296, h: 0.056, radius: 0.006, fill: "rgba(12,6,9,0.78)", stroke: "rgba(242,84,91,0.35)", width: 0.0012 });
-        P("boss-pip", { x: 0.352, y: 0.104, w: 0.004, h: 0.056, radius: 0.002, fill: PALETTE.healthCrit, stroke: "rgba(0,0,0,0)", width: 0 });
-        T("boss-label", `${bossLabel}   ${Math.max(0, Math.round(boss.hp))} HP`, { x: 0.5, y: 0.110, size: TYPE_SCALE.micro, color: "#ffb8bc", weight: 800, align: "center" });
-        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.362, y: 0.134, w: 0.276, h: 0.010, color: PALETTE.healthCrit, back: "rgba(255,255,255,0.08)" });
+        const bossLabel = boss.type === "gunship" ? "BOSS // ASSAULT GUNSHIP" : "BOSS // FOUNDRY WARDEN";
+        P("boss-frame", { x: 0.352, y: 0.150, w: 0.296, h: 0.056, radius: 0.006, fill: "rgba(12,6,9,0.78)", stroke: "rgba(242,84,91,0.35)", width: 0.0012 });
+        P("boss-pip", { x: 0.352, y: 0.150, w: 0.004, h: 0.056, radius: 0.002, fill: PALETTE.healthCrit, stroke: "rgba(0,0,0,0)", width: 0 });
+        T("boss-label", `${bossLabel}   ${Math.max(0, Math.round(boss.hp))} HP`, { x: 0.5, y: 0.156, size: TYPE_SCALE.micro, color: "#ffb8bc", weight: 800, align: "center" });
+        B("boss-bar", Math.max(0, boss.hp / boss.maxHp), { x: 0.362, y: 0.180, w: 0.276, h: 0.010, color: PALETTE.healthCrit, back: "rgba(255,255,255,0.08)" });
       }
     } else if (hudBoss !== null) {
       hudBoss = null;
@@ -1646,7 +1851,8 @@ function syncHud() {
         const id = `killfeed-${i}`;
         const entry = feed[i];
         if (!entry) { h.remove(id); continue; }
-        T(id, entry.text, { x: 0.585, y: 0.246 + i * 0.020, size: TYPE_SCALE.micro, color: i === 0 ? "#ffe9a8" : "#8ea3b8", weight: 800 });
+        // right lane: the centre-right was sitting on top of floating damage numbers
+      T(id, entry.text, { x: 0.745, y: 0.238 + i * 0.020, size: TYPE_SCALE.micro, color: i === 0 ? "#ffe9a8" : "#8ea3b8", weight: 800 });
       }
     }
 
@@ -1671,7 +1877,7 @@ function syncHud() {
       hudDarkness = darkKey;
       if (darkKey) {
         const modTag = weaponManager.lightModLevel > 0 ? `LIGHT MODS LV ${weaponManager.lightModLevel} (+25% LIT DMG)` : "GUN FLOODLIGHT & LIGHT-ORB ROUNDS ENGAGED";
-        T("darkness-alert", `THE DARKNESS COMES (${darkPct}% DIM)  ·  ${modTag}`, { x: 0.5, y: HUD_SLOTS.statusBanner, size: TYPE_SCALE.micro, color: "#ffd57a", weight: 800, align: "center" });
+        T("darkness-alert", `DARKNESS · ${darkPct}% DIM  ·  ${modTag}`, { x: 0.5, y: 0.345, size: TYPE_SCALE.micro, color: "#ffd57a", weight: 800, align: "center" });
       } else {
         h.remove("darkness-alert");
       }
@@ -1827,6 +2033,7 @@ function clearEffects() {
   flash.visible = false;
   casings.clear();
   clearEnemyShots();
+  clearBlasts();
 }
 
 function placeCamera() {
@@ -2061,7 +2268,9 @@ function spawnEnemy() {
   // Shooter ramp: early spawns are mostly melee-only bodies, and the share that can actually fire
   // climbs across the whole round (12 % at t=0, ~85 % by ~110 s).
   if (enemy) {
-    enemy.canShoot = state.rng() < Math.min(0.85, 0.12 + beatDirector.runTime / 150);
+    // same rule as EnemyManager.spawn: never disarm a body whose only attack is its role
+    const armedRole = enemy.type === "mortar" || enemy.type === "mech" || enemy.type === "gunship" || enemy.type === "sapper";
+    enemy.canShoot = armedRole ? true : state.rng() < Math.min(0.85, 0.12 + beatDirector.runTime / 150);
     state.spawnBodies = (state.spawnBodies || 0) + 1;
     if (enemy.canShoot) state.spawnShooters = (state.spawnShooters || 0) + 1;
   }
@@ -2126,10 +2335,85 @@ function updateGrenades(dt) {
   }
 }
 
+// ── DELAYED ENEMY BLASTS ─────────────────────────────────────────────────────────────────────
+// Mortar shells and planted sapper charges are the two enemy attacks with a fuse. They used to be
+// resolved instantly against the distance to the ENEMY (so a shell could never land where it was
+// aimed). A blast now carries its own ground position, a fuse, a radius, and a telegraph ring.
+const pendingBlasts = [];
+const blastRings = [];
+{
+  const geo = new THREE.RingGeometry(0.86, 1.0, 40);
+  for (let i = 0; i < 10; i += 1) {
+    const ring = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      color: 0xff7a4a, transparent: true, opacity: 0, depthWrite: false,
+      side: THREE.DoubleSide, blending: THREE.AdditiveBlending,
+    }));
+    ring.rotation.x = -Math.PI / 2;
+    ring.visible = false;
+    ring.userData.tag = "blast-ring";
+    scene.add(ring);
+    blastRings.push({ mesh: ring, life: 0, maxLife: 1, expand: false, base: 1 });
+  }
+}
+let blastRingCursor = 0;
+function showBlastRing(x, z, radius, life, color, expand = false) {
+  const slot = blastRings[blastRingCursor % blastRings.length];
+  blastRingCursor += 1;
+  slot.mesh.position.set(x, 0.035, z);
+  slot.mesh.scale.setScalar(Math.max(0.3, radius));
+  slot.mesh.material.color.setHex(color || 0xff7a4a);
+  slot.mesh.material.opacity = expand ? 0.85 : 0.4;
+  slot.mesh.visible = true;
+  slot.life = life;
+  slot.maxLife = life;
+  slot.expand = expand;
+}
+function updateBlastRings(dt) {
+  for (const slot of blastRings) {
+    if (slot.life <= 0) continue;
+    slot.life -= dt;
+    if (slot.life <= 0) { slot.mesh.visible = false; continue; }
+    const k = slot.life / slot.maxLife;
+    if (slot.expand) {
+      slot.mesh.scale.multiplyScalar(1 + dt * 3.2);
+      slot.mesh.material.opacity = Math.min(0.85, k * 0.9);
+    } else {
+      slot.mesh.material.opacity = 0.18 + 0.28 * Math.abs(Math.sin(slot.life * 9));
+    }
+  }
+}
+/** Queue an explosion on the ground; damage is applied when the fuse reaches zero. */
+function scheduleBlast(x, z, opts = {}) {
+  const radius = Number(opts.radius) || 3;
+  const fuse = Math.max(0.08, Number(opts.fuse) || 1.2);
+  const color = opts.color || 0xff7a4a;
+  pendingBlasts.push({ x, z, t: fuse, damage: Number(opts.damage) || 20, radius, color });
+  showBlastRing(x, z, radius, fuse, color, false);
+  return pendingBlasts[pendingBlasts.length - 1];
+}
+function updateBlasts(dt) {
+  for (let i = pendingBlasts.length - 1; i >= 0; i -= 1) {
+    const b = pendingBlasts[i];
+    b.t -= dt;
+    if (b.t > 0) continue;
+    if (state.phase === "playing") {
+      const d = Math.hypot(state.pos.x - b.x, state.pos.z - b.z);
+      if (d <= b.radius) hurt(b.damage);
+    }
+    showBlastRing(b.x, b.z, b.radius, 0.45, b.color, true);
+    state.blastsDetonated = (state.blastsDetonated || 0) + 1;
+    audioController?.playSfx("impact_heavy", { volume: 0.35 });
+    pendingBlasts.splice(i, 1);
+  }
+}
+function clearBlasts() {
+  pendingBlasts.length = 0;
+  for (const slot of blastRings) { slot.life = 0; slot.mesh.visible = false; }
+}
+
 /** Weather + foliage tick. Runs in EVERY phase, because a frozen rainfield in the bay looked
  *  exactly like a broken game: the camera turned but nothing in the world moved. */
-function updateEnvironment(dt) {
-  for (let i = 0; i < RAIN; i++) {
+function updateEnvironment(dt) {  for (let i = 0; i < RAIN; i++) {
     rainPos[i * 6 + 1] -= 17 * dt;
     rainPos[i * 6 + 4] -= 17 * dt;
     if (rainPos[i * 6 + 1] < 0) seedDrop(i, state.pos.x, state.pos.z);
@@ -2176,7 +2460,12 @@ function shoot(target) {
   // Spawn tracers + Travelling Light-Orb Projectiles
   const pelletCount = fireData.pellets || 1;
   const darkBoost = Math.max(state.darknessFactor || 0, state.blackoutActive ? 1 : 0);
-  const orbScaleBase = (weaponManager.hasLightOrbMod ? 1.75 : 1.0) * (1 + darkBoost * 0.85);
+  // A travelling light orb is a weapon identity, not a bullet: only light-orb guns and the
+  // light-orb mod get one. It used to be attached to every tracer, so an SMG fired 0.4 m glowing
+  // spheres that read as a rendering glitch (see the playtest shots in docs/QA).
+  const showsOrb = !state.attractSim
+    && (weaponManager.hasLightOrbMod || isLightGunStyle(styleKey));
+  const orbScaleBase = (weaponManager.hasLightOrbMod ? 1.25 : 0.85) * (1 + darkBoost * 0.45);
   // a tracer is a 70 ms flash, not a 160 ms beam; the long glow made every shot read as a laser
       const orbLife = Math.max(fireData.tracerLife, 0.07 + darkBoost * 0.05 + (weaponManager.hasLightOrbMod ? 0.04 : 0));
 
@@ -2190,6 +2479,7 @@ function shoot(target) {
       const endPos = vMuzzle.clone().add(dir.clone().multiplyScalar(travelDist));
       tracer.start.copy(vMuzzle);
       tracer.end.copy(endPos);
+      tracer.dir.subVectors(endPos, vMuzzle).normalize();
       tracer.color = fireData.tracerColor;
       tracer.maxLife = orbLife;
       tracer.life = orbLife;
@@ -2197,7 +2487,10 @@ function shoot(target) {
       tracer.mesh.position.copy(vMuzzle).add(endPos).multiplyScalar(0.5);
       tracer.mesh.lookAt(endPos);
       const tracerWidth = state.attractSim ? 0.24 : (1 + darkBoost * 0.6) * vfx.tracer * 0.55;
-      tracer.mesh.scale.set(tracerWidth, tracerWidth, Math.max(0.4, vMuzzle.distanceTo(endPos)));
+      // BOLT LENGTH: a tracer is a short streak that crosses the gap, not a beam that appears
+      // full-length for a frame. The head travels start -> end across the tracer's life.
+      tracer.len = state.attractSim ? 2.6 : Math.min(3.6, Math.max(1.1, travelDist * 0.42));
+      tracer.mesh.scale.set(tracerWidth, tracerWidth, tracer.len);
       tracer.baseWidth = tracerWidth;
       tracer.feelKey = weaponManager.active?.styleKey;
       tracer.mesh.material.color.setHex(vfx.color);
@@ -2207,7 +2500,7 @@ function shoot(target) {
         tracer.orb.position.copy(vMuzzle);
         tracer.orb.scale.setScalar(orbScaleBase);
         tracer.orb.material.color.setHex(fireData.tracerColor);
-        tracer.orb.visible = !state.attractSim;   // the shop window gets tracers, not orbs
+        tracer.orb.visible = showsOrb;
       }
     }
   }
@@ -2445,6 +2738,8 @@ function hurt(amount) {
 const held = (ctx, names) => names.some((name) => ctx.keys.has(name));
 
 function update(dt, ctx) {
+  // QA-only slow motion (?test=1 + __forgeSmokeTest.setTimeScale). A normal run never sets this.
+  if (state.timeScale && state.timeScale !== 1) dt *= state.timeScale;
   gamepad.poll(state.phase === "playing");
 
   const dockEl = globalThis.document?.getElementById?.("siteDock");
@@ -2879,6 +3174,8 @@ function update(dt, ctx) {
       hemi.intensity = cfg.hemisphere.intensity * dimMult;
       sun.intensity = cfg.sun.intensity * dimMult;
       scene.fog.density = cfg.fog.density * (1 + (state.darknessFactor || 0) * 0.35);
+      // the environment reflection dims with the lamps, or a blackout wave would still show steel
+      scene.environmentIntensity = ENV_INTENSITY * (0.35 + 0.65 * dimMult);
     }
     // LIGHT MODS ARE CARD-GATED: no beam, no lamp housing, no aura until the player owns the card
     // (or is holding a light gun, whose identity *is* the light). Darkness only amplifies what you own.
@@ -2965,13 +3262,26 @@ function update(dt, ctx) {
       } else if (action.type === "dive") {
         if (d < 3.2) hurt(cfg.diveDamage || 18);
       } else if (action.type === "shell") {
-        if (d < (cfg.shellRadius || 4)) hurt(cfg.shellDamage || 30);
+        // the shell lands where it was aimed, after its fuse; standing in the ring hurts
+        scheduleBlast(action.targetX ?? state.pos.x, action.targetZ ?? state.pos.z, {
+          damage: action.damage || cfg.shellDamage || 30,
+          radius: action.radius || cfg.shellRadius || 4,
+          fuse: action.fuse || cfg.shellFuse || 1.2,
+          color: 0xff9a3c,
+        });
       } else if (action.type === "stomp") {
         if (d < (cfg.stompRadius || 3)) hurt(cfg.stompDamage || 50);
       } else if (action.type === "minigun") {
         if (los && d < 18) spawnEnemyShot(enemy, cfg.minigunDamage || 12, 19, 0xffb347);
       } else if (action.type === "charge") {
-        if (d < 2.2) hurt(cfg.chargeDamage || 40);
+        // planted charge: it detonates on its fuse at the planted point. The old code dealt the
+        // damage instantly and only within 2.2 m of the sapper, so the fuse and radius were lies.
+        scheduleBlast(action.x ?? enemy.position.x, action.z ?? enemy.position.z, {
+          damage: action.damage || cfg.chargeDamage || 32,
+          radius: action.radius || 3.4,
+          fuse: action.fuse || cfg.chargeFuse || 2.0,
+          color: 0xffb347,
+        });
       } else if (action.type === "paint") {
         state.painted = true;
         state.paintedTimer = cfg.paintDuration || 5;
@@ -3025,7 +3335,9 @@ function update(dt, ctx) {
     if (!state.bossSpawned && (beatDirector.runTime > 75 || state.kills >= 75)) {
       state.bossSpawned = true;
       const kind = state.arenaBossKind || (state.kills % 2 === 0 ? "mech" : "gunship");
-      const boss = enemyManager.spawn(kind, state.pos, beatDirector.runTime / 60);
+      // force: the boss must exist even when the arena is already at the body cap, or the run
+      // silently never gets a boss and can never be cleared.
+      const boss = enemyManager.spawn(kind, state.pos, beatDirector.runTime / 60, true);
       if (boss) {
         const bossLevel = (state.cyborgProfile && state.cyborgProfile.level) || 1;
         // TUNE-04: aerial boss uses its own HP budget (8-15 s TTK); ground bosses keep bossHp()
@@ -3101,6 +3413,8 @@ function update(dt, ctx) {
     }
 
     updateEnemyShots(dt);
+    updateBlasts(dt);
+    updateBlastRings(dt);
     updateEnemyRings();
     updateDust(dt);
     updateGrenades(dt);
@@ -3128,7 +3442,10 @@ function update(dt, ctx) {
 
     // Camera — arcade broadcast director (cuts + slow pushes, always framing the action)
     {
-      const hostile = nearestHostileTo(state.pos.x, state.pos.z);
+      // the camera frames the BOSS when one is alive: an assault gunship at 6 m was never in
+      // shot because the nearest ground body owned the framing
+      const bossAlive = state.bossEnemy && state.bossEnemy.hp > 0 && enemyManager.getEnemies().includes(state.bossEnemy);
+      const hostile = bossAlive ? state.bossEnemy : nearestHostileTo(state.pos.x, state.pos.z);
       broadcast.lastKills = state.kills;
       broadcast.timer -= dt;
       // Drone cam: hold a shot for a long time and glide to the next one; never cut on kills.
@@ -3140,23 +3457,24 @@ function update(dt, ctx) {
       // action point: between the operator and the nearest hostile (or the boss)
       let ax = state.pos.x;
       let az = state.pos.z;
-      let ay = 1.2;
       if (hostile) {
         // only let a hostile pull the frame if it is close enough to be in shot; a distant target
         // was dragging the look point off into the dark
         const hd = Math.hypot(hostile.position.x - state.pos.x, hostile.position.z - state.pos.z);
-        const w = Math.min(0.38, Math.max(0.12, 0.38 - hd / 60));
+        const w = Math.min(0.34, Math.max(0.10, 0.34 - hd / 60));
         ax = state.pos.x * (1 - w) + hostile.position.x * w;
         az = state.pos.z * (1 - w) + hostile.position.z * w;
-        ay = 1.05;
       }
+      // CAMERA PASS: every shot pulled back from the old distances (7.4-12.5 m at 3-9.6 m of
+      // height) which drew the fighter ~100 px tall in a dark arena. These keep the operator at
+      // roughly a quarter of the frame height, so the rig, the weapon and the hit reactions read.
       if (broadcast.shot === "chase") {
         const a = (state.orbit || 0) + 0.6;
-        vDesired.set(state.pos.x + Math.sin(a) * 7.4, 4.9, state.pos.z + Math.cos(a) * 7.4);
+        vDesired.set(state.pos.x + Math.sin(a) * 5.4, 3.15, state.pos.z + Math.cos(a) * 5.4);
         broadcast.look.set(state.pos.x, 1.25, state.pos.z);
       } else if (broadcast.shot === "orbit") {
         const a = (state.orbit || 0) + 1.9;
-        vDesired.set(state.pos.x + Math.sin(a) * 8.4, 3.4, state.pos.z + Math.cos(a) * 8.4);
+        vDesired.set(state.pos.x + Math.sin(a) * 6.2, 2.5, state.pos.z + Math.cos(a) * 6.2);
         broadcast.look.set(ax, 1.15, az);
       } else if (broadcast.shot === "sideline") {
         // stand off perpendicular to the player→hostile axis, like a touchline camera
@@ -3169,36 +3487,76 @@ function update(dt, ctx) {
           px = -dz / len;
           pz = dx / len;
         }
-        vDesired.set(ax + px * 9.4, 2.9, az + pz * 9.4);
+        vDesired.set(ax + px * 6.6, 2.1, az + pz * 6.6);
         broadcast.look.set(ax, 1.1, az);
       } else if (broadcast.shot === "wide") {
-        vDesired.set(ax + Math.sin(state.orbit || 0) * 12.5, 9.6, az + Math.cos(state.orbit || 0) * 12.5);
+        vDesired.set(ax + Math.sin(state.orbit || 0) * 9.2, 6.2, az + Math.cos(state.orbit || 0) * 9.2);
         broadcast.look.set(ax, 1.0, az);
       } else {
         // hero: low, in front of the operator, looking back at him
-        vDesired.set(state.pos.x + fwdX * 5.2, 1.75, state.pos.z + fwdZ * 5.2);
-        broadcast.look.set(state.pos.x, 1.45, state.pos.z);
+        vDesired.set(state.pos.x + fwdX * 4.1, 1.55, state.pos.z + fwdZ * 4.1);
+        broadcast.look.set(state.pos.x, 1.35, state.pos.z);
       }
-      // drone pacing: slow position glide, slower look drift, and a gentle float
-      const follow = 1 - Math.exp(-dt * 1.7);
+      // AERIAL FRAMING: an assault gunship sits at 6.4 m, above every ground shot. Frame the
+      // midpoint between the operator and the aircraft so both are in the same picture.
+      const hostileY = hostile && hostile.mesh ? hostile.mesh.position.y : 1.2;
+      if (hostileY > 3.2) {
+        // stand off PERPENDICULAR to the player->aircraft axis so both fit in one frame
+        const mx = (state.pos.x + hostile.position.x) * 0.5;
+        const mz = (state.pos.z + hostile.position.z) * 0.5;
+        const axX = hostile.position.x - state.pos.x;
+        const axZ = hostile.position.z - state.pos.z;
+        const axis = Math.hypot(axX, axZ) || 1;
+        const px = -axZ / axis;
+        const pz = axX / axis;
+        const dist = Math.max(9, Math.min(17, axis * 0.85));
+        vDesired.set(mx + px * dist, 6.4, mz + pz * dist);
+        broadcast.look.set(mx, 3.6, mz);
+      }
+      // the gentle float belongs on the TARGET, not added after the blend: adding 5 cm a frame to
+      // a position that is then only 3 % blended back left the camera floating ~1.8 m high.
+      vDesired.y += Math.sin((state.t || 0) * 0.7) * 0.12;
+      // Keep the camera out of cover. Trace the player→camera line and pull in to the first
+      // blocker; the old code let the hero shot sit inside a brand board (its back filled the view).
+      {
+        const dx = vDesired.x - state.pos.x;
+        const dz = vDesired.z - state.pos.z;
+        const full = Math.hypot(dx, dz) || 1;
+        const hit = segmentHitsCollider(state.pos.x, state.pos.z, vDesired.x, vDesired.z, arenaColliders);
+        const boardHit = !hit && cameraTraceBlocked(state.pos.x, state.pos.z, vDesired.x, vDesired.z, vDesired.y);
+        if (hit || boardHit) {
+          const hitDist = hit ? Math.hypot(hit.x - state.pos.x, hit.z - state.pos.z) : 0;
+          const f = hit ? Math.max(0.34, (hitDist - 0.8) / full) : 0.42;
+          vDesired.x = state.pos.x + dx * f;
+          vDesired.z = state.pos.z + dz * f;
+          vDesired.y = Math.max(1.35, vDesired.y * (0.6 + f * 0.4));
+        }
+        if (full < 2.2) vDesired.y = Math.max(vDesired.y, 1.2);
+      }
+      // drone pacing: a sane follow rate and a speed ceiling that cannot teleport the view, but
+      // also cannot take 4 s to catch a shot change while the fighter walks out of the frame.
+      const follow = 1 - Math.exp(-dt * 3.4);
       camera.position.lerp(vDesired, follow);
-      camera.position.y += Math.sin((state.t || 0) * 0.7) * 0.05;
-      // speed-limited drone: even a long frame or a shot change cannot teleport the view
+      if (!broadcast.lookSmooth) broadcast.lookSmooth = broadcast.look.clone();
+      broadcast.lookSmooth.lerp(broadcast.look, 1 - Math.exp(-dt * 4.2));
       if (_camPrev.lengthSq() > 0) {
         const dx = camera.position.x - _camPrev.x;
         const dy = camera.position.y - _camPrev.y;
         const dz = camera.position.z - _camPrev.z;
         const dist = Math.hypot(dx, dy, dz);
-        const cap = Math.min(0.08, Math.max(0.02, dt * 2.5));
+        const cap = Math.max(0.12, dt * 18);
         if (dist > cap) {
           const s = cap / dist;
           camera.position.set(_camPrev.x + dx * s, _camPrev.y + dy * s, _camPrev.z + dz * s);
         }
       }
       _camPrev.copy(camera.position);
-      if (!broadcast.lookSmooth) broadcast.lookSmooth = broadcast.look.clone();
-      broadcast.lookSmooth.lerp(broadcast.look, 1 - Math.exp(-dt * 2.6));
       camera.lookAt(broadcast.lookSmooth);
+      // QA-only fixed camera (see freeCam in the test hooks)
+      if (state.debugCam) {
+        camera.position.set(...state.debugCam.pos);
+        camera.lookAt(...state.debugCam.look);
+      }
     }
 
     // FX-03: camera kick — applied after lookAt so the roll survives, then decayed per style
@@ -3215,10 +3573,13 @@ function update(dt, ctx) {
       }
     }
 
-    // speech bubble tracks the operator's head in screen space
+    // speech bubble tracks the operator's head in screen space; it is a play-phase prop, so it is
+    // hidden the moment the run ends (it used to float over the results panel)
     const head = new THREE.Vector3(state.pos.x, 2.45, state.pos.z).project(camera);
-    if (head.z < 1) {
+    if (head.z < 1 && state.phase === "playing") {
       barks.place((head.x * 0.5 + 0.5) * globalThis.innerWidth, (-head.y * 0.5 + 0.5) * globalThis.innerHeight);
+    } else {
+      barks.hide();
     }
     barks.update();
 
@@ -3298,9 +3659,15 @@ function update(dt, ctx) {
       tracer.mesh.scale.x = w;
       tracer.mesh.scale.y = w;
     }
+    // the streak travels: its head crosses the gap in ~80 % of the tracer life, the tail trails
+    if (tracer.len > 0) {
+      const head = Math.min(1, progress * 1.25);
+      tracer.mesh.position.lerpVectors(tracer.start, tracer.end, head);
+      tracer.mesh.position.addScaledVector(tracer.dir, -tracer.len * 0.45);
+    }
     if (tracer.orb) {
       tracer.orb.position.lerpVectors(tracer.start, tracer.end, Math.min(1, progress));
-      if (activeOrbLights < orbLights.length) {
+      if (activeOrbLights < orbLights.length && tracer.orb.visible) {
         const pt = orbLights[activeOrbLights++];
         pt.position.copy(tracer.orb.position);
         pt.position.y = Math.max(0.6, pt.position.y);
@@ -3340,8 +3707,13 @@ function pickCard(index) {
   barks.trigger("upgrade");
 
   if (option.type === "weapon") {
-    const inactiveSlot = weaponManager.activeSlot === "primary" ? "secondary" : "primary";
-    weaponManager.replaceWeapon(inactiveSlot, option.style);
+    // The fighter is autonomous: it never presses Q, so a card that filled the inactive slot did
+    // nothing at all. A weapon card now replaces the ACTIVE weapon and is rebuilt on the rig.
+    try {
+      weaponManager.replaceWeapon(weaponManager.activeSlot, option.style);
+      state.lastRenderedWeaponStyle = option.style;
+      rifle = rebuildWeaponMesh(gunPivot, option.style, steel);
+    } catch (e) { /* keep the current weapon if the style is unknown */ }
   } else if (option.type === "part") {
     weaponManager.applyPart(weaponManager.activeSlot, option.part);
   }
@@ -3374,6 +3746,34 @@ function showBeatTransition(beatName) {
   // Visual beat transition would go here
   console.log(`BEAT: ${beatName}`);
 }
+
+// ── COMBAT PREWARM ───────────────────────────────────────────────────────────────────────────
+// Starting a run used to block the main thread for ~0.8 s: the first enemy rigs, the operator's
+// weapon and the arena's prop materials all compiled their shaders on the launch frame. Build one
+// of each body below the deck during the menu, render once, and throw the copies away.
+function prewarmCombat() {
+  if (state.phase === "playing") return;
+  const warm = new THREE.Group();
+  warm.position.set(0, -80, 0);
+  warm.userData.tag = "prewarm";
+  scene.add(warm);
+  const built = [];
+  for (const type of ["rifleman", "sapper", "shieldbearer", "spotter", "mech"]) {
+    try {
+      const mesh = buildEnemyMesh(type, enemyMaterials);
+      warm.add(mesh);
+      built.push(mesh);
+    } catch (e) { /* a type that cannot pre-build simply warms the rest */ }
+  }
+  try {
+    renderer.compile(scene, camera);
+  } catch (e) { /* prewarm is best effort */ }
+  scene.remove(warm);
+  for (const mesh of built) {
+    mesh.traverse((o) => { if (o.isMesh && o.geometry) o.geometry.dispose(); });
+  }
+}
+setTimeout(prewarmCombat, 4500);
 
 const studioApi = installStudio({
   canvas: renderer.domElement,

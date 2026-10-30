@@ -24,9 +24,12 @@ export const PILOT_PROFILE = {
   separationRadius: 2.5,
   separationWeight: 0.55,
   // tactical beat
-  holdMin: 1.35,
-  holdMax: 2.7,
-  dashSeconds: 0.62,
+  // A fighter that plants for 1.4-2.7 s at a time read as frozen: the arena is only 30 m across,
+  // so the whole fight can happen while the body is standing still. Shorter holds keep the
+  // silhouette alive without turning it into a treadmill.
+  holdMin: 0.55,
+  holdMax: 1.15,
+  dashSeconds: 0.48,
   dashThrottle: 0.62,
   repositionDeg: 52,
   advanceThrottle: 0.44,
@@ -215,7 +218,7 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
     dirZ = -nz;
     mode = "retreat";
     // bounding retreat: 0.8 s of movement, half a second to shoot back
-    throttle = beat(state, "retreat", 0.8, 0.5, 0.8) ? (profile.retreatThrottle || 0.8) : 0;
+    throttle = beat(state, "retreat", 0.7, 0.4, 0.6) ? (profile.retreatThrottle || 0.8) : 0;
   } else if (target.type === "shieldbearer" && target.isShielded) {
     // MGR-07: the wall only covers the front arc. Close first, then circle it until the shield is
     // no longer facing the gun. This is the archetype that forces a movement decision, not DPS.
@@ -239,7 +242,7 @@ export function pilot(state, enemyManager, dt, profile = PILOT_PROFILE) {
     // bounding advance for most targets; a mortar/sapper gets a committed rush (their design is to
     // keep range, so a stop-start walk never closes the gap)
     const rush = target.type === "mortar" || target.type === "sapper";
-    throttle = (rush || beat(state, "advance", 0.9, 1.9, 2.5)) ? (profile.advanceThrottle || 0.55) : 0;
+    throttle = (rush || beat(state, "advance", 0.8, 0.75, 1.2)) ? (profile.advanceThrottle || 0.55) : 0;
   } else if (dist < closeRange) {
     dirX = -nx;
     dirZ = -nz;

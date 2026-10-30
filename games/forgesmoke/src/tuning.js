@@ -50,7 +50,7 @@ export const TUNING = {
     spinupSpeedMult: 0.8,
     bodyYawSmoothing: 14,
     gunPivotYawSmoothing: 16,
-    arenaRadius: 54,
+    arenaRadius: 30,
   },
 
   // Card pool (8)

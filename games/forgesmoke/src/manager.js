@@ -8,10 +8,10 @@
  * This module is pure DOM. It never touches the renderer: the 3D operator turntable keeps running
  * behind it, so the character model IS the preview.
  */
-import { ARENAS, isArenaUnlocked } from "./menu.js?v=202610324e";
-import { STARTER_LOADOUTS, PLAYER_SKINS } from "./models.js?v=202610324e";
-import { addProfileXp, grantLegacy, saveProfile, xpForLevel } from "./save.js?v=202610324e";
-import { TUNING } from "./tuning.js?v=202610324e";
+import { ARENAS, isArenaUnlocked } from "./menu.js?v=202610325v";
+import { STARTER_LOADOUTS, PLAYER_SKINS } from "./models.js?v=202610325v";
+import { addProfileXp, grantLegacy, saveProfile, xpForLevel } from "./save.js?v=202610325v";
+import { TUNING } from "./tuning.js?v=202610325v";
 
 /** Light mods are cards. `starter` ones can be taken as equipped cards; the rest are found/earned. */
 export const LIGHT_MODS = [
