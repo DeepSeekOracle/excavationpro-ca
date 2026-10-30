@@ -3,8 +3,8 @@
  * Pure logic, no rendering.
  */
 
-import { TUNING } from "./tuning.js?v=202610327q";
-import { spawnBudget, eliteChance, spawnInterval } from "./balance.js?v=202610327q";
+import { TUNING } from "./tuning.js?v=202610327s";
+import { spawnBudget, eliteChance, spawnInterval } from "./balance.js?v=202610327s";
 
 export const BEAT_NAMES = {
   CONTACT: "Contact",

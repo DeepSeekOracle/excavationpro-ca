@@ -33,7 +33,6 @@ function ensureStyle() {
 .fs-dmg.crit span{color:#ffb347;font-size:48px;text-shadow:0 3px 0 rgba(0,0,0,.5),0 0 22px rgba(255,110,20,.85)}
 .fs-dmg.kill span{color:#ff5a5a;font-size:50px;text-shadow:0 3px 0 rgba(0,0,0,.5),0 0 24px rgba(255,40,40,.9)}
 .fs-dmg.player span{color:#ff4d5e;font-size:42px;text-shadow:0 3px 0 rgba(0,0,0,.5),0 0 20px rgba(255,0,30,.75)}
-}
 @media (max-width:700px){.fs-dmg.enemy span{font-size:22px}.fs-dmg.crit span{font-size:30px}
   .fs-dmg.kill span{font-size:32px}.fs-dmg.player span{font-size:28px}}
 `;

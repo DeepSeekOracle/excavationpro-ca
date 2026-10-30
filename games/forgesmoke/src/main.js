@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327q";
-import { standardMaterial } from "./materials.js?v=202610327q";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327q";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327q";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610327s";
+import { standardMaterial } from "./materials.js?v=202610327s";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610327s";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610327s";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,25 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610327q";
-import { TUNING } from "./tuning.js?v=202610327q";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327q";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327q";
-import { createCardTray } from "./cardsui.js?v=202610327q";
-import { buildBrandProps } from "./branding.js?v=202610327q";
-import { createSummary } from "./summaryui.js?v=202610327q";
-import { createBarks } from "./barks.js?v=202610327q";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327q";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327q";
-import { bossHp } from "./balance.js?v=202610327q";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327q";
-import { pilot } from "./autopilot.js?v=202610327q";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327q";
-import { createStartMenu } from "./startmenu.js?v=202610327q";
-import { createGamepad } from "./gamepad.js?v=202610327q";
-import { createTalentWindow } from "./talentui.js?v=202610327q";
-import { aggregate, toRunMods } from "./talents.js?v=202610327q";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327q";
+} from "./theme.js?v=202610327s";
+import { TUNING } from "./tuning.js?v=202610327s";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610327s";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610327s";
+import { createCardTray } from "./cardsui.js?v=202610327s";
+import { buildBrandProps } from "./branding.js?v=202610327s";
+import { createSummary } from "./summaryui.js?v=202610327s";
+import { createBarks } from "./barks.js?v=202610327s";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610327s";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610327s";
+import { bossHp } from "./balance.js?v=202610327s";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610327s";
+import { pilot } from "./autopilot.js?v=202610327s";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610327s";
+import { createStartMenu } from "./startmenu.js?v=202610327s";
+import { createGamepad } from "./gamepad.js?v=202610327s";
+import { createTalentWindow } from "./talentui.js?v=202610327s";
+import { aggregate, toRunMods } from "./talents.js?v=202610327s";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610327s";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -49,20 +49,20 @@ import {
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
   navInfo,
-} from "./models.js?v=202610327q";
-import * as levelModule from "./level.js?v=202610327q";
-import * as menuModule from "./menu.js?v=202610327q";
-import * as audioModule from "./audio.js?v=202610327q";
-import * as fxModule from "./fx.js?v=202610327q";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610327q";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327q";
+} from "./models.js?v=202610327s";
+import * as levelModule from "./level.js?v=202610327s";
+import * as menuModule from "./menu.js?v=202610327s";
+import * as audioModule from "./audio.js?v=202610327s";
+import * as fxModule from "./fx.js?v=202610327s";
+import { MAPS, mapById, selectMap } from "./maps.js?v=202610327s";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610327s";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610327q";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327q";
+import { createCasings } from "./casings.js?v=202610327s";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610327s";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -4066,7 +4066,21 @@ const studioApi = installStudio({
     const now = (globalThis.performance?.now?.() || 0) / 1000;
     const dmgDt = lastDmgFrame ? Math.min(0.05, Math.max(0.001, now - lastDmgFrame)) : 0.016;
     lastDmgFrame = now;
-    updateDamageNumbers(camera, dmgDt);
+    // Combat numbers belong to the fight only. Frozen on the results screen they piled big gold
+    // digits over the score breakdown (z-index 70 > the panel).
+    const dmgLayer = document.getElementById("fs-damage-layer");
+    if (state.phase === "playing") {
+      if (dmgLayer && dmgLayer.style.display === "none") dmgLayer.style.display = "";
+      updateDamageNumbers(camera, dmgDt);
+    } else {
+      clearDamageNumbers();
+      if (dmgLayer) dmgLayer.style.display = "none";
+    }
+    // the operator's bark bubble sits over the results title otherwise
+    if (state.phase !== "playing") {
+      const bark = document.getElementById("fs-bark");
+      if (bark && bark.classList.contains("on")) { bark.classList.remove("on"); bark.textContent = ""; }
+    }
     renderer.render(scene, camera);
   },
 });
