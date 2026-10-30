@@ -978,5 +978,11 @@
   ],
   "b68_watch_hut": [
     "b68_watch_hut.png"
+  ],
+  "x_cross_rail_ns_road_ew": [
+    "x_cross_rail_ns_road_ew.png"
+  ],
+  "x_cross_rail_ew_road_ns": [
+    "x_cross_rail_ew_road_ns.png"
   ]
 }

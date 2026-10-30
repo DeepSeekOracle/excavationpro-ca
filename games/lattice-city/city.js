@@ -1084,28 +1084,62 @@ window.DebugOverlay = DebugOverlay;
   }
 
   function updateEmergencyVehicles(dt) {
-    const gameSeconds = dt * (S.speed || 1) * 86400;
+    const rate = (S.speed == null ? 1 : S.speed);
+    if (rate <= 0) return;
     const allUnits = fireTrucks.concat(ambulances).concat(policeCars);
     allUnits.forEach(unit => {
-      if (unit.state === "responding" && unit.route && unit.route.length > 0) {
-        const speed = unit.type === "fire" ? EMERGENCY.fireSpeed : unit.type === "ambulance" ? EMERGENCY.ambulanceSpeed : EMERGENCY.policeSpeed;
-        const tilesToMove = gameSeconds * speed;
-        for (let m = 0; m < tilesToMove && unit.routeIdx < unit.route.length - 1; m++) unit.routeIdx++;
-        if (unit.routeIdx < unit.route.length) { unit.x = unit.route[unit.routeIdx].x; unit.y = unit.route[unit.routeIdx].y; }
+      const speed = unit.type === "fire" ? EMERGENCY.fireSpeed : unit.type === "ambulance" ? EMERGENCY.ambulanceSpeed : EMERGENCY.policeSpeed;
+      const stepTiles = dt * rate * speed;          // tiles per real second, not per game day
+      const moving = (unit.state === "responding" || unit.state === "returning" || unit.state === "patrol") && unit.route && unit.route.length > 1;
+      if (moving) {
+        unit.acc = (unit.acc || 0) + stepTiles;
+        while (unit.acc >= 1 && unit.routeIdx < unit.route.length - 1) { unit.acc -= 1; unit.routeIdx++; }
+        const p = unit.route[Math.min(unit.routeIdx, unit.route.length - 1)];
+        if (p) { unit.x = p.x; unit.y = p.y; }
         if (unit.routeIdx >= unit.route.length - 1) {
-          unit.state = "on_scene";
-          if (unit.type === "fire") logEvent("arrival", "Engine " + unit.id + " on scene", { gx: unit.x, gy: unit.y }, "high", "Engine " + unit.id + " on scene. Beginning fire attack.");
+          unit.route = null; unit.routeIdx = 0; unit.acc = 0;
+          if (unit.state === "responding") {
+            unit.state = "on_scene";
+            if (unit.type === "fire") logEvent("arrival", "Engine " + unit.id + " on scene", { gx: unit.x, gy: unit.y }, "high", "Engine " + unit.id + " on scene. Beginning fire attack.");
+          } else if (unit.state === "patrol") {
+            unit.state = "returning";    // drive home after a patrol
+          } else {
+            unit.state = "idle";
+            if (unit.parkX != null) { unit.x = unit.parkX; unit.y = unit.parkY; }
+          }
         }
-      } else if (unit.state === "returning") {
-        const station = getFireStations().find(s => stationId(s) === unit.stationId);
-        if (station) {
-          const path = findRoadPath(unit.x, unit.y, station.gx, station.gy);
-          if (path) { unit.route = path; unit.routeIdx = 0; unit.state = "responding"; unit.returning = true; }
+        return;
+      }
+      if (unit.state === "returning") {
+        const tx = unit.parkX != null ? unit.parkX : unit.x, ty = unit.parkY != null ? unit.parkY : unit.y;
+        const path = findRoadPath(unit.x, unit.y, tx, ty);
+        if (path && path.length > 1) { unit.route = path; unit.routeIdx = 0; unit.acc = 0; }
+        else { unit.state = "idle"; if (unit.parkX != null) { unit.x = unit.parkX; unit.y = unit.parkY; } }
+        return;
+      }
+      if (unit.state === "idle" && Math.random() < 0.05) {
+        const spots = (S.roadSpots || []).filter(s => Math.abs(s.x - unit.x) <= 10 && Math.abs(s.y - unit.y) <= 10);
+        if (spots.length) {
+          const dest = spots[(Math.random() * spots.length) | 0];
+          const path = findRoadPath(unit.x, unit.y, dest.x, dest.y);
+          if (path && path.length > 1) { unit.route = path; unit.routeIdx = 0; unit.acc = 0; unit.state = "patrol"; }
         }
-        const stationTile = regionOf(unit.x, unit.y);
-        if (stationTile && SVC[stationTile.r.svc[stationTile.i]] === "fire") { unit.state = "idle"; unit.returning = false; unit.route = null; }
       }
     });
+  }
+
+  // emergency units park on a road tile beside their station, never on the building tile
+  function nearestRoadTile(gx, gy, maxR) {
+    for (let rad = 1; rad <= (maxR || 5); rad++) {
+      for (let dx = -rad; dx <= rad; dx++) {
+        for (let dy = -rad; dy <= rad; dy++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== rad) continue;
+          const t = regionOf(gx + dx, gy + dy);
+          if (t && t.r.road[t.i]) return { x: gx + dx, y: gy + dy };
+        }
+      }
+    }
+    return null;
   }
 
   function initializeFireTrucks() {
@@ -1113,7 +1147,8 @@ window.DebugOverlay = DebugOverlay;
       let truckId = 1;
       getFireStations().forEach(station => {
         for (let t = 0; t < station.trucks; t++) {
-          fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: station.gx, y: station.gy, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
+      const park = nearestRoadTile(station.gx, station.gy, 5) || { x: station.gx, y: station.gy };
+      fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
         }
       });
     }
@@ -1123,7 +1158,8 @@ window.DebugOverlay = DebugOverlay;
       let ambId = 1;
       getClinics().forEach(clinic => {
         for (let a = 0; a < clinic.ambulances; a++) {
-          ambulances.push({ id: ambId++, type: "ambulance", clinicId: clinicId(clinic), x: clinic.gx, y: clinic.gy, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+      const park = nearestRoadTile(clinic.gx, clinic.gy, 5) || { x: clinic.gx, y: clinic.gy };
+      ambulances.push({ id: ambId++, type: "ambulance", clinicId: clinicId(clinic), x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
         }
       });
     }
@@ -1133,7 +1169,8 @@ window.DebugOverlay = DebugOverlay;
       let carId = 1;
       getPoliceStations().forEach(station => {
         for (let c = 0; c < station.cars; c++) {
-          policeCars.push({ id: carId++, type: "police", stationId: station.region.rx + "," + station.region.ry + "," + station.tile, x: station.gx, y: station.gy, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+        const park = nearestRoadTile(station.gx, station.gy, 5) || { x: station.gx, y: station.gy };
+        policeCars.push({ id: carId++, type: "police", stationId: station.region.rx + "," + station.region.ry + "," + station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
         }
       });
     }
@@ -1394,7 +1431,9 @@ window.DebugOverlay = DebugOverlay;
           if (!unit) return;
           const travelTime = bestDist / POLICE.policeSpeed;
           const etaMin = Math.ceil(travelTime / 60 * 10) / 10;
-          unit.state = "responding"; unit.targetCall = call.id; unit.route = bestPath; unit.routeIdx = 0;
+          // route from where the car is parked, not from the station tile (it used to teleport onto the building)
+          const unitPath = findRoadPath(unit.x, unit.y, call.gx, call.gy) || bestPath;
+          unit.state = "responding"; unit.targetCall = call.id; unit.route = unitPath; unit.routeIdx = 0;
           unit.dispatchedAt = S.hour * 3600 + S.day * 86400; unit.eta = unit.dispatchedAt + travelTime;
           unit.stationId = bestStation.region.rx + "," + bestStation.region.ry + "," + bestStation.tile;
           call.assignedUnit = unit.id; call.status = "enroute";
@@ -4080,6 +4119,8 @@ window.DebugOverlay = DebugOverlay;
       advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
       updateFires(dt);
       updateAllVehicles(dt);
+      // emergency units: move along their route, patrol when idle, return to park
+      updateEmergencyVehicles(dt);
       // Emergency spawns now happen in tick() once per day, not every frame
       updateMedicalCalls(dt);
       updatePoliceCalls(dt);
@@ -4282,10 +4323,18 @@ window.DebugOverlay = DebugOverlay;
         }
 
         let key = null;
+        let railOverlay = null;
                 if (reg.road[i]) {
                   if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
                   else if (terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) key = slopeRoadKey(roadMask(gx, gy));
                   else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
+                  // level crossing: dedicated tile where road and rail share the square
+                  if (reg.rail[i]) {
+                    const lm = railMask(gx, gy), rm = roadMask(gx, gy);
+                    if ((lm & 5) === 5 && (rm & 10) === 10) key = "x_cross_rail_ns_road_ew";
+                    else if ((lm & 10) === 10 && (rm & 5) === 5) key = "x_cross_rail_ew_road_ns";
+                    else railOverlay = RAIL[lm] || "rail_straight_ew";
+                  }
                 }
                 else if (reg.rail[i]) {
                   key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
@@ -4334,6 +4383,10 @@ window.DebugOverlay = DebugOverlay;
         }
         if (key && SPRITES[key] && SPRITES[key].complete) {
           getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
+        }
+        if (railOverlay && SPRITES[railOverlay] && SPRITES[railOverlay].complete) {
+          // level crossing: rails and ties drawn over the road, centred on the same tile box
+          getCtx().drawImage(SPRITES[railOverlay], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
         }
         if (reg.level[i] && !reg.powerOn[i]) {
           getCtx().globalAlpha = 0.22;
@@ -4998,7 +5051,8 @@ window.DebugOverlay = DebugOverlay;
         } else if (t.id === "railTrack") {
           if (r.rail[i]) return false;
           if (r.terrain[i] === TERRAIN.WATER) return false;
-          if (r.road[i] || r.zone[i] || r.level[i] || r.svc[i]) return false;
+          // rail may cross a road: the tile keeps both layers (level crossing)
+          if (r.zone[i] || r.level[i] || r.svc[i]) return false;
           r.rail[i] = 1; r.zoneDirty = true;
           sfx("rail");
           did = true;
@@ -6259,7 +6313,7 @@ window.DebugOverlay = DebugOverlay;
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261030-art1";
+  const ASSET_VER = "20261030-cross1";
 
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
@@ -6328,6 +6382,7 @@ window.DebugOverlay = DebugOverlay;
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
+    units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y })) }),
     debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
     taxRate: (v) => {
       if (typeof v === "number") { S.taxRate = clamp(v, 1, 15); recalcWorld(); updateDemand(); refreshHud(); }

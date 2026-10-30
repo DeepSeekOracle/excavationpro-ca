@@ -10,7 +10,7 @@
   --moss: #6fbf73;
   --water: #5aa9e6;
   --brick: #d9694c;
-  --panel-w: 268px;
+  --panel-w: 360px;
 
   --panel-2: #241f1b;
   --panel-3: #221f1b;
@@ -101,12 +101,12 @@ body {
   padding: 10px 12px;
   background: rgba(20, 18, 16, .93);
   border: 1px solid var(--line); border-radius: 10px;
-  overflow: auto;
+  overflow-y: auto; overflow-x: hidden;
   backdrop-filter: blur(2px);
 }
 #palette h2 { margin: 2px 0 8px; font-size: 11px; letter-spacing: .16em; color: var(--amber); text-transform: uppercase; }
 #palette h3 { margin: 14px 0 6px; font-size: 10px; letter-spacing: .16em; color: var(--mute); text-transform: uppercase; }
-#tools { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+#tools { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .tool {
   display: flex; flex-direction: column; gap: 3px; align-items: flex-start;
   padding: 7px 8px; background: var(--deep-4); color: var(--text);
@@ -120,12 +120,12 @@ body {
 .tool.locked::after { content: "locked"; font-size: 8.5px; color: var(--amber); letter-spacing: .1em; }
 
 .meters { display: grid; gap: 6px; }
-.meter { display: grid; grid-template-columns: 62px 1fr 54px; align-items: center; gap: 6px; font-size: 10px; color: var(--mute); }
-.meter i { display: block; height: 7px; background: var(--panel-2); border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+.meter { display: grid; grid-template-columns: 74px 1fr 62px; align-items: center; gap: 8px; font-size: 10.5px; color: var(--mute); }
+.meter i { display: block; height: 9px; background: var(--deep); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
 .meter i u { display: block; height: 100%; width: 0%; background: var(--amber); transition: width .35s ease; }
 .meter b { font-size: 10px; color: var(--text); text-align: right; }
 .goal { margin: 0; font-size: 11.5px; color: var(--text); }
-.row { display: flex; gap: 6px; margin-top: 8px; }
+.row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .wide {
   flex: 1; padding: 7px 8px; background: var(--panel-2); color: var(--text);
   border: 1px solid var(--line); border-radius: 6px; cursor: pointer; font-size: 11px;
@@ -254,7 +254,7 @@ var(--cream) h3 { margin: 0 0 6px; }
 .radio-dock.collapsed .radio-row, .radio-dock.collapsed input, .radio-dock.collapsed .radio-title, .radio-dock.collapsed .radio-link { display: none; }
 .radio-row { display: flex; gap: 5px; }
 .radio-row .wide { padding: 5px 6px; font-size: 10px; }
-#radioVol { width: 100%; accent-color: var(--amber); height: 14px; }
+#radioVol { width: 100%; }
 .radio-title {
   margin: 0; font-size: 10px; line-height: 1.35; color: var(--text);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -376,3 +376,22 @@ var(--cream) h3 { margin: 0 0 6px; }
 .workplace-card { font-size: 11px; }
 .workplace-header { display: flex; justify-content: space-between; gap: 8px; }
 .worker-mini { font-size: 10px; color: var(--mute); }
+
+
+/* one proper range style for the radio and the options (2026-10-30) */
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 16px; background: transparent; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px; border-radius: 3px;
+  background: linear-gradient(to right, var(--amber) 0%, var(--amber) var(--fill, 0%), var(--deep) var(--fill, 0%), var(--deep) 100%);
+  border: 1px solid var(--line);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px; margin-top: -4px; border-radius: 50%;
+  background: var(--amber); border: 1px solid var(--ink);
+}
+input[type="range"]::-moz-range-track { height: 6px; border-radius: 3px; background: var(--deep); border: 1px solid var(--line); }
+input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--amber); border: 1px solid var(--ink); }
