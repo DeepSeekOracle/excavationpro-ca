@@ -3849,20 +3849,21 @@ window.DebugOverlay = DebugOverlay;
     const p = tileToScreen(unit.x, unit.y);
     const zw = TW * cam.zoom, zh = TH * cam.zoom;
     const cx = Math.round(p.x + zw / 2), cy = Math.round(p.y + zh / 2);
-    let angle = 0, mirror = false;
+    // Four pre-built facings per vehicle (tools/make_vehicle_facings.py). 2D rotation rolls
+    // a 3/4 sprite onto its side and a vertical mirror puts the roof at the bottom, so the
+    // yaw comes from a shear + mirror of the same art: s = as drawn, e = mirrored,
+    // w = sheared, n = sheared + mirrored. Picked by the route segment, never rotated.
+    let facing = "s";
     if (unit.route && unit.routeIdx < unit.route.length - 1) {
       const a = unit.route[unit.routeIdx], b = unit.route[unit.routeIdx + 1];
-      const pa = tileToScreen(a.x, a.y), pb = tileToScreen(b.x, b.y);
-      const dx = pb.x - pa.x, dy = pb.y - pa.y;
-      if (dx < -0.01) mirror = true;                     // travelling left: mirror, never spin
-      angle = clamp(Math.atan2(dy, Math.abs(dx)) * 0.35, -0.30, 0.30);
+      const dxw = b.x - a.x, dyw = b.y - a.y;
+      if (Math.abs(dxw) > Math.abs(dyw)) facing = dxw > 0 ? "e" : "w";
+      else if (dyw !== 0) facing = dyw > 0 ? "s" : "n";
     }
+    unit.faceKey = facing;   // QA: s / e / w / n
     ctx.save();
-    unit.faceAngle = angle; unit.faceMirror = mirror;   // QA: facing must stay within +-0.3 rad
     ctx.translate(cx, cy);
-    if (mirror) ctx.scale(-1, 1);
-    ctx.rotate(angle);
-    const spr = SPRITES[sprKey];
+    const spr = SPRITES[sprKey + "_" + facing] || SPRITES[sprKey];
     const sw = 64 * cam.zoom, sh = 48 * cam.zoom;
     if (spr && spr.complete) ctx.drawImage(spr, -sw / 2, -sh / 2, sw, sh);
     else {
@@ -6521,7 +6522,7 @@ window.DebugOverlay = DebugOverlay;
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
-    units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, angle: u.faceAngle, mirror: u.faceMirror })) }),
+    units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })) }),
     debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
     taxRate: (v) => {
       if (typeof v === "number") { S.taxRate = clamp(v, 1, 15); recalcWorld(); updateDemand(); refreshHud(); }

@@ -987,5 +987,41 @@
   ],
   "b69_ferry_terminal": [
     "b69_ferry_terminal.png"
+  ],
+  "police_car_s": [
+    "police_car_s.png"
+  ],
+  "police_car_e": [
+    "police_car_e.png"
+  ],
+  "police_car_w": [
+    "police_car_w.png"
+  ],
+  "police_car_n": [
+    "police_car_n.png"
+  ],
+  "fire_truck_s": [
+    "fire_truck_s.png"
+  ],
+  "fire_truck_e": [
+    "fire_truck_e.png"
+  ],
+  "fire_truck_w": [
+    "fire_truck_w.png"
+  ],
+  "fire_truck_n": [
+    "fire_truck_n.png"
+  ],
+  "ambulance_s": [
+    "ambulance_s.png"
+  ],
+  "ambulance_e": [
+    "ambulance_e.png"
+  ],
+  "ambulance_w": [
+    "ambulance_w.png"
+  ],
+  "ambulance_n": [
+    "ambulance_n.png"
   ]
 }
