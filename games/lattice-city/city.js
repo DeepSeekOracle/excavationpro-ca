@@ -1,3 +1,138 @@
+// F3 Debug Overlay Module
+const DebugOverlay = (function() {
+  let enabled = false;
+  let overlayEl = null;
+  let stats = {
+    fps: 0,
+    frameMs: 0,
+    simMs: 0,
+    visibleTiles: 0,
+    chunksDrawn: 0,
+    buildings: 0,
+    entities: 0,
+    saveBytes: 0
+  };
+  let lastTime = performance.now();
+  let frameCount = 0;
+  let fpsUpdateTime = 0;
+
+  function createOverlay() {
+    if (overlayEl) return;
+    overlayEl = document.createElement('div');
+    overlayEl.id = 'debug-overlay';
+    overlayEl.style.cssText = `
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.85);
+      color: #0f0;
+      font-family: 'Consolas', 'Monospace';
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 10px 14px;
+      border-radius: 4px;
+      z-index: 10000;
+      pointer-events: none;
+      min-width: 220px;
+      text-shadow: 0 0 2px #000;
+    `;
+    document.body.appendChild(overlayEl);
+    updateDisplay();
+  }
+
+  function updateDisplay() {
+    if (!overlayEl) return;
+    overlayEl.innerHTML = `
+      <div><strong>LATTICE CITY DEBUG</strong></div>
+      <div>FPS: ${stats.fps}</div>
+      <div>Frame: ${stats.frameMs.toFixed(2)} ms</div>
+      <div>Sim: ${stats.simMs.toFixed(2)} ms</div>
+      <div>Visible Tiles: ${stats.visibleTiles}</div>
+      <div>Chunks Drawn: ${stats.chunksDrawn}</div>
+      <div>Buildings: ${stats.buildings}</div>
+      <div>Entities: ${stats.entities}</div>
+      <div>Save Size: ${formatBytes(stats.saveBytes)}</div>
+    `;
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+
+  function toggle() {
+    enabled = !enabled;
+    if (enabled) {
+      createOverlay();
+      overlayEl.style.display = 'block';
+    } else if (overlayEl) {
+      overlayEl.style.display = 'none';
+    }
+    return enabled;
+  }
+
+  function isEnabled() {
+    return enabled;
+  }
+
+  function updateFrameStats(frameMs, simMs) {
+    if (!enabled) return;
+    const now = performance.now();
+    frameCount++;
+    stats.frameMs = frameMs;
+    stats.simMs = simMs;
+    
+    if (now - fpsUpdateTime >= 1000) {
+      stats.fps = Math.round(frameCount * 1000 / (now - fpsUpdateTime));
+      frameCount = 0;
+      fpsUpdateTime = now;
+      updateDisplay();
+    }
+  }
+
+  function updateRenderStats(visibleTiles, chunksDrawn) {
+    if (!enabled) return;
+    stats.visibleTiles = visibleTiles;
+    stats.chunksDrawn = chunksDrawn;
+    updateDisplay();
+  }
+
+  function updateEntityStats(buildings, entities) {
+    if (!enabled) return;
+    stats.buildings = buildings;
+    stats.entities = entities;
+    updateDisplay();
+  }
+
+  function updateSaveStats(bytes) {
+    if (!enabled) return;
+    stats.saveBytes = bytes;
+    updateDisplay();
+  }
+
+  // Keyboard handler
+  function handleKeyDown(e) {
+    if (e.code === 'F3') {
+      e.preventDefault();
+      toggle();
+    }
+  }
+
+  document.addEventListener('keydown', handleKeyDown);
+
+  return {
+    toggle,
+    isEnabled,
+    updateFrameStats,
+    updateRenderStats,
+    updateEntityStats,
+    updateSaveStats
+  };
+})();
+
+// Export for global access if needed
+window.DebugOverlay = DebugOverlay;
 /* Lattice City — a regional isometric city builder.
    A world of 160x160 tile regions, up to 3x3 of them (230,400 tiles). Regions
    join wherever their border roads meet, and connected regions share jobs.
@@ -301,13 +436,15 @@
     return keys[Math.floor(hash2(rx * 7 + 3, ry * 11 + 5) * keys.length) % keys.length];
   }
 
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire"];
+  // Appending to SVC is safe for old saves: the array index is what a save stores.
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire", "police"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
     dock: "c08_river_quay_dock",
     rail: "b17_twin_gatehouse",
     fire: "b08_watchtower",
+    police: "b17_twin_gatehouse",
   };
   const SVC_RULE = {
     park: { radius: 4, value: 4, upkeep: 2 },
@@ -319,6 +456,7 @@
     dock: { radius: 0, upkeep: 6 },
     rail: { radius: 0, upkeep: 16 },
     fire: { radius: 8, upkeep: 10 },
+    police: { radius: 9, upkeep: 12, safety: 1 },
   };
 
   const TOOLS = [
@@ -334,7 +472,7 @@
         { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
         { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
         { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "school", unlock: 1 },
-        { id: "police", name: "Police station", cost: 1200, hint: "law enforcement", service: "fire", unlock: 2 },
+        { id: "police", name: "Police station", cost: 1200, hint: "cuts crime", service: "police", unlock: 2 },
         { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -355,6 +493,9 @@
     seed: 1, cash: 25000, day: 0, hour: 7, speed: 1, tool: "road", unlocked: 0,
     regions: new Array(GW * GH).fill(null),
     demand: { r: 0.55, c: 0.35, i: 0.3 },
+    rci: { r: 0.55, c: 0.35, i: 0.3, homes: 0, shops: 0, industry: 0, ic: 0.86 },
+    taxRate: 7,                 // percent, SimCity default; 7-9 is the workable band
+    taxIncome: 0, bonds: 0, bondRate: 0.06,
     pop: 0, jobs: 0, mood: 60, income: 0, upkeep: 0, shopCap: 0, indCap: 0,
     links: [], peds: [], cars: [], boats: [], smoke: [], clouds: [],
     rain: 0, rainTarget: 0, weatherTimer: 0, lastAnnounce: -99,
@@ -2128,6 +2269,7 @@
         households: claimedList().reduce((s,r) => s + (r.households||[]).length, 0),
         housingOccupancy: claimedList().reduce((s,r) => s + (r.households||[]).reduce((s2,h) => s2 + h.residents.length, 0), 0) / 
           Math.max(1, claimedList().reduce((s,r) => s + (r.households||[]).reduce((s2,h) => s2 + h.capacity, 0), 0)),
+        avgCommute: S.avgCommute || 0,
       };
     }
 
@@ -2495,7 +2637,7 @@
       return {
         rx, ry, claimed: false,
         terrain: null, road: null, rail: null, zone: null, level: null, bldg: null, svc: null,
-        owned: null, powerOn: null, waterOn: null, value: null,
+        owned: null, powerOn: null, waterOn: null, value: null, commuteDistance: null,
         zoneList: [], zoneDirty: true,
         pop: 0, jobs: 0, built: 0, roads: 0, upkeep: 0, mood: 60, access: 0, parks: 0, theme: "oldtown",
         trades: 0, commerce: 0,
@@ -2515,6 +2657,10 @@
       r.powerOn = new Uint8Array(n);
       r.waterOn = new Uint8Array(n);
       r.value = new Uint8Array(n);
+      r.svcVal = new Uint8Array(n);     // service contribution, kept apart from the final value
+      r.poll = new Uint8Array(n);       // pollution
+      r.crime = new Uint8Array(n);      // crime
+      r.policeOn = new Uint8Array(n);   // police coverage
 
     const hgt = valueNoise(RS, RS, 22, seed);
     const for1 = valueNoise(RS, RS, 14, seed + 991);
@@ -2673,7 +2819,7 @@
     // ---------------------------------------------------------------- services
   function recomputeRegion(r) {
     const n = RS * RS;
-    r.powerOn.fill(0); r.waterOn.fill(0); r.value.fill(0);
+    r.powerOn.fill(0); r.waterOn.fill(0); r.policeOn.fill(0); r.svcVal.fill(0);
     const paint = (name, arr, radius) => {
       for (let i = 0; i < n; i++) {
         if (SVC[r.svc[i]] !== name) continue;
@@ -2688,6 +2834,7 @@
     };
     paint("power", r.powerOn, 10);
     paint("water", r.waterOn, 9);
+    paint("police", r.policeOn, 9);
     for (let i = 0; i < n; i++) {
       const name = SVC[r.svc[i]];
       if (!name) continue;
@@ -2699,16 +2846,111 @@
           const dx = x - tx, dy = y - ty, d2 = dx * dx + dy * dy;
           if (d2 <= rad * rad) {
             const j = y * RS + x;
-            r.value[j] = clamp(r.value[j] + Math.round(rule.value * (0.5 + (1 - Math.sqrt(d2) / rad))), 0, 255);
+            r.svcVal[j] = clamp(r.svcVal[j] + Math.round(rule.value * (0.5 + (1 - Math.sqrt(d2) / rad))), 0, 255);
           }
         }
       }
     }
+    computeFields(r);
     recalcRegion(r);
   
   initializeFireTrucks();
     initializeAmbulances();
     initializePoliceCars();
+  }
+
+  // ---------------------------------------------------------------- fields
+  // Land value, pollution and crime as real per-tile fields (SimCity 3000 style):
+  // water/forest/road set the base, services add in recomputeRegion, industry and power
+  // plant pollution subtract, density-driven crime subtracts, police and parks push back.
+  function computeFields(r) {
+    const n = RS * RS;
+    r.poll.fill(0);
+    r.crime.fill(0);
+    // pollution sources: industry by level, power plants
+    for (let i = 0; i < n; i++) {
+      const lv = r.level[i], z = r.zone[i], svc = SVC[r.svc[i]];
+      if (!((lv > 0 && z === Z.I) || svc === "power")) continue;
+      const power = svc === "power";
+      const amount = power ? 26 : 10 + lv * 7;
+      const rad = power ? 6 : 3 + lv;
+      const tx = i % RS, ty = (i / RS) | 0;
+      for (let y = Math.max(0, ty - rad); y <= Math.min(RS - 1, ty + rad); y++) {
+        for (let x = Math.max(0, tx - rad); x <= Math.min(RS - 1, tx + rad); x++) {
+          const dx = x - tx, dy = y - ty, d2 = dx * dx + dy * dy;
+          if (d2 > rad * rad) continue;
+          const j = y * RS + x;
+          const fall = 1 - Math.sqrt(d2) / rad;
+          r.poll[j] = Math.min(100, r.poll[j] + Math.round(amount * fall));
+        }
+      }
+    }
+    // one diffusion pass so pollution bleeds instead of stopping at a ring
+    const tmp = r._pollTmp || (r._pollTmp = new Uint8Array(n));
+    tmp.set(r.poll);
+    for (let y = 1; y < RS - 1; y++) {
+      for (let x = 1; x < RS - 1; x++) {
+        const j = y * RS + x;
+        const avg = (tmp[j - 1] + tmp[j + 1] + tmp[j - RS] + tmp[j + RS]) >> 2;
+        r.poll[j] = Math.min(100, (tmp[j] * 2 + avg) / 3 | 0);
+      }
+    }
+    // crime: neighbour density + unemployment, less police and parks
+    const unemp = clamp((S.pop - (S.jobs || 0)) / Math.max(1, S.pop), 0, 1);
+    const zoned = (r.zoneList && r.zoneList.length) || 1;
+    const density = clamp((r.built || 0) / zoned, 0, 1);
+    for (let y = 0; y < RS; y++) {
+      for (let x = 0; x < RS; x++) {
+        const j = y * RS + x;
+        let near = 0;
+        for (let dy = -2; dy <= 2; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
+            const yy = y + dy, xx = x + dx;
+            if (yy < 0 || yy >= RS || xx < 0 || xx >= RS) continue;
+            const k = yy * RS + xx;
+            if (r.level[k] > 0) near++;
+          }
+        }
+        const base = 6 + near * 1.1 + unemp * 26 + density * 18;
+        const safety = r.policeOn[j] ? 20 : 0;
+        const green = SVC[r.svc[j]] === "park" ? 6 : 0;
+        r.crime[j] = clamp(Math.round(base - safety - green), 0, 100);
+      }
+    }
+    // final land value: base terrain/access, + services, − pollution, − crime
+    for (let y = 0; y < RS; y++) {
+      for (let x = 0; x < RS; x++) {
+        const j = y * RS + x;
+        const t = r.terrain[j];
+        let base = t === TERRAIN.SAND ? 14 : t === TERRAIN.FOREST ? 22 : t === TERRAIN.WATER ? 0 : 18;
+        if (t === TERRAIN.ROCK) base = 8;
+        if (t === TERRAIN.MOUNTAIN) base = 4;
+        // water within 2 tiles is the biggest single driver
+        for (let dy = -2; dy <= 2; dy++) {
+          for (let dx = -2; dx <= 2; dx++) {
+            const yy = y + dy, xx = x + dx;
+            if (yy < 0 || yy >= RS || xx < 0 || xx >= RS) continue;
+            if (r.terrain[yy * RS + xx] === TERRAIN.WATER) { base += 18; dy = 3; break; }
+          }
+        }
+        if (r.road[j]) base += 8;
+        else {
+          let roadNear = false;
+          for (let dy = -1; dy <= 1 && !roadNear; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+              const yy = y + dy, xx = x + dx;
+              if (yy < 0 || yy >= RS || xx < 0 || xx >= RS) continue;
+              if (r.road[yy * RS + xx]) { roadNear = true; break; }
+            }
+          }
+          if (roadNear) base += 4;
+        }
+        const commute = r.commuteDistance ? r.commuteDistance[j] : 0;
+        if (commute > 12) base -= Math.min(15, (commute - 12) * 0.7);
+        const val = base + r.svcVal[j] - r.poll[j] * 0.45 - r.crime[j] * 0.30;
+        r.value[j] = clamp(Math.round(val), 0, 255);
+      }
+    }
   }
 
   function recalcRegion(r) {
@@ -2788,37 +3030,115 @@
     });
   }
 
+  // ---------------------------------------------------------------- commutes & trips
+  function updateCommutes() {
+    const homes = [];
+    const jobs = [];
+    const claimed = claimedList();
+    claimed.forEach((r) => {
+      if (!r.commuteDistance) r.commuteDistance = new Float32Array(RS * RS);
+      for (let i = 0; i < RS * RS; i++) {
+        if (!r.level[i] || !r.zone[i]) continue;
+        const gx = r.rx * RS + (i % RS);
+        const gy = r.ry * RS + Math.floor(i / RS);
+        if (r.zone[i] === Z.R) {
+          homes.push({ r, i, gx, gy });
+        } else if (r.zone[i] === Z.C || r.zone[i] === Z.I) {
+          jobs.push({ r, i, gx, gy });
+        }
+      }
+    });
+
+    let totalDist = 0;
+    let count = 0;
+    const COMMUTE_LIMIT = 30;
+
+    homes.forEach((h) => {
+      let minDist = 60;
+      if (jobs.length > 0) {
+        jobs.forEach((j) => {
+          const d = Math.abs(h.gx - j.gx) + Math.abs(h.gy - j.gy);
+          if (d < minDist) minDist = d;
+        });
+      }
+      h.r.commuteDistance[h.i] = minDist;
+      if (minDist > COMMUTE_LIMIT) {
+        const penalty = (minDist - COMMUTE_LIMIT) * 3;
+        h.r.value[h.i] = Math.max(0, h.r.value[h.i] - penalty);
+      }
+      totalDist += minDist;
+      count++;
+    });
+
+    jobs.forEach((j) => {
+      let minDist = 60;
+      if (homes.length > 0) {
+        homes.forEach((h) => {
+          const d = Math.abs(j.gx - h.gx) + Math.abs(j.gy - h.gy);
+          if (d < minDist) minDist = d;
+        });
+      }
+      j.r.commuteDistance[j.i] = minDist;
+      if (minDist > COMMUTE_LIMIT) {
+        const penalty = (minDist - COMMUTE_LIMIT) * 3;
+        j.r.value[j.i] = Math.max(0, j.r.value[j.i] - penalty);
+      }
+      totalDist += minDist;
+      count++;
+    });
+
+    S.avgCommute = count ? +(totalDist / count).toFixed(1) : 0;
+  }
+
   // ---------------------------------------------------------------- totals
   function recalcWorld() {
     let pop = 0, jobs = 0, income = 0, upkeep = 0, moodSum = 0, n = 0;
+    updateCommutes();
+    // SimCity 3000: revenue = taxRate × population / 75 per zone. The 7% rate is the
+    // calibrated default, so the multiplier keeps the existing economy at par and makes
+    // the slider a real lever (below 5% growth rises, above 9% demand collapses).
+    const taxMul = (S.taxRate == null ? 7 : S.taxRate) / 7;
     claimedList().forEach((r) => {
       recalcRegion(r);
       pop += r.pop; jobs += r.jobs;
-      income += r.pop * 0.85 + r.jobs * 0.5;
+      income += (r.pop * 0.85 + r.jobs * 0.5) * taxMul;
       upkeep += r.upkeep || 0;
       moodSum += r.mood; n++;
     });
-    S.pop = pop; S.jobs = jobs; S.income = income; S.upkeep = upkeep;
+    S.pop = pop; S.jobs = jobs; S.taxIncome = income; S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
+    S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
   }
 
   function updateDemand() {
     const spare = clamp((S.jobs - S.pop * 0.85) / Math.max(40, S.jobs), -0.45, 1);
     const shopperNeed = S.pop * 0.45, workNeed = S.pop * 0.35;
-    let shops = 0, industry = 0;
+    let shops = 0, industry = 0, homes = 0;
     claimedList().forEach((r) => {
       for (let i = 0; i < RS * RS; i++) {
         const z = r.zone[i]; if (!z || !r.level[i]) continue;
         const cap = (z === Z.R ? 4 : 6) * r.level[i];
         if (z === Z.C) shops += cap;
         if (z === Z.I) industry += cap;
+        if (z === Z.R) homes += cap;
       }
     });
-    S.shopCap = shops; S.indCap = industry;
+    S.shopCap = shops; S.indCap = industry; S.homeCap = homes;
     const moodFactor = S.mood < 40 ? -0.25 : (S.mood > 65 ? 0.15 : 0);
-    S.demand.r = clamp(0.42 + spare * 0.6 + moodFactor, 0, 1);
-    S.demand.c = clamp(0.24 + clamp((shopperNeed - shops) / Math.max(30, shopperNeed), -0.6, 1) * 0.8, 0, 1);
-    S.demand.i = clamp(0.20 + clamp((workNeed + S.jobs * 0.1 - industry) / Math.max(30, workNeed), -0.6, 1) * 0.8, 0, 1);
+    // SimCity 3000 shape: industry is driven by outside demand and leads early,
+    // commerce follows population and overtakes industry as the town matures.
+    const external = 0.34 - Math.min(0.20, (S.pop || 0) / 60000);
+    const mature = Math.min(0.22, (S.pop || 0) / 30000);
+    const taxDrag = (S.taxRate || 7) > 9 ? ((S.taxRate || 7) - 9) * 0.045 : 0;
+    const taxBoost = (S.taxRate || 7) < 5 ? (5 - (S.taxRate || 7)) * 0.03 : 0;
+    S.demand.r = clamp(0.42 + spare * 0.6 + moodFactor + taxBoost, 0, 1);
+    S.demand.c = clamp(0.20 + mature + clamp((shopperNeed - shops) / Math.max(30, shopperNeed), -0.6, 1) * 0.7 - taxDrag, 0, 1);
+    S.demand.i = clamp(external + clamp((workNeed + S.jobs * 0.1 - industry) / Math.max(30, workNeed), -0.6, 1) * 0.7 - taxDrag, 0, 1);
+    S.rci = {
+      r: +S.demand.r.toFixed(3), c: +S.demand.c.toFixed(3), i: +S.demand.i.toFixed(3),
+      homes, shops, industry,
+      ic: +(S.demand.i / Math.max(0.01, S.demand.c)).toFixed(2),
+    };
   }
 
   // ---------------------------------------------------------------- growth
@@ -2838,6 +3158,12 @@
       const lx = i % RS, ly = (i / RS) | 0;
       const gx = r.rx * RS + lx, gy = r.ry * RS + ly;
       if (!hasRoadNear(gx, gy)) continue;
+      const commuteDist = r.commuteDistance ? r.commuteDistance[i] : 0;
+      const COMMUTE_LIMIT = 30;
+      if (commuteDist > COMMUTE_LIMIT) {
+        const stallChance = Math.min(1, (commuteDist - COMMUTE_LIMIT) / 15);
+        if (Math.random() < stallChance) continue;
+      }
       const powered = r.powerOn[i] === 1, watered = r.waterOn[i] === 1;
       const lv = r.level[i];
       const canUp = lv === 0 ? true : lv === 1 ? powered : (powered && watered);
@@ -2853,7 +3179,8 @@
         r.level[i] = lv - 1;
         continue;
       }
-      if (dem > 0.3 && lv < 3 && canUp && Math.random() < dem * commerce * eventGrowth(r) * (0.20 + value * 0.22)) {
+      // 0.2 not 0.3: the RCI model below produces lower demand numbers than the old one
+      if (dem > 0.2 && lv < 3 && canUp && Math.random() < dem * commerce * eventGrowth(r) * (0.20 + value * 0.22)) {
         r.level[i] = lv + 1;
         sfx("grow");
       } else if (lv > 0 && z === Z.C && (r.commerce || 0) < 1.5 && Math.random() < 0.03) {
@@ -2885,6 +3212,8 @@
       recalcWorld();
       updateDemand();
       claimedList().forEach((r) => tickRegion(r, Math.min(90, Math.max(10, Math.ceil(r.zoneList.length * 0.9) || 12))));
+      // pollution, crime and land value follow the buildings, so refresh them each day
+      claimedList().forEach((r) => computeFields(r));
       refreshLinks();
       recalcWorld();
       updateDemand();
@@ -3844,6 +4173,30 @@
               : (hash2(gx + 4, gy + 8) > 0.5 ? "s23_forest_var3_pine_cedar" : "s21_forest_var1_hollow_oak");
         }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
+        // field overlays: tint the tile by land value, crime or pollution
+        if (S.overlay && (reg.value || reg.poll || reg.crime)) {
+          let col = null;
+          if (S.overlay === "lv" && reg.value) {
+            const v = reg.value[i] / 255;
+            col = v > 0.55 ? "rgba(90,200,120,.34)" : v > 0.3 ? "rgba(230,200,80,.30)" : "rgba(200,80,70,.30)";
+          } else if (S.overlay === "crime" && reg.crime) {
+            const c = reg.crime[i] / 100;
+            if (c > 0.05) col = "rgba(200,60,60," + (0.10 + c * 0.45).toFixed(2) + ")";
+          } else if (S.overlay === "poll" && reg.poll) {
+            const p = reg.poll[i] / 100;
+            if (p > 0.05) col = "rgba(120,80,140," + (0.10 + p * 0.45).toFixed(2) + ")";
+          }
+          if (col) drawDiamond(cx0, cy0, zw, zh, col);
+        }
+        // contact shadow: buildings, services and vehicles sit ON the ground, not in it
+        if ((reg.level[i] || reg.svc[i]) && cam.zoom > 0.45) {
+          getCtx().globalAlpha = 0.38;
+          getCtx().fillStyle = "#000";
+          getCtx().beginPath();
+          getCtx().ellipse(cx0, cy0 + zh * 0.06, zw * 0.31, zh * 0.13, 0, 0, 6.2832);
+          getCtx().fill();
+          getCtx().globalAlpha = 1;
+        }
         if (key && SPRITES[key] && SPRITES[key].complete) {
           getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
         }
@@ -4605,6 +4958,29 @@
     el("ui-water-t").textContent = Math.round(wf * 100) + "%";
     el("ui-value").style.width = Math.round(((vn ? vsum / vn : 0) / 255) * 100) + "%";
     el("ui-value-t").textContent = money((vn ? vsum / vn : 0) * 12);
+    // pollution / crime / budget (added 2026-10-30 with the field simulation)
+    let psum = 0, pn = 0, csum = 0, cn = 0;
+    claimedList().forEach((r) => {
+      for (let i = 0; i < RS * RS; i++) {
+        if (!r.zone[i]) continue;
+        if (r.poll) { psum += r.poll[i]; pn++; }
+        if (r.crime) { csum += r.crime[i]; cn++; }
+      }
+    });
+    const pollAvg = pn ? psum / pn : 0, crimeAvg = cn ? csum / cn : 0;
+    const elPoll = el("ui-poll");
+    if (elPoll) {
+      elPoll.style.width = Math.round(pollAvg) + "%";
+      el("ui-poll-t").textContent = Math.round(pollAvg);
+      el("ui-crime").style.width = Math.round(crimeAvg) + "%";
+      el("ui-crime-t").textContent = Math.round(crimeAvg);
+      el("ui-tax").textContent = (S.taxRate || 7) + "%";
+      el("ui-income").textContent = money(S.taxIncome || 0);
+      el("ui-upkeep").textContent = money(S.upkeep || 0);
+      const net = (S.taxIncome || 0) - (S.upkeep || 0) - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
+      el("ui-net").textContent = (net >= 0 ? "+" : "−") + money(Math.abs(net));
+      el("ui-net").style.color = net >= 0 ? "var(--good, #7ec97e)" : "var(--bad, #d2695a)";
+    }
     const next = MILESTONES[S.unlocked + 1];
     el("ui-goal").textContent = next ? (next.goal || ("Reach " + next.pop + " people for " + next.title + ".")) : "Metropolis. Nothing left to unlock but more world.";
     const claim = el("ui-claim");
@@ -4627,16 +5003,137 @@
   }
 
   // ---------------------------------------------------------------- sound
-  let audio = null, audioOn = false, ambient = null;
-  function initAudio() {
-    if (audio) return audio;
+  const AUDIO_STORAGE_KEY = 'lattice-city-audio';
+  let audioCtx = null;
+  let masterGain = null;
+  let musicGain = null;
+  let sfxGain = null;
+  let audioUnlocked = false;
+  let audioOn = true;
+  let ambient = null;
+
+  let audioState = {
+    master: 0.8,
+    music: 0.55,
+    sfx: 0.8,
+    muted: { master: false, music: false, sfx: false }
+  };
+
+  function loadAudioState() {
+    try {
+      const saved = localStorage.getItem(AUDIO_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        audioState = { ...audioState, ...parsed };
+        if (!audioState.muted) audioState.muted = { master: false, music: false, sfx: false };
+      }
+    } catch (e) {
+      console.warn('[audio] Failed to load audio state:', e);
+    }
+    if (typeof OPT !== 'undefined') {
+      if (typeof OPT.master === 'number') audioState.master = OPT.master / 100;
+      if (typeof OPT.music === 'number') audioState.music = OPT.music / 100;
+      if (typeof OPT.sfx === 'number') audioState.sfx = OPT.sfx / 100;
+    }
+    audioOn = !audioState.muted.master;
+  }
+
+  function saveAudioState() {
+    try {
+      localStorage.setItem(AUDIO_STORAGE_KEY, JSON.stringify(audioState));
+    } catch (e) {
+      console.warn('[audio] Failed to save audio state:', e);
+    }
+  }
+
+  function ensureAudioContext() {
+    if (audioCtx) return audioCtx;
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return null;
-    audio = new AC();
-    return audio;
+    audioCtx = new AC();
+    masterGain = audioCtx.createGain();
+    musicGain = audioCtx.createGain();
+    sfxGain = audioCtx.createGain();
+
+    musicGain.connect(masterGain);
+    sfxGain.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
+
+    applyAudioGains();
+    audioUnlocked = true;
+    return audioCtx;
   }
+
+  function applyAudioGains() {
+    if (!masterGain) return;
+    const mMuted = audioState.muted.master;
+    const musMuted = audioState.muted.music;
+    const sfxMuted = audioState.muted.sfx;
+
+    masterGain.gain.value = mMuted ? 0 : Math.max(0, Math.min(1, audioState.master));
+    musicGain.gain.value = musMuted ? 0 : Math.max(0, Math.min(1, audioState.music * audioState.master));
+    sfxGain.gain.value = sfxMuted ? 0 : Math.max(0, Math.min(1, audioState.sfx * audioState.master));
+  }
+
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    ensureAudioContext();
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(e => console.warn('[audio] Resume failed:', e));
+    }
+    document.removeEventListener('pointerdown', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  }
+
+  loadAudioState();
+  document.addEventListener('pointerdown', unlockAudio, { passive: true });
+  document.addEventListener('keydown', unlockAudio, { passive: true });
+
+  const audioAPI = {
+    get() {
+      return {
+        master: audioState.master,
+        music: audioState.music,
+        sfx: audioState.sfx,
+        muted: { ...audioState.muted }
+      };
+    },
+    set(levels) {
+      if (!levels || typeof levels !== 'object') return;
+      if (typeof levels.master === 'number') {
+        audioState.master = levels.master > 1 ? levels.master / 100 : Math.max(0, Math.min(1, levels.master));
+        if (typeof OPT !== 'undefined') OPT.master = Math.round(audioState.master * 100);
+      }
+      if (typeof levels.music === 'number') {
+        audioState.music = levels.music > 1 ? levels.music / 100 : Math.max(0, Math.min(1, levels.music));
+        if (typeof OPT !== 'undefined') OPT.music = Math.round(audioState.music * 100);
+      }
+      if (typeof levels.sfx === 'number') {
+        audioState.sfx = levels.sfx > 1 ? levels.sfx / 100 : Math.max(0, Math.min(1, levels.sfx));
+        if (typeof OPT !== 'undefined') OPT.sfx = Math.round(audioState.sfx * 100);
+      }
+      applyAudioGains();
+      saveAudioState();
+      if (typeof saveOpts === 'function') saveOpts();
+    },
+    mute(bus, muted) {
+      if (!audioState.muted.hasOwnProperty(bus)) return;
+      audioState.muted[bus] = !!muted;
+      if (bus === 'master') audioOn = !audioState.muted.master;
+      applyAudioGains();
+      saveAudioState();
+    }
+  };
+
+  function initAudio() {
+    const ac = ensureAudioContext();
+    if (ac && ac.state === 'suspended') {
+      ac.resume().catch(() => {});
+    }
+    return ac;
+  }
+
   // ---------------------------------------------------------------- sound bank
-  // Small synthesised set: a tone for pitch, a noise burst for texture.
   let noiseBuf = null;
   function noiseBuffer(ac) {
     if (noiseBuf && noiseBuf.sampleRate === ac.sampleRate) return noiseBuf;
@@ -4646,22 +5143,21 @@
     for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
     return noiseBuf;
   }
-  function sfxGain() { return (OPT.sfx / 100) * (OPT.master / 100); }
   function tone(ac, when, f0, f1, dur, gain, type) {
-    gain *= sfxGain();
-    if (gain <= 0) return;
+    if (audioState.muted.master || audioState.muted.sfx || audioState.sfx <= 0 || audioState.master <= 0) return;
+    const sfxNode = ensureAudioContext() && sfxGain ? sfxGain : ac.destination;
     const o = ac.createOscillator(), g = ac.createGain();
     o.type = type || "triangle";
     o.frequency.setValueAtTime(f0, when);
     if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), when + dur);
     g.gain.setValueAtTime(Math.max(0.0002, gain), when);
     g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-    o.connect(g); g.connect(ac.destination);
+    o.connect(g); g.connect(sfxNode);
     o.start(when); o.stop(when + dur + 0.03);
   }
   function burst(ac, when, dur, cutoff, gain) {
-    gain *= sfxGain();
-    if (gain <= 0) return;
+    if (audioState.muted.master || audioState.muted.sfx || audioState.sfx <= 0 || audioState.master <= 0) return;
+    const sfxNode = ensureAudioContext() && sfxGain ? sfxGain : ac.destination;
     const src = ac.createBufferSource();
     src.buffer = noiseBuffer(ac);
     const filt = ac.createBiquadFilter();
@@ -4670,7 +5166,7 @@
     const g = ac.createGain();
     g.gain.setValueAtTime(gain, when);
     g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-    src.connect(filt); filt.connect(g); g.connect(ac.destination);
+    src.connect(filt); filt.connect(g); g.connect(sfxNode);
     src.start(when); src.stop(when + dur + 0.02);
   }
   function sfx(kind) {
@@ -4963,6 +5459,16 @@
           if (e.key === "p" || e.key === "P") togglePopDashboard();
           if (e.key === "e" && !e.ctrlKey && !e.metaKey) { /* rotate already uses e/E */ }
           if (e.key === "$") toggleEconDashboard();
+          // overlays and the tax lever (2026-10-30)
+          if (e.key === "l" || e.key === "L") { S.overlay = S.overlay === "lv" ? null : "lv"; toast(S.overlay ? "Land value overlay" : "Overlay off"); }
+          if (e.key === "k" || e.key === "K") { S.overlay = S.overlay === "crime" ? null : "crime"; toast(S.overlay ? "Crime overlay" : "Overlay off"); }
+          if (e.key === "j" || e.key === "J") { S.overlay = S.overlay === "poll" ? null : "poll"; toast(S.overlay ? "Pollution overlay" : "Overlay off"); }
+          if (e.key === "[" || e.key === "]") {
+            const cur = S.taxRate == null ? 7 : S.taxRate;
+            S.taxRate = clamp(cur + (e.key === "]" ? 1 : -1), 1, 15);
+            refreshHud();
+            toast("Tax " + S.taxRate + "%");
+          }
         });
     window.addEventListener("keyup", (e) => { if (e.code === "Space") { spaceDown = false; c.style.cursor = "crosshair"; } });
     window.addEventListener("resize", resize);
@@ -5069,7 +5575,11 @@
         reg.owned = new Uint8Array(RS * RS).fill(1);
         reg.powerOn = new Uint8Array(RS * RS);
         reg.waterOn = new Uint8Array(RS * RS);
+        reg.policeOn = new Uint8Array(RS * RS);
         reg.value = new Uint8Array(RS * RS);
+        reg.svcVal = new Uint8Array(RS * RS);
+        reg.poll = new Uint8Array(RS * RS);
+        reg.crime = new Uint8Array(RS * RS);
         reg.zoneDirty = true;
         buildDecor(reg);
         reg.theme = pickTheme(reg.terrain, reg.rx, reg.ry);
@@ -5294,6 +5804,14 @@
     const modal_close = el("modal-close"); if (modal_close) modal_close.onclick = () => el("modal").classList.add("hidden");
     const ins_close = el("ins-close"); if (ins_close) ins_close.onclick = () => el("inspector").classList.add("hidden");
     const ui_save = el("ui-save"); if (ui_save) ui_save.onclick = save;
+    const ui_bond = el("ui-bond");
+    if (ui_bond) ui_bond.onclick = () => {
+      S.bonds = (S.bonds || 0) + 1;
+      S.cash += 10000;
+      recalcWorld();
+      refreshHud();
+      toast("Bond issued · $10,000 · 6% a year");
+    };
     const ui_load = el("ui-load"); if (ui_load) ui_load.onclick = () => load();
     const ui_snapshot = el("ui-snapshot"); if (ui_snapshot) ui_snapshot.onclick = snapshot;
     const ui_options = el("ui-options"); if (ui_options) ui_options.onclick = optionsModal;
@@ -5347,6 +5865,7 @@
           <div class="pop-stat ${blightClass}"><span>Total Blight</span><b>${Math.round(data.totalBlight)}</b></div>
           <div class="pop-stat"><span>Households</span><b>${data.households}</b></div>
           <div class="pop-stat"><span>Housing Occupancy</span><b>${Math.round(data.housingOccupancy * 100)}%</b></div>
+          <div class="pop-stat"><span>Average Commute</span><b>${Math.round(data.avgCommute)} tiles</b></div>
           <div class="pop-breakdown">
             <h4>By Archetype</h4>
             ${Object.entries(data.byArchetype).map(([k,v]) => `<div class="item"><span>${CITIZEN.ARCHETYPES[k]?.name || k}</span><b>${v}</b></div>`).join("")}
@@ -5411,7 +5930,8 @@
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
   // the value is the frame duration in ms.
   // ONLY the windmill turns. b05_watermill ships two frames, but the Water mill is a
-  // separate building and is not animated in this game (decided 2026-10-30) - do not add it back.
+  // separate building that is not animated in this game (Justin, 2026-10-30) — its second
+  // frame is a variant, not a rotation, and flipping it read as a twitch. Do not add it back.
   const ANIM_SPRITES = { b04_windmill: 420 };
   const ANIM_FRAMES = {};
 
@@ -5463,6 +5983,27 @@
   window.LC = {
     S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt, startEvent,
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
+    // QA hooks added 2026-10-30 with the field simulation and the audio bus
+    audio: audioAPI,
+    taxRate: (v) => {
+      if (typeof v === "number") { S.taxRate = clamp(v, 1, 15); recalcWorld(); updateDemand(); refreshHud(); }
+      return S.taxRate;
+    },
+    overlay: (name) => {
+      S.overlay = (name === "lv" || name === "crime" || name === "poll") ? name : null;
+      return S.overlay;
+    },
+    fields: () => {
+      const out = { value: 0, poll: 0, crime: 0, n: 0 };
+      claimedList().forEach((r) => {
+        for (let i = 0; i < RS * RS; i++) {
+          if (!r.zone[i] && !r.level[i]) continue;
+          out.value += r.value[i]; out.poll += (r.poll ? r.poll[i] : 0); out.crime += (r.crime ? r.crime[i] : 0); out.n++;
+        }
+      });
+      if (out.n) { out.value /= out.n; out.poll /= out.n; out.crime /= out.n; }
+      return out;
+    },
     // QA hook: which multi-frame tiles are animating, and which frame is live right now
     animInfo: () => {
       const out = {};
