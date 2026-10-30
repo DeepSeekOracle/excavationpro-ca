@@ -13,100 +13,109 @@
 <meta property="og:title" content="LYGO LLM Console 1.9.1 — your own local AI">
 <meta property="og:description" content="Engine, model and tools in one installer. Runs on your PC, offline, with no account.">
 <meta property="og:image" content="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
-<meta property="image_src" href="https://excavationpro.ca/assets/og-lygo-llm-console.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-  /* Own dark surface on purpose: site-kit.css is a light theme and produced a white page here. */
   :root{
     --ink:#04060b; --edge:#1b2334; --gold:#d8b45a; --gold-2:#f2dda4;
-    --text:#eaeef7; --muted:#98a3b8; --dim:#5d6880;
+    --text:#eaeef7; --muted:#98a3b8; --dim:#6d7789;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--ink);color:var(--text);
+  body{margin:0;background:var(--ink);color:#eaeef7;
     font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;line-height:1.62;
-    -webkit-font-smoothing:antialiased;overflow-x:hidden}
-  a{color:var(--gold-2);text-decoration:none}
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:84px}
+  a{color:#f2dda4;text-decoration:none}
   a:hover{text-decoration:underline}
   .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-  .kick{font:600 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
+  .kick{font:600 .72rem/1 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#d8b45a;margin:0 0 16px}
   h1,h2,h3{font-family:'Syne',sans-serif;letter-spacing:-.02em;margin:0}
   h2{font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:700;margin-bottom:12px}
   p{margin:0 0 1em}
 
-  .hero{position:relative;min-height:78vh;display:grid;align-items:end;overflow:hidden;border-bottom:1px solid var(--edge)}
-  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%;filter:brightness(.62) saturate(1.05)}
+  /* hero */
+  .hero{position:relative;min-height:80vh;display:grid;align-items:end;overflow:hidden;border-bottom:1px solid #1b2334}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 45%;filter:brightness(.72) saturate(1.05)}
   .hero::after{content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg,rgba(4,6,11,.72) 0%,rgba(4,6,11,.35) 38%,rgba(4,6,11,.92) 88%,var(--ink) 100%)}
-  .hero .wrap{position:relative;z-index:2;padding:96px 24px 54px}
-  .hero h1{font-size:clamp(2.3rem,6vw,4.4rem);font-weight:800;line-height:1.02;max-width:15ch;text-shadow:0 2px 40px rgba(0,0,0,.55)}
-  .hero .lead{font-size:1.16rem;color:#cdd6e6;max-width:40ch;margin:20px 0 0}
-  .hero .meta{font:400 .78rem/1.6 'IBM Plex Mono',monospace;color:#7d8798;margin-top:16px}
+    background:linear-gradient(180deg,rgba(4,6,11,.55) 0%,rgba(4,6,11,.30) 40%,rgba(4,6,11,.90) 86%,#04060b 100%)}
+  .hero .wrap{position:relative;z-index:2;padding:96px 24px 64px}
+  .hero h1{font-size:clamp(2.3rem,6vw,4.4rem);font-weight:800;line-height:1.02;max-width:15ch;text-shadow:0 2px 40px rgba(0,0,0,.6)}
+  .hero .lead{font-size:1.16rem;color:#d3dbea;max-width:40ch;margin:20px 0 0;text-shadow:0 1px 20px rgba(0,0,0,.6)}
+  .hero .meta{font:400 .78rem/1.6 'IBM Plex Mono',monospace;color:#8b95a8;margin-top:16px}
   .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
   .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 24px;border-radius:9px;
-    font:600 .92rem/1 'Syne',sans-serif;letter-spacing:.02em;border:1px solid transparent;transition:.16s}
-  .btn.primary{background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#171104;box-shadow:0 10px 30px rgba(216,180,90,.18)}
+    font:600 .92rem/1 'Syne',sans-serif;border:1px solid transparent;transition:.16s}
+  .btn.primary{background:linear-gradient(180deg,#f2dda4,#d8b45a);color:#171104;box-shadow:0 10px 30px rgba(216,180,90,.22)}
   .btn.primary:hover{filter:brightness(1.06);text-decoration:none}
-  .btn.ghost{border-color:rgba(255,255,255,.22);color:var(--text);background:rgba(255,255,255,.04)}
-  .btn.ghost:hover{background:rgba(255,255,255,.09);text-decoration:none}
+  .btn.ghost{border-color:rgba(255,255,255,.22);color:#eaeef7;background:rgba(255,255,255,.05)}
+  .btn.ghost:hover{background:rgba(255,255,255,.1);text-decoration:none}
 
-  section{padding:72px 0;border-bottom:1px solid var(--edge)}
-  .sub{color:var(--muted);max-width:52ch;font-size:1.05rem}
+  section{padding:72px 0;border-bottom:1px solid #1b2334}
+  .sub{color:#98a3b8;max-width:52ch;font-size:1.05rem}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
   @media(max-width:900px){.grid3{grid-template-columns:1fr}}
-  .card{position:relative;border:1px solid var(--edge);border-radius:12px;padding:26px;
-    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}
-  .card h3{font-size:1.08rem;font-weight:700;color:var(--gold-2);margin-bottom:10px}
-  .card p{margin:0;font-size:.98rem;color:var(--muted)}
+  .card{border:1px solid #1b2334;border-radius:12px;padding:26px;
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.014))}
+  .card h3{font-size:1.08rem;font-weight:700;color:#f2dda4;margin-bottom:10px}
+  .card p{margin:0;font-size:.98rem;color:#98a3b8}
   .tag{display:inline-block;font:600 .6rem/1 'IBM Plex Mono',monospace;letter-spacing:.18em;
-    text-transform:uppercase;color:var(--gold);border:1px solid rgba(216,180,90,.34);border-radius:999px;padding:5px 10px;margin-bottom:14px}
+    text-transform:uppercase;color:#d8b45a;border:1px solid rgba(216,180,90,.34);border-radius:999px;padding:5px 10px;margin-bottom:14px}
 
   .dl{display:grid;grid-template-columns:1.45fr 1fr;gap:18px;margin-top:32px}
   @media(max-width:900px){.dl{grid-template-columns:1fr}}
   .dlmain{border:1px solid rgba(216,180,90,.34);border-radius:12px;padding:30px;
-    background:radial-gradient(130% 130% at 0 0,rgba(216,180,90,.12),transparent 62%)}
+    background:radial-gradient(130% 130% at 0 0,rgba(216,180,90,.13),transparent 62%)}
   .dlmain h3{font-size:1.3rem;margin-bottom:4px}
   table{width:100%;border-collapse:collapse;font-size:.92rem}
-  td{padding:9px 0;border-bottom:1px solid var(--edge);color:var(--muted)}
-  td:last-child{text-align:right;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:.86rem}
+  td{padding:9px 0;border-bottom:1px solid #1b2334;color:#98a3b8}
+  td:last-child{text-align:right;color:#eaeef7;font-family:'IBM Plex Mono',monospace;font-size:.86rem}
   tr:last-child td{border-bottom:0}
 
   ol.steps{counter-reset:s;list-style:none;padding:0;margin:32px 0 0;display:grid;gap:18px}
   ol.steps li{display:grid;grid-template-columns:36px 1fr;gap:16px;align-items:start}
   ol.steps li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;
     width:32px;height:32px;border:1px solid rgba(216,180,90,.36);border-radius:8px;
-    color:var(--gold-2);font:700 .82rem 'IBM Plex Mono',monospace}
-  ol.steps p{margin:0;color:var(--muted);font-size:1rem}
-  ol.steps b{color:var(--text);font-weight:600}
-  .adbox{margin:0;text-align:center;min-height:90px}
+    color:#f2dda4;font:700 .82rem 'IBM Plex Mono',monospace}
+  ol.steps p{margin:0;color:#98a3b8;font-size:1rem}
+  ol.steps b{color:#eaeef7;font-weight:600}
+  code{font:.9em 'IBM Plex Mono',monospace;color:#f2dda4}
 
-  footer.site{background:#03050a;border-top:1px solid var(--edge);padding:56px 0 96px;font-size:.95rem}
+  /* dock player */
+  .dock{position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:linear-gradient(180deg,rgba(8,12,20,.97),rgba(4,6,11,.99));
+    border-top:1px solid #1b2334;backdrop-filter:blur(14px)}
+  .dock-in{max-width:1140px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:11px 20px}
+  .dock button{background:transparent;border:1px solid #2a3549;color:#eaeef7;border-radius:8px;
+    width:38px;height:34px;font-size:.95rem;cursor:pointer;line-height:1}
+  .dock button:hover{border-color:#d8b45a;color:#f2dda4}
+  .dock #play{width:46px;background:linear-gradient(180deg,#f2dda4,#d8b45a);color:#171104;border:0;font-weight:700}
+  .dock .now{min-width:0;flex:0 1 260px}
+  .dock .t1{display:block;font:600 .82rem/1.3 'Syne',sans-serif;color:#eaeef7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dock .t2{display:block;font:400 .68rem/1.3 'IBM Plex Mono',monospace;color:#7d8798}
+  .dock input[type=range]{-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;
+    background:#2a3549;outline:0;cursor:pointer}
+  .dock input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:#d8b45a}
+  .dock #seek{flex:1 1 auto;min-width:80px}
+  .dock #vol{width:74px;flex:0 0 74px}
+  @media(max-width:720px){.dock .now{flex:1 1 auto}.dock #vol{display:none}}
+
+  footer.site{background:#03050a;border-top:1px solid #1b2334;padding:56px 0 120px;font-size:.95rem}
   footer.site .cols{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:34px;margin-bottom:36px}
   @media(max-width:900px){footer.site .cols{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){footer.site .cols{grid-template-columns:1fr}}
-  footer.site h4{font:600 .68rem/1 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-  footer.site a{display:block;color:var(--muted);padding:4px 0;font-size:.94rem}
-  footer.site a:hover{color:var(--text);text-decoration:none}
-  footer.site .brand{font:800 1rem 'Syne',sans-serif;letter-spacing:.14em;color:var(--text);display:flex;align-items:center;gap:9px;margin-bottom:12px}
-  footer.site .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 14px var(--gold)}
-  footer.site .legal{border-top:1px solid var(--edge);padding-top:22px;display:flex;gap:18px;justify-content:space-between;flex-wrap:wrap;font:400 .78rem/1.7 'IBM Plex Mono',monospace;color:var(--dim)}
-
-  .sticky-cta{position:fixed;left:0;right:0;bottom:0;display:none;z-index:40}
-  @media(max-width:760px){
-    .sticky-cta{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--edge)}
-    .sticky-cta a{padding:15px;text-align:center;font:600 .9rem 'Syne',sans-serif}
-    .sticky-cta .pri{background:var(--gold);color:#171104}
-    .sticky-cta .sec{background:#0a0f1a;color:var(--text)}
-    footer.site{padding-bottom:120px}
-  }
+  footer.site h4{font:600 .68rem/1 'IBM Plex Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:#d8b45a;margin:0 0 14px}
+  footer.site a{display:block;color:#98a3b8;padding:4px 0;font-size:.94rem}
+  footer.site a:hover{color:#eaeef7;text-decoration:none}
+  footer.site .brand{font:800 1rem 'Syne',sans-serif;letter-spacing:.14em;color:#eaeef7;display:flex;align-items:center;gap:9px;margin-bottom:12px}
+  footer.site .dot{width:8px;height:8px;border-radius:50%;background:#d8b45a;box-shadow:0 0 14px #d8b45a}
+  footer.site .legal{border-top:1px solid #1b2334;padding-top:22px;display:flex;gap:18px;justify-content:space-between;flex-wrap:wrap;font:400 .78rem/1.7 'IBM Plex Mono',monospace;color:#6d7789}
 </style>
 </head>
 <body>
 
 <header class="hero">
-  <img class="bg" src="/assets/hero-studio.jpg" alt="" width="1600" height="900" fetchpriority="high">
+  <img class="bg" src="/assets/lc-hero.jpg" alt="A dark studio at night: a monitor glowing with a golden data lattice" width="1800" height="1012" fetchpriority="high">
   <div class="wrap">
     <p class="kick">Public Beta · v1.9.1 · Windows</p>
     <h1>Your own AI.<br>On your own machine.</h1>
@@ -206,10 +215,6 @@
 
 <section>
   <div class="wrap">
-    <div class="adbox">
-      <!-- AdSense: account-level script is in the head. Add a REAL unit id here when one exists —
-           an <ins> with a placeholder slot painted an unrelated "Convert with Wave" overlay. -->
-    </div>
     <div class="grid3" style="grid-template-columns:1fr 1fr">
       <div class="card"><h3>Keep it free</h3>
         <p style="margin-bottom:16px">No subscription, no seat licence. If it earns a place in your
@@ -250,7 +255,7 @@
       </div>
       <div>
         <h4>Listen &amp; follow</h4>
-        <a href="/music.html">Free player</a>
+        <a href="/music.html">Full player</a>
         <a href="/sources/">LYGO TV</a>
         <a href="/signal/">LYGO Signal</a>
         <a href="/articles/">Writing</a>
@@ -264,11 +269,76 @@
   </div>
 </footer>
 
-<div class="sticky-cta" aria-label="Mobile actions">
-  <a class="pri" href="https://github.com/DeepSeekOracle/lygo-console-builds/releases/tag/v1.9.1-beta">Download</a>
-  <a class="sec" href="https://www.paypal.com/paypalme/ExcavationPro">Donate</a>
+<div class="dock" role="region" aria-label="Music player">
+  <div class="dock-in">
+    <button id="play" aria-label="Play or pause">▶</button>
+    <button id="prev" aria-label="Previous track">⏮</button>
+    <button id="next" aria-label="Next track">⏭</button>
+    <div class="now">
+      <span class="t1" id="t-title">Loading catalogue…</span>
+      <span class="t2" id="t-time">0:00 / 0:00</span>
+    </div>
+    <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek">
+    <input type="range" id="vol" min="0" max="1" step="0.01" value="0.9" aria-label="Volume">
+    <audio id="audio" preload="none" crossorigin="anonymous"></audio>
+  </div>
 </div>
 
-<script>document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});</script>
+<script>
+(function () {
+  // Real catalogue audio from the site's own Signal archive. Nothing autoplays.
+  var TRACKS = [
+    { t: 'The Harmonic Architect',  u: 'https://chatagent.ca/signal/audio/harmonic-architect.mp3' },
+    { t: 'The Hard Stop',           u: 'https://chatagent.ca/signal/audio/the-hard-stop.mp3' },
+    { t: "Run It Or It's A Rumor",  u: 'https://chatagent.ca/signal/audio/run-it-or-its-a-rumor.mp3' },
+    { t: 'LYGO: Emotional RAM and Ethics', u: 'https://chatagent.ca/signal/audio/lygo-emotional-ram-and-ethics.mp3' },
+    { t: 'The Stick That Boots the Lattice', u: 'https://chatagent.ca/signal/audio/the-stick-that-boots-the-lattice.mp3' }
+  ];
+  var i = 0,
+      a = document.getElementById('audio'),
+      play = document.getElementById('play'),
+      seek = document.getElementById('seek'),
+      vol = document.getElementById('vol'),
+      tTitle = document.getElementById('t-title'),
+      tTime = document.getElementById('t-time');
+
+  function fmt(s) {
+    if (!isFinite(s)) return '0:00';
+    var m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return m + ':' + (r < 10 ? '0' : '') + r;
+  }
+  function load(n, autoplay) {
+    i = (n + TRACKS.length) % TRACKS.length;
+    a.src = TRACKS[i].u;
+    tTitle.textContent = TRACKS[i].t;
+    tTime.textContent = '0:00 / 0:00';
+    seek.value = 0;
+    if (autoplay) a.play().catch(function () {});
+  }
+  play.addEventListener('click', function () {
+    if (!a.src) { load(0, true); return; }
+    if (a.paused) { a.play().catch(function () {}); } else { a.pause(); }
+  });
+  document.getElementById('next').addEventListener('click', function () { load(i + 1, !a.paused); });
+  document.getElementById('prev').addEventListener('click', function () { load(i - 1, !a.paused); });
+  a.addEventListener('play',  function () { play.textContent = '❚❚'; });
+  a.addEventListener('pause', function () { play.textContent = '▶'; });
+  a.addEventListener('ended', function () { load(i + 1, true); });
+  a.addEventListener('loadedmetadata', function () { tTime.textContent = '0:00 / ' + fmt(a.duration); });
+  a.addEventListener('timeupdate', function () {
+    if (a.duration) {
+      seek.value = Math.round((a.currentTime / a.duration) * 1000);
+      tTime.textContent = fmt(a.currentTime) + ' / ' + fmt(a.duration);
+    }
+  });
+  seek.addEventListener('input', function () {
+    if (a.duration) a.currentTime = (seek.value / 1000) * a.duration;
+  });
+  vol.addEventListener('input', function () { a.volume = parseFloat(vol.value); });
+  a.volume = 0.9;
+  load(0, false);
+})();
+document.querySelectorAll(".y").forEach(function(n){n.textContent=new Date().getFullYear()});
+</script>
 </body>
 </html>
