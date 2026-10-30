@@ -3297,6 +3297,7 @@ window.DebugOverlay = DebugOverlay;
     }
   }
 
+  let lastWheelSfx = 0;   // throttle for the train wheel clack (AUD-04)
   let lastTickWall = Date.now();
   function pumpTicks() {
     const now = Date.now();
@@ -4099,6 +4100,11 @@ window.DebugOverlay = DebugOverlay;
     }
     if (S.trains) {
       S.trains.forEach((t) => {
+        // wheel clack while a train is rolling (AUD-04); silent at a platform
+        if (t.route && t.route.length > 1 && t.dwell <= 0) {
+          const wnow = performance.now();
+          if (wnow - lastWheelSfx > 340) { lastWheelSfx = wnow; if (typeof sfx === "function") sfx("wheel"); }
+        }
         if (t.route && t.route.length > 1) {
           if (t.dwell > 0) { t.dwell -= dt * sim; return; }   // stopped at a station
           t.seg += t.speed * dt * sim * 3.2;                  // tiles travelled this frame
@@ -4150,6 +4156,15 @@ window.DebugOverlay = DebugOverlay;
     const r = visibleRange();
     const zw = TW * cam.zoom, zh = TH * cam.zoom;
     const now = performance.now();
+    // real numbers for the F3 overlay (ENG-02 counters)
+    if (typeof DebugOverlay !== "undefined" && DebugOverlay.isEnabled && DebugOverlay.isEnabled()) {
+      const vw = r.x1 - r.x0 + 1, vh = r.y1 - r.y0 + 1;
+      let bcount = 0, ecount = 0;
+      claimedList().forEach((reg) => { bcount += reg.built || 0; });
+      ecount = (S.peds || []).length + (S.cars || []).length + (S.trains || []).length + (S.boats || []).length;
+      DebugOverlay.updateRenderStats(vw * vh, Math.ceil(vw / 16) * Math.ceil(vh / 16));
+      DebugOverlay.updateEntityStats(bcount, ecount);
+    }
     // A real sky: darkness ramps across dawn and dusk, and the low sun warms the
     // whole map for a short while on either side of it.
     const hourNow = S.hour;
@@ -5410,6 +5425,10 @@ window.DebugOverlay = DebugOverlay;
         break;
       case "click":
         tone(ac, t0, 1200, 1200, 0.025, 0.02, "sine");
+        break;
+      case "wheel":
+        burst(ac, t0, 0.05, 420, 0.02);
+        tone(ac, t0, 96, 78, 0.06, 0.02, "sine");
         break;
       default:
         tone(ac, t0, 880, 880, 0.03, 0.03, "sine");
