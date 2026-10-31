@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-31T10:58:03.206908+00:00",
-  "count": 1001,
+  "generated_utc": "2026-10-31T10:59:29.129401+00:00",
+  "count": 1043,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -16095,7 +16095,679 @@
       "full_bytes": 1298,
       "width": 128,
       "height": 128
+    },
+    {
+      "id": "3c76fe9b8674e1b5",
+      "title": "sprite 02",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_02.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_02.png",
+      "original_bytes": 3253,
+      "full": "assets/gallery/full/3c76fe9b8674e1b5.jpg",
+      "thumb": "assets/gallery/thumb/3c76fe9b8674e1b5.jpg",
+      "full_bytes": 1200,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c26fcbc6e63e7cfd",
+      "title": "sprite 03",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_03.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_03.png",
+      "original_bytes": 3308,
+      "full": "assets/gallery/full/c26fcbc6e63e7cfd.jpg",
+      "thumb": "assets/gallery/thumb/c26fcbc6e63e7cfd.jpg",
+      "full_bytes": 1223,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "cba298052a8b61ae",
+      "title": "sprite 04",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_04.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_04.png",
+      "original_bytes": 3413,
+      "full": "assets/gallery/full/cba298052a8b61ae.jpg",
+      "thumb": "assets/gallery/thumb/cba298052a8b61ae.jpg",
+      "full_bytes": 1262,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c4c2bcb755f9acfe",
+      "title": "sprite 05",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_05.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_05.png",
+      "original_bytes": 3296,
+      "full": "assets/gallery/full/c4c2bcb755f9acfe.jpg",
+      "thumb": "assets/gallery/thumb/c4c2bcb755f9acfe.jpg",
+      "full_bytes": 1211,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "d31720e1351e40e9",
+      "title": "sprite 06",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_06.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_06.png",
+      "original_bytes": 3279,
+      "full": "assets/gallery/full/d31720e1351e40e9.jpg",
+      "thumb": "assets/gallery/thumb/d31720e1351e40e9.jpg",
+      "full_bytes": 1207,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "2a0a5c2b0e116339",
+      "title": "sprite 07",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_07.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_07.png",
+      "original_bytes": 3296,
+      "full": "assets/gallery/full/2a0a5c2b0e116339.jpg",
+      "thumb": "assets/gallery/thumb/2a0a5c2b0e116339.jpg",
+      "full_bytes": 1214,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "b78e3fd66a73038d",
+      "title": "sprite 08",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_08.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_08.png",
+      "original_bytes": 3197,
+      "full": "assets/gallery/full/b78e3fd66a73038d.jpg",
+      "thumb": "assets/gallery/thumb/b78e3fd66a73038d.jpg",
+      "full_bytes": 1205,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "72452c37bdc8fd8b",
+      "title": "sprite 09",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_09.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_09.png",
+      "original_bytes": 3221,
+      "full": "assets/gallery/full/72452c37bdc8fd8b.jpg",
+      "thumb": "assets/gallery/thumb/72452c37bdc8fd8b.jpg",
+      "full_bytes": 1206,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c030253bfdea94cd",
+      "title": "sprite 10",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_10.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_10.png",
+      "original_bytes": 3198,
+      "full": "assets/gallery/full/c030253bfdea94cd.jpg",
+      "thumb": "assets/gallery/thumb/c030253bfdea94cd.jpg",
+      "full_bytes": 1196,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "9b175e378d9274a7",
+      "title": "sprite 11",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_11.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_11.png",
+      "original_bytes": 3250,
+      "full": "assets/gallery/full/9b175e378d9274a7.jpg",
+      "thumb": "assets/gallery/thumb/9b175e378d9274a7.jpg",
+      "full_bytes": 1188,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "1bc40c0177300055",
+      "title": "sprite 12",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_12.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_12.png",
+      "original_bytes": 3185,
+      "full": "assets/gallery/full/1bc40c0177300055.jpg",
+      "thumb": "assets/gallery/thumb/1bc40c0177300055.jpg",
+      "full_bytes": 1187,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "957ea180b9cdfd80",
+      "title": "sprite 13",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_13.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_13.png",
+      "original_bytes": 3248,
+      "full": "assets/gallery/full/957ea180b9cdfd80.jpg",
+      "thumb": "assets/gallery/thumb/957ea180b9cdfd80.jpg",
+      "full_bytes": 1174,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c78c2a168800bd97",
+      "title": "sprite 15",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_15.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_15.png",
+      "original_bytes": 3224,
+      "full": "assets/gallery/full/c78c2a168800bd97.jpg",
+      "thumb": "assets/gallery/thumb/c78c2a168800bd97.jpg",
+      "full_bytes": 1148,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "e13e2fddd19ac8e4",
+      "title": "sprite 16",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_16.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_16.png",
+      "original_bytes": 3212,
+      "full": "assets/gallery/full/e13e2fddd19ac8e4.jpg",
+      "thumb": "assets/gallery/thumb/e13e2fddd19ac8e4.jpg",
+      "full_bytes": 1149,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "33cb779c0e7d61a1",
+      "title": "sprite 17",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_17.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_17.png",
+      "original_bytes": 3199,
+      "full": "assets/gallery/full/33cb779c0e7d61a1.jpg",
+      "thumb": "assets/gallery/thumb/33cb779c0e7d61a1.jpg",
+      "full_bytes": 1141,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "44e41d751f6c2f7f",
+      "title": "sprite 18",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_18.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_18.png",
+      "original_bytes": 3180,
+      "full": "assets/gallery/full/44e41d751f6c2f7f.jpg",
+      "thumb": "assets/gallery/thumb/44e41d751f6c2f7f.jpg",
+      "full_bytes": 1135,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c557e2a59a14c5a1",
+      "title": "sprite 19",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_19.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_19.png",
+      "original_bytes": 3118,
+      "full": "assets/gallery/full/c557e2a59a14c5a1.jpg",
+      "thumb": "assets/gallery/thumb/c557e2a59a14c5a1.jpg",
+      "full_bytes": 1133,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "cbcf924f5ebbf070",
+      "title": "sprite 20",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_20.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_20.png",
+      "original_bytes": 3214,
+      "full": "assets/gallery/full/cbcf924f5ebbf070.jpg",
+      "thumb": "assets/gallery/thumb/cbcf924f5ebbf070.jpg",
+      "full_bytes": 1131,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "31e5fe65791ec36b",
+      "title": "sprite 22",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_22.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_22.png",
+      "original_bytes": 3145,
+      "full": "assets/gallery/full/31e5fe65791ec36b.jpg",
+      "thumb": "assets/gallery/thumb/31e5fe65791ec36b.jpg",
+      "full_bytes": 1117,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "720750c6ccac9e5e",
+      "title": "sprite 23",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_23.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_23.png",
+      "original_bytes": 3121,
+      "full": "assets/gallery/full/720750c6ccac9e5e.jpg",
+      "thumb": "assets/gallery/thumb/720750c6ccac9e5e.jpg",
+      "full_bytes": 1123,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "3c7cf19d6950e3c6",
+      "title": "sprite 24",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_24.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_24.png",
+      "original_bytes": 3154,
+      "full": "assets/gallery/full/3c7cf19d6950e3c6.jpg",
+      "thumb": "assets/gallery/thumb/3c7cf19d6950e3c6.jpg",
+      "full_bytes": 1124,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "d84860bc08a568f5",
+      "title": "sprite 25",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_25.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_25.png",
+      "original_bytes": 3142,
+      "full": "assets/gallery/full/d84860bc08a568f5.jpg",
+      "thumb": "assets/gallery/thumb/d84860bc08a568f5.jpg",
+      "full_bytes": 1131,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "14c7fe3f2eca621c",
+      "title": "sprite 26",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_26.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_26.png",
+      "original_bytes": 3178,
+      "full": "assets/gallery/full/14c7fe3f2eca621c.jpg",
+      "thumb": "assets/gallery/thumb/14c7fe3f2eca621c.jpg",
+      "full_bytes": 1143,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "1e3ae521961bd597",
+      "title": "sprite 27",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_27.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_27.png",
+      "original_bytes": 3196,
+      "full": "assets/gallery/full/1e3ae521961bd597.jpg",
+      "thumb": "assets/gallery/thumb/1e3ae521961bd597.jpg",
+      "full_bytes": 1140,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "acc250de396ed5d7",
+      "title": "sprite 29",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_29.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_29.png",
+      "original_bytes": 3219,
+      "full": "assets/gallery/full/acc250de396ed5d7.jpg",
+      "thumb": "assets/gallery/thumb/acc250de396ed5d7.jpg",
+      "full_bytes": 1172,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "22d56476282e1491",
+      "title": "sprite 30",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_30.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_30.png",
+      "original_bytes": 3240,
+      "full": "assets/gallery/full/22d56476282e1491.jpg",
+      "thumb": "assets/gallery/thumb/22d56476282e1491.jpg",
+      "full_bytes": 1170,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "322486dde58bcf2c",
+      "title": "sprite 31",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_31.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_31.png",
+      "original_bytes": 3245,
+      "full": "assets/gallery/full/322486dde58bcf2c.jpg",
+      "thumb": "assets/gallery/thumb/322486dde58bcf2c.jpg",
+      "full_bytes": 1174,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "d7a416b8017e6676",
+      "title": "sprite 32",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_32.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_32.png",
+      "original_bytes": 3283,
+      "full": "assets/gallery/full/d7a416b8017e6676.jpg",
+      "thumb": "assets/gallery/thumb/d7a416b8017e6676.jpg",
+      "full_bytes": 1178,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "d730711c0649659a",
+      "title": "sprite 33",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_33.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_33.png",
+      "original_bytes": 3321,
+      "full": "assets/gallery/full/d730711c0649659a.jpg",
+      "thumb": "assets/gallery/thumb/d730711c0649659a.jpg",
+      "full_bytes": 1184,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "add5445a9eb28ded",
+      "title": "sprite 34",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_34.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_34.png",
+      "original_bytes": 3401,
+      "full": "assets/gallery/full/add5445a9eb28ded.jpg",
+      "thumb": "assets/gallery/thumb/add5445a9eb28ded.jpg",
+      "full_bytes": 1188,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "00b4e9bdf2c7b73f",
+      "title": "sprite 36",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_36.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_36.png",
+      "original_bytes": 3423,
+      "full": "assets/gallery/full/00b4e9bdf2c7b73f.jpg",
+      "thumb": "assets/gallery/thumb/00b4e9bdf2c7b73f.jpg",
+      "full_bytes": 1191,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "92a8cc3bc77a3425",
+      "title": "sprite 37",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_37.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_37.png",
+      "original_bytes": 3465,
+      "full": "assets/gallery/full/92a8cc3bc77a3425.jpg",
+      "thumb": "assets/gallery/thumb/92a8cc3bc77a3425.jpg",
+      "full_bytes": 1193,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "5e03bb4f0adec5ca",
+      "title": "sprite 38",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_38.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_38.png",
+      "original_bytes": 3533,
+      "full": "assets/gallery/full/5e03bb4f0adec5ca.jpg",
+      "thumb": "assets/gallery/thumb/5e03bb4f0adec5ca.jpg",
+      "full_bytes": 1184,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "eabf82191be9d578",
+      "title": "sprite 39",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_39.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_39.png",
+      "original_bytes": 3488,
+      "full": "assets/gallery/full/eabf82191be9d578.jpg",
+      "thumb": "assets/gallery/thumb/eabf82191be9d578.jpg",
+      "full_bytes": 1214,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "95365ebe1a4244a1",
+      "title": "sprite 40",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_40.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_40.png",
+      "original_bytes": 3548,
+      "full": "assets/gallery/full/95365ebe1a4244a1.jpg",
+      "thumb": "assets/gallery/thumb/95365ebe1a4244a1.jpg",
+      "full_bytes": 1226,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "acbbf6a94b1e8b91",
+      "title": "sprite 41",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_41.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_41.png",
+      "original_bytes": 3589,
+      "full": "assets/gallery/full/acbbf6a94b1e8b91.jpg",
+      "thumb": "assets/gallery/thumb/acbbf6a94b1e8b91.jpg",
+      "full_bytes": 1224,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "23c06979ea5af18f",
+      "title": "sprite 42",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_42.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_42.png",
+      "original_bytes": 3627,
+      "full": "assets/gallery/full/23c06979ea5af18f.jpg",
+      "thumb": "assets/gallery/thumb/23c06979ea5af18f.jpg",
+      "full_bytes": 1237,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "dc92a91d04fb7a3f",
+      "title": "sprite 43",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_43.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_43.png",
+      "original_bytes": 3651,
+      "full": "assets/gallery/full/dc92a91d04fb7a3f.jpg",
+      "thumb": "assets/gallery/thumb/dc92a91d04fb7a3f.jpg",
+      "full_bytes": 1241,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "7a47a52416707555",
+      "title": "sprite 44",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_44.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_44.png",
+      "original_bytes": 3731,
+      "full": "assets/gallery/full/7a47a52416707555.jpg",
+      "thumb": "assets/gallery/thumb/7a47a52416707555.jpg",
+      "full_bytes": 1255,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "a8095becd2eef44f",
+      "title": "sprite 45",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_45.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_45.png",
+      "original_bytes": 3744,
+      "full": "assets/gallery/full/a8095becd2eef44f.jpg",
+      "thumb": "assets/gallery/thumb/a8095becd2eef44f.jpg",
+      "full_bytes": 1270,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "c6a4cc27c68cf66e",
+      "title": "sprite 46",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_46.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_46.png",
+      "original_bytes": 3753,
+      "full": "assets/gallery/full/c6a4cc27c68cf66e.jpg",
+      "thumb": "assets/gallery/thumb/c6a4cc27c68cf66e.jpg",
+      "full_bytes": 1258,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "43a659b87fc2f781",
+      "title": "sprite 47",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_47.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_47.png",
+      "original_bytes": 3849,
+      "full": "assets/gallery/full/43a659b87fc2f781.jpg",
+      "thumb": "assets/gallery/thumb/43a659b87fc2f781.jpg",
+      "full_bytes": 1320,
+      "width": 128,
+      "height": 128
     }
   ],
-  "cache_bust": "1001-auto-202610310458"
+  "cache_bust": "1043-auto-202610310459"
 }
