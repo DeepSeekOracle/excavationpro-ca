@@ -656,7 +656,7 @@ window.DebugOverlay = DebugOverlay;
 
   // ---------------------------------------------------------------- state
   const S = {
-  seed: 1, cash: 15000, day: 0, hour: 7, speed: 1, tool: "road", unlocked: 0,
+  seed: 1, cash: 15000, day: 0, hour: 7, tool: "road", unlocked: 0,
     regions: new Array(GW * GH).fill(null),
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     rci: { r: 0.55, c: 0.35, i: 0.3, homes: 0, shops: 0, industry: 0, ic: 0.86 },
@@ -855,7 +855,7 @@ window.DebugOverlay = DebugOverlay;
 
   // Unified vehicle update - call once per frame for all fleets
   function updateAllVehicles(dt) {
-    const gameSeconds = dt * (S.speed || 1) * 86400;
+    const gameSeconds = dt * 86400;   // real time only
     
     Object.values(fleets).forEach(fleet => {
       fleet.forEach(v => {
@@ -1211,7 +1211,7 @@ window.DebugOverlay = DebugOverlay;
   }
 
   function updateFires(dt) {
-    const gameSeconds = dt * (S.speed || 1) * 86400;
+    const gameSeconds = dt * 86400;   // real time only
     for (let i = activeFires.length - 1; i >= 0; i--) {
       const fire = activeFires[i];
       if (fire.contained) continue;
@@ -1250,8 +1250,8 @@ window.DebugOverlay = DebugOverlay;
   }
 
   function updateEmergencyVehicles(dt) {
-    const rate = (S.speed == null ? 1 : S.speed);
-    if (rate <= 0) return;
+    // real time: there is no speed setting and nothing can pause the city
+    const rate = 1;
     const allUnits = fireTrucks.concat(ambulances).concat(policeCars);
     allUnits.forEach(unit => {
       const speed = unit.type === "fire" ? EMERGENCY.fireSpeed : unit.type === "ambulance" ? EMERGENCY.ambulanceSpeed : EMERGENCY.policeSpeed;
@@ -1527,7 +1527,7 @@ window.DebugOverlay = DebugOverlay;
         }
 
     function updateMedicalCalls(dt) {
-          const gameSeconds = dt * (S.speed || 1) * 86400;
+          const gameSeconds = dt * 86400;   // real time only
           for (let i = medicalCalls.length - 1; i >= 0; i--) {
             const call = medicalCalls[i];
             if (call.status === "waiting") {
@@ -1795,7 +1795,7 @@ window.DebugOverlay = DebugOverlay;
         }
 
     function updatePoliceCalls(dt) {
-          const gameSeconds = dt * (S.speed || 1) * 86400;
+          const gameSeconds = dt * 86400;   // real time only
           for (let i = policeCalls.length - 1; i >= 0; i--) {
             const call = policeCalls[i];
             if (call.status === "waiting") {
@@ -3885,10 +3885,9 @@ window.DebugOverlay = DebugOverlay;
   let lastTickWall = Date.now();
   function pumpTicks() {
     const now = Date.now();
-    // speed control (ENG-01): 0 pauses, 1/2/3 multiply the day rate
-    const rate = S.speed == null ? 1 : S.speed;
-    if (rate <= 0) { lastTickWall = now; return; }
-    const step = (TICK_SECONDS * 1000) / rate;
+    // A district day is seven real seconds, always. No speed setting exists and nothing pauses
+    // the city: if the tab sleeps, the ticks that were owed are replayed on wake.
+    const step = TICK_SECONDS * 1000;
     let n = 0;
     while (now - lastTickWall >= step && n < 12) {
       lastTickWall += step;
@@ -3950,7 +3949,6 @@ window.DebugOverlay = DebugOverlay;
           }
 
   function announce(train, town) {
-    if (S.speed === 0) return;
     if (S.lastAnnounce !== undefined && S.day - S.lastAnnounce < 2) return;
     S.lastAnnounce = S.day;
     const hh = String(Math.floor(S.hour)).padStart(2, "0");
@@ -6519,10 +6517,10 @@ window.DebugOverlay = DebugOverlay;
     window.addEventListener("resize", resize);
   }
 
-  function setSpeed(v) {
-    // 0 pauses, 1/2/3 multiply the day rate (ENG-01). The sky still follows the wall clock.
-    if (typeof v === "number") { S.speed = clamp(Math.round(v), 0, 3); refreshHud(); }
-    return S.speed;
+  function setSpeed() {
+    // There is no speed control and no pause. The city runs on the real clock; this remains
+    // only so old callers get a truthful answer instead of silently doing nothing.
+    return 1;
   }
 
   // ---------------------------------------------------------------- save / load
@@ -6917,15 +6915,6 @@ window.DebugOverlay = DebugOverlay;
     setInterval(paintAuto, 900);
     paintAuto();
 
-    document.querySelectorAll(".spd").forEach((btn) => {
-      const v = Number(btn.getAttribute("data-spd"));
-      btn.classList.toggle("on", (S.speed == null ? 1 : S.speed) === v);
-      btn.onclick = () => {
-        setSpeed(v);
-        document.querySelectorAll(".spd").forEach((b) => b.classList.toggle("on", Number(b.getAttribute("data-spd")) === v));
-        toast(v === 0 ? "Paused" : "Speed " + v + "x");
-      };
-    });
     const ui_bond = el("ui-bond");
     if (ui_bond) ui_bond.onclick = () => {
       if ((S.bonds || 0) > 0 && S.cash >= 10600) {
