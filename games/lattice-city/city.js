@@ -4784,6 +4784,17 @@ window.DebugOverlay = DebugOverlay;
       // Boot can focus before the canvas has a size. Retry until layout gives it one.
       if (needFocus) resize();
       const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
+      // action camera: when the autopilot is on, follow the builder unless the player has
+      // just grabbed the view themselves (then leave them alone for a while)
+      if (S.auto && S.auto.on && S.auto.spot && Date.now() - (S.camHold || 0) > 12000) {
+        const el2 = getCanvas();
+        const sp = tileToScreen(S.auto.spot.gx, S.auto.spot.gy);
+        const wantZoom = clamp(1.55 - (S.auto.zones || 0) / 900, 0.62, 1.55);
+        cam.zoom += (wantZoom - cam.zoom) * 0.02;
+        const dx = el2.clientWidth / 2 - sp.x, dy = el2.clientHeight / 2 - sp.y;
+        cam.x += dx * 0.07;
+        cam.y += dy * 0.07;
+      }
       last = ts;
       S.hour = localHour();
       pumpTicks();
@@ -6403,6 +6414,7 @@ window.DebugOverlay = DebugOverlay;
       return Math.hypot(a.x - b.x, a.y - b.y);
     };
     c.addEventListener("pointerdown", (e) => {
+      S.camHold = Date.now();   // the player took the camera: stop following for a while
       if (e.pointerType === "touch") {
         touchPts.set(e.pointerId, { x: e.clientX, y: e.clientY });
         if (touchPts.size === 1) {
@@ -6466,6 +6478,7 @@ window.DebugOverlay = DebugOverlay;
     });
     c.addEventListener("contextmenu", (e) => e.preventDefault());
     c.addEventListener("wheel", (e) => {
+      S.camHold = Date.now();
       e.preventDefault();
       zoomAt(e.offsetX, e.offsetY, e.deltaY < 0 ? 1.12 : 1 / 1.12);
     }, { passive: false });
@@ -7210,14 +7223,17 @@ window.DebugOverlay = DebugOverlay;
     for (let k = 0; k < 40; k++) {
       const x = gx + Math.floor(Math.random() * 60) - 30, y = gy + Math.floor(Math.random() * 60) - 30;
       if (!autoEnsureRegion(x, y)) continue;
-      if (paint(t, x, y)) { st.services++; st.intent = "placing " + t.name; return true; }
+      if (paint(t, x, y)) { st.services++; st.intent = "placing " + t.name; st.spot = { gx: x, gy: y }; sayPaced("service", null, 30000); return true; }
     }
     return false;
   }
 
   function autoZone() {
-    // walk the claimed regions behind a cursor and zone any grass tile that fronts a road
+    // utilities before population: a block with no power or water just decays back to rubble
     const st = autoState();
+    const svcCount = (() => { const c = {}; claimedList().forEach((rr) => { for (let i = 0; i < RS * RS; i++) { const n = SVC[rr.svc[i]]; if (n) c[n] = (c[n] || 0) + 1; } }); return c; })();
+    if ((st.zones || 0) > 25 && (!svcCount.power || !svcCount.water)) { autoService(); return false; }
+    // walk the claimed regions behind a cursor and zone any grass tile that fronts a road
     const regs = claimedList();
     if (!regs.length) return false;
     const d = S.demand || { r: 0.4, c: 0.2, i: 0.2 };
@@ -7236,7 +7252,7 @@ window.DebugOverlay = DebugOverlay;
         const fronts = (x > 0 && r.road[i - 1]) || (x < RS - 1 && r.road[i + 1]) || (y > 0 && r.road[i - RS]) || (y < RS - 1 && r.road[i + RS]);
         if (!fronts) continue;
         const gx = r.rx * RS + x, gy = r.ry * RS + y;
-        if (paint(tool, gx, gy)) { st.zones++; st.zoneCursor = i + 1; st.intent = "zoning " + tool.name; return true; }
+        if (paint(tool, gx, gy)) { st.spot = { gx: gx, gy: gy }; st.zones++; st.zoneCursor = i + 1; st.intent = "zoning " + tool.name; return true; }
       }
       st.zoneCursor = 0;
     }
@@ -7265,6 +7281,66 @@ window.DebugOverlay = DebugOverlay;
     return st.on;
   }
 
+  // ---- announcer ---------------------------------------------------------------
+  // The news anchor needs something to say about a city that builds itself.
+  const SAY = {
+    road: [
+      "Surveyors have staked the next arterial. Graders are moving.",
+      "Road crews are working the main print. Traffic will follow.",
+      "The arterial grid extends. Another block is open for development."
+    ],
+    rail: [
+      "Rails are going down on the spine. The first rolling stock is due.",
+      "Track crews report progress. Freight will move by rail soon.",
+      "The rail spine is advancing through the district."
+    ],
+    dock: [
+      "A ferry dock has opened. Cross-water service is expected shortly.",
+      "Harbour works complete. Ferries can now link the shore."
+    ],
+    claim: [
+      "The city has claimed new ground beyond the old boundary.",
+      "A new district has been annexed. Planning begins at once."
+    ],
+    service: [
+      "A new civic building is online and staffed.",
+      "Services expand with the population.",
+      "The city answers its growing needs with another facility."
+    ],
+    decay: [
+      "A building has been abandoned. That block is slipping.",
+      "Neglect has claimed a structure. Send services or lose the street.",
+      "A dead spot has appeared in the district."
+    ],
+    death: [
+      "The city records a preventable death. Beds were short.",
+      "A patient did not survive the wait. Healthcare needs capacity."
+    ],
+    milestone: [
+      "The settlement has grown. A new era begins for Lattice City.",
+      "We are no longer a village. The world is taking notice."
+    ],
+    report: [
+      "Lattice City report. Population {pop}, treasury {cash}.",
+      "City desk. {pop} people, {jobs} jobs, and {regions} districts in play.",
+      "The city stands at {pop} people. The builders keep working."
+    ],
+  };
+  function say(kind, vars) {
+    const bank = SAY[kind];
+    if (!bank || !bank.length) return;
+    let line = bank[Math.floor(Math.random() * bank.length)];
+    if (vars) Object.keys(vars).forEach((k) => { line = line.split("{" + k + "}").join(String(vars[k])); });
+    try { speak(line, "normal"); } catch (e) {}
+  }
+  let lastSay = 0, lastReportSay = 0;
+  function sayPaced(kind, vars, minGapMs) {
+    const now = Date.now();
+    if (now - lastSay < (minGapMs || 12000)) return;
+    lastSay = now;
+    say(kind, vars);
+  }
+
   function autoPulse() {
     const st = autoState();
     if (!st.on) return;
@@ -7281,7 +7357,7 @@ window.DebugOverlay = DebugOverlay;
         plan.ii++;
         if (!autoEnsureRegion(x, y)) break;
         const tr = TOOLS.find((z) => z.id === "railTrack");
-        if (tr && paint(tr, x, y)) { st.rail++; rails++; st.intent = "laying the rail spine"; }
+        if (tr && paint(tr, x, y)) { st.spot = { gx: x, gy: y }; st.rail++; rails++; st.intent = "laying the rail spine"; if (st.rail === 1 || st.rail % 30 === 0) sayPaced("rail", null, 45000); }
       }
       if (rails) { if (Math.random() < 0.5) autoZone(); return; }
     }
@@ -7296,7 +7372,7 @@ window.DebugOverlay = DebugOverlay;
         if (!t) return;
         const painted = paint(t, x, y);
         st.lastTry = { x, y, ensured: true, painted };
-        if (painted) { laid++; st.roads++; st.intent = "laying the arterial print"; (st.roadList = st.roadList || []).push(x + "," + y); if (st.roadList.length > 4000) st.roadList.splice(0, 1500); }
+        if (painted) { st.spot = { gx: x, gy: y }; laid++; st.roads++; st.intent = "laying the arterial print"; (st.roadList = st.roadList || []).push(x + "," + y); if (st.roadList.length > 4000) st.roadList.splice(0, 1500); }
         else if (regionOf(x, y) && regionOf(x, y).r.road[regionOf(x, y).i]) laid++;
       }
       if (laid) { for (let z = 0; z < 4; z++) { if (!autoZone()) break; } return; }
@@ -7317,7 +7393,7 @@ window.DebugOverlay = DebugOverlay;
         plan.di++;
         if (!autoEnsureRegion(d.x, d.y)) return;
         const t = TOOLS.find((z) => z.id === "dock");
-        if (t && paint(t, d.x, d.y)) { st.docks++; st.intent = "building a ferry dock"; return; }
+        if (t && paint(t, d.x, d.y)) { st.spot = { gx: d.x, gy: d.y }; st.docks++; st.intent = "building a ferry dock"; say("dock"); return; }
       }
       if (Math.random() < 0.15 && autoMaintain()) return;
       autoZone();
