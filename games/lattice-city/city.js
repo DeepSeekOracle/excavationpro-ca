@@ -3754,7 +3754,7 @@ window.DebugOverlay = DebugOverlay;
     // so r.pop is always the number of people actually living there
     const pm = popModel();
     if (!pm.seeded) {
-      pm.pop = Math.min(Math.round(capSum * 0.5), capSum);   // a new town starts half full
+      pm.pop = Math.max(24, Math.min(Math.round(capSum * 0.5), capSum));   // a new town starts with at least 24 people
       const parts = 3;
       for (let k = 0; k < parts; k++) {
         const share = Math.floor(pm.pop / parts) + (k === 0 ? pm.pop % parts : 0);
@@ -3762,7 +3762,6 @@ window.DebugOverlay = DebugOverlay;
       }
       pm.seeded = true;
     }
-    if (pm.pop > capSum) pm.pop = capSum;
     S.pop = pm.pop;
     list.forEach((r) => {
       r.pop = capSum ? Math.min(r.capPop || 0, Math.round(pm.pop * (r.capPop || 0) / capSum)) : 0;
@@ -7171,7 +7170,14 @@ window.DebugOverlay = DebugOverlay;
         }
       }
     }
-    AUTO_PLAN.roads = [...roads]; AUTO_PLAN.rail = [...rail]; AUTO_PLAN.docks = docks;
+    // grow from the core outward: laying the print in file order makes the AI teleport between
+    // arterials 40 tiles apart, which is what looked like roads placed at random.
+    const regs0 = claimedList();
+    const o = regs0.length ? { x: regs0[0].rx * RS + 80, y: regs0[0].ry * RS + 80 } : { x: WORLD_W / 2, y: WORLD_H / 2 };
+    const dist = (k) => { const q = k.split(","); return Math.abs(+q[0] - o.x) + Math.abs(+q[1] - o.y); };
+    AUTO_PLAN.roads = [...roads].sort((a, b) => dist(a) - dist(b));
+    AUTO_PLAN.rail = [...rail].sort((a, b) => dist(a) - dist(b));
+    AUTO_PLAN.docks = docks;
     AUTO_PLAN.ready = true; AUTO_PLAN.ri = 0; AUTO_PLAN.ii = 0; AUTO_PLAN.di = 0;
     return AUTO_PLAN;
   }
@@ -7186,15 +7192,23 @@ window.DebugOverlay = DebugOverlay;
     return claimRegion(rx, ry, false);
   }
 
+  function roadTiles() {
+    // every road tile in the claimed regions, so services can be built on frontage
+    const out = [];
+    claimedList().forEach((r) => {
+      for (let i = 0; i < RS * RS; i++) {
+        if (!r.road[i]) continue;
+        out.push({ x: r.rx * RS + (i % RS), y: r.ry * RS + ((i / RS) | 0) });
+      }
+    });
+    return out;
+  }
   function autoService() {
-    // place a service when a real threshold trips, cheapest fix first
+    // place a service when a threshold trips, always on road frontage and never on rock or water
     const cash = S.cash || 0;
     if (cash < AUTO.reserve + 800) return false;
     const regs = claimedList();
     if (!regs.length) return false;
-    const r = regs[0];
-    const gx = r.rx * RS + 40 + Math.floor(Math.random() * 80);
-    const gy = r.ry * RS + 40 + Math.floor(Math.random() * 80);
     const st = autoState();
     const counts = {};
     regs.forEach((rr) => { for (let i = 0; i < RS * RS; i++) { const n = SVC[rr.svc[i]]; if (n) counts[n] = (counts[n] || 0) + 1; } });
@@ -7209,10 +7223,26 @@ window.DebugOverlay = DebugOverlay;
     if (!tool) return false;
     const t = TOOLS.find((x) => x.service === tool);
     if (!t) return false;
-    for (let k = 0; k < 40; k++) {
-      const x = gx + Math.floor(Math.random() * 60) - 30, y = gy + Math.floor(Math.random() * 60) - 30;
+    // build on the frontage of a road that already exists; the road list grows as the print is laid
+    const roads = (st.roadList && st.roadList.length ? st.roadList.map((k) => { const q = k.split(","); return { x: +q[0], y: +q[1] }; }) : roadTiles());
+    if (!roads.length) return false;
+    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]];
+    for (let k = 0; k < 80; k++) {
+      const road = roads[Math.floor(Math.random() * roads.length)];
+      const [dx, dy] = dirs[Math.floor(Math.random() * dirs.length)];
+      const x = road.x + dx, y = road.y + dy;
+      const cell = regionOf(x, y);
+      if (!cell) continue;
+      const terr = cell.r.terrain[cell.i];
+      if (terr === TERRAIN.WATER || terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) continue;   // never on rock or water
+      if (cell.r.road[cell.i] || cell.r.svc[cell.i] || cell.r.level[cell.i] || cell.r.zone[cell.i]) continue;
       if (!autoEnsureRegion(x, y)) continue;
-      if (paint(t, x, y)) { st.services++; st.intent = "placing " + t.name; st.spot = { gx: x, gy: y }; sayPaced("service", null, 30000); return true; }
+      if (paint(t, x, y)) {
+        st.services++; st.intent = "placing " + t.name + " on road frontage";
+        st.spot = { gx: x, gy: y };
+        sayPaced("service", null, 30000);
+        return true;
+      }
     }
     return false;
   }
@@ -7330,6 +7360,83 @@ window.DebugOverlay = DebugOverlay;
     say(kind, vars);
   }
 
+  // Roads extend from roads. The frontier only ever offers a plan tile that touches a road
+  // already on the map, so the network is connected by construction instead of by luck.
+  function autoNextRoadTile() {
+    const st = autoState();
+    const plan = autoBuildPlan();
+    if (!AUTO_PLAN.set) AUTO_PLAN.set = new Set(plan.roads);
+    const set = AUTO_PLAN.set;
+    const origin = st.origin || { x: (claimedList()[0] || { rx: 0, ry: 0 }).rx * RS + 80, y: (claimedList()[0] || { rx: 0, ry: 0 }).ry * RS + 80 };
+    st.origin = origin;
+    const isRoadWorld = (x, y) => { const c = regionOf(x, y); return !!c && c.r.road[c.i] === 1; };
+    if (!st.frontier) {
+      st.frontier = [];
+      st.built = st.built || {};
+      const add = (x, y) => {
+        const k = x + "," + y;
+        if (!set.has(k) || st.built[k] || st.frontier.indexOf(k) !== -1) return;
+        st.frontier.push(k);
+      };
+      // seed with the whole print patch around the core, so the first arterials cross each other
+      // immediately and the town reads as one network instead of loose lines
+      for (const k of plan.roads) {
+        const q = k.split(","), x = +q[0], y = +q[1];
+        if (isRoadWorld(x, y)) { st.built[k] = 1; continue; }
+        const d = Math.abs(x - origin.x) + Math.abs(y - origin.y);
+        if (d <= 130) add(x, y);
+      }
+      if (!st.frontier.length) {
+        for (const k of plan.roads) {
+          const q = k.split(","), x = +q[0], y = +q[1];
+          if (st.built[k]) continue;
+          if ([[1,0],[-1,0],[0,1],[0,-1]].some(([dx, dy]) => isRoadWorld(x + dx, y + dy))) add(x, y);
+        }
+      }
+      if (!st.frontier.length) {
+        let best = null, bestD = Infinity;
+        for (const k of plan.roads) {
+          if (st.built[k]) continue;
+          const q = k.split(","), d = Math.abs(+q[0] - origin.x) + Math.abs(+q[1] - origin.y);
+          if (d < bestD) { bestD = d; best = k; }
+        }
+        if (best) add(+best.split(",")[0], +best.split(",")[1]);
+      }
+    }
+    if (!st.frontier.length) {
+      // re-seed from any plan tile that now touches a road, so a finished line hands off to the
+      // next one instead of ending the build
+      for (const k of plan.roads) {
+        if (st.built[k]) continue;
+        const q0 = k.split(","), x0 = +q0[0], y0 = +q0[1];
+        if (isRoadWorld(x0, y0)) { st.built[k] = 1; continue; }
+        if ([[1,0],[-1,0],[0,1],[0,-1]].some(([dx, dy]) => isRoadWorld(x0 + dx, y0 + dy))) st.frontier.push(k);
+        if (st.frontier.length > 250) break;
+      }
+      if (!st.frontier.length) return null;
+    }
+    // Compact growth: only build inside a radius that expands as the town fills. Stray
+    // arterials far from the core were what made the build look scattered.
+    const radius = 45 + (st.roads || 0) / 5;
+    let pick = -1, pickD = Infinity;
+    for (let i = 0; i < st.frontier.length; i++) {
+      const q0 = st.frontier[i].split(",");
+      const d = Math.abs(+q0[0] - origin.x) + Math.abs(+q0[1] - origin.y);
+      if (d <= radius && d < pickD) { pickD = d; pick = i; }
+    }
+    if (pick < 0) pick = 0;                       // nothing in range yet: let the radius catch up
+    const key = st.frontier.splice(pick, 1)[0];
+    if (!key || st.built[key]) return autoNextRoadTile();
+    st.built[key] = 1;
+    const q = key.split(","), x = +q[0], y = +q[1];
+    // offer the plan neighbours so the spine keeps extending, still connected
+    for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+      const nk = (x + dx) + "," + (y + dy);
+      if (set.has(nk) && !st.built[nk] && st.frontier.indexOf(nk) === -1) st.frontier.push(nk);
+    }
+    return { x, y };
+  }
+
   function autoPulse() {
     const st = autoState();
     if (!st.on) return;
@@ -7352,9 +7459,10 @@ window.DebugOverlay = DebugOverlay;
     }
     if (plan.ri < plan.roads.length) {
       let laid = 0, skipped = 0;
-        while (plan.ri < plan.roads.length && laid < AUTO.maxRoadsPerPulse) {
-        const { x, y } = autoParse(plan.roads[plan.ri]);
-        plan.ri++;
+        while (laid < AUTO.maxRoadsPerPulse) {
+        const nextRoad = autoNextRoadTile();
+        if (!nextRoad) { st.mode = "subdivision"; break; }
+        const x = nextRoad.x, y = nextRoad.y;
         const ensured = autoEnsureRegion(x, y);
         if (!ensured) { skipped++; if (skipped > 60) return; continue; }   // print covers the world: skip what we cannot reach yet
         const t = TOOLS.find((z) => z.id === "road");
