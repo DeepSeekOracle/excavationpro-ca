@@ -1244,7 +1244,7 @@ window.DebugOverlay = DebugOverlay;
       // down: a village is quiet, a city earns its emergencies. Caps also scale with size,
       // which keeps a bad day from becoming a wall of events.
       const INCIDENCE = {
-        medical: 0.12, crime: 0.030, fire: 0.007,
+        medical: 0.12, crime: 0.050, fire: 0.006,
         bands: [
           { max: 300,  scale: { medical: 0.6, crime: 0.0, fire: 0.0 } },
           { max: 1500, scale: { medical: 0.8, crime: 0.5, fire: 0.0 } },
@@ -1252,12 +1252,20 @@ window.DebugOverlay = DebugOverlay;
           { max: 1e9,  scale: { medical: 1.1, crime: 1.2, fire: 1.0 } },
         ],
         perCapitaForCap: { medical: 600, crime: 1200, fire: 2500 },
+        // hard ceilings per game day so no service ever becomes a firehose:
+        // crime 0.05 = one call per 20 days (~2.3 real min), fire 0.03 (~4 min), medical 1.5
+        dailyCap: { medical: 0.8, crime: 0.05, fire: 0.03 },
       };
       function incidenceBand(pop) {
         for (const b of INCIDENCE.bands) if (pop <= b.max) return b;
         return INCIDENCE.bands[INCIDENCE.bands.length - 1];
       }
       function dailyExpectation(kind) {
+        // sub-linear in population: a big city has more crime, not proportionally more
+        const raw = INCIDENCE[kind] * Math.pow(Math.max(0, S.pop) / 1000, 0.7) * incidenceBand(S.pop).scale[kind];
+        return Math.min(INCIDENCE.dailyCap[kind], raw);
+      }
+      function dailyExpectationRaw(kind) {
         const band = incidenceBand(S.pop);
         return INCIDENCE[kind] * (S.pop / 1000) * band.scale[kind];
       }
@@ -1350,6 +1358,12 @@ window.DebugOverlay = DebugOverlay;
           continue;
         }
               // Only retry dispatch every 60 game seconds, not every 30
+        // medical calls are written off only after the death window, so a death wins
+        if ((gameClock() - call.time) / 86400 >= HEALTH.waitToDeathDays + 1) {
+          logEvent("medical", "Medical call written off - no bed available", { gx: call.gx, gy: call.gy }, "high");
+          medicalCalls.splice(i, 1);
+          continue;
+        }
               if (Math.random() < gameSeconds / 60) dispatchAmbulance(call);
             } else if (call.status === "enroute") {
               const amb = ambulances.find(a => a.id === call.assignedAmbulance);
@@ -1379,6 +1393,8 @@ window.DebugOverlay = DebugOverlay;
 
     // ---------------------------------------------------------------- Police / Law Enforcement
       const POLICE = {
+    callExpiryDays: 2,                  // an unanswered call is written off after two days
+    respondWindowDays: 1,               // after this a waiting call is "late" and erodes mood
         policeSpeed: 3.5,
         carsPerStation: [0, 1, 2],
         patrolInterval: 120,
@@ -1463,7 +1479,7 @@ window.DebugOverlay = DebugOverlay;
         const step = Math.max(0, Math.min(0.25, dt || 0.016));
         if (b.total > 0) S.unrest = clamp((S.unrest || 0) + 0.02 * b.total * step, 0, 1);
         else S.unrest = clamp((S.unrest || 0) - 0.06 * step, 0, 1);
-        if (b.total >= 3 && S.backlogWarnDay !== S.day) {
+        if (b.total >= 3 && S.backlogWarnDay !== S.day && getPoliceStations().length > 0) {
           S.backlogWarnDay = S.day;
           logEvent("police", b.total + " calls queuing - no free units. Build a station.", { }, "high");
         }
@@ -1599,6 +1615,14 @@ window.DebugOverlay = DebugOverlay;
           for (let i = policeCalls.length - 1; i >= 0; i--) {
             const call = policeCalls[i];
             if (call.status === "waiting") {
+        // An unanswered call is written off after two game days. Without this the queue
+        // grows without bound (a brand new town showed 66 waiting calls).
+        const waitedDays = (gameClock() - call.time) / 86400;
+        if (waitedDays >= POLICE.callExpiryDays) {
+          S.callsExpired = (S.callsExpired || 0) + 1;   // counted, not logged one per call
+          policeCalls.splice(i, 1);
+          continue;
+        }
               // Only retry dispatch every 60 game seconds
               if (Math.random() < gameSeconds / 60) dispatchPolice(call);
             } else if (call.status === "enroute") {
@@ -6367,9 +6391,10 @@ window.DebugOverlay = DebugOverlay;
                         if (d.ambulances) d.ambulances.forEach(a => { const nt = { ...a, route: null }; ambulances.push(nt); });
                         if (d.policeCars) d.policeCars.forEach(c => { const nt = { ...c, route: null }; policeCars.push(nt); });
                         if (d.activeFires) d.activeFires.forEach(f => activeFires.push(f));
-                        if (d.medicalCalls) d.medicalCalls.forEach(m => medicalCalls.push(m));
-                        if (d.policeCalls) d.policeCalls.forEach(p => policeCalls.push(p));
-
+    // drop stale calls from old saves: they used to queue forever
+    const loadClock = (S.day || 0) * 86400 + (S.hour || 0) * 3600;
+    if (d.policeCalls) d.policeCalls.forEach((p) => { if (p.status === "waiting" && (loadClock - p.time) / 86400 > POLICE.callExpiryDays) return; policeCalls.push(p); });
+    if (d.medicalCalls) d.medicalCalls.forEach((m) => { if (m.status === "waiting" && (loadClock - m.time) / 86400 > HEALTH.waitToDeathDays + 1) return; medicalCalls.push(m); });
                         // Restore population data
                                                 citizens.length = 0;
                                                 if (d.citizens) {
