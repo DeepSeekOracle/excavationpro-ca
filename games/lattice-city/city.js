@@ -178,16 +178,10 @@ window.DebugOverlay = DebugOverlay;
       "m54_sea_var2_sunken_temple_ruins", "m55_sea_var3_basalt_stack_puffin_rookery", "m56_sea_var4_floating_lantern_festival",
       "m57_sea_var5_sargasso_kelp_manta_ray", "m58_sea_var6_geothermal_vent_pumice_shoal",
     ],
+    // inland sand only: anything with a painted water edge belongs on the shore, not here
     sand: [
-      "m01_sandy_beach_s", "m02_sandy_beach_e", "m03_sandy_beach_w", "m23_beach_var1_driftwood",
-      "m24_beach_var2_rowboat_nets", "m25_beach_var3_tidepool", "m26_beach_var4_parasol_castle",
-      "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest",
-      "m47_coast_var1_breakwater_mole", "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway",
-      "m51_coast_var5_smuggler_cove", "m52_coast_var6_red_sea_coral_quay", "m48_coast_var2_tide_mill_sluice", "c07_river_ford_stone", "c08_river_quay_dock", "c09_timber_footbridge_ns", "c10_timber_footbridge_ew",
-    ],
-    forest: [
-      "s22_forest_var2_silver_birch", "s24_forest_var4_cherry_willow",
-      "s25_forest_var5_woodcutter", "s26_forest_var6_apiary_lavender", "s20_sloped_forest_stream",
+      "m26_beach_var4_parasol_castle", "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest",
+      "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway", "m08_desert_dunes",
     ],
     meadow: [
       "s35_farm_var1_wheat_scarecrow", "s36_farm_var2_lavender_distill", "s37_farm_var3_pumpkin_melon",
@@ -225,6 +219,29 @@ window.DebugOverlay = DebugOverlay;
     const h = hash2(gx * 13 + 7, gy * 7 + 3);
     if (h > (POOL_CHANCE[name] || 0.04)) return null;
     return pool[Math.floor(hash2(gx + 91, gy + 17) * pool.length) % pool.length];
+  }
+
+
+  // ---- shoreline tiles -------------------------------------------------------------
+  // The beach and coast art has a painted water edge, so it only belongs next to water and
+  // only with that edge facing the water. Anything else leaves a fake sea in a field.
+  const COAST = {
+    s: ["m01_sandy_beach_s"],
+    e: ["m02_sandy_beach_e"],
+    w: ["m03_sandy_beach_w", "m23_beach_var1_driftwood", "m24_beach_var2_rowboat_nets", "m25_beach_var3_tidepool", "m26_beach_var4_parasol_castle", "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest", "m47_coast_var1_breakwater_mole", "m48_coast_var2_tide_mill_sluice", "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway", "m51_coast_var5_smuggler_cove", "m52_coast_var6_red_sea_coral_quay"],
+  };
+  function coastFor(gx, gy) {
+    const isWater = (x, y) => { const t = regionOf(x, y); return !!t && t.r.terrain[t.i] === TERRAIN.WATER; };
+    let side = null, flipY = false;
+    if (isWater(gx, gy + 1)) side = "s";
+    else if (isWater(gx + 1, gy)) side = "e";
+    else if (isWater(gx - 1, gy)) side = "w";
+    else if (isWater(gx, gy - 1)) { side = "s"; flipY = true; }   // north shore = south art, flipped
+    if (!side) return null;
+    if (hash2(gx * 19 + 5, gy * 13 + 9) > 0.72) return null;           // not every shore tile is dressed
+    const pool = COAST[side];
+    const h = hash2(gx * 17 + 3, gy * 11 + 7);
+    return { key: pool[Math.floor(h * pool.length) % pool.length], flipX: false, flipY: flipY };
   }
   function noiseSeed(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
   function valueNoise(w, h, scale, seed) {
@@ -4971,7 +4988,7 @@ window.DebugOverlay = DebugOverlay;
 
         let key = (reg.dead && reg.dead[i]) ? "x_rubble" : null;
         let railOverlay = null;
-        let flipX = false;
+        let flipX = false, flipY = false;
                 if (reg.road[i]) {
                   if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
                   else if (terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) key = slopeRoadKey(roadMask(gx, gy));
@@ -5018,6 +5035,11 @@ window.DebugOverlay = DebugOverlay;
               : (hash2(gx + 4, gy + 8) > 0.5 ? "s23_forest_var3_pine_cedar" : "s21_forest_var1_hollow_oak");
         }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
+        else if (terr === TERRAIN.SAND) {
+          const coast = coastFor(gx, gy);
+          if (coast) { key = coast.key; flipY = coast.flipY; }
+          else key = poolPick(terr, gx, gy);
+        }
         else key = poolPick(terr, gx, gy);   // every remaining authored tile finds its terrain
         // field overlays: tint the tile by land value, crime or pollution
         if (S.overlay && (reg.value || reg.poll || reg.crime)) {
@@ -5046,11 +5068,12 @@ window.DebugOverlay = DebugOverlay;
         }
         if (reg.dead && reg.dead[i]) key = "x_rubble";   // a dead spot always wins
         if (key && SPRITES[key] && SPRITES[key].complete) {
-          if (flipX) {
+          if (flipX || flipY) {
+            const w = TW * cam.zoom;
             getCtx().save();
-            getCtx().translate(s.x + TW * cam.zoom, s.y - GROUND_OFFSET * cam.zoom);
-            getCtx().scale(-1, 1);
-            getCtx().drawImage(SPRITES[key], 0, 0, TW * cam.zoom, TW * cam.zoom);
+            getCtx().translate(s.x + (flipX ? w : 0), s.y - GROUND_OFFSET * cam.zoom + (flipY ? w : 0));
+            getCtx().scale(flipX ? -1 : 1, flipY ? -1 : 1);
+            getCtx().drawImage(SPRITES[key], 0, 0, w, w);
             getCtx().restore();
           } else {
             getCtx().drawImage(SPRITES[key], s.x, s.y - GROUND_OFFSET * cam.zoom, TW * cam.zoom, TW * cam.zoom);
@@ -7100,7 +7123,7 @@ window.DebugOverlay = DebugOverlay;
       if (r.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
       else if (r.rail[i]) key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
       else if (r.level[i]) key = themeVariant(r.theme, r.zone[i], r.level[i], gx, gy);
-      else key = poolPick(r.terrain[i], gx, gy);
+      else if (r.terrain[i] === TERRAIN.SAND) { const c = coastFor(gx, gy); key = c ? c.key : poolPick(r.terrain[i], gx, gy); }
       return { key, theme: r.theme, zone: r.zone[i], level: r.level[i], terr: r.terrain[i] };
     },
     railStats,
