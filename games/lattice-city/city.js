@@ -437,11 +437,12 @@ window.DebugOverlay = DebugOverlay;
   }
 
   // Appending to SVC is safe for old saves: the array index is what a save stores.
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire", "police"];
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire", "police", "clinic"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
     dock: "b69_ferry_terminal",
+    clinic: "b35_apothecary_tower_sw",
     rail: "b17_twin_gatehouse",
     fire: "b08_watchtower",
     police: "b17_twin_gatehouse",
@@ -471,7 +472,7 @@ window.DebugOverlay = DebugOverlay;
         { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
         { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
         { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
-        { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "school", unlock: 1 },
+        { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "clinic", unlock: 1 },
         { id: "police", name: "Police station", cost: 1200, hint: "cuts crime", service: "police", unlock: 2 },
         { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
@@ -1190,11 +1191,30 @@ window.DebugOverlay = DebugOverlay;
       let medicalDailyCount = 0;
       let medicalLastDay = -1;
 
+      // Bed and cell capacity: the building is the limit, not the vehicle count.
+      const BEDS_PER_LEVEL = [0, 3, 6, 10];
+      const CELLS_PER_LEVEL = [0, 3, 6, 9];
+      let patients = [];   // { clinicId, until } in game seconds
+      let prisoners = [];  // { stationId, until }
+      function gameClock() { return (S.day || 0) * 86400 + (S.hour || 0) * 3600; }
+      function bedsFree(clinic) {
+        const used = patients.filter(p => p.clinicId === clinicId(clinic) && p.until > gameClock()).length;
+        return Math.max(0, BEDS_PER_LEVEL[Math.min(3, clinic.level || 1)] - used);
+      }
+      function cellsFree(station) {
+        const used = prisoners.filter(p => p.stationId === stationId(station) && p.until > gameClock()).length;
+        return Math.max(0, CELLS_PER_LEVEL[Math.min(3, station.level || 1)] - used);
+      }
+      function sweepCapacity() {
+        const t = gameClock();
+        patients = patients.filter(p => p.until > t);
+        prisoners = prisoners.filter(p => p.until > t);
+      }
       function getClinics() {
         const clinics = [];
         claimedList().forEach(r => {
           for (let i = 0; i < RS * RS; i++) {
-            if (SVC[r.svc[i]] === "school") {
+            if (SVC[r.svc[i]] === "clinic") {   // was "school": libraries were spawning ambulances
               clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
             }
           }
@@ -1285,6 +1305,7 @@ window.DebugOverlay = DebugOverlay;
           let bestClinic = null, bestDist = Infinity, bestPath = null;
           for (const clinic of clinics) {
             const idle = countIdleAmbulances(clinic);
+            if (bedsFree(clinic) <= 0) continue;   // the clinic is the limit
             if (idle <= 0) continue;
             const path = findRoadPath(clinic.gx, clinic.gy, call.gx, call.gy);
             if (!path || path.length > MEDICAL.responseRadius) continue;
@@ -1325,6 +1346,13 @@ window.DebugOverlay = DebugOverlay;
               const amb = ambulances.find(a => a.id === call.assignedAmbulance);
               if (amb && amb.state === "idle") {
                 call.status = "resolved";
+                const wait = gameClock() - call.time;
+                const clinic = getClinics().find(c => clinicId(c) === call.clinicId) || getClinics()[0];
+                if (clinic) patients.push({ clinicId: clinicId(clinic), until: gameClock() + 1800 });   // half a day in a bed
+                if (wait > 21600 && call.patient) {   // six hours late: the person remembers
+                  call.patient.happiness = Math.max(0, (call.patient.happiness == null ? 0.6 : call.patient.happiness) - 0.15);
+                  S.unrest = clamp((S.unrest || 0) + 0.02, 0, 1);
+                }
                 logEvent("medical", call.label + " resolved - patient treated", { gx: call.gx, gy: call.gy }, "normal");
                 medicalCalls.splice(i, 1);
               }
@@ -1366,6 +1394,36 @@ window.DebugOverlay = DebugOverlay;
       // Every station has a fixed number of units. A call with no free unit waits in
       // the queue; the queue is the whole management game: it costs mood, and unmet
       // demand feeds more crime, which feeds more calls. That is the collapse loop.
+      // ---- block decay: neglect turns neighbourhoods into dead spots -------------
+      // A building with no power/water and no land value is on its way out. Enough days
+      // of that and it loses a level; at level 0 with nothing serving it, it becomes rubble
+      // that drags its neighbours down. This is what "lack of management" looks like.
+      function decayNeighbourhoods() {
+        const day = S.day;
+        if (S.decayDay === day) return;
+        S.decayDay = day;
+        claimedList().forEach((r) => {
+          if (!r.value) return;
+          for (let i = 0; i < RS * RS; i++) {
+            if (!r.level[i] && !r.dead[i]) continue;
+            const served = (r.powerOn ? r.powerOn[i] : 1) && (r.waterOn ? r.waterOn[i] : 1);
+            const value = r.value[i] || 0;
+            const sick = !served || value < 42;
+            r.neglect[i] = clamp(r.neglect[i] + (sick ? 1 : -2), 0, 255);
+            const limit = 10 + (r.level[i] || 1) * 6;   // a bigger building takes longer to fail
+            if (r.level[i] > 0 && r.neglect[i] >= limit) {
+              r.level[i] -= 1;
+              r.neglect[i] = 0;
+              r.zoneDirty = true;
+              if (r.level[i] === 0 && r.zone[i]) { r.dead[i] = 1; logEvent("decay", "A building was abandoned - dead spot", { gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }, "high"); }
+              else logEvent("decay", "A building lost a level - unserved and devalued", { gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }, "normal");
+            } else if (r.dead[i] && r.neglect[i] <= 1 && value > 60) {
+              r.dead[i] = 0;      // a revived block can be rebuilt
+            }
+          }
+        });
+      }
+
       function responseBacklog() {
         const policeWaiting = policeCalls.filter(c => c.status === "waiting").length;
         const medicalWaiting = medicalCalls.filter(m => m.status === "waiting").length;
@@ -1496,6 +1554,7 @@ window.DebugOverlay = DebugOverlay;
             if (idle <= 0) continue;
             const path = findRoadPath(station.gx, station.gy, call.gx, call.gy);
             if (!path) continue;
+            if (cellsFree(station) <= 0) continue;   // no cells, no arrest capacity
             if (path.length < bestDist) { bestDist = path.length; bestStation = station; bestPath = path; }
           }
           if (!bestStation) {
@@ -1536,6 +1595,10 @@ window.DebugOverlay = DebugOverlay;
               const unit = policeCars.find(c => c.id === call.assignedUnit);
               if (unit && unit.state === "idle") {
                 call.status = "resolved";
+                const station = getPoliceStations().find(st => stationId(st) === unit.stationId) || getPoliceStations()[0];
+                if (station) prisoners.push({ stationId: stationId(station), until: gameClock() + 3600 });   // a day in a cell
+                const waited = gameClock() - call.time;
+                if (waited > 21600) S.unrest = clamp((S.unrest || 0) + 0.03, 0, 1);   // slow response breeds resentment
                 policeCalls.splice(i, 1);
               }
             }
@@ -2783,6 +2846,8 @@ window.DebugOverlay = DebugOverlay;
       r.policeOn = new Uint8Array(n);   // police coverage
       r.density = new Uint8Array(n);    // 1x1 / 2x2 / 3x3 development
       r.density = new Uint8Array(n).fill(1); // 1x1, 2x2, 3x3 density (1, 2, or 3)
+      r.dead = new Uint8Array(n);      // 1 = dead spot (rubble): decayed, unserved, contagious
+      r.neglect = new Uint8Array(n);   // days of neglect, resets when a block is looked after
 
     const hgt = valueNoise(RS, RS, 22, seed);
     const for1 = valueNoise(RS, RS, 14, seed + 991);
@@ -4355,6 +4420,8 @@ window.DebugOverlay = DebugOverlay;
       S.hour = localHour();
       pumpTicks();
       tickEconomy();
+      decayNeighbourhoods();
+      sweepCapacity();
       const sim = 1;
       advance(S.peds, dt * sim);
       advance(S.cars, dt * sim * 1.8 * (1 - S.rain * 0.35));
@@ -4576,7 +4643,7 @@ window.DebugOverlay = DebugOverlay;
           continue;
         }
 
-        let key = null;
+        let key = (reg.dead && reg.dead[i]) ? "x_rubble" : null;
         let railOverlay = null;
         let flipX = false;
                 if (reg.road[i]) {
@@ -4644,6 +4711,7 @@ window.DebugOverlay = DebugOverlay;
           getCtx().fill();
           getCtx().globalAlpha = 1;
         }
+        if (reg.dead && reg.dead[i]) key = "x_rubble";   // a dead spot always wins
         if (key && SPRITES[key] && SPRITES[key].complete) {
           if (flipX) {
             getCtx().save();
@@ -6610,6 +6678,8 @@ window.DebugOverlay = DebugOverlay;
     // QA hooks added 2026-10-30 with the field simulation and the audio bus
     audio: audioAPI,
     backlog: () => responseBacklog(),
+    decayNow: () => { S.decayDay = -1; decayNeighbourhoods(); },
+    capacity: () => ({ beds: getClinics().reduce((n, c) => n + bedsFree(c), 0), cells: getPoliceStations().reduce((n, s) => n + cellsFree(s), 0), patients: patients.length, prisoners: prisoners.length }),
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
     debugFire: (gx, gy) => { const t = regionOf(gx, gy); if (t) startFire(t.r, t.i); },
@@ -6669,7 +6739,7 @@ window.DebugOverlay = DebugOverlay;
       const t = regionOf(gx, gy);
       if (!t) return null;
       const r = t.r, i = t.i;
-      let key = null;
+      let key = (r.dead && r.dead[i]) ? "x_rubble" : null;
       if (r.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
       else if (r.rail[i]) key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
       else if (r.level[i]) key = themeVariant(r.theme, r.zone[i], r.level[i], gx, gy);
