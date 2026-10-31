@@ -459,8 +459,26 @@ window.DebugOverlay = DebugOverlay;
     rail: { radius: 0, upkeep: 16 },
     fire: { radius: 8, upkeep: 10 },
     police: { radius: 9, upkeep: 12, safety: 1 },
+    clinic: { radius: 7, upkeep: 14, health: 1 },
+    hospital: { radius: 12, upkeep: 30, health: 2 },
   };
 
+  // ---- staffing -----------------------------------------------------------------
+  // Services are employers, not earners: a station needs bodies before it runs, and every
+  // position is a daily wage out of the budget. Only shops, industry, rail, docks and
+  // farms produce tax revenue - nothing in this table does.
+  const SERVICE_STAFF = {
+    police:   { base: 2, perUnit: 1 },   // two at the desk plus one per cruiser
+    fire:     { base: 2, perUnit: 1 },   // two plus one per engine
+    clinic:   { base: 2, perUnit: 1 },   // two plus one per ambulance
+    hospital: { base: 4, perUnit: 1 },
+    school:   { base: 2, perUnit: 0 },
+    water:    { base: 1, perUnit: 0 },
+    power:    { base: 2, perUnit: 0 },
+    dock:     { base: 2, perUnit: 0 },
+    rail:     { base: 3, perUnit: 0 },
+  };
+  const WAGE_PER_DAY = 9;                   // per staffed position
   const TOOLS = [
     { id: "road", name: "Road", cost: 12, hint: "bridge $180 · pass $90" },
     { id: "zoneR", name: "Homes", cost: 24, hint: "people live here", zone: Z.R },
@@ -1140,34 +1158,50 @@ window.DebugOverlay = DebugOverlay;
   }
 
   function initializeFireTrucks() {
-      fireTrucks = [];
-      let truckId = 1;
-      getFireStations().forEach(station => {
-        for (let t = 0; t < station.trucks; t++) {
+    fireTrucks = [];
+    let truckId = 1;
+    const stations = getFireStations();
+    const wanted = stations.reduce((n, s) => n + s.trucks, 0);
+    const allowed = Math.max(0, Math.round(wanted * staffFactor()));   // engines need crews
+    let made = 0;
+    stations.forEach((station) => {
       const park = nearestRoadTile(station.gx, station.gy, 5) || { x: station.gx, y: station.gy };
-      fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
-        }
-      });
-    }
+      for (let t = 0; t < station.trucks && made < allowed; t++) {
+        fireTrucks.push({ id: truckId++, type: "fire", stationId: stationId(station), homeRegion: station.region, homeTile: station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetFire: null, route: null, routeIdx: 0, dispatchedAt: 0, eta: 0, returning: false });
+        made++;
+      }
+    });
+  }
 
-    function initializeAmbulances() {
-      ambulances = [];
-      let ambId = 1;
-      getClinics().forEach(clinic => {
-        for (let a = 0; a < clinic.ambulances; a++) {
+  function initializeAmbulances() {
+    ambulances = [];
+    let ambId = 1;
+    const clinics = getClinics();
+    const wanted = clinics.reduce((n, c) => n + c.ambulances, 0);
+    const allowed = Math.max(0, Math.round(wanted * staffFactor()));   // crews, not vehicles, are the limit
+    let made = 0;
+    clinics.forEach((clinic) => {
       const park = nearestRoadTile(clinic.gx, clinic.gy, 5) || { x: clinic.gx, y: clinic.gy };
-      ambulances.push({ id: ambId++, type: "ambulance", clinicId: clinicId(clinic), x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
-        }
-      });
-    }
+      for (let a = 0; a < clinic.ambulances && made < allowed; a++) {
+        ambulances.push({ id: ambId++, type: "ambulance", clinicId: clinicId(clinic), x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+        made++;
+      }
+    });
+  }
 
     function initializePoliceCars() {
       policeCars = [];
       let carId = 1;
-      getPoliceStations().forEach(station => {
-        for (let c = 0; c < station.cars; c++) {
+      const stations = getPoliceStations();
+      const wanted = stations.reduce((n, s) => n + s.cars, 0);
+      // staffing budget: the city can only put as many cruisers on the road as it has officers
+      const allowed = Math.max(0, Math.round(wanted * staffFactor()));
+      let made = 0;
+      stations.forEach((station) => {
         const park = nearestRoadTile(station.gx, station.gy, 5) || { x: station.gx, y: station.gy };
-        policeCars.push({ id: carId++, type: "police", stationId: station.region.rx + "," + station.region.ry + "," + station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+        for (let c = 0; c < station.cars && made < allowed; c++) {
+          policeCars.push({ id: carId++, type: "police", stationId: station.region.rx + "," + station.region.ry + "," + station.tile, x: park.x, y: park.y, parkX: park.x, parkY: park.y, state: "idle", targetCall: null, route: null, routeIdx: 0 });
+          made++;
         }
       });
     }
@@ -1204,13 +1238,18 @@ window.DebugOverlay = DebugOverlay;
       let patients = [];   // { clinicId, until } in game seconds
       let prisoners = [];  // { stationId, until }
       function gameClock() { return (S.day || 0) * 86400 + (S.hour || 0) * 3600; }
+      function staffFactor() { return (typeof S !== "undefined" && S.staffing != null) ? S.staffing : 1; }
       function bedCount(facility) {
         const arr = SVC[facility.region.svc[facility.tile]] === "hospital" ? HOSPITAL_BEDS : BEDS_PER_LEVEL;
-        return arr[Math.min(3, facility.level || 1)];
+        return Math.max(0, Math.round(arr[Math.min(3, facility.level || 1)] * staffFactor()));
       }
       function bedsFree(facility) {
         const used = patients.filter(p => p.clinicId === clinicId(facility) && p.until > gameClock()).length;
         return Math.max(0, bedCount(facility) - used);
+      }
+      function cellsFree(station) {
+        const used = prisoners.filter(p => p.stationId === stationId(station) && p.until > gameClock()).length;
+        return Math.max(0, Math.round(CELLS_PER_LEVEL[Math.min(3, station.level || 1)] * staffFactor()) - used);
       }
       function sweepCapacity() {
         const t = gameClock();
@@ -3315,8 +3354,27 @@ window.DebugOverlay = DebugOverlay;
       const cap = 6 * lv * dens;          // a house holds 6 per level; a shop or works employs 6
       if (z === Z.R) capPop += cap; else jobs += cap;
     }
+    // service staffing: every service tile is a fixed number of paid jobs, and those jobs
+    // are the only reason a station can run at full strength
+    let staffReq = 0;
+    for (let i = 0; i < RS * RS; i++) {
+      const name = SVC[r.svc[i]];
+      if (!name) continue;
+      const rule = SERVICE_STAFF[name];
+      if (!rule) continue;
+      const lv = Math.max(1, r.level[i] || 1);
+      let units = 0;
+      if (name === "police") units = POLICE.carsPerStation[Math.min(2, lv)] || 0;
+      else if (name === "fire") units = (typeof EMERGENCY !== "undefined" && EMERGENCY.trucksPerStation ? EMERGENCY.trucksPerStation[Math.min(2, lv)] : 1) || 0;
+      else if (name === "clinic") units = MEDICAL.ambulancesPerClinic[Math.min(2, lv)] || 0;
+      else if (name === "hospital") units = MEDICAL.ambulancesPerClinic[Math.min(2, lv)] || 0;
+      staffReq += rule.base + rule.perUnit * units;
+    }
+    jobs += staffReq;
+    r.staffReq = staffReq;
     r.capPop = capPop; r.jobs = jobs; r.built = built; r.roads = roads; r.parks = parks;
-    r.upkeep = roads * 0.55 + svcUp;
+    r.jobsProd = jobs - staffReq;      // only productive jobs make taxable revenue
+    r.upkeep = roads * 0.55 + svcUp + staffReq * WAGE_PER_DAY;   // wages are a real line item
     if (r.pop > capPop) r.pop = capPop;    // population is assigned by the pool, capped here
   }
   // ---------------------------------------------------------------- links
@@ -3536,12 +3594,17 @@ window.DebugOverlay = DebugOverlay;
     list.forEach((r) => {
       r.pop = capSum ? Math.min(r.capPop || 0, Math.round(pm.pop * (r.capPop || 0) / capSum)) : 0;
       jobs += r.jobs;
-      income += (r.pop * 0.85 + r.jobs * 0.5) * taxMul;
+      income += (r.pop * 0.85 + (r.jobsProd || 0) * 0.5) * taxMul;   // services do not pay tax
       upkeep += r.upkeep || 0;
       moodSum += r.mood; n++;
     });
     if (S.ordinances && S.ordinances.fines) income += Math.max(2, S.pop * 0.02);
     S.jobs = jobs; S.taxIncome = income;
+    // staffing: services need bodies. Understaffed services run at a fraction of capacity.
+    let staffNeeded = 0;
+    list.forEach((r) => { staffNeeded += r.staffReq || 0; });
+    S.staffNeeded = staffNeeded;
+    S.staffing = clamp(staffNeeded > 0 ? pm.pop / staffNeeded : 1, 0, 1);
     S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
   }
@@ -5652,6 +5715,11 @@ window.DebugOverlay = DebugOverlay;
         const used = total - fac.reduce((n, c) => n + bedsFree(c), 0);
         el("ui-beds").style.width = Math.min(100, Math.round((used / Math.max(1, total)) * 100)) + "%";
         el("ui-beds-t").textContent = used + "/" + total;
+      }
+      if (el("ui-staff")) {
+        const st = Math.round((S.staffing == null ? 1 : S.staffing) * 100);
+        el("ui-staff").style.width = st + "%";
+        el("ui-staff-t").textContent = st + "%";
       }
     } catch (e) {}
     }
