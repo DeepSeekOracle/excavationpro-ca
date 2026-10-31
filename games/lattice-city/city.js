@@ -7116,9 +7116,9 @@ window.DebugOverlay = DebugOverlay;
   // =====================================================================================
   const AUTO = {
     pulseMs: 1200,        // one action per 1.2 s of real time
-    roadsPerAction: 3,    // tiles of arterial laid per pulse
+    roadsPerAction: 2,    // tiles of arterial laid per pulse
     reserve: 1200,        // never spend below this
-    maxRoadsPerPulse: 3,
+    maxRoadsPerPulse: 2,
   };
   const AUTO_PLAN = { ready: false, roads: [], rail: [], docks: [], ri: 0, ii: 0, di: 0 };
 
@@ -7213,8 +7213,8 @@ window.DebugOverlay = DebugOverlay;
     const counts = {};
     regs.forEach((rr) => { for (let i = 0; i < RS * RS; i++) { const n = SVC[rr.svc[i]]; if (n) counts[n] = (counts[n] || 0) + 1; } });
     let tool = null;
-    if ((counts.power || 0) < Math.ceil(S.pop / 900)) tool = "power";
-    else if ((counts.water || 0) < Math.ceil(S.pop / 900)) tool = "water";
+    if ((counts.power || 0) < Math.ceil(S.pop / 300)) tool = "power";
+    else if ((counts.water || 0) < Math.ceil(S.pop / 300)) tool = "water";
     else if (S.pop > 120 && !counts.clinic) tool = "clinic";
     else if (S.pop > 300 && !counts.police) tool = "police";
     else if (S.pop > 200 && !counts.fire) tool = "fire";
@@ -7252,6 +7252,9 @@ window.DebugOverlay = DebugOverlay;
     const st = autoState();
     const svcCount = (() => { const c = {}; claimedList().forEach((rr) => { for (let i = 0; i < RS * RS; i++) { const n = SVC[rr.svc[i]]; if (n) c[n] = (c[n] || 0) + 1; } }); return c; })();
     if ((st.zones || 0) > 25 && (!svcCount.power || !svcCount.water)) { autoService(); return false; }
+    // zones only grow where power and water reach them, so stop opening new lots past what the
+    // utilities can serve: otherwise the map fills with empty zoned blocks
+    if ((st.zones || 0) > 80 + (svcCount.power || 0) * 90) { autoService(); return false; }
     // walk the claimed regions behind a cursor and zone any grass tile that fronts a road
     const regs = claimedList();
     if (!regs.length) return false;
@@ -7457,8 +7460,20 @@ window.DebugOverlay = DebugOverlay;
       }
       if (rails) { if (Math.random() < 0.5) autoZone(); return; }
     }
-    if (plan.ri < plan.roads.length) {
+    // Build only what the city can fill. Roads were running away from the buildings, so the
+    // print is now budgeted: a new road needs zone frontage behind it. If the town has more
+    // road than building, the pulse fills instead of extending.
+    if (Date.now() - (st.builtAt || 0) > 3000) {
+      st.builtAt = Date.now();
+      let b = 0;
+      claimedList().forEach((r) => { for (let i = 0; i < RS * RS; i++) if (r.level[i]) b++; });
+      st.builtNow = b;
+    }
+    // a new road has to be earned by buildings that already exist: roads used to run ahead of
+    // anything on them, which is what looked like endless lines of road
+    const roadBudget = 30 + Math.floor((st.builtNow || 0) * 3.2);
       let laid = 0, skipped = 0;
+    if (plan.ri < plan.roads.length && (st.roads || 0) < roadBudget) {
         while (laid < AUTO.maxRoadsPerPulse) {
         const nextRoad = autoNextRoadTile();
         if (!nextRoad) { st.mode = "subdivision"; break; }
@@ -7472,7 +7487,7 @@ window.DebugOverlay = DebugOverlay;
         if (painted) { st.spot = { gx: x, gy: y }; laid++; st.roads++; st.intent = "laying the arterial print"; (st.roadList = st.roadList || []).push(x + "," + y); if (st.roadList.length > 4000) st.roadList.splice(0, 1500); }
         else if (regionOf(x, y) && regionOf(x, y).r.road[regionOf(x, y).i]) laid++;
       }
-      if (laid) { for (let z = 0; z < 4; z++) { if (!autoZone()) break; } return; }
+      if (laid) { autoZone(); if (Math.random() < 0.5) autoZone(); return; }
       // plan done: subdivisions and maintenance
       st.mode = "subdivision";
     }
