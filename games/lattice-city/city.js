@@ -1942,6 +1942,8 @@ window.DebugOverlay = DebugOverlay;
       });
     }
 
+
+
     // Find workplaces with open slots
     function findWorkplaces() {
       const workplaces = [];
@@ -3398,6 +3400,76 @@ window.DebugOverlay = DebugOverlay;
   }
 
   // ---------------------------------------------------------------- totals
+      // ---- population pool: intake is the only tap -----------------------------
+      // Ten people become available every five real minutes and that is the whole supply.
+      // They enter only if a house has room (6 per residential level), each cohort carries a
+      // life clock of 10-30 game days, and losing housing turns people homeless before they
+      // leave. Growth cannot be bought; it can only be housed and kept.
+      // ---- population pool: intake is the only tap -----------------------------
+      // Calibrated so the loop balances: equilibrium population = intake per game day x
+      // average lifespan. With 24 people/day and an 80-day life that lands near 1,900,
+      // which a developed region can house (a level-1 house holds 6). Growth from the
+      // starter 32 to ~1,000 takes about 60 game days if housing exists: the intake rate
+      // is fixed and cannot be bought, so housing is the only lever.
+      const INTAKE = {
+        perDay: 24,            // people per game day, the fixed tap
+        capDays: 3,            // do not bank more than three days of arrivals
+        lifeMin: 56,           // game days, so the average is ~80
+        lifeMax: 104,
+        homelessCrimeDays: 2,  // homeless this long -> turns to crime
+        homelessLeaveDays: 6,  // homeless this long -> leaves the city
+      };
+      function popModel() {
+        if (!S.popModel) S.popModel = { pop: 0, avail: 0, cohorts: [], admitted: 0, died: 0, left: 0, homeless: 0, homelessDay: 0, seeded: false };
+        return S.popModel;
+      }
+      function housingCapacity() {
+        let cap = 0;
+        claimedList().forEach((r) => {
+          for (let i = 0; i < RS * RS; i++) if (r.zone[i] === Z.R && r.level[i] > 0) cap += CITIZEN.HOUSE_CAPACITY * r.level[i];
+        });
+        return cap;
+      }
+      function refillIntake(days) {
+        const m = popModel();
+        m.avail = Math.min(INTAKE.perDay * INTAKE.capDays, m.avail + INTAKE.perDay * Math.max(0, days || 0));
+        return m;
+      }
+      function admitFromPool() {
+        const m = popModel();
+        const space = Math.max(0, housingCapacity() - m.pop);
+        const n = Math.floor(Math.min(m.avail, space));
+        if (n <= 0) return 0;
+        m.avail -= n; m.pop += n; m.admitted += n;
+        m.cohorts.push({ n: n, days: INTAKE.lifeMin + Math.floor(Math.random() * (INTAKE.lifeMax - INTAKE.lifeMin + 1)) });
+        return n;
+      }
+      function ageCohorts() {
+        const m = popModel();
+        m.cohorts.forEach((c) => {
+          c.days -= 1;
+          if (c.days <= 0 && !c.dead) { c.dead = true; m.pop = Math.max(0, m.pop - c.n); m.died += c.n; }
+        });
+        m.cohorts = m.cohorts.filter((c) => !c.dead && c.n > 0);
+      }
+      function popDayTick() {
+        const m = popModel();
+        ageCohorts();
+        const cap = housingCapacity();
+        if (m.pop > cap) {
+          if (!m.homeless) m.homelessDay = S.day;
+          m.homeless = m.pop - cap;
+          const days = S.day - (m.homelessDay || S.day);
+          if (days >= INTAKE.homelessCrimeDays) S.unrest = clamp((S.unrest || 0) + 0.02, 0, 1);
+          if (days >= INTAKE.homelessLeaveDays) {
+            const gone = Math.min(m.homeless, m.pop);
+            m.pop -= gone; m.left += gone; m.homeless = 0; m.homelessDay = 0;
+            logEvent("population", gone + " people left - nowhere to live", { }, "high");
+          }
+        } else { m.homeless = 0; m.homelessDay = 0; }
+        admitFromPool();
+      }
+
   function recalcWorld() {
     let pop = 0, jobs = 0, income = 0, upkeep = 0, moodSum = 0, n = 0;
     updateCommutes();
@@ -3413,7 +3485,22 @@ window.DebugOverlay = DebugOverlay;
       moodSum += r.mood; n++;
     });
     if (S.ordinances && S.ordinances.fines) income += Math.max(2, pop * 0.02);
-    S.pop = pop; S.jobs = jobs; S.taxIncome = income; S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
+    S.jobs = jobs; S.taxIncome = income;
+    // population is the pool, capped by housing: the buildings only set capacity
+    const pm = popModel();
+    const capNow = housingCapacity();
+    if (!pm.seeded) {
+      pm.pop = Math.min(pop, capNow);
+      // stagger the starting population so deaths arrive as a trickle, not a cliff
+      const parts = 3;
+      for (let k = 0; k < parts; k++) {
+        const n = Math.floor(pm.pop / parts) + (k === 0 ? pm.pop % parts : 0);
+        if (n > 0) pm.cohorts.push({ n: n, days: INTAKE.lifeMin + Math.floor(Math.random() * (INTAKE.lifeMax - INTAKE.lifeMin + 1)) });
+      }
+      pm.seeded = true;
+    }
+    if (pm.pop > capNow) pm.pop = capNow;
+    S.pop = pm.pop; S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
     S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
   }
@@ -4421,6 +4508,9 @@ window.DebugOverlay = DebugOverlay;
       pumpTicks();
       tickEconomy();
       decayNeighbourhoods();
+      popDayTick();
+      refillIntake(1);
+      // (intake, life clocks and homelessness all happen in popDayTick)
       sweepCapacity();
       const sim = 1;
       advance(S.peds, dt * sim);
@@ -4433,6 +4523,7 @@ window.DebugOverlay = DebugOverlay;
       updateMedicalCalls(dt);
       updatePoliceCalls(dt);
       applyBacklogPressure(dt);
+      refillIntake();
       if (S.boats) {
       S.boats.forEach((b) => {
         if (b.route && b.route.length > 1) {
@@ -6147,7 +6238,7 @@ window.DebugOverlay = DebugOverlay;
                 })),
               });
       });
-      const data = { schema: 2, v: 4, seed: S.seed, cash: S.cash, day: S.day, taxRate: S.taxRate, ordinances: S.ordinances, bonds: S.bonds, unlocked: S.unlocked, regions,
+      const data = { schema: 2, v: 4, popModel: S.popModel, seed: S.seed, cash: S.cash, day: S.day, taxRate: S.taxRate, ordinances: S.ordinances, bonds: S.bonds, unlocked: S.unlocked, regions,
             savedAt: Date.now(), cam: { x: cam.x, y: cam.y, zoom: cam.zoom },
             fireTrucks: fireTrucks.map(t => ({ id: t.id, x: t.x, y: t.y, state: t.state, targetFire: t.targetFire, routeIdx: t.routeIdx, stationId: t.stationId })),
             ambulances: ambulances.map(a => ({ id: a.id, x: a.x, y: a.y, state: a.state, targetCall: a.targetCall, routeIdx: a.routeIdx, clinicId: a.clinicId })),
@@ -6199,6 +6290,7 @@ window.DebugOverlay = DebugOverlay;
       if (typeof d.taxRate === "number") S.taxRate = d.taxRate;
       if (d.ordinances) S.ordinances = Object.assign({ fines: false, cleanAir: false, watch: false, greenbelt: false }, d.ordinances);
       if (typeof d.bonds === "number") S.bonds = d.bonds;
+      if (d.popModel) S.popModel = d.popModel;
       const next = new Array(GW * GH).fill(null);
       S.seed = d.seed; S.cash = d.cash; S.day = d.day || 0; S.unlocked = d.unlocked || 0;
       S.hour = localHour();   // the sky belongs to the player's clock, not the save
@@ -6679,7 +6771,10 @@ window.DebugOverlay = DebugOverlay;
     audio: audioAPI,
     backlog: () => responseBacklog(),
     decayNow: () => { S.decayDay = -1; decayNeighbourhoods(); },
-    capacity: () => ({ beds: getClinics().reduce((n, c) => n + bedsFree(c), 0), cells: getPoliceStations().reduce((n, s) => n + cellsFree(s), 0), patients: patients.length, prisoners: prisoners.length }),
+    intake: () => { const m = popModel(); return { pop: m.pop, avail: +m.avail.toFixed(1), cap: housingCapacity(), admitted: m.admitted, died: m.died, left: m.left, homeless: m.homeless, cohorts: m.cohorts.length, equilibrium: Math.round(INTAKE.perDay * (INTAKE.lifeMin + INTAKE.lifeMax) / 2) }; },
+    admitNow: (n) => { const m = popModel(); m.avail = Math.min(INTAKE.cap, m.avail + (n || 10)); return admitFromPool(); },
+    cycleNow: (n) => { const m = popModel(); for (let k = 0; k < (n || 1); k++) { refillIntake(1); admitFromPool(); } return m.pop; },
+    popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
     debugFire: (gx, gy) => { const t = regionOf(gx, gy); if (t) startFire(t.r, t.i); },
