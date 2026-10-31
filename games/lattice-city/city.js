@@ -1627,7 +1627,7 @@ window.DebugOverlay = DebugOverlay;
             const value = r.value[i] || 0;
             const sick = !served || value < 42;
             r.neglect[i] = clamp(r.neglect[i] + (sick ? 1 : -2), 0, 255);
-            const limit = 10 + (r.level[i] || 1) * 6;   // a bigger building takes longer to fail
+            const limit = 1 + (r.level[i] || 1);   // neglect in real days before it fails
             if (r.level[i] > 0 && r.neglect[i] >= limit) {
               r.level[i] -= 1;
               r.neglect[i] = 0;
@@ -3901,8 +3901,7 @@ window.DebugOverlay = DebugOverlay;
 
   function tick() {
       S.day++;
-    refillIntake(1);       // one day of intake arrives
-    popDayTick();          // life clocks, admission, homelessness
+      // structural beat only: population, money and events are integrated per second by rtTick
       // the hour advances in the frame loop; a tick only marks the day
       refreshLinks();
       recalcWorld();
@@ -3922,21 +3921,19 @@ window.DebugOverlay = DebugOverlay;
         r.commerce = (r.commerce || 0) * 0.88 + (r.trades || 0) * (1 - S.rain * 0.45);
         r.trades = 0;
       });
-      S.cash += S.income - S.upkeep;
+  // money is integrated per real second in rtTick, so the beat must not charge it again
       if (S.cash < -5000) { S.cash = -5000; if (S.day % 10 === 0) toast("The treasury is empty for now. Build smaller, or bulldoze what is idle."); }
       // weather drifts between dry spells and rain every couple of weeks
       if (S.weatherTimer-- <= 0) {
         S.weatherTimer = 100 + Math.floor(Math.random() * 120);
         S.rainTarget = Math.random() < 0.28 ? rnd(0.55, 1) : 0;
       }
+  // events also run per second in rtTick; the beat only does structure
       if (!OPT.weather) S.rainTarget = 0;
       S.rain += (S.rainTarget - S.rain) * 0.06;
 
       // Population-scaled emergency systems (once per tick)
-            checkFireIgnition();
-            spawnMedicalEmergency();
-            spawnPoliceCall();
-
+  // (no checkFireIgnition / spawnMedicalEmergency / spawnPoliceCall here: rtTick owns them)
             // Population micro-simulation (once per tick)
             tickPopulation();
 
@@ -4781,7 +4778,8 @@ window.DebugOverlay = DebugOverlay;
       animateSprites(ts);
       // Boot can focus before the canvas has a size. Retry until layout gives it one.
       if (needFocus) resize();
-      const dt = Math.min(0.1, (ts - last) / 1000 || 0.016);
+      const dtReal = Math.min(5, Math.max(0, (ts - last) / 1000 || 0.016));   // real seconds since the last frame
+      const dt = Math.min(0.1, dtReal);
       // action camera: when the autopilot is on, follow the builder unless the player has
       // just grabbed the view themselves (then leave them alone for a while)
       if (S.auto && S.auto.on && S.auto.spot && Date.now() - (S.camHold || 0) > 12000) {
@@ -4795,6 +4793,7 @@ window.DebugOverlay = DebugOverlay;
       }
       last = ts;
       S.hour = localHour();
+      rtTick(dtReal);   // population, money and events run on the real clock
       pumpTicks();
       tickEconomy();
       decayNeighbourhoods();
@@ -5847,14 +5846,11 @@ window.DebugOverlay = DebugOverlay;
     el("ui-pop").textContent = S.pop.toLocaleString();
     el("ui-jobs").textContent = S.jobs.toLocaleString();
     el("ui-mood").textContent = Math.round(S.mood) + "%";
-    const now = new Date();
-    const hh = now.getHours(), mm = now.getMinutes();
-    const clock = document.getElementById("ui-clock");
-    if (clock) clock.textContent = (OPT.clock24 ? String(hh).padStart(2, "0") : String(((hh + 11) % 12) + 1)) + ":" + String(mm).padStart(2, "0");
-    const phase = (hh >= 5 && hh < 8) ? "dawn" : (hh >= 8 && hh < 17) ? "day" : (hh >= 17 && hh < 20) ? "dusk" : "night";
-    const ph = document.getElementById("ui-phase");
-    if (ph) ph.textContent = "live · " + phase;
-    el("ui-date").textContent = now.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" }) + " · beat " + (S.day + 1);
+    // real elapsed time since the world began, not a beat counter pretending to be a day
+    const rtTotal = Math.floor(S.rtElapsed || 0);
+    const rtH = Math.floor(rtTotal / 3600), rtM = Math.floor((rtTotal % 3600) / 60), rtS = rtTotal % 60;
+    const dateEl = el("ui-date");
+    if (dateEl) dateEl.textContent = rtH + "h " + String(rtM).padStart(2, "0") + "m " + String(rtS).padStart(2, "0") + "s";
     el("ui-region").textContent = "Region " + claimedList().length + "/" + (GW * GH);
     const ev = S.event;
     const evEl = el("ui-event");
@@ -6617,7 +6613,8 @@ window.DebugOverlay = DebugOverlay;
       if (d.popModel) S.popModel = d.popModel;
       const next = new Array(GW * GH).fill(null);
       S.seed = d.seed; S.cash = d.cash; S.day = d.day || 0; S.unlocked = d.unlocked || 0;
-      S.hour = localHour();   // the sky belongs to the player's clock, not the save
+      S.hour = localHour();
+    S.hour = localHour();   // the sky belongs to the player's clock, not the save
       d.regions.forEach((r) => {
         const reg = makeRegion(r.rx, r.ry);
         reg.claimed = true;
@@ -7390,6 +7387,91 @@ window.DebugOverlay = DebugOverlay;
   }
   function layed_none() { return true; }
 
+  // =====================================================================================
+  // REAL-TIME SPINE (override module)
+  //
+  // The original spine counted "district days" of 7 s, which made every rate ~12,342x too
+  // fast for a real day. These definitions replace the day-based population and economy
+  // functions: intake is people per real minute, lifespan is real days, the homeless clock is
+  // real hours, income and upkeep are integrated per real second from the wall clock.
+  // Duplicate function declarations are legal in this scope and the later one wins, so the
+  // originals above are superseded without touching them.
+  // =====================================================================================
+  const RT_INTAKE = { perMin: 5, bankMin: 3, lifeMinDays: 24, lifeMaxDays: 36, homelessCrimeSec: 3600, homelessLeaveSec: 21600 };
+
+  function rtSeconds() { return S.rtElapsed || 0; }
+
+  function refillIntake(dtSec) {
+    const m = popModel();
+    const cap = RT_INTAKE.perMin * RT_INTAKE.bankMin * 60;
+    m.avail = Math.min(cap, (m.avail || 0) + (RT_INTAKE.perMin / 60) * Math.max(0, dtSec || 0));
+    return m;
+  }
+
+  function admitFromPool() {
+    const m = popModel();
+    const space = Math.max(0, housingCapacity() - m.pop);
+    const n = Math.floor(Math.min(m.avail, space));
+    if (n <= 0) return 0;
+    m.avail -= n; m.pop += n; m.admitted += n;
+    const days = RT_INTAKE.lifeMinDays + Math.random() * (RT_INTAKE.lifeMaxDays - RT_INTAKE.lifeMinDays);
+    m.cohorts.push({ n: n, life: days * 86400 });
+    return n;
+  }
+
+  function ageCohorts(dtSec) {
+    const m = popModel();
+    m.cohorts.forEach((c) => {
+      c.life -= dtSec;
+      if (c.life <= 0 && !c.dead) { c.dead = true; m.pop = Math.max(0, m.pop - c.n); m.died += c.n; }
+    });
+    m.cohorts = m.cohorts.filter((c) => !c.dead && c.n > 0);
+  }
+
+  function popDayTick() {
+    // homeless pressure, now on a real-hours clock
+    const m = popModel();
+    const cap = housingCapacity();
+    const now = rtSeconds();
+    if (m.pop > cap) {
+      if (!m.homelessSince) m.homelessSince = now;
+      m.homeless = m.pop - cap;
+      const out = now - m.homelessSince;
+      if (out > RT_INTAKE.homelessCrimeSec) S.unrest = clamp((S.unrest || 0) + 0.02, 0, 1);
+      if (out > RT_INTAKE.homelessLeaveSec) {
+        const gone = Math.min(m.homeless, m.pop);
+        m.pop -= gone; m.left += gone; m.homeless = 0; m.homelessSince = 0;
+        logEvent("population", gone + " people left - nowhere to live", { }, "high");
+      }
+    } else { m.homeless = 0; m.homelessSince = 0; }
+    admitFromPool();
+  }
+
+  // one call per real second: population, money and events integrated from the clock
+  let rtCarry = 0, rtEvents = 0;
+  function rtTick(dtSec) {
+    if (!(dtSec > 0)) return;
+    S.rtElapsed = (S.rtElapsed || 0) + dtSec;
+    refillIntake(dtSec);
+    admitFromPool();
+    ageCohorts(dtSec);
+
+    // money: income and upkeep are quoted per real day, applied every second
+    const perDay = (S.income || 0) - (S.upkeep || 0);
+    S.cash += perDay * (dtSec / 86400);
+    if (S.cash < -5000) S.cash = -5000;
+
+    // events: daily expectations become per-second probability
+    rtEvents += dtSec;
+    if (rtEvents >= 1) {
+      const step = rtEvents; rtEvents = 0;
+      const chance = (k) => Math.min(1, (typeof dailyExpectation === "function" ? dailyExpectation(k) : 0) / 86400 * step);
+      if (S.pop > 60 && Math.random() < chance("medical")) { try { spawnMedicalEmergency(); } catch (e) {} }
+      if (S.pop > 300 && Math.random() < chance("crime")) { try { spawnPoliceCall(); } catch (e) {} }
+      if (S.pop > 200 && Math.random() < chance("fire")) { try { checkFireIgnition(); } catch (e) {} }
+    }
+  }
+
   window.LC = {
     S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt, startEvent,
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
@@ -7400,7 +7482,8 @@ window.DebugOverlay = DebugOverlay;
     intake: () => { const m = popModel(); return { pop: m.pop, avail: +m.avail.toFixed(1), cap: housingCapacity(), admitted: m.admitted, died: m.died, left: m.left, homeless: m.homeless, cohorts: m.cohorts.length, equilibrium: Math.round(INTAKE.perDay * (INTAKE.lifeMin + INTAKE.lifeMax) / 2) }; },
     capacity: () => { const fac = getClinics(); const beds = fac.reduce((n, c) => n + bedCount(c), 0); const used = beds - fac.reduce((n, c) => n + bedsFree(c), 0); const cells = getPoliceStations().reduce((n, s) => n + cellsFree(s), 0); return { beds: fac.reduce((n, c) => n + bedsFree(c), 0), bedsTotal: beds, bedsUsed: used, cells, patients: patients.length, prisoners: prisoners.length, waiting: medicalCalls.filter(c => c.status === "waiting").length, died: popModel().died }; },
     admitNow: (n) => { const m = popModel(); m.avail = Math.min(INTAKE.cap, m.avail + (n || 10)); return admitFromPool(); },
-    cycleNow: (n) => { const m = popModel(); for (let k = 0; k < (n || 1); k++) { refillIntake(1); admitFromPool(); } return m.pop; },
+    // fast-forward the real clock for tests: advance(n) simulates n real seconds
+    advance: (sec) => { const step = 1; for (let i = 0; i < (sec || 0); i += step) rtTick(step); return { elapsed: Math.round(S.rtElapsed || 0), pop: popModel().pop, cash: Math.round(S.cash) }; },
     popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
     cards: () => Object.keys(CARDS).map((id) => { const c = CARDS[id]; return { id, name: c.name, cost: c.cost, upkeep: c.upkeep, staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 1), dailyCost: cardDailyCost(id), radius: c.radius || 0, capacity: c.capacity ? c.capacity : null, produces: c.produces || null, link: c.link || null, level2: { staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2), capacity: cardCapacity(id, 2), daily: (c.upkeep || 0) + ((c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2)) * WAGE_PER_DAY } }; }),
     costs: () => ({ build: TOOLS.reduce((o, t) => { o[t.id] = t.cost; return o; }, {}), wage: WAGE_PER_DAY, upkeep: Object.keys(SVC_RULE).reduce((o, k) => { o[k] = SVC_RULE[k].upkeep || 0; return o; }, {}), staff: SERVICE_STAFF, incomePerPersonDay: 0.55 }),
