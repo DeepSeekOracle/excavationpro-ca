@@ -88,11 +88,14 @@
     .hero-tv{display:none}
   }
 
-  .tv-card{position:relative;display:grid;gap:8px;padding:24px;min-height:220px;align-content:end;
+  .tv-card{position:relative;isolation:isolate;display:grid;gap:8px;padding:24px;min-height:230px;align-content:end;color:#eaeef7;
     background:linear-gradient(180deg,rgba(216,180,90,.10),rgba(4,6,11,.65)),
       radial-gradient(120% 120% at 100% 0%,rgba(0,229,255,.16),transparent 60%);
     text-decoration:none}
   .tv-card:hover{text-decoration:none}
+  .tv-card::after{content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(180deg,rgba(4,6,11,.25) 0%,rgba(4,6,11,.88) 62%,rgba(4,6,11,.97) 100%)}
+  .tv-card > *{position:relative;z-index:1}
   .tv-k{font:600 .64rem/1 'IBM Plex Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#d8b45a}
   .tv-t{font:700 1.12rem/1.25 'Syne',sans-serif;color:#eaeef7}
   .tv-s{font:400 .78rem/1 'IBM Plex Mono',monospace;color:#9aa5bb}
