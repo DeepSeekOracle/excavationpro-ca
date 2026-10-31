@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-31T14:06:09.942113+00:00",
-  "count": 1046,
+  "generated_utc": "2026-10-31T14:18:40.193344+00:00",
+  "count": 1062,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -16815,7 +16815,263 @@
       "full_bytes": 10773,
       "width": 680,
       "height": 102
+    },
+    {
+      "id": "832045b7ee031b9c",
+      "title": "preview",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "_preview.png",
+      "source_root": "Publish Portal",
+      "original_name": "_preview.png",
+      "original_bytes": 3290,
+      "full": "assets/gallery/full/832045b7ee031b9c.jpg",
+      "thumb": "assets/gallery/thumb/832045b7ee031b9c.jpg",
+      "full_bytes": 6709,
+      "width": 384,
+      "height": 256
+    },
+    {
+      "id": "9e73df22c83a61e8",
+      "title": "rook idle 112",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-112.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-112.gif",
+      "original_bytes": 312239,
+      "full": "assets/gallery/full/9e73df22c83a61e8.jpg",
+      "thumb": "assets/gallery/thumb/9e73df22c83a61e8.jpg",
+      "full_bytes": 7695,
+      "width": 224,
+      "height": 288
+    },
+    {
+      "id": "0ccd2e820ad47e58",
+      "title": "rook idle 4x",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-4x.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-4x.gif",
+      "original_bytes": 246635,
+      "full": "assets/gallery/full/0ccd2e820ad47e58.jpg",
+      "thumb": "assets/gallery/thumb/0ccd2e820ad47e58.jpg",
+      "full_bytes": 6085,
+      "width": 192,
+      "height": 256
+    },
+    {
+      "id": "39a30bcbcb2b3d5f",
+      "title": "rook idle final sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-final-sheet.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-final-sheet.png",
+      "original_bytes": 360035,
+      "full": "assets/gallery/full/39a30bcbcb2b3d5f.jpg",
+      "thumb": "assets/gallery/thumb/39a30bcbcb2b3d5f.jpg",
+      "full_bytes": 59663,
+      "width": 1568,
+      "height": 432
+    },
+    {
+      "id": "9e73df22c83a61e8",
+      "title": "rook idle final",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-final.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-final.gif",
+      "original_bytes": 312239,
+      "full": "assets/gallery/full/9e73df22c83a61e8.jpg",
+      "thumb": "assets/gallery/thumb/9e73df22c83a61e8.jpg",
+      "full_bytes": 7695,
+      "width": 224,
+      "height": 288
+    },
+    {
+      "id": "39a30bcbcb2b3d5f",
+      "title": "rook idle sheet 112",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-sheet-112.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-sheet-112.png",
+      "original_bytes": 360035,
+      "full": "assets/gallery/full/39a30bcbcb2b3d5f.jpg",
+      "thumb": "assets/gallery/thumb/39a30bcbcb2b3d5f.jpg",
+      "full_bytes": 59663,
+      "width": 1568,
+      "height": 432
+    },
+    {
+      "id": "3f0a56fda1531747",
+      "title": "rook idle sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-idle-sheet.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-idle-sheet.png",
+      "original_bytes": 26451,
+      "full": "assets/gallery/full/3f0a56fda1531747.jpg",
+      "thumb": "assets/gallery/thumb/3f0a56fda1531747.jpg",
+      "full_bytes": 18462,
+      "width": 528,
+      "height": 192
+    },
+    {
+      "id": "d4290b2b2bfab439",
+      "title": "rook walk 112",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-112.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-112.gif",
+      "original_bytes": 270721,
+      "full": "assets/gallery/full/d4290b2b2bfab439.jpg",
+      "thumb": "assets/gallery/thumb/d4290b2b2bfab439.jpg",
+      "full_bytes": 7730,
+      "width": 224,
+      "height": 288
+    },
+    {
+      "id": "8f33403281c9049d",
+      "title": "rook walk 4x",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-4x.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-4x.gif",
+      "original_bytes": 242803,
+      "full": "assets/gallery/full/8f33403281c9049d.jpg",
+      "thumb": "assets/gallery/thumb/8f33403281c9049d.jpg",
+      "full_bytes": 5848,
+      "width": 192,
+      "height": 256
+    },
+    {
+      "id": "2303ec32331b7476",
+      "title": "rook walk final sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-final-sheet.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-final-sheet.gif",
+      "original_bytes": 28303,
+      "full": "assets/gallery/full/2303ec32331b7476.jpg",
+      "thumb": "assets/gallery/thumb/2303ec32331b7476.jpg",
+      "full_bytes": 30865,
+      "width": 1344,
+      "height": 144
+    },
+    {
+      "id": "18f35309b356f800",
+      "title": "rook walk final sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-final-sheet.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-final-sheet.png",
+      "original_bytes": 138970,
+      "full": "assets/gallery/full/18f35309b356f800.jpg",
+      "thumb": "assets/gallery/thumb/18f35309b356f800.jpg",
+      "full_bytes": 22236,
+      "width": 1344,
+      "height": 144
+    },
+    {
+      "id": "59f3e6d8b0d651ee",
+      "title": "rook walk final sheet1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-final-sheet1.bmp",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-final-sheet1.bmp",
+      "original_bytes": 580662,
+      "full": "assets/gallery/full/59f3e6d8b0d651ee.jpg",
+      "thumb": "assets/gallery/thumb/59f3e6d8b0d651ee.jpg",
+      "full_bytes": 30865,
+      "width": 1344,
+      "height": 144
+    },
+    {
+      "id": "9a65f7bc78996a34",
+      "title": "rook walk final sheet1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-final-sheet1.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-final-sheet1.png",
+      "original_bytes": 42107,
+      "full": "assets/gallery/full/9a65f7bc78996a34.jpg",
+      "thumb": "assets/gallery/thumb/9a65f7bc78996a34.jpg",
+      "full_bytes": 30865,
+      "width": 1344,
+      "height": 144
+    },
+    {
+      "id": "67c0f32dcad4c74e",
+      "title": "rook walk final",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-final.gif",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-final.gif",
+      "original_bytes": 114681,
+      "full": "assets/gallery/full/67c0f32dcad4c74e.jpg",
+      "thumb": "assets/gallery/thumb/67c0f32dcad4c74e.jpg",
+      "full_bytes": 8013,
+      "width": 224,
+      "height": 288
+    },
+    {
+      "id": "65b16d05c6a54896",
+      "title": "rook walk sheet 112",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-sheet-112.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-sheet-112.png",
+      "original_bytes": 326014,
+      "full": "assets/gallery/full/65b16d05c6a54896.jpg",
+      "thumb": "assets/gallery/thumb/65b16d05c6a54896.jpg",
+      "full_bytes": 49642,
+      "width": 1568,
+      "height": 288
+    },
+    {
+      "id": "310bc351a2e694c4",
+      "title": "rook walk sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rook-walk-sheet.png",
+      "source_root": "Publish Portal",
+      "original_name": "rook-walk-sheet.png",
+      "original_bytes": 27370,
+      "full": "assets/gallery/full/310bc351a2e694c4.jpg",
+      "thumb": "assets/gallery/thumb/310bc351a2e694c4.jpg",
+      "full_bytes": 21017,
+      "width": 528,
+      "height": 192
     }
   ],
-  "cache_bust": "1046-auto-202610310806"
+  "cache_bust": "1062-auto-202610310818"
 }
