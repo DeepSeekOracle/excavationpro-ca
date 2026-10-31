@@ -5047,6 +5047,15 @@ window.DebugOverlay = DebugOverlay;
                 else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) {
           key = SVC_SPRITE[SVC[reg.svc[i]]];
+      // the water service is drawn as a water mill with its own millpond. Inland that pond reads
+      // as a ghost pool under the town, so a dry water works uses the wellhouse instead.
+      if (key === "b05_watermill") {
+        const wet = [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => {
+          const c = regionOf(gx + dx, gy + dy);
+          return c && c.r.terrain[c.i] === TERRAIN.WATER;
+        });
+        if (!wet) key = "r30_plaza_var6_stone_wellhouse";
+      }
           // plazas and rail depots each have six authored variants: let position choose
           if (SVC[reg.svc[i]] === "plaza") {
             const plazaPool = ["r25_plaza_var1_marble_fountain", "r26_plaza_var2_armillary_sundial", "r27_plaza_var3_market_stalls", "r28_plaza_var4_bandstand_gazebo", "r29_plaza_var5_sculptor_courtyard", "r30_plaza_var6_stone_wellhouse"];
