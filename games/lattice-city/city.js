@@ -478,28 +478,31 @@ window.DebugOverlay = DebugOverlay;
     dock:     { base: 2, perUnit: 0 },
     rail:     { base: 3, perUnit: 0 },
   };
-  const WAGE_PER_DAY = 9;                   // per staffed position
+  const WAGE_PER_DAY = 5;                   // per staffed position; a village must afford a clinic
   const TOOLS = [
-    { id: "road", name: "Road", cost: 12, hint: "bridge $180 · pass $90" },
-    { id: "zoneR", name: "Homes", cost: 24, hint: "people live here", zone: Z.R },
-    { id: "zoneC", name: "Shops", cost: 30, hint: "jobs + tax", zone: Z.C },
-    { id: "zoneI", name: "Works", cost: 34, hint: "jobs, some smog", zone: Z.I },
-    { id: "park", name: "Park", cost: 120, hint: "+ land value", service: "park", unlock: 1 },
-    { id: "water", name: "Water mill", cost: 480, hint: "water radius", service: "water" },
-    { id: "power", name: "Lattice tower", cost: 850, hint: "power radius", service: "power" },
-        { id: "dock", name: "Ferry dock", cost: 1400, hint: "links regions by water", service: "dock" },
-        { id: "rail", name: "Rail depot", cost: 2200, hint: "the strongest region link", service: "rail" },
-        { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
-        { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
-        { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "clinic", unlock: 1 },
-        { id: "hospital", name: "Hospital", cost: 2600, hint: "beds, ambulances", service: "hospital", unlock: 2 },
-{ id: "police", name: "Police station", cost: 1200, hint: "cuts crime", service: "police", unlock: 2 },
-        { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
-    { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
-    { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
-    { id: "bulldoze", name: "Bulldoze", cost: 6, hint: "remove" },
-        { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
-        { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
+    // Prices are set against the income curve (~0.55 per person per day at 7% tax):
+    // a build should cost 4-9 days of the income of the population that unlocks it, and
+    // upkeep + wages should sit near 15-40% of that income, never above half.
+    { id: "road", name: "Road", cost: 10, hint: "bridge $220 · pass $110" },
+    { id: "zoneR", name: "Homes", cost: 26, hint: "6 people per level", zone: Z.R },
+    { id: "zoneC", name: "Shops", cost: 36, hint: "jobs + tax", zone: Z.C },
+    { id: "zoneI", name: "Works", cost: 40, hint: "jobs, some smog", zone: Z.I },
+    { id: "park", name: "Park", cost: 110, hint: "+ land value", service: "park", unlock: 1 },
+    { id: "water", name: "Water mill", cost: 340, hint: "water radius", service: "water" },
+    { id: "power", name: "Lattice tower", cost: 620, hint: "power radius", service: "power" },
+    { id: "dock", name: "Ferry dock", cost: 1100, hint: "links regions by water", service: "dock" },
+    { id: "rail", name: "Rail depot", cost: 2000, hint: "the strongest region link", service: "rail" },
+    { id: "railTrack", name: "Rail track", cost: 65, hint: "lay tracks on land" },
+    { id: "fire", name: "Fire station", cost: 1100, hint: "stops fires", service: "fire" },
+    { id: "clinic", name: "Medical clinic", cost: 750, hint: "beds + ambulance", service: "clinic", unlock: 1 },
+    { id: "hospital", name: "Hospital", cost: 3600, hint: "beds, ambulances", service: "hospital", unlock: 2 },
+    { id: "police", name: "Police station", cost: 1500, hint: "cuts crime", service: "police", unlock: 2 },
+    { id: "plaza", name: "Plaza", cost: 320, hint: "big value", service: "plaza", unlock: 2 },
+    { id: "school", name: "Library", cost: 1500, hint: "value + mood", service: "school", unlock: 3 },
+    { id: "monument", name: "Monument", cost: 4200, hint: "the world remembers", service: "monument", unlock: 4 },
+    { id: "bulldoze", name: "Bulldoze", cost: 8, hint: "remove" },
+    { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
+    { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
   ];
   const MILESTONES = [
     { pop: 0, title: "Hamlet", grant: 0 },
@@ -511,7 +514,7 @@ window.DebugOverlay = DebugOverlay;
 
   // ---------------------------------------------------------------- state
   const S = {
-    seed: 1, cash: 25000, day: 0, hour: 7, speed: 1, tool: "road", unlocked: 0,
+  seed: 1, cash: 15000, day: 0, hour: 7, speed: 1, tool: "road", unlocked: 0,
     regions: new Array(GW * GH).fill(null),
     demand: { r: 0.55, c: 0.35, i: 0.3 },
     rci: { r: 0.55, c: 0.35, i: 0.3, homes: 0, shops: 0, industry: 0, ic: 0.86 },
@@ -3605,6 +3608,8 @@ window.DebugOverlay = DebugOverlay;
     list.forEach((r) => { staffNeeded += r.staffReq || 0; });
     S.staffNeeded = staffNeeded;
     S.staffing = clamp(staffNeeded > 0 ? pm.pop / staffNeeded : 1, 0, 1);
+    // tax revenue must actually reach the treasury; without this line the city only paid bills
+    S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
     S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
   }
@@ -5519,13 +5524,13 @@ window.DebugOverlay = DebugOverlay;
       if (r.road[i]) return false;
       const bridge = r.terrain[i] === TERRAIN.WATER;
       const climb = r.terrain[i] === TERRAIN.MOUNTAIN;
-      if (bridge && S.cash < 180) { deny("A bridge costs $180"); return false; }
-      if (climb && S.cash < 90) { deny("A mountain pass costs $90"); return false; }
+      if (bridge && S.cash < 220) { deny("A bridge costs $220"); return false; }
+      if (climb && S.cash < 110) { deny("A mountain pass costs $110"); return false; }
       r.road[i] = 1; r.zone[i] = 0; r.level[i] = 0; r.bldg[i] = 0;
       r.zoneDirty = true;
       sfx(bridge || climb ? "place" : "road");
-      if (bridge) S.cash -= 168;         // the road's own $12 is charged below
-      if (climb) S.cash -= 78;
+      if (bridge) S.cash -= 210;         // the road's own $10 is charged below
+      if (climb) S.cash -= 100;
       did = true;
     } else if (t.zone) {
           if (r.zone[i] === t.zone) return false;
@@ -6570,7 +6575,7 @@ window.DebugOverlay = DebugOverlay;
   function newWorld(seed) {
     S.seed = seed || Math.floor(Math.random() * 1e9);
     S.regions = new Array(GW * GH).fill(null);
-    S.cash = 25000; S.day = 0; S.hour = 7; S.unlocked = 0;
+    S.cash = 15000; S.day = 0; S.hour = 7; S.unlocked = 0;
     S.peds = []; S.cars = []; S.links = [];
     claimRegion(1, 1, true);
     const r = regionAt(1, 1);
@@ -6896,6 +6901,7 @@ window.DebugOverlay = DebugOverlay;
     admitNow: (n) => { const m = popModel(); m.avail = Math.min(INTAKE.cap, m.avail + (n || 10)); return admitFromPool(); },
     cycleNow: (n) => { const m = popModel(); for (let k = 0; k < (n || 1); k++) { refillIntake(1); admitFromPool(); } return m.pop; },
     popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
+    costs: () => ({ build: TOOLS.reduce((o, t) => { o[t.id] = t.cost; return o; }, {}), wage: WAGE_PER_DAY, upkeep: Object.keys(SVC_RULE).reduce((o, k) => { o[k] = SVC_RULE[k].upkeep || 0; return o; }, {}), staff: SERVICE_STAFF, incomePerPersonDay: 0.55 }),
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
     debugMedical: (ageDays) => { const t = (typeof regionOf === "function") ? null : null; const spots = []; claimedList().forEach((r) => { for (let i = 0; i < RS * RS; i++) if (r.road[i]) spots.push({ gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }); }); if (!spots.length) return null; const s = spots[0]; const call = { id: "med_dbg_" + Date.now(), type: "injury", label: "Serious Injury", urgency: "high", patient: null, gx: s.gx, gy: s.gy, time: gameClock() - (ageDays || 0) * 86400, assignedAmbulance: null, status: "waiting" }; medicalCalls.push(call); return call.id; },
