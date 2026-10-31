@@ -4802,6 +4802,11 @@ window.DebugOverlay = DebugOverlay;
       updateMedicalCalls(dt);
       updatePoliceCalls(dt);
       applyBacklogPressure(dt);
+      if (S.auto && S.auto.on) {
+        const nowMs = Date.now();
+        if (nowMs - (S.auto.lastAt || 0) >= AUTO.pulseMs) { S.auto.lastAt = nowMs; autoPulse(); }
+        if (nowMs - (S.auto.lastSave || 0) >= 300000) { S.auto.lastSave = nowMs; try { save(); } catch (e) {} }
+      }
       refillIntake();
       if (S.boats) {
       S.boats.forEach((b) => {
@@ -5550,6 +5555,7 @@ window.DebugOverlay = DebugOverlay;
           const p = tileToScreen(c.gx, c.gy);
           const cx = p.x + zw / 2, cy = p.y + zh / 2;
           const rad = c.r * TW * cam.zoom * 0.6;
+    if (!isFinite(rad) || rad <= 0) return;
           if (cx + rad < 0 || cx - rad > getCanvas().clientWidth || cy + rad < 0 || cy - rad > getCanvas().clientHeight) return;
           const grad = getCtx().createRadialGradient(cx, cy, rad * 0.15, cx, cy, rad);
           grad.addColorStop(0, "rgba(150,150,168," + cloudAlpha.toFixed(3) + ")");
@@ -6873,6 +6879,31 @@ window.DebugOverlay = DebugOverlay;
       if (ev.target && ev.target.closest && ev.target.closest("button")) sfx("click");
     }, { passive: true });
     // speed buttons (ENG-01)
+    // autopilot button (endless builder)
+    const uiAuto = el("ui-auto");
+    const uiAutoNow = el("ui-auto-now");
+    const paintAuto = () => {
+      const st = autoState();
+      if (uiAuto) {
+        uiAuto.textContent = st.on ? "AI: on" : "AI: off";
+        uiAuto.classList.toggle("on", !!st.on);
+      }
+      if (uiAutoNow) {
+        uiAutoNow.textContent = st.on
+          ? (st.intent || "waking up") + " · roads " + (st.roads || 0) + " · rail " + (st.rail || 0) + " · zones " + (st.zones || 0) + " · docks " + (st.docks || 0)
+          : "idle";
+      }
+    };
+    if (uiAuto) uiAuto.onclick = () => {
+      const st = autoState();
+      const on = !st.on;
+      autoOnToggle(on);
+      paintAuto();
+      toast(on ? "Autopilot engaged - the city will build itself" : "Autopilot paused");
+    };
+    setInterval(paintAuto, 900);
+    paintAuto();
+
     document.querySelectorAll(".spd").forEach((btn) => {
       const v = Number(btn.getAttribute("data-spd"));
       btn.classList.toggle("on", (S.speed == null ? 1 : S.speed) === v);
@@ -7072,6 +7103,228 @@ window.DebugOverlay = DebugOverlay;
     });
   }
 
+
+  // =====================================================================================
+  // AUTOPILOT - the city builds itself along a pre-generated main-road print.
+  //
+  // The print is deterministic per world seed: arterial roads every 40 tiles, a rail spine
+  // through each region row with depots, and ferry docks on water near region centres.
+  // The AI builds it slowly (a few tiles per pulse, only when the treasury can afford it),
+  // forks free subdivisions off the arterials, zones by demand, and places services when a
+  // threshold actually trips. When the print is finished it drops into maintenance mode.
+  // =====================================================================================
+  const AUTO = {
+    pulseMs: 1200,        // one action per 1.2 s of real time
+    roadsPerAction: 3,    // tiles of arterial laid per pulse
+    reserve: 1200,        // never spend below this
+    maxRoadsPerPulse: 3,
+  };
+  const AUTO_PLAN = { ready: false, roads: [], rail: [], docks: [], ri: 0, ii: 0, di: 0 };
+
+  function autoState() {
+    if (!S.auto) S.auto = { on: false, mode: "roads", lastAt: 0, roads: 0, rail: 0, docks: 0, zones: 0, services: 0, repairs: 0, intent: "idle" };
+    return S.auto;
+  }
+
+  function autoBuildPlan() {
+    if (AUTO_PLAN.ready) return AUTO_PLAN;
+    const roads = new Set(), rail = new Set(), docks = [];
+    const put = (set, x, y) => { if (x > 2 && y > 2 && x < WORLD_W - 3 && y < WORLD_H - 3) set.add(x + "," + y); };
+    // arterials: vertical and horizontal every 40 tiles, jittered so it is not graph paper
+    for (let ax = 18; ax < WORLD_W; ax += 40) {
+      const j = Math.floor(hash2(ax, 7) * 9) - 4;
+      for (let y = 0; y < WORLD_H; y++) put(roads, ax + j, y);
+    }
+    for (let ay = 18; ay < WORLD_H; ay += 40) {
+      const j = Math.floor(hash2(ay, 11) * 9) - 4;
+      for (let x = 0; x < WORLD_W; x++) put(roads, x, ay + j);
+    }
+    // rail spine: one line through each region row, plus a vertical trunk every third region
+    for (let ry = 0; ry < GH; ry++) {
+      const y = ry * RS + 130;
+      for (let x = 0; x < WORLD_W; x++) put(rail, x, y);
+    }
+    for (let rx = 1; rx < GW; rx += 3) {
+      const x = rx * RS + 130;
+      for (let y = 0; y < WORLD_H; y++) put(rail, x, y);
+    }
+    // ferry docks: a water tile with land beside it, near each region centre
+    for (let ry = 0; ry < GH; ry++) {
+      for (let rx = 0; rx < GW; rx++) {
+        const cx = rx * RS + 80, cy = ry * RS + 80;
+        for (let r = 6; r < 48; r += 2) {
+          let found = null;
+          for (let a = 0; a < 16 && !found; a++) {
+            const ang = (a / 16) * Math.PI * 2;
+            const x = Math.round(cx + Math.cos(ang) * r), y = Math.round(cy + Math.sin(ang) * r);
+            const t = regionOf(x, y);
+            if (!t || t.r.terrain[t.i] !== TERRAIN.WATER) continue;
+            const land = [[1,0],[-1,0],[0,1],[0,-1]].some(([dx, dy]) => {
+              const n = regionOf(x + dx, y + dy);
+              return n && n.r.terrain[n.i] !== TERRAIN.WATER;
+            });
+            if (land) found = { x, y };
+          }
+          if (found) { docks.push(found); break; }
+        }
+      }
+    }
+    AUTO_PLAN.roads = [...roads]; AUTO_PLAN.rail = [...rail]; AUTO_PLAN.docks = docks;
+    AUTO_PLAN.ready = true; AUTO_PLAN.ri = 0; AUTO_PLAN.ii = 0; AUTO_PLAN.di = 0;
+    return AUTO_PLAN;
+  }
+
+  function autoParse(key) { const p = key.split(","); return { x: +p[0], y: +p[1] }; }
+
+  function autoEnsureRegion(gx, gy) {
+    const rx = Math.floor(gx / RS), ry = Math.floor(gy / RS);
+    const reg = regionAt(rx, ry);
+    if (reg && reg.claimed) return true;
+    if ((S.cash || 0) < CLAIM_COST + AUTO.reserve) return false;
+    return claimRegion(rx, ry, false);
+  }
+
+  function autoService() {
+    // place a service when a real threshold trips, cheapest fix first
+    const cash = S.cash || 0;
+    if (cash < AUTO.reserve + 800) return false;
+    const regs = claimedList();
+    if (!regs.length) return false;
+    const r = regs[0];
+    const gx = r.rx * RS + 40 + Math.floor(Math.random() * 80);
+    const gy = r.ry * RS + 40 + Math.floor(Math.random() * 80);
+    const st = autoState();
+    const counts = {};
+    regs.forEach((rr) => { for (let i = 0; i < RS * RS; i++) { const n = SVC[rr.svc[i]]; if (n) counts[n] = (counts[n] || 0) + 1; } });
+    let tool = null;
+    if ((counts.power || 0) < Math.ceil(S.pop / 900)) tool = "power";
+    else if ((counts.water || 0) < Math.ceil(S.pop / 900)) tool = "water";
+    else if (S.pop > 120 && !counts.clinic) tool = "clinic";
+    else if (S.pop > 300 && !counts.police) tool = "police";
+    else if (S.pop > 200 && !counts.fire) tool = "fire";
+    else if (S.pop > 800 && (counts.clinic || 0) < Math.ceil(S.pop / 1500)) tool = "clinic";
+    else if (S.pop > 1200 && (counts.police || 0) < Math.ceil(S.pop / 2000)) tool = "police";
+    if (!tool) return false;
+    const t = TOOLS.find((x) => x.service === tool);
+    if (!t) return false;
+    for (let k = 0; k < 40; k++) {
+      const x = gx + Math.floor(Math.random() * 60) - 30, y = gy + Math.floor(Math.random() * 60) - 30;
+      if (!autoEnsureRegion(x, y)) continue;
+      if (paint(t, x, y)) { st.services++; st.intent = "placing " + t.name; return true; }
+    }
+    return false;
+  }
+
+  function autoZone() {
+    // walk the claimed regions behind a cursor and zone any grass tile that fronts a road
+    const st = autoState();
+    const regs = claimedList();
+    if (!regs.length) return false;
+    const d = S.demand || { r: 0.4, c: 0.2, i: 0.2 };
+    const id = d.r >= d.c && d.r >= d.i ? "zoneR" : (d.c >= d.i ? "zoneC" : "zoneI");
+    const tool = TOOLS.find((z) => z.id === id);
+    if (!tool) return false;
+    for (let pass = 0; pass < 2; pass++) {
+      const r = regs[(st.zoneReg = ((st.zoneReg || 0) + (pass ? 1 : 0)) % regs.length)];
+      if (!r) continue;
+      const start = st.zoneCursor || 0;
+      const total = RS * RS;
+      for (let k = 0; k < total; k++) {
+        const i = (start + k) % total;
+        if (r.zone[i] || r.level[i] || r.road[i] || r.rail[i] || r.svc[i]) continue;
+        const x = i % RS, y = (i / RS) | 0;
+        const fronts = (x > 0 && r.road[i - 1]) || (x < RS - 1 && r.road[i + 1]) || (y > 0 && r.road[i - RS]) || (y < RS - 1 && r.road[i + RS]);
+        if (!fronts) continue;
+        const gx = r.rx * RS + x, gy = r.ry * RS + y;
+        if (paint(tool, gx, gy)) { st.zones++; st.zoneCursor = i + 1; st.intent = "zoning " + tool.name; return true; }
+      }
+      st.zoneCursor = 0;
+    }
+    return false;
+  }
+
+  function autoMaintain() {
+    // rebuild rubble / rezone dead spots
+    const regs = claimedList();
+    for (const r of regs) {
+      for (let i = 0; i < RS * RS; i++) {
+        if (!r.dead || !r.dead[i]) continue;
+        const gx = r.rx * RS + (i % RS), gy = r.ry * RS + ((i / RS) | 0);
+        const t = TOOLS.find((z) => z.id === "bulldoze");
+        if (t && paint(t, gx, gy)) { const st = autoState(); st.repairs++; st.intent = "clearing rubble"; return true; }
+      }
+    }
+    return false;
+  }
+
+  function autoOnToggle(v) {
+    const st = autoState();
+    st.on = !!v;
+    st.lastAt = 0;
+    if (st.on) autoBuildPlan();
+    return st.on;
+  }
+
+  function autoPulse() {
+    const st = autoState();
+    if (!st.on) return;
+    if ((S.cash || 0) < AUTO.reserve) { st.intent = "waiting for funds"; return; }
+    const plan = autoBuildPlan();
+    // services first when the city is under strain, otherwise the road print
+    st.pulses = (st.pulses || 0) + 1;
+    if (Math.random() < 0.22 && autoService()) return;
+    // rail runs alongside the roads, a few tiles every fifteenth pulse, so trains appear early
+    if (st.pulses % 15 === 0 && plan.ii < plan.rail.length) {
+      let rails = 0;
+      while (plan.ii < plan.rail.length && rails < 3) {
+        const { x, y } = autoParse(plan.rail[plan.ii]);
+        plan.ii++;
+        if (!autoEnsureRegion(x, y)) break;
+        const tr = TOOLS.find((z) => z.id === "railTrack");
+        if (tr && paint(tr, x, y)) { st.rail++; rails++; st.intent = "laying the rail spine"; }
+      }
+      if (rails) { if (Math.random() < 0.5) autoZone(); return; }
+    }
+    if (plan.ri < plan.roads.length) {
+      let laid = 0, skipped = 0;
+        while (plan.ri < plan.roads.length && laid < AUTO.maxRoadsPerPulse) {
+        const { x, y } = autoParse(plan.roads[plan.ri]);
+        plan.ri++;
+        const ensured = autoEnsureRegion(x, y);
+        if (!ensured) { skipped++; if (skipped > 60) return; continue; }   // print covers the world: skip what we cannot reach yet
+        const t = TOOLS.find((z) => z.id === "road");
+        if (!t) return;
+        const painted = paint(t, x, y);
+        st.lastTry = { x, y, ensured: true, painted };
+        if (painted) { laid++; st.roads++; st.intent = "laying the arterial print"; (st.roadList = st.roadList || []).push(x + "," + y); if (st.roadList.length > 4000) st.roadList.splice(0, 1500); }
+        else if (regionOf(x, y) && regionOf(x, y).r.road[regionOf(x, y).i]) laid++;
+      }
+      if (laid) { for (let z = 0; z < 4; z++) { if (!autoZone()) break; } return; }
+      // plan done: subdivisions and maintenance
+      st.mode = "subdivision";
+    }
+    if (st.mode === "subdivision") {
+      // rail spine, then docks, then fill
+      while (plan.ii < plan.rail.length) {
+        const { x, y } = autoParse(plan.rail[plan.ii]);
+        plan.ii++;
+        if (!autoEnsureRegion(x, y)) return;
+        const t = TOOLS.find((z) => z.id === "railTrack");
+        if (t && paint(t, x, y)) { st.rail++; st.intent = "laying the rail spine"; return; }
+      }
+      while (plan.di < plan.docks.length) {
+        const d = plan.docks[plan.di];
+        plan.di++;
+        if (!autoEnsureRegion(d.x, d.y)) return;
+        const t = TOOLS.find((z) => z.id === "dock");
+        if (t && paint(t, d.x, d.y)) { st.docks++; st.intent = "building a ferry dock"; return; }
+      }
+      if (Math.random() < 0.15 && autoMaintain()) return;
+      autoZone();
+    }
+  }
+  function layed_none() { return true; }
+
   window.LC = {
     S, cam, RS, GW, GH, tick, paint, paintLine, claimRegion, regionOf, regionAt, startEvent,
     screenToTile, tileToScreen, newWorld, save, load, setSpeed, focusOn, focusRegion,
@@ -7086,6 +7339,10 @@ window.DebugOverlay = DebugOverlay;
     popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
     cards: () => Object.keys(CARDS).map((id) => { const c = CARDS[id]; return { id, name: c.name, cost: c.cost, upkeep: c.upkeep, staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 1), dailyCost: cardDailyCost(id), radius: c.radius || 0, capacity: c.capacity ? c.capacity : null, produces: c.produces || null, link: c.link || null, level2: { staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2), capacity: cardCapacity(id, 2), daily: (c.upkeep || 0) + ((c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2)) * WAGE_PER_DAY } }; }),
     costs: () => ({ build: TOOLS.reduce((o, t) => { o[t.id] = t.cost; return o; }, {}), wage: WAGE_PER_DAY, upkeep: Object.keys(SVC_RULE).reduce((o, k) => { o[k] = SVC_RULE[k].upkeep || 0; return o; }, {}), staff: SERVICE_STAFF, incomePerPersonDay: 0.55 }),
+    auto: () => autoState(),
+    autoOn: (v) => { const st = autoState(); st.on = !!v; st.lastAt = 0; if (st.on) autoBuildPlan(); return st.on; },
+    autoStep: (n) => { for (let i = 0; i < (n || 1); i++) autoPulse(); return autoState(); },
+    autoPlan: () => { const p = autoBuildPlan(); return { roads: p.roads.length, rail: p.rail.length, docks: p.docks.length, ri: p.ri, ii: p.ii, di: p.di }; },
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
     debugMedical: (ageDays) => { const t = (typeof regionOf === "function") ? null : null; const spots = []; claimedList().forEach((r) => { for (let i = 0; i < RS * RS; i++) if (r.road[i]) spots.push({ gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }); }); if (!spots.length) return null; const s = spots[0]; const call = { id: "med_dbg_" + Date.now(), type: "injury", label: "Serious Injury", urgency: "high", patient: null, gx: s.gx, gy: s.gy, time: gameClock() - (ageDays || 0) * 86400, assignedAmbulance: null, status: "waiting" }; medicalCalls.push(call); return call.id; },
