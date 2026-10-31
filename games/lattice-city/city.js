@@ -165,6 +165,67 @@ window.DebugOverlay = DebugOverlay;
     h = (h ^ (h >> 13)) * 1274126177;
     return ((h ^ (h >> 16)) >>> 0) / 4294967296;
   }
+
+  // ---- authored tile pools --------------------------------------------------------
+  // Every sprite that shipped with the game gets a home on the map. Terrain picks from its
+  // own pool, so beaches look like beaches, sea like sea, and the desert/ice/highland sets
+  // appear where that ground actually is instead of sitting in the manifest unused.
+  const TILE_POOLS = {
+    water: [
+      "m04_stone_harbor_pier", "m05_lighthouse_island", "m06_tropical_palm_island", "m07_sea_stacks_reef",
+      "m29_sea_var1_kelp_forest", "m30_sea_var2_coral_reef", "m31_sea_var3_bell_buoy", "m32_sea_var4_shipwreck_reef",
+      "m33_sea_var5_flying_fish", "m34_sea_var6_bioluminescence", "m53_sea_var1_bamboo_weir_cormorant",
+      "m54_sea_var2_sunken_temple_ruins", "m55_sea_var3_basalt_stack_puffin_rookery", "m56_sea_var4_floating_lantern_festival",
+      "m57_sea_var5_sargasso_kelp_manta_ray", "m58_sea_var6_geothermal_vent_pumice_shoal",
+    ],
+    sand: [
+      "m01_sandy_beach_s", "m02_sandy_beach_e", "m03_sandy_beach_w", "m23_beach_var1_driftwood",
+      "m24_beach_var2_rowboat_nets", "m25_beach_var3_tidepool", "m26_beach_var4_parasol_castle",
+      "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest",
+      "m47_coast_var1_breakwater_mole", "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway",
+      "m51_coast_var5_smuggler_cove", "m52_coast_var6_red_sea_coral_quay", "m48_coast_var2_tide_mill_sluice", "c07_river_ford_stone", "c08_river_quay_dock", "c09_timber_footbridge_ns", "c10_timber_footbridge_ew",
+    ],
+    forest: [
+      "s22_forest_var2_silver_birch", "s24_forest_var4_cherry_willow",
+      "s25_forest_var5_woodcutter", "s26_forest_var6_apiary_lavender", "s20_sloped_forest_stream",
+    ],
+    meadow: [
+      "s35_farm_var1_wheat_scarecrow", "s36_farm_var2_lavender_distill", "s37_farm_var3_pumpkin_melon",
+      "s38_farm_var4_apple_cider_press", "s39_farm_var5_tulip_stripes", "s40_farm_var6_kitchen_garden",
+      "d02_village_well", "d03_market_stalls", "d07_streetlamps_signpost", "d09_merchant_cart_camp",
+      "d10_flower_orchard_hedge", "d12_meadow_wildflowers", "s12_meadow_stepping_stones_v3",
+      "s29_slope_var1_rockery", "s30_slope_var2_olive_cypress", "s31_slope_var3_vineyard_cellar",
+      "s32_slope_var4_shepherd_pasture", "m41_wetland_var1_cattail_fen", "m42_wetland_var2_wisp_bog",
+      "m43_wetland_var3_cranberry_bog", "m44_wetland_var4_stepping_stones", "m45_wetland_var5_mangrove_arch",
+      "m46_wetland_var6_peat_cutter_dock", "s07_slope_stream_n", "r31_road_var1_tollgate_guardhouse", "r32_road_var2_triumphal_boulevard",
+      "r33_road_var3_coaching_crossroads", "r34_road_var4_cherry_bell_shrine", "r35_road_var5_beacon_bastion_overlook",
+      "r36_road_var6_canal_willow_quay",
+    ],
+    rock: [
+      "m08_desert_dunes", "m09_desert_oasis", "m10_red_sandstone_mesa", "m11_desert_adobe_house",
+      "m12_desert_bazaar_tent", "m17_desert_var1_star_dunes", "m18_desert_var2_salt_playa",
+      "m19_desert_var3_hoodoo_spires", "m20_desert_var4_superbloom", "m21_desert_var5_nomad_camp",
+      "m22_desert_var6_temple_columns", "s13_canyon_wadi_trail",
+    ],
+    mountain: [
+      "m13_glacier_ice_tongue", "m14_frozen_tarn_lake", "m15_nordic_timber_hall", "m16_igloo_ice_camp",
+      "s14_snow_var1_drifts", "s15_snow_var2_slate_ibex", "s16_snow_var3_runestone", "s17_snow_var4_creek_bridge",
+      "s18_snow_var5_sled_fence", "s19_snow_var6_ice_crystals", "s27_sloped_grand_balustrade_stairs",
+      "s28_sloped_alpine_suspension_bridge", "m35_highland_var1_heather_cairn", "m36_highland_var2_larch_pool",
+      "m37_highland_var3_edelweiss_crag", "m38_highland_var4_crofter_wall", "m39_highland_var5_celtic_cross",
+      "m40_highland_var6_geologist_camp", "l03_elevated_stone_viaduct", "s01_slope_ramp_n", "s02_slope_ramp_w", "s03_slope_ramp_e", "s04_slope_ramp_s", "s05_slope_stairs_n", "s06_slope_stairs_w", "s08_slope_road_n",
+    ],
+  };
+  const POOL_CHANCE = { water: 0.05, sand: 0.10, forest: 0.05, meadow: 0.045, rock: 0.08, mountain: 0.09 };
+  const TERRAIN_POOL = { 0: "meadow", 1: "forest", 2: "sand", 3: "water", 4: "rock", 5: "mountain" };
+  function poolPick(terr, gx, gy) {
+    const name = TERRAIN_POOL[terr];
+    const pool = name && TILE_POOLS[name];
+    if (!pool) return null;
+    const h = hash2(gx * 13 + 7, gy * 7 + 3);
+    if (h > (POOL_CHANCE[name] || 0.04)) return null;
+    return pool[Math.floor(hash2(gx + 91, gy + 17) * pool.length) % pool.length];
+  }
   function noiseSeed(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
   function valueNoise(w, h, scale, seed) {
     const r = noiseSeed(seed);
@@ -210,33 +271,33 @@ window.DebugOverlay = DebugOverlay;
   const THEMES = {
     oldtown: {
       label: "Old town",
-      R: [["b01_cottage_red", "b02_tudor_inn"], ["b02_tudor_inn", "b01_cottage_red"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery", "b12_general_store"], ["b58_guildhall", "b14_town_hall"]],
-      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b57_observatory", "b13_barn_silo"]],
+      R: [["b01_cottage_red", "b02_tudor_inn"], ["b02_tudor_inn", "b01_cottage_red"], ["b20_noble_manor", "b23_mediterranean_villa_sw", "b24_mediterranean_villa_se", "b31_highland_keep_sw", "b32_highland_keep_se"]],
+      C: [["b12_general_store"], ["b06_bakery", "b12_general_store"], ["b58_guildhall", "b14_town_hall", "b45_clocktower_guildhall_sw", "b46_clocktower_guildhall_se"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b57_observatory", "b13_barn_silo", "b27_artisan_forge_sw", "b28_artisan_forge_se", "b41_pottery_kiln_sw", "b42_pottery_kiln_se"]],
     },
     chapel: {
       label: "Chapel town",
-      R: [["b01_cottage_red"], ["b02_tudor_inn", "b09_chapel"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery"], ["b67_stone_chapel", "b15_library_scholar"]],
-      I: [["b03_blacksmith_forge"], ["b13_barn_silo"], ["b11_carpenter_sawmill"]],
+      R: [["b01_cottage_red"], ["b02_tudor_inn", "b09_chapel"], ["b20_noble_manor", "b43_nomad_yurt_sw", "b44_nomad_yurt_se", "b21_japanese_pagoda_sw", "b22_japanese_pagoda_se"]],
+      C: [["b12_general_store"], ["b06_bakery"], ["b67_stone_chapel", "b15_library_scholar", "b49_amphitheater_stage_sw", "b50_amphitheater_stage_se"]],
+      I: [["b03_blacksmith_forge"], ["b13_barn_silo"], ["b11_carpenter_sawmill", "b35_apothecary_tower_sw", "b36_apothecary_tower_se"]],
     },
     mill: {
       label: "Mill country",
-      R: [["b01_cottage_red", "b04_windmill"], ["b02_tudor_inn"], ["b59_conservatory", "b18_greenhouse_orangery"]],
-      C: [["b12_general_store"], ["b06_bakery"], ["b16_alchemist_workshop"]],
-      I: [["b04_windmill", "b05_watermill"], ["b11_carpenter_sawmill"], ["b60_brewery", "b13_barn_silo"]],
+      R: [["b01_cottage_red", "b04_windmill"], ["b02_tudor_inn"], ["b59_conservatory", "b18_greenhouse_orangery", "b29_botanical_conservatory_sw", "b30_botanical_conservatory_se", "b25_bayou_boathouse_sw", "b26_bayou_boathouse_se"]],
+      C: [["b12_general_store"], ["b06_bakery"], ["b16_alchemist_workshop", "b47_winery_press_barn_sw", "b48_winery_press_barn_se"]],
+      I: [["b04_windmill", "b05_watermill"], ["b11_carpenter_sawmill"], ["b60_brewery", "b13_barn_silo", "b27_grain_windmill_sw", "b28_grain_windmill_se", "b29_grain_windmill_ne", "b30_grain_windmill_nw", "b31_river_watermill_sw", "b32_river_watermill_se", "b33_river_watermill_ne", "b34_river_watermill_nw", "b33_lumber_sawmill_sw", "b34_lumber_sawmill_se"]],
     },
     watch: {
       label: "Watch country",
-      R: [["b01_cottage_red"], ["b65_shepherd_croft", "b02_tudor_inn"], ["b20_noble_manor"]],
-      C: [["b12_general_store"], ["b68_watch_hut", "b08_watchtower"], ["b14_town_hall"]],
-      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b66_whisky_barn", "b17_twin_gatehouse"]],
+      R: [["b01_cottage_red"], ["b65_shepherd_croft", "b02_tudor_inn"], ["b20_noble_manor", "b43_nomad_yurt_sw", "b44_nomad_yurt_se"]],
+      C: [["b12_general_store"], ["b68_watch_hut", "b08_watchtower"], ["b14_town_hall", "b45_clocktower_guildhall_sw", "b46_clocktower_guildhall_se"]],
+      I: [["b03_blacksmith_forge"], ["b11_carpenter_sawmill"], ["b66_whisky_barn", "b17_twin_gatehouse", "b39_desert_caravanserai_sw", "b40_desert_caravanserai_se", "b55_desert_kasbah_sw", "b56_desert_kasbah_se"]],
     },
     harbour: {
       label: "Harbour",
-      R: [["b01_cottage_red"], ["b61_fisher_hut", "b02_tudor_inn", "b19_lighthouse_dock"], ["b64_lighthouse_cottage", "b20_noble_manor"]],
-      C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b62_chandlery", "b14_town_hall"]],
-      I: [["b05_watermill"], ["b13_barn_silo"], ["b63_drydock_shed", "b11_carpenter_sawmill"]],
+      R: [["b01_cottage_red"], ["b61_fisher_hut", "b02_tudor_inn", "b19_lighthouse_dock"], ["b64_lighthouse_cottage", "b20_noble_manor", "b25_bayou_boathouse_sw", "b26_bayou_boathouse_se"]],
+      C: [["b12_general_store"], ["b06_bakery", "b07_apothecary"], ["b62_chandlery", "b14_town_hall", "b49_amphitheater_stage_sw", "b50_amphitheater_stage_se"]],
+      I: [["b05_watermill"], ["b13_barn_silo"], ["b63_drydock_shed", "b11_carpenter_sawmill", "b37_shipyard_drydock_sw", "b38_shipyard_drydock_se", "b51_waterworks_pump_house_sw", "b52_waterworks_pump_house_se", "b53_glassblower_studio_sw", "b54_glassblower_studio_se"]],
     },
   }
 
@@ -3107,6 +3168,7 @@ window.DebugOverlay = DebugOverlay;
   function slopeRoadKey(mask) {
     const ns = (mask & 1 ? 1 : 0) + (mask & 4 ? 1 : 0);
     const ew = (mask & 2 ? 1 : 0) + (mask & 8 ? 1 : 0);
+    if (hash2(mask * 7 + 1, mask * 3 + 5) > 0.5) return ew > ns ? "c15_road_curve_se" : "c16_road_curve_nw";
     return ew > ns ? "c14_switchback_road_w" : "c13_switchback_road_n";
   }
   function hasRoadNear(gx, gy) {
@@ -4864,6 +4926,12 @@ window.DebugOverlay = DebugOverlay;
                 else if (reg.level[i]) key = themeVariant(reg.theme, reg.zone[i], reg.level[i], gx, gy);
         else if (reg.svc[i]) {
           key = SVC_SPRITE[SVC[reg.svc[i]]];
+          // plazas and rail depots each have six authored variants: let position choose
+          if (SVC[reg.svc[i]] === "plaza") {
+            const plazaPool = ["r25_plaza_var1_marble_fountain", "r26_plaza_var2_armillary_sundial", "r27_plaza_var3_market_stalls", "r28_plaza_var4_bandstand_gazebo", "r29_plaza_var5_sculptor_courtyard", "r30_plaza_var6_stone_wellhouse"];
+            key = plazaPool[Math.floor(hash2(gx + 3, gy + 11) * plazaPool.length) % plazaPool.length];
+          }
+          if (SVC[reg.svc[i]] === "rail" && hash2(gx + 5, gy + 5) > 0.5) key = "rail_depot_platform";
           // directional pieces (the ferry terminal) face the water: mirror when the
           // water side is the opposite one, so the gangway always meets the river
           if (SVC[reg.svc[i]] === "dock") {
@@ -4886,6 +4954,7 @@ window.DebugOverlay = DebugOverlay;
               : (hash2(gx + 4, gy + 8) > 0.5 ? "s23_forest_var3_pine_cedar" : "s21_forest_var1_hollow_oak");
         }
         else if (reg.decor[i] === 4) key = "s10_meadow_wildflowers_v1";
+        else key = poolPick(terr, gx, gy);   // every remaining authored tile finds its terrain
         // field overlays: tint the tile by land value, crime or pollution
         if (S.overlay && (reg.value || reg.poll || reg.crime)) {
           let col = null;
@@ -6966,7 +7035,7 @@ window.DebugOverlay = DebugOverlay;
       if (r.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
       else if (r.rail[i]) key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
       else if (r.level[i]) key = themeVariant(r.theme, r.zone[i], r.level[i], gx, gy);
-      else if (r.svc[i]) key = SVC_SPRITE[SVC[r.svc[i]]];
+      else key = poolPick(r.terrain[i], gx, gy);
       return { key, theme: r.theme, zone: r.zone[i], level: r.level[i], terr: r.terrain[i] };
     },
     railStats,
