@@ -437,12 +437,13 @@ window.DebugOverlay = DebugOverlay;
   }
 
   // Appending to SVC is safe for old saves: the array index is what a save stores.
-  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire", "police", "clinic"];
+  const SVC = [null, "park", "water", "power", "plaza", "school", "monument", "dock", "rail", "fire", "police", "clinic", "hospital"];
   const SVC_SPRITE = {
     park: "d04_oak_tree_park", water: "b05_watermill", power: "b10_wizard_tower",
     plaza: "d01_plaza_fountain", school: "b15_library_scholar", monument: "d08_stone_statue_plaza",
     dock: "b69_ferry_terminal",
     clinic: "b35_apothecary_tower_sw",
+    hospital: "b70_hospital",
     rail: "b17_twin_gatehouse",
     fire: "b08_watchtower",
     police: "b17_twin_gatehouse",
@@ -473,7 +474,8 @@ window.DebugOverlay = DebugOverlay;
         { id: "railTrack", name: "Rail track", cost: 80, hint: "lay tracks on land" },
         { id: "fire", name: "Fire station", cost: 900, hint: "stops fires", service: "fire" },
         { id: "clinic", name: "Medical clinic", cost: 600, hint: "ambulance dispatch", service: "clinic", unlock: 1 },
-        { id: "police", name: "Police station", cost: 1200, hint: "cuts crime", service: "police", unlock: 2 },
+        { id: "hospital", name: "Hospital", cost: 2600, hint: "beds, ambulances", service: "hospital", unlock: 2 },
+{ id: "police", name: "Police station", cost: 1200, hint: "cuts crime", service: "police", unlock: 2 },
         { id: "plaza", name: "Plaza", cost: 340, hint: "big value", service: "plaza", unlock: 2 },
     { id: "school", name: "Library", cost: 900, hint: "value + mood", service: "school", unlock: 3 },
     { id: "monument", name: "Monument", cost: 3200, hint: "the world remembers", service: "monument", unlock: 4 },
@@ -1191,19 +1193,24 @@ window.DebugOverlay = DebugOverlay;
       let medicalDailyCount = 0;
       let medicalLastDay = -1;
 
-      // Bed and cell capacity: the building is the limit, not the vehicle count.
+      // ---- healthcare capacity -------------------------------------------------
+      // A clinic is 3/6/10 beds by level, a hospital 12/24/40. Beds are the real limit:
+      // an ambulance only rolls if one is free, and a call that waits three game days
+      // without a bed kills the patient - that death comes straight out of the pool.
       const BEDS_PER_LEVEL = [0, 3, 6, 10];
+      const HOSPITAL_BEDS = [0, 12, 24, 40];
       const CELLS_PER_LEVEL = [0, 3, 6, 9];
+      const HEALTH = { waitToDeathDays: 3, recoveryDays: 1, untreatedMood: 1.2 };
       let patients = [];   // { clinicId, until } in game seconds
       let prisoners = [];  // { stationId, until }
       function gameClock() { return (S.day || 0) * 86400 + (S.hour || 0) * 3600; }
-      function bedsFree(clinic) {
-        const used = patients.filter(p => p.clinicId === clinicId(clinic) && p.until > gameClock()).length;
-        return Math.max(0, BEDS_PER_LEVEL[Math.min(3, clinic.level || 1)] - used);
+      function bedCount(facility) {
+        const arr = SVC[facility.region.svc[facility.tile]] === "hospital" ? HOSPITAL_BEDS : BEDS_PER_LEVEL;
+        return arr[Math.min(3, facility.level || 1)];
       }
-      function cellsFree(station) {
-        const used = prisoners.filter(p => p.stationId === stationId(station) && p.until > gameClock()).length;
-        return Math.max(0, CELLS_PER_LEVEL[Math.min(3, station.level || 1)] - used);
+      function bedsFree(facility) {
+        const used = patients.filter(p => p.clinicId === clinicId(facility) && p.until > gameClock()).length;
+        return Math.max(0, bedCount(facility) - used);
       }
       function sweepCapacity() {
         const t = gameClock();
@@ -1214,7 +1221,7 @@ window.DebugOverlay = DebugOverlay;
         const clinics = [];
         claimedList().forEach(r => {
           for (let i = 0; i < RS * RS; i++) {
-            if (SVC[r.svc[i]] === "clinic") {   // was "school": libraries were spawning ambulances
+            if (SVC[r.svc[i]] === "clinic" || SVC[r.svc[i]] === "hospital") {
               clinics.push({ region: r, tile: i, gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0), level: r.level[i] || 1, ambulances: MEDICAL.ambulancesPerClinic[Math.min(2, r.level[i] || 1)] });
             }
           }
@@ -1332,6 +1339,16 @@ window.DebugOverlay = DebugOverlay;
           for (let i = medicalCalls.length - 1; i >= 0; i--) {
             const call = medicalCalls[i];
             if (call.status === "waiting") {
+        // a patient with no bed for three game days dies: the death comes out of the pool
+        const waitedDays = (gameClock() - call.time) / 86400;
+        if (waitedDays >= HEALTH.waitToDeathDays) {
+          const pm = popModel();
+          pm.pop = Math.max(0, pm.pop - 1); pm.died += 1;
+          S.unrest = clamp((S.unrest || 0) + 0.05, 0, 1);
+          logEvent("death", "Patient died waiting for a bed", { gx: call.gx, gy: call.gy }, "emergency");
+          medicalCalls.splice(i, 1);
+          continue;
+        }
               // Only retry dispatch every 60 game seconds, not every 30
               if (Math.random() < gameSeconds / 60) dispatchAmbulance(call);
             } else if (call.status === "enroute") {
@@ -1348,7 +1365,7 @@ window.DebugOverlay = DebugOverlay;
                 call.status = "resolved";
                 const wait = gameClock() - call.time;
                 const clinic = getClinics().find(c => clinicId(c) === call.clinicId) || getClinics()[0];
-                if (clinic) patients.push({ clinicId: clinicId(clinic), until: gameClock() + 1800 });   // half a day in a bed
+                if (clinic) patients.push({ clinicId: clinicId(clinic), until: gameClock() + HEALTH.recoveryDays * 86400 });
                 if (wait > 21600 && call.patient) {   // six hours late: the person remembers
                   call.patient.happiness = Math.max(0, (call.patient.happiness == null ? 0.6 : call.patient.happiness) - 0.15);
                   S.unrest = clamp((S.unrest || 0) + 0.02, 0, 1);
@@ -3482,7 +3499,7 @@ window.DebugOverlay = DebugOverlay;
     // so r.pop is always the number of people actually living there
     const pm = popModel();
     if (!pm.seeded) {
-      pm.pop = Math.min(pm.pop || 0, capSum);
+      pm.pop = Math.min(Math.round(capSum * 0.5), capSum);   // a new town starts half full
       const parts = 3;
       for (let k = 0; k < parts; k++) {
         const share = Math.floor(pm.pop / parts) + (k === 0 ? pm.pop % parts : 0);
@@ -3623,6 +3640,8 @@ window.DebugOverlay = DebugOverlay;
 
   function tick() {
       S.day++;
+    refillIntake(1);       // one day of intake arrives
+    popDayTick();          // life clocks, admission, homelessness
       // the hour advances in the frame loop; a tick only marks the day
       refreshLinks();
       recalcWorld();
@@ -4508,9 +4527,7 @@ window.DebugOverlay = DebugOverlay;
       pumpTicks();
       tickEconomy();
       decayNeighbourhoods();
-      popDayTick();
-      refillIntake(1);
-      // (intake, life clocks and homelessness all happen in popDayTick)
+      // population day work belongs to the day tick, not the frame (it ages cohorts a full day)
       sweepCapacity();
       const sim = 1;
       advance(S.peds, dt * sim);
@@ -5603,6 +5620,16 @@ window.DebugOverlay = DebugOverlay;
       const units = backlogNow.capacity.police + backlogNow.capacity.fire + backlogNow.capacity.medical;
       el("ui-backlog").style.width = Math.min(100, Math.round((backlogNow.total / Math.max(1, units)) * 100)) + "%";
       el("ui-backlog-t").textContent = backlogNow.total + " / " + units;
+    const hc = (typeof LC !== "undefined" && LC.health) ? null : null;
+    try {
+      if (typeof getClinics === "function" && el("ui-beds")) {
+        const fac = getClinics();
+        const total = fac.reduce((n, c) => n + bedCount(c), 0);
+        const used = total - fac.reduce((n, c) => n + bedsFree(c), 0);
+        el("ui-beds").style.width = Math.min(100, Math.round((used / Math.max(1, total)) * 100)) + "%";
+        el("ui-beds-t").textContent = used + "/" + total;
+      }
+    } catch (e) {}
     }
       el("ui-tax").textContent = (S.taxRate || 7) + "%";
       el("ui-income").textContent = money(S.taxIncome || 0);
@@ -6700,7 +6727,7 @@ window.DebugOverlay = DebugOverlay;
   const GEN_SPRITES = ["gen_mtn_peak", "gen_mtn_snow", "gen_hill", "gen_ridge"];
   // Bump on every art change. Sprite URLs carry no other version, so without this the
   // Pages CDN can serve the previous PNGs for ~10 minutes after a push.
-  const ASSET_VER = "20261030-river1";
+  const ASSET_VER = "20261030-health1";
 
   // Multi-frame tiles. The manifest lists every frame of a sprite, but the loader used to
   // take only [0], so the extra frames were dead weight. Add a key here to make it animate;
@@ -6772,11 +6799,13 @@ window.DebugOverlay = DebugOverlay;
     backlog: () => responseBacklog(),
     decayNow: () => { S.decayDay = -1; decayNeighbourhoods(); },
     intake: () => { const m = popModel(); return { pop: m.pop, avail: +m.avail.toFixed(1), cap: housingCapacity(), admitted: m.admitted, died: m.died, left: m.left, homeless: m.homeless, cohorts: m.cohorts.length, equilibrium: Math.round(INTAKE.perDay * (INTAKE.lifeMin + INTAKE.lifeMax) / 2) }; },
+    capacity: () => { const fac = getClinics(); const beds = fac.reduce((n, c) => n + bedCount(c), 0); const used = beds - fac.reduce((n, c) => n + bedsFree(c), 0); const cells = getPoliceStations().reduce((n, s) => n + cellsFree(s), 0); return { beds: fac.reduce((n, c) => n + bedsFree(c), 0), bedsTotal: beds, bedsUsed: used, cells, patients: patients.length, prisoners: prisoners.length, waiting: medicalCalls.filter(c => c.status === "waiting").length, died: popModel().died }; },
     admitNow: (n) => { const m = popModel(); m.avail = Math.min(INTAKE.cap, m.avail + (n || 10)); return admitFromPool(); },
     cycleNow: (n) => { const m = popModel(); for (let k = 0; k < (n || 1); k++) { refillIntake(1); admitFromPool(); } return m.pop; },
     popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
+    debugMedical: (ageDays) => { const t = (typeof regionOf === "function") ? null : null; const spots = []; claimedList().forEach((r) => { for (let i = 0; i < RS * RS; i++) if (r.road[i]) spots.push({ gx: r.rx * RS + (i % RS), gy: r.ry * RS + ((i / RS) | 0) }); }); if (!spots.length) return null; const s = spots[0]; const call = { id: "med_dbg_" + Date.now(), type: "injury", label: "Serious Injury", urgency: "high", patient: null, gx: s.gx, gy: s.gy, time: gameClock() - (ageDays || 0) * 86400, assignedAmbulance: null, status: "waiting" }; medicalCalls.push(call); return call.id; },
     debugFire: (gx, gy) => { const t = regionOf(gx, gy); if (t) startFire(t.r, t.i); },
     units: () => ({ fire: fireTrucks.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), police: policeCars.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })), amb: ambulances.map(u => ({ id: u.id, state: u.state, x: u.x, y: u.y, facing: u.faceKey })) }),
     debug: () => (typeof DebugOverlay !== "undefined" ? DebugOverlay : null),
