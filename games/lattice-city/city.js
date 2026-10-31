@@ -180,8 +180,7 @@ window.DebugOverlay = DebugOverlay;
     ],
     // inland sand only: anything with a painted water edge belongs on the shore, not here
     sand: [
-      "m26_beach_var4_parasol_castle", "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest",
-      "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway", "m08_desert_dunes",
+      "m08_desert_dunes",        // the only sand art without a painted water edge
     ],
     meadow: [
       "s35_farm_var1_wheat_scarecrow", "s36_farm_var2_lavender_distill", "s37_farm_var3_pumpkin_melon",
@@ -230,18 +229,19 @@ window.DebugOverlay = DebugOverlay;
     e: ["m02_sandy_beach_e"],
     w: ["m03_sandy_beach_w", "m23_beach_var1_driftwood", "m24_beach_var2_rowboat_nets", "m25_beach_var3_tidepool", "m26_beach_var4_parasol_castle", "m27_beach_var5_dune_boardwalk", "m28_beach_var6_treasure_chest", "m47_coast_var1_breakwater_mole", "m48_coast_var2_tide_mill_sluice", "m49_coast_var3_white_chalk_cliff", "m50_coast_var4_basalt_causeway", "m51_coast_var5_smuggler_cove", "m52_coast_var6_red_sea_coral_quay"],
   };
+  // Shore art is only for the world edge: the map border is coastline, and the water edge
+  // must point off the map. Interior lakes and rivers get plain sand - the painted water
+  // edge does not align on interior corners and reads as a sideways beach.
   function coastFor(gx, gy) {
-    const isWater = (x, y) => { const t = regionOf(x, y); return !!t && t.r.terrain[t.i] === TERRAIN.WATER; };
-    let side = null, flipY = false;
-    if (isWater(gx, gy + 1)) side = "s";
-    else if (isWater(gx + 1, gy)) side = "e";
-    else if (isWater(gx - 1, gy)) side = "w";
-    else if (isWater(gx, gy - 1)) { side = "s"; flipY = true; }   // north shore = south art, flipped
-    if (!side) return null;
-    if (hash2(gx * 19 + 5, gy * 13 + 9) > 0.72) return null;           // not every shore tile is dressed
-    const pool = COAST[side];
+    const onWest = gx <= 0, onEast = gx >= WORLD_W - 1, onNorth = gy <= 0, onSouth = gy >= WORLD_H - 1;
+    if (!onWest && !onEast && !onNorth && !onSouth) return null;
+    if (hash2(gx * 19 + 5, gy * 13 + 9) > 0.55) return null;   // a broken coast, not a solid band
+    const pick = (pool, h) => pool[Math.floor(h * pool.length) % pool.length];
     const h = hash2(gx * 17 + 3, gy * 11 + 7);
-    return { key: pool[Math.floor(h * pool.length) % pool.length], flipX: false, flipY: flipY };
+    if (onSouth) return { key: pick(COAST.s, h), flipY: false };
+    if (onNorth) return { key: pick(COAST.s, h), flipY: true };    // south art mirrored points north
+    if (onEast) return { key: pick(COAST.e, h), flipY: false };
+    return { key: pick(COAST.w, h), flipY: false };
   }
   function noiseSeed(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
   function valueNoise(w, h, scale, seed) {
@@ -7123,7 +7123,7 @@ window.DebugOverlay = DebugOverlay;
       if (r.road[i]) key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
       else if (r.rail[i]) key = RAIL[railMask(gx, gy)] || "rail_straight_ew";
       else if (r.level[i]) key = themeVariant(r.theme, r.zone[i], r.level[i], gx, gy);
-      else if (r.terrain[i] === TERRAIN.SAND) { const c = coastFor(gx, gy); key = c ? c.key : poolPick(r.terrain[i], gx, gy); }
+      else if (r.terrain[i] === TERRAIN.SAND) { const c = coastFor(gx, gy); key = c ? c.key : null; }
       return { key, theme: r.theme, zone: r.zone[i], level: r.level[i], terr: r.terrain[i] };
     },
     railStats,
