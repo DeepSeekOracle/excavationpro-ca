@@ -5030,7 +5030,11 @@ window.DebugOverlay = DebugOverlay;
         let railOverlay = null;
         let flipX = false, flipY = false;
                 if (reg.road[i]) {
-                  if (terr === TERRAIN.WATER) key = "r12_road_bridge_stone";
+                  if (terr === TERRAIN.WATER) {
+      // a crossing: stone bridge deck, and rails sit on top when the line runs over water
+      key = "r12_road_bridge_stone";
+      if (reg.rail[i]) railOverlay = RAIL[railMask(gx, gy)] || "rail_straight_ew";
+    }
                   else if (terr === TERRAIN.MOUNTAIN || terr === TERRAIN.ROCK) key = slopeRoadKey(roadMask(gx, gy));
                   else key = ROAD[roadMask(gx, gy)] || "r02_road_straight_ew";
                   // level crossing: dedicated tile where road and rail share the square
@@ -5743,13 +5747,23 @@ window.DebugOverlay = DebugOverlay;
           r.zone[i] = t.zone; r.zoneDirty = true;
           sfx("zone");
           did = true;
-        } else if (t.id === "railTrack") {
-          if (r.rail[i]) return false;
-          if (r.terrain[i] === TERRAIN.WATER) return false;
-          // rail may cross a road: the tile keeps both layers (level crossing)
-          if (r.zone[i] || r.level[i] || r.svc[i]) return false;
-          r.rail[i] = 1; r.zoneDirty = true;
-          sfx("rail");
+      } else if (t.id === "railTrack") {
+        if (r.rail[i]) return false;
+        // a rail line may cross water on a bridge, same span rule as a road
+        const railBridge = r.terrain[i] === TERRAIN.WATER;
+        if (railBridge) {
+          const land = (xx, yy) => { const c = regionOf(xx, yy); return !!c && c.r.terrain[c.i] !== TERRAIN.WATER; };
+          const gx0 = gx, gy0 = gy;
+          const spanOK = (land(gx0 + 1, gy0) || land(gx0 - 1, gy0)) && (land(gx0, gy0 + 1) || land(gx0, gy0 - 1));
+          if (!spanOK) return false;
+          if (S.cash < 220) { deny("A rail bridge costs $220"); return false; }
+        }
+        // rail may cross a road: the tile keeps both layers (level crossing)
+        if (r.zone[i] || r.level[i] || r.svc[i]) return false;
+        r.rail[i] = 1; r.zoneDirty = true;
+        if (railBridge) { S.cash -= 210; }        // the deck; the track's own cost is charged below
+        sfx("rail");
+        did = true;
           did = true;
         } else if (t.service) {
       if (r.svc[i]) return false;
