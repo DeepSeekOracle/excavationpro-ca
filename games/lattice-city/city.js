@@ -565,6 +565,70 @@ window.DebugOverlay = DebugOverlay;
     { id: "inspect", name: "Inspect", cost: 0, hint: "read a tile" },
     { id: "inspectCitizen", name: "Citizen", cost: 0, hint: "click a home to view residents", unlock: 1 },
   ];
+
+  // ---- building cards ---------------------------------------------------------------
+  // One card per building, and everything else is derived from it: the tool price, the
+  // service rule (radius, upkeep, safety/health), the staffing requirement, the capacity
+  // (beds, cells), the fleet size and what the plant produces. The world spine reads these
+  // cards rather than a stack of parallel tables, so a building cannot be priced one place
+  // and staffed in another.
+  const CARDS = {
+    park:     { name: "Park",           cost: 110,  upkeep: 2,  staff: { base: 0 }, radius: 4,  value: 4 },
+    plaza:    { name: "Plaza",          cost: 320,  upkeep: 4,  staff: { base: 0 }, radius: 5,  value: 12, variants: 6 },
+    water:    { name: "Water mill",     cost: 340,  upkeep: 8,  staff: { base: 1 }, radius: 9,  produces: { water: 28 } },
+    power:    { name: "Lattice tower",  cost: 620,  upkeep: 14, staff: { base: 2 }, radius: 10, produces: { power: 24 } },
+    school:   { name: "Library",        cost: 1500, upkeep: 12, staff: { base: 2 }, radius: 8,  value: 10 },
+    monument: { name: "Monument",       cost: 4200, upkeep: 20, staff: { base: 0 }, radius: 12, value: 30 },
+    dock:     { name: "Ferry dock",     cost: 1100, upkeep: 6,  staff: { base: 2 }, radius: 0,  link: "ferry" },
+    rail:     { name: "Rail depot",     cost: 2000, upkeep: 16, staff: { base: 3 }, radius: 0,  link: "rail", variants: 2 },
+    fire:     { name: "Fire station",   cost: 1100, upkeep: 10, staff: { base: 2, perUnit: 1 }, radius: 8,  units: { kind: "engine", perLevel: [0, 1, 2] } },
+    police:   { name: "Police station", cost: 1500, upkeep: 12, staff: { base: 2, perUnit: 1 }, radius: 9,  safety: 1, units: { kind: "cruiser", perLevel: [0, 1, 2] }, capacity: { cells: [0, 3, 6, 9] } },
+    clinic:   { name: "Medical clinic", cost: 750,  upkeep: 14, staff: { base: 2, perUnit: 1 }, radius: 7,  health: 1, units: { kind: "ambulance", perLevel: [0, 1, 2] }, capacity: { beds: [0, 3, 6, 10] } },
+    hospital: { name: "Hospital",       cost: 3600, upkeep: 30, staff: { base: 4, perUnit: 1 }, radius: 12, health: 2, units: { kind: "ambulance", perLevel: [0, 1, 2] }, capacity: { beds: [0, 12, 24, 40] } },
+  };
+  // derive every parallel table from the cards, so the spine has exactly one source
+  Object.keys(CARDS).forEach((id) => {
+    const c = CARDS[id];
+    SVC_RULE[id] = {
+      radius: c.radius || 0,
+      upkeep: c.upkeep || 0,
+      value: c.value || 0,
+      safety: c.safety || 0,
+      health: c.health || 0,
+    };
+    SERVICE_STAFF[id] = { base: c.staff.base || 0, perUnit: c.staff.perUnit || 0 };
+  });
+  TOOLS.forEach((t) => {
+    const card = t.service && CARDS[t.service];
+    if (!card) return;
+    t.card = t.service;
+    t.cost = card.cost;
+    t.name = card.name;
+    if (card.capacity && card.capacity.beds) t.hint = "beds + ambulance";
+    else if (card.units && card.units.kind === "engine") t.hint = "stops fires";
+    else if (card.units && card.units.kind === "cruiser") t.hint = "cuts crime";
+    else if (card.produces && card.produces.power) t.hint = "power radius";
+    else if (card.produces && card.produces.water) t.hint = "water radius";
+    else if (card.link === "ferry") t.hint = "links regions by water";
+    else if (card.link === "rail") t.hint = "the strongest region link";
+  });
+  function cardUnits(cardId, level) {
+    const c = CARDS[cardId];
+    if (!c || !c.units) return 0;
+    return c.units.perLevel[Math.min(2, Math.max(1, level))] || 0;
+  }
+  function cardCapacity(cardId, level) {
+    const c = CARDS[cardId];
+    if (!c || !c.capacity) return 0;
+    const arr = c.capacity.beds || c.capacity.cells || [0];
+    return arr[Math.min(3, Math.max(0, level))] || 0;
+  }
+  function cardDailyCost(cardId) {
+    const c = CARDS[cardId];
+    if (!c) return 0;
+    const positions = (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(cardId, 1);
+    return (c.upkeep || 0) + positions * WAGE_PER_DAY;
+  }
   const MILESTONES = [
     { pop: 0, title: "Hamlet", grant: 0 },
     { pop: 120, title: "Village", grant: 4000, unlock: 1, goal: "Reach 120 people to unlock parks." },
@@ -1304,8 +1368,8 @@ window.DebugOverlay = DebugOverlay;
       function gameClock() { return (S.day || 0) * 86400 + (S.hour || 0) * 3600; }
       function staffFactor() { return (typeof S !== "undefined" && S.staffing != null) ? S.staffing : 1; }
       function bedCount(facility) {
-        const arr = SVC[facility.region.svc[facility.tile]] === "hospital" ? HOSPITAL_BEDS : BEDS_PER_LEVEL;
-        return Math.max(0, Math.round(arr[Math.min(3, facility.level || 1)] * staffFactor()));
+        const id = SVC[facility.region.svc[facility.tile]];
+        return Math.max(0, Math.round(cardCapacity(id, facility.level || 1) * staffFactor()));
       }
       function bedsFree(facility) {
         const used = patients.filter(p => p.clinicId === clinicId(facility) && p.until > gameClock()).length;
@@ -1313,7 +1377,7 @@ window.DebugOverlay = DebugOverlay;
       }
       function cellsFree(station) {
         const used = prisoners.filter(p => p.stationId === stationId(station) && p.until > gameClock()).length;
-        return Math.max(0, Math.round(CELLS_PER_LEVEL[Math.min(3, station.level || 1)] * staffFactor()) - used);
+        return Math.max(0, Math.round(cardCapacity("police", station.level || 1) * staffFactor()) - used);
       }
       function sweepCapacity() {
         const t = gameClock();
@@ -3245,8 +3309,8 @@ window.DebugOverlay = DebugOverlay;
       if (s === "power") plants++;
       else if (s === "water") pumps++;
     }
-    const capP = 30 + plants * 24;
-    const capW = 24 + pumps * 28;
+  const capP = 30 + plants * (CARDS.power.produces.power);
+  const capW = 24 + pumps * (CARDS.water.produces.water);
     let demP = 0, demW = 0;
     for (let i = 0; i < n; i++) {
       const lv = r.level[i];
@@ -6970,6 +7034,7 @@ window.DebugOverlay = DebugOverlay;
     admitNow: (n) => { const m = popModel(); m.avail = Math.min(INTAKE.cap, m.avail + (n || 10)); return admitFromPool(); },
     cycleNow: (n) => { const m = popModel(); for (let k = 0; k < (n || 1); k++) { refillIntake(1); admitFromPool(); } return m.pop; },
     popDay: () => { popDayTick(); const m = popModel(); return { pop: m.pop, died: m.died, left: m.left }; },
+    cards: () => Object.keys(CARDS).map((id) => { const c = CARDS[id]; return { id, name: c.name, cost: c.cost, upkeep: c.upkeep, staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 1), dailyCost: cardDailyCost(id), radius: c.radius || 0, capacity: c.capacity ? c.capacity : null, produces: c.produces || null, link: c.link || null, level2: { staff: (c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2), capacity: cardCapacity(id, 2), daily: (c.upkeep || 0) + ((c.staff.base || 0) + (c.staff.perUnit || 0) * cardUnits(id, 2)) * WAGE_PER_DAY } }; }),
     costs: () => ({ build: TOOLS.reduce((o, t) => { o[t.id] = t.cost; return o; }, {}), wage: WAGE_PER_DAY, upkeep: Object.keys(SVC_RULE).reduce((o, k) => { o[k] = SVC_RULE[k].upkeep || 0; return o; }, {}), staff: SERVICE_STAFF, incomePerPersonDay: 0.55 }),
     rates: () => ({ pop: S.pop, medical: dailyExpectation("medical"), crime: dailyExpectation("crime"), fire: dailyExpectation("fire"), band: incidenceBand(S.pop).max, caps: { medical: dailyCapFor("medical"), crime: dailyCapFor("crime"), fire: dailyCapFor("fire") }, counts: S.eventCounts || null }),
     debugCall: () => debugPoliceCall(),
