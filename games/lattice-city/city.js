@@ -1798,7 +1798,7 @@ window.DebugOverlay = DebugOverlay;
 
     // Household: a house tile + its residents
     function createHousehold(region, tileIdx, level) {
-      const capacity = CITIZEN.HOUSE_CAPACITY * level;
+      const capacity = 6 * level;   // a house holds six people per level
       return {
         id: ++householdIdCounter,
         region: region,
@@ -2355,8 +2355,7 @@ window.DebugOverlay = DebugOverlay;
         }
       });
       // Update global S.pop from real citizens
-      S.pop = citizens.filter(c => c.status === "active").length;
-      S.jobs = citizens.filter(c => c.status === "active" && c.job).length;
+    // jobs and population are owned by buildings + the pool; the citizens layer is legacy
     }
 
     // ============= CITIZEN CARD UI =============
@@ -3262,7 +3261,7 @@ window.DebugOverlay = DebugOverlay;
   }
 
   function recalcRegion(r) {
-    let pop = 0, jobs = 0, roads = 0, svcUp = 0, built = 0, parks = 0;
+    let jobs = 0, roads = 0, svcUp = 0, built = 0, parks = 0, capPop = 0;
     for (let i = 0; i < RS * RS; i++) {
       if (r.road[i]) roads++;
       const svcName = SVC[r.svc[i]];
@@ -3272,13 +3271,13 @@ window.DebugOverlay = DebugOverlay;
       built++;
       const z = r.zone[i];
       const dens = r.density ? (r.density[i] || 1) : 1;
-      const cap = (z === Z.R ? 4 : 6) * lv * dens;
-      if (z === Z.R) pop += cap; else jobs += cap;
+      const cap = 6 * lv * dens;          // a house holds 6 per level; a shop or works employs 6
+      if (z === Z.R) capPop += cap; else jobs += cap;
     }
-    r.pop = pop; r.jobs = jobs; r.built = built; r.roads = roads; r.parks = parks;
+    r.capPop = capPop; r.jobs = jobs; r.built = built; r.roads = roads; r.parks = parks;
     r.upkeep = roads * 0.55 + svcUp;
+    if (r.pop > capPop) r.pop = capPop;    // population is assigned by the pool, capped here
   }
-
   // ---------------------------------------------------------------- links
   function refreshLinks() {
     S.links = [];
@@ -3426,7 +3425,7 @@ window.DebugOverlay = DebugOverlay;
       function housingCapacity() {
         let cap = 0;
         claimedList().forEach((r) => {
-          for (let i = 0; i < RS * RS; i++) if (r.zone[i] === Z.R && r.level[i] > 0) cap += CITIZEN.HOUSE_CAPACITY * r.level[i];
+          for (let i = 0; i < RS * RS; i++) if (r.zone[i] === Z.R && r.level[i] > 0) cap += 6 * r.level[i] * ((r.density && r.density[i]) || 1);
         });
         return cap;
       }
@@ -3471,36 +3470,37 @@ window.DebugOverlay = DebugOverlay;
       }
 
   function recalcWorld() {
-    let pop = 0, jobs = 0, income = 0, upkeep = 0, moodSum = 0, n = 0;
+    let jobs = 0, income = 0, upkeep = 0, moodSum = 0, n = 0, capSum = 0;
     updateCommutes();
     // SimCity 3000: revenue = taxRate × population / 75 per zone. The 7% rate is the
     // calibrated default, so the multiplier keeps the existing economy at par and makes
     // the slider a real lever (below 5% growth rises, above 9% demand collapses).
     const taxMul = (S.taxRate == null ? 7 : S.taxRate) / 7;
-    claimedList().forEach((r) => {
-      recalcRegion(r);
-      pop += r.pop; jobs += r.jobs;
+    const list = claimedList();
+    list.forEach((r) => { recalcRegion(r); capSum += r.capPop || 0; });
+    // population lives in the pool and is dealt out to districts by housing capacity,
+    // so r.pop is always the number of people actually living there
+    const pm = popModel();
+    if (!pm.seeded) {
+      pm.pop = Math.min(pm.pop || 0, capSum);
+      const parts = 3;
+      for (let k = 0; k < parts; k++) {
+        const share = Math.floor(pm.pop / parts) + (k === 0 ? pm.pop % parts : 0);
+        if (share > 0) pm.cohorts.push({ n: share, days: INTAKE.lifeMin + Math.floor(Math.random() * (INTAKE.lifeMax - INTAKE.lifeMin + 1)) });
+      }
+      pm.seeded = true;
+    }
+    if (pm.pop > capSum) pm.pop = capSum;
+    S.pop = pm.pop;
+    list.forEach((r) => {
+      r.pop = capSum ? Math.min(r.capPop || 0, Math.round(pm.pop * (r.capPop || 0) / capSum)) : 0;
+      jobs += r.jobs;
       income += (r.pop * 0.85 + r.jobs * 0.5) * taxMul;
       upkeep += r.upkeep || 0;
       moodSum += r.mood; n++;
     });
-    if (S.ordinances && S.ordinances.fines) income += Math.max(2, pop * 0.02);
+    if (S.ordinances && S.ordinances.fines) income += Math.max(2, S.pop * 0.02);
     S.jobs = jobs; S.taxIncome = income;
-    // population is the pool, capped by housing: the buildings only set capacity
-    const pm = popModel();
-    const capNow = housingCapacity();
-    if (!pm.seeded) {
-      pm.pop = Math.min(pop, capNow);
-      // stagger the starting population so deaths arrive as a trickle, not a cliff
-      const parts = 3;
-      for (let k = 0; k < parts; k++) {
-        const n = Math.floor(pm.pop / parts) + (k === 0 ? pm.pop % parts : 0);
-        if (n > 0) pm.cohorts.push({ n: n, days: INTAKE.lifeMin + Math.floor(Math.random() * (INTAKE.lifeMax - INTAKE.lifeMin + 1)) });
-      }
-      pm.seeded = true;
-    }
-    if (pm.pop > capNow) pm.pop = capNow;
-    S.pop = pm.pop; S.income = income - (S.bonds || 0) * (S.bondRate || 0.06) * 1000;
     S.upkeep = upkeep;
     S.mood = n ? moodSum / n : 60;
   }
@@ -3513,7 +3513,7 @@ window.DebugOverlay = DebugOverlay;
       for (let i = 0; i < RS * RS; i++) {
         const z = r.zone[i]; if (!z || !r.level[i]) continue;
         const dens = r.density ? (r.density[i] || 1) : 1;
-        const cap = (z === Z.R ? 4 : 6) * r.level[i] * dens;
+        const cap = 6 * r.level[i] * dens;
         if (z === Z.C) shops += cap;
         if (z === Z.I) industry += cap;
         if (z === Z.R) homes += cap;
