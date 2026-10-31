@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-10-31T10:57:13.426622+00:00",
-  "count": 980,
+  "generated_utc": "2026-10-31T10:58:03.206908+00:00",
+  "count": 1001,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -15759,7 +15759,343 @@
       "full_bytes": 13632,
       "width": 832,
       "height": 480
+    },
+    {
+      "id": "e1b257cc18a69c2f",
+      "title": "run grid 16",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-grid-16.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-grid-16.png",
+      "original_bytes": 50293,
+      "full": "assets/gallery/full/e1b257cc18a69c2f.jpg",
+      "thumb": "assets/gallery/thumb/e1b257cc18a69c2f.jpg",
+      "full_bytes": 9764,
+      "width": 1024,
+      "height": 256
+    },
+    {
+      "id": "dfe302c292b2a494",
+      "title": "run grid 24",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-grid-24.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-grid-24.png",
+      "original_bytes": 74429,
+      "full": "assets/gallery/full/dfe302c292b2a494.jpg",
+      "thumb": "assets/gallery/thumb/dfe302c292b2a494.jpg",
+      "full_bytes": 14226,
+      "width": 1024,
+      "height": 384
+    },
+    {
+      "id": "aff4b112d15ca4cb",
+      "title": "run grid 48",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-grid-48.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-grid-48.png",
+      "original_bytes": 146495,
+      "full": "assets/gallery/full/aff4b112d15ca4cb.jpg",
+      "thumb": "assets/gallery/thumb/aff4b112d15ca4cb.jpg",
+      "full_bytes": 27730,
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "id": "b60d405692f0a59b",
+      "title": "run grid 8",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-grid-8.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-grid-8.png",
+      "original_bytes": 25671,
+      "full": "assets/gallery/full/b60d405692f0a59b.jpg",
+      "thumb": "assets/gallery/thumb/b60d405692f0a59b.jpg",
+      "full_bytes": 5265,
+      "width": 512,
+      "height": 256
+    },
+    {
+      "id": "9972555fb3324e8c",
+      "title": "run preview 16",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-preview-16.gif",
+      "source_root": "Publish Portal",
+      "original_name": "run-preview-16.gif",
+      "original_bytes": 20789,
+      "full": "assets/gallery/full/9972555fb3324e8c.jpg",
+      "thumb": "assets/gallery/thumb/9972555fb3324e8c.jpg",
+      "full_bytes": 1171,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "f2d8d60862ae0530",
+      "title": "run preview 24",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-preview-24.gif",
+      "source_root": "Publish Portal",
+      "original_name": "run-preview-24.gif",
+      "original_bytes": 31610,
+      "full": "assets/gallery/full/f2d8d60862ae0530.jpg",
+      "thumb": "assets/gallery/thumb/f2d8d60862ae0530.jpg",
+      "full_bytes": 1171,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "bbdc61b165319dca",
+      "title": "run preview 48",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-preview-48.gif",
+      "source_root": "Publish Portal",
+      "original_name": "run-preview-48.gif",
+      "original_bytes": 63068,
+      "full": "assets/gallery/full/bbdc61b165319dca.jpg",
+      "thumb": "assets/gallery/thumb/bbdc61b165319dca.jpg",
+      "full_bytes": 1171,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "71d7490751819ed2",
+      "title": "run preview 8",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-preview-8.gif",
+      "source_root": "Publish Portal",
+      "original_name": "run-preview-8.gif",
+      "original_bytes": 10426,
+      "full": "assets/gallery/full/71d7490751819ed2.jpg",
+      "thumb": "assets/gallery/thumb/71d7490751819ed2.jpg",
+      "full_bytes": 1171,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "71d7490751819ed2",
+      "title": "run preview",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-preview.gif",
+      "source_root": "Publish Portal",
+      "original_name": "run-preview.gif",
+      "original_bytes": 10426,
+      "full": "assets/gallery/full/71d7490751819ed2.jpg",
+      "thumb": "assets/gallery/thumb/71d7490751819ed2.jpg",
+      "full_bytes": 1171,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "69d2fee1b7866746",
+      "title": "run strip 16",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-strip-16.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-strip-16.png",
+      "original_bytes": 50411,
+      "full": "assets/gallery/full/69d2fee1b7866746.jpg",
+      "thumb": "assets/gallery/thumb/69d2fee1b7866746.jpg",
+      "full_bytes": 7017,
+      "width": 2048,
+      "height": 128
+    },
+    {
+      "id": "c1bb06ec1787ccf1",
+      "title": "run strip 24",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-strip-24.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-strip-24.png",
+      "original_bytes": 74541,
+      "full": "assets/gallery/full/c1bb06ec1787ccf1.jpg",
+      "thumb": "assets/gallery/thumb/c1bb06ec1787ccf1.jpg",
+      "full_bytes": 6007,
+      "width": 3072,
+      "height": 128
+    },
+    {
+      "id": "4dcfb4eea4db73bd",
+      "title": "run strip 48",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-strip-48.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-strip-48.png",
+      "original_bytes": 145171,
+      "full": "assets/gallery/full/4dcfb4eea4db73bd.jpg",
+      "thumb": "assets/gallery/thumb/4dcfb4eea4db73bd.jpg",
+      "full_bytes": 4563,
+      "width": 6144,
+      "height": 128
+    },
+    {
+      "id": "088505ad595642f4",
+      "title": "run strip 8",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "run-strip-8.png",
+      "source_root": "Publish Portal",
+      "original_name": "run-strip-8.png",
+      "original_bytes": 25709,
+      "full": "assets/gallery/full/088505ad595642f4.jpg",
+      "thumb": "assets/gallery/thumb/088505ad595642f4.jpg",
+      "full_bytes": 5250,
+      "width": 1024,
+      "height": 128
+    },
+    {
+      "id": "897769723d1730fd",
+      "title": "sprite 01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_01.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_01.png",
+      "original_bytes": 3346,
+      "full": "assets/gallery/full/897769723d1730fd.jpg",
+      "thumb": "assets/gallery/thumb/897769723d1730fd.jpg",
+      "full_bytes": 1212,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "5fd60f692408ba4c",
+      "title": "sprite 02",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_02.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_02.png",
+      "original_bytes": 3254,
+      "full": "assets/gallery/full/5fd60f692408ba4c.jpg",
+      "thumb": "assets/gallery/thumb/5fd60f692408ba4c.jpg",
+      "full_bytes": 1213,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "853bf594ef218c64",
+      "title": "sprite 03",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_03.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_03.png",
+      "original_bytes": 3232,
+      "full": "assets/gallery/full/853bf594ef218c64.jpg",
+      "thumb": "assets/gallery/thumb/853bf594ef218c64.jpg",
+      "full_bytes": 1159,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "78fe6d763dbe36be",
+      "title": "sprite 04",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_04.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_04.png",
+      "original_bytes": 3214,
+      "full": "assets/gallery/full/78fe6d763dbe36be.jpg",
+      "thumb": "assets/gallery/thumb/78fe6d763dbe36be.jpg",
+      "full_bytes": 1129,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "32e6793a61b3f710",
+      "title": "sprite 05",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_05.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_05.png",
+      "original_bytes": 3182,
+      "full": "assets/gallery/full/32e6793a61b3f710.jpg",
+      "thumb": "assets/gallery/thumb/32e6793a61b3f710.jpg",
+      "full_bytes": 1169,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "cd976cd461499275",
+      "title": "sprite 06",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_06.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_06.png",
+      "original_bytes": 3414,
+      "full": "assets/gallery/full/cd976cd461499275.jpg",
+      "thumb": "assets/gallery/thumb/cd976cd461499275.jpg",
+      "full_bytes": 1182,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "ced026cb03261fef",
+      "title": "sprite 07",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_07.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_07.png",
+      "original_bytes": 3601,
+      "full": "assets/gallery/full/ced026cb03261fef.jpg",
+      "thumb": "assets/gallery/thumb/ced026cb03261fef.jpg",
+      "full_bytes": 1225,
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "2359e1eb3f107393",
+      "title": "sprite 08",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sprite_08.png",
+      "source_root": "Publish Portal",
+      "original_name": "sprite_08.png",
+      "original_bytes": 3866,
+      "full": "assets/gallery/full/2359e1eb3f107393.jpg",
+      "thumb": "assets/gallery/thumb/2359e1eb3f107393.jpg",
+      "full_bytes": 1298,
+      "width": 128,
+      "height": 128
     }
   ],
-  "cache_bust": "980-auto-202610310457"
+  "cache_bust": "1001-auto-202610310458"
 }
