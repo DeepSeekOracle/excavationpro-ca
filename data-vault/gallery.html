@@ -236,7 +236,7 @@
     document.getElementById('q').oninput = render;
     document.getElementById('tag').onchange = render;
     // Cache-bust so removals show up without a hard refresh
-    fetch('data/clips_manifest.json?v=2-clips-202610312253', { cache: 'no-store' }).then(r => r.ok ? r.json() : {items:[]}).then(data => {
+    fetch('data/clips_manifest.json?v=3-clips-202610312300', { cache: 'no-store' }).then(r => r.ok ? r.json() : {items:[]}).then(data => {
       clipMeta = data; clips = data.items || []; if (view === 'clips') render();
     }).catch(() => {});
     fetch('data/gallery_manifest.json?v=1077-auto-202610311844', { cache: 'no-store' }).then(r => r.json()).then(data => {

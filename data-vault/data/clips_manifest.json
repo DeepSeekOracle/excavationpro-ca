@@ -27,10 +27,24 @@
       "width": 704,
       "height": 480,
       "duration": 4.04
+    },
+    {
+      "id": "5a63183c52f4c27a",
+      "title": "output 230020",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "output-230020.mp4",
+      "file": "assets/gallery/clips/5a63183c52f4c27a.mp4",
+      "poster": "assets/gallery/clips/5a63183c52f4c27a.jpg",
+      "bytes": 595214,
+      "width": 704,
+      "height": 480,
+      "duration": 4.04
     }
   ],
-  "count": 2,
-  "generated_utc": "2026-11-01T04:53:59.227929+00:00",
-  "cache_bust": "2-clips-202610312253",
+  "count": 3,
+  "generated_utc": "2026-11-01T05:00:31.832143+00:00",
+  "cache_bust": "3-clips-202610312300",
   "signature": "short clips"
 }
