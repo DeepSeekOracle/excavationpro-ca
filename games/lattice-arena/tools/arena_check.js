@@ -69,6 +69,9 @@ load("director.js");
 load("attacks.js");
 load("formation.js");
 load("brain.js");
+/* the impact layer is presentational only, but it is loaded here so a damage path that
+   throws inside it fails this gate instead of failing on a player's screen */
+load("fx.js");
 load("arena.js");
 
 const R = win.LYGO_ARENA;

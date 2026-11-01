@@ -11,7 +11,7 @@
   const el = (t, cls, html) => { const e = document.createElement(t); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
 
   const persist = Object.assign(
-    { team: ["kael", "vale", "lyra"], mode: 3, speed: 1, wins: 0, losses: 0, filter: "champ", name: "", books: {}, bestStreak: 0, talk: true },
+    { team: ["kael", "vale", "lyra"], mode: 3, speed: 1, wins: 0, losses: 0, filter: "champ", name: "", books: {}, bestStreak: 0, talk: true, fx: true },
     (() => { try { return JSON.parse(localStorage.getItem(SAVE) || "{}"); } catch (e) { return {}; } })()
   );
   function save() {
@@ -247,6 +247,7 @@
   const SFX_GAIN = { click: 0.35, count: 0.4, hit: 0.32, cast: 0.38, big: 0.5, heal: 0.42, summon: 0.46, kill: 0.5, warn: 0.46, fight: 0.5, win: 0.55, lose: 0.5 };
   let audio = null, sfxBuf = {}, sfxReady = false, sfxGate = 0, lastCount = "", fought = false;
   function sfxOn() { return persist.sfx !== false; }
+  function fxOn() { return persist.fx !== false; }
   function volOf(key, fallback) {
     const n = persist[key];
     return typeof n === "number" ? Math.max(0, Math.min(1, n)) : fallback;
@@ -519,6 +520,12 @@
       b.textContent = sfxOn() ? "SFX on" : "SFX off";
     });
   }
+  function paintFx() {
+    document.querySelectorAll("[data-act='fx']").forEach((b) => {
+      b.classList.toggle("on", fxOn());
+      b.textContent = fxOn() ? "Impacts on" : "Impacts off";
+    });
+  }
   function mixRow(key, label, fallback) {
     const v = Math.round(volOf(key, fallback) * 100);
     return "<label class='mix'>" + label + "<input type='range' min='0' max='100' value='" + v + "' data-vol='" + key + "'><b>" + v + "</b></label>";
@@ -653,6 +660,9 @@
       "<p class='lede'>Hits, casts, and the result. The radio is its own mute.</p>" +
       "<button type='button' class='btn" + (sfxOn() ? " on" : "") + "' data-act='mute'>" + (sfxOn() ? "SFX on" : "SFX off") + "</button>" +
       mixRow("sfxVol", "Effects", 0.85) +
+      "<h2>Impact effects</h2>" +
+      "<p class='lede'>Sparks, the shove on a hit, the freeze when a heavy blow lands. Off leaves every strike bare: the fight still reads, the ring is just quieter.</p>" +
+      "<button type='button' class='btn" + (fxOn() ? " on" : "") + "' data-act='fx'>" + (fxOn() ? "Impacts on" : "Impacts off") + "</button>" +
       "<h2>Battle speed</h2><div class='speed'>" + speeds + "</div>" +
       "<h2>Radio</h2>" +
       "<p class='lede'>Excavationpro, from the listen portal. The title screen plays its own theme. The radio is here, on team select, and in the fight.</p>" +
@@ -1472,6 +1482,7 @@
     await E.init(canvas);
     /* the menu should not show until the atlases are in, or cards come up blank */
     loadSfx();
+    if (w.LYGO_FX) w.LYGO_FX.setQuality(fxOn());
     document.body.classList.add("ready");
     $("boot").classList.add("hidden");
     $("menu").addEventListener("click", onMenuClick);
@@ -1501,6 +1512,7 @@
       if (act === "rematch" && !battleTv) { series = newSeries(); begin(false); }
       if (act === "newfoe" && !battleTv) { foeIds = R.draw(persist.mode, your).map((f) => f.id); rollSeed(); renderVS(); }
       if (act === "mute") { persist.sfx = !sfxOn(); save(); paintSfx(); }
+      if (act === "fx") { persist.fx = !fxOn(); save(); if (w.LYGO_FX) w.LYGO_FX.setQuality(fxOn()); paintFx(); }
       if (act === "menuSong") { persist.menuSong = !menuSongOn(); save(); paintMenuSong(); syncMenuSong(); }
       if (act === "skip") skipIntro();
       if (act === "talk") { persist.talk = !persist.talk; save(); paintTalk(); if (!persist.talk) hush(); }

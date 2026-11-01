@@ -722,6 +722,7 @@
     }
     if (!opts.dot) {
       tgt.flash = 0.16;
+      if (w.LYGO_FX) w.LYGO_FX.impact(S, { target: tgt, src: src, dmg: dmg, crit: crit, kind: opts.melee ? "melee" : (opts.ranged ? "shot" : "hit") });
       S.texts.push({ x: tgt.x, y: tgt.y - 26, t: dmg + (crit ? "!" : ""), life: crit ? 1.0 : 0.75, col: crit ? "#fbbf24" : "#f8fafc", big: crit });
       /* a crit that does not end the body still deserves a mouth, on a long leash */
       if (crit && src && tgt.hp > 0) colorLine("crit", src, tgt);
@@ -793,6 +794,7 @@
     S.marks.push({ x: e.x, y: e.y, r: 0, life: 0.8, col: "#f87171" });
     S.marks.push({ x: e.x, y: e.y + 4, r: 12, life: 0.55, col: "#fbbf24", ring: true });
     S.marks.push({ x: e.x, y: e.y - 6, r: 0, life: 0.42, col: "#fff7ed", spark: true });
+    if (w.LYGO_FX) w.LYGO_FX.death(S, e);
     S.texts.push({ x: e.x, y: e.y - 30, t: "DOWN", life: 1.2, col: "#f87171", big: true });
     checkOver();
     if (S.over) {
@@ -1689,6 +1691,7 @@
     e.animMax = 0.34;
     e.animVis = vis || "slash";
     if (w.LYGO_ATTACKS) w.LYGO_ATTACKS.cast(S, e, e.animVis, x2, y2);
+    if (w.LYGO_FX) w.LYGO_FX.cast(S, e, e.animVis);
   }
 
   /* Where the body will be when the bolt arrives. A shot at the feet they
@@ -2200,8 +2203,12 @@
     const flip = b.spr.sheet === "heroes" && e.face === 2;
     const pose = w.LYGO_ATTACKS ? w.LYGO_ATTACKS.pose(e) : null;
     ctx.save();
-    ctx.translate(Math.round(e.x + (pose ? pose.dx : 0)), Math.round(e.y + (pose ? pose.dy : 0)));
+    /* The shove from the impact layer is an offset, not a position: the sim's x/y stay the
+       truth for reach, collision and the camera, so a hit can rock a body without moving it. */
+    ctx.translate(Math.round(e.x + (pose ? pose.dx : 0) + (e.rx || 0)), Math.round(e.y + (pose ? pose.dy : 0) + (e.ry || 0)));
     if (pose) ctx.scale(pose.sx || 1, pose.sy || 1);
+    /* the squash from a hit: wider for a beat, then back to the sprite's own proportions */
+    if (e.squash) ctx.scale(1 + e.squash * 0.16, 1 - e.squash * 0.16);
     if (flip) ctx.scale(-1, 1);
     ctx.drawImage(img, c.sx, c.sy, c.cell, c.cell, -size / 2, -size * 0.78, size, size);
     ctx.restore();
@@ -2321,6 +2328,7 @@
     }
     drawMouths();
     drawLaw();
+    if (w.LYGO_FX) w.LYGO_FX.draw(ctx, S, "under");
 
     /* pending blasts are telegraphed before they land: a spectator needs to see it coming */
     S.pending.forEach((p) => {
@@ -2448,6 +2456,7 @@
       try { w.LYGO_ATTACKS.draw(ctx, S); }
       catch (err) { if (!S.fxErr) { S.fxErr = 1; if (w.console) console.warn("attack visual skipped:", err && err.message); } }
     }
+    if (w.LYGO_FX) w.LYGO_FX.draw(ctx, S, "over");
     /* projectiles */
     S.projectiles.forEach((p) => {
       if (w.LYGO_ATTACKS && p.vis) { w.LYGO_ATTACKS.shot(ctx, p); return; }
@@ -2579,6 +2588,9 @@
       runCues(INTRO_S + S.time);              // the cues after the bell ride the match clock
     }
     aimCamera(dt);
+    /* Presentation time. Real seconds, so the sparks do not run eight times faster than
+       the eye at 8×, and the shove springs back whether the fight is paused or not. */
+    if (w.LYGO_FX) w.LYGO_FX.update(S, dt);
     draw();
     if (w.ArenaUI) w.ArenaUI.tick();
   }
@@ -2667,6 +2679,7 @@
     S.your = mkTeam(ids.you, 0);
     S.foe = mkTeam(ids.foe, 1);
     S.projectiles = []; S.pending = []; S.texts = []; S.marks = []; S.swings = []; S.zones = [];
+    if (w.LYGO_FX) w.LYGO_FX.clear();
     S.bubbles = []; S.talk = [];
     S.time = 0; S.over = false; S.winner = null; S.sudden = false; S.suddenTier = 0; S.events = []; S.paused = false;
     /* What the blows actually did. A spectator cannot tell a miss from a missing number,
