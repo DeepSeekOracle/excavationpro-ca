@@ -1,8 +1,8 @@
 import * as THREE from "three";
-import { FlowPhase, installStudio, makeRng } from "./studio.js?v=202610328b";
-import { standardMaterial } from "./materials.js?v=202610328b";
-import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=202610328b";
-import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=202610328b";
+import { FlowPhase, installStudio, makeRng } from "./studio.js?v=20261101fx";
+import { standardMaterial } from "./materials.js?v=20261101fx";
+import { makeBush, makeLog, makeTree, swayTree } from "./foliage.js?v=20261101fx";
+import { generateWeaponIconAtlas, getWeaponIconUV, createWeaponIconMesh, STYLE_ICON_INDEX, generateWeaponIconDataUrls, loadWeaponIconSheetDataUrls } from "./icons.js?v=20261101fx";
 import {
   PALETTE,
   TYPE_SCALE,
@@ -12,25 +12,26 @@ import {
   ARENA_LIGHTING,
   POINT_LIGHT_SCALE,
   hexInt,
-} from "./theme.js?v=202610328b";
-import { TUNING } from "./tuning.js?v=202610328b";
-import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=202610328b";
-import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=202610328b";
-import { createCardTray } from "./cardsui.js?v=202610328b";
-import { buildBrandProps } from "./branding.js?v=202610328b";
-import { createSummary } from "./summaryui.js?v=202610328b";
-import { createBarks } from "./barks.js?v=202610328b";
-import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=202610328b";
-import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=202610328b";
-import { bossHp } from "./balance.js?v=202610328b";
-import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=202610328b";
-import { pilot } from "./autopilot.js?v=202610328b";
-import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=202610328b";
-import { createStartMenu } from "./startmenu.js?v=202610328b";
-import { createGamepad } from "./gamepad.js?v=202610328b";
-import { createTalentWindow } from "./talentui.js?v=202610328b";
-import { aggregate, toRunMods } from "./talents.js?v=202610328b";
-import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=202610328b";
+} from "./theme.js?v=20261101fx";
+import { TUNING } from "./tuning.js?v=20261101fx";
+import { createOperatorFx } from "./operatorfx.js?v=20261101fx";
+import { spawnDamageNumber, updateDamageNumbers, clearDamageNumbers } from "./damageNumbers.js?v=20261101fx";
+import { WeaponManager, CardSystem, Weapon, STYLE_VFX, GRENADE_STYLES } from "./weapons.js?v=20261101fx";
+import { createCardTray } from "./cardsui.js?v=20261101fx";
+import { buildBrandProps } from "./branding.js?v=20261101fx";
+import { createSummary } from "./summaryui.js?v=20261101fx";
+import { createBarks } from "./barks.js?v=20261101fx";
+import { EnemyManager, ENEMY_TYPES } from "./enemies.js?v=20261101fx";
+import { BeatDirector, ScoreSystem, ResultsScreen } from "./director.js?v=20261101fx";
+import { bossHp } from "./balance.js?v=20261101fx";
+import { loadSave, saveSave, updateBestScore, updateBestTime, getSettings, updateSettings, DEFAULT_SAVE, addProfileXp, grantLegacy, saveProfile } from "./save.js?v=20261101fx";
+import { pilot } from "./autopilot.js?v=20261101fx";
+import { createManager, statsForLevel, applyStatsToRun, LIGHT_MODS, PERKS } from "./manager.js?v=20261101fx";
+import { createStartMenu } from "./startmenu.js?v=20261101fx";
+import { createGamepad } from "./gamepad.js?v=20261101fx";
+import { createTalentWindow } from "./talentui.js?v=20261101fx";
+import { aggregate, toRunMods } from "./talents.js?v=20261101fx";
+import { bakeProceduralArtSprites, PROCEDURAL_ART_MODULES } from "./art/index.js?v=20261101fx";
 import {
   PLAYER_SKINS,
   STARTER_LOADOUTS,
@@ -49,20 +50,20 @@ import {
   warmGlbAssets,
   setWeaponAnchor as setWeaponAnchorModel,
   navInfo,
-} from "./models.js?v=202610328b";
-import * as levelModule from "./level.js?v=202610328b";
-import * as menuModule from "./menu.js?v=202610328b";
-import * as audioModule from "./audio.js?v=202610328b";
-import * as fxModule from "./fx.js?v=202610328b";
-import { MAPS, mapById, selectMap } from "./maps.js?v=202610328b";
-import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=202610328b";
+} from "./models.js?v=20261101fx";
+import * as levelModule from "./level.js?v=20261101fx";
+import * as menuModule from "./menu.js?v=20261101fx";
+import * as audioModule from "./audio.js?v=20261101fx";
+import * as fxModule from "./fx.js?v=20261101fx";
+import { MAPS, mapById, selectMap } from "./maps.js?v=20261101fx";
+import { PICKUP_DEFS, planPickupSites, choosePickup, speedMultiplier, powerMultiplier, HEALTH_SPACING } from "./pickups.js?v=20261101fx";
 
 // D3: one readable build stamp, so a stale module in the console is obvious.
 const BUILD = new URL(import.meta.url).searchParams.get("v") || "dev";
 window.__forgeBuild = BUILD;
 console.info("[forge] BUILD " + BUILD);
-import { createCasings } from "./casings.js?v=202610328b";
-import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=202610328b";
+import { createCasings } from "./casings.js?v=20261101fx";
+import { feelFor, kickImpulse, tracerTaper } from "./stylefeel.js?v=20261101fx";
 
 const TAU = Math.PI * 2;
 const urlParams = new URLSearchParams(window.location.search);
@@ -825,6 +826,10 @@ function updatePickups(dt) {
 
 
 scene.add(soldier);
+
+/* The suit's own signature: a colour ring under the feet and its own particle behaviour. It reads
+   the operator's position every frame and writes nothing back. */
+const operatorFx = createOperatorFx({ THREE, scene, skin: PLAYER_SKINS[0] });
 
 const arenaPropsGroup = new THREE.Group();
 arenaPropsGroup.userData.tag = "arena-props";
@@ -2896,6 +2901,7 @@ function shoot(target) {
 /** Kill feed entry (HUD): newest first, at most three. */
 function noteKill(type) {
   state.killFlash = true;
+  operatorFx.kill(soldier.position);
   state.killFeed = state.killFeed || [];
   state.killFeed.unshift({ text: String(type || "hostile").toUpperCase() + " DOWN", t: 2.6 });
   state.killFeed.length = Math.min(state.killFeed.length, 3);
@@ -2967,7 +2973,10 @@ function hurt(amount) {
   if (amount >= 22) barks.trigger("close_call");   // a big single hit is a close call
   if (state.phase !== "playing") return;
   state.health = Math.max(0, state.health - amount);
-  if (!state.attractSim) spawnDamageNumber(soldier.position.x + 0.6, 2.55, soldier.position.z, amount, { player: true });
+  if (!state.attractSim) {
+    spawnDamageNumber(soldier.position.x + 0.6, 2.55, soldier.position.z, amount, { player: true });
+    operatorFx.hit(soldier.position, Math.min(2, amount / 20));
+  }
   audioController?.playSfx("hurt", { volume: 0.45, pitch: 1.0 });
   globalThis.__studio?.hud?.flash("#e5313b", 0.22);
   if (state.health <= 0) {
@@ -4204,6 +4213,14 @@ const studioApi = installStudio({
       const bark = document.getElementById("fs-bark");
       if (bark && bark.classList.contains("on")) { bark.classList.remove("on"); bark.textContent = ""; }
     }
+    // the suit's signature rides the same frame clock as the fight, in real seconds
+    operatorFx.setSkin(PLAYER_SKINS[state.skinIndex || 0]);
+    operatorFx.setActive(state.phase === "playing");
+    operatorFx.update(dmgDt, {
+      pos: state.phase === "playing" ? soldier.position : null,
+      hp: state.health,
+      maxHp: state.maxHealth,
+    });
     renderer.render(scene, camera);
   },
 });

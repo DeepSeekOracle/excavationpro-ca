@@ -6,13 +6,13 @@
  * spread, falloff and the run-XP formula. Nothing here touches THREE or the DOM.
  */
 
-import { TUNING } from "./tuning.js?v=202610328b";
+import { TUNING } from "./tuning.js?v=20261101fx";
 import {
   shieldGate as gate,
   bossHp as bossCurve,
   xpThreshold as xpCurve,
   timeToKill as ttk,
-} from "./balance.js?v=202610328b";
+} from "./balance.js?v=20261101fx";
 
 /** Every constant in one place, each with the reason it has that value. */
 export const MATH = Object.freeze({

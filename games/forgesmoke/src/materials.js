@@ -5,7 +5,7 @@
  * from every camera, and a whole run shipped exactly that. Everything here bakes on a canvas
  * from a seed, so two builds on one seed produce the same pixels.
  *
- *   import { bakeTexture, triplanar, weather, variant, normalFromHeight } from "./materials.js?v=202610328b";
+ *   import { bakeTexture, triplanar, weather, variant, normalFromHeight } from "./materials.js?v=20261101fx";
  *   const { map, roughnessMap, bumpMap } = bakeTexture({ kind: "masonry", seed: 7, palette: [0x6b5a48, 0x8a7a66] });
  *   wall.material = new THREE.MeshStandardMaterial({ map, roughnessMap, bumpMap, bumpScale: 0.6 });
  *
@@ -378,7 +378,8 @@ export function standardMaterial({
   palette = null,
   repeat = 1,
   bumpScale = 0.5,
-  size = 512,
+  bump = null,        // caller-supplied bump strength; it used to be spread straight onto the
+  size = 512,         // material as an unknown property and silently dropped
   ...rest
 } = {}) {
   const baked = bakeTexture({ kind, seed, palette, repeat, size });
@@ -386,7 +387,7 @@ export function standardMaterial({
     map: baked.map,
     roughnessMap: baked.roughnessMap,
     bumpMap: baked.bumpMap,
-    bumpScale,
+    bumpScale: bump == null ? bumpScale : bump,
     ...rest,
   });
   material.userData.baked = kind;

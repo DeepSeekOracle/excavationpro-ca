@@ -8,7 +8,7 @@
  * Beam / flamer / grenade styles have no case, so `eject` is a no-op for them.
  */
 import * as THREE from "three";
-import { TUNING } from "./tuning.js?v=202610328b";
+import { TUNING } from "./tuning.js?v=20261101fx";
 
 /** Styles that physically eject a case. Energy and thrown styles do not. */
 export const BALLISTIC_STYLES = new Set([

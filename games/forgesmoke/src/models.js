@@ -6,9 +6,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { clone as skeletonClone } from "three/addons/utils/SkeletonUtils.js";
-import { standardMaterial, bakeTexture } from "./materials.js?v=202610328b";
-import { PALETTE, hexInt } from "./theme.js?v=202610328b";
-import { mapById, PROP_COLLIDERS } from "./maps.js?v=202610328b";
+import { standardMaterial, bakeTexture } from "./materials.js?v=20261101fx";
+import { PALETTE, hexInt } from "./theme.js?v=20261101fx";
+import { mapById, PROP_COLLIDERS } from "./maps.js?v=20261101fx";
 
 export const PLAYER_SKINS = [
   {
@@ -297,6 +297,19 @@ function applyOperatorSkinToRig(rigRoot, skin, clothMat, armorMat, visorMat) {
       child.userData.tag = "visor";
     } else if (child.material) {
       const srcMat = Array.isArray(child.material) ? child.material[0] : child.material;
+      /* The photo rig is one skinned mesh carrying a real photographic map. Replacing its material
+         with a flat colour threw the map away and left a pale blob over the shoulders, and because
+         the whole skin pass was skipped for it, all four suits looked identical. Multiply the map by
+         the suit's own colour instead: the detail survives and the suits finally tell apart. */
+      if (srcMat.map) {
+        const tint = new THREE.Color(skin.clothPalette && skin.clothPalette[1] || 0x8a8a8a)
+          .lerp(new THREE.Color(0xffffff), 0.5);
+        srcMat.color.copy(tint);
+        srcMat.userData.asset = "soldier-rig";
+        child.material = srcMat;
+        child.userData.tag = "player-body";
+        return;
+      }
       const cloned = srcMat.clone();
       cloned.userData.asset = "soldier-rig";
       cloned.color = new THREE.Color(skin.bodyTint || 0xffffff);
@@ -382,7 +395,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
 
   withGltf(OPERATOR_RIG_ASSET, (gltf) => {
     if (soldier.userData.glbRig) {
-      if (!USE_PHOTO_RIG) {
+      {
         applyOperatorSkinToRig(
           soldier.userData.glbRig,
           soldier.userData.skin || skin,
@@ -401,7 +414,7 @@ export function buildOperatorRig(soldier, gunPivot, texSize = 256, skinIndex = 0
     rig.position.set(0, 0, 0);
     rig.rotation.set(0, Math.PI, 0);
 
-    if (!USE_PHOTO_RIG) {
+    {
       applyOperatorSkinToRig(
         rig,
         soldier.userData.skin || skin,
@@ -1598,6 +1611,7 @@ function laneStripe(group, mat, x, z, w, d, rotY = 0) {
   const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, 0.012, d), mat);
   mesh.position.set(x, 0.02, z);
   mesh.rotation.y = rotY;
+  mesh.receiveShadow = true;
   mesh.userData.tag = "lane-stripe";
   group.add(mesh);
   return mesh;
@@ -1686,7 +1700,9 @@ function buildMapLevel(map, group, addBox, addCircle, texSize) {
   for (const r of level.roads || []) groundPatch(group, mats[r.mat || "asphalt"], r.x, r.z, r.w, r.d, r.rot || 0, 0.018);
   for (const p of level.pads || []) groundPatch(group, mats[p.mat || "concrete"], p.x, p.z, p.w, p.d, p.rot || 0, 0.02);
   // lane paint
-  const paint = new THREE.MeshBasicMaterial({ color: 0xd8d2c4 });
+  // Road paint is lit, not emissive. As MeshBasicMaterial it ignored every arena light and read as
+  // a white slab lying on a dark street at night — the brightest thing on screen and the flattest.
+  const paint = new THREE.MeshStandardMaterial({ color: 0x8d896f, roughness: 0.94, metalness: 0.02 });
   for (const s0 of level.stripes || []) laneStripe(group, paint, s0.x, s0.z, s0.w, s0.d, s0.rot || 0);
   // buildings: a vendored Kenney model when the layout names one, otherwise the procedural block
   for (const b of level.buildings || []) {
