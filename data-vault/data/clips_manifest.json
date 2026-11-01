@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "f73c36a950e611d9",
+      "title": "Forge clip",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "output.mp4",
+      "file": "assets/gallery/clips/f73c36a950e611d9.mp4",
+      "poster": "assets/gallery/clips/f73c36a950e611d9.jpg",
+      "bytes": 808234,
+      "width": 704,
+      "height": 480,
+      "duration": 4.04
+    }
+  ],
+  "count": 1,
+  "generated_utc": "2026-11-01T04:46:50.514262+00:00",
+  "cache_bust": "1-clips-202610312246",
+  "signature": "short clips"
+}

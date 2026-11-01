@@ -30,6 +30,16 @@
       transition: transform .15s ease, border-color .15s ease;
     }
     .gcard:hover { transform: translateY(-2px); border-color: rgba(212,175,55,0.45); }
+
+    .viewtabs { display: flex; gap: 0.45rem; margin: 0 0 0.85rem; }
+    .viewtabs button {
+      background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px; padding: 0.35rem 0.8rem; cursor: pointer; font: inherit;
+    }
+    .viewtabs button.on { color: var(--gold2); border-color: rgba(212,175,55,0.55); }
+    .gcard video { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: #0b1220; }
+    .lightbox-card video { max-width: 100%; max-height: 70vh; display: block; margin: 0 auto 0.75rem; border-radius: 8px; background: #000; }
+
     .gcard img {
       width: 100%;
       aspect-ratio: 1;
@@ -109,6 +119,11 @@
 
     <section class="panel">
       <p class="muted" id="stats">Loading gallery_manifest.json…</p>
+
+      <div class="viewtabs" id="viewtabs">
+        <button type="button" id="tabPhotos" class="on">Photos</button>
+        <button type="button" id="tabClips">Clips</button>
+      </div>
       <div class="controls">
         <input id="q" type="search" placeholder="Search SEAL id, title, screenshot…" style="flex:1;min-width:200px" />
         <select id="tag">
@@ -141,6 +156,9 @@
     }
     let items = [];
     let meta = {};
+    let clips = [];
+    let clipMeta = {};
+    let view = 'photos';
     function render() {
       const q = (document.getElementById('q').value || '').toLowerCase();
       const tag = document.getElementById('tag').value;
@@ -154,6 +172,22 @@
       }
       const grid = document.getElementById('grid');
       grid.innerHTML = '';
+      if (view === 'clips') {
+        const cq = (document.getElementById('q').value || '').toLowerCase();
+        let shownClips = clips;
+        if (cq) shownClips = clips.filter(it => [it.title, it.original_name].join(' ').toLowerCase().includes(cq));
+        shownClips.slice(0, 400).forEach(it => {
+          const el = document.createElement('article');
+          el.className = 'gcard';
+          el.innerHTML = `<video muted preload="metadata" poster="${esc(it.poster)}" src="${esc(it.file)}"></video>
+            <div class="cap"><strong>${esc(it.title)}</strong>${esc((it.duration||0).toFixed(1))}s</div>`;
+          el.onclick = () => openClip(it);
+          grid.appendChild(el);
+        });
+        document.getElementById('stats').textContent =
+          `Showing ${Math.min(shownClips.length, 400)} / ${shownClips.length} clips · ${clipMeta.signature||''}`;
+        return;
+      }
       const shown = list.slice(0, 800);
       shown.forEach(it => {
         const el = document.createElement('article');
@@ -182,9 +216,29 @@
     }
     document.getElementById('lbClose').onclick = () => document.getElementById('lb').classList.remove('open');
     document.getElementById('lb').onclick = e => { if (e.target.id === 'lb') e.currentTarget.classList.remove('open'); };
+    function openClip(it) {
+      document.getElementById('lbBody').innerHTML = `
+        <video src="${esc(it.file)}" poster="${esc(it.poster)}" controls autoplay playsinline></video>
+        <h2 style="margin:0 0 .4rem;color:var(--gold2);font-size:1.05rem">${esc(it.title)}</h2>
+        <p class="muted">${esc((it.duration||0).toFixed(1))}s · ${it.width||'?'}×${it.height||'?'} · ${Math.round((it.bytes||0)/1024)} KB</p>`;
+      document.getElementById('lb').classList.add('open');
+    }
+    function showView(next) {
+      view = next;
+      document.getElementById('tabPhotos').classList.toggle('on', next === 'photos');
+      document.getElementById('tabClips').classList.toggle('on', next === 'clips');
+      document.getElementById('tag').disabled = next === 'clips';
+      render();
+    }
+    document.getElementById('tabPhotos').onclick = () => showView('photos');
+    document.getElementById('tabClips').onclick = () => showView('clips');
+    if (location.hash === '#clips') showView('clips');
     document.getElementById('q').oninput = render;
     document.getElementById('tag').onchange = render;
     // Cache-bust so removals show up without a hard refresh
+    fetch('data/clips_manifest.json?v=1-clips-202610312246', { cache: 'no-store' }).then(r => r.ok ? r.json() : {items:[]}).then(data => {
+      clipMeta = data; clips = data.items || []; if (view === 'clips') render();
+    }).catch(() => {});
     fetch('data/gallery_manifest.json?v=1077-auto-202610311844', { cache: 'no-store' }).then(r => r.json()).then(data => {
       meta = data;
       // Defense-in-depth: drop steward-removed shot if a stale CDN edge still serves it
