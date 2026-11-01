@@ -239,7 +239,7 @@
     fetch('data/clips_manifest.json?v=4-clips-202610312333', { cache: 'no-store' }).then(r => r.ok ? r.json() : {items:[]}).then(data => {
       clipMeta = data; clips = data.items || []; if (view === 'clips') render();
     }).catch(() => {});
-    fetch('data/gallery_manifest.json?v=1077-auto-202610311844', { cache: 'no-store' }).then(r => r.json()).then(data => {
+    fetch('data/gallery_manifest.json?v=1078-auto-202611011008', { cache: 'no-store' }).then(r => r.json()).then(data => {
       meta = data;
       // Defense-in-depth: drop steward-removed shot if a stale CDN edge still serves it
       items = (data.items || []).filter(it => {
