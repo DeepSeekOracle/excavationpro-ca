@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T05:51:22.080673+00:00",
-  "count": 1264,
+  "generated_utc": "2026-11-11T05:51:45.989174+00:00",
+  "count": 1276,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20303,7 +20303,199 @@
       "full_bytes": 16636,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "52779c50bc5edaea",
+      "title": "b57 observatory",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b57_observatory.png",
+      "source_root": "Publish Portal",
+      "original_name": "b57_observatory.png",
+      "original_bytes": 452744,
+      "full": "assets/gallery/full/52779c50bc5edaea.jpg",
+      "thumb": "assets/gallery/thumb/52779c50bc5edaea.jpg",
+      "full_bytes": 18899,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "2dd5895dbfa1989b",
+      "title": "b58 guildhall",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b58_guildhall.png",
+      "source_root": "Publish Portal",
+      "original_name": "b58_guildhall.png",
+      "original_bytes": 450337,
+      "full": "assets/gallery/full/2dd5895dbfa1989b.jpg",
+      "thumb": "assets/gallery/thumb/2dd5895dbfa1989b.jpg",
+      "full_bytes": 18579,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "890f2da745baf7f1",
+      "title": "b59 conservatory",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b59_conservatory.png",
+      "source_root": "Publish Portal",
+      "original_name": "b59_conservatory.png",
+      "original_bytes": 522937,
+      "full": "assets/gallery/full/890f2da745baf7f1.jpg",
+      "thumb": "assets/gallery/thumb/890f2da745baf7f1.jpg",
+      "full_bytes": 30269,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "b382c3f012693e02",
+      "title": "b60 brewery",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b60_brewery.png",
+      "source_root": "Publish Portal",
+      "original_name": "b60_brewery.png",
+      "original_bytes": 457126,
+      "full": "assets/gallery/full/b382c3f012693e02.jpg",
+      "thumb": "assets/gallery/thumb/b382c3f012693e02.jpg",
+      "full_bytes": 21485,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "bcf44f719f1e8e2f",
+      "title": "b61 fisher hut",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b61_fisher_hut.png",
+      "source_root": "Publish Portal",
+      "original_name": "b61_fisher_hut.png",
+      "original_bytes": 412453,
+      "full": "assets/gallery/full/bcf44f719f1e8e2f.jpg",
+      "thumb": "assets/gallery/thumb/bcf44f719f1e8e2f.jpg",
+      "full_bytes": 18530,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "882604a5c6440007",
+      "title": "b62 chandlery",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b62_chandlery.png",
+      "source_root": "Publish Portal",
+      "original_name": "b62_chandlery.png",
+      "original_bytes": 479006,
+      "full": "assets/gallery/full/882604a5c6440007.jpg",
+      "thumb": "assets/gallery/thumb/882604a5c6440007.jpg",
+      "full_bytes": 22915,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "1cfa532ca26de1b3",
+      "title": "b63 drydock shed",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b63_drydock_shed.png",
+      "source_root": "Publish Portal",
+      "original_name": "b63_drydock_shed.png",
+      "original_bytes": 413043,
+      "full": "assets/gallery/full/1cfa532ca26de1b3.jpg",
+      "thumb": "assets/gallery/thumb/1cfa532ca26de1b3.jpg",
+      "full_bytes": 18688,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "44270ea7924f6efa",
+      "title": "b64 lighthouse cottage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b64_lighthouse_cottage.png",
+      "source_root": "Publish Portal",
+      "original_name": "b64_lighthouse_cottage.png",
+      "original_bytes": 410562,
+      "full": "assets/gallery/full/44270ea7924f6efa.jpg",
+      "thumb": "assets/gallery/thumb/44270ea7924f6efa.jpg",
+      "full_bytes": 14018,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "f10ae8eb5ec0d926",
+      "title": "b65 shepherd croft",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b65_shepherd_croft.png",
+      "source_root": "Publish Portal",
+      "original_name": "b65_shepherd_croft.png",
+      "original_bytes": 426783,
+      "full": "assets/gallery/full/f10ae8eb5ec0d926.jpg",
+      "thumb": "assets/gallery/thumb/f10ae8eb5ec0d926.jpg",
+      "full_bytes": 16210,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d7b01374659de8f4",
+      "title": "b66 whisky barn",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b66_whisky_barn.png",
+      "source_root": "Publish Portal",
+      "original_name": "b66_whisky_barn.png",
+      "original_bytes": 435876,
+      "full": "assets/gallery/full/d7b01374659de8f4.jpg",
+      "thumb": "assets/gallery/thumb/d7b01374659de8f4.jpg",
+      "full_bytes": 16271,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "76ed70930355c64c",
+      "title": "b67 stone chapel",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b67_stone_chapel.png",
+      "source_root": "Publish Portal",
+      "original_name": "b67_stone_chapel.png",
+      "original_bytes": 436286,
+      "full": "assets/gallery/full/76ed70930355c64c.jpg",
+      "thumb": "assets/gallery/thumb/76ed70930355c64c.jpg",
+      "full_bytes": 16750,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "7f3fbfa3e97bbd57",
+      "title": "b68 watch hut",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b68_watch_hut.png",
+      "source_root": "Publish Portal",
+      "original_name": "b68_watch_hut.png",
+      "original_bytes": 420755,
+      "full": "assets/gallery/full/7f3fbfa3e97bbd57.jpg",
+      "thumb": "assets/gallery/thumb/7f3fbfa3e97bbd57.jpg",
+      "full_bytes": 14268,
+      "width": 512,
+      "height": 512
     }
   ],
-  "cache_bust": "1264-auto-202611102251"
+  "cache_bust": "1276-auto-202611102251"
 }
