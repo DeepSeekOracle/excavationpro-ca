@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-06T21:15:28.521061+00:00",
-  "count": 1083,
+  "generated_utc": "2026-11-11T01:25:17.926081+00:00",
+  "count": 1084,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17407,7 +17407,23 @@
       "full_bytes": 221163,
       "width": 1328,
       "height": 1328
+    },
+    {
+      "id": "5d06c35b68883933",
+      "title": "wolf canonical 512",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_canonical_512.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_canonical_512.png",
+      "original_bytes": 152710,
+      "full": "assets/gallery/full/5d06c35b68883933.jpg",
+      "thumb": "assets/gallery/thumb/5d06c35b68883933.jpg",
+      "full_bytes": 25620,
+      "width": 512,
+      "height": 512
     }
   ],
-  "cache_bust": "1083-auto-202611061415"
+  "cache_bust": "1084-auto-202611101825"
 }
