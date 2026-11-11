@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T05:58:58.453446+00:00",
-  "count": 1280,
+  "generated_utc": "2026-11-11T05:59:16.548665+00:00",
+  "count": 1295,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20559,7 +20559,247 @@
       "full_bytes": 46413,
       "width": 1344,
       "height": 768
+    },
+    {
+      "id": "1a08cbb1d1e9c316",
+      "title": "ambulance",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ambulance.png",
+      "source_root": "Publish Portal",
+      "original_name": "ambulance.png",
+      "original_bytes": 172683,
+      "full": "assets/gallery/full/1a08cbb1d1e9c316.jpg",
+      "thumb": "assets/gallery/thumb/1a08cbb1d1e9c316.jpg",
+      "full_bytes": 35014,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "04f219053bb55fe8",
+      "title": "fire truck",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "fire_truck.png",
+      "source_root": "Publish Portal",
+      "original_name": "fire_truck.png",
+      "original_bytes": 371012,
+      "full": "assets/gallery/full/04f219053bb55fe8.jpg",
+      "thumb": "assets/gallery/thumb/04f219053bb55fe8.jpg",
+      "full_bytes": 44905,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "67847f49d50e7704",
+      "title": "police car",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "police_car.png",
+      "source_root": "Publish Portal",
+      "original_name": "police_car.png",
+      "original_bytes": 259046,
+      "full": "assets/gallery/full/67847f49d50e7704.jpg",
+      "thumb": "assets/gallery/thumb/67847f49d50e7704.jpg",
+      "full_bytes": 43785,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "3c8c263d57a7c210",
+      "title": "rail cross",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_cross.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_cross.png",
+      "original_bytes": 407983,
+      "full": "assets/gallery/full/3c8c263d57a7c210.jpg",
+      "thumb": "assets/gallery/thumb/3c8c263d57a7c210.jpg",
+      "full_bytes": 79932,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5a150e0c64b0bd84",
+      "title": "rail curve es",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_curve_es.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_curve_es.png",
+      "original_bytes": 269161,
+      "full": "assets/gallery/full/5a150e0c64b0bd84.jpg",
+      "thumb": "assets/gallery/thumb/5a150e0c64b0bd84.jpg",
+      "full_bytes": 53359,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "33f7a55d0025eb44",
+      "title": "rail curve ne",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_curve_ne.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_curve_ne.png",
+      "original_bytes": 318512,
+      "full": "assets/gallery/full/33f7a55d0025eb44.jpg",
+      "thumb": "assets/gallery/thumb/33f7a55d0025eb44.jpg",
+      "full_bytes": 56427,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "f4c13c25f13bcee8",
+      "title": "rail curve sw",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_curve_sw.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_curve_sw.png",
+      "original_bytes": 311374,
+      "full": "assets/gallery/full/f4c13c25f13bcee8.jpg",
+      "thumb": "assets/gallery/thumb/f4c13c25f13bcee8.jpg",
+      "full_bytes": 56496,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5e8bad2a802cf2e3",
+      "title": "rail curve wn",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_curve_wn.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_curve_wn.png",
+      "original_bytes": 265100,
+      "full": "assets/gallery/full/5e8bad2a802cf2e3.jpg",
+      "thumb": "assets/gallery/thumb/5e8bad2a802cf2e3.jpg",
+      "full_bytes": 54149,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "2a922b5663e80e59",
+      "title": "rail depot platform",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_depot_platform.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_depot_platform.png",
+      "original_bytes": 292804,
+      "full": "assets/gallery/full/2a922b5663e80e59.jpg",
+      "thumb": "assets/gallery/thumb/2a922b5663e80e59.jpg",
+      "full_bytes": 52715,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "3698439fb0791237",
+      "title": "rail straight ew",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_straight_ew.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_straight_ew.png",
+      "original_bytes": 303850,
+      "full": "assets/gallery/full/3698439fb0791237.jpg",
+      "thumb": "assets/gallery/thumb/3698439fb0791237.jpg",
+      "full_bytes": 53234,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e8d4e9a200129869",
+      "title": "rail straight ns",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_straight_ns.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_straight_ns.png",
+      "original_bytes": 303929,
+      "full": "assets/gallery/full/e8d4e9a200129869.jpg",
+      "thumb": "assets/gallery/thumb/e8d4e9a200129869.jpg",
+      "full_bytes": 53208,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "2159a88e5bd61572",
+      "title": "rail tee ewn",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_tee_ewn.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_tee_ewn.png",
+      "original_bytes": 362107,
+      "full": "assets/gallery/full/2159a88e5bd61572.jpg",
+      "thumb": "assets/gallery/thumb/2159a88e5bd61572.jpg",
+      "full_bytes": 69051,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "2fb66b72c3fcac68",
+      "title": "rail tee ews",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_tee_ews.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_tee_ews.png",
+      "original_bytes": 366473,
+      "full": "assets/gallery/full/2fb66b72c3fcac68.jpg",
+      "thumb": "assets/gallery/thumb/2fb66b72c3fcac68.jpg",
+      "full_bytes": 69377,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "94388655e2d2121a",
+      "title": "rail tee nes",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_tee_nes.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_tee_nes.png",
+      "original_bytes": 366336,
+      "full": "assets/gallery/full/94388655e2d2121a.jpg",
+      "thumb": "assets/gallery/thumb/94388655e2d2121a.jpg",
+      "full_bytes": 69232,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "65f86787b1d2d4e1",
+      "title": "rail tee nsw",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rail_tee_nsw.png",
+      "source_root": "Publish Portal",
+      "original_name": "rail_tee_nsw.png",
+      "original_bytes": 372165,
+      "full": "assets/gallery/full/65f86787b1d2d4e1.jpg",
+      "thumb": "assets/gallery/thumb/65f86787b1d2d4e1.jpg",
+      "full_bytes": 69307,
+      "width": 1344,
+      "height": 768
     }
   ],
-  "cache_bust": "1280-auto-202611102258"
+  "cache_bust": "1295-auto-202611102259"
 }
