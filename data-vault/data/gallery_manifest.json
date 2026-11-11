@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:26:01.624599+00:00",
-  "count": 1088,
+  "generated_utc": "2026-11-11T01:32:45.645082+00:00",
+  "count": 1089,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17487,7 +17487,23 @@
       "full_bytes": 10186,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "c0cc9eacb5c4421d",
+      "title": "bear rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "bear_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "bear_rgba.png",
+      "original_bytes": 259282,
+      "full": "assets/gallery/full/c0cc9eacb5c4421d.jpg",
+      "thumb": "assets/gallery/thumb/c0cc9eacb5c4421d.jpg",
+      "full_bytes": 31744,
+      "width": 311,
+      "height": 430
     }
   ],
-  "cache_bust": "1088-auto-202611101826"
+  "cache_bust": "1089-auto-202611101832"
 }
