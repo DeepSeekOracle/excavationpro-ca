@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:32:53.803537+00:00",
-  "count": 1090,
+  "generated_utc": "2026-11-11T01:33:01.781822+00:00",
+  "count": 1091,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17519,7 +17519,23 @@
       "full_bytes": 34416,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "2df08c86bd7068b2",
+      "title": "elephant rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "elephant_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "elephant_rgba.png",
+      "original_bytes": 278222,
+      "full": "assets/gallery/full/2df08c86bd7068b2.jpg",
+      "thumb": "assets/gallery/thumb/2df08c86bd7068b2.jpg",
+      "full_bytes": 32152,
+      "width": 489,
+      "height": 323
     }
   ],
-  "cache_bust": "1090-auto-202611101832"
+  "cache_bust": "1091-auto-202611101833"
 }
