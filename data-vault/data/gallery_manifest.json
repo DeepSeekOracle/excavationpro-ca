@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T02:30:21.582112+00:00",
-  "count": 1259,
+  "generated_utc": "2026-11-11T05:51:22.080673+00:00",
+  "count": 1264,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20223,7 +20223,87 @@
       "full_bytes": 76452,
       "width": 1344,
       "height": 768
+    },
+    {
+      "id": "5735ddac361d9854",
+      "title": "b69 ferry terminal",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b69_ferry_terminal.png",
+      "source_root": "Publish Portal",
+      "original_name": "b69_ferry_terminal.png",
+      "original_bytes": 447125,
+      "full": "assets/gallery/full/5735ddac361d9854.jpg",
+      "thumb": "assets/gallery/thumb/5735ddac361d9854.jpg",
+      "full_bytes": 21497,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "b559ae37a117daf0",
+      "title": "b69 ferry terminal v2",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b69_ferry_terminal_v2.png",
+      "source_root": "Publish Portal",
+      "original_name": "b69_ferry_terminal_v2.png",
+      "original_bytes": 475625,
+      "full": "assets/gallery/full/b559ae37a117daf0.jpg",
+      "thumb": "assets/gallery/thumb/b559ae37a117daf0.jpg",
+      "full_bytes": 25385,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "be4eed974b3d0f03",
+      "title": "b70 hospital",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b70_hospital.png",
+      "source_root": "Publish Portal",
+      "original_name": "b70_hospital.png",
+      "original_bytes": 547465,
+      "full": "assets/gallery/full/be4eed974b3d0f03.jpg",
+      "thumb": "assets/gallery/thumb/be4eed974b3d0f03.jpg",
+      "full_bytes": 59389,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d2e86b55df979aff",
+      "title": "police n test",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "police_n_test.png",
+      "source_root": "Publish Portal",
+      "original_name": "police_n_test.png",
+      "original_bytes": 377760,
+      "full": "assets/gallery/full/d2e86b55df979aff.jpg",
+      "thumb": "assets/gallery/thumb/d2e86b55df979aff.jpg",
+      "full_bytes": 13899,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "631755b27f37bc8d",
+      "title": "test 512",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "test_512.png",
+      "source_root": "Publish Portal",
+      "original_name": "test_512.png",
+      "original_bytes": 413298,
+      "full": "assets/gallery/full/631755b27f37bc8d.jpg",
+      "thumb": "assets/gallery/thumb/631755b27f37bc8d.jpg",
+      "full_bytes": 16636,
+      "width": 512,
+      "height": 512
     }
   ],
-  "cache_bust": "1259-auto-202611101930"
+  "cache_bust": "1264-auto-202611102251"
 }
