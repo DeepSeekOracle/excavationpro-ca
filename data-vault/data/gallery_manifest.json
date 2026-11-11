@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:38:15.497032+00:00",
-  "count": 1107,
+  "generated_utc": "2026-11-11T02:27:58.602267+00:00",
+  "count": 1130,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17791,7 +17791,375 @@
       "full_bytes": 22355,
       "width": 208,
       "height": 476
+    },
+    {
+      "id": "2227f965921b20ad",
+      "title": "wolf bite f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_f00.png",
+      "original_bytes": 589598,
+      "full": "assets/gallery/full/2227f965921b20ad.jpg",
+      "thumb": "assets/gallery/thumb/2227f965921b20ad.jpg",
+      "full_bytes": 40597,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "3d293fdd52181e49",
+      "title": "wolf bite f00 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_f00_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_f00_rgba.png",
+      "original_bytes": 388255,
+      "full": "assets/gallery/full/3d293fdd52181e49.jpg",
+      "thumb": "assets/gallery/thumb/3d293fdd52181e49.jpg",
+      "full_bytes": 41846,
+      "width": 512,
+      "height": 494
+    },
+    {
+      "id": "d8e79267a21a1902",
+      "title": "wolf bite f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_f01.png",
+      "original_bytes": 583187,
+      "full": "assets/gallery/full/d8e79267a21a1902.jpg",
+      "thumb": "assets/gallery/thumb/d8e79267a21a1902.jpg",
+      "full_bytes": 39605,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "fccf10f67e6abb9a",
+      "title": "wolf bite f01 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_f01_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_f01_rgba.png",
+      "original_bytes": 382983,
+      "full": "assets/gallery/full/fccf10f67e6abb9a.jpg",
+      "thumb": "assets/gallery/thumb/fccf10f67e6abb9a.jpg",
+      "full_bytes": 40770,
+      "width": 512,
+      "height": 499
+    },
+    {
+      "id": "c374961881517741",
+      "title": "wolf bite test",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_test.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_test.png",
+      "original_bytes": 590776,
+      "full": "assets/gallery/full/c374961881517741.jpg",
+      "thumb": "assets/gallery/thumb/c374961881517741.jpg",
+      "full_bytes": 40459,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "2802df238a7bc17c",
+      "title": "wolf bite test rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_bite_test_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_bite_test_rgba.png",
+      "original_bytes": 388215,
+      "full": "assets/gallery/full/2802df238a7bc17c.jpg",
+      "thumb": "assets/gallery/thumb/2802df238a7bc17c.jpg",
+      "full_bytes": 41572,
+      "width": 512,
+      "height": 494
+    },
+    {
+      "id": "03fce7dd3ce2e9ae",
+      "title": "wolf canonical",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_canonical.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_canonical.png",
+      "original_bytes": 498342,
+      "full": "assets/gallery/full/03fce7dd3ce2e9ae.jpg",
+      "thumb": "assets/gallery/thumb/03fce7dd3ce2e9ae.jpg",
+      "full_bytes": 32098,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "f71ec740a114bf48",
+      "title": "wolf canonical rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_canonical_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_canonical_rgba.png",
+      "original_bytes": 262400,
+      "full": "assets/gallery/full/f71ec740a114bf48.jpg",
+      "thumb": "assets/gallery/thumb/f71ec740a114bf48.jpg",
+      "full_bytes": 28113,
+      "width": 465,
+      "height": 334
+    },
+    {
+      "id": "d18684f485fcb1bf",
+      "title": "wolf contact sheet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_contact_sheet.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_contact_sheet.png",
+      "original_bytes": 568287,
+      "full": "assets/gallery/full/d18684f485fcb1bf.jpg",
+      "thumb": "assets/gallery/thumb/d18684f485fcb1bf.jpg",
+      "full_bytes": 111257,
+      "width": 780,
+      "height": 780
+    },
+    {
+      "id": "f8a0d90c127cf443",
+      "title": "wolf contact sheet high",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_contact_sheet_high.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_contact_sheet_high.png",
+      "original_bytes": 588810,
+      "full": "assets/gallery/full/f8a0d90c127cf443.jpg",
+      "thumb": "assets/gallery/thumb/f8a0d90c127cf443.jpg",
+      "full_bytes": 111920,
+      "width": 780,
+      "height": 780
+    },
+    {
+      "id": "f57da42a9c7168ce",
+      "title": "wolf death f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_death_f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_death_f00.png",
+      "original_bytes": 573946,
+      "full": "assets/gallery/full/f57da42a9c7168ce.jpg",
+      "thumb": "assets/gallery/thumb/f57da42a9c7168ce.jpg",
+      "full_bytes": 41175,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "5f26cfe0aa2e0636",
+      "title": "wolf death f00 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_death_f00_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_death_f00_rgba.png",
+      "original_bytes": 406510,
+      "full": "assets/gallery/full/5f26cfe0aa2e0636.jpg",
+      "thumb": "assets/gallery/thumb/5f26cfe0aa2e0636.jpg",
+      "full_bytes": 41350,
+      "width": 512,
+      "height": 508
+    },
+    {
+      "id": "f0faeefb765bd246",
+      "title": "wolf roar f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_roar_f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_roar_f00.png",
+      "original_bytes": 591258,
+      "full": "assets/gallery/full/f0faeefb765bd246.jpg",
+      "thumb": "assets/gallery/thumb/f0faeefb765bd246.jpg",
+      "full_bytes": 40876,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "8575e3765be47a33",
+      "title": "wolf roar f00 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_roar_f00_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_roar_f00_rgba.png",
+      "original_bytes": 392218,
+      "full": "assets/gallery/full/8575e3765be47a33.jpg",
+      "thumb": "assets/gallery/thumb/8575e3765be47a33.jpg",
+      "full_bytes": 42144,
+      "width": 512,
+      "height": 498
+    },
+    {
+      "id": "fcf5b77fee614ca2",
+      "title": "wolf walk f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f00.png",
+      "original_bytes": 596433,
+      "full": "assets/gallery/full/fcf5b77fee614ca2.jpg",
+      "thumb": "assets/gallery/thumb/fcf5b77fee614ca2.jpg",
+      "full_bytes": 40369,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "4ae50592ef96a374",
+      "title": "wolf walk f00 keyed",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f00_keyed.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f00_keyed.png",
+      "original_bytes": 407630,
+      "full": "assets/gallery/full/4ae50592ef96a374.jpg",
+      "thumb": "assets/gallery/thumb/4ae50592ef96a374.jpg",
+      "full_bytes": 41285,
+      "width": 512,
+      "height": 507
+    },
+    {
+      "id": "a9eea4190a07d17c",
+      "title": "wolf walk f00 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f00_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f00_rgba.png",
+      "original_bytes": 393128,
+      "full": "assets/gallery/full/a9eea4190a07d17c.jpg",
+      "thumb": "assets/gallery/thumb/a9eea4190a07d17c.jpg",
+      "full_bytes": 41630,
+      "width": 512,
+      "height": 496
+    },
+    {
+      "id": "b1a37af1f3db13a3",
+      "title": "wolf walk f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f01.png",
+      "original_bytes": 593268,
+      "full": "assets/gallery/full/b1a37af1f3db13a3.jpg",
+      "thumb": "assets/gallery/thumb/b1a37af1f3db13a3.jpg",
+      "full_bytes": 40070,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "3cce8822b474982c",
+      "title": "wolf walk f01 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f01_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f01_rgba.png",
+      "original_bytes": 391528,
+      "full": "assets/gallery/full/3cce8822b474982c.jpg",
+      "thumb": "assets/gallery/thumb/3cce8822b474982c.jpg",
+      "full_bytes": 41379,
+      "width": 512,
+      "height": 497
+    },
+    {
+      "id": "2e86029d016fd641",
+      "title": "wolf walk f02",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f02.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f02.png",
+      "original_bytes": 595783,
+      "full": "assets/gallery/full/2e86029d016fd641.jpg",
+      "thumb": "assets/gallery/thumb/2e86029d016fd641.jpg",
+      "full_bytes": 40171,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d5fbb229a165f532",
+      "title": "wolf walk f02 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_walk_f02_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_walk_f02_rgba.png",
+      "original_bytes": 392753,
+      "full": "assets/gallery/full/d5fbb229a165f532.jpg",
+      "thumb": "assets/gallery/thumb/d5fbb229a165f532.jpg",
+      "full_bytes": 41576,
+      "width": 512,
+      "height": 496
+    },
+    {
+      "id": "aa89e517d6f3fa3e",
+      "title": "wolf win f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_win_f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_win_f00.png",
+      "original_bytes": 583810,
+      "full": "assets/gallery/full/aa89e517d6f3fa3e.jpg",
+      "thumb": "assets/gallery/thumb/aa89e517d6f3fa3e.jpg",
+      "full_bytes": 39711,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "b22feaacfce2f8e3",
+      "title": "wolf win f00 rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wolf_win_f00_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "wolf_win_f00_rgba.png",
+      "original_bytes": 387360,
+      "full": "assets/gallery/full/b22feaacfce2f8e3.jpg",
+      "thumb": "assets/gallery/thumb/b22feaacfce2f8e3.jpg",
+      "full_bytes": 40656,
+      "width": 512,
+      "height": 504
     }
   ],
-  "cache_bust": "1107-auto-202611101838"
+  "cache_bust": "1130-auto-202611101927"
 }
