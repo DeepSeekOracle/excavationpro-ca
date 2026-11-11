@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:37:58.510780+00:00",
-  "count": 1100,
+  "generated_utc": "2026-11-11T01:38:15.497032+00:00",
+  "count": 1107,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17679,7 +17679,119 @@
       "full_bytes": 32981,
       "width": 314,
       "height": 418
+    },
+    {
+      "id": "bdb4e4a63ad1c376",
+      "title": "roster contact",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "roster_contact.png",
+      "source_root": "Publish Portal",
+      "original_name": "roster_contact.png",
+      "original_bytes": 617180,
+      "full": "assets/gallery/full/bdb4e4a63ad1c376.jpg",
+      "thumb": "assets/gallery/thumb/bdb4e4a63ad1c376.jpg",
+      "full_bytes": 104870,
+      "width": 780,
+      "height": 780
+    },
+    {
+      "id": "6b3e90c9817c3efc",
+      "title": "scorpion",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "scorpion.png",
+      "source_root": "Publish Portal",
+      "original_name": "scorpion.png",
+      "original_bytes": 436188,
+      "full": "assets/gallery/full/6b3e90c9817c3efc.jpg",
+      "thumb": "assets/gallery/thumb/6b3e90c9817c3efc.jpg",
+      "full_bytes": 30312,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "5dc68dee2c6137d9",
+      "title": "scorpion rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "scorpion_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "scorpion_rgba.png",
+      "original_bytes": 236444,
+      "full": "assets/gallery/full/5dc68dee2c6137d9.jpg",
+      "thumb": "assets/gallery/thumb/5dc68dee2c6137d9.jpg",
+      "full_bytes": 27693,
+      "width": 417,
+      "height": 348
+    },
+    {
+      "id": "fa8db711c9384bed",
+      "title": "tithe",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tithe.png",
+      "source_root": "Publish Portal",
+      "original_name": "tithe.png",
+      "original_bytes": 469146,
+      "full": "assets/gallery/full/fa8db711c9384bed.jpg",
+      "thumb": "assets/gallery/thumb/fa8db711c9384bed.jpg",
+      "full_bytes": 32958,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "9b89e6f9f28d5977",
+      "title": "tithe rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tithe_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "tithe_rgba.png",
+      "original_bytes": 329657,
+      "full": "assets/gallery/full/9b89e6f9f28d5977.jpg",
+      "thumb": "assets/gallery/thumb/9b89e6f9f28d5977.jpg",
+      "full_bytes": 31427,
+      "width": 512,
+      "height": 488
+    },
+    {
+      "id": "9ee2d7096a66efde",
+      "title": "unnamer",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "unnamer.png",
+      "source_root": "Publish Portal",
+      "original_name": "unnamer.png",
+      "original_bytes": 415522,
+      "full": "assets/gallery/full/9ee2d7096a66efde.jpg",
+      "thumb": "assets/gallery/thumb/9ee2d7096a66efde.jpg",
+      "full_bytes": 24984,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "f6df06d155c30f73",
+      "title": "unnamer rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "unnamer_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "unnamer_rgba.png",
+      "original_bytes": 173235,
+      "full": "assets/gallery/full/f6df06d155c30f73.jpg",
+      "thumb": "assets/gallery/thumb/f6df06d155c30f73.jpg",
+      "full_bytes": 22355,
+      "width": 208,
+      "height": 476
     }
   ],
-  "cache_bust": "1100-auto-202611101837"
+  "cache_bust": "1107-auto-202611101838"
 }
