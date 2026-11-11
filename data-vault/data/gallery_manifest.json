@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T23:30:59.395516+00:00",
-  "count": 1308,
+  "generated_utc": "2026-11-11T23:31:30.813926+00:00",
+  "count": 1319,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -21007,7 +21007,183 @@
       "full_bytes": 218719,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "aee0d22b206ca7d1",
+      "title": "bram",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "bram.png",
+      "source_root": "Publish Portal",
+      "original_name": "bram.png",
+      "original_bytes": 1412569,
+      "full": "assets/gallery/full/aee0d22b206ca7d1.jpg",
+      "thumb": "assets/gallery/thumb/aee0d22b206ca7d1.jpg",
+      "full_bytes": 129513,
+      "width": 572,
+      "height": 1673
+    },
+    {
+      "id": "a2705483f572a2c9",
+      "title": "cantor",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cantor.png",
+      "source_root": "Publish Portal",
+      "original_name": "cantor.png",
+      "original_bytes": 1406807,
+      "full": "assets/gallery/full/a2705483f572a2c9.jpg",
+      "thumb": "assets/gallery/thumb/a2705483f572a2c9.jpg",
+      "full_bytes": 96788,
+      "width": 599,
+      "height": 1665
+    },
+    {
+      "id": "c40463e6775d7ddb",
+      "title": "corvath",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "corvath.png",
+      "source_root": "Publish Portal",
+      "original_name": "corvath.png",
+      "original_bytes": 1143613,
+      "full": "assets/gallery/full/c40463e6775d7ddb.jpg",
+      "thumb": "assets/gallery/thumb/c40463e6775d7ddb.jpg",
+      "full_bytes": 111071,
+      "width": 686,
+      "height": 960
+    },
+    {
+      "id": "e29955287bddd147",
+      "title": "lyra",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lyra.png",
+      "source_root": "Publish Portal",
+      "original_name": "lyra.png",
+      "original_bytes": 1477965,
+      "full": "assets/gallery/full/e29955287bddd147.jpg",
+      "thumb": "assets/gallery/thumb/e29955287bddd147.jpg",
+      "full_bytes": 102252,
+      "width": 608,
+      "height": 1668
+    },
+    {
+      "id": "10ed8d6b5aeabe07",
+      "title": "miralis",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "miralis.png",
+      "source_root": "Publish Portal",
+      "original_name": "miralis.png",
+      "original_bytes": 1250789,
+      "full": "assets/gallery/full/10ed8d6b5aeabe07.jpg",
+      "thumb": "assets/gallery/thumb/10ed8d6b5aeabe07.jpg",
+      "full_bytes": 113432,
+      "width": 430,
+      "height": 1665
+    },
+    {
+      "id": "60713739d16ae867",
+      "title": "nessa",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "nessa.png",
+      "source_root": "Publish Portal",
+      "original_name": "nessa.png",
+      "original_bytes": 1125294,
+      "full": "assets/gallery/full/60713739d16ae867.jpg",
+      "thumb": "assets/gallery/thumb/60713739d16ae867.jpg",
+      "full_bytes": 84886,
+      "width": 429,
+      "height": 1639
+    },
+    {
+      "id": "f7e917881c500394",
+      "title": "raider",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "raider.png",
+      "source_root": "Publish Portal",
+      "original_name": "raider.png",
+      "original_bytes": 1596728,
+      "full": "assets/gallery/full/f7e917881c500394.jpg",
+      "thumb": "assets/gallery/thumb/f7e917881c500394.jpg",
+      "full_bytes": 131160,
+      "width": 592,
+      "height": 1719
+    },
+    {
+      "id": "263d2ec66702dd63",
+      "title": "serenya",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "serenya.png",
+      "source_root": "Publish Portal",
+      "original_name": "serenya.png",
+      "original_bytes": 473511,
+      "full": "assets/gallery/full/263d2ec66702dd63.jpg",
+      "thumb": "assets/gallery/thumb/263d2ec66702dd63.jpg",
+      "full_bytes": 53392,
+      "width": 407,
+      "height": 1103
+    },
+    {
+      "id": "662dbbbe3a981d23",
+      "title": "shade",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shade.png",
+      "source_root": "Publish Portal",
+      "original_name": "shade.png",
+      "original_bytes": 1275716,
+      "full": "assets/gallery/full/662dbbbe3a981d23.jpg",
+      "thumb": "assets/gallery/thumb/662dbbbe3a981d23.jpg",
+      "full_bytes": 110743,
+      "width": 925,
+      "height": 1016
+    },
+    {
+      "id": "898cb442526b4d28",
+      "title": "straw",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "straw.png",
+      "source_root": "Publish Portal",
+      "original_name": "straw.png",
+      "original_bytes": 1944947,
+      "full": "assets/gallery/full/898cb442526b4d28.jpg",
+      "thumb": "assets/gallery/thumb/898cb442526b4d28.jpg",
+      "full_bytes": 170476,
+      "width": 598,
+      "height": 1670
+    },
+    {
+      "id": "11ddbfbf241cbe93",
+      "title": "warden shape",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "warden-shape.png",
+      "source_root": "Publish Portal",
+      "original_name": "warden-shape.png",
+      "original_bytes": 1523655,
+      "full": "assets/gallery/full/11ddbfbf241cbe93.jpg",
+      "thumb": "assets/gallery/thumb/11ddbfbf241cbe93.jpg",
+      "full_bytes": 110940,
+      "width": 592,
+      "height": 1734
     }
   ],
-  "cache_bust": "1308-auto-202611111630"
+  "cache_bust": "1319-auto-202611111631"
 }
