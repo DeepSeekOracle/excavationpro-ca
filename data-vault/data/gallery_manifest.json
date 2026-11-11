@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:25:38.783452+00:00",
-  "count": 1086,
+  "generated_utc": "2026-11-11T01:25:48.809539+00:00",
+  "count": 1087,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17455,7 +17455,23 @@
       "full_bytes": 19423,
       "width": 250,
       "height": 384
+    },
+    {
+      "id": "4d8ae8c658b4d2f8",
+      "title": "hero vale production rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hero_vale_production_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "hero_vale_production_rgba.png",
+      "original_bytes": 204022,
+      "full": "assets/gallery/full/4d8ae8c658b4d2f8.jpg",
+      "thumb": "assets/gallery/thumb/4d8ae8c658b4d2f8.jpg",
+      "full_bytes": 24911,
+      "width": 276,
+      "height": 425
     }
   ],
-  "cache_bust": "1086-auto-202611101825"
+  "cache_bust": "1087-auto-202611101825"
 }
