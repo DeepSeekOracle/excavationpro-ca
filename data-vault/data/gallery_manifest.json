@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T05:51:45.989174+00:00",
-  "count": 1276,
+  "generated_utc": "2026-11-11T05:58:58.453446+00:00",
+  "count": 1280,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20495,7 +20495,71 @@
       "full_bytes": 14268,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "ef0e70742caef65e",
+      "title": "hill",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hill.png",
+      "source_root": "Publish Portal",
+      "original_name": "hill.png",
+      "original_bytes": 313258,
+      "full": "assets/gallery/full/ef0e70742caef65e.jpg",
+      "thumb": "assets/gallery/thumb/ef0e70742caef65e.jpg",
+      "full_bytes": 47227,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "8a65e71fd29b7bc7",
+      "title": "mtn peak",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mtn_peak.png",
+      "source_root": "Publish Portal",
+      "original_name": "mtn_peak.png",
+      "original_bytes": 249850,
+      "full": "assets/gallery/full/8a65e71fd29b7bc7.jpg",
+      "thumb": "assets/gallery/thumb/8a65e71fd29b7bc7.jpg",
+      "full_bytes": 40979,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "c89a9f1043490492",
+      "title": "mtn snow",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mtn_snow.png",
+      "source_root": "Publish Portal",
+      "original_name": "mtn_snow.png",
+      "original_bytes": 313160,
+      "full": "assets/gallery/full/c89a9f1043490492.jpg",
+      "thumb": "assets/gallery/thumb/c89a9f1043490492.jpg",
+      "full_bytes": 49981,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "788ca5e4b0f56054",
+      "title": "ridge",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ridge.png",
+      "source_root": "Publish Portal",
+      "original_name": "ridge.png",
+      "original_bytes": 251132,
+      "full": "assets/gallery/full/788ca5e4b0f56054.jpg",
+      "thumb": "assets/gallery/thumb/788ca5e4b0f56054.jpg",
+      "full_bytes": 46413,
+      "width": 1344,
+      "height": 768
     }
   ],
-  "cache_bust": "1276-auto-202611102251"
+  "cache_bust": "1280-auto-202611102258"
 }
