@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T05:59:16.548665+00:00",
-  "count": 1295,
+  "generated_utc": "2026-11-11T23:30:46.368056+00:00",
+  "count": 1301,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20799,7 +20799,103 @@
       "full_bytes": 69307,
       "width": 1344,
       "height": 768
+    },
+    {
+      "id": "9f7109a9a9a7e63a",
+      "title": "meadow",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "meadow.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "meadow.jpg",
+      "original_bytes": 343993,
+      "full": "assets/gallery/full/9f7109a9a9a7e63a.jpg",
+      "thumb": "assets/gallery/thumb/9f7109a9a9a7e63a.jpg",
+      "full_bytes": 263054,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "dd534f86acea7b01",
+      "title": "path",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "path.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "path.jpg",
+      "original_bytes": 321441,
+      "full": "assets/gallery/full/dd534f86acea7b01.jpg",
+      "thumb": "assets/gallery/thumb/dd534f86acea7b01.jpg",
+      "full_bytes": 245203,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "aef0c0c8fc308eb0",
+      "title": "rock",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "rock.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "rock.jpg",
+      "original_bytes": 313760,
+      "full": "assets/gallery/full/aef0c0c8fc308eb0.jpg",
+      "thumb": "assets/gallery/thumb/aef0c0c8fc308eb0.jpg",
+      "full_bytes": 243154,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "10cdbbdd290ac60e",
+      "title": "thicket",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "thicket.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "thicket.jpg",
+      "original_bytes": 381678,
+      "full": "assets/gallery/full/10cdbbdd290ac60e.jpg",
+      "thumb": "assets/gallery/thumb/10cdbbdd290ac60e.jpg",
+      "full_bytes": 291396,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7795f77c4f1f5019",
+      "title": "water",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "water.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "water.jpg",
+      "original_bytes": 48369,
+      "full": "assets/gallery/full/7795f77c4f1f5019.jpg",
+      "thumb": "assets/gallery/thumb/7795f77c4f1f5019.jpg",
+      "full_bytes": 32640,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "caf5d18fcd4f5af3",
+      "title": "yard",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "yard.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "yard.jpg",
+      "original_bytes": 248022,
+      "full": "assets/gallery/full/caf5d18fcd4f5af3.jpg",
+      "thumb": "assets/gallery/thumb/caf5d18fcd4f5af3.jpg",
+      "full_bytes": 191986,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1295-auto-202611102259"
+  "cache_bust": "1301-auto-202611111630"
 }
