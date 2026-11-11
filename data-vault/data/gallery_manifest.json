@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:37:36.146074+00:00",
-  "count": 1094,
+  "generated_utc": "2026-11-11T01:37:58.510780+00:00",
+  "count": 1100,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17583,7 +17583,103 @@
       "full_bytes": 40334,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "635838e4cf38cd75",
+      "title": "levi",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "levi.png",
+      "source_root": "Publish Portal",
+      "original_name": "levi.png",
+      "original_bytes": 459304,
+      "full": "assets/gallery/full/635838e4cf38cd75.jpg",
+      "thumb": "assets/gallery/thumb/635838e4cf38cd75.jpg",
+      "full_bytes": 30909,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d1cd39f1d2ea113d",
+      "title": "levi rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "levi_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "levi_rgba.png",
+      "original_bytes": 175507,
+      "full": "assets/gallery/full/d1cd39f1d2ea113d.jpg",
+      "thumb": "assets/gallery/thumb/d1cd39f1d2ea113d.jpg",
+      "full_bytes": 28358,
+      "width": 456,
+      "height": 309
+    },
+    {
+      "id": "7e451df6b87b3dea",
+      "title": "lion",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lion.png",
+      "source_root": "Publish Portal",
+      "original_name": "lion.png",
+      "original_bytes": 476929,
+      "full": "assets/gallery/full/7e451df6b87b3dea.jpg",
+      "thumb": "assets/gallery/thumb/7e451df6b87b3dea.jpg",
+      "full_bytes": 34094,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "f41249dc39480476",
+      "title": "lion rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lion_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "lion_rgba.png",
+      "original_bytes": 252343,
+      "full": "assets/gallery/full/f41249dc39480476.jpg",
+      "thumb": "assets/gallery/thumb/f41249dc39480476.jpg",
+      "full_bytes": 32504,
+      "width": 443,
+      "height": 350
+    },
+    {
+      "id": "4e65c4448127ca60",
+      "title": "lock",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lock.png",
+      "source_root": "Publish Portal",
+      "original_name": "lock.png",
+      "original_bytes": 503511,
+      "full": "assets/gallery/full/4e65c4448127ca60.jpg",
+      "thumb": "assets/gallery/thumb/4e65c4448127ca60.jpg",
+      "full_bytes": 36151,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "83695d66ccde6fe6",
+      "title": "lock rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lock_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "lock_rgba.png",
+      "original_bytes": 272017,
+      "full": "assets/gallery/full/83695d66ccde6fe6.jpg",
+      "thumb": "assets/gallery/thumb/83695d66ccde6fe6.jpg",
+      "full_bytes": 32981,
+      "width": 314,
+      "height": 418
     }
   ],
-  "cache_bust": "1094-auto-202611101837"
+  "cache_bust": "1100-auto-202611101837"
 }
