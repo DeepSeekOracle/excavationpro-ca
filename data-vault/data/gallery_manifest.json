@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T02:27:58.602267+00:00",
-  "count": 1130,
+  "generated_utc": "2026-11-11T02:30:21.582112+00:00",
+  "count": 1259,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -18159,7 +18159,2071 @@
       "full_bytes": 40656,
       "width": 512,
       "height": 504
+    },
+    {
+      "id": "c1cb92609d6e3b1a",
+      "title": "story 2011 10 04 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2011-10-04_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2011-10-04_4_document.png",
+      "original_bytes": 582654,
+      "full": "assets/gallery/full/c1cb92609d6e3b1a.jpg",
+      "thumb": "assets/gallery/thumb/c1cb92609d6e3b1a.jpg",
+      "full_bytes": 86630,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "edb39e33c034584a",
+      "title": "story 2011 10 04 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2011-10-04_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2011-10-04_5_future.png",
+      "original_bytes": 425553,
+      "full": "assets/gallery/full/edb39e33c034584a.jpg",
+      "thumb": "assets/gallery/thumb/edb39e33c034584a.jpg",
+      "full_bytes": 63233,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "1d10727b31a86888",
+      "title": "story 2012 08 06 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-08-06_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-08-06_1_scene.png",
+      "original_bytes": 607279,
+      "full": "assets/gallery/full/1d10727b31a86888.jpg",
+      "thumb": "assets/gallery/thumb/1d10727b31a86888.jpg",
+      "full_bytes": 98406,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b97610accb504b19",
+      "title": "story 2012 08 06 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-08-06_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-08-06_2_object.png",
+      "original_bytes": 644506,
+      "full": "assets/gallery/full/b97610accb504b19.jpg",
+      "thumb": "assets/gallery/thumb/b97610accb504b19.jpg",
+      "full_bytes": 102847,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e7b85487e6e12e27",
+      "title": "story 2012 08 06 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-08-06_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-08-06_4_document.png",
+      "original_bytes": 564065,
+      "full": "assets/gallery/full/e7b85487e6e12e27.jpg",
+      "thumb": "assets/gallery/thumb/e7b85487e6e12e27.jpg",
+      "full_bytes": 27340,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "f1509ae4e9cfa6b3",
+      "title": "story 2012 09 30 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-09-30_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-09-30_1_scene.png",
+      "original_bytes": 537755,
+      "full": "assets/gallery/full/f1509ae4e9cfa6b3.jpg",
+      "thumb": "assets/gallery/thumb/f1509ae4e9cfa6b3.jpg",
+      "full_bytes": 77663,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "047d07c86a4525b2",
+      "title": "story 2012 09 30 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-09-30_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-09-30_2_object.png",
+      "original_bytes": 708026,
+      "full": "assets/gallery/full/047d07c86a4525b2.jpg",
+      "thumb": "assets/gallery/thumb/047d07c86a4525b2.jpg",
+      "full_bytes": 99892,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "397f77479437df66",
+      "title": "story 2012 09 30 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-09-30_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-09-30_3_afterimage.png",
+      "original_bytes": 566674,
+      "full": "assets/gallery/full/397f77479437df66.jpg",
+      "thumb": "assets/gallery/thumb/397f77479437df66.jpg",
+      "full_bytes": 85759,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "cde313778a6f77da",
+      "title": "story 2012 09 30 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-09-30_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-09-30_4_document.png",
+      "original_bytes": 499455,
+      "full": "assets/gallery/full/cde313778a6f77da.jpg",
+      "thumb": "assets/gallery/thumb/cde313778a6f77da.jpg",
+      "full_bytes": 71809,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "7a4804a496e2834c",
+      "title": "story 2012 09 30 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-09-30_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-09-30_5_future.png",
+      "original_bytes": 488977,
+      "full": "assets/gallery/full/7a4804a496e2834c.jpg",
+      "thumb": "assets/gallery/thumb/7a4804a496e2834c.jpg",
+      "full_bytes": 59454,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "4f342e71587fa1c4",
+      "title": "story 2012 12 21 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-12-21_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-12-21_1_scene.png",
+      "original_bytes": 452175,
+      "full": "assets/gallery/full/4f342e71587fa1c4.jpg",
+      "thumb": "assets/gallery/thumb/4f342e71587fa1c4.jpg",
+      "full_bytes": 66388,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "519c672354cfea90",
+      "title": "story 2012 12 21 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-12-21_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-12-21_2_object.png",
+      "original_bytes": 633456,
+      "full": "assets/gallery/full/519c672354cfea90.jpg",
+      "thumb": "assets/gallery/thumb/519c672354cfea90.jpg",
+      "full_bytes": 79152,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "121ffa0c27e460b4",
+      "title": "story 2012 12 21 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-12-21_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-12-21_3_afterimage.png",
+      "original_bytes": 594677,
+      "full": "assets/gallery/full/121ffa0c27e460b4.jpg",
+      "thumb": "assets/gallery/thumb/121ffa0c27e460b4.jpg",
+      "full_bytes": 83707,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "24bbe4de864028d6",
+      "title": "story 2012 12 21 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-12-21_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-12-21_4_document.png",
+      "original_bytes": 526557,
+      "full": "assets/gallery/full/24bbe4de864028d6.jpg",
+      "thumb": "assets/gallery/thumb/24bbe4de864028d6.jpg",
+      "full_bytes": 80846,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "ee1e547323b4d29f",
+      "title": "story 2012 12 21 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2012-12-21_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2012-12-21_5_future.png",
+      "original_bytes": 420859,
+      "full": "assets/gallery/full/ee1e547323b4d29f.jpg",
+      "thumb": "assets/gallery/thumb/ee1e547323b4d29f.jpg",
+      "full_bytes": 61167,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "73b6a232ac52fdbc",
+      "title": "story 2014 06 10 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2014-06-10_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2014-06-10_1_scene.png",
+      "original_bytes": 488795,
+      "full": "assets/gallery/full/73b6a232ac52fdbc.jpg",
+      "thumb": "assets/gallery/thumb/73b6a232ac52fdbc.jpg",
+      "full_bytes": 72907,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "0ef4180a98dc7a86",
+      "title": "story 2014 06 10 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2014-06-10_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2014-06-10_2_object.png",
+      "original_bytes": 589291,
+      "full": "assets/gallery/full/0ef4180a98dc7a86.jpg",
+      "thumb": "assets/gallery/thumb/0ef4180a98dc7a86.jpg",
+      "full_bytes": 76197,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "1983ee1c76f88f9e",
+      "title": "story 2014 06 10 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2014-06-10_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2014-06-10_3_afterimage.png",
+      "original_bytes": 496007,
+      "full": "assets/gallery/full/1983ee1c76f88f9e.jpg",
+      "thumb": "assets/gallery/thumb/1983ee1c76f88f9e.jpg",
+      "full_bytes": 66807,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "04e596364fc77578",
+      "title": "story 2014 06 10 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2014-06-10_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2014-06-10_4_document.png",
+      "original_bytes": 559388,
+      "full": "assets/gallery/full/04e596364fc77578.jpg",
+      "thumb": "assets/gallery/thumb/04e596364fc77578.jpg",
+      "full_bytes": 78334,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e53ccb6c618cf2f3",
+      "title": "story 2014 06 10 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2014-06-10_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2014-06-10_5_future.png",
+      "original_bytes": 442376,
+      "full": "assets/gallery/full/e53ccb6c618cf2f3.jpg",
+      "thumb": "assets/gallery/thumb/e53ccb6c618cf2f3.jpg",
+      "full_bytes": 65785,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "165c431048ab800a",
+      "title": "story 2015 10 21 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-10-21_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-10-21_1_scene.png",
+      "original_bytes": 653049,
+      "full": "assets/gallery/full/165c431048ab800a.jpg",
+      "thumb": "assets/gallery/thumb/165c431048ab800a.jpg",
+      "full_bytes": 82316,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a960a65ab78ca825",
+      "title": "story 2015 10 21 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-10-21_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-10-21_2_object.png",
+      "original_bytes": 640007,
+      "full": "assets/gallery/full/a960a65ab78ca825.jpg",
+      "thumb": "assets/gallery/thumb/a960a65ab78ca825.jpg",
+      "full_bytes": 88494,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "ce3bc387beeff843",
+      "title": "story 2015 10 21 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-10-21_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-10-21_3_afterimage.png",
+      "original_bytes": 578050,
+      "full": "assets/gallery/full/ce3bc387beeff843.jpg",
+      "thumb": "assets/gallery/thumb/ce3bc387beeff843.jpg",
+      "full_bytes": 66667,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "90cff57bb074f4c2",
+      "title": "story 2015 10 21 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-10-21_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-10-21_4_document.png",
+      "original_bytes": 500236,
+      "full": "assets/gallery/full/90cff57bb074f4c2.jpg",
+      "thumb": "assets/gallery/thumb/90cff57bb074f4c2.jpg",
+      "full_bytes": 76897,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "1ce01091db22ff0d",
+      "title": "story 2015 10 21 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-10-21_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-10-21_5_future.png",
+      "original_bytes": 463560,
+      "full": "assets/gallery/full/1ce01091db22ff0d.jpg",
+      "thumb": "assets/gallery/thumb/1ce01091db22ff0d.jpg",
+      "full_bytes": 66856,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a505b8da5318aa58",
+      "title": "story 2015 12 11 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-12-11_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-12-11_1_scene.png",
+      "original_bytes": 900854,
+      "full": "assets/gallery/full/a505b8da5318aa58.jpg",
+      "thumb": "assets/gallery/thumb/a505b8da5318aa58.jpg",
+      "full_bytes": 141233,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "529acc8673f8ef8a",
+      "title": "story 2015 12 11 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-12-11_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-12-11_2_object.png",
+      "original_bytes": 555989,
+      "full": "assets/gallery/full/529acc8673f8ef8a.jpg",
+      "thumb": "assets/gallery/thumb/529acc8673f8ef8a.jpg",
+      "full_bytes": 72333,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b9578403fa181454",
+      "title": "story 2015 12 11 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-12-11_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-12-11_3_afterimage.png",
+      "original_bytes": 689733,
+      "full": "assets/gallery/full/b9578403fa181454.jpg",
+      "thumb": "assets/gallery/thumb/b9578403fa181454.jpg",
+      "full_bytes": 99894,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "040a43f87993e937",
+      "title": "story 2015 12 11 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-12-11_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-12-11_4_document.png",
+      "original_bytes": 552868,
+      "full": "assets/gallery/full/040a43f87993e937.jpg",
+      "thumb": "assets/gallery/thumb/040a43f87993e937.jpg",
+      "full_bytes": 81463,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "482117ccd06edb72",
+      "title": "story 2015 12 11 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2015-12-11_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2015-12-11_5_future.png",
+      "original_bytes": 489510,
+      "full": "assets/gallery/full/482117ccd06edb72.jpg",
+      "thumb": "assets/gallery/thumb/482117ccd06edb72.jpg",
+      "full_bytes": 70161,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "61cd80f2a7cfb64e",
+      "title": "story 2016 03 10 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2016-03-10_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2016-03-10_1_scene.png",
+      "original_bytes": 401834,
+      "full": "assets/gallery/full/61cd80f2a7cfb64e.jpg",
+      "thumb": "assets/gallery/thumb/61cd80f2a7cfb64e.jpg",
+      "full_bytes": 60127,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9ebc95f0627f4668",
+      "title": "story 2016 03 10 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2016-03-10_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2016-03-10_2_object.png",
+      "original_bytes": 557844,
+      "full": "assets/gallery/full/9ebc95f0627f4668.jpg",
+      "thumb": "assets/gallery/thumb/9ebc95f0627f4668.jpg",
+      "full_bytes": 81226,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "ef78789a403bb443",
+      "title": "story 2016 03 10 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2016-03-10_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2016-03-10_3_afterimage.png",
+      "original_bytes": 485455,
+      "full": "assets/gallery/full/ef78789a403bb443.jpg",
+      "thumb": "assets/gallery/thumb/ef78789a403bb443.jpg",
+      "full_bytes": 71212,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a6a0834444ba1441",
+      "title": "story 2016 03 10 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2016-03-10_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2016-03-10_4_document.png",
+      "original_bytes": 525121,
+      "full": "assets/gallery/full/a6a0834444ba1441.jpg",
+      "thumb": "assets/gallery/thumb/a6a0834444ba1441.jpg",
+      "full_bytes": 72350,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "93fd32d9e08a0e5a",
+      "title": "story 2016 03 10 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2016-03-10_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2016-03-10_5_future.png",
+      "original_bytes": 477642,
+      "full": "assets/gallery/full/93fd32d9e08a0e5a.jpg",
+      "thumb": "assets/gallery/thumb/93fd32d9e08a0e5a.jpg",
+      "full_bytes": 67994,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "2a9bdc442c418227",
+      "title": "story 2017 06 12 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2017-06-12_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2017-06-12_1_scene.png",
+      "original_bytes": 680973,
+      "full": "assets/gallery/full/2a9bdc442c418227.jpg",
+      "thumb": "assets/gallery/thumb/2a9bdc442c418227.jpg",
+      "full_bytes": 89633,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9c80136f429daf75",
+      "title": "story 2017 06 12 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2017-06-12_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2017-06-12_2_object.png",
+      "original_bytes": 619063,
+      "full": "assets/gallery/full/9c80136f429daf75.jpg",
+      "thumb": "assets/gallery/thumb/9c80136f429daf75.jpg",
+      "full_bytes": 85114,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "73885f19c741600a",
+      "title": "story 2017 06 12 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2017-06-12_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2017-06-12_3_afterimage.png",
+      "original_bytes": 543848,
+      "full": "assets/gallery/full/73885f19c741600a.jpg",
+      "thumb": "assets/gallery/thumb/73885f19c741600a.jpg",
+      "full_bytes": 81074,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "7d7fc02e9b83cf02",
+      "title": "story 2017 06 12 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2017-06-12_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2017-06-12_4_document.png",
+      "original_bytes": 591292,
+      "full": "assets/gallery/full/7d7fc02e9b83cf02.jpg",
+      "thumb": "assets/gallery/thumb/7d7fc02e9b83cf02.jpg",
+      "full_bytes": 81162,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "64ba4deb9b425885",
+      "title": "story 2017 06 12 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2017-06-12_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2017-06-12_5_future.png",
+      "original_bytes": 532601,
+      "full": "assets/gallery/full/64ba4deb9b425885.jpg",
+      "thumb": "assets/gallery/thumb/64ba4deb9b425885.jpg",
+      "full_bytes": 69047,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9f09c1a2726c9996",
+      "title": "story 2018 06 11 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2018-06-11_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2018-06-11_1_scene.png",
+      "original_bytes": 646024,
+      "full": "assets/gallery/full/9f09c1a2726c9996.jpg",
+      "thumb": "assets/gallery/thumb/9f09c1a2726c9996.jpg",
+      "full_bytes": 91282,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "bbfe0ba9b804fa7c",
+      "title": "story 2018 06 11 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2018-06-11_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2018-06-11_2_object.png",
+      "original_bytes": 707988,
+      "full": "assets/gallery/full/bbfe0ba9b804fa7c.jpg",
+      "thumb": "assets/gallery/thumb/bbfe0ba9b804fa7c.jpg",
+      "full_bytes": 82639,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9132ba3a2394472e",
+      "title": "story 2018 06 11 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2018-06-11_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2018-06-11_3_afterimage.png",
+      "original_bytes": 504989,
+      "full": "assets/gallery/full/9132ba3a2394472e.jpg",
+      "thumb": "assets/gallery/thumb/9132ba3a2394472e.jpg",
+      "full_bytes": 75452,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "557074de4a1a6dab",
+      "title": "story 2018 06 11 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2018-06-11_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2018-06-11_4_document.png",
+      "original_bytes": 470414,
+      "full": "assets/gallery/full/557074de4a1a6dab.jpg",
+      "thumb": "assets/gallery/thumb/557074de4a1a6dab.jpg",
+      "full_bytes": 73061,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "bc16a3ffa175cd8b",
+      "title": "story 2018 06 11 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2018-06-11_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2018-06-11_5_future.png",
+      "original_bytes": 427793,
+      "full": "assets/gallery/full/bc16a3ffa175cd8b.jpg",
+      "thumb": "assets/gallery/thumb/bc16a3ffa175cd8b.jpg",
+      "full_bytes": 63351,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "bffccdc5d22d57b9",
+      "title": "story 2019 06 01 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2019-06-01_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2019-06-01_1_scene.png",
+      "original_bytes": 350537,
+      "full": "assets/gallery/full/bffccdc5d22d57b9.jpg",
+      "thumb": "assets/gallery/thumb/bffccdc5d22d57b9.jpg",
+      "full_bytes": 61957,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "3cd6ca3d4be5f04b",
+      "title": "story 2019 06 01 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2019-06-01_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2019-06-01_2_object.png",
+      "original_bytes": 683663,
+      "full": "assets/gallery/full/3cd6ca3d4be5f04b.jpg",
+      "thumb": "assets/gallery/thumb/3cd6ca3d4be5f04b.jpg",
+      "full_bytes": 82725,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "bdd4038a033af816",
+      "title": "story 2019 06 01 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2019-06-01_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2019-06-01_3_afterimage.png",
+      "original_bytes": 466888,
+      "full": "assets/gallery/full/bdd4038a033af816.jpg",
+      "thumb": "assets/gallery/thumb/bdd4038a033af816.jpg",
+      "full_bytes": 70569,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a518a4873074a1e6",
+      "title": "story 2019 06 01 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2019-06-01_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2019-06-01_4_document.png",
+      "original_bytes": 566699,
+      "full": "assets/gallery/full/a518a4873074a1e6.jpg",
+      "thumb": "assets/gallery/thumb/a518a4873074a1e6.jpg",
+      "full_bytes": 74440,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "234cd6dc38bf62fe",
+      "title": "story 2019 06 01 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2019-06-01_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2019-06-01_5_future.png",
+      "original_bytes": 560318,
+      "full": "assets/gallery/full/234cd6dc38bf62fe.jpg",
+      "thumb": "assets/gallery/thumb/234cd6dc38bf62fe.jpg",
+      "full_bytes": 68979,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e3778a9ac6ca42a4",
+      "title": "story 2020 05 28 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2020-05-28_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2020-05-28_1_scene.png",
+      "original_bytes": 570127,
+      "full": "assets/gallery/full/e3778a9ac6ca42a4.jpg",
+      "thumb": "assets/gallery/thumb/e3778a9ac6ca42a4.jpg",
+      "full_bytes": 75699,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e9783a3d5fc12289",
+      "title": "story 2020 05 28 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2020-05-28_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2020-05-28_2_object.png",
+      "original_bytes": 606273,
+      "full": "assets/gallery/full/e9783a3d5fc12289.jpg",
+      "thumb": "assets/gallery/thumb/e9783a3d5fc12289.jpg",
+      "full_bytes": 82731,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "eafc6cfabd84dabe",
+      "title": "story 2020 05 28 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2020-05-28_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2020-05-28_3_afterimage.png",
+      "original_bytes": 609984,
+      "full": "assets/gallery/full/eafc6cfabd84dabe.jpg",
+      "thumb": "assets/gallery/thumb/eafc6cfabd84dabe.jpg",
+      "full_bytes": 75704,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e749864aee35dc63",
+      "title": "story 2020 05 28 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2020-05-28_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2020-05-28_4_document.png",
+      "original_bytes": 660549,
+      "full": "assets/gallery/full/e749864aee35dc63.jpg",
+      "thumb": "assets/gallery/thumb/e749864aee35dc63.jpg",
+      "full_bytes": 81706,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a5826c507e0a315e",
+      "title": "story 2020 05 28 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2020-05-28_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2020-05-28_5_future.png",
+      "original_bytes": 462407,
+      "full": "assets/gallery/full/a5826c507e0a315e.jpg",
+      "thumb": "assets/gallery/thumb/a5826c507e0a315e.jpg",
+      "full_bytes": 67184,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "74a9a3cf2ad8c20f",
+      "title": "story 2021 01 05 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2021-01-05_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2021-01-05_1_scene.png",
+      "original_bytes": 546900,
+      "full": "assets/gallery/full/74a9a3cf2ad8c20f.jpg",
+      "thumb": "assets/gallery/thumb/74a9a3cf2ad8c20f.jpg",
+      "full_bytes": 82351,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e364420b9bbfa2a7",
+      "title": "story 2021 01 05 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2021-01-05_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2021-01-05_2_object.png",
+      "original_bytes": 501007,
+      "full": "assets/gallery/full/e364420b9bbfa2a7.jpg",
+      "thumb": "assets/gallery/thumb/e364420b9bbfa2a7.jpg",
+      "full_bytes": 62827,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "577b20f52cc2fc68",
+      "title": "story 2021 01 05 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2021-01-05_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2021-01-05_3_afterimage.png",
+      "original_bytes": 513588,
+      "full": "assets/gallery/full/577b20f52cc2fc68.jpg",
+      "thumb": "assets/gallery/thumb/577b20f52cc2fc68.jpg",
+      "full_bytes": 74334,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "11addf2c2082d1da",
+      "title": "story 2021 01 05 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2021-01-05_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2021-01-05_4_document.png",
+      "original_bytes": 534480,
+      "full": "assets/gallery/full/11addf2c2082d1da.jpg",
+      "thumb": "assets/gallery/thumb/11addf2c2082d1da.jpg",
+      "full_bytes": 70066,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "6ee46b08760e1236",
+      "title": "story 2021 01 05 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2021-01-05_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2021-01-05_5_future.png",
+      "original_bytes": 459058,
+      "full": "assets/gallery/full/6ee46b08760e1236.jpg",
+      "thumb": "assets/gallery/thumb/6ee46b08760e1236.jpg",
+      "full_bytes": 69150,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "64fffb6131a349ba",
+      "title": "story 2022 08 22 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-08-22_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-08-22_1_scene.png",
+      "original_bytes": 464232,
+      "full": "assets/gallery/full/64fffb6131a349ba.jpg",
+      "thumb": "assets/gallery/thumb/64fffb6131a349ba.jpg",
+      "full_bytes": 69694,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "afcfec2a017a6bf2",
+      "title": "story 2022 08 22 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-08-22_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-08-22_2_object.png",
+      "original_bytes": 676391,
+      "full": "assets/gallery/full/afcfec2a017a6bf2.jpg",
+      "thumb": "assets/gallery/thumb/afcfec2a017a6bf2.jpg",
+      "full_bytes": 84282,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "95a20d4be08d4d59",
+      "title": "story 2022 08 22 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-08-22_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-08-22_3_afterimage.png",
+      "original_bytes": 584437,
+      "full": "assets/gallery/full/95a20d4be08d4d59.jpg",
+      "thumb": "assets/gallery/thumb/95a20d4be08d4d59.jpg",
+      "full_bytes": 86286,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "18e25fc48178c6b9",
+      "title": "story 2022 08 22 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-08-22_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-08-22_4_document.png",
+      "original_bytes": 523155,
+      "full": "assets/gallery/full/18e25fc48178c6b9.jpg",
+      "thumb": "assets/gallery/thumb/18e25fc48178c6b9.jpg",
+      "full_bytes": 81786,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "0c740e9ffb4316de",
+      "title": "story 2022 08 22 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-08-22_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-08-22_5_future.png",
+      "original_bytes": 400522,
+      "full": "assets/gallery/full/0c740e9ffb4316de.jpg",
+      "thumb": "assets/gallery/thumb/0c740e9ffb4316de.jpg",
+      "full_bytes": 59770,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "a392b8a8e0c00304",
+      "title": "story 2022 11 30 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-11-30_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-11-30_1_scene.png",
+      "original_bytes": 564580,
+      "full": "assets/gallery/full/a392b8a8e0c00304.jpg",
+      "thumb": "assets/gallery/thumb/a392b8a8e0c00304.jpg",
+      "full_bytes": 77628,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9f5d186abdf1b8db",
+      "title": "story 2022 11 30 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-11-30_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-11-30_2_object.png",
+      "original_bytes": 601398,
+      "full": "assets/gallery/full/9f5d186abdf1b8db.jpg",
+      "thumb": "assets/gallery/thumb/9f5d186abdf1b8db.jpg",
+      "full_bytes": 74472,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "db9dd871cd57ac8a",
+      "title": "story 2022 11 30 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-11-30_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-11-30_3_afterimage.png",
+      "original_bytes": 506002,
+      "full": "assets/gallery/full/db9dd871cd57ac8a.jpg",
+      "thumb": "assets/gallery/thumb/db9dd871cd57ac8a.jpg",
+      "full_bytes": 67746,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5a181a58b3c33f83",
+      "title": "story 2022 11 30 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-11-30_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-11-30_4_document.png",
+      "original_bytes": 404294,
+      "full": "assets/gallery/full/5a181a58b3c33f83.jpg",
+      "thumb": "assets/gallery/thumb/5a181a58b3c33f83.jpg",
+      "full_bytes": 61947,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e005f45f0212a496",
+      "title": "story 2022 11 30 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2022-11-30_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2022-11-30_5_future.png",
+      "original_bytes": 512076,
+      "full": "assets/gallery/full/e005f45f0212a496.jpg",
+      "thumb": "assets/gallery/thumb/e005f45f0212a496.jpg",
+      "full_bytes": 61567,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "c3a863e5fb97f5db",
+      "title": "story 2023 03 14 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2023-03-14_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2023-03-14_1_scene.png",
+      "original_bytes": 451606,
+      "full": "assets/gallery/full/c3a863e5fb97f5db.jpg",
+      "thumb": "assets/gallery/thumb/c3a863e5fb97f5db.jpg",
+      "full_bytes": 65657,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "8a15058e90fe7728",
+      "title": "story 2023 03 14 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2023-03-14_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2023-03-14_2_object.png",
+      "original_bytes": 629465,
+      "full": "assets/gallery/full/8a15058e90fe7728.jpg",
+      "thumb": "assets/gallery/thumb/8a15058e90fe7728.jpg",
+      "full_bytes": 82201,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b7cd259ef58ea212",
+      "title": "story 2023 03 14 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2023-03-14_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2023-03-14_3_afterimage.png",
+      "original_bytes": 496426,
+      "full": "assets/gallery/full/b7cd259ef58ea212.jpg",
+      "thumb": "assets/gallery/thumb/b7cd259ef58ea212.jpg",
+      "full_bytes": 74311,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "c65c9fcce0c1d1a7",
+      "title": "story 2023 03 14 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2023-03-14_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2023-03-14_4_document.png",
+      "original_bytes": 498554,
+      "full": "assets/gallery/full/c65c9fcce0c1d1a7.jpg",
+      "thumb": "assets/gallery/thumb/c65c9fcce0c1d1a7.jpg",
+      "full_bytes": 76681,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "657ca6c22fcd6a11",
+      "title": "story 2023 03 14 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2023-03-14_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2023-03-14_5_future.png",
+      "original_bytes": 572817,
+      "full": "assets/gallery/full/657ca6c22fcd6a11.jpg",
+      "thumb": "assets/gallery/thumb/657ca6c22fcd6a11.jpg",
+      "full_bytes": 83825,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "26823e91a5ef8516",
+      "title": "story 2024 05 13 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2024-05-13_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2024-05-13_1_scene.png",
+      "original_bytes": 538995,
+      "full": "assets/gallery/full/26823e91a5ef8516.jpg",
+      "thumb": "assets/gallery/thumb/26823e91a5ef8516.jpg",
+      "full_bytes": 77266,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "6c6f030813883887",
+      "title": "story 2024 05 13 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2024-05-13_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2024-05-13_2_object.png",
+      "original_bytes": 637326,
+      "full": "assets/gallery/full/6c6f030813883887.jpg",
+      "thumb": "assets/gallery/thumb/6c6f030813883887.jpg",
+      "full_bytes": 87552,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "6a478d442eb5dbc4",
+      "title": "story 2024 05 13 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2024-05-13_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2024-05-13_3_afterimage.png",
+      "original_bytes": 613024,
+      "full": "assets/gallery/full/6a478d442eb5dbc4.jpg",
+      "thumb": "assets/gallery/thumb/6a478d442eb5dbc4.jpg",
+      "full_bytes": 74067,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5d51e518084e376c",
+      "title": "story 2024 05 13 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2024-05-13_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2024-05-13_4_document.png",
+      "original_bytes": 549208,
+      "full": "assets/gallery/full/5d51e518084e376c.jpg",
+      "thumb": "assets/gallery/thumb/5d51e518084e376c.jpg",
+      "full_bytes": 74584,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "425e60d203a5c0c8",
+      "title": "story 2024 05 13 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2024-05-13_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2024-05-13_5_future.png",
+      "original_bytes": 644695,
+      "full": "assets/gallery/full/425e60d203a5c0c8.jpg",
+      "thumb": "assets/gallery/thumb/425e60d203a5c0c8.jpg",
+      "full_bytes": 78716,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "ddda9c66ae5b54ec",
+      "title": "story 2026 09 27 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-09-27_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-09-27_1_scene.png",
+      "original_bytes": 514153,
+      "full": "assets/gallery/full/ddda9c66ae5b54ec.jpg",
+      "thumb": "assets/gallery/thumb/ddda9c66ae5b54ec.jpg",
+      "full_bytes": 78171,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "c9179c01410acc65",
+      "title": "story 2026 09 27 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-09-27_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-09-27_2_object.png",
+      "original_bytes": 562086,
+      "full": "assets/gallery/full/c9179c01410acc65.jpg",
+      "thumb": "assets/gallery/thumb/c9179c01410acc65.jpg",
+      "full_bytes": 83536,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9575056591ca20e7",
+      "title": "story 2026 09 27 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-09-27_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-09-27_3_afterimage.png",
+      "original_bytes": 555432,
+      "full": "assets/gallery/full/9575056591ca20e7.jpg",
+      "thumb": "assets/gallery/thumb/9575056591ca20e7.jpg",
+      "full_bytes": 71166,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "93fe4585ac339ba3",
+      "title": "story 2026 09 27 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-09-27_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-09-27_4_document.png",
+      "original_bytes": 561121,
+      "full": "assets/gallery/full/93fe4585ac339ba3.jpg",
+      "thumb": "assets/gallery/thumb/93fe4585ac339ba3.jpg",
+      "full_bytes": 72185,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "2cdc34201d32af20",
+      "title": "story 2026 09 27 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-09-27_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-09-27_5_future.png",
+      "original_bytes": 633211,
+      "full": "assets/gallery/full/2cdc34201d32af20.jpg",
+      "thumb": "assets/gallery/thumb/2cdc34201d32af20.jpg",
+      "full_bytes": 73508,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5b54c026ecbd254a",
+      "title": "story 2026 10 23 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-10-23_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-10-23_1_scene.png",
+      "original_bytes": 487588,
+      "full": "assets/gallery/full/5b54c026ecbd254a.jpg",
+      "thumb": "assets/gallery/thumb/5b54c026ecbd254a.jpg",
+      "full_bytes": 72656,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "1bb536a7c468a0a1",
+      "title": "story 2026 10 23 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-10-23_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-10-23_2_object.png",
+      "original_bytes": 519271,
+      "full": "assets/gallery/full/1bb536a7c468a0a1.jpg",
+      "thumb": "assets/gallery/thumb/1bb536a7c468a0a1.jpg",
+      "full_bytes": 77073,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "0ffc3261758ee51f",
+      "title": "story 2026 10 23 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-10-23_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-10-23_3_afterimage.png",
+      "original_bytes": 409222,
+      "full": "assets/gallery/full/0ffc3261758ee51f.jpg",
+      "thumb": "assets/gallery/thumb/0ffc3261758ee51f.jpg",
+      "full_bytes": 52620,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b10ecf02b58df87e",
+      "title": "story 2026 10 23 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-10-23_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-10-23_4_document.png",
+      "original_bytes": 485989,
+      "full": "assets/gallery/full/b10ecf02b58df87e.jpg",
+      "thumb": "assets/gallery/thumb/b10ecf02b58df87e.jpg",
+      "full_bytes": 72128,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b6721547c8638ad2",
+      "title": "story 2026 10 23 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2026-10-23_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2026-10-23_5_future.png",
+      "original_bytes": 414242,
+      "full": "assets/gallery/full/b6721547c8638ad2.jpg",
+      "thumb": "assets/gallery/thumb/b6721547c8638ad2.jpg",
+      "full_bytes": 62006,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "3f167266db91bd6e",
+      "title": "story 2027 01 01 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2027-01-01_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2027-01-01_2_object.png",
+      "original_bytes": 817124,
+      "full": "assets/gallery/full/3f167266db91bd6e.jpg",
+      "thumb": "assets/gallery/thumb/3f167266db91bd6e.jpg",
+      "full_bytes": 39769,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "5b636ffeda4ec782",
+      "title": "story 2027 01 01 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2027-01-01_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2027-01-01_4_document.png",
+      "original_bytes": 653595,
+      "full": "assets/gallery/full/5b636ffeda4ec782.jpg",
+      "thumb": "assets/gallery/thumb/5b636ffeda4ec782.jpg",
+      "full_bytes": 31844,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "52444689688047cb",
+      "title": "story 2029 04 04 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2029-04-04_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2029-04-04_1_scene.png",
+      "original_bytes": 350572,
+      "full": "assets/gallery/full/52444689688047cb.jpg",
+      "thumb": "assets/gallery/thumb/52444689688047cb.jpg",
+      "full_bytes": 61526,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "fa80575148afaa3c",
+      "title": "story 2029 04 04 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2029-04-04_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2029-04-04_2_object.png",
+      "original_bytes": 557450,
+      "full": "assets/gallery/full/fa80575148afaa3c.jpg",
+      "thumb": "assets/gallery/thumb/fa80575148afaa3c.jpg",
+      "full_bytes": 75246,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5298c365ec67a8d8",
+      "title": "story 2029 04 04 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2029-04-04_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2029-04-04_3_afterimage.png",
+      "original_bytes": 462979,
+      "full": "assets/gallery/full/5298c365ec67a8d8.jpg",
+      "thumb": "assets/gallery/thumb/5298c365ec67a8d8.jpg",
+      "full_bytes": 59525,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5dcd31f2f968d78b",
+      "title": "story 2029 04 04 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2029-04-04_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2029-04-04_4_document.png",
+      "original_bytes": 479981,
+      "full": "assets/gallery/full/5dcd31f2f968d78b.jpg",
+      "thumb": "assets/gallery/thumb/5dcd31f2f968d78b.jpg",
+      "full_bytes": 75549,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "69093cd8da9a754c",
+      "title": "story 2029 04 04 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2029-04-04_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2029-04-04_5_future.png",
+      "original_bytes": 422940,
+      "full": "assets/gallery/full/69093cd8da9a754c.jpg",
+      "thumb": "assets/gallery/thumb/69093cd8da9a754c.jpg",
+      "full_bytes": 62289,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "257949920800dab6",
+      "title": "story 2031 01 01 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2031-01-01_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2031-01-01_2_object.png",
+      "original_bytes": 777967,
+      "full": "assets/gallery/full/257949920800dab6.jpg",
+      "thumb": "assets/gallery/thumb/257949920800dab6.jpg",
+      "full_bytes": 40273,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "4c7ff26915504b53",
+      "title": "story 2031 01 01 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2031-01-01_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2031-01-01_4_document.png",
+      "original_bytes": 605199,
+      "full": "assets/gallery/full/4c7ff26915504b53.jpg",
+      "thumb": "assets/gallery/thumb/4c7ff26915504b53.jpg",
+      "full_bytes": 26604,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "6b1867a8d2a04511",
+      "title": "story 2033 06 06 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2033-06-06_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2033-06-06_1_scene.png",
+      "original_bytes": 483679,
+      "full": "assets/gallery/full/6b1867a8d2a04511.jpg",
+      "thumb": "assets/gallery/thumb/6b1867a8d2a04511.jpg",
+      "full_bytes": 61626,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "50bfb13a9107532e",
+      "title": "story 2033 06 06 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2033-06-06_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2033-06-06_2_object.png",
+      "original_bytes": 432419,
+      "full": "assets/gallery/full/50bfb13a9107532e.jpg",
+      "thumb": "assets/gallery/thumb/50bfb13a9107532e.jpg",
+      "full_bytes": 61348,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b76a111fdc9d914a",
+      "title": "story 2033 06 06 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2033-06-06_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2033-06-06_3_afterimage.png",
+      "original_bytes": 470402,
+      "full": "assets/gallery/full/b76a111fdc9d914a.jpg",
+      "thumb": "assets/gallery/thumb/b76a111fdc9d914a.jpg",
+      "full_bytes": 67689,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "46835e9dc4787f95",
+      "title": "story 2033 06 06 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2033-06-06_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2033-06-06_4_document.png",
+      "original_bytes": 622751,
+      "full": "assets/gallery/full/46835e9dc4787f95.jpg",
+      "thumb": "assets/gallery/thumb/46835e9dc4787f95.jpg",
+      "full_bytes": 75567,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "45b9a2b117484f33",
+      "title": "story 2033 06 06 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2033-06-06_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2033-06-06_5_future.png",
+      "original_bytes": 517983,
+      "full": "assets/gallery/full/45b9a2b117484f33.jpg",
+      "thumb": "assets/gallery/thumb/45b9a2b117484f33.jpg",
+      "full_bytes": 64139,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "4370773b18740c35",
+      "title": "story 2036 09 09 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2036-09-09_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2036-09-09_1_scene.png",
+      "original_bytes": 437703,
+      "full": "assets/gallery/full/4370773b18740c35.jpg",
+      "thumb": "assets/gallery/thumb/4370773b18740c35.jpg",
+      "full_bytes": 69622,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "198baafc560c5930",
+      "title": "story 2036 09 09 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2036-09-09_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2036-09-09_2_object.png",
+      "original_bytes": 523844,
+      "full": "assets/gallery/full/198baafc560c5930.jpg",
+      "thumb": "assets/gallery/thumb/198baafc560c5930.jpg",
+      "full_bytes": 83367,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "9487c3ce644dafc6",
+      "title": "story 2036 09 09 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2036-09-09_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2036-09-09_3_afterimage.png",
+      "original_bytes": 562888,
+      "full": "assets/gallery/full/9487c3ce644dafc6.jpg",
+      "thumb": "assets/gallery/thumb/9487c3ce644dafc6.jpg",
+      "full_bytes": 82237,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b6642b07ccd56dc7",
+      "title": "story 2036 09 09 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2036-09-09_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2036-09-09_4_document.png",
+      "original_bytes": 510484,
+      "full": "assets/gallery/full/b6642b07ccd56dc7.jpg",
+      "thumb": "assets/gallery/thumb/b6642b07ccd56dc7.jpg",
+      "full_bytes": 69310,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "82665c74403a891f",
+      "title": "story 2036 09 09 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2036-09-09_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2036-09-09_5_future.png",
+      "original_bytes": 627874,
+      "full": "assets/gallery/full/82665c74403a891f.jpg",
+      "thumb": "assets/gallery/thumb/82665c74403a891f.jpg",
+      "full_bytes": 81236,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "575aa81ece379ac7",
+      "title": "story 2038 01 19 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2038-01-19_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2038-01-19_1_scene.png",
+      "original_bytes": 465147,
+      "full": "assets/gallery/full/575aa81ece379ac7.jpg",
+      "thumb": "assets/gallery/thumb/575aa81ece379ac7.jpg",
+      "full_bytes": 60201,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b9eeb2143cdffb58",
+      "title": "story 2038 01 19 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2038-01-19_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2038-01-19_2_object.png",
+      "original_bytes": 557503,
+      "full": "assets/gallery/full/b9eeb2143cdffb58.jpg",
+      "thumb": "assets/gallery/thumb/b9eeb2143cdffb58.jpg",
+      "full_bytes": 71490,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "b181ae9bd4cd2bca",
+      "title": "story 2038 01 19 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2038-01-19_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2038-01-19_3_afterimage.png",
+      "original_bytes": 545988,
+      "full": "assets/gallery/full/b181ae9bd4cd2bca.jpg",
+      "thumb": "assets/gallery/thumb/b181ae9bd4cd2bca.jpg",
+      "full_bytes": 78264,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "c100a315262c2d98",
+      "title": "story 2038 01 19 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2038-01-19_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2038-01-19_4_document.png",
+      "original_bytes": 500335,
+      "full": "assets/gallery/full/c100a315262c2d98.jpg",
+      "thumb": "assets/gallery/thumb/c100a315262c2d98.jpg",
+      "full_bytes": 67248,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "d2e4f82d33708b83",
+      "title": "story 2038 01 19 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2038-01-19_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2038-01-19_5_future.png",
+      "original_bytes": 560164,
+      "full": "assets/gallery/full/d2e4f82d33708b83.jpg",
+      "thumb": "assets/gallery/thumb/d2e4f82d33708b83.jpg",
+      "full_bytes": 72184,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "d6917b1388c3bc52",
+      "title": "story 2040 12 31 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2040-12-31_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2040-12-31_1_scene.png",
+      "original_bytes": 457408,
+      "full": "assets/gallery/full/d6917b1388c3bc52.jpg",
+      "thumb": "assets/gallery/thumb/d6917b1388c3bc52.jpg",
+      "full_bytes": 61266,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "804a32933e94acc4",
+      "title": "story 2040 12 31 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2040-12-31_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2040-12-31_2_object.png",
+      "original_bytes": 494933,
+      "full": "assets/gallery/full/804a32933e94acc4.jpg",
+      "thumb": "assets/gallery/thumb/804a32933e94acc4.jpg",
+      "full_bytes": 63532,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "6c926bfff659a8f0",
+      "title": "story 2040 12 31 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2040-12-31_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2040-12-31_3_afterimage.png",
+      "original_bytes": 460715,
+      "full": "assets/gallery/full/6c926bfff659a8f0.jpg",
+      "thumb": "assets/gallery/thumb/6c926bfff659a8f0.jpg",
+      "full_bytes": 69102,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "6587bf89ec91f8e3",
+      "title": "story 2040 12 31 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2040-12-31_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2040-12-31_4_document.png",
+      "original_bytes": 418514,
+      "full": "assets/gallery/full/6587bf89ec91f8e3.jpg",
+      "thumb": "assets/gallery/thumb/6587bf89ec91f8e3.jpg",
+      "full_bytes": 64769,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "dec8b64791487169",
+      "title": "story 2040 12 31 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2040-12-31_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2040-12-31_5_future.png",
+      "original_bytes": 417799,
+      "full": "assets/gallery/full/dec8b64791487169.jpg",
+      "thumb": "assets/gallery/thumb/dec8b64791487169.jpg",
+      "full_bytes": 57850,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "81990bf8517ae08d",
+      "title": "story 2042 06 06 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2042-06-06_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2042-06-06_1_scene.png",
+      "original_bytes": 557763,
+      "full": "assets/gallery/full/81990bf8517ae08d.jpg",
+      "thumb": "assets/gallery/thumb/81990bf8517ae08d.jpg",
+      "full_bytes": 82747,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5cca458fcaae7519",
+      "title": "story 2042 06 06 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2042-06-06_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2042-06-06_2_object.png",
+      "original_bytes": 596591,
+      "full": "assets/gallery/full/5cca458fcaae7519.jpg",
+      "thumb": "assets/gallery/thumb/5cca458fcaae7519.jpg",
+      "full_bytes": 73373,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "0ddb512be25858a1",
+      "title": "story 2042 06 06 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2042-06-06_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2042-06-06_3_afterimage.png",
+      "original_bytes": 730527,
+      "full": "assets/gallery/full/0ddb512be25858a1.jpg",
+      "thumb": "assets/gallery/thumb/0ddb512be25858a1.jpg",
+      "full_bytes": 100517,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "34b4858707f8bceb",
+      "title": "story 2042 06 06 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2042-06-06_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2042-06-06_4_document.png",
+      "original_bytes": 575324,
+      "full": "assets/gallery/full/34b4858707f8bceb.jpg",
+      "thumb": "assets/gallery/thumb/34b4858707f8bceb.jpg",
+      "full_bytes": 87044,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e170e26d532b98f1",
+      "title": "story 2042 06 06 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2042-06-06_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2042-06-06_5_future.png",
+      "original_bytes": 450275,
+      "full": "assets/gallery/full/e170e26d532b98f1.jpg",
+      "thumb": "assets/gallery/thumb/e170e26d532b98f1.jpg",
+      "full_bytes": 66834,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "632ae35c5db31e73",
+      "title": "story 2045 09 01 1 scene",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2045-09-01_1_scene.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2045-09-01_1_scene.png",
+      "original_bytes": 505570,
+      "full": "assets/gallery/full/632ae35c5db31e73.jpg",
+      "thumb": "assets/gallery/thumb/632ae35c5db31e73.jpg",
+      "full_bytes": 64748,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "e19305c7e9ffb443",
+      "title": "story 2045 09 01 2 object",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2045-09-01_2_object.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2045-09-01_2_object.png",
+      "original_bytes": 641966,
+      "full": "assets/gallery/full/e19305c7e9ffb443.jpg",
+      "thumb": "assets/gallery/thumb/e19305c7e9ffb443.jpg",
+      "full_bytes": 81672,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "09aee1d7bc966d7c",
+      "title": "story 2045 09 01 3 afterimage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2045-09-01_3_afterimage.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2045-09-01_3_afterimage.png",
+      "original_bytes": 579864,
+      "full": "assets/gallery/full/09aee1d7bc966d7c.jpg",
+      "thumb": "assets/gallery/thumb/09aee1d7bc966d7c.jpg",
+      "full_bytes": 84537,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "5c7feb9bb7e46587",
+      "title": "story 2045 09 01 4 document",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2045-09-01_4_document.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2045-09-01_4_document.png",
+      "original_bytes": 617044,
+      "full": "assets/gallery/full/5c7feb9bb7e46587.jpg",
+      "thumb": "assets/gallery/thumb/5c7feb9bb7e46587.jpg",
+      "full_bytes": 81146,
+      "width": 1344,
+      "height": 768
+    },
+    {
+      "id": "1337ddfaa31ba8f7",
+      "title": "story 2045 09 01 5 future",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "story_2045-09-01_5_future.png",
+      "source_root": "Publish Portal",
+      "original_name": "story_2045-09-01_5_future.png",
+      "original_bytes": 506658,
+      "full": "assets/gallery/full/1337ddfaa31ba8f7.jpg",
+      "thumb": "assets/gallery/thumb/1337ddfaa31ba8f7.jpg",
+      "full_bytes": 76452,
+      "width": 1344,
+      "height": 768
     }
   ],
-  "cache_bust": "1130-auto-202611101927"
+  "cache_bust": "1259-auto-202611101930"
 }
