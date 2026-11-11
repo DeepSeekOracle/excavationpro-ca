@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T23:30:46.368056+00:00",
-  "count": 1301,
+  "generated_utc": "2026-11-11T23:30:59.395516+00:00",
+  "count": 1308,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -20895,7 +20895,119 @@
       "full_bytes": 191986,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "9194b195a67d0c2b",
+      "title": "moss",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "moss.jpg",
+      "original_bytes": 512961,
+      "full": "assets/gallery/full/9194b195a67d0c2b.jpg",
+      "thumb": "assets/gallery/thumb/9194b195a67d0c2b.jpg",
+      "full_bytes": 243306,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "b5705f6b548e8d9c",
+      "title": "og",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og.jpg",
+      "original_bytes": 139764,
+      "full": "assets/gallery/full/b5705f6b548e8d9c.jpg",
+      "thumb": "assets/gallery/thumb/b5705f6b548e8d9c.jpg",
+      "full_bytes": 134149,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "1fd5bffd1ba7ecaa",
+      "title": "serenya",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "serenya.png",
+      "source_root": "Publish Portal",
+      "original_name": "serenya.png",
+      "original_bytes": 473544,
+      "full": "assets/gallery/full/1fd5bffd1ba7ecaa.jpg",
+      "thumb": "assets/gallery/thumb/1fd5bffd1ba7ecaa.jpg",
+      "full_bytes": 53410,
+      "width": 407,
+      "height": 1103
+    },
+    {
+      "id": "c141071cb34a753c",
+      "title": "shade",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shade.png",
+      "source_root": "Publish Portal",
+      "original_name": "shade.png",
+      "original_bytes": 1338458,
+      "full": "assets/gallery/full/c141071cb34a753c.jpg",
+      "thumb": "assets/gallery/thumb/c141071cb34a753c.jpg",
+      "full_bytes": 130106,
+      "width": 926,
+      "height": 1016
+    },
+    {
+      "id": "c634bdd7db88a6f1",
+      "title": "stone",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "stone.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "stone.jpg",
+      "original_bytes": 432921,
+      "full": "assets/gallery/full/c634bdd7db88a6f1.jpg",
+      "thumb": "assets/gallery/thumb/c634bdd7db88a6f1.jpg",
+      "full_bytes": 201002,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7c612d83451e888c",
+      "title": "title",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "title.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "title.jpg",
+      "original_bytes": 184751,
+      "full": "assets/gallery/full/7c612d83451e888c.jpg",
+      "thumb": "assets/gallery/thumb/7c612d83451e888c.jpg",
+      "full_bytes": 184643,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "483b3ac0350dd0dd",
+      "title": "water",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "water.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "water.jpg",
+      "original_bytes": 444817,
+      "full": "assets/gallery/full/483b3ac0350dd0dd.jpg",
+      "thumb": "assets/gallery/thumb/483b3ac0350dd0dd.jpg",
+      "full_bytes": 218719,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1301-auto-202611111630"
+  "cache_bust": "1308-auto-202611111630"
 }
