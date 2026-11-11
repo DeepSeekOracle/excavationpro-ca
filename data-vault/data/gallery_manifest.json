@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-11T01:33:09.797714+00:00",
-  "count": 1092,
+  "generated_utc": "2026-11-11T01:37:26.233372+00:00",
+  "count": 1093,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -17551,7 +17551,23 @@
       "full_bytes": 33975,
       "width": 512,
       "height": 512
+    },
+    {
+      "id": "fbb1fc971b6e148e",
+      "title": "heartboss rgba",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "heartboss_rgba.png",
+      "source_root": "Publish Portal",
+      "original_name": "heartboss_rgba.png",
+      "original_bytes": 312553,
+      "full": "assets/gallery/full/fbb1fc971b6e148e.jpg",
+      "thumb": "assets/gallery/thumb/fbb1fc971b6e148e.jpg",
+      "full_bytes": 38055,
+      "width": 462,
+      "height": 364
     }
   ],
-  "cache_bust": "1092-auto-202611101833"
+  "cache_bust": "1093-auto-202611101837"
 }
