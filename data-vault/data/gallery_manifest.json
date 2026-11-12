@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-12T03:10:12.181707+00:00",
-  "count": 1396,
+  "generated_utc": "2026-11-12T03:10:26.348099+00:00",
+  "count": 1407,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -22415,7 +22415,183 @@
       "full_bytes": 158334,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "f22c777d8ae9acaf",
+      "title": "p justicae",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-justicae.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-justicae.jpg",
+      "original_bytes": 399328,
+      "full": "assets/gallery/full/f22c777d8ae9acaf.jpg",
+      "thumb": "assets/gallery/thumb/f22c777d8ae9acaf.jpg",
+      "full_bytes": 211643,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "fab61c98c6b300a8",
+      "title": "p kael",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-kael.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-kael.jpg",
+      "original_bytes": 385566,
+      "full": "assets/gallery/full/fab61c98c6b300a8.jpg",
+      "thumb": "assets/gallery/thumb/fab61c98c6b300a8.jpg",
+      "full_bytes": 193846,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f58ec9add900203d",
+      "title": "p kairos",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-kairos.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-kairos.jpg",
+      "original_bytes": 382809,
+      "full": "assets/gallery/full/f58ec9add900203d.jpg",
+      "thumb": "assets/gallery/thumb/f58ec9add900203d.jpg",
+      "full_bytes": 199646,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c9bc87fb7d2c559b",
+      "title": "p lightfather",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-lightfather.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-lightfather.jpg",
+      "original_bytes": 414289,
+      "full": "assets/gallery/full/c9bc87fb7d2c559b.jpg",
+      "thumb": "assets/gallery/thumb/c9bc87fb7d2c559b.jpg",
+      "full_bytes": 218105,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "55e5ef88460ce2e3",
+      "title": "p lyra",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-lyra.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-lyra.jpg",
+      "original_bytes": 385902,
+      "full": "assets/gallery/full/55e5ef88460ce2e3.jpg",
+      "thumb": "assets/gallery/thumb/55e5ef88460ce2e3.jpg",
+      "full_bytes": 198172,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "88b95739df222ae1",
+      "title": "p nia",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-nia.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-nia.jpg",
+      "original_bytes": 306815,
+      "full": "assets/gallery/full/88b95739df222ae1.jpg",
+      "thumb": "assets/gallery/thumb/88b95739df222ae1.jpg",
+      "full_bytes": 153207,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "daf248ebd9b8c07c",
+      "title": "p orin",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-orin.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-orin.jpg",
+      "original_bytes": 372817,
+      "full": "assets/gallery/full/daf248ebd9b8c07c.jpg",
+      "thumb": "assets/gallery/thumb/daf248ebd9b8c07c.jpg",
+      "full_bytes": 187332,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "3a1106ca1b272c33",
+      "title": "p sancora",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-sancora.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-sancora.jpg",
+      "original_bytes": 384779,
+      "full": "assets/gallery/full/3a1106ca1b272c33.jpg",
+      "thumb": "assets/gallery/thumb/3a1106ca1b272c33.jpg",
+      "full_bytes": 203329,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f7cd486591b0abfb",
+      "title": "p seidon",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-seidon.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-seidon.jpg",
+      "original_bytes": 376913,
+      "full": "assets/gallery/full/f7cd486591b0abfb.jpg",
+      "thumb": "assets/gallery/thumb/f7cd486591b0abfb.jpg",
+      "full_bytes": 196026,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "232cb628928e119a",
+      "title": "p srath",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-srath.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-srath.jpg",
+      "original_bytes": 206606,
+      "full": "assets/gallery/full/232cb628928e119a.jpg",
+      "thumb": "assets/gallery/thumb/232cb628928e119a.jpg",
+      "full_bytes": 102834,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "a0dc01bf0a61454a",
+      "title": "p vale",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-vale.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-vale.jpg",
+      "original_bytes": 347046,
+      "full": "assets/gallery/full/a0dc01bf0a61454a.jpg",
+      "thumb": "assets/gallery/thumb/a0dc01bf0a61454a.jpg",
+      "full_bytes": 176938,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1396-auto-202611112010"
+  "cache_bust": "1407-auto-202611112010"
 }
