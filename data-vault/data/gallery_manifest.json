@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-12T03:10:26.348099+00:00",
-  "count": 1407,
+  "generated_utc": "2026-11-12T04:51:37.355489+00:00",
+  "count": 1433,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -22591,7 +22591,423 @@
       "full_bytes": 176938,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "4e758815db319e71",
+      "title": "brute",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "brute.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "brute.jpg",
+      "original_bytes": 144882,
+      "full": "assets/gallery/full/4e758815db319e71.jpg",
+      "thumb": "assets/gallery/thumb/4e758815db319e71.jpg",
+      "full_bytes": 66213,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "16b3d146903b5bfb",
+      "title": "brute b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "brute_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "brute_b.jpg",
+      "original_bytes": 155813,
+      "full": "assets/gallery/full/16b3d146903b5bfb.jpg",
+      "thumb": "assets/gallery/thumb/16b3d146903b5bfb.jpg",
+      "full_bytes": 72140,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "0c2fd8fa6a3d5f8e",
+      "title": "crown",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crown.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "crown.jpg",
+      "original_bytes": 309047,
+      "full": "assets/gallery/full/0c2fd8fa6a3d5f8e.jpg",
+      "thumb": "assets/gallery/thumb/0c2fd8fa6a3d5f8e.jpg",
+      "full_bytes": 156426,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "81740bfa97f3841b",
+      "title": "drain",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "drain.jpg",
+      "original_bytes": 224457,
+      "full": "assets/gallery/full/81740bfa97f3841b.jpg",
+      "thumb": "assets/gallery/thumb/81740bfa97f3841b.jpg",
+      "full_bytes": 87481,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7fb996028b76f44a",
+      "title": "drain b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "drain_b.jpg",
+      "original_bytes": 212362,
+      "full": "assets/gallery/full/7fb996028b76f44a.jpg",
+      "thumb": "assets/gallery/thumb/7fb996028b76f44a.jpg",
+      "full_bytes": 89377,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7873db94a9df1775",
+      "title": "gate",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "gate.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "gate.jpg",
+      "original_bytes": 267887,
+      "full": "assets/gallery/full/7873db94a9df1775.jpg",
+      "thumb": "assets/gallery/thumb/7873db94a9df1775.jpg",
+      "full_bytes": 142987,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "0581646b8a89aa6c",
+      "title": "gate b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "gate_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "gate_b.jpg",
+      "original_bytes": 291712,
+      "full": "assets/gallery/full/0581646b8a89aa6c.jpg",
+      "thumb": "assets/gallery/thumb/0581646b8a89aa6c.jpg",
+      "full_bytes": 153340,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "56b305315a0b719c",
+      "title": "heartboss",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "heartboss.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "heartboss.jpg",
+      "original_bytes": 259900,
+      "full": "assets/gallery/full/56b305315a0b719c.jpg",
+      "thumb": "assets/gallery/thumb/56b305315a0b719c.jpg",
+      "full_bytes": 128879,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d7a1e6509bc67526",
+      "title": "hurler",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hurler.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "hurler.jpg",
+      "original_bytes": 190857,
+      "full": "assets/gallery/full/d7a1e6509bc67526.jpg",
+      "thumb": "assets/gallery/thumb/d7a1e6509bc67526.jpg",
+      "full_bytes": 91459,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "e749b0ab5631b0b4",
+      "title": "hurler b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hurler_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "hurler_b.jpg",
+      "original_bytes": 201398,
+      "full": "assets/gallery/full/e749b0ab5631b0b4.jpg",
+      "thumb": "assets/gallery/thumb/e749b0ab5631b0b4.jpg",
+      "full_bytes": 96183,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "31efbb575787a3ad",
+      "title": "imp",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "imp.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "imp.jpg",
+      "original_bytes": 139994,
+      "full": "assets/gallery/full/31efbb575787a3ad.jpg",
+      "thumb": "assets/gallery/thumb/31efbb575787a3ad.jpg",
+      "full_bytes": 61531,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6c3af54f8d6c4a50",
+      "title": "imp b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "imp_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "imp_b.jpg",
+      "original_bytes": 151226,
+      "full": "assets/gallery/full/6c3af54f8d6c4a50.jpg",
+      "thumb": "assets/gallery/thumb/6c3af54f8d6c4a50.jpg",
+      "full_bytes": 66645,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "91a1e04ca4bf2985",
+      "title": "levi",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "levi.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "levi.jpg",
+      "original_bytes": 334975,
+      "full": "assets/gallery/full/91a1e04ca4bf2985.jpg",
+      "thumb": "assets/gallery/thumb/91a1e04ca4bf2985.jpg",
+      "full_bytes": 166288,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "8003e86ffdd3aaec",
+      "title": "lock",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lock.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lock.jpg",
+      "original_bytes": 359420,
+      "full": "assets/gallery/full/8003e86ffdd3aaec.jpg",
+      "thumb": "assets/gallery/thumb/8003e86ffdd3aaec.jpg",
+      "full_bytes": 177606,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f536b804d7f16e4c",
+      "title": "lock b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lock_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "lock_b.jpg",
+      "original_bytes": 333747,
+      "full": "assets/gallery/full/f536b804d7f16e4c.jpg",
+      "thumb": "assets/gallery/thumb/f536b804d7f16e4c.jpg",
+      "full_bytes": 164333,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "98c6c89ae4f9bef6",
+      "title": "shade",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shade.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "shade.jpg",
+      "original_bytes": 170151,
+      "full": "assets/gallery/full/98c6c89ae4f9bef6.jpg",
+      "thumb": "assets/gallery/thumb/98c6c89ae4f9bef6.jpg",
+      "full_bytes": 76354,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "3a84785641a78bbf",
+      "title": "shade b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shade_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "shade_b.jpg",
+      "original_bytes": 182957,
+      "full": "assets/gallery/full/3a84785641a78bbf.jpg",
+      "thumb": "assets/gallery/thumb/3a84785641a78bbf.jpg",
+      "full_bytes": 81698,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "0e081a870c7fc66a",
+      "title": "smith",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "smith.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "smith.jpg",
+      "original_bytes": 302058,
+      "full": "assets/gallery/full/0e081a870c7fc66a.jpg",
+      "thumb": "assets/gallery/thumb/0e081a870c7fc66a.jpg",
+      "full_bytes": 147937,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "3bbe6f202aad57cf",
+      "title": "smith b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "smith_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "smith_b.jpg",
+      "original_bytes": 281014,
+      "full": "assets/gallery/full/3bbe6f202aad57cf.jpg",
+      "thumb": "assets/gallery/thumb/3bbe6f202aad57cf.jpg",
+      "full_bytes": 137824,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c1a26cde967483f8",
+      "title": "thief",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "thief.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "thief.jpg",
+      "original_bytes": 123489,
+      "full": "assets/gallery/full/c1a26cde967483f8.jpg",
+      "thumb": "assets/gallery/thumb/c1a26cde967483f8.jpg",
+      "full_bytes": 55071,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "50f1a28abd38ac33",
+      "title": "thief b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "thief_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "thief_b.jpg",
+      "original_bytes": 136925,
+      "full": "assets/gallery/full/50f1a28abd38ac33.jpg",
+      "thumb": "assets/gallery/thumb/50f1a28abd38ac33.jpg",
+      "full_bytes": 56960,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "10283730215ca523",
+      "title": "tithe",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tithe.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tithe.jpg",
+      "original_bytes": 425307,
+      "full": "assets/gallery/full/10283730215ca523.jpg",
+      "thumb": "assets/gallery/thumb/10283730215ca523.jpg",
+      "full_bytes": 213783,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "4eb335b23acb599e",
+      "title": "unnamer",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "unnamer.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "unnamer.jpg",
+      "original_bytes": 192331,
+      "full": "assets/gallery/full/4eb335b23acb599e.jpg",
+      "thumb": "assets/gallery/thumb/4eb335b23acb599e.jpg",
+      "full_bytes": 91141,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "94f2ff316abe2ea1",
+      "title": "unnamer b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "unnamer_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "unnamer_b.jpg",
+      "original_bytes": 192475,
+      "full": "assets/gallery/full/94f2ff316abe2ea1.jpg",
+      "thumb": "assets/gallery/thumb/94f2ff316abe2ea1.jpg",
+      "full_bytes": 90556,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "415929bd2a769df4",
+      "title": "wraith",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wraith.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "wraith.jpg",
+      "original_bytes": 119173,
+      "full": "assets/gallery/full/415929bd2a769df4.jpg",
+      "thumb": "assets/gallery/thumb/415929bd2a769df4.jpg",
+      "full_bytes": 52132,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "742ab66a40f1c7e3",
+      "title": "wraith b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "wraith_b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "wraith_b.jpg",
+      "original_bytes": 138144,
+      "full": "assets/gallery/full/742ab66a40f1c7e3.jpg",
+      "thumb": "assets/gallery/thumb/742ab66a40f1c7e3.jpg",
+      "full_bytes": 59122,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1407-auto-202611112010"
+  "cache_bust": "1433-auto-202611112151"
 }
