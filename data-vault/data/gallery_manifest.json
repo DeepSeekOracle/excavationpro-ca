@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-12T02:29:33.373040+00:00",
-  "count": 1384,
+  "generated_utc": "2026-11-12T02:41:59.071154+00:00",
+  "count": 1394,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -22223,7 +22223,167 @@
       "full_bytes": 153806,
       "width": 1280,
       "height": 720
+    },
+    {
+      "id": "e505e86844e6b7f3",
+      "title": "birch",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "birch.png",
+      "source_root": "Publish Portal",
+      "original_name": "birch.png",
+      "original_bytes": 86605,
+      "full": "assets/gallery/full/e505e86844e6b7f3.jpg",
+      "thumb": "assets/gallery/thumb/e505e86844e6b7f3.jpg",
+      "full_bytes": 12040,
+      "width": 152,
+      "height": 349
+    },
+    {
+      "id": "8b2ce4fde77e31be",
+      "title": "bush",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "bush.png",
+      "source_root": "Publish Portal",
+      "original_name": "bush.png",
+      "original_bytes": 113002,
+      "full": "assets/gallery/full/8b2ce4fde77e31be.jpg",
+      "thumb": "assets/gallery/thumb/8b2ce4fde77e31be.jpg",
+      "full_bytes": 15606,
+      "width": 239,
+      "height": 224
+    },
+    {
+      "id": "0bd7116634f563ee",
+      "title": "cottage",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cottage.png",
+      "source_root": "Publish Portal",
+      "original_name": "cottage.png",
+      "original_bytes": 172057,
+      "full": "assets/gallery/full/0bd7116634f563ee.jpg",
+      "thumb": "assets/gallery/thumb/0bd7116634f563ee.jpg",
+      "full_bytes": 24222,
+      "width": 342,
+      "height": 274
+    },
+    {
+      "id": "306dfb7335fce361",
+      "title": "flowers",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "flowers.png",
+      "source_root": "Publish Portal",
+      "original_name": "flowers.png",
+      "original_bytes": 78704,
+      "full": "assets/gallery/full/306dfb7335fce361.jpg",
+      "thumb": "assets/gallery/thumb/306dfb7335fce361.jpg",
+      "full_bytes": 11143,
+      "width": 186,
+      "height": 208
+    },
+    {
+      "id": "30705d331b21c39a",
+      "title": "mine",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mine.png",
+      "source_root": "Publish Portal",
+      "original_name": "mine.png",
+      "original_bytes": 159652,
+      "full": "assets/gallery/full/30705d331b21c39a.jpg",
+      "thumb": "assets/gallery/thumb/30705d331b21c39a.jpg",
+      "full_bytes": 20492,
+      "width": 346,
+      "height": 276
+    },
+    {
+      "id": "6e482c2c689c9ff0",
+      "title": "oak",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "oak.png",
+      "source_root": "Publish Portal",
+      "original_name": "oak.png",
+      "original_bytes": 260670,
+      "full": "assets/gallery/full/6e482c2c689c9ff0.jpg",
+      "thumb": "assets/gallery/thumb/6e482c2c689c9ff0.jpg",
+      "full_bytes": 30510,
+      "width": 410,
+      "height": 349
+    },
+    {
+      "id": "68797db7565d3664",
+      "title": "pine",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "pine.png",
+      "source_root": "Publish Portal",
+      "original_name": "pine.png",
+      "original_bytes": 119395,
+      "full": "assets/gallery/full/68797db7565d3664.jpg",
+      "thumb": "assets/gallery/thumb/68797db7565d3664.jpg",
+      "full_bytes": 12777,
+      "width": 212,
+      "height": 349
+    },
+    {
+      "id": "ebfbbec63f80b82d",
+      "title": "reed",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "reed.png",
+      "source_root": "Publish Portal",
+      "original_name": "reed.png",
+      "original_bytes": 119939,
+      "full": "assets/gallery/full/ebfbbec63f80b82d.jpg",
+      "thumb": "assets/gallery/thumb/ebfbbec63f80b82d.jpg",
+      "full_bytes": 16850,
+      "width": 227,
+      "height": 280
+    },
+    {
+      "id": "48c106e9cdff5b8d",
+      "title": "stone",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "stone.png",
+      "source_root": "Publish Portal",
+      "original_name": "stone.png",
+      "original_bytes": 70510,
+      "full": "assets/gallery/full/48c106e9cdff5b8d.jpg",
+      "thumb": "assets/gallery/thumb/48c106e9cdff5b8d.jpg",
+      "full_bytes": 10553,
+      "width": 127,
+      "height": 304
+    },
+    {
+      "id": "01e52d0487a9eb09",
+      "title": "well",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "well.png",
+      "source_root": "Publish Portal",
+      "original_name": "well.png",
+      "original_bytes": 85270,
+      "full": "assets/gallery/full/01e52d0487a9eb09.jpg",
+      "thumb": "assets/gallery/thumb/01e52d0487a9eb09.jpg",
+      "full_bytes": 12326,
+      "width": 264,
+      "height": 164
     }
   ],
-  "cache_bust": "1384-auto-202611111929"
+  "cache_bust": "1394-auto-202611111941"
 }
