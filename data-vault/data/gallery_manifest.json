@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-12T02:41:59.071154+00:00",
-  "count": 1394,
+  "generated_utc": "2026-11-12T03:10:12.181707+00:00",
+  "count": 1396,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -22383,7 +22383,39 @@
       "full_bytes": 12326,
       "width": 264,
       "height": 164
+    },
+    {
+      "id": "5bb710884798788c",
+      "title": "p arkos",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-arkos.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-arkos.jpg",
+      "original_bytes": 356989,
+      "full": "assets/gallery/full/5bb710884798788c.jpg",
+      "thumb": "assets/gallery/thumb/5bb710884798788c.jpg",
+      "full_bytes": 186715,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "5f01748e3bc38555",
+      "title": "p d9ra",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-d9ra.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-d9ra.jpg",
+      "original_bytes": 310671,
+      "full": "assets/gallery/full/5f01748e3bc38555.jpg",
+      "thumb": "assets/gallery/thumb/5f01748e3bc38555.jpg",
+      "full_bytes": 158334,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1394-auto-202611111941"
+  "cache_bust": "1396-auto-202611112010"
 }
