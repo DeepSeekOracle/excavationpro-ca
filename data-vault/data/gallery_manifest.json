@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-12T02:29:01.901307+00:00",
-  "count": 1352,
+  "generated_utc": "2026-11-12T02:29:16.742233+00:00",
+  "count": 1367,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -21711,7 +21711,247 @@
       "full_bytes": 172267,
       "width": 1280,
       "height": 720
+    },
+    {
+      "id": "5a886201317007ed",
+      "title": "crack",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crack.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "crack.jpg",
+      "original_bytes": 390196,
+      "full": "assets/gallery/full/5a886201317007ed.jpg",
+      "thumb": "assets/gallery/thumb/5a886201317007ed.jpg",
+      "full_bytes": 184245,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "ba58cb1124d60f7d",
+      "title": "dawn",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dawn.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "dawn.jpg",
+      "original_bytes": 376898,
+      "full": "assets/gallery/full/ba58cb1124d60f7d.jpg",
+      "thumb": "assets/gallery/thumb/ba58cb1124d60f7d.jpg",
+      "full_bytes": 184034,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "ed8acc3c4351be6f",
+      "title": "dream",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dream.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "dream.jpg",
+      "original_bytes": 358779,
+      "full": "assets/gallery/full/ed8acc3c4351be6f.jpg",
+      "thumb": "assets/gallery/thumb/ed8acc3c4351be6f.jpg",
+      "full_bytes": 172319,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "713c68d573261d75",
+      "title": "festival",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "festival.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "festival.jpg",
+      "original_bytes": 373559,
+      "full": "assets/gallery/full/713c68d573261d75.jpg",
+      "thumb": "assets/gallery/thumb/713c68d573261d75.jpg",
+      "full_bytes": 176418,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "9ec3dc1c62d41e7d",
+      "title": "hearth",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hearth.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "hearth.jpg",
+      "original_bytes": 387301,
+      "full": "assets/gallery/full/9ec3dc1c62d41e7d.jpg",
+      "thumb": "assets/gallery/thumb/9ec3dc1c62d41e7d.jpg",
+      "full_bytes": 188035,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "dad21ec677d93a95",
+      "title": "loft",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "loft.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "loft.jpg",
+      "original_bytes": 296717,
+      "full": "assets/gallery/full/dad21ec677d93a95.jpg",
+      "thumb": "assets/gallery/thumb/dad21ec677d93a95.jpg",
+      "full_bytes": 145395,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "fb507c7db54c5862",
+      "title": "moonrise",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moonrise.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "moonrise.jpg",
+      "original_bytes": 350335,
+      "full": "assets/gallery/full/fb507c7db54c5862.jpg",
+      "thumb": "assets/gallery/thumb/fb507c7db54c5862.jpg",
+      "full_bytes": 169342,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "02dec3279356b3cf",
+      "title": "parapet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "parapet.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "parapet.jpg",
+      "original_bytes": 371499,
+      "full": "assets/gallery/full/02dec3279356b3cf.jpg",
+      "thumb": "assets/gallery/thumb/02dec3279356b3cf.jpg",
+      "full_bytes": 175518,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "b01ebfc2812b9687",
+      "title": "peaks",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "peaks.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "peaks.jpg",
+      "original_bytes": 419213,
+      "full": "assets/gallery/full/b01ebfc2812b9687.jpg",
+      "thumb": "assets/gallery/thumb/b01ebfc2812b9687.jpg",
+      "full_bytes": 202094,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "2314f1ce4a99367d",
+      "title": "ridge",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ridge.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ridge.jpg",
+      "original_bytes": 339278,
+      "full": "assets/gallery/full/2314f1ce4a99367d.jpg",
+      "thumb": "assets/gallery/thumb/2314f1ce4a99367d.jpg",
+      "full_bytes": 153463,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "59a09bb20f065541",
+      "title": "ruins",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruins.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ruins.jpg",
+      "original_bytes": 392009,
+      "full": "assets/gallery/full/59a09bb20f065541.jpg",
+      "thumb": "assets/gallery/thumb/59a09bb20f065541.jpg",
+      "full_bytes": 188703,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "7128b26c613afe8a",
+      "title": "steps",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "steps.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "steps.jpg",
+      "original_bytes": 374072,
+      "full": "assets/gallery/full/7128b26c613afe8a.jpg",
+      "thumb": "assets/gallery/thumb/7128b26c613afe8a.jpg",
+      "full_bytes": 173845,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "daf3d5e88f893129",
+      "title": "thicket",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "thicket.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "thicket.jpg",
+      "original_bytes": 379594,
+      "full": "assets/gallery/full/daf3d5e88f893129.jpg",
+      "thumb": "assets/gallery/thumb/daf3d5e88f893129.jpg",
+      "full_bytes": 178350,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "10f18851a6acb36a",
+      "title": "vault",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "vault.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "vault.jpg",
+      "original_bytes": 393130,
+      "full": "assets/gallery/full/10f18851a6acb36a.jpg",
+      "thumb": "assets/gallery/thumb/10f18851a6acb36a.jpg",
+      "full_bytes": 189249,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "494d572d25c34f88",
+      "title": "yard",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "yard.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "yard.jpg",
+      "original_bytes": 379308,
+      "full": "assets/gallery/full/494d572d25c34f88.jpg",
+      "thumb": "assets/gallery/thumb/494d572d25c34f88.jpg",
+      "full_bytes": 183002,
+      "width": 1280,
+      "height": 720
     }
   ],
-  "cache_bust": "1352-auto-202611111929"
+  "cache_bust": "1367-auto-202611111929"
 }
