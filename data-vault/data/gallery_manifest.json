@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:39:16.674822+00:00",
-  "count": 1472,
+  "generated_utc": "2026-11-14T19:39:29.898726+00:00",
+  "count": 1473,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -23631,7 +23631,23 @@
       "full_bytes": 142304,
       "width": 1280,
       "height": 720
+    },
+    {
+      "id": "127dfa8a6702b7c6",
+      "title": "slot",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "slot.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "slot.jpg",
+      "original_bytes": 337099,
+      "full": "assets/gallery/full/127dfa8a6702b7c6.jpg",
+      "thumb": "assets/gallery/thumb/127dfa8a6702b7c6.jpg",
+      "full_bytes": 171714,
+      "width": 864,
+      "height": 1152
     }
   ],
-  "cache_bust": "1472-auto-202611141239"
+  "cache_bust": "1473-auto-202611141239"
 }
