@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:27:54.074227+00:00",
-  "count": 1462,
+  "generated_utc": "2026-11-14T19:39:16.674822+00:00",
+  "count": 1472,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -23471,7 +23471,167 @@
       "full_bytes": 21133,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "53fdfb463d09b7ce",
+      "title": "board",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "board.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "board.jpg",
+      "original_bytes": 291138,
+      "full": "assets/gallery/full/53fdfb463d09b7ce.jpg",
+      "thumb": "assets/gallery/thumb/53fdfb463d09b7ce.jpg",
+      "full_bytes": 142304,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "c9b5c97e5b0c9540",
+      "title": "i bonds",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-bonds.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-bonds.jpg",
+      "original_bytes": 250664,
+      "full": "assets/gallery/full/c9b5c97e5b0c9540.jpg",
+      "thumb": "assets/gallery/thumb/c9b5c97e5b0c9540.jpg",
+      "full_bytes": 113880,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "2606934d96f4fe61",
+      "title": "i gold",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-gold.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-gold.jpg",
+      "original_bytes": 286404,
+      "full": "assets/gallery/full/2606934d96f4fe61.jpg",
+      "thumb": "assets/gallery/thumb/2606934d96f4fe61.jpg",
+      "full_bytes": 130881,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f3cb26e8879a6325",
+      "title": "i grain",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-grain.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-grain.jpg",
+      "original_bytes": 283774,
+      "full": "assets/gallery/full/f3cb26e8879a6325.jpg",
+      "thumb": "assets/gallery/thumb/f3cb26e8879a6325.jpg",
+      "full_bytes": 132902,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "56d4f0945cca1130",
+      "title": "i industrials",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-industrials.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-industrials.jpg",
+      "original_bytes": 266888,
+      "full": "assets/gallery/full/56d4f0945cca1130.jpg",
+      "thumb": "assets/gallery/thumb/56d4f0945cca1130.jpg",
+      "full_bytes": 121224,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f5bed008495b87e3",
+      "title": "i oil",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-oil.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-oil.jpg",
+      "original_bytes": 239895,
+      "full": "assets/gallery/full/f5bed008495b87e3.jpg",
+      "thumb": "assets/gallery/thumb/f5bed008495b87e3.jpg",
+      "full_bytes": 105764,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "834ba4a17e9dc3c7",
+      "title": "i silver",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-silver.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-silver.jpg",
+      "original_bytes": 267119,
+      "full": "assets/gallery/full/834ba4a17e9dc3c7.jpg",
+      "thumb": "assets/gallery/thumb/834ba4a17e9dc3c7.jpg",
+      "full_bytes": 123672,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "0b62111fe95fc25f",
+      "title": "i timber",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-timber.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-timber.jpg",
+      "original_bytes": 269641,
+      "full": "assets/gallery/full/0b62111fe95fc25f.jpg",
+      "thumb": "assets/gallery/thumb/0b62111fe95fc25f.jpg",
+      "full_bytes": 124702,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "5faf7915ef981834",
+      "title": "i utilities",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "i-utilities.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "i-utilities.jpg",
+      "original_bytes": 259958,
+      "full": "assets/gallery/full/5faf7915ef981834.jpg",
+      "thumb": "assets/gallery/thumb/5faf7915ef981834.jpg",
+      "full_bytes": 118474,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "53fdfb463d09b7ce",
+      "title": "menu",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "menu.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "menu.jpg",
+      "original_bytes": 291138,
+      "full": "assets/gallery/full/53fdfb463d09b7ce.jpg",
+      "thumb": "assets/gallery/thumb/53fdfb463d09b7ce.jpg",
+      "full_bytes": 142304,
+      "width": 1280,
+      "height": 720
     }
   ],
-  "cache_bust": "1462-auto-202611141227"
+  "cache_bust": "1472-auto-202611141239"
 }
