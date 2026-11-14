@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:49:56.759944+00:00",
-  "count": 1531,
+  "generated_utc": "2026-11-14T19:50:08.913432+00:00",
+  "count": 1537,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -24575,7 +24575,103 @@
       "full_bytes": 77111,
       "width": 469,
       "height": 897
+    },
+    {
+      "id": "36a333508d94829e",
+      "title": "b aa",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-aa.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-aa.png",
+      "original_bytes": 579359,
+      "full": "assets/gallery/full/36a333508d94829e.jpg",
+      "thumb": "assets/gallery/thumb/36a333508d94829e.jpg",
+      "full_bytes": 82390,
+      "width": 703,
+      "height": 729
+    },
+    {
+      "id": "792b8b07f04c4459",
+      "title": "b bastion",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-bastion.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-bastion.png",
+      "original_bytes": 719112,
+      "full": "assets/gallery/full/792b8b07f04c4459.jpg",
+      "thumb": "assets/gallery/thumb/792b8b07f04c4459.jpg",
+      "full_bytes": 88459,
+      "width": 992,
+      "height": 1040
+    },
+    {
+      "id": "192f01f1cf097698",
+      "title": "b city",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-city.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-city.png",
+      "original_bytes": 1145336,
+      "full": "assets/gallery/full/192f01f1cf097698.jpg",
+      "thumb": "assets/gallery/thumb/192f01f1cf097698.jpg",
+      "full_bytes": 157462,
+      "width": 992,
+      "height": 1040
+    },
+    {
+      "id": "50c79b53addef6a9",
+      "title": "b depot",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-depot.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-depot.png",
+      "original_bytes": 694262,
+      "full": "assets/gallery/full/50c79b53addef6a9.jpg",
+      "thumb": "assets/gallery/thumb/50c79b53addef6a9.jpg",
+      "full_bytes": 105336,
+      "width": 1056,
+      "height": 976
+    },
+    {
+      "id": "71489c1d761ca51a",
+      "title": "b econ",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-econ.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-econ.png",
+      "original_bytes": 762008,
+      "full": "assets/gallery/full/71489c1d761ca51a.jpg",
+      "thumb": "assets/gallery/thumb/71489c1d761ca51a.jpg",
+      "full_bytes": 113277,
+      "width": 803,
+      "height": 921
+    },
+    {
+      "id": "6c7c76e1007d50e9",
+      "title": "b emp",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-emp.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-emp.png",
+      "original_bytes": 493166,
+      "full": "assets/gallery/full/6c7c76e1007d50e9.jpg",
+      "thumb": "assets/gallery/thumb/6c7c76e1007d50e9.jpg",
+      "full_bytes": 74753,
+      "width": 487,
+      "height": 876
     }
   ],
-  "cache_bust": "1531-auto-202611141249"
+  "cache_bust": "1537-auto-202611141250"
 }
