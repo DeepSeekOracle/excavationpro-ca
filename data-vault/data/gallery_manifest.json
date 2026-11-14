@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:49:46.454886+00:00",
-  "count": 1519,
+  "generated_utc": "2026-11-14T19:49:56.759944+00:00",
+  "count": 1531,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -24383,7 +24383,199 @@
       "full_bytes": 168319,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "f6c905ff1d74020d",
+      "title": "b energy",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-energy.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-energy.png",
+      "original_bytes": 1092252,
+      "full": "assets/gallery/full/f6c905ff1d74020d.jpg",
+      "thumb": "assets/gallery/thumb/f6c905ff1d74020d.jpg",
+      "full_bytes": 174645,
+      "width": 926,
+      "height": 856
+    },
+    {
+      "id": "a1e30de8a270e379",
+      "title": "b factory",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-factory.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-factory.png",
+      "original_bytes": 878299,
+      "full": "assets/gallery/full/a1e30de8a270e379.jpg",
+      "thumb": "assets/gallery/thumb/a1e30de8a270e379.jpg",
+      "full_bytes": 133887,
+      "width": 877,
+      "height": 771
+    },
+    {
+      "id": "80ca690524eda254",
+      "title": "b fake",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-fake.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-fake.png",
+      "original_bytes": 717334,
+      "full": "assets/gallery/full/80ca690524eda254.jpg",
+      "thumb": "assets/gallery/thumb/80ca690524eda254.jpg",
+      "full_bytes": 107289,
+      "width": 873,
+      "height": 699
+    },
+    {
+      "id": "b117ce91eb7573e8",
+      "title": "b grid",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-grid.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-grid.png",
+      "original_bytes": 925894,
+      "full": "assets/gallery/full/b117ce91eb7573e8.jpg",
+      "thumb": "assets/gallery/thumb/b117ce91eb7573e8.jpg",
+      "full_bytes": 133755,
+      "width": 1056,
+      "height": 976
+    },
+    {
+      "id": "ae17d683304f081f",
+      "title": "b gun",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-gun.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-gun.png",
+      "original_bytes": 425404,
+      "full": "assets/gallery/full/ae17d683304f081f.jpg",
+      "thumb": "assets/gallery/thumb/ae17d683304f081f.jpg",
+      "full_bytes": 62063,
+      "width": 912,
+      "height": 1024
+    },
+    {
+      "id": "dbd2658afcbd3739",
+      "title": "b hangar",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-hangar.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-hangar.png",
+      "original_bytes": 555715,
+      "full": "assets/gallery/full/dbd2658afcbd3739.jpg",
+      "thumb": "assets/gallery/thumb/dbd2658afcbd3739.jpg",
+      "full_bytes": 83131,
+      "width": 800,
+      "height": 695
+    },
+    {
+      "id": "5500ca7f95cfd489",
+      "title": "b hq",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-hq.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-hq.png",
+      "original_bytes": 770728,
+      "full": "assets/gallery/full/5500ca7f95cfd489.jpg",
+      "thumb": "assets/gallery/thumb/5500ca7f95cfd489.jpg",
+      "full_bytes": 127083,
+      "width": 812,
+      "height": 853
+    },
+    {
+      "id": "2429edb19578962e",
+      "title": "b icbm",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-icbm.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-icbm.png",
+      "original_bytes": 772325,
+      "full": "assets/gallery/full/2429edb19578962e.jpg",
+      "thumb": "assets/gallery/thumb/2429edb19578962e.jpg",
+      "full_bytes": 116338,
+      "width": 728,
+      "height": 900
+    },
+    {
+      "id": "be0062bb3c65aca7",
+      "title": "b mine",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-mine.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-mine.png",
+      "original_bytes": 586947,
+      "full": "assets/gallery/full/be0062bb3c65aca7.jpg",
+      "thumb": "assets/gallery/thumb/be0062bb3c65aca7.jpg",
+      "full_bytes": 81437,
+      "width": 991,
+      "height": 586
+    },
+    {
+      "id": "fda269610de29e35",
+      "title": "b mint",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-mint.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-mint.png",
+      "original_bytes": 892997,
+      "full": "assets/gallery/full/fda269610de29e35.jpg",
+      "thumb": "assets/gallery/thumb/fda269610de29e35.jpg",
+      "full_bytes": 128555,
+      "width": 944,
+      "height": 1088
+    },
+    {
+      "id": "4a431742b29e168c",
+      "title": "b pad",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-pad.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-pad.png",
+      "original_bytes": 629275,
+      "full": "assets/gallery/full/4a431742b29e168c.jpg",
+      "thumb": "assets/gallery/thumb/4a431742b29e168c.jpg",
+      "full_bytes": 79447,
+      "width": 1328,
+      "height": 784
+    },
+    {
+      "id": "02081a1bafaa6e63",
+      "title": "b radar",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-radar.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-radar.png",
+      "original_bytes": 498925,
+      "full": "assets/gallery/full/02081a1bafaa6e63.jpg",
+      "thumb": "assets/gallery/thumb/02081a1bafaa6e63.jpg",
+      "full_bytes": 77111,
+      "width": 469,
+      "height": 897
     }
   ],
-  "cache_bust": "1519-auto-202611141249"
+  "cache_bust": "1531-auto-202611141249"
 }
