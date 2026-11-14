@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T07:52:40.921396+00:00",
-  "count": 1444,
+  "generated_utc": "2026-11-14T19:27:54.074227+00:00",
+  "count": 1462,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -23183,7 +23183,295 @@
       "full_bytes": 340490,
       "width": 1712,
       "height": 1152
+    },
+    {
+      "id": "257e944c582ce7cd",
+      "title": "texture a",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-a.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-a.png",
+      "original_bytes": 20171,
+      "full": "assets/gallery/full/257e944c582ce7cd.jpg",
+      "thumb": "assets/gallery/thumb/257e944c582ce7cd.jpg",
+      "full_bytes": 27936,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c614148428fbf63a",
+      "title": "texture b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-b.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-b.png",
+      "original_bytes": 15606,
+      "full": "assets/gallery/full/c614148428fbf63a.jpg",
+      "thumb": "assets/gallery/thumb/c614148428fbf63a.jpg",
+      "full_bytes": 21130,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "582a62eae6ca086f",
+      "title": "texture c",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-c.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-c.png",
+      "original_bytes": 12829,
+      "full": "assets/gallery/full/582a62eae6ca086f.jpg",
+      "thumb": "assets/gallery/thumb/582a62eae6ca086f.jpg",
+      "full_bytes": 21668,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c61bc29ec4d96229",
+      "title": "texture d",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-d.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-d.png",
+      "original_bytes": 13151,
+      "full": "assets/gallery/full/c61bc29ec4d96229.jpg",
+      "thumb": "assets/gallery/thumb/c61bc29ec4d96229.jpg",
+      "full_bytes": 28844,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "6bbdb4f76b8d2ba7",
+      "title": "texture e",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-e.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-e.png",
+      "original_bytes": 14509,
+      "full": "assets/gallery/full/6bbdb4f76b8d2ba7.jpg",
+      "thumb": "assets/gallery/thumb/6bbdb4f76b8d2ba7.jpg",
+      "full_bytes": 23444,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "54404f22588bac5a",
+      "title": "texture f",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-f.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-f.png",
+      "original_bytes": 15886,
+      "full": "assets/gallery/full/54404f22588bac5a.jpg",
+      "thumb": "assets/gallery/thumb/54404f22588bac5a.jpg",
+      "full_bytes": 21971,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "cce3f8d545625998",
+      "title": "texture g",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-g.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-g.png",
+      "original_bytes": 16069,
+      "full": "assets/gallery/full/cce3f8d545625998.jpg",
+      "thumb": "assets/gallery/thumb/cce3f8d545625998.jpg",
+      "full_bytes": 29559,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "7d908f3f12ac56b3",
+      "title": "texture h",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-h.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-h.png",
+      "original_bytes": 16215,
+      "full": "assets/gallery/full/7d908f3f12ac56b3.jpg",
+      "thumb": "assets/gallery/thumb/7d908f3f12ac56b3.jpg",
+      "full_bytes": 27394,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "2c721b0a8837836a",
+      "title": "texture i",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-i.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-i.png",
+      "original_bytes": 14496,
+      "full": "assets/gallery/full/2c721b0a8837836a.jpg",
+      "thumb": "assets/gallery/thumb/2c721b0a8837836a.jpg",
+      "full_bytes": 23094,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "11b6625d2d3119c9",
+      "title": "texture j",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-j.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-j.png",
+      "original_bytes": 17576,
+      "full": "assets/gallery/full/11b6625d2d3119c9.jpg",
+      "thumb": "assets/gallery/thumb/11b6625d2d3119c9.jpg",
+      "full_bytes": 25380,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "4e063c40b02955ba",
+      "title": "texture k",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-k.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-k.png",
+      "original_bytes": 17437,
+      "full": "assets/gallery/full/4e063c40b02955ba.jpg",
+      "thumb": "assets/gallery/thumb/4e063c40b02955ba.jpg",
+      "full_bytes": 24289,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "437c06e18a41def8",
+      "title": "texture l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-l.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-l.png",
+      "original_bytes": 22764,
+      "full": "assets/gallery/full/437c06e18a41def8.jpg",
+      "thumb": "assets/gallery/thumb/437c06e18a41def8.jpg",
+      "full_bytes": 28281,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "ee5652737837e662",
+      "title": "texture m",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-m.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-m.png",
+      "original_bytes": 19343,
+      "full": "assets/gallery/full/ee5652737837e662.jpg",
+      "thumb": "assets/gallery/thumb/ee5652737837e662.jpg",
+      "full_bytes": 27730,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "b4af32a544b70da2",
+      "title": "texture n",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-n.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-n.png",
+      "original_bytes": 16824,
+      "full": "assets/gallery/full/b4af32a544b70da2.jpg",
+      "thumb": "assets/gallery/thumb/b4af32a544b70da2.jpg",
+      "full_bytes": 25392,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "782e0873431934fc",
+      "title": "texture o",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-o.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-o.png",
+      "original_bytes": 21064,
+      "full": "assets/gallery/full/782e0873431934fc.jpg",
+      "thumb": "assets/gallery/thumb/782e0873431934fc.jpg",
+      "full_bytes": 29374,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "29176841e85fa854",
+      "title": "texture p",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-p.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-p.png",
+      "original_bytes": 18000,
+      "full": "assets/gallery/full/29176841e85fa854.jpg",
+      "thumb": "assets/gallery/thumb/29176841e85fa854.jpg",
+      "full_bytes": 25700,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "bf220bbc945072a4",
+      "title": "texture q",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-q.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-q.png",
+      "original_bytes": 16102,
+      "full": "assets/gallery/full/bf220bbc945072a4.jpg",
+      "thumb": "assets/gallery/thumb/bf220bbc945072a4.jpg",
+      "full_bytes": 19865,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "fd29fd9fc745ca7b",
+      "title": "texture r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "texture-r.png",
+      "source_root": "Publish Portal",
+      "original_name": "texture-r.png",
+      "original_bytes": 13909,
+      "full": "assets/gallery/full/fd29fd9fc745ca7b.jpg",
+      "thumb": "assets/gallery/thumb/fd29fd9fc745ca7b.jpg",
+      "full_bytes": 21133,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1444-auto-202611140052"
+  "cache_bust": "1462-auto-202611141227"
 }
