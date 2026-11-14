@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:49:10.271911+00:00",
-  "count": 1485,
+  "generated_utc": "2026-11-14T19:49:21.936518+00:00",
+  "count": 1497,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -23839,7 +23839,199 @@
       "full_bytes": 62603,
       "width": 762,
       "height": 510
+    },
+    {
+      "id": "d8c388707c65ffbe",
+      "title": "og",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og.jpg",
+      "original_bytes": 167601,
+      "full": "assets/gallery/full/d8c388707c65ffbe.jpg",
+      "thumb": "assets/gallery/thumb/d8c388707c65ffbe.jpg",
+      "full_bytes": 152650,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "3a3198039439fda6",
+      "title": "tex desert",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-desert.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-desert.jpg",
+      "original_bytes": 65946,
+      "full": "assets/gallery/full/3a3198039439fda6.jpg",
+      "thumb": "assets/gallery/thumb/3a3198039439fda6.jpg",
+      "full_bytes": 51040,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d1eaacf1186f7d45",
+      "title": "tex fog",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-fog.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-fog.jpg",
+      "original_bytes": 14556,
+      "full": "assets/gallery/full/d1eaacf1186f7d45.jpg",
+      "thumb": "assets/gallery/thumb/d1eaacf1186f7d45.jpg",
+      "full_bytes": 14453,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "e105c95ef0b83d02",
+      "title": "tex forest",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-forest.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-forest.jpg",
+      "original_bytes": 84777,
+      "full": "assets/gallery/full/e105c95ef0b83d02.jpg",
+      "thumb": "assets/gallery/thumb/e105c95ef0b83d02.jpg",
+      "full_bytes": 75215,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "a1e9f1c2b245057d",
+      "title": "tex hills",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-hills.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-hills.jpg",
+      "original_bytes": 93737,
+      "full": "assets/gallery/full/a1e9f1c2b245057d.jpg",
+      "thumb": "assets/gallery/thumb/a1e9f1c2b245057d.jpg",
+      "full_bytes": 82885,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "b2818ca5e746fdd7",
+      "title": "tex plains",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-plains.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-plains.jpg",
+      "original_bytes": 62825,
+      "full": "assets/gallery/full/b2818ca5e746fdd7.jpg",
+      "thumb": "assets/gallery/thumb/b2818ca5e746fdd7.jpg",
+      "full_bytes": 57137,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "c4f3f56a6de9dfa6",
+      "title": "tex pontoon",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-pontoon.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-pontoon.jpg",
+      "original_bytes": 59373,
+      "full": "assets/gallery/full/c4f3f56a6de9dfa6.jpg",
+      "thumb": "assets/gallery/thumb/c4f3f56a6de9dfa6.jpg",
+      "full_bytes": 48950,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "265d3ef117c56683",
+      "title": "tex ruins",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-ruins.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-ruins.jpg",
+      "original_bytes": 90293,
+      "full": "assets/gallery/full/265d3ef117c56683.jpg",
+      "thumb": "assets/gallery/thumb/265d3ef117c56683.jpg",
+      "full_bytes": 80419,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "80fe8e90cc0cf33e",
+      "title": "tex water",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tex-water.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "tex-water.jpg",
+      "original_bytes": 66216,
+      "full": "assets/gallery/full/80fe8e90cc0cf33e.jpg",
+      "thumb": "assets/gallery/thumb/80fe8e90cc0cf33e.jpg",
+      "full_bytes": 59731,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "id": "d0dff3182fdd9ab9",
+      "title": "tile desert",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-desert.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-desert.png",
+      "original_bytes": 36600,
+      "full": "assets/gallery/full/d0dff3182fdd9ab9.jpg",
+      "thumb": "assets/gallery/thumb/d0dff3182fdd9ab9.jpg",
+      "full_bytes": 5316,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "2e759250ff384310",
+      "title": "tile fog",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-fog.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-fog.png",
+      "original_bytes": 6788,
+      "full": "assets/gallery/full/2e759250ff384310.jpg",
+      "thumb": "assets/gallery/thumb/2e759250ff384310.jpg",
+      "full_bytes": 1693,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "ddd7872840b5b69e",
+      "title": "tile forest",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-forest.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-forest.png",
+      "original_bytes": 18701,
+      "full": "assets/gallery/full/ddd7872840b5b69e.jpg",
+      "thumb": "assets/gallery/thumb/ddd7872840b5b69e.jpg",
+      "full_bytes": 3809,
+      "width": 256,
+      "height": 128
     }
   ],
-  "cache_bust": "1485-auto-202611141249"
+  "cache_bust": "1497-auto-202611141249"
 }
