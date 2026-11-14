@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:49:33.332442+00:00",
-  "count": 1509,
+  "generated_utc": "2026-11-14T19:49:46.454886+00:00",
+  "count": 1519,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -24223,7 +24223,167 @@
       "full_bytes": 151022,
       "width": 1280,
       "height": 720
+    },
+    {
+      "id": "ccaa4b0ace5cad05",
+      "title": "b sat",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-sat.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-sat.png",
+      "original_bytes": 850107,
+      "full": "assets/gallery/full/ccaa4b0ace5cad05.jpg",
+      "thumb": "assets/gallery/thumb/ccaa4b0ace5cad05.jpg",
+      "full_bytes": 124937,
+      "width": 769,
+      "height": 741
+    },
+    {
+      "id": "fd09fc2de2d38777",
+      "title": "b shield",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-shield.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-shield.png",
+      "original_bytes": 836877,
+      "full": "assets/gallery/full/fd09fc2de2d38777.jpg",
+      "thumb": "assets/gallery/thumb/fd09fc2de2d38777.jpg",
+      "full_bytes": 115528,
+      "width": 840,
+      "height": 753
+    },
+    {
+      "id": "7c5ac1d588286e33",
+      "title": "b silo",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-silo.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-silo.png",
+      "original_bytes": 678160,
+      "full": "assets/gallery/full/7c5ac1d588286e33.jpg",
+      "thumb": "assets/gallery/thumb/7c5ac1d588286e33.jpg",
+      "full_bytes": 104902,
+      "width": 911,
+      "height": 839
+    },
+    {
+      "id": "a3b814b409899de5",
+      "title": "b warhall",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b-warhall.png",
+      "source_root": "Publish Portal",
+      "original_name": "b-warhall.png",
+      "original_bytes": 849254,
+      "full": "assets/gallery/full/a3b814b409899de5.jpg",
+      "thumb": "assets/gallery/thumb/a3b814b409899de5.jpg",
+      "full_bytes": 112148,
+      "width": 1056,
+      "height": 976
+    },
+    {
+      "id": "fe827bf7cbc5bcc9",
+      "title": "cmd aetheris",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-aetheris.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-aetheris.jpg",
+      "original_bytes": 347867,
+      "full": "assets/gallery/full/fe827bf7cbc5bcc9.jpg",
+      "thumb": "assets/gallery/thumb/fe827bf7cbc5bcc9.jpg",
+      "full_bytes": 168695,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "8d4752fcba5e1e41",
+      "title": "cmd arkos",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-arkos.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-arkos.jpg",
+      "original_bytes": 395730,
+      "full": "assets/gallery/full/8d4752fcba5e1e41.jpg",
+      "thumb": "assets/gallery/thumb/8d4752fcba5e1e41.jpg",
+      "full_bytes": 196948,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "2060fb43830ceae5",
+      "title": "cmd d9ra",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-d9ra.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-d9ra.jpg",
+      "original_bytes": 454126,
+      "full": "assets/gallery/full/2060fb43830ceae5.jpg",
+      "thumb": "assets/gallery/thumb/2060fb43830ceae5.jpg",
+      "full_bytes": 227900,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "9acda1b3838fdb52",
+      "title": "cmd justicae",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-justicae.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-justicae.jpg",
+      "original_bytes": 386096,
+      "full": "assets/gallery/full/9acda1b3838fdb52.jpg",
+      "thumb": "assets/gallery/thumb/9acda1b3838fdb52.jpg",
+      "full_bytes": 197916,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "1edc83acc38c1b22",
+      "title": "cmd kairos",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-kairos.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-kairos.jpg",
+      "original_bytes": 402926,
+      "full": "assets/gallery/full/1edc83acc38c1b22.jpg",
+      "thumb": "assets/gallery/thumb/1edc83acc38c1b22.jpg",
+      "full_bytes": 204935,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "31d282f869ca92b0",
+      "title": "cmd lyra",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-lyra.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-lyra.jpg",
+      "original_bytes": 344960,
+      "full": "assets/gallery/full/31d282f869ca92b0.jpg",
+      "thumb": "assets/gallery/thumb/31d282f869ca92b0.jpg",
+      "full_bytes": 168319,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1509-auto-202611141249"
+  "cache_bust": "1519-auto-202611141249"
 }
