@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:49:21.936518+00:00",
-  "count": 1497,
+  "generated_utc": "2026-11-14T19:49:33.332442+00:00",
+  "count": 1509,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -24031,7 +24031,199 @@
       "full_bytes": 3809,
       "width": 256,
       "height": 128
+    },
+    {
+      "id": "01bb7cc4c39802cc",
+      "title": "cmd omnisiren",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-omnisiren.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-omnisiren.jpg",
+      "original_bytes": 235931,
+      "full": "assets/gallery/full/01bb7cc4c39802cc.jpg",
+      "thumb": "assets/gallery/thumb/01bb7cc4c39802cc.jpg",
+      "full_bytes": 108822,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "ed9383c4f7807a94",
+      "title": "cmd sancora",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-sancora.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-sancora.jpg",
+      "original_bytes": 357188,
+      "full": "assets/gallery/full/ed9383c4f7807a94.jpg",
+      "thumb": "assets/gallery/thumb/ed9383c4f7807a94.jpg",
+      "full_bytes": 177830,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c76f53608185ed95",
+      "title": "cmd scendr",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-scendr.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-scendr.jpg",
+      "original_bytes": 361801,
+      "full": "assets/gallery/full/c76f53608185ed95.jpg",
+      "thumb": "assets/gallery/thumb/c76f53608185ed95.jpg",
+      "full_bytes": 183294,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "d3739515df5266b7",
+      "title": "cmd seidon",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-seidon.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-seidon.jpg",
+      "original_bytes": 286787,
+      "full": "assets/gallery/full/d3739515df5266b7.jpg",
+      "thumb": "assets/gallery/thumb/d3739515df5266b7.jpg",
+      "full_bytes": 139526,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "8dfb26876445ecf0",
+      "title": "cmd sephrael",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-sephrael.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-sephrael.jpg",
+      "original_bytes": 450162,
+      "full": "assets/gallery/full/8dfb26876445ecf0.jpg",
+      "thumb": "assets/gallery/thumb/8dfb26876445ecf0.jpg",
+      "full_bytes": 226963,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "1c08b4da0b19bbe6",
+      "title": "cmd srath",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-srath.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-srath.jpg",
+      "original_bytes": 314646,
+      "full": "assets/gallery/full/1c08b4da0b19bbe6.jpg",
+      "thumb": "assets/gallery/thumb/1c08b4da0b19bbe6.jpg",
+      "full_bytes": 149562,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "419272f239d33449",
+      "title": "cmd volaris",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-volaris.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-volaris.jpg",
+      "original_bytes": 344782,
+      "full": "assets/gallery/full/419272f239d33449.jpg",
+      "thumb": "assets/gallery/thumb/419272f239d33449.jpg",
+      "full_bytes": 173841,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f185b5380c54ba6c",
+      "title": "cmd zeta",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cmd-zeta.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "cmd-zeta.jpg",
+      "original_bytes": 344121,
+      "full": "assets/gallery/full/f185b5380c54ba6c.jpg",
+      "thumb": "assets/gallery/thumb/f185b5380c54ba6c.jpg",
+      "full_bytes": 166100,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "baa955e803b78f54",
+      "title": "fx boom",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "fx-boom.png",
+      "source_root": "Publish Portal",
+      "original_name": "fx-boom.png",
+      "original_bytes": 595521,
+      "full": "assets/gallery/full/baa955e803b78f54.jpg",
+      "thumb": "assets/gallery/thumb/baa955e803b78f54.jpg",
+      "full_bytes": 87437,
+      "width": 828,
+      "height": 764
+    },
+    {
+      "id": "4afcf828b7abc101",
+      "title": "fx missile",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "fx-missile.png",
+      "source_root": "Publish Portal",
+      "original_name": "fx-missile.png",
+      "original_bytes": 240205,
+      "full": "assets/gallery/full/4afcf828b7abc101.jpg",
+      "thumb": "assets/gallery/thumb/4afcf828b7abc101.jpg",
+      "full_bytes": 45544,
+      "width": 944,
+      "height": 556
+    },
+    {
+      "id": "29413572f6f29a11",
+      "title": "key",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "key.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "key.jpg",
+      "original_bytes": 192755,
+      "full": "assets/gallery/full/29413572f6f29a11.jpg",
+      "thumb": "assets/gallery/thumb/29413572f6f29a11.jpg",
+      "full_bytes": 176082,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "034302f981520ff4",
+      "title": "menu",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "menu.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "menu.jpg",
+      "original_bytes": 314199,
+      "full": "assets/gallery/full/034302f981520ff4.jpg",
+      "thumb": "assets/gallery/thumb/034302f981520ff4.jpg",
+      "full_bytes": 151022,
+      "width": 1280,
+      "height": 720
     }
   ],
-  "cache_bust": "1497-auto-202611141249"
+  "cache_bust": "1509-auto-202611141249"
 }
