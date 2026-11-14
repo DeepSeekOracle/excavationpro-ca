@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:39:29.898726+00:00",
-  "count": 1473,
+  "generated_utc": "2026-11-14T19:49:10.271911+00:00",
+  "count": 1485,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -23647,7 +23647,199 @@
       "full_bytes": 171714,
       "width": 864,
       "height": 1152
+    },
+    {
+      "id": "ec53a4095f72d503",
+      "title": "tile hills",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-hills.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-hills.png",
+      "original_bytes": 21822,
+      "full": "assets/gallery/full/ec53a4095f72d503.jpg",
+      "thumb": "assets/gallery/thumb/ec53a4095f72d503.jpg",
+      "full_bytes": 4386,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "2dd1c2f569a99dc3",
+      "title": "tile plains",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-plains.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-plains.png",
+      "original_bytes": 14351,
+      "full": "assets/gallery/full/2dd1c2f569a99dc3.jpg",
+      "thumb": "assets/gallery/thumb/2dd1c2f569a99dc3.jpg",
+      "full_bytes": 3612,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "2ac79424d5595c50",
+      "title": "tile pontoon",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-pontoon.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-pontoon.png",
+      "original_bytes": 39158,
+      "full": "assets/gallery/full/2ac79424d5595c50.jpg",
+      "thumb": "assets/gallery/thumb/2ac79424d5595c50.jpg",
+      "full_bytes": 5928,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "993e383ed1faeff7",
+      "title": "tile ruins",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-ruins.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-ruins.png",
+      "original_bytes": 20427,
+      "full": "assets/gallery/full/993e383ed1faeff7.jpg",
+      "thumb": "assets/gallery/thumb/993e383ed1faeff7.jpg",
+      "full_bytes": 4535,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "3d28f2e7cb9cd130",
+      "title": "tile water",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tile-water.png",
+      "source_root": "Publish Portal",
+      "original_name": "tile-water.png",
+      "original_bytes": 17224,
+      "full": "assets/gallery/full/3d28f2e7cb9cd130.jpg",
+      "thumb": "assets/gallery/thumb/3d28f2e7cb9cd130.jpg",
+      "full_bytes": 3989,
+      "width": 256,
+      "height": 128
+    },
+    {
+      "id": "d09d425f5c16c738",
+      "title": "u arty",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-arty.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-arty.png",
+      "original_bytes": 592611,
+      "full": "assets/gallery/full/d09d425f5c16c738.jpg",
+      "thumb": "assets/gallery/thumb/d09d425f5c16c738.jpg",
+      "full_bytes": 134058,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "5a7e163885138b82",
+      "title": "u drone",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-drone.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-drone.png",
+      "original_bytes": 496671,
+      "full": "assets/gallery/full/5a7e163885138b82.jpg",
+      "thumb": "assets/gallery/thumb/5a7e163885138b82.jpg",
+      "full_bytes": 107658,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "c4dc056784b8ceb4",
+      "title": "u hover",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-hover.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-hover.png",
+      "original_bytes": 713849,
+      "full": "assets/gallery/full/c4dc056784b8ceb4.jpg",
+      "thumb": "assets/gallery/thumb/c4dc056784b8ceb4.jpg",
+      "full_bytes": 141273,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "2628b35bce67bbe0",
+      "title": "u jet",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-jet.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-jet.png",
+      "original_bytes": 327858,
+      "full": "assets/gallery/full/2628b35bce67bbe0.jpg",
+      "thumb": "assets/gallery/thumb/2628b35bce67bbe0.jpg",
+      "full_bytes": 51608,
+      "width": 804,
+      "height": 463
+    },
+    {
+      "id": "fc8d94f1d9dca981",
+      "title": "u marine",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-marine.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-marine.png",
+      "original_bytes": 813432,
+      "full": "assets/gallery/full/fc8d94f1d9dca981.jpg",
+      "thumb": "assets/gallery/thumb/fc8d94f1d9dca981.jpg",
+      "full_bytes": 123580,
+      "width": 879,
+      "height": 893
+    },
+    {
+      "id": "5bcdcb5265dd0e33",
+      "title": "u scout",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-scout.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-scout.png",
+      "original_bytes": 421177,
+      "full": "assets/gallery/full/5bcdcb5265dd0e33.jpg",
+      "thumb": "assets/gallery/thumb/5bcdcb5265dd0e33.jpg",
+      "full_bytes": 65867,
+      "width": 700,
+      "height": 844
+    },
+    {
+      "id": "a9356f2077b0e1e7",
+      "title": "u tank",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "u-tank.png",
+      "source_root": "Publish Portal",
+      "original_name": "u-tank.png",
+      "original_bytes": 450447,
+      "full": "assets/gallery/full/a9356f2077b0e1e7.jpg",
+      "thumb": "assets/gallery/thumb/a9356f2077b0e1e7.jpg",
+      "full_bytes": 62603,
+      "width": 762,
+      "height": 510
     }
   ],
-  "cache_bust": "1473-auto-202611141239"
+  "cache_bust": "1485-auto-202611141249"
 }
