@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-14T19:50:08.913432+00:00",
-  "count": 1537,
+  "generated_utc": "2026-11-15T23:01:54.624084+00:00",
+  "count": 1556,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -24671,7 +24671,311 @@
       "full_bytes": 74753,
       "width": 487,
       "height": 876
+    },
+    {
+      "id": "e46916ed5a143eee",
+      "title": "apex hero",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "apex-hero.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "apex-hero.jpg",
+      "original_bytes": 240822,
+      "full": "assets/gallery/full/e46916ed5a143eee.jpg",
+      "thumb": "assets/gallery/thumb/e46916ed5a143eee.jpg",
+      "full_bytes": 112402,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "56f99211857aadea",
+      "title": "apex plate",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "apex-plate.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "apex-plate.jpg",
+      "original_bytes": 216514,
+      "full": "assets/gallery/full/56f99211857aadea.jpg",
+      "thumb": "assets/gallery/thumb/56f99211857aadea.jpg",
+      "full_bytes": 101683,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "562433311c498ae8",
+      "title": "boxcut hero",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "boxcut-hero.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "boxcut-hero.jpg",
+      "original_bytes": 271472,
+      "full": "assets/gallery/full/562433311c498ae8.jpg",
+      "thumb": "assets/gallery/thumb/562433311c498ae8.jpg",
+      "full_bytes": 129795,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "a1d67ebe6c1a3746",
+      "title": "boxcut plate",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "boxcut-plate.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "boxcut-plate.jpg",
+      "original_bytes": 262480,
+      "full": "assets/gallery/full/a1d67ebe6c1a3746.jpg",
+      "thumb": "assets/gallery/thumb/a1d67ebe6c1a3746.jpg",
+      "full_bytes": 128023,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "fc4c629e624e54ba",
+      "title": "d joss",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-joss.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-joss.jpg",
+      "original_bytes": 351423,
+      "full": "assets/gallery/full/fc4c629e624e54ba.jpg",
+      "thumb": "assets/gallery/thumb/fc4c629e624e54ba.jpg",
+      "full_bytes": 161252,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "1da1cf998d1f0171",
+      "title": "d kai",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-kai.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-kai.jpg",
+      "original_bytes": 312582,
+      "full": "assets/gallery/full/1da1cf998d1f0171.jpg",
+      "thumb": "assets/gallery/thumb/1da1cf998d1f0171.jpg",
+      "full_bytes": 140211,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "633046da78165b57",
+      "title": "d mira",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-mira.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-mira.jpg",
+      "original_bytes": 311445,
+      "full": "assets/gallery/full/633046da78165b57.jpg",
+      "thumb": "assets/gallery/thumb/633046da78165b57.jpg",
+      "full_bytes": 149865,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "27765bad4dee4751",
+      "title": "d nima",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-nima.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-nima.jpg",
+      "original_bytes": 307161,
+      "full": "assets/gallery/full/27765bad4dee4751.jpg",
+      "thumb": "assets/gallery/thumb/27765bad4dee4751.jpg",
+      "full_bytes": 134618,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "0ad593e1efebb7ed",
+      "title": "d reed",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-reed.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-reed.jpg",
+      "original_bytes": 318918,
+      "full": "assets/gallery/full/0ad593e1efebb7ed.jpg",
+      "thumb": "assets/gallery/thumb/0ad593e1efebb7ed.jpg",
+      "full_bytes": 143000,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "b45ddd33029c71c7",
+      "title": "d vesper",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "d-vesper.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "d-vesper.jpg",
+      "original_bytes": 258682,
+      "full": "assets/gallery/full/b45ddd33029c71c7.jpg",
+      "thumb": "assets/gallery/thumb/b45ddd33029c71c7.jpg",
+      "full_bytes": 119697,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "e3b75cc7296020f3",
+      "title": "flick hero",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "flick-hero.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "flick-hero.jpg",
+      "original_bytes": 236256,
+      "full": "assets/gallery/full/e3b75cc7296020f3.jpg",
+      "thumb": "assets/gallery/thumb/e3b75cc7296020f3.jpg",
+      "full_bytes": 112822,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "f8ea5a26e18aba25",
+      "title": "flick plate",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "flick-plate.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "flick-plate.jpg",
+      "original_bytes": 77289,
+      "full": "assets/gallery/full/f8ea5a26e18aba25.jpg",
+      "thumb": "assets/gallery/thumb/f8ea5a26e18aba25.jpg",
+      "full_bytes": 60330,
+      "width": 540,
+      "height": 720
+    },
+    {
+      "id": "f3dd829ac6195430",
+      "title": "menu",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "menu.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "menu.jpg",
+      "original_bytes": 279020,
+      "full": "assets/gallery/full/f3dd829ac6195430.jpg",
+      "thumb": "assets/gallery/thumb/f3dd829ac6195430.jpg",
+      "full_bytes": 137563,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "6a96219769553648",
+      "title": "og",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og.jpg",
+      "original_bytes": 296112,
+      "full": "assets/gallery/full/6a96219769553648.jpg",
+      "thumb": "assets/gallery/thumb/6a96219769553648.jpg",
+      "full_bytes": 146334,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "4d45ab64e80aac35",
+      "title": "p kai",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-kai.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-kai.jpg",
+      "original_bytes": 276454,
+      "full": "assets/gallery/full/4d45ab64e80aac35.jpg",
+      "thumb": "assets/gallery/thumb/4d45ab64e80aac35.jpg",
+      "full_bytes": 127441,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "7e61cb1fb5f2f5c2",
+      "title": "p mira",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-mira.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-mira.jpg",
+      "original_bytes": 279398,
+      "full": "assets/gallery/full/7e61cb1fb5f2f5c2.jpg",
+      "thumb": "assets/gallery/thumb/7e61cb1fb5f2f5c2.jpg",
+      "full_bytes": 127971,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "7612900b011b7186",
+      "title": "p reed",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "p-reed.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "p-reed.jpg",
+      "original_bytes": 313420,
+      "full": "assets/gallery/full/7612900b011b7186.jpg",
+      "thumb": "assets/gallery/thumb/7612900b011b7186.jpg",
+      "full_bytes": 148095,
+      "width": 864,
+      "height": 1152
+    },
+    {
+      "id": "1ff246c5280e000a",
+      "title": "sleet hero",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sleet-hero.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "sleet-hero.jpg",
+      "original_bytes": 255042,
+      "full": "assets/gallery/full/1ff246c5280e000a.jpg",
+      "thumb": "assets/gallery/thumb/1ff246c5280e000a.jpg",
+      "full_bytes": 123793,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "eae60445abc7981c",
+      "title": "sleet plate",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sleet-plate.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "sleet-plate.jpg",
+      "original_bytes": 255874,
+      "full": "assets/gallery/full/eae60445abc7981c.jpg",
+      "thumb": "assets/gallery/thumb/eae60445abc7981c.jpg",
+      "full_bytes": 123844,
+      "width": 864,
+      "height": 1152
     }
   ],
-  "cache_bust": "1537-auto-202611141250"
+  "cache_bust": "1556-auto-202611151701"
 }
