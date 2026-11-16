@@ -939,3 +939,81 @@
   25%  { opacity: 1; transform: translateY(-10px) scale(1.08); }
   100% { opacity: 0; transform: translateY(-34px) scale(0.95); }
 }
+
+/* Haven road: atlas, compass, and the square you are standing on */
+.db-world-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.db-world-center {
+  flex: 1;
+  overflow: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.db-world-plate {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--db-border-gold);
+  background: #100d17;
+}
+
+.db-compass,
+.db-world-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.db-mini-grid {
+  display: grid;
+  gap: 3px;
+}
+
+.db-mini-cell {
+  min-height: 28px;
+  font-size: 9px;
+  line-height: 1.15;
+  border: 1px solid #3a3148;
+  background: #120f18;
+  color: #6d675c;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+button.db-mini-cell {
+  cursor: pointer;
+  font: inherit;
+}
+
+.db-mini-cell.seen {
+  color: #d9ccb4;
+  border-color: #5c5344;
+}
+
+.db-mini-cell.here {
+  color: #fff6db;
+  border-color: #f2ca6b;
+  background: #3a2c12;
+}
+
+.db-mini-cell.foe {
+  box-shadow: inset 0 0 0 1px #9e2230;
+}
+
+.db-mini-cell.empty {
+  border-color: transparent;
+  background: transparent;
+}
