@@ -1,0 +1,6 @@
+LYGO Dungeon Adventures combat and UI cues
+Generated 2026-11-15 by original synthesis (44.1 kHz, 16-bit stereo).
+License: original work, no third-party sample.
+Files: ui, step, swing, hit, crit, hurt, miss, spell, stone, chest, coin, death, level, block, bite, strike.
+Left in place from the earlier Haven build (recordings / prior beds, not overwritten here):
+menu.mp3, town.wav, nature.wav, crypt.wav, town_fallback.wav, nature_fallback.wav, crypt_fallback.wav, bark.wav, growl.wav, scream.wav.

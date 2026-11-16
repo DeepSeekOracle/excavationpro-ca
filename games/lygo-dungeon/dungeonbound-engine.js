@@ -642,7 +642,8 @@
     ui.mode = "world";
     ui.modal = null;
     ui.bannerMsg = reason;
-    playSfx("hurt", 0.4);
+    playSfx("death", 0.5);
+    syncAmbience();
     saveState();
     render();
   }
@@ -653,7 +654,7 @@
     const block = travelBlocked(sq, toId);
     if (block) {
       ui.bannerMsg = block;
-      playSfx("miss", 0.28);
+      playSfx("miss", 0.32);
       render();
       return;
     }
@@ -661,7 +662,8 @@
     noteSeen(toId);
     ui.atlasRegion = WORLD_MAP[toId].region;
     ui.bannerMsg = WORLD_MAP[toId].arrive;
-    playSfx("stone", 0.22);
+    playSfx("step", 0.34);
+    syncAmbience();
     saveState();
     render();
   }
@@ -725,7 +727,6 @@
       run.enemyTurnProgress = 0;
       run.rivalSweepProgress = 0;
       run.rivalSweepIndex = 0;
-      const scale = 0.9 + (sq.areaLevel || 1) * 0.16;
       (pack || []).forEach(function (id) {
         const def = MONSTERS[id] || MONSTERS.wolf;
         const flags = {};
@@ -734,7 +735,7 @@
           flags.isRival = true;
           flags.rivalBoard = generateRivalBoard(def.archetype || "STEEL", sq.areaLevel || 2);
         }
-        run.enemies.push(makeEnemyInstance(def, sq.areaLevel || 1, scale, flags));
+        run.enemies.push(makeEnemyInstance(def, sq.areaLevel || 1, 1, flags));
       });
       if (!run.enemies.length) {
         run.worldSkirmish = false;
@@ -744,7 +745,12 @@
         return;
       }
       addRunLog("Encountered " + run.enemies.map(function (e) { return e.def.name; }).join(", ") + ".");
+      const leadId = run.enemies[0] && run.enemies[0].def.id;
+      if (leadId === "wolf") playSfx("bark", 0.46);
+      else if (leadId === "hound") playSfx("growl", 0.42);
+      else playSfx("strike", 0.34);
       ui.mode = "run";
+      syncAmbience();
       saveState();
       render();
       return;
@@ -781,7 +787,7 @@
     state.dungeonPoints += q.dp || 0;
     checkLevelUp();
     ui.bannerMsg = "Quest complete: " + q.title + ".";
-    playSfx("spell", 0.45);
+    playSfx("coin", 0.4);
     saveState();
     render();
   }
@@ -1162,6 +1168,7 @@
       wheelSpins: 0,
       statusInflicted: 14,
       sfxEnabled: true,
+      musicEnabled: true,
       squareId: "home",
       seen: ["home"],
       cleared: {},
@@ -1192,7 +1199,8 @@
 
   // Runtime UI & Run state
   let ui = {
-    mode: "world", // "hub" | "run" | "world"
+    mode: "menu", // "menu" | "hub" | "run" | "world"
+    confirmNew: false,
     modal: null, // null | "upgrades" | "quests" | "haven" | "record"
     upgradeTab: "Damage",
     questTab: "Combat",
@@ -1252,20 +1260,72 @@
   };
 
   // ---------------------------------------------------------------------------
-  // 3. AUDIO HELPER (Uses local WAVs in assets/Audio/)
+  // 3. AUDIO — 44.1 kHz cues plus the recorded menu / town / wilds / crypt beds
   // ---------------------------------------------------------------------------
+  const AUDIO_REV = "4";
   const audioCache = {};
+  const sfxLast = {};
+  const SFX_GAP = { swing: 110, hit: 90, crit: 140, bite: 170, hurt: 150, step: 150, ui: 45, coin: 110, strike: 160, block: 120 };
+  let bedEl = null;
+  let bedKey = "";
+
   function playSfx(name, vol = 0.4) {
-    if (!state.sfxEnabled) return;
+    if (state.sfxEnabled === false) return;
+    const now = Date.now();
+    const gap = SFX_GAP[name] || 0;
+    if (gap && sfxLast[name] && now - sfxLast[name] < gap) return;
+    sfxLast[name] = now;
     try {
-      const path = "assets/Audio/" + name + ".wav";
-      if (!audioCache[path]) {
-        audioCache[path] = new Audio(path);
-      }
+      const file = name.indexOf(".") >= 0 ? name : (name + ".wav");
+      const path = (file.indexOf("/") >= 0 ? file : ("assets/Audio/" + file)) + "?v=" + AUDIO_REV;
+      if (!audioCache[path]) audioCache[path] = new Audio(path);
       const a = audioCache[path].cloneNode();
       a.volume = Math.min(1, Math.max(0, vol));
-      a.play().catch(() => {});
+      const played = a.play();
+      if (played && played.catch) played.catch(function () {});
     } catch (e) {}
+  }
+
+  function bedForMode() {
+    if (state.musicEnabled === false) return null;
+    if (ui.mode === "menu") return { file: "assets/Audio/menu.mp3", vol: 0.42 };
+    let zone = "town";
+    try { zone = (currentSquare().zone) || "town"; } catch (e) {}
+    if (ui.mode === "hub") zone = "crypt";
+    if (ui.mode === "run") zone = run.launchedFromWorld ? ((currentSquare() && currentSquare().zone) || "crypt") : "crypt";
+    let file = "assets/Audio/nature.wav";
+    let vol = 0.15;
+    if (zone === "crypt" || zone === "abyss") { file = "assets/Audio/crypt.wav"; vol = 0.1; }
+    else if (zone === "town" || zone === "home") { file = "assets/Audio/town.wav"; vol = 0.12; }
+    if (ui.mode === "run") vol *= 0.7;
+    return { file: file, vol: vol };
+  }
+
+  function syncAmbience() {
+    const next = bedForMode();
+    if (!next) {
+      if (bedEl) { bedEl.pause(); bedEl = null; bedKey = ""; }
+      return;
+    }
+    const key = next.file + "?v=" + AUDIO_REV;
+    if (bedKey === key && bedEl) {
+      bedEl.volume = next.vol;
+      if (bedEl.paused) {
+        const again = bedEl.play();
+        if (again && again.catch) again.catch(function () {});
+      }
+      return;
+    }
+    if (bedEl) {
+      bedEl.pause();
+      bedEl = null;
+    }
+    bedEl = new Audio(key);
+    bedEl.loop = true;
+    bedEl.volume = next.vol;
+    bedKey = key;
+    const played = bedEl.play();
+    if (played && played.catch) played.catch(function () {});
   }
 
   // ---------------------------------------------------------------------------
@@ -1637,9 +1697,15 @@
     run.floorPlan = buildFloorPlan(1);
     run.autoBattle = true;
     run.heroMaxHp = stats.maxHp;
-    run.heroHp = stats.maxHp;
     run.heroMaxMp = stats.maxMp;
-    run.heroMp = stats.maxMp;
+    if (fromWorld) {
+      ensureWorldState();
+      run.heroHp = Math.min(stats.maxHp, Math.max(1, state.worldHp));
+      run.heroMp = Math.min(stats.maxMp, Math.max(0, state.worldMp));
+    } else {
+      run.heroHp = stats.maxHp;
+      run.heroMp = stats.maxMp;
+    }
     run.phoenixUsed = false;
     run.relicIds = ["loaded_dice"];
     if (getUpgradeRank("starting_relic") > 0) {
@@ -1669,49 +1735,99 @@
     return board;
   }
 
+  // One pressure table. Product: area-1 fights last several board cycles and
+  // land damage through block. Armor is a percent. Block spends a share of each blow.
+  // hp/atk/arm climb with level so later floors stay ahead of item level.
+  function pressureBands(level) {
+    const t = Math.max(0, (level || 1) - 1);
+    // Floor stays high so the wolf and the Outer Hall already last.
+    // The slope is gentle: boss bases are already large, and pack swings add the rest.
+    return {
+      hp: 5.5 + t * 0.48,
+      atk: 4.0 + t * 0.15,
+      arm: 1.2 + t * 0.08
+    };
+  }
+
+  function descentPressureMult() {
+    const d = DESCENTS[run.descentIndex] || DESCENTS[0];
+    return 1 + ((d.scale || 1) - 1) * 0.35;
+  }
+
+  function softenHit(raw, defense) {
+    if (raw <= 0) return 0;
+    const arm = Math.max(0, defense || 0);
+    const mit = arm / (arm + 26);
+    return Math.max(1, Math.round(raw * (1 - mit)));
+  }
+
+  function spendBlock(holder, dmg, share) {
+    if (!holder || dmg <= 0 || !(holder.block > 0)) return dmg;
+    const absorbed = Math.min(holder.block, Math.max(1, Math.round(dmg * share)));
+    holder.block -= absorbed;
+    return Math.max(1, dmg - absorbed);
+  }
+
+  function statusDamage(stacks) {
+    const n = Math.max(0, stacks || 0);
+    if (n <= 0) return 0;
+    return Math.min(n, 7) + Math.round(Math.max(0, n - 7) * 0.2);
+  }
+
   function spawnRoomEnemies(floor, step, stepTag) {
     const d = DESCENTS[run.descentIndex] || DESCENTS[0];
-    const scale = d.scale * (1 + (floor - 1) * 0.22);
+    const mult = descentPressureMult();
+    const lv = floor + (run.descentIndex || 0);
     run.enemies = [];
     run.targetIndex = 0;
 
     if (stepTag === "boss" || (floor === 7 && step === 5)) {
       const m = MONSTERS[d.boss] || MONSTERS.warden;
-      run.enemies.push(makeEnemyInstance(m, floor + 2, scale * 1.15, { isBoss: true }));
+      run.enemies.push(makeEnemyInstance(m, lv + 1, mult, { isBoss: true }));
     } else if (stepTag === "rival") {
       const rId = d.rivals[(floor + run.descentIndex) % d.rivals.length];
       const m = MONSTERS[rId] || MONSTERS.rival_knight;
       const rivalBoard = generateRivalBoard(m.archetype || "STEEL", floor);
-      run.enemies.push(makeEnemyInstance(m, floor + 1, scale * 1.08, { isRival: true, rivalBoard }));
+      run.enemies.push(makeEnemyInstance(m, lv, mult, { isRival: true, rivalBoard }));
     } else if (stepTag === "elite") {
       const eId = d.elites[(floor + run.descentIndex) % d.elites.length];
       const m = MONSTERS[eId] || MONSTERS.sentinel;
       const gId = d.regulars[floor % d.regulars.length];
-      run.enemies.push(makeEnemyInstance(m, floor + 1, scale * 1.05, { isElite: true }));
-      run.enemies.push(makeEnemyInstance(MONSTERS[gId] || MONSTERS.skeleton, floor, scale * 0.85, {}));
+      run.enemies.push(makeEnemyInstance(m, lv, mult, { isElite: true }));
+      run.enemies.push(makeEnemyInstance(MONSTERS[gId] || MONSTERS.skeleton, lv, mult * 0.92, {}));
     } else {
       const count = step === 3 && floor >= 2 ? 2 : 1;
       for (let i = 0; i < count; i++) {
         const mId = d.regulars[(floor + step + i) % d.regulars.length];
         const m = MONSTERS[mId] || MONSTERS.wolf;
-        run.enemies.push(makeEnemyInstance(m, floor, scale, {}));
+        run.enemies.push(makeEnemyInstance(m, lv, mult, {}));
       }
     }
   }
 
   function makeEnemyInstance(def, level, scale, flags) {
-    const maxHp = Math.round(def.hp * scale);
+    flags = flags || {};
+    const bands = pressureBands(level);
+    const mult = scale || 1;
+    const tierHp = flags.isBoss ? 1.12 : (flags.isElite ? 1.08 : (flags.isRival ? 1.08 : 1));
+    const tierAtk = flags.isBoss ? 1.05 : 1;
+    // Large base sheets (bosses) already carry more body. Damp so the curve does not cube them.
+    const bulk = Math.pow(Math.max(1, def.hp / 36), 0.5);
+    const bite = Math.pow(Math.max(1, def.atk / 6), 0.82);
+    const maxHp = Math.max(90, Math.round(def.hp * (bands.hp / bulk) * mult * tierHp));
+    const guardMax = (flags.isBoss ? 22 : flags.isRival ? 16 : flags.isElite ? 12 : 8) + level * 2;
     return {
       uid: "foe_" + Math.random().toString(36).slice(2, 7),
       def: def,
       level: level,
       hp: maxHp,
       maxHp: maxHp,
-      atk: Math.max(4, Math.round(def.atk * scale)),
-      defense: Math.round(def.def * scale),
+      atk: Math.max(12, Math.round(def.atk * (bands.atk / bite) * mult * tierAtk)),
+      defense: 4 + Math.round(def.def * 0.55 * mult) + level,
       spd: def.spd,
-      block: flags.isBoss ? 14 : (flags.isRival ? 10 : 0),
-      thorns: flags.isBoss ? 3 : 0,
+      guardMax: guardMax,
+      block: Math.round(guardMax * 0.65),
+      thorns: flags.isBoss ? 4 : (flags.isElite ? 2 : 0),
       poison: 0,
       burn: 0,
       bleed: 0,
@@ -1874,10 +1990,10 @@
     return t || null;
   }
 
-  function applyDamageToEnemy(enemy, rawDmg, label = "", isCrit = false) {
+  function applyDamageToEnemy(enemy, rawDmg, label = "", isCrit = false, opts) {
     if (!enemy || enemy.hp <= 0) return;
     const sets = getSetCounts(state.board);
-    let dmg = rawDmg;
+    let dmg = softenHit(rawDmg, enemy.defense);
     if (enemy.freeze > 0 && sets.FROST >= 4) dmg = Math.round(dmg * 1.35);
     if ((enemy.isBoss || enemy.isElite || enemy.isRival) && getUpgradeRank("giant_slayer") > 0) {
       dmg = Math.round(dmg * (1 + getUpgradeRank("giant_slayer") * 0.12));
@@ -1886,12 +2002,7 @@
       dmg = Math.round(dmg * 1.40);
     }
 
-    let blocked = 0;
-    if (enemy.block > 0) {
-      blocked = Math.min(enemy.block, dmg);
-      enemy.block -= blocked;
-      dmg -= blocked;
-    }
+    if (!(opts && opts.noBlock)) dmg = spendBlock(enemy, dmg, 0.36);
     enemy.hp = Math.max(0, enemy.hp - dmg);
     state.totalDamageDealt = (state.totalDamageDealt || 0) + dmg;
 
@@ -1927,6 +2038,7 @@
     checkLevelUp();
 
     addRunLog("★ Slain " + enemy.def.name + "! +" + goldGain + "G, +" + xpGain + " XP.");
+    playSfx("coin", 0.28);
 
     // Roll loot drop on Elite/Rival/Boss or 55% on normal foes
     if (enemy.isBoss || enemy.isRival || enemy.isElite || Math.random() < 0.55) {
@@ -1942,7 +2054,7 @@
       if (siphon > 0) {
         run.heroHp = Math.min(run.heroMaxHp, run.heroHp + siphon);
       }
-      playSfx("spell", 0.45);
+      playSfx("stone", 0.42);
       saveState();
       // Auto-advance after brief pause if autoBattle is on
       setTimeout(() => {
@@ -1962,6 +2074,7 @@
       run.heroMaxHp += 12;
       run.heroHp = run.heroMaxHp;
       addRunLog("🌟 LEVEL UP! Reached Level " + state.level + " (+1 SP, Full HP Restore)!");
+      playSfx("level", 0.45);
       need = 40 + state.level * 35;
     }
   }
@@ -2009,7 +2122,7 @@
       let dmg = st.atk + Math.round(stats.power * 0.35);
       if (isCrit) dmg = Math.round(dmg * (stats.critDmg / 100));
       applyDamageToEnemy(target, dmg, "", isCrit);
-      playSfx(isCrit ? "hit" : "swing", 0.32);
+      playSfx(isCrit ? "crit" : "swing", isCrit ? 0.4 : 0.28);
 
       if (sets.BEAST >= 4) {
         run.heroHp = Math.min(run.heroMaxHp, run.heroHp + Math.max(1, Math.round(dmg * 0.20)));
@@ -2040,55 +2153,64 @@
   function triggerEnemyTurn() {
     const sets = getSetCounts(state.board);
     const stats = getHeroComputedStats();
+    const foes = run.enemies;
 
-    run.enemies.forEach(e => {
-      if (e.hp <= 0) return;
+    for (let i = 0; i < foes.length; i++) {
+      const e = foes[i];
+      if (e.hp <= 0) continue;
 
       // Status ticks on enemy
+      if (e.guardMax) e.block = Math.min(e.guardMax, (e.block || 0) + Math.ceil(e.guardMax * 0.28));
+
       if (e.poison > 0) {
-        const pDmg = sets.CRYPT >= 4 ? e.poison * 2 : e.poison;
-        applyDamageToEnemy(e, pDmg, "☠PSN", false);
+        const pDmg = sets.CRYPT >= 4 ? statusDamage(e.poison) * 2 : statusDamage(e.poison);
+        applyDamageToEnemy(e, pDmg, "☠PSN", false, { noBlock: true });
         e.poison = Math.max(0, e.poison - 1);
       }
-      if (e.hp <= 0) return;
+      if (e.hp <= 0) continue;
 
       if (e.burn > 0) {
-        let bDmg = sets.EMBER >= 4 ? e.burn * 2 : e.burn;
+        let bDmg = sets.EMBER >= 4 ? statusDamage(e.burn) * 2 : statusDamage(e.burn);
         if (run.relicIds.includes("cinder_core")) bDmg = Math.round(bDmg * 1.5);
-        applyDamageToEnemy(e, bDmg, "🔥BRN", false);
+        applyDamageToEnemy(e, bDmg, "🔥BRN", false, { noBlock: true });
         e.burn = Math.max(0, e.burn - 1);
       }
-      if (e.hp <= 0) return;
+      if (e.hp <= 0) continue;
 
       if (e.bleed > 0) {
-        applyDamageToEnemy(e, e.bleed, "🩸BLD", false);
+        applyDamageToEnemy(e, statusDamage(e.bleed), "🩸BLD", false, { noBlock: true });
         e.bleed = Math.max(0, e.bleed - 1);
       }
-      if (e.hp <= 0) return;
+      if (e.hp <= 0) continue;
 
       // Freeze slows enemy attack
       if (e.freeze >= 6) {
         e.freeze -= 4;
         addRunLog("❄ " + e.def.name + " is Frozen solid and skips a strike!");
-        return;
+        continue;
       }
 
       // Dodge check
       if (Math.random() * 100 < stats.dodgePct) {
         addRunLog("💨 Dodged " + e.def.name + "'s attack!");
-        return;
+        continue;
       }
 
-      let incoming = Math.max(2, e.atk - Math.floor(stats.defense * 0.25));
+      const living = run.enemies.filter(function (foe) { return foe.hp > 0; }).length;
+      const packShare = living <= 1 ? 1 : (1 / Math.sqrt(living));
+      let incoming = Math.max(1, Math.round(softenHit(e.atk, stats.defense) * packShare));
       if (run.heroBlock > 0) {
-        const absorbed = Math.min(run.heroBlock, incoming);
+        const absorbed = Math.min(run.heroBlock, Math.max(1, Math.round(incoming * 0.28)));
         run.heroBlock -= absorbed;
-        incoming -= absorbed;
+        incoming = Math.max(1, incoming - absorbed);
       }
       if (incoming > 0) {
         run.heroHp = Math.max(0, run.heroHp - incoming);
         state.totalDamageTaken = (state.totalDamageTaken || 0) + incoming;
-        playSfx("hurt", 0.35);
+        playSfx("hurt", 0.38);
+        const foeId = e.def && e.def.id;
+        if (foeId === "wolf" || foeId === "hound" || foeId === "corvath") playSfx("bite", 0.3);
+        else playSfx("strike", 0.24);
       }
 
       if (run.heroThorns > 0 && e.hp > 0) {
@@ -2107,14 +2229,18 @@
         } else {
           const consolationDp = Math.max(5, run.floor * 4);
           state.dungeonPoints += consolationDp;
+          playSfx("death", 0.5);
           addRunLog("Fallen on Floor " + run.floor + ". Returned to the gauntlet hub with +" + consolationDp + " DP.");
           ui.bannerMsg = "Run ended on Floor " + run.floor + ". Earned +" + consolationDp + " DP.";
           ui.mode = "hub";
           saveState();
           render();
         }
+        // The rest of this volley must not hit the restored hero.
+        return true;
       }
-    });
+    }
+    return false;
   }
 
   function manualStrike() {
@@ -2184,13 +2310,24 @@
 
   function drinkQuickDraught() {
     if (ui.mode !== "run") return;
-    if (state.coins < 15 && run.heroHp >= run.heroMaxHp) return;
+    if (run.heroHp >= run.heroMaxHp && run.heroMp >= run.heroMaxMp) {
+      addRunLog("The field draught would do nothing. You are already full.");
+      render();
+      return;
+    }
+    if (state.coins < 15) {
+      addRunLog("A field draught costs 15 gold.");
+      render();
+      return;
+    }
+    state.coins -= 15;
     const heal = Math.round(run.heroMaxHp * 0.35);
     run.heroHp = Math.min(run.heroMaxHp, run.heroHp + heal);
     run.heroMp = Math.min(run.heroMaxMp, run.heroMp + 10);
     run.heroBlock += 10;
-    addRunLog("🧪 Field Draught: Restored +" + heal + " HP, +10 MP, and +10 Block!");
+    addRunLog("🧪 Field Draught (15G): Restored +" + heal + " HP, +10 MP, and +10 Block!");
     playSfx("spell", 0.4);
+    saveState();
     render();
   }
 
@@ -2225,10 +2362,14 @@
     }
 
     // Enemy attack turn timer
-    run.enemyTurnProgress += 5.5 * run.speedMult;
+    let fastest = 5;
+    run.enemies.forEach(function (foe) {
+      if (foe.hp > 0) fastest = Math.max(fastest, foe.spd || 5);
+    });
+    run.enemyTurnProgress += (7.2 + fastest * 0.28) * run.speedMult;
     if (run.enemyTurnProgress >= 100) {
       run.enemyTurnProgress = 0;
-      triggerEnemyTurn();
+      if (triggerEnemyTurn()) return;
     }
 
     updateLiveCombatBarsOnly();
@@ -2381,6 +2522,7 @@
           QUESTS ${readyMs > 0 ? `<span style="background:#d92638;color:#fff;padding:1px 5px;border-radius:8px;font-size:10px">${readyMs}!</span>` : ""}
         </button>
         <button type="button" class="db-btn ${ui.mode === "world" ? "db-btn-gold" : "db-btn-green"}" data-act="${ui.mode === "world" ? "open-gauntlet" : "enter-world"}">${ui.mode === "world" ? "GAUNTLET HUB (H)" : "HAVEN WORLD (H)"}</button>
+        <button type="button" class="db-btn" data-act="open-menu">TITLE</button>
         <button type="button" class="db-btn" data-toggle-unity="1" title="Switch to classic Unity 3D still-frame view">UNITY 3D</button>
       </div>
     </div>`;
@@ -2610,6 +2752,22 @@
     const leaveWord = (run.worldSkirmish || run.worldEvent) ? "RETURN TO THE ROAD" : "CONTINUE FLOOR";
     const stepWord = (run.worldSkirmish || run.worldEvent) ? "RETURN TO THE ROAD" : "NEXT STEP";
     const retreatWord = (run.worldSkirmish || run.worldEvent || run.launchedFromWorld) ? "RETREAT TO ROAD" : "RETREAT TO HUB";
+    const onRoadRun = !!(run.worldSkirmish || run.worldEvent || run.launchedFromWorld);
+    const shortcutHtml = onRoadRun ? "" : (
+      "<div style=\"display:flex;flex-direction:column;justify-content:space-between;gap:5px\">" +
+      "<div style=\"font-size:11px;color:#b8ae99;display:flex;justify-content:space-between\">" +
+      "<span>ROOM EVENT SHORTCUTS:</span><span>FL " + run.floor + "/7 · STEP " + run.step + "/5</span></div>" +
+      "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:4px\">" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"shop\">🛒 SHOP</button>" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"relic\">🏺 RELIC</button>" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"chest\">📦 CHEST</button>" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"shrine\">⛩ SHRINE</button>" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"forge\">⚒ FORGE</button>" +
+      "<button type=\"button\" class=\"db-btn\" style=\"padding:3px;font-size:10px\" data-debug-room=\"wheel\">🎡 WHEEL</button>" +
+      "</div>" +
+      "<button type=\"button\" class=\"db-btn db-btn-gold\" style=\"padding:4px;font-size:10.5px\" data-debug-room=\"rival\">⚔ CHALLENGE RIVAL ADVENTURER (3-BOARD DUEL)</button>" +
+      "</div>"
+    );
 
     // 5-Step Floor Stepper
     const stepLabels = ["1: FIGHT", "2: " + run.floorPlan[1].toUpperCase(), "3: FIGHT", "4: " + run.floorPlan[3].toUpperCase(), run.floor === 7 ? "5: BOSS" : (run.floor % 2 === 0 ? "5: RIVAL" : "5: ELITE")];
@@ -2821,23 +2979,7 @@
             <div class="db-combat-log" id="db-combat-log-box">
               ${run.log.slice(0, 10).map(l => `<div>${escapeHtml(l)}</div>`).join("")}
             </div>
-            <div style="display:flex;flex-direction:column;justify-content:space-between;gap:5px">
-              <div style="font-size:11px;color:#b8ae99;display:flex;justify-content:space-between">
-                <span>ROOM EVENT SHORTCUTS:</span>
-                <span>FL ${run.floor}/7 · STEP ${run.step}/5</span>
-              </div>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px">
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="shop">🛒 SHOP</button>
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="relic">🏺 RELIC</button>
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="chest">📦 CHEST</button>
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="shrine">⛩ SHRINE</button>
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="forge">⚒ FORGE</button>
-                <button type="button" class="db-btn" style="padding:3px;font-size:10px" data-debug-room="wheel">🎡 WHEEL</button>
-              </div>
-              <button type="button" class="db-btn db-btn-gold" style="padding:4px;font-size:10.5px" data-debug-room="rival">
-                ⚔ CHALLENGE RIVAL ADVENTURER (3-BOARD DUEL)
-              </button>
-            </div>
+            ${shortcutHtml}
           </div>
         </div>
       </div>
@@ -3106,19 +3248,122 @@
   // ---------------------------------------------------------------------------
   // 11. MAIN RENDER & EVENT DELEGATION
   // ---------------------------------------------------------------------------
+  function hasContinueSave() {
+    try { return !!localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
+  }
+
+  function beginNewGame() {
+    if (hasContinueSave() && !ui.confirmNew) {
+      ui.confirmNew = true;
+      render();
+      return;
+    }
+    const keepSfx = state.sfxEnabled !== false;
+    const keepMusic = state.musicEnabled !== false;
+    state = createDefaultState();
+    state.sfxEnabled = keepSfx;
+    state.musicEnabled = keepMusic;
+    ui.confirmNew = false;
+    ui.modal = null;
+    ui.mode = "world";
+    ui.bannerMsg = "You wake on the Wayhouse bench. North is the road into Haven.";
+    ui.atlasRegion = "Haven Gate & Town";
+    ui.selectedUid = state.board[0] ? state.board[0].uid : null;
+    ensureWorldState();
+    saveState();
+    playSfx("ui", 0.35);
+    render();
+  }
+
+  function continueFromMenu() {
+    if (!hasContinueSave()) return;
+    ui.confirmNew = false;
+    ui.modal = null;
+    ui.mode = "world";
+    ensureWorldState();
+    ui.bannerMsg = currentSquare().arrive;
+    playSfx("ui", 0.32);
+    render();
+  }
+
+  function openTitleMenu() {
+    if (ui.mode === "run" && run.heroHp > 0) {
+      state.worldHp = run.heroHp;
+      state.worldMp = run.heroMp;
+    }
+    run.worldSkirmish = false;
+    run.worldEvent = false;
+    run.launchedFromWorld = false;
+    run.combatWon = false;
+    ui.confirmNew = false;
+    ui.modal = null;
+    ui.mode = "menu";
+    saveState();
+    playSfx("ui", 0.28);
+    render();
+  }
+
+  function renderMenuScreen() {
+    const saved = hasContinueSave();
+    const sqName = saved && WORLD_MAP[state.squareId] ? WORLD_MAP[state.squareId].name : "Wayhouse Bench";
+    const continueLabel = saved
+      ? ("CONTINUE · " + sqName + " · Lv " + state.level)
+      : "CONTINUE · NO SAVE YET";
+    const newLabel = ui.confirmNew ? "REPLACE SAVE AND WAKE AT THE WAYHOUSE" : "NEW GAME";
+    return "<div class=\"db-menu\">" +
+      "<div class=\"db-menu-card db-panel db-panel-gold\">" +
+      "<img class=\"db-menu-plate\" src=\"assets/Vision/HAVEN_GATE.jpg\" alt=\"Haven Gate\">" +
+      "<div class=\"db-menu-kicker\">LYGO LATTICE</div>" +
+      "<h1>LYGO Dungeon Adventures</h1>" +
+      "<p class=\"db-menu-lead\">The road starts on the Wayhouse bench. Walk Haven, then the First Hall. Your gear sweeps. The dark hits back.</p>" +
+      "<div class=\"db-menu-actions\">" +
+      "<button type=\"button\" class=\"db-btn db-btn-gold\" data-act=\"menu-continue\"" + (saved ? "" : " disabled") + ">" + escapeHtml(continueLabel) + "</button>" +
+      (saved ? "<div class=\"db-menu-note\">" + escapeHtml(sqName) + " · " + state.coins + " gold · " + (state.seen ? state.seen.length : 1) + " squares seen</div>" : "<div class=\"db-menu-note\">No road is saved in this browser.</div>") +
+      "<button type=\"button\" class=\"db-btn db-btn-green\" data-act=\"menu-new\">" + escapeHtml(newLabel) + "</button>" +
+      (ui.confirmNew ? "<div class=\"db-menu-note\">This replaces the save on this browser. Gear on that road will be gone.</div>" : "") +
+      "<div class=\"db-menu-row\">" +
+      "<button type=\"button\" class=\"db-btn\" data-act=\"menu-toggle-sfx\">SOUND " + (state.sfxEnabled === false ? "OFF" : "ON") + "</button>" +
+      "<button type=\"button\" class=\"db-btn\" data-act=\"menu-toggle-music\">MUSIC " + (state.musicEnabled === false ? "OFF" : "ON") + "</button>" +
+      "</div></div></div></div>";
+  }
+
   function render() {
     const root = document.getElementById("db-app");
     if (!root) return;
     root.style.display = ui.unityVisible ? "none" : "flex";
 
-    root.innerHTML = `
+    if (ui.mode === "menu") {
+      root.innerHTML = renderMenuScreen();
+    } else {
+      root.innerHTML = `
       ${renderTopBar()}
       ${ui.mode === "run" ? renderRunScreen() : (ui.mode === "world" ? renderWorldScreen() : renderHubScreen())}
       ${renderModal()}
     `;
+    }
+    syncAmbience();
   }
 
   function handleAction(act) {
+    if (act === "menu-continue") { continueFromMenu(); return; }
+    if (act === "menu-new") { beginNewGame(); return; }
+    if (act === "menu-toggle-sfx") {
+      ui.confirmNew = false;
+      state.sfxEnabled = state.sfxEnabled === false;
+      if (hasContinueSave()) saveState();
+      playSfx("ui", 0.3);
+      render();
+      return;
+    }
+    if (act === "menu-toggle-music") {
+      ui.confirmNew = false;
+      state.musicEnabled = state.musicEnabled === false;
+      if (hasContinueSave()) saveState();
+      syncAmbience();
+      render();
+      return;
+    }
+    if (act === "open-menu") { openTitleMenu(); return; }
     if (handleWorldAction(act)) return;
     if (act === "enter-dungeon") {
       startDungeonRun(state.selectedDescent);
@@ -3189,7 +3434,8 @@
       state.coins += run.chestGold;
       if (run.chestDrop) state.stash.push(run.chestDrop);
       addRunLog("📦 Opened Chest: +" + run.chestGold + "G & " + getItemDef(run.chestDrop.id).name + " Lv" + run.chestDrop.level + "!");
-      playSfx("spell", 0.5);
+      playSfx("chest", 0.5);
+      playSfx("coin", 0.3);
       saveState();
       render();
     } else if (act === "shrine-curse") {
@@ -3301,6 +3547,7 @@
 
   function bindEvents() {
     document.addEventListener("click", (ev) => {
+      syncAmbience();
       const t = ev.target.closest("[data-act],[data-select-hero],[data-select-descent],[data-open-modal],[data-close-modal],[data-close-backdrop],[data-item-uid],[data-stash-filter],[data-run-left-tab],[data-upgrade-tab],[data-buy-upgrade],[data-quest-tab],[data-claim-milestone],[data-buy-shop],[data-pick-relic],[data-jump-step],[data-debug-room],[data-enemy-idx],[data-haven-node],[data-claim-haven],[data-speak-npc],[data-toggle-unity],[data-travel],[data-goto],[data-atlas-region],[data-waystone],[data-rival],[data-claim-road],[data-talk-npc]");
       if (!t) return;
 
@@ -3403,7 +3650,7 @@
           entry.bought = true;
           state.stash.push(entry.item);
           addRunLog("🛒 Purchased " + getItemDef(entry.item.id).name + " Lv" + entry.item.level + "!");
-          playSfx("stone", 0.4);
+          playSfx("coin", 0.4);
           saveState();
           render();
         }
@@ -3423,6 +3670,7 @@
         return;
       }
       if (t.hasAttribute("data-jump-step")) {
+        if (run.worldSkirmish || run.worldEvent) return;
         const sNum = parseInt(t.getAttribute("data-jump-step"), 10);
         if (sNum >= 1 && sNum <= 5) {
           enterRunStep(run.floor, sNum);
@@ -3430,6 +3678,7 @@
         return;
       }
       if (t.hasAttribute("data-debug-room")) {
+        if (run.worldSkirmish || run.worldEvent || run.launchedFromWorld) return;
         const rk = t.getAttribute("data-debug-room");
         if (rk === "rival") {
           enterRunStep(run.floor, 5, "rival");
@@ -3526,6 +3775,8 @@
           ui.modal = null;
           render();
         }
+      } else if (ui.mode === "menu") {
+        return;
       } else if (ev.key === "m" || ev.key === "M") {
         autoMergeAll();
       } else if (ev.key === "h" || ev.key === "H") {
@@ -3574,6 +3825,9 @@
       ui.modal = "upgrades";
     } else if (cmd === "quests") {
       ui.modal = "quests";
+    } else if (cmd === "menu") {
+      ui.mode = "menu";
+      ui.modal = null;
     } else if (cmd === "haven" || cmd === "world") {
       ui.mode = "world";
       ui.modal = null;
@@ -3620,7 +3874,8 @@
     toggleUnityView: toggleUnityView,
     travel: travelDir,
     squareCount: () => WORLD_SQUARES.length,
-    linkErrors: () => WORLD_LINK_ERRORS.slice()
+    linkErrors: () => WORLD_LINK_ERRORS.slice(),
+    previewFoe: (id, level, scale, flags) => makeEnemyInstance(MONSTERS[id] || MONSTERS.wolf, level || 1, scale || 1, flags || {})
   };
 
   window.lygoGameInstance = {
@@ -3636,6 +3891,8 @@
       appDiv.id = "db-app";
       document.body.appendChild(appDiv);
     }
+    ui.mode = "menu";
+    ui.confirmNew = false;
     ensureWorldState();
     bindEvents();
     render();
