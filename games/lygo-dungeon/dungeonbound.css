@@ -1,0 +1,941 @@
+/* ============================================================================
+   LYGO DUNGEON ADVENTURES — DUNGEONBOUND EDITION (Steam #5200620 Style)
+   Ornate dark-stone & burnished-gold RPG UI chrome
+   ============================================================================ */
+
+:root {
+  --db-bg-deep: #09080d;
+  --db-bg-panel: #121018;
+  --db-bg-card: #191622;
+  --db-bg-slot: #0e0c14;
+  --db-border-gold: #c89d46;
+  --db-border-gold-bright: #f2ca6b;
+  --db-border-bronze: #5c4724;
+  --db-border-slate: #2f2b3d;
+  --db-text-main: #f4ead5;
+  --db-text-muted: #9e9482;
+  --db-text-gold: #f0c35e;
+  --db-hp-red: #b92626;
+  --db-mp-blue: #295ec4;
+  --db-xp-amber: #d48c24;
+  --db-blk-cyan: #2d8ca8;
+  --db-green: #267d39;
+  --db-green-bright: #37a84f;
+  --db-purple: #643296;
+  --db-crimson: #9e2230;
+  --rar-common: #7b7f8c;
+  --rar-uncommon: #35b557;
+  --rar-rare: #3b88eb;
+  --rar-epic: #a849eb;
+  --rar-legendary: #f2a922;
+  --rar-cursed: #e02844;
+}
+
+#db-app {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9000;
+  background: radial-gradient(circle at 50% 18%, #1e1829 0%, #0b0910 75%);
+  color: var(--db-text-main);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+#db-app * {
+  box-sizing: border-box;
+}
+
+/* Ornate Framed Panel */
+.db-panel {
+  background: linear-gradient(180deg, rgba(28, 24, 38, 0.96) 0%, rgba(15, 13, 21, 0.98) 100%);
+  border: 2px solid var(--db-border-bronze);
+  box-shadow: inset 0 0 0 1px rgba(242, 202, 107, 0.16), 0 6px 20px rgba(0, 0, 0, 0.65);
+  border-radius: 6px;
+  position: relative;
+}
+
+.db-panel-gold {
+  border-color: var(--db-border-gold);
+  box-shadow: inset 0 0 0 1px rgba(242, 202, 107, 0.28), 0 8px 24px rgba(0, 0, 0, 0.75);
+}
+
+.db-section-hdr {
+  background: linear-gradient(90deg, rgba(64, 48, 24, 0.65) 0%, rgba(32, 26, 44, 0.85) 50%, rgba(64, 48, 24, 0.65) 100%);
+  border-bottom: 1px solid var(--db-border-gold);
+  color: var(--db-text-gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+}
+
+/* Top Global Navigation & Vitals Bar */
+.db-topbar {
+  height: 52px;
+  min-height: 52px;
+  background: linear-gradient(180deg, #1a1524 0%, #0e0c14 100%);
+  border-bottom: 2px solid var(--db-border-bronze);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 10px;
+}
+
+.db-hero-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.db-hero-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 5px;
+  background: #171420;
+  border: 1px solid #3c334a;
+  color: var(--db-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.db-hero-pill:hover {
+  border-color: var(--db-border-gold);
+  color: var(--db-text-main);
+}
+
+.db-hero-pill.active {
+  background: linear-gradient(180deg, #382a14 0%, #22190c 100%);
+  border-color: var(--db-border-gold-bright);
+  color: var(--db-text-gold);
+  box-shadow: 0 0 10px rgba(240, 195, 94, 0.25);
+}
+
+.db-hero-pill img {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid var(--db-border-gold);
+}
+
+/* Descent Roman Tabs */
+.db-descent-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.db-descent-tab {
+  padding: 5px 11px;
+  background: #16131f;
+  border: 1px solid #413852;
+  border-radius: 4px;
+  color: var(--db-text-muted);
+  font-family: Georgia, serif;
+  font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.14s ease;
+}
+
+.db-descent-tab:hover {
+  border-color: var(--db-border-gold);
+  color: var(--db-text-main);
+}
+
+.db-descent-tab.active {
+  background: linear-gradient(180deg, #4f3917 0%, #2c1f0b 100%);
+  border-color: var(--db-border-gold-bright);
+  color: #fff3d1;
+  box-shadow: 0 0 10px rgba(242, 202, 107, 0.35);
+}
+
+.db-descent-tab.locked {
+  opacity: 0.55;
+}
+
+/* Top Currencies & Mode Buttons */
+.db-currencies {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.db-curr-badge {
+  background: #120f1a;
+  border: 1px solid #3d334c;
+  border-radius: 4px;
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.db-curr-gold { color: #f6c84c; border-color: #6b531e; }
+.db-curr-sp   { color: #67d4ff; border-color: #235875; }
+.db-curr-dp   { color: #d58aff; border-color: #5c2c7d; }
+
+/* Buttons */
+.db-btn {
+  background: linear-gradient(180deg, #2d263b 0%, #1b1626 100%);
+  border: 1px solid var(--db-border-bronze);
+  color: var(--db-text-main);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.12s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.85);
+}
+
+.db-btn:hover:not(:disabled) {
+  border-color: var(--db-border-gold-bright);
+  filter: brightness(1.14);
+  transform: translateY(-1px);
+}
+
+.db-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.db-btn:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.db-btn-green {
+  background: linear-gradient(180deg, #2e8f44 0%, #1b5c2a 100%);
+  border-color: #65d47e;
+  color: #ffffff;
+}
+
+.db-btn-gold {
+  background: linear-gradient(180deg, #9c7223 0%, #5e4211 100%);
+  border-color: var(--db-border-gold-bright);
+  color: #fff6db;
+}
+
+.db-btn-purple {
+  background: linear-gradient(180deg, #6b359e 0%, #411d66 100%);
+  border-color: #b87aff;
+  color: #f7ecff;
+}
+
+.db-btn-crimson {
+  background: linear-gradient(180deg, #9e2432 0%, #5e121b 100%);
+  border-color: #eb6372;
+  color: #ffe8eb;
+}
+
+/* ============================================================================
+   MAIN 3-COLUMN WORKSPACE (HUB & RUN)
+   ============================================================================ */
+.db-workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr 430px;
+  gap: 10px;
+  padding: 10px;
+  min-height: 0;
+}
+
+.db-workspace.run-rival-active {
+  grid-template-columns: 310px 1fr 290px;
+}
+
+.db-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Stat List & Set Synergies */
+.db-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  padding: 8px;
+}
+
+.db-stat-box {
+  background: rgba(11, 9, 16, 0.72);
+  border: 1px solid #2b2538;
+  border-radius: 4px;
+  padding: 5px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.db-stat-box span:first-child {
+  color: var(--db-text-muted);
+}
+
+.db-stat-box b {
+  color: var(--db-text-gold);
+}
+
+.db-set-list {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+}
+
+.db-set-card {
+  background: rgba(14, 12, 20, 0.85);
+  border: 1px solid #322b40;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 11.5px;
+}
+
+.db-set-card.active-2 {
+  border-color: #4aa862;
+  background: rgba(24, 52, 34, 0.35);
+}
+
+.db-set-card.active-4 {
+  border-color: var(--db-border-gold-bright);
+  background: rgba(74, 54, 18, 0.42);
+}
+
+/* Center Archway Stage (Hub) */
+.db-archway-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--db-border-gold);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.88);
+}
+
+.db-archway-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 8, 15, 0.78) 0%, rgba(10, 8, 15, 0.32) 45%, rgba(10, 8, 15, 0.90) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.db-descent-banner {
+  text-align: center;
+  background: rgba(14, 11, 20, 0.88);
+  border: 1px solid var(--db-border-gold);
+  border-radius: 6px;
+  padding: 8px 14px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.db-descent-banner h2 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  color: var(--db-text-gold);
+  letter-spacing: 0.06em;
+}
+
+.db-descent-banner p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--db-text-main);
+}
+
+.db-hero-shrine-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: auto 0;
+}
+
+.db-hero-portrait-frame {
+  width: 165px;
+  height: 195px;
+  border: 3px solid var(--db-border-gold-bright);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 28px rgba(242, 202, 107, 0.35), 0 10px 25px rgba(0,0,0,0.85);
+  position: relative;
+  background: #0d0b12;
+  flex-shrink: 0;
+}
+
+.db-hero-portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.db-descent-foe-preview {
+  background: rgba(13, 11, 19, 0.90);
+  border: 1px solid #463a59;
+  border-radius: 6px;
+  padding: 10px 12px;
+  max-width: 340px;
+}
+
+.db-foe-Roster-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.db-foe-mini {
+  width: 54px;
+  height: 62px;
+  background: #14111c;
+  border: 1px solid #3c344d;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  font-size: 9.5px;
+  color: var(--db-text-muted);
+  text-align: center;
+}
+
+.db-foe-mini.boss {
+  border-color: var(--db-border-gold-bright);
+  color: var(--db-text-gold);
+}
+
+.db-foe-mini img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.db-hub-cta-bar {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 8px;
+  background: rgba(12, 10, 18, 0.92);
+  border: 1px solid var(--db-border-bronze);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.db-hub-cta-bar .db-btn {
+  height: 44px;
+  font-size: 13.5px;
+  font-family: Georgia, serif;
+}
+
+/* ============================================================================
+   EQUIPMENT BOARD & INVENTORY STASH GRIDS
+   ============================================================================ */
+.db-board-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 8px;
+}
+
+.db-stash-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  padding: 8px;
+  overflow-y: auto;
+  max-height: 220px;
+}
+
+.db-item-slot {
+  aspect-ratio: 1 / 1;
+  background: var(--db-bg-slot);
+  border: 2px solid #2d283b;
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.1s ease, border-color 0.1s ease, box-shadow 0.1s ease;
+  overflow: hidden;
+}
+
+.db-item-slot:hover {
+  transform: translateY(-1px);
+  border-color: var(--db-border-gold);
+}
+
+.db-item-slot.selected {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 12px rgba(242, 202, 107, 0.8);
+  z-index: 2;
+}
+
+.db-item-slot.sweeping {
+  box-shadow: 0 0 0 2px var(--db-border-gold-bright), 0 0 16px rgba(242, 202, 107, 0.95);
+}
+
+.db-item-slot.rar-common    { border-color: var(--rar-common); }
+.db-item-slot.rar-uncommon  { border-color: var(--rar-uncommon); background: radial-gradient(circle, rgba(53,181,87,0.16) 0%, #0e0c14 85%); }
+.db-item-slot.rar-rare      { border-color: var(--rar-rare); background: radial-gradient(circle, rgba(59,136,235,0.18) 0%, #0e0c14 85%); }
+.db-item-slot.rar-epic      { border-color: var(--rar-epic); background: radial-gradient(circle, rgba(168,73,235,0.22) 0%, #0e0c14 85%); }
+.db-item-slot.rar-legendary { border-color: var(--rar-legendary); background: radial-gradient(circle, rgba(242,169,34,0.26) 0%, #0e0c14 85%); }
+.db-item-slot.rar-cursed    { border-color: var(--rar-cursed); background: radial-gradient(circle, rgba(224,40,68,0.28) 0%, #0e0c14 85%); }
+
+.db-item-slot img {
+  width: 64%;
+  height: 64%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.db-slot-lv {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  background: rgba(0, 0, 0, 0.78);
+  color: var(--db-text-gold);
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 0 3px;
+  border-radius: 3px;
+  line-height: 1.3;
+}
+
+.db-slot-set {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  background: rgba(20, 16, 30, 0.85);
+  color: #d8c9a7;
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 0 3px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.db-slot-stat {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.db-sweep-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f2a922, #fff1a8);
+  transition: width 0.06s linear;
+  pointer-events: none;
+}
+
+/* Inspector Box */
+.db-inspector {
+  margin-top: auto;
+  background: #100e17;
+  border-top: 2px solid var(--db-border-bronze);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.db-inspector-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.db-inspector-desc {
+  font-size: 11.5px;
+  color: var(--db-text-muted);
+  line-height: 1.35;
+  min-height: 32px;
+}
+
+.db-inspector-actions {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.db-inspector-actions .db-btn {
+  flex: 1;
+  padding: 5px 7px;
+  font-size: 11px;
+}
+
+/* ============================================================================
+   DUNGEON RUN SCREEN (COMBAT, FLOOR STEPPER, EVENT ROOMS, RIVAL BOARD)
+   ============================================================================ */
+.db-floor-stepper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 7px 10px;
+  background: rgba(12, 10, 18, 0.92);
+  border-bottom: 1px solid var(--db-border-bronze);
+}
+
+.db-step-node {
+  padding: 5px 6px;
+  border-radius: 4px;
+  background: #181522;
+  border: 1px solid #352e47;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--db-text-muted);
+  cursor: pointer;
+}
+
+.db-step-node.done {
+  background: rgba(38, 125, 57, 0.28);
+  border-color: #429e56;
+  color: #a9f0b8;
+}
+
+.db-step-node.current {
+  background: linear-gradient(180deg, #543d18 0%, #30220b 100%);
+  border-color: var(--db-border-gold-bright);
+  color: var(--db-text-gold);
+  box-shadow: 0 0 10px rgba(242, 202, 107, 0.35);
+}
+
+.db-combat-stage {
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.db-combat-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 45%, rgba(10, 8, 15, 0.25) 0%, rgba(8, 6, 12, 0.85) 100%);
+  pointer-events: none;
+}
+
+.db-combat-top-controls {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.db-enemy-lineup {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: auto 0;
+}
+
+.db-enemy-card {
+  width: 215px;
+  background: rgba(14, 12, 22, 0.88);
+  border: 2px solid #463c59;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.db-enemy-card.targeted {
+  border-color: var(--db-border-gold-bright);
+  box-shadow: 0 0 18px rgba(242, 202, 107, 0.35);
+}
+
+.db-enemy-card.dead {
+  opacity: 0.42;
+  filter: grayscale(0.85);
+}
+
+.db-enemy-sprite-wrap {
+  width: 145px;
+  height: 155px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.db-enemy-sprite-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.85));
+}
+
+/* Progress Bars (HP, MP, Block) */
+.db-bar-wrap {
+  width: 100%;
+  height: 18px;
+  background: #0b0910;
+  border: 1px solid #39314a;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.db-bar-fill {
+  height: 100%;
+  transition: width 0.16s ease;
+}
+
+.db-bar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 2px #000;
+}
+
+.db-status-row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.db-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.75);
+  border: 1px solid #444;
+}
+
+/* Event Room Stage Card */
+.db-event-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(15, 13, 23, 0.95);
+  border: 2px solid var(--db-border-gold);
+  border-radius: 8px;
+  padding: 16px;
+  margin: auto;
+  width: 94%;
+  max-width: 680px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+}
+
+.db-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.db-choice-box {
+  background: #171421;
+  border: 1px solid #463c5c;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+}
+
+.db-choice-box img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+/* Combat Log & Bottom Controls */
+.db-combat-footer {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 290px;
+  gap: 10px;
+  background: rgba(11, 9, 17, 0.92);
+  border: 1px solid var(--db-border-bronze);
+  border-radius: 6px;
+  padding: 8px 10px;
+  max-height: 115px;
+}
+
+.db-combat-log {
+  font-size: 11.5px;
+  line-height: 1.4;
+  overflow-y: auto;
+  max-height: 95px;
+  color: #dfd5c0;
+}
+
+.db-combat-log div {
+  margin-bottom: 2px;
+}
+
+/* Modals (Upgrades, Quests, Haven World) */
+.db-modal-backdrop {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 4, 8, 0.84);
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.db-modal-window {
+  width: 100%;
+  max-width: 980px;
+  max-height: calc(100vh - 84px);
+  background: linear-gradient(180deg, #1b1726 0%, #100d17 100%);
+  border: 2px solid var(--db-border-gold);
+  border-radius: 8px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.92);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.db-modal-body {
+  padding: 14px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.db-upgrade-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.db-upgrade-card {
+  background: #15121f;
+  border: 1px solid #3c344f;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.db-quest-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.db-quest-card {
+  background: #15121f;
+  border: 1px solid #3a314c;
+  border-radius: 6px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.db-quest-card.ready {
+  border-color: var(--db-border-gold-bright);
+  background: rgba(68, 50, 16, 0.35);
+}
+
+.db-quest-card.claimed {
+  opacity: 0.58;
+  border-color: #2f5c39;
+}
+
+/* Floating Combat Text */
+.db-float-text {
+  position: absolute;
+  font-weight: 800;
+  font-size: 16px;
+  pointer-events: none;
+  text-shadow: 0 2px 4px #000;
+  animation: dbFloatUp 0.95s ease-out forwards;
+  z-index: 30;
+}
+
+@keyframes dbFloatUp {
+  0%   { opacity: 1; transform: translateY(0) scale(0.95); }
+  25%  { opacity: 1; transform: translateY(-10px) scale(1.08); }
+  100% { opacity: 0; transform: translateY(-34px) scale(0.95); }
+}

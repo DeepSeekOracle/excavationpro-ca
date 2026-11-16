@@ -21,8 +21,9 @@
     <meta name="twitter:site" content="@Excavationpro">
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <link rel="stylesheet" href="dungeonbound.css?v=2">
     <style>
-      html, body { margin: 0; background: #120e0a; }
+      html, body { margin: 0; background: #120e0a; overflow: hidden; }
       #lygoSiteBar {
         position: fixed; top: 0; left: 0; right: 0; height: 40px; z-index: 10000;
         display: flex; align-items: center; gap: 14px; padding: 0 14px;
@@ -39,10 +40,12 @@
   </head>
   <body>
     <div id="lygoSiteBar">
-      <b>LYGO DUNGEON ADVENTURES</b>
+      <b>LYGO DUNGEON ADVENTURES · DUNGEONBOUND</b>
+      <button id="db-return-from-unity" type="button" onclick="window.LYGODungeonbound && window.LYGODungeonbound.toggleUnityView()" style="display:none;background:#267d39;color:#fff;border:1px solid #65d47e;border-radius:4px;padding:3px 10px;font-weight:700;cursor:pointer;font-size:12px">&#8592; Return to Dungeonbound Hub</button>
       <span style="flex:1"></span>
       <a href="/games/">&#8592; All games</a>
     </div>
+    <div id="db-app"></div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width="1280" height="720" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -119,25 +122,30 @@
       fitCanvas();
       window.addEventListener("resize", fitCanvas);
 
-      document.querySelector("#unity-loading-bar").style.display = "block";
-
-      var script = document.createElement("script");
-      script.src = loaderUrl;
-      script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
-          document.querySelector("#unity-loading-bar").style.display = "none";
-          document.querySelector("#unity-fullscreen-button").onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
-        });
+      var unityBooted = false;
+      window.bootClassicUnityIfNeeded = function() {
+        if (unityBooted) return;
+        unityBooted = true;
+        document.querySelector("#unity-loading-bar").style.display = "block";
+        var script = document.createElement("script");
+        script.src = loaderUrl;
+        script.onload = () => {
+          createUnityInstance(canvas, config, (progress) => {
+            document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
+          }).then((unityInstance) => {
+            window.lygoUnityInstance = unityInstance;
+            document.querySelector("#unity-loading-bar").style.display = "none";
+            document.querySelector("#unity-fullscreen-button").onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          }).catch((message) => {
+            console.warn(message);
+          });
+        };
+        document.body.appendChild(script);
       };
-
-      document.body.appendChild(script);
     </script>
+    <script src="dungeonbound-engine.js?v=2"></script>
   <!-- LYGO_RADIO_PLAYER -->
 <audio id="radioEl" preload="auto" volume="0.5"></audio>
 <div id="lygo-radio-bar" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);
