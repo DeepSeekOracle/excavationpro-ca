@@ -97,13 +97,17 @@ main.sheet.sheet-wide { max-width: 80rem; padding-left: 4vw; padding-right: 4vw;
   gap: 1.35rem;
   margin: 1.35rem 0 2.4rem;
 }
-body.home article.card {
+body.home.browser-page article.card {
   margin: 0;
+  padding: 0;
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 2rem 1.85rem 2.15rem;
   background: rgba(18, 15, 12, .45);
   min-width: 0;
+  overflow: hidden;
+}
+body.home.browser-page article.card .card-in {
+  padding: 1.85rem 1.7rem 2rem;
 }
 body.browser-page .card h3 {
   margin: .45rem 0 .85rem;
@@ -123,7 +127,7 @@ body.browser-page .card p {
 .hash { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem; word-break: break-all; color: var(--muted); }
 .steps { margin: .4rem 0 0; padding-left: 1.1rem; color: #ddd4c8; }
 .steps li { margin: .35rem 0; }
-.lygo-tv-wrap { margin: 2rem 0; }
+.lygo-tv-wrap { margin: 1.8rem auto 0.6rem; }
 @media (max-width: 980px) {
   .grid-3 { grid-template-columns: 1fr; }
 }
@@ -187,23 +191,36 @@ body.browser-page .card p {
 </div>
 
 <main class="sheet sheet-wide">
+  <section class="lygo-tv-wrap" aria-label="LYGO TV">
+    <p class="kicker">Live channels</p>
+    <h2>LYGO TV</h2>
+    <p>The same monetized player as the front page. The Rumble room opens first. Sound stays off until you press it.</p>
+    <div data-lygo-tv></div>
+  </section>
+
   <article>
     <h2>What you are downloading</h2>
     <div class="grid-3">
       <article class="card">
-        <p class="k">Read</p>
-        <h3>A real browser</h3>
-        <p>Chromium through WebView2. Tabs you can reorder, find in page, zoom, history, downloads, print to PDF, and session restore. The home page opens excavationpro.ca. You can change that.</p>
+        <div class="card-in">
+          <p class="k">Read</p>
+          <h3>A real browser</h3>
+          <p>Chromium through WebView2. Tabs you can reorder, find in page, zoom, history, downloads, print to PDF, and session restore. The home page opens excavationpro.ca. You can change that.</p>
+        </div>
       </article>
       <article class="card">
-        <p class="k">Keep</p>
-        <h3>Bookmark Bible</h3>
-        <p>Folders, tags, pins, and search. One action files the raw HTML, the text, a Markdown copy, a full-page image, and a SHA-256 of what you saved. The copy stays on your disk.</p>
+        <div class="card-in">
+          <p class="k">Keep</p>
+          <h3>Bookmark Bible</h3>
+          <p>Folders, tags, pins, and search. One action files the raw HTML, the text, a Markdown copy, a full-page image, and a SHA-256 of what you saved. The copy stays on your disk.</p>
+        </div>
       </article>
       <article class="card">
-        <p class="k">Drive</p>
-        <h3>Agent, locally</h3>
-        <p>A loopback API on port 9337 and a Chrome DevTools endpoint on 9333, so Playwright or another tool on this PC can open a tab. Posts need a token created on first run. Omni, the in-browser agent window, opens with Ctrl+Shift+O. Light mode needs no model.</p>
+        <div class="card-in">
+          <p class="k">Drive</p>
+          <h3>Agent, locally</h3>
+          <p>A loopback API on port 9337 and a Chrome DevTools endpoint on 9333, so Playwright or another tool on this PC can open a tab. Posts need a token created on first run. Omni, the in-browser agent window, opens with Ctrl+Shift+O. Light mode needs no model.</p>
+        </div>
       </article>
     </div>
     <p>The credential vault is sealed with Windows DPAPI. Passwords are not written in plaintext. The browser does not ship with an account, a cloud login, or a phone-home. The 2.0.0 installer was built from the desktop app after a public pass: bookmarks, history, the vault, the profile, and builder paths are not in the file.</p>
@@ -232,13 +249,6 @@ body.browser-page .card p {
       <a class="btn ghost" href="https://gravatar.com/xcavationpro">Contact and crypto</a>
     </div>
   </article>
-
-  <section class="lygo-tv-wrap" aria-label="LYGO TV">
-    <p class="kicker">Live channels</p>
-    <h2>LYGO TV</h2>
-    <p>The same monetized player as the front page. The Rumble room opens first. Sound stays off until you press it.</p>
-    <div data-lygo-tv></div>
-  </section>
 </main>
 
 <footer class="site">
