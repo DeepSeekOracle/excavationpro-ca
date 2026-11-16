@@ -90,21 +90,44 @@ body.browser-page .hero h1 { max-width: 16ch; font-size: clamp(2.4rem, 6vw, 4.4r
 .radio-vol { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); font-size: .75rem; }
 .radio-vol input[type="range"] { width: 7rem; accent-color: var(--gold); }
 .radio-title-inline { color: var(--gold); font-size: .78rem; max-width: 22rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sheet-wide { max-width: 68rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin: 1rem 0 2rem; }
-.card {
-  border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.05rem;
-  background: rgba(18, 15, 12, .45);
+main.sheet.sheet-wide { max-width: 80rem; padding-left: 4vw; padding-right: 4vw; }
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(16rem, 1fr));
+  gap: 1.35rem;
+  margin: 1.35rem 0 2.4rem;
 }
-.card h3 { margin: .2rem 0 .4rem; font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.45rem; font-weight: 500; color: var(--gold); }
-.card p { margin: 0; color: #ddd4c8; }
+body.browser-page .grid-3 > article.card { margin: 0; }
+.card {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.7rem 1.55rem 1.85rem;
+  background: rgba(18, 15, 12, .45);
+  min-width: 0;
+}
+body.browser-page .card h3 {
+  margin: .45rem 0 .85rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.85rem, 2.2vw, 2.15rem);
+  font-weight: 500;
+  line-height: 1.12;
+  color: var(--gold);
+}
+body.browser-page .card p {
+  margin: 0;
+  color: #ddd4c8;
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
 .k { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--teal); }
 .hash { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem; word-break: break-all; color: var(--muted); }
 .steps { margin: .4rem 0 0; padding-left: 1.1rem; color: #ddd4c8; }
 .steps li { margin: .35rem 0; }
 .lygo-tv-wrap { margin: 2rem 0; }
-@media (max-width: 860px) {
+@media (max-width: 980px) {
   .grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
   .studio-strip { margin: 0 1.1rem; }
 }
 </style>
