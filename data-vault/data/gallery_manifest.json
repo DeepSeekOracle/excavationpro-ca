@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-17T01:00:34.817051+00:00",
-  "count": 1628,
+  "generated_utc": "2026-11-17T01:00:48.705212+00:00",
+  "count": 1648,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -26127,7 +26127,327 @@
       "full_bytes": 68047,
       "width": 1246,
       "height": 613
+    },
+    {
+      "id": "63584a2b90eaa07a",
+      "title": "sunscale adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_adult.png",
+      "original_bytes": 55955,
+      "full": "assets/gallery/full/63584a2b90eaa07a.jpg",
+      "thumb": "assets/gallery/thumb/63584a2b90eaa07a.jpg",
+      "full_bytes": 9322,
+      "width": 341,
+      "height": 144
+    },
+    {
+      "id": "97d2d56ef68528e5",
+      "title": "sunscale adult l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_adult_l.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_adult_l.png",
+      "original_bytes": 213445,
+      "full": "assets/gallery/full/97d2d56ef68528e5.jpg",
+      "thumb": "assets/gallery/thumb/97d2d56ef68528e5.jpg",
+      "full_bytes": 31571,
+      "width": 640,
+      "height": 299
+    },
+    {
+      "id": "d5e1d9320a3b90db",
+      "title": "sunscale adult r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_adult_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_adult_r.png",
+      "original_bytes": 204821,
+      "full": "assets/gallery/full/d5e1d9320a3b90db.jpg",
+      "thumb": "assets/gallery/thumb/d5e1d9320a3b90db.jpg",
+      "full_bytes": 30433,
+      "width": 639,
+      "height": 269
+    },
+    {
+      "id": "0c0895f5dae7c7e3",
+      "title": "sunscale baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_baby.png",
+      "original_bytes": 13391,
+      "full": "assets/gallery/full/0c0895f5dae7c7e3.jpg",
+      "thumb": "assets/gallery/thumb/0c0895f5dae7c7e3.jpg",
+      "full_bytes": 3183,
+      "width": 141,
+      "height": 72
+    },
+    {
+      "id": "09e71560f2f8825e",
+      "title": "sunscale baby l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_baby_l.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_baby_l.png",
+      "original_bytes": 141833,
+      "full": "assets/gallery/full/09e71560f2f8825e.jpg",
+      "thumb": "assets/gallery/thumb/09e71560f2f8825e.jpg",
+      "full_bytes": 20015,
+      "width": 640,
+      "height": 217
+    },
+    {
+      "id": "65bd2580074d3e7c",
+      "title": "sunscale baby r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_baby_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_baby_r.png",
+      "original_bytes": 162835,
+      "full": "assets/gallery/full/65bd2580074d3e7c.jpg",
+      "thumb": "assets/gallery/thumb/65bd2580074d3e7c.jpg",
+      "full_bytes": 22725,
+      "width": 640,
+      "height": 193
+    },
+    {
+      "id": "6dbb51eb9ae2413c",
+      "title": "sunscale child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_child.png",
+      "original_bytes": 36160,
+      "full": "assets/gallery/full/6dbb51eb9ae2413c.jpg",
+      "thumb": "assets/gallery/thumb/6dbb51eb9ae2413c.jpg",
+      "full_bytes": 6804,
+      "width": 247,
+      "height": 121
+    },
+    {
+      "id": "e16dd6688f2002be",
+      "title": "sunscale child l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_child_l.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_child_l.png",
+      "original_bytes": 214959,
+      "full": "assets/gallery/full/e16dd6688f2002be.jpg",
+      "thumb": "assets/gallery/thumb/e16dd6688f2002be.jpg",
+      "full_bytes": 31941,
+      "width": 640,
+      "height": 249
+    },
+    {
+      "id": "fbf80b0189bedad7",
+      "title": "sunscale child r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_child_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_child_r.png",
+      "original_bytes": 198894,
+      "full": "assets/gallery/full/fbf80b0189bedad7.jpg",
+      "thumb": "assets/gallery/thumb/fbf80b0189bedad7.jpg",
+      "full_bytes": 28750,
+      "width": 640,
+      "height": 257
+    },
+    {
+      "id": "a4991b8ac03e5365",
+      "title": "sunscale elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_elder.png",
+      "original_bytes": 64061,
+      "full": "assets/gallery/full/a4991b8ac03e5365.jpg",
+      "thumb": "assets/gallery/thumb/a4991b8ac03e5365.jpg",
+      "full_bytes": 10816,
+      "width": 360,
+      "height": 144
+    },
+    {
+      "id": "168f1e92044a0f8c",
+      "title": "sunscale infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_infant.png",
+      "original_bytes": 23312,
+      "full": "assets/gallery/full/168f1e92044a0f8c.jpg",
+      "thumb": "assets/gallery/thumb/168f1e92044a0f8c.jpg",
+      "full_bytes": 4717,
+      "width": 195,
+      "height": 97
+    },
+    {
+      "id": "01155a9e33a527fb",
+      "title": "sunscale teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "sunscale_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "sunscale_teen.png",
+      "original_bytes": 33379,
+      "full": "assets/gallery/full/01155a9e33a527fb.jpg",
+      "thumb": "assets/gallery/thumb/01155a9e33a527fb.jpg",
+      "full_bytes": 6332,
+      "width": 285,
+      "height": 104
+    },
+    {
+      "id": "e3aab06f3a817e26",
+      "title": "tusk r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tusk_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "tusk_r.png",
+      "original_bytes": 978834,
+      "full": "assets/gallery/full/e3aab06f3a817e26.jpg",
+      "thumb": "assets/gallery/thumb/e3aab06f3a817e26.jpg",
+      "full_bytes": 104835,
+      "width": 1150,
+      "height": 537
+    },
+    {
+      "id": "245e65e389ac729f",
+      "title": "tusk r swim",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "tusk_r_swim.png",
+      "source_root": "Publish Portal",
+      "original_name": "tusk_r_swim.png",
+      "original_bytes": 917988,
+      "full": "assets/gallery/full/245e65e389ac729f.jpg",
+      "thumb": "assets/gallery/thumb/245e65e389ac729f.jpg",
+      "full_bytes": 92192,
+      "width": 1153,
+      "height": 487
+    },
+    {
+      "id": "3dcc762b0024c582",
+      "title": "veil adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_adult.png",
+      "original_bytes": 73283,
+      "full": "assets/gallery/full/3dcc762b0024c582.jpg",
+      "thumb": "assets/gallery/thumb/3dcc762b0024c582.jpg",
+      "full_bytes": 12371,
+      "width": 203,
+      "height": 360
+    },
+    {
+      "id": "10dfe550a718f2db",
+      "title": "veil baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_baby.png",
+      "original_bytes": 12643,
+      "full": "assets/gallery/full/10dfe550a718f2db.jpg",
+      "thumb": "assets/gallery/thumb/10dfe550a718f2db.jpg",
+      "full_bytes": 2781,
+      "width": 113,
+      "height": 72
+    },
+    {
+      "id": "1334238600ef6703",
+      "title": "veil child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_child.png",
+      "original_bytes": 44559,
+      "full": "assets/gallery/full/1334238600ef6703.jpg",
+      "thumb": "assets/gallery/thumb/1334238600ef6703.jpg",
+      "full_bytes": 7806,
+      "width": 158,
+      "height": 259
+    },
+    {
+      "id": "2760bf5d6da0d9e6",
+      "title": "veil elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_elder.png",
+      "original_bytes": 68876,
+      "full": "assets/gallery/full/2760bf5d6da0d9e6.jpg",
+      "thumb": "assets/gallery/thumb/2760bf5d6da0d9e6.jpg",
+      "full_bytes": 11839,
+      "width": 200,
+      "height": 334
+    },
+    {
+      "id": "b401079d97a6445f",
+      "title": "veil infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_infant.png",
+      "original_bytes": 31573,
+      "full": "assets/gallery/full/b401079d97a6445f.jpg",
+      "thumb": "assets/gallery/thumb/b401079d97a6445f.jpg",
+      "full_bytes": 5760,
+      "width": 147,
+      "height": 178
+    },
+    {
+      "id": "e57bb5c264419ac4",
+      "title": "veil teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "veil_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "veil_teen.png",
+      "original_bytes": 45457,
+      "full": "assets/gallery/full/e57bb5c264419ac4.jpg",
+      "thumb": "assets/gallery/thumb/e57bb5c264419ac4.jpg",
+      "full_bytes": 8105,
+      "width": 158,
+      "height": 287
     }
   ],
-  "cache_bust": "1628-auto-202611161900"
+  "cache_bust": "1648-auto-202611161900"
 }
