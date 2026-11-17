@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-17T00:58:29.797063+00:00",
-  "count": 1574,
+  "generated_utc": "2026-11-17T00:58:47.536664+00:00",
+  "count": 1592,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -25263,7 +25263,295 @@
       "full_bytes": 8961,
       "width": 283,
       "height": 169
+    },
+    {
+      "id": "30697f3760843e93",
+      "title": "cinder adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cinder_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "cinder_adult.png",
+      "original_bytes": 267684,
+      "full": "assets/gallery/full/30697f3760843e93.jpg",
+      "thumb": "assets/gallery/thumb/30697f3760843e93.jpg",
+      "full_bytes": 36130,
+      "width": 569,
+      "height": 280
+    },
+    {
+      "id": "de3691b0f7fa364d",
+      "title": "cinder baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "cinder_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "cinder_baby.png",
+      "original_bytes": 330092,
+      "full": "assets/gallery/full/de3691b0f7fa364d.jpg",
+      "thumb": "assets/gallery/thumb/de3691b0f7fa364d.jpg",
+      "full_bytes": 40554,
+      "width": 720,
+      "height": 279
+    },
+    {
+      "id": "f3007afc97c3392e",
+      "title": "claw l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "claw_l.png",
+      "source_root": "Publish Portal",
+      "original_name": "claw_l.png",
+      "original_bytes": 302345,
+      "full": "assets/gallery/full/f3007afc97c3392e.jpg",
+      "thumb": "assets/gallery/thumb/f3007afc97c3392e.jpg",
+      "full_bytes": 38839,
+      "width": 734,
+      "height": 340
+    },
+    {
+      "id": "4269e1024bb31b3c",
+      "title": "claw l walk",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "claw_l_walk.png",
+      "source_root": "Publish Portal",
+      "original_name": "claw_l_walk.png",
+      "original_bytes": 316658,
+      "full": "assets/gallery/full/4269e1024bb31b3c.jpg",
+      "thumb": "assets/gallery/thumb/4269e1024bb31b3c.jpg",
+      "full_bytes": 39888,
+      "width": 741,
+      "height": 340
+    },
+    {
+      "id": "81ca4a3d6e9e0658",
+      "title": "claw r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "claw_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "claw_r.png",
+      "original_bytes": 312347,
+      "full": "assets/gallery/full/81ca4a3d6e9e0658.jpg",
+      "thumb": "assets/gallery/thumb/81ca4a3d6e9e0658.jpg",
+      "full_bytes": 38976,
+      "width": 727,
+      "height": 340
+    },
+    {
+      "id": "7ab1cb7272749b4b",
+      "title": "claw r walk",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "claw_r_walk.png",
+      "source_root": "Publish Portal",
+      "original_name": "claw_r_walk.png",
+      "original_bytes": 322453,
+      "full": "assets/gallery/full/7ab1cb7272749b4b.jpg",
+      "thumb": "assets/gallery/thumb/7ab1cb7272749b4b.jpg",
+      "full_bytes": 39561,
+      "width": 714,
+      "height": 340
+    },
+    {
+      "id": "4fd56245e309cf87",
+      "title": "crab l",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crab_l.png",
+      "source_root": "Publish Portal",
+      "original_name": "crab_l.png",
+      "original_bytes": 302440,
+      "full": "assets/gallery/full/4fd56245e309cf87.jpg",
+      "thumb": "assets/gallery/thumb/4fd56245e309cf87.jpg",
+      "full_bytes": 41402,
+      "width": 743,
+      "height": 340
+    },
+    {
+      "id": "487e062f616fd1a3",
+      "title": "crab l walk",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crab_l_walk.png",
+      "source_root": "Publish Portal",
+      "original_name": "crab_l_walk.png",
+      "original_bytes": 315498,
+      "full": "assets/gallery/full/487e062f616fd1a3.jpg",
+      "thumb": "assets/gallery/thumb/487e062f616fd1a3.jpg",
+      "full_bytes": 42981,
+      "width": 742,
+      "height": 340
+    },
+    {
+      "id": "3b2223c34eb98fb5",
+      "title": "crab r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crab_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "crab_r.png",
+      "original_bytes": 280377,
+      "full": "assets/gallery/full/3b2223c34eb98fb5.jpg",
+      "thumb": "assets/gallery/thumb/3b2223c34eb98fb5.jpg",
+      "full_bytes": 38154,
+      "width": 760,
+      "height": 296
+    },
+    {
+      "id": "e11511159e38b3e3",
+      "title": "crab r walk",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "crab_r_walk.png",
+      "source_root": "Publish Portal",
+      "original_name": "crab_r_walk.png",
+      "original_bytes": 300437,
+      "full": "assets/gallery/full/e11511159e38b3e3.jpg",
+      "thumb": "assets/gallery/thumb/e11511159e38b3e3.jpg",
+      "full_bytes": 40337,
+      "width": 760,
+      "height": 293
+    },
+    {
+      "id": "e05232f1762575cf",
+      "title": "dart adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_adult.png",
+      "original_bytes": 34410,
+      "full": "assets/gallery/full/e05232f1762575cf.jpg",
+      "thumb": "assets/gallery/thumb/e05232f1762575cf.jpg",
+      "full_bytes": 6355,
+      "width": 329,
+      "height": 94
+    },
+    {
+      "id": "b166bd45af4d0091",
+      "title": "dart baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_baby.png",
+      "original_bytes": 9094,
+      "full": "assets/gallery/full/b166bd45af4d0091.jpg",
+      "thumb": "assets/gallery/thumb/b166bd45af4d0091.jpg",
+      "full_bytes": 2389,
+      "width": 112,
+      "height": 63
+    },
+    {
+      "id": "76ef08ca6fe34872",
+      "title": "dart child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_child.png",
+      "original_bytes": 19869,
+      "full": "assets/gallery/full/76ef08ca6fe34872.jpg",
+      "thumb": "assets/gallery/thumb/76ef08ca6fe34872.jpg",
+      "full_bytes": 4095,
+      "width": 219,
+      "height": 79
+    },
+    {
+      "id": "d971bc4f36ec012a",
+      "title": "dart elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_elder.png",
+      "original_bytes": 43278,
+      "full": "assets/gallery/full/d971bc4f36ec012a.jpg",
+      "thumb": "assets/gallery/thumb/d971bc4f36ec012a.jpg",
+      "full_bytes": 7455,
+      "width": 360,
+      "height": 103
+    },
+    {
+      "id": "826d1bd6865ff768",
+      "title": "dart infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_infant.png",
+      "original_bytes": 13063,
+      "full": "assets/gallery/full/826d1bd6865ff768.jpg",
+      "thumb": "assets/gallery/thumb/826d1bd6865ff768.jpg",
+      "full_bytes": 3104,
+      "width": 142,
+      "height": 75
+    },
+    {
+      "id": "ce90a6bd4099e33b",
+      "title": "dart teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dart_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "dart_teen.png",
+      "original_bytes": 23656,
+      "full": "assets/gallery/full/ce90a6bd4099e33b.jpg",
+      "thumb": "assets/gallery/thumb/ce90a6bd4099e33b.jpg",
+      "full_bytes": 4737,
+      "width": 265,
+      "height": 79
+    },
+    {
+      "id": "02bc3134f9f40e66",
+      "title": "dragon r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dragon_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "dragon_r.png",
+      "original_bytes": 890791,
+      "full": "assets/gallery/full/02bc3134f9f40e66.jpg",
+      "thumb": "assets/gallery/thumb/02bc3134f9f40e66.jpg",
+      "full_bytes": 85997,
+      "width": 1202,
+      "height": 606
+    },
+    {
+      "id": "d73bd3c76929d3ae",
+      "title": "dragon r swim",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "dragon_r_swim.png",
+      "source_root": "Publish Portal",
+      "original_name": "dragon_r_swim.png",
+      "original_bytes": 1034133,
+      "full": "assets/gallery/full/d73bd3c76929d3ae.jpg",
+      "thumb": "assets/gallery/thumb/d73bd3c76929d3ae.jpg",
+      "full_bytes": 95719,
+      "width": 1234,
+      "height": 569
     }
   ],
-  "cache_bust": "1574-auto-202611161858"
+  "cache_bust": "1592-auto-202611161858"
 }
