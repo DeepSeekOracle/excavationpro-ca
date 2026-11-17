@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-17T00:58:47.536664+00:00",
-  "count": 1592,
+  "generated_utc": "2026-11-17T01:00:10.812942+00:00",
+  "count": 1610,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -25551,7 +25551,295 @@
       "full_bytes": 95719,
       "width": 1234,
       "height": 569
+    },
+    {
+      "id": "60d2b1eeb1cf3b74",
+      "title": "lantern child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lantern_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "lantern_child.png",
+      "original_bytes": 67917,
+      "full": "assets/gallery/full/60d2b1eeb1cf3b74.jpg",
+      "thumb": "assets/gallery/thumb/60d2b1eeb1cf3b74.jpg",
+      "full_bytes": 9941,
+      "width": 212,
+      "height": 272
+    },
+    {
+      "id": "677ec393eaf17b97",
+      "title": "lantern elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lantern_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "lantern_elder.png",
+      "original_bytes": 75136,
+      "full": "assets/gallery/full/677ec393eaf17b97.jpg",
+      "thumb": "assets/gallery/thumb/677ec393eaf17b97.jpg",
+      "full_bytes": 11400,
+      "width": 220,
+      "height": 298
+    },
+    {
+      "id": "e187554b61741cdc",
+      "title": "lantern infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lantern_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "lantern_infant.png",
+      "original_bytes": 38642,
+      "full": "assets/gallery/full/e187554b61741cdc.jpg",
+      "thumb": "assets/gallery/thumb/e187554b61741cdc.jpg",
+      "full_bytes": 6251,
+      "width": 184,
+      "height": 175
+    },
+    {
+      "id": "05e906fafc8bd6f7",
+      "title": "lantern teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "lantern_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "lantern_teen.png",
+      "original_bytes": 41178,
+      "full": "assets/gallery/full/05e906fafc8bd6f7.jpg",
+      "thumb": "assets/gallery/thumb/05e906fafc8bd6f7.jpg",
+      "full_bytes": 6260,
+      "width": 360,
+      "height": 120
+    },
+    {
+      "id": "3a6075052b321ced",
+      "title": "mandarin r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mandarin_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "mandarin_r.png",
+      "original_bytes": 1205391,
+      "full": "assets/gallery/full/3a6075052b321ced.jpg",
+      "thumb": "assets/gallery/thumb/3a6075052b321ced.jpg",
+      "full_bytes": 108938,
+      "width": 1109,
+      "height": 635
+    },
+    {
+      "id": "cc6e2c8ba62f944d",
+      "title": "mandarin r swim",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mandarin_r_swim.png",
+      "source_root": "Publish Portal",
+      "original_name": "mandarin_r_swim.png",
+      "original_bytes": 1101956,
+      "full": "assets/gallery/full/cc6e2c8ba62f944d.jpg",
+      "thumb": "assets/gallery/thumb/cc6e2c8ba62f944d.jpg",
+      "full_bytes": 94547,
+      "width": 1113,
+      "height": 603
+    },
+    {
+      "id": "0da3a4c0c7c08241",
+      "title": "mask r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mask_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "mask_r.png",
+      "original_bytes": 709475,
+      "full": "assets/gallery/full/0da3a4c0c7c08241.jpg",
+      "thumb": "assets/gallery/thumb/0da3a4c0c7c08241.jpg",
+      "full_bytes": 74724,
+      "width": 938,
+      "height": 629
+    },
+    {
+      "id": "e41c8ae8deaf7672",
+      "title": "mask r swim",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "mask_r_swim.png",
+      "source_root": "Publish Portal",
+      "original_name": "mask_r_swim.png",
+      "original_bytes": 698663,
+      "full": "assets/gallery/full/e41c8ae8deaf7672.jpg",
+      "thumb": "assets/gallery/thumb/e41c8ae8deaf7672.jpg",
+      "full_bytes": 72508,
+      "width": 955,
+      "height": 641
+    },
+    {
+      "id": "25a20ef6f9286b3a",
+      "title": "moss adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_adult.png",
+      "original_bytes": 73114,
+      "full": "assets/gallery/full/25a20ef6f9286b3a.jpg",
+      "thumb": "assets/gallery/thumb/25a20ef6f9286b3a.jpg",
+      "full_bytes": 10328,
+      "width": 164,
+      "height": 340
+    },
+    {
+      "id": "dcc68fba6f0a3a34",
+      "title": "moss baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_baby.png",
+      "original_bytes": 35342,
+      "full": "assets/gallery/full/dcc68fba6f0a3a34.jpg",
+      "thumb": "assets/gallery/thumb/dcc68fba6f0a3a34.jpg",
+      "full_bytes": 3762,
+      "width": 253,
+      "height": 133
+    },
+    {
+      "id": "6c614c616c8686bf",
+      "title": "moss child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_child.png",
+      "original_bytes": 37554,
+      "full": "assets/gallery/full/6c614c616c8686bf.jpg",
+      "thumb": "assets/gallery/thumb/6c614c616c8686bf.jpg",
+      "full_bytes": 5592,
+      "width": 111,
+      "height": 236
+    },
+    {
+      "id": "18f81ea3f373952e",
+      "title": "moss elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_elder.png",
+      "original_bytes": 85287,
+      "full": "assets/gallery/full/18f81ea3f373952e.jpg",
+      "thumb": "assets/gallery/thumb/18f81ea3f373952e.jpg",
+      "full_bytes": 12135,
+      "width": 165,
+      "height": 360
+    },
+    {
+      "id": "f0b5d5e65566c558",
+      "title": "moss infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_infant.png",
+      "original_bytes": 29497,
+      "full": "assets/gallery/full/f0b5d5e65566c558.jpg",
+      "thumb": "assets/gallery/thumb/f0b5d5e65566c558.jpg",
+      "full_bytes": 4574,
+      "width": 121,
+      "height": 188
+    },
+    {
+      "id": "f08da6a12b5acd6d",
+      "title": "moss teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "moss_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "moss_teen.png",
+      "original_bytes": 44601,
+      "full": "assets/gallery/full/f08da6a12b5acd6d.jpg",
+      "thumb": "assets/gallery/thumb/f08da6a12b5acd6d.jpg",
+      "full_bytes": 6542,
+      "width": 116,
+      "height": 281
+    },
+    {
+      "id": "bde74d304fda34cc",
+      "title": "octo r",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "octo_r.png",
+      "source_root": "Publish Portal",
+      "original_name": "octo_r.png",
+      "original_bytes": 901720,
+      "full": "assets/gallery/full/bde74d304fda34cc.jpg",
+      "thumb": "assets/gallery/thumb/bde74d304fda34cc.jpg",
+      "full_bytes": 74455,
+      "width": 1154,
+      "height": 551
+    },
+    {
+      "id": "e01bdb8c42cbb344",
+      "title": "octo r swim",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "octo_r_swim.png",
+      "source_root": "Publish Portal",
+      "original_name": "octo_r_swim.png",
+      "original_bytes": 482321,
+      "full": "assets/gallery/full/e01bdb8c42cbb344.jpg",
+      "thumb": "assets/gallery/thumb/e01bdb8c42cbb344.jpg",
+      "full_bytes": 49077,
+      "width": 1237,
+      "height": 272
+    },
+    {
+      "id": "2de5eb506de12016",
+      "title": "pearl adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "pearl_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "pearl_adult.png",
+      "original_bytes": 109492,
+      "full": "assets/gallery/full/2de5eb506de12016.jpg",
+      "thumb": "assets/gallery/thumb/2de5eb506de12016.jpg",
+      "full_bytes": 18071,
+      "width": 360,
+      "height": 204
+    },
+    {
+      "id": "836f5e58163812a7",
+      "title": "pearl baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "pearl_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "pearl_baby.png",
+      "original_bytes": 19261,
+      "full": "assets/gallery/full/836f5e58163812a7.jpg",
+      "thumb": "assets/gallery/thumb/836f5e58163812a7.jpg",
+      "full_bytes": 4013,
+      "width": 179,
+      "height": 73
     }
   ],
-  "cache_bust": "1592-auto-202611161858"
+  "cache_bust": "1610-auto-202611161900"
 }
