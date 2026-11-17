@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-17T01:00:10.812942+00:00",
-  "count": 1610,
+  "generated_utc": "2026-11-17T01:00:34.817051+00:00",
+  "count": 1628,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -25839,7 +25839,295 @@
       "full_bytes": 4013,
       "width": 179,
       "height": 73
+    },
+    {
+      "id": "6025b2e706b9fc85",
+      "title": "pike adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "pike_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "pike_adult.png",
+      "original_bytes": 235379,
+      "full": "assets/gallery/full/6025b2e706b9fc85.jpg",
+      "thumb": "assets/gallery/thumb/6025b2e706b9fc85.jpg",
+      "full_bytes": 30817,
+      "width": 720,
+      "height": 201
+    },
+    {
+      "id": "36addca660c30236",
+      "title": "pike baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "pike_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "pike_baby.png",
+      "original_bytes": 152967,
+      "full": "assets/gallery/full/36addca660c30236.jpg",
+      "thumb": "assets/gallery/thumb/36addca660c30236.jpg",
+      "full_bytes": 20449,
+      "width": 720,
+      "height": 160
+    },
+    {
+      "id": "c8165b891d8c8574",
+      "title": "puff adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_adult.png",
+      "original_bytes": 251889,
+      "full": "assets/gallery/full/c8165b891d8c8574.jpg",
+      "thumb": "assets/gallery/thumb/c8165b891d8c8574.jpg",
+      "full_bytes": 29793,
+      "width": 496,
+      "height": 360
+    },
+    {
+      "id": "e2a07a5567fac637",
+      "title": "puff baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_baby.png",
+      "original_bytes": 60114,
+      "full": "assets/gallery/full/e2a07a5567fac637.jpg",
+      "thumb": "assets/gallery/thumb/e2a07a5567fac637.jpg",
+      "full_bytes": 8161,
+      "width": 272,
+      "height": 201
+    },
+    {
+      "id": "52032352640ef479",
+      "title": "puff child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_child.png",
+      "original_bytes": 179781,
+      "full": "assets/gallery/full/52032352640ef479.jpg",
+      "thumb": "assets/gallery/thumb/52032352640ef479.jpg",
+      "full_bytes": 20051,
+      "width": 427,
+      "height": 307
+    },
+    {
+      "id": "19ddb45f942e10d9",
+      "title": "puff elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_elder.png",
+      "original_bytes": 160929,
+      "full": "assets/gallery/full/19ddb45f942e10d9.jpg",
+      "thumb": "assets/gallery/thumb/19ddb45f942e10d9.jpg",
+      "full_bytes": 20330,
+      "width": 410,
+      "height": 284
+    },
+    {
+      "id": "201361a86c58be61",
+      "title": "puff infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_infant.png",
+      "original_bytes": 123793,
+      "full": "assets/gallery/full/201361a86c58be61.jpg",
+      "thumb": "assets/gallery/thumb/201361a86c58be61.jpg",
+      "full_bytes": 16282,
+      "width": 357,
+      "height": 258
+    },
+    {
+      "id": "67c43fe03523ca08",
+      "title": "puff teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "puff_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "puff_teen.png",
+      "original_bytes": 144368,
+      "full": "assets/gallery/full/67c43fe03523ca08.jpg",
+      "thumb": "assets/gallery/thumb/67c43fe03523ca08.jpg",
+      "full_bytes": 18982,
+      "width": 484,
+      "height": 215
+    },
+    {
+      "id": "f7368022719781ba",
+      "title": "ruby adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_adult.png",
+      "original_bytes": 177192,
+      "full": "assets/gallery/full/f7368022719781ba.jpg",
+      "thumb": "assets/gallery/thumb/f7368022719781ba.jpg",
+      "full_bytes": 18490,
+      "width": 290,
+      "height": 360
+    },
+    {
+      "id": "6f475d030da9cec2",
+      "title": "ruby baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_baby.png",
+      "original_bytes": 44060,
+      "full": "assets/gallery/full/6f475d030da9cec2.jpg",
+      "thumb": "assets/gallery/thumb/6f475d030da9cec2.jpg",
+      "full_bytes": 5441,
+      "width": 157,
+      "height": 171
+    },
+    {
+      "id": "f5eeadb72c15b972",
+      "title": "ruby child",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_child.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_child.png",
+      "original_bytes": 132978,
+      "full": "assets/gallery/full/f5eeadb72c15b972.jpg",
+      "thumb": "assets/gallery/thumb/f5eeadb72c15b972.jpg",
+      "full_bytes": 14582,
+      "width": 256,
+      "height": 317
+    },
+    {
+      "id": "1eb3c80019db779b",
+      "title": "ruby elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_elder.png",
+      "original_bytes": 165350,
+      "full": "assets/gallery/full/1eb3c80019db779b.jpg",
+      "thumb": "assets/gallery/thumb/1eb3c80019db779b.jpg",
+      "full_bytes": 22776,
+      "width": 270,
+      "height": 344
+    },
+    {
+      "id": "844ff8e2d5fd9f3c",
+      "title": "ruby infant",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_infant.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_infant.png",
+      "original_bytes": 83729,
+      "full": "assets/gallery/full/844ff8e2d5fd9f3c.jpg",
+      "thumb": "assets/gallery/thumb/844ff8e2d5fd9f3c.jpg",
+      "full_bytes": 9047,
+      "width": 206,
+      "height": 237
+    },
+    {
+      "id": "9444d13034632521",
+      "title": "ruby teen",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ruby_teen.png",
+      "source_root": "Publish Portal",
+      "original_name": "ruby_teen.png",
+      "original_bytes": 75929,
+      "full": "assets/gallery/full/9444d13034632521.jpg",
+      "thumb": "assets/gallery/thumb/9444d13034632521.jpg",
+      "full_bytes": 9202,
+      "width": 159,
+      "height": 326
+    },
+    {
+      "id": "afda7f0e5ad0abc5",
+      "title": "shark adult",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shark_adult.png",
+      "source_root": "Publish Portal",
+      "original_name": "shark_adult.png",
+      "original_bytes": 482516,
+      "full": "assets/gallery/full/afda7f0e5ad0abc5.jpg",
+      "thumb": "assets/gallery/thumb/afda7f0e5ad0abc5.jpg",
+      "full_bytes": 37275,
+      "width": 1224,
+      "height": 403
+    },
+    {
+      "id": "7a75a911270df740",
+      "title": "shark baby",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shark_baby.png",
+      "source_root": "Publish Portal",
+      "original_name": "shark_baby.png",
+      "original_bytes": 502572,
+      "full": "assets/gallery/full/7a75a911270df740.jpg",
+      "thumb": "assets/gallery/thumb/7a75a911270df740.jpg",
+      "full_bytes": 40633,
+      "width": 1200,
+      "height": 361
+    },
+    {
+      "id": "75bb4a7726bb69ff",
+      "title": "shark elder",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shark_elder.png",
+      "source_root": "Publish Portal",
+      "original_name": "shark_elder.png",
+      "original_bytes": 805576,
+      "full": "assets/gallery/full/75bb4a7726bb69ff.jpg",
+      "thumb": "assets/gallery/thumb/75bb4a7726bb69ff.jpg",
+      "full_bytes": 63584,
+      "width": 1255,
+      "height": 592
+    },
+    {
+      "id": "6ffc17afacae0009",
+      "title": "shark elder stalk",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "shark_elder_stalk.png",
+      "source_root": "Publish Portal",
+      "original_name": "shark_elder_stalk.png",
+      "original_bytes": 829374,
+      "full": "assets/gallery/full/6ffc17afacae0009.jpg",
+      "thumb": "assets/gallery/thumb/6ffc17afacae0009.jpg",
+      "full_bytes": 68047,
+      "width": 1246,
+      "height": 613
     }
   ],
-  "cache_bust": "1610-auto-202611161900"
+  "cache_bust": "1628-auto-202611161900"
 }
