@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>GTA 6 Launch Secrets</title>
+    <link>https://excavationpro.ca/signal/gta-6-launch-secrets/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-launch-secrets/</guid>
+    <pubDate>Wed, 18 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and callers from Miami, Dublin, and Toronto unpack the most exclusive day-one secrets, hidden gameplay mechanics, and bizarre Easter eggs in Grand Theft Auto VI. From stashing cash under floorboards and back-door heists to jet-skiing rescue dogs and literal Easter eggs, here is everything you need to survive Leonida.</description>
+    <itunes:duration>15:37</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/gta-6-launch-secrets/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/gta-6-launch-secrets/ai_radio.mp3" length="22510280" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Leonida After Midnight: GTA 6 Secrets</title>
     <link>https://excavationpro.ca/signal/leonida-after-midnight-gta-6-secrets/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/leonida-after-midnight-gta-6-secrets/</guid>
