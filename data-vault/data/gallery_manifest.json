@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-18T00:54:58.348474+00:00",
-  "count": 1697,
+  "generated_utc": "2026-11-18T01:07:37.862698+00:00",
+  "count": 1709,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -27231,7 +27231,199 @@
       "full_bytes": 157716,
       "width": 1280,
       "height": 720
+    },
+    {
+      "id": "f8cbf2ca76ff735b",
+      "title": "arkos close f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-close-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-close-f00.png",
+      "original_bytes": 744845,
+      "full": "assets/gallery/full/f8cbf2ca76ff735b.jpg",
+      "thumb": "assets/gallery/thumb/f8cbf2ca76ff735b.jpg",
+      "full_bytes": 99184,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "ada8d3cb84e20c61",
+      "title": "arkos dash f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-dash-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-dash-f00.png",
+      "original_bytes": 821490,
+      "full": "assets/gallery/full/ada8d3cb84e20c61.jpg",
+      "thumb": "assets/gallery/thumb/ada8d3cb84e20c61.jpg",
+      "full_bytes": 105548,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "7eea74f4465e7720",
+      "title": "arkos death f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-death-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-death-f00.png",
+      "original_bytes": 478013,
+      "full": "assets/gallery/full/7eea74f4465e7720.jpg",
+      "thumb": "assets/gallery/thumb/7eea74f4465e7720.jpg",
+      "full_bytes": 68722,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "e69203bcce9a5e93",
+      "title": "arkos geodesic f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-geodesic-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-geodesic-f01.png",
+      "original_bytes": 640623,
+      "full": "assets/gallery/full/e69203bcce9a5e93.jpg",
+      "thumb": "assets/gallery/thumb/e69203bcce9a5e93.jpg",
+      "full_bytes": 89897,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "3ca346f3238f8d62",
+      "title": "arkos line f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-line-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-line-f01.png",
+      "original_bytes": 736699,
+      "full": "assets/gallery/full/3ca346f3238f8d62.jpg",
+      "thumb": "assets/gallery/thumb/3ca346f3238f8d62.jpg",
+      "full_bytes": 96145,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "f1e232fb5529edf0",
+      "title": "arkos thrust f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-thrust-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-thrust-f01.png",
+      "original_bytes": 785826,
+      "full": "assets/gallery/full/f1e232fb5529edf0.jpg",
+      "thumb": "assets/gallery/thumb/f1e232fb5529edf0.jpg",
+      "full_bytes": 100338,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "5a6557ef92486caf",
+      "title": "arkos walk f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-walk-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-walk-f00.png",
+      "original_bytes": 715396,
+      "full": "assets/gallery/full/5a6557ef92486caf.jpg",
+      "thumb": "assets/gallery/thumb/5a6557ef92486caf.jpg",
+      "full_bytes": 97534,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "e3a5c860f68fbf8c",
+      "title": "arkos walk f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-walk-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-walk-f01.png",
+      "original_bytes": 706076,
+      "full": "assets/gallery/full/e3a5c860f68fbf8c.jpg",
+      "thumb": "assets/gallery/thumb/e3a5c860f68fbf8c.jpg",
+      "full_bytes": 96104,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "01016bbe6ace4a4f",
+      "title": "arkos walk f02",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-walk-f02.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-walk-f02.png",
+      "original_bytes": 730186,
+      "full": "assets/gallery/full/01016bbe6ace4a4f.jpg",
+      "thumb": "assets/gallery/thumb/01016bbe6ace4a4f.jpg",
+      "full_bytes": 98800,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "eeffc6baffd39aae",
+      "title": "arkos walk f03",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-walk-f03.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-walk-f03.png",
+      "original_bytes": 707462,
+      "full": "assets/gallery/full/eeffc6baffd39aae.jpg",
+      "thumb": "assets/gallery/thumb/eeffc6baffd39aae.jpg",
+      "full_bytes": 96346,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "571cc1a30398eda1",
+      "title": "arkos win f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos-win-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos-win-f00.png",
+      "original_bytes": 419511,
+      "full": "assets/gallery/full/571cc1a30398eda1.jpg",
+      "thumb": "assets/gallery/thumb/571cc1a30398eda1.jpg",
+      "full_bytes": 60444,
+      "width": 1208,
+      "height": 1086
+    },
+    {
+      "id": "7e9da5b7d70ff6d6",
+      "title": "arkos",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "arkos.png",
+      "source_root": "Publish Portal",
+      "original_name": "arkos.png",
+      "original_bytes": 695826,
+      "full": "assets/gallery/full/7e9da5b7d70ff6d6.jpg",
+      "thumb": "assets/gallery/thumb/7e9da5b7d70ff6d6.jpg",
+      "full_bytes": 96515,
+      "width": 1208,
+      "height": 1086
     }
   ],
-  "cache_bust": "1697-auto-202611171854"
+  "cache_bust": "1709-auto-202611171907"
 }
