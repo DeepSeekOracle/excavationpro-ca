@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-17T01:00:48.705212+00:00",
-  "count": 1648,
+  "generated_utc": "2026-11-18T00:53:23.679455+00:00",
+  "count": 1653,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -26447,7 +26447,87 @@
       "full_bytes": 8105,
       "width": 158,
       "height": 287
+    },
+    {
+      "id": "0219fbc14d8cf068",
+      "title": "armour",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "armour.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "armour.jpg",
+      "original_bytes": 38785,
+      "full": "assets/gallery/full/0219fbc14d8cf068.jpg",
+      "thumb": "assets/gallery/thumb/0219fbc14d8cf068.jpg",
+      "full_bytes": 36906,
+      "width": 768,
+      "height": 512
+    },
+    {
+      "id": "3b0ccd329c350721",
+      "title": "explosive",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "explosive.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "explosive.jpg",
+      "original_bytes": 56636,
+      "full": "assets/gallery/full/3b0ccd329c350721.jpg",
+      "thumb": "assets/gallery/thumb/3b0ccd329c350721.jpg",
+      "full_bytes": 53593,
+      "width": 768,
+      "height": 512
+    },
+    {
+      "id": "62e72c6466627bf3",
+      "title": "light",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "light.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "light.jpg",
+      "original_bytes": 37371,
+      "full": "assets/gallery/full/62e72c6466627bf3.jpg",
+      "thumb": "assets/gallery/thumb/62e72c6466627bf3.jpg",
+      "full_bytes": 35220,
+      "width": 768,
+      "height": 512
+    },
+    {
+      "id": "b22d72295bdcb063",
+      "title": "logistics",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "logistics.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "logistics.jpg",
+      "original_bytes": 42506,
+      "full": "assets/gallery/full/b22d72295bdcb063.jpg",
+      "thumb": "assets/gallery/thumb/b22d72295bdcb063.jpg",
+      "full_bytes": 40061,
+      "width": 768,
+      "height": 512
+    },
+    {
+      "id": "cc2804394e7b14f2",
+      "title": "weapon",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "weapon.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "weapon.jpg",
+      "original_bytes": 47962,
+      "full": "assets/gallery/full/cc2804394e7b14f2.jpg",
+      "thumb": "assets/gallery/thumb/cc2804394e7b14f2.jpg",
+      "full_bytes": 45597,
+      "width": 768,
+      "height": 512
     }
   ],
-  "cache_bust": "1648-auto-202611161900"
+  "cache_bust": "1653-auto-202611171853"
 }
