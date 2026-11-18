@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Leonida After Midnight: GTA 6 Secrets</title>
+    <link>https://excavationpro.ca/signal/leonida-after-midnight-gta-6-secrets/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/leonida-after-midnight-gta-6-secrets/</guid>
+    <pubDate>Wed, 18 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and late-night callers from Miami, Auckland, and Manchester uncover Grand Theft Auto 6's strangest launch-day secrets, from Bigfoot in Gulley Marsh to a literal Easter egg atop Vice City's tallest tower. Together they explore hidden mechanics, readable Red Dead Redemption nods, and the bizarre challenges required to unlock cheat codes.</description>
+    <itunes:duration>17:00</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/leonida-after-midnight-gta-6-secrets/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/leonida-after-midnight-gta-6-secrets/ai_radio.mp3" length="24501438" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Excavationpro: Inside the Lyric Vault</title>
     <link>https://excavationpro.ca/signal/excavationpro-inside-the-lyric-vault/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/excavationpro-inside-the-lyric-vault/</guid>

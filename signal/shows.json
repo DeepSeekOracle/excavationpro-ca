@@ -2,8 +2,24 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-10-25",
+ "updated": "2026-11-18",
  "shows": [
+  {
+   "slug": "leonida-after-midnight-gta-6-secrets",
+   "title": "Leonida After Midnight: GTA 6 Secrets",
+   "page": "https://excavationpro.ca/signal/leonida-after-midnight-gta-6-secrets/",
+   "audio": "https://excavationpro.ca/signal/shows/leonida-after-midnight-gta-6-secrets/ai_radio.mp3",
+   "duration": "17:00",
+   "seconds": 1020.83,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Liam",
+    "Devon"
+   ],
+   "date": "2026-11-18",
+   "desk": "gta-6"
+  },
   {
    "slug": "excavationpro-inside-the-lyric-vault",
    "title": "Excavationpro: Inside the Lyric Vault",
