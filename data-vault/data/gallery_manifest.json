@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-18T00:53:23.679455+00:00",
-  "count": 1653,
+  "generated_utc": "2026-11-18T00:54:58.348474+00:00",
+  "count": 1697,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -26527,7 +26527,711 @@
       "full_bytes": 45597,
       "width": 768,
       "height": 512
+    },
+    {
+      "id": "d4e69f957c1fba9c",
+      "title": "b5 act1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-act1.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-act1.jpg",
+      "original_bytes": 174376,
+      "full": "assets/gallery/full/d4e69f957c1fba9c.jpg",
+      "thumb": "assets/gallery/thumb/d4e69f957c1fba9c.jpg",
+      "full_bytes": 153841,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "464b723b487c58e2",
+      "title": "b5 act2",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-act2.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-act2.jpg",
+      "original_bytes": 134510,
+      "full": "assets/gallery/full/464b723b487c58e2.jpg",
+      "thumb": "assets/gallery/thumb/464b723b487c58e2.jpg",
+      "full_bytes": 118525,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "b9944dd5aa574af8",
+      "title": "b5 act3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-act3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-act3.jpg",
+      "original_bytes": 225194,
+      "full": "assets/gallery/full/b9944dd5aa574af8.jpg",
+      "thumb": "assets/gallery/thumb/b9944dd5aa574af8.jpg",
+      "full_bytes": 198772,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "f98cb180058d768e",
+      "title": "b5 act4",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-act4.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-act4.jpg",
+      "original_bytes": 149264,
+      "full": "assets/gallery/full/f98cb180058d768e.jpg",
+      "thumb": "assets/gallery/thumb/f98cb180058d768e.jpg",
+      "full_bytes": 132746,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "5744c489e7555d14",
+      "title": "b5 act5",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-act5.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-act5.jpg",
+      "original_bytes": 214243,
+      "full": "assets/gallery/full/5744c489e7555d14.jpg",
+      "thumb": "assets/gallery/thumb/5744c489e7555d14.jpg",
+      "full_bytes": 189734,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "45a2aa6290b1ed08",
+      "title": "b5 int a",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-int-a.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-int-a.jpg",
+      "original_bytes": 85589,
+      "full": "assets/gallery/full/45a2aa6290b1ed08.jpg",
+      "thumb": "assets/gallery/thumb/45a2aa6290b1ed08.jpg",
+      "full_bytes": 67869,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "d06975e11ccdb5a1",
+      "title": "b5 int b",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-int-b.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-int-b.jpg",
+      "original_bytes": 70194,
+      "full": "assets/gallery/full/d06975e11ccdb5a1.jpg",
+      "thumb": "assets/gallery/thumb/d06975e11ccdb5a1.jpg",
+      "full_bytes": 55361,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "a017ab2434ec40ba",
+      "title": "b5 int c",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-int-c.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-int-c.jpg",
+      "original_bytes": 75640,
+      "full": "assets/gallery/full/a017ab2434ec40ba.jpg",
+      "thumb": "assets/gallery/thumb/a017ab2434ec40ba.jpg",
+      "full_bytes": 59510,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "852d9c6e8c987026",
+      "title": "b5 int d",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b5-int-d.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b5-int-d.jpg",
+      "original_bytes": 72897,
+      "full": "assets/gallery/full/852d9c6e8c987026.jpg",
+      "thumb": "assets/gallery/thumb/852d9c6e8c987026.jpg",
+      "full_bytes": 57346,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "f53504c14d27cbbd",
+      "title": "b6 act1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-act1.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-act1.jpg",
+      "original_bytes": 174876,
+      "full": "assets/gallery/full/f53504c14d27cbbd.jpg",
+      "thumb": "assets/gallery/thumb/f53504c14d27cbbd.jpg",
+      "full_bytes": 166183,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "5af7c7c1766da450",
+      "title": "b6 act2",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-act2.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-act2.jpg",
+      "original_bytes": 166545,
+      "full": "assets/gallery/full/5af7c7c1766da450.jpg",
+      "thumb": "assets/gallery/thumb/5af7c7c1766da450.jpg",
+      "full_bytes": 159487,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "7e8f9e0f15909d13",
+      "title": "b6 act3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-act3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-act3.jpg",
+      "original_bytes": 140853,
+      "full": "assets/gallery/full/7e8f9e0f15909d13.jpg",
+      "thumb": "assets/gallery/thumb/7e8f9e0f15909d13.jpg",
+      "full_bytes": 133547,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "d6afb2062bee6ce7",
+      "title": "b6 act4",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-act4.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-act4.jpg",
+      "original_bytes": 139189,
+      "full": "assets/gallery/full/d6afb2062bee6ce7.jpg",
+      "thumb": "assets/gallery/thumb/d6afb2062bee6ce7.jpg",
+      "full_bytes": 133659,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "82b5060b08fb6f8b",
+      "title": "b6 act5",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-act5.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-act5.jpg",
+      "original_bytes": 86844,
+      "full": "assets/gallery/full/82b5060b08fb6f8b.jpg",
+      "thumb": "assets/gallery/thumb/82b5060b08fb6f8b.jpg",
+      "full_bytes": 84308,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "eee7db1571fde5a9",
+      "title": "b6 int1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "b6-int1.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "b6-int1.jpg",
+      "original_bytes": 148393,
+      "full": "assets/gallery/full/eee7db1571fde5a9.jpg",
+      "thumb": "assets/gallery/thumb/eee7db1571fde5a9.jpg",
+      "full_bytes": 143729,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "d02fedc3b3b3ff94",
+      "title": "book 2",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "book-2.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "book-2.jpg",
+      "original_bytes": 163279,
+      "full": "assets/gallery/full/d02fedc3b3b3ff94.jpg",
+      "thumb": "assets/gallery/thumb/d02fedc3b3b3ff94.jpg",
+      "full_bytes": 162811,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "1c2c727d5fb4c437",
+      "title": "book 3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "book-3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "book-3.jpg",
+      "original_bytes": 174408,
+      "full": "assets/gallery/full/1c2c727d5fb4c437.jpg",
+      "thumb": "assets/gallery/thumb/1c2c727d5fb4c437.jpg",
+      "full_bytes": 174326,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "e179a189d6d912e0",
+      "title": "book 4",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "book-4.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "book-4.jpg",
+      "original_bytes": 118804,
+      "full": "assets/gallery/full/e179a189d6d912e0.jpg",
+      "thumb": "assets/gallery/thumb/e179a189d6d912e0.jpg",
+      "full_bytes": 119901,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "66f4b36c5a75905b",
+      "title": "book 5",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "book-5.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "book-5.jpg",
+      "original_bytes": 186238,
+      "full": "assets/gallery/full/66f4b36c5a75905b.jpg",
+      "thumb": "assets/gallery/thumb/66f4b36c5a75905b.jpg",
+      "full_bytes": 192796,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "e0b2bf107e71e3eb",
+      "title": "book 6",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "book-6.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "book-6.jpg",
+      "original_bytes": 206309,
+      "full": "assets/gallery/full/e0b2bf107e71e3eb.jpg",
+      "thumb": "assets/gallery/thumb/e0b2bf107e71e3eb.jpg",
+      "full_bytes": 162632,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "f9404d25e4414a25",
+      "title": "ch01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch01.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch01.jpg",
+      "original_bytes": 199729,
+      "full": "assets/gallery/full/f9404d25e4414a25.jpg",
+      "thumb": "assets/gallery/thumb/f9404d25e4414a25.jpg",
+      "full_bytes": 198116,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "06ee430b14b10e51",
+      "title": "ch02",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch02.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch02.jpg",
+      "original_bytes": 140580,
+      "full": "assets/gallery/full/06ee430b14b10e51.jpg",
+      "thumb": "assets/gallery/thumb/06ee430b14b10e51.jpg",
+      "full_bytes": 141603,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "6e2b90ebc42c6495",
+      "title": "ch03",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch03.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch03.jpg",
+      "original_bytes": 213077,
+      "full": "assets/gallery/full/6e2b90ebc42c6495.jpg",
+      "thumb": "assets/gallery/thumb/6e2b90ebc42c6495.jpg",
+      "full_bytes": 211314,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "b78ce69ed611f81d",
+      "title": "ch04",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch04.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch04.jpg",
+      "original_bytes": 103830,
+      "full": "assets/gallery/full/b78ce69ed611f81d.jpg",
+      "thumb": "assets/gallery/thumb/b78ce69ed611f81d.jpg",
+      "full_bytes": 105601,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "6cbe83ea82a35cdf",
+      "title": "ch05",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch05.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch05.jpg",
+      "original_bytes": 141458,
+      "full": "assets/gallery/full/6cbe83ea82a35cdf.jpg",
+      "thumb": "assets/gallery/thumb/6cbe83ea82a35cdf.jpg",
+      "full_bytes": 141960,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "031cb4130eb76506",
+      "title": "ch06",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch06.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch06.jpg",
+      "original_bytes": 155991,
+      "full": "assets/gallery/full/031cb4130eb76506.jpg",
+      "thumb": "assets/gallery/thumb/031cb4130eb76506.jpg",
+      "full_bytes": 155708,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "20fd21ba077de92d",
+      "title": "ch07",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch07.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch07.jpg",
+      "original_bytes": 173499,
+      "full": "assets/gallery/full/20fd21ba077de92d.jpg",
+      "thumb": "assets/gallery/thumb/20fd21ba077de92d.jpg",
+      "full_bytes": 172124,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "f03b49e19f22bc8f",
+      "title": "ch08",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch08.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch08.jpg",
+      "original_bytes": 168102,
+      "full": "assets/gallery/full/f03b49e19f22bc8f.jpg",
+      "thumb": "assets/gallery/thumb/f03b49e19f22bc8f.jpg",
+      "full_bytes": 168170,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "25e9a66e62e1af12",
+      "title": "ch09",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch09.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch09.jpg",
+      "original_bytes": 135442,
+      "full": "assets/gallery/full/25e9a66e62e1af12.jpg",
+      "thumb": "assets/gallery/thumb/25e9a66e62e1af12.jpg",
+      "full_bytes": 137461,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "38f316784d5c7514",
+      "title": "ch10",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch10.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch10.jpg",
+      "original_bytes": 104296,
+      "full": "assets/gallery/full/38f316784d5c7514.jpg",
+      "thumb": "assets/gallery/thumb/38f316784d5c7514.jpg",
+      "full_bytes": 105918,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "a04794d5a6f8edbf",
+      "title": "ch11",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch11.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch11.jpg",
+      "original_bytes": 111230,
+      "full": "assets/gallery/full/a04794d5a6f8edbf.jpg",
+      "thumb": "assets/gallery/thumb/a04794d5a6f8edbf.jpg",
+      "full_bytes": 113411,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "5f6276596ac151c8",
+      "title": "ch12",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch12.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch12.jpg",
+      "original_bytes": 122063,
+      "full": "assets/gallery/full/5f6276596ac151c8.jpg",
+      "thumb": "assets/gallery/thumb/5f6276596ac151c8.jpg",
+      "full_bytes": 122962,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "571077bd4e778c93",
+      "title": "ch13",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch13.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch13.jpg",
+      "original_bytes": 82322,
+      "full": "assets/gallery/full/571077bd4e778c93.jpg",
+      "thumb": "assets/gallery/thumb/571077bd4e778c93.jpg",
+      "full_bytes": 84014,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "620f48c588e60838",
+      "title": "ch14",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch14.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch14.jpg",
+      "original_bytes": 134285,
+      "full": "assets/gallery/full/620f48c588e60838.jpg",
+      "thumb": "assets/gallery/thumb/620f48c588e60838.jpg",
+      "full_bytes": 134781,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "4c243223e3bec9a1",
+      "title": "ch15",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "ch15.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "ch15.jpg",
+      "original_bytes": 102475,
+      "full": "assets/gallery/full/4c243223e3bec9a1.jpg",
+      "thumb": "assets/gallery/thumb/4c243223e3bec9a1.jpg",
+      "full_bytes": 103370,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "bedc694197be25c9",
+      "title": "hero",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "hero.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "hero.jpg",
+      "original_bytes": 108436,
+      "full": "assets/gallery/full/bedc694197be25c9.jpg",
+      "thumb": "assets/gallery/thumb/bedc694197be25c9.jpg",
+      "full_bytes": 109973,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "39f8b6c1edcb5b61",
+      "title": "og book 1",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-1.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-1.jpg",
+      "original_bytes": 120585,
+      "full": "assets/gallery/full/39f8b6c1edcb5b61.jpg",
+      "thumb": "assets/gallery/thumb/39f8b6c1edcb5b61.jpg",
+      "full_bytes": 113543,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "feebc5ab498aa0b6",
+      "title": "og book 2",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-2.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-2.jpg",
+      "original_bytes": 113449,
+      "full": "assets/gallery/full/feebc5ab498aa0b6.jpg",
+      "thumb": "assets/gallery/thumb/feebc5ab498aa0b6.jpg",
+      "full_bytes": 106817,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "c97c62701d0322e1",
+      "title": "og book 3",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-3.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-3.jpg",
+      "original_bytes": 118701,
+      "full": "assets/gallery/full/c97c62701d0322e1.jpg",
+      "thumb": "assets/gallery/thumb/c97c62701d0322e1.jpg",
+      "full_bytes": 111413,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "5db45fac8da3c848",
+      "title": "og book 4",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-4.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-4.jpg",
+      "original_bytes": 102515,
+      "full": "assets/gallery/full/5db45fac8da3c848.jpg",
+      "thumb": "assets/gallery/thumb/5db45fac8da3c848.jpg",
+      "full_bytes": 96295,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "50f1f49a7678b952",
+      "title": "og book 5",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-5.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-5.jpg",
+      "original_bytes": 134207,
+      "full": "assets/gallery/full/50f1f49a7678b952.jpg",
+      "thumb": "assets/gallery/thumb/50f1f49a7678b952.jpg",
+      "full_bytes": 126069,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "a16ae679e5524ec4",
+      "title": "og book 6",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-book-6.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-book-6.jpg",
+      "original_bytes": 108247,
+      "full": "assets/gallery/full/a16ae679e5524ec4.jpg",
+      "thumb": "assets/gallery/thumb/a16ae679e5524ec4.jpg",
+      "full_bytes": 101880,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "9fe072ee3c3372c7",
+      "title": "og books",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "og-books.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "og-books.jpg",
+      "original_bytes": 88780,
+      "full": "assets/gallery/full/9fe072ee3c3372c7.jpg",
+      "thumb": "assets/gallery/thumb/9fe072ee3c3372c7.jpg",
+      "full_bytes": 83752,
+      "width": 1200,
+      "height": 630
+    },
+    {
+      "id": "83085ddb46802476",
+      "title": "prologue",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "prologue.jpg",
+      "source_root": "Publish Portal",
+      "original_name": "prologue.jpg",
+      "original_bytes": 157659,
+      "full": "assets/gallery/full/83085ddb46802476.jpg",
+      "thumb": "assets/gallery/thumb/83085ddb46802476.jpg",
+      "full_bytes": 157716,
+      "width": 1280,
+      "height": 720
     }
   ],
-  "cache_bust": "1653-auto-202611171853"
+  "cache_bust": "1697-auto-202611171854"
 }
