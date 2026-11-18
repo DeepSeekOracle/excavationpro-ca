@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-18T01:07:37.862698+00:00",
-  "count": 1709,
+  "generated_utc": "2026-11-18T01:13:09.575066+00:00",
+  "count": 1718,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -27423,7 +27423,151 @@
       "full_bytes": 96515,
       "width": 1208,
       "height": 1086
+    },
+    {
+      "id": "6e0a5b965217a0f7",
+      "title": "drain close f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-close-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-close-f00.png",
+      "original_bytes": 489650,
+      "full": "assets/gallery/full/6e0a5b965217a0f7.jpg",
+      "thumb": "assets/gallery/thumb/6e0a5b965217a0f7.jpg",
+      "full_bytes": 58607,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "b9ab1457711c5c2c",
+      "title": "drain cloud f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-cloud-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-cloud-f01.png",
+      "original_bytes": 1018516,
+      "full": "assets/gallery/full/b9ab1457711c5c2c.jpg",
+      "thumb": "assets/gallery/thumb/b9ab1457711c5c2c.jpg",
+      "full_bytes": 88597,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "cf93616f12b430c6",
+      "title": "drain death f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-death-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-death-f00.png",
+      "original_bytes": 466550,
+      "full": "assets/gallery/full/cf93616f12b430c6.jpg",
+      "thumb": "assets/gallery/thumb/cf93616f12b430c6.jpg",
+      "full_bytes": 55079,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "f2f3fe128e27f586",
+      "title": "drain step f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-step-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-step-f01.png",
+      "original_bytes": 656486,
+      "full": "assets/gallery/full/f2f3fe128e27f586.jpg",
+      "thumb": "assets/gallery/thumb/f2f3fe128e27f586.jpg",
+      "full_bytes": 61937,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "e48d9b2effe9388f",
+      "title": "drain touch f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-touch-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-touch-f01.png",
+      "original_bytes": 614459,
+      "full": "assets/gallery/full/e48d9b2effe9388f.jpg",
+      "thumb": "assets/gallery/thumb/e48d9b2effe9388f.jpg",
+      "full_bytes": 67599,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "365a243f8bb51a3b",
+      "title": "drain unmake f01",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-unmake-f01.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-unmake-f01.png",
+      "original_bytes": 752449,
+      "full": "assets/gallery/full/365a243f8bb51a3b.jpg",
+      "thumb": "assets/gallery/thumb/365a243f8bb51a3b.jpg",
+      "full_bytes": 82658,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "8c87a8c0f2358ae4",
+      "title": "drain walk f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-walk-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-walk-f00.png",
+      "original_bytes": 702321,
+      "full": "assets/gallery/full/8c87a8c0f2358ae4.jpg",
+      "thumb": "assets/gallery/thumb/8c87a8c0f2358ae4.jpg",
+      "full_bytes": 73055,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "61e5affb3e26e11b",
+      "title": "drain win f00",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain-win-f00.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain-win-f00.png",
+      "original_bytes": 691583,
+      "full": "assets/gallery/full/61e5affb3e26e11b.jpg",
+      "thumb": "assets/gallery/thumb/61e5affb3e26e11b.jpg",
+      "full_bytes": 78561,
+      "width": 832,
+      "height": 1248
+    },
+    {
+      "id": "68df4007f6797d24",
+      "title": "drain",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "drain.png",
+      "source_root": "Publish Portal",
+      "original_name": "drain.png",
+      "original_bytes": 795136,
+      "full": "assets/gallery/full/68df4007f6797d24.jpg",
+      "thumb": "assets/gallery/thumb/68df4007f6797d24.jpg",
+      "full_bytes": 86537,
+      "width": 832,
+      "height": 1248
     }
   ],
-  "cache_bust": "1709-auto-202611171907"
+  "cache_bust": "1718-auto-202611171913"
 }
