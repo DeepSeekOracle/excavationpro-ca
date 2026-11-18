@@ -55,10 +55,24 @@
       "width": 704,
       "height": 480,
       "duration": 4.04
+    },
+    {
+      "id": "1a405753e32072a8",
+      "title": "loop",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "loop.mp4",
+      "file": "assets/gallery/clips/1a405753e32072a8.mp4",
+      "poster": "assets/gallery/clips/1a405753e32072a8.jpg",
+      "bytes": 1368890,
+      "width": 832,
+      "height": 480,
+      "duration": 8.08
     }
   ],
-  "count": 4,
-  "generated_utc": "2026-11-01T05:33:13.417000+00:00",
-  "cache_bust": "4-clips-202610312333",
+  "count": 5,
+  "generated_utc": "2026-11-18T01:40:18.185905+00:00",
+  "cache_bust": "5-clips-202611171940",
   "signature": "short clips"
 }
