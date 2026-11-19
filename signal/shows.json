@@ -5,6 +5,22 @@
  "updated": "2026-11-18",
  "shows": [
   {
+   "slug": "midnight-secrets-of-leonida",
+   "title": "Midnight Secrets of Leonida",
+   "page": "https://excavationpro.ca/signal/midnight-secrets-of-leonida/",
+   "audio": "https://excavationpro.ca/signal/shows/midnight-secrets-of-leonida/ai_radio.mp3",
+   "duration": "14:39",
+   "seconds": 879.1,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Devon"
+   ],
+   "date": "2026-11-18",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-launch-secrets",
    "title": "GTA 6 Launch Secrets",
    "page": "https://excavationpro.ca/signal/gta-6-launch-secrets/",
@@ -18,7 +34,8 @@
     "Devon"
    ],
    "date": "2026-11-18",
-   "desk": "gta-6"
+   "desk": "gta-6",
+   "spotify": "https://open.spotify.com/episode/1426grrt5umfkNwWTY5t11"
   },
   {
    "slug": "leonida-after-midnight-gta-6-secrets",

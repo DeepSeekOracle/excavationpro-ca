@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Midnight Secrets of Leonida</title>
+    <link>https://excavationpro.ca/signal/midnight-secrets-of-leonida/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/midnight-secrets-of-leonida/</guid>
+    <pubDate>Wed, 18 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Paul and callers from Miami, Manchester, and Toronto uncover GTA 6's most elusive secrets, from a seven-minute tower climb for literal Easter eggs to a skunk-scented Bigfoot and hidden Criminal Profile mechanics. Settle in for a late-night chill deep dive into the strangest corners of Vice City and the Grassrivers.</description>
+    <itunes:duration>14:39</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/midnight-secrets-of-leonida/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/midnight-secrets-of-leonida/ai_radio.mp3" length="21100295" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6 Launch Secrets</title>
     <link>https://excavationpro.ca/signal/gta-6-launch-secrets/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-launch-secrets/</guid>
