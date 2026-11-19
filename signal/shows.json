@@ -2,8 +2,24 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "shows": [
+  {
+   "slug": "gta-6-launch-day-survival-guide",
+   "title": "GTA 6 Launch Day Survival Guide",
+   "page": "https://excavationpro.ca/signal/gta-6-launch-day-survival-guide/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-launch-day-survival-guide/ai_radio.mp3",
+   "duration": "16:47",
+   "seconds": 1007.9,
+   "speakers": [
+    "Paul",
+    "Tane",
+    "Maya",
+    "Liam"
+   ],
+   "date": "2026-11-19",
+   "desk": "gta-6"
+  },
   {
    "slug": "midnight-secrets-of-leonida",
    "title": "Midnight Secrets of Leonida",

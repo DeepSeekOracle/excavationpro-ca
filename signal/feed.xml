@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>GTA 6 Launch Day Survival Guide</title>
+    <link>https://excavationpro.ca/signal/gta-6-launch-day-survival-guide/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-launch-day-survival-guide/</guid>
+    <pubDate>Thu, 19 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul is joined by callers from Auckland, Miami, and Dublin to break down GTA 6's New Zealand launch, best early weapons and armor, Focus upgrades, and fastest money spots in Leonida.</description>
+    <itunes:duration>16:47</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/gta-6-launch-day-survival-guide/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/gta-6-launch-day-survival-guide/ai_radio.mp3" length="24191103" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Midnight Secrets of Leonida</title>
     <link>https://excavationpro.ca/signal/midnight-secrets-of-leonida/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/midnight-secrets-of-leonida/</guid>
