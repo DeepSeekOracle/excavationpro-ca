@@ -2,8 +2,25 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-19",
+ "updated": "2026-11-20",
  "shows": [
+  {
+   "slug": "gta-6-launch-backlash",
+   "title": "GTA 6 Launch Backlash",
+   "page": "https://excavationpro.ca/signal/gta-6-launch-backlash/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-launch-backlash/ai_radio.mp3",
+   "duration": "15:02",
+   "seconds": 902.3,
+   "speakers": [
+    "Paul",
+    "Devon",
+    "Chloe",
+    "Hannah",
+    "Tariq"
+   ],
+   "date": "2026-11-20",
+   "desk": "gta-6"
+  },
   {
    "slug": "gta-6-launch-day-survival-guide",
    "title": "GTA 6 Launch Day Survival Guide",
