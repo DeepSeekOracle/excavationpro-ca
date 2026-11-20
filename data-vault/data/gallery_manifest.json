@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-20T03:46:34.301212+00:00",
-  "count": 1730,
+  "generated_utc": "2026-11-20T04:14:02.783257+00:00",
+  "count": 1739,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -27759,7 +27759,151 @@
       "full_bytes": 99331,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "bb5d8c3e92e7abb6",
+      "title": "20261031 161008 qwen image 2.1 a red fox sitting in fresh snow at golden hour s",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-161008_qwen-image-2.1_a-red-fox-sitting-in-fresh-snow-at-golden-hour-s.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-161008_qwen-image-2.1_a-red-fox-sitting-in-fresh-snow-at-golden-hour-s.png",
+      "original_bytes": 1167246,
+      "full": "assets/gallery/full/bb5d8c3e92e7abb6.jpg",
+      "thumb": "assets/gallery/thumb/bb5d8c3e92e7abb6.jpg",
+      "full_bytes": 60104,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "93280e0484af5f01",
+      "title": "20261031 161059 flux3 klein a samurai standing in a bamboo forest at dawn mi",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-161059_flux3-klein_a-samurai-standing-in-a-bamboo-forest-at-dawn-mi.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-161059_flux3-klein_a-samurai-standing-in-a-bamboo-forest-at-dawn-mi.png",
+      "original_bytes": 1868563,
+      "full": "assets/gallery/full/93280e0484af5f01.jpg",
+      "thumb": "assets/gallery/thumb/93280e0484af5f01.jpg",
+      "full_bytes": 242822,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "bf5983498f3134f6",
+      "title": "20261031 161350 sdxl turbo a brass compass on a worn map warm lamp light",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-161350_sdxl-turbo_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-161350_sdxl-turbo_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "original_bytes": 1056131,
+      "full": "assets/gallery/full/bf5983498f3134f6.jpg",
+      "thumb": "assets/gallery/thumb/bf5983498f3134f6.jpg",
+      "full_bytes": 144203,
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "3f7c4a604703c2fa",
+      "title": "20261031 161446 sdxl turbo a brass compass on a worn map warm lamp light",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-161446_sdxl-turbo_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-161446_sdxl-turbo_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "original_bytes": 1160516,
+      "full": "assets/gallery/full/3f7c4a604703c2fa.jpg",
+      "thumb": "assets/gallery/thumb/3f7c4a604703c2fa.jpg",
+      "full_bytes": 173262,
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "f810f75c3a4d4dd3",
+      "title": "20261031 163628 comfy image a brass compass on a worn map warm lamp light",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-163628_comfy-image_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-163628_comfy-image_a-brass-compass-on-a-worn-map-warm-lamp-light.png",
+      "original_bytes": 1179273,
+      "full": "assets/gallery/full/f810f75c3a4d4dd3.jpg",
+      "thumb": "assets/gallery/thumb/f810f75c3a4d4dd3.jpg",
+      "full_bytes": 174664,
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "0047590070417e3e",
+      "title": "20261031 170141 comfy image a small brass key on a dark oak table soft windo",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-170141_comfy-image_a-small-brass-key-on-a-dark-oak-table-soft-windo.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-170141_comfy-image_a-small-brass-key-on-a-dark-oak-table-soft-windo.png",
+      "original_bytes": 837584,
+      "full": "assets/gallery/full/0047590070417e3e.jpg",
+      "thumb": "assets/gallery/thumb/0047590070417e3e.jpg",
+      "full_bytes": 96687,
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "6dfbbdcd2255dd75",
+      "title": "20261031 183416 sdxl illustrious create a cute cyborg sorcerous woman in a skimpy",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-183416_sdxl-illustrious_create-a-cute-cyborg-sorcerous-woman-in-a-skimpy.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-183416_sdxl-illustrious_create-a-cute-cyborg-sorcerous-woman-in-a-skimpy.png",
+      "original_bytes": 1104405,
+      "full": "assets/gallery/full/6dfbbdcd2255dd75.jpg",
+      "thumb": "assets/gallery/thumb/6dfbbdcd2255dd75.jpg",
+      "full_bytes": 52123,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "id": "f01422f30e75ff4a",
+      "title": "20261031 184631 qwen image 2.1 a red fox in fresh snow golden hour sharp detail",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-184631_qwen-image-2.1_a-red-fox-in-fresh-snow-golden-hour-sharp-detail.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-184631_qwen-image-2.1_a-red-fox-in-fresh-snow-golden-hour-sharp-detail.png",
+      "original_bytes": 1379814,
+      "full": "assets/gallery/full/f01422f30e75ff4a.jpg",
+      "thumb": "assets/gallery/thumb/f01422f30e75ff4a.jpg",
+      "full_bytes": 87472,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "id": "47b22814d0a00cd4",
+      "title": "20261031 184744 flux3 klein a samurai in a bamboo forest at dawn",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261031-184744_flux3-klein_a-samurai-in-a-bamboo-forest-at-dawn.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261031-184744_flux3-klein_a-samurai-in-a-bamboo-forest-at-dawn.png",
+      "original_bytes": 2110760,
+      "full": "assets/gallery/full/47b22814d0a00cd4.jpg",
+      "thumb": "assets/gallery/thumb/47b22814d0a00cd4.jpg",
+      "full_bytes": 307395,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1730-auto-202611192146"
+  "cache_bust": "1739-auto-202611192214"
 }
