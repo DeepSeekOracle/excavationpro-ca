@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-11-21T11:36:22.798792+00:00",
+  "generated_at": "2026-11-21T11:37:23.893387+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11408,
+    "encoded_or_ready": 11412,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 47559075800,
-    "total_stream_gb": 47.56,
-    "remote_streams": 11408,
+    "total_stream_bytes": 47573089628,
+    "total_stream_gb": 47.57,
+    "remote_streams": 11412,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11408,
+    "playlist_tracks": 11412,
     "last_ingest": {
-      "utc": "2026-11-21T11:36:22.801077+00:00",
+      "utc": "2026-11-21T11:37:23.895549+00:00",
       "added_or_updated": 4,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\168d1e745649"
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\9978b1800130"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -156361,8 +156361,92 @@
       "added_utc": "2026-11-21T11:36:13.411744+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\168d1e745649\\Curb_Side_Pressure.mp3",
       "action": "copy-mp3"
+    },
+    {
+      "sha256": "9b128d710eda628133f558bb851cddb677754555d31b73bc73d0aecd57ccef97",
+      "title": "Chrome Dust Instrumental",
+      "aliases": [
+        "Chrome Dust Instrumental",
+        "Chrome Dust Instrumental",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3545906,
+      "stream_file": "9b128d710eda628133f558bb851cddb677754555d31b73bc73d0aecd57ccef97.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\9b\\9b128d710eda628133f558bb851cddb677754555d31b73bc73d0aecd57ccef97.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/9b/9b128d710eda628133f558bb851cddb677754555d31b73bc73d0aecd57ccef97.mp3",
+      "hf_path": "stream/9b/9b128d710eda628133f558bb851cddb677754555d31b73bc73d0aecd57ccef97.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-21T11:37:07.207779+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\9978b1800130\\Chrome Dust Instrumental.wav",
+      "action": "encode-160k"
+    },
+    {
+      "sha256": "c5fa22a51720e4bc1fdd557dc98d41ca04b9fa24372017ef2560714948e4fcc3",
+      "title": "Dirt On The Boot",
+      "aliases": [
+        "Dirt On The Boot",
+        "Dirt On The Boot",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3560534,
+      "stream_file": "c5fa22a51720e4bc1fdd557dc98d41ca04b9fa24372017ef2560714948e4fcc3.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\c5\\c5fa22a51720e4bc1fdd557dc98d41ca04b9fa24372017ef2560714948e4fcc3.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/c5/c5fa22a51720e4bc1fdd557dc98d41ca04b9fa24372017ef2560714948e4fcc3.mp3",
+      "hf_path": "stream/c5/c5fa22a51720e4bc1fdd557dc98d41ca04b9fa24372017ef2560714948e4fcc3.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-21T11:37:09.019998+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\9978b1800130\\Dirt_On_The_Boot.wav",
+      "action": "encode-160k"
+    },
+    {
+      "sha256": "18cf42d01f6c66df92489e1e5cef5107928e240fbee29f8c5c83e599e225fe29",
+      "title": "Hydraulic Sunday",
+      "aliases": [
+        "Hydraulic Sunday",
+        "Hydraulic Sunday",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3425743,
+      "stream_file": "18cf42d01f6c66df92489e1e5cef5107928e240fbee29f8c5c83e599e225fe29.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\18\\18cf42d01f6c66df92489e1e5cef5107928e240fbee29f8c5c83e599e225fe29.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/18/18cf42d01f6c66df92489e1e5cef5107928e240fbee29f8c5c83e599e225fe29.mp3",
+      "hf_path": "stream/18/18cf42d01f6c66df92489e1e5cef5107928e240fbee29f8c5c83e599e225fe29.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-21T11:37:10.858471+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\9978b1800130\\Hydraulic Sunday.wav",
+      "action": "encode-160k"
+    },
+    {
+      "sha256": "ee7d6fe04f6479fb36df1e353b801abea99077088a9d721adb159bbf2ab47eef",
+      "title": "Street Reaper Instrumental",
+      "aliases": [
+        "Street Reaper Instrumental",
+        "Street Reaper Instrumental",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3481645,
+      "stream_file": "ee7d6fe04f6479fb36df1e353b801abea99077088a9d721adb159bbf2ab47eef.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\ee\\ee7d6fe04f6479fb36df1e353b801abea99077088a9d721adb159bbf2ab47eef.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ee/ee7d6fe04f6479fb36df1e353b801abea99077088a9d721adb159bbf2ab47eef.mp3",
+      "hf_path": "stream/ee/ee7d6fe04f6479fb36df1e353b801abea99077088a9d721adb159bbf2ab47eef.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-21T11:37:12.692123+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\9978b1800130\\Street Reaper Instrumental.wav",
+      "action": "encode-160k"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-11-21T11:36:22.798802+00:00"
+  "published_at": "2026-11-21T11:37:23.893398+00:00"
 }
