@@ -111,10 +111,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 318.58
+    },
+    {
+      "id": "ecc7a6f0381d34d4",
+      "title": "Sunrise on the Porch",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Sunrise on the Porch.mp4",
+      "file": "assets/gallery/clips/ecc7a6f0381d34d4.mp4",
+      "poster": "assets/gallery/clips/ecc7a6f0381d34d4.jpg",
+      "bytes": 8783992,
+      "width": 1080,
+      "height": 1080,
+      "duration": 254.2
     }
   ],
-  "count": 8,
-  "generated_utc": "2026-11-21T11:51:54.435954+00:00",
-  "cache_bust": "8-clips-202611210551",
+  "count": 9,
+  "generated_utc": "2026-11-21T13:06:46.808303+00:00",
+  "cache_bust": "9-clips-202611210706",
   "signature": "short clips"
 }
