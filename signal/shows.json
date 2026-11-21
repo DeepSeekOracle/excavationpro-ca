@@ -5,6 +5,23 @@
  "updated": "2026-11-21",
  "shows": [
   {
+   "slug": "gta-6-online-future-oracle",
+   "title": "GTA 6 Online: Future Oracle",
+   "page": "https://excavationpro.ca/signal/gta-6-online-future-oracle/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-online-future-oracle/ai_radio.mp3",
+   "duration": "15:43",
+   "seconds": 943.54,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Devon",
+    "Chloe"
+   ],
+   "date": "2026-11-21",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-inside-the-underground-buzz",
    "title": "GTA 6: Inside the Underground Buzz",
    "page": "https://excavationpro.ca/signal/gta-6-inside-the-underground-buzz/",
