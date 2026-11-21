@@ -125,10 +125,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 254.2
+    },
+    {
+      "id": "905b6624d374ecab",
+      "title": "Manic Metal",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Manic Metal.mp4",
+      "file": "assets/gallery/clips/905b6624d374ecab.mp4",
+      "poster": "assets/gallery/clips/905b6624d374ecab.jpg",
+      "bytes": 10409708,
+      "width": 1080,
+      "height": 1080,
+      "duration": 243.75
     }
   ],
-  "count": 9,
-  "generated_utc": "2026-11-21T13:06:46.808303+00:00",
-  "cache_bust": "9-clips-202611210706",
+  "count": 10,
+  "generated_utc": "2026-11-21T14:21:10.824650+00:00",
+  "cache_bust": "10-clips-202611210821",
   "signature": "short clips"
 }
