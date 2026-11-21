@@ -69,10 +69,24 @@
       "width": 832,
       "height": 480,
       "duration": 8.08
+    },
+    {
+      "id": "04f8da5f8d943ffd",
+      "title": "20261121 023702 song card keep the light on",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "20261121-023702_song-card_keep-the-light-on.mp4",
+      "file": "assets/gallery/clips/04f8da5f8d943ffd.mp4",
+      "poster": "assets/gallery/clips/04f8da5f8d943ffd.jpg",
+      "bytes": 7230468,
+      "width": 1080,
+      "height": 1080,
+      "duration": 183.58
     }
   ],
-  "count": 5,
-  "generated_utc": "2026-11-18T01:40:18.185905+00:00",
-  "cache_bust": "5-clips-202611171940",
+  "count": 6,
+  "generated_utc": "2026-11-21T08:40:05.731028+00:00",
+  "cache_bust": "6-clips-202611210240",
   "signature": "short clips"
 }
