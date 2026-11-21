@@ -139,10 +139,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 243.75
+    },
+    {
+      "id": "53fc792df9883561",
+      "title": "20261121 105631 song card 20261121 103941 song african commercial voice sm",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "20261121-105631_song-card_20261121-103941-song-african-commercial-voice-sm.mp4",
+      "file": "assets/gallery/clips/53fc792df9883561.mp4",
+      "poster": "assets/gallery/clips/53fc792df9883561.jpg",
+      "bytes": 12011027,
+      "width": 1080,
+      "height": 1080,
+      "duration": 303.58
     }
   ],
-  "count": 10,
-  "generated_utc": "2026-11-21T14:21:10.824650+00:00",
-  "cache_bust": "10-clips-202611210821",
+  "count": 11,
+  "generated_utc": "2026-11-21T16:58:35.639906+00:00",
+  "cache_bust": "11-clips-202611211058",
   "signature": "short clips"
 }
