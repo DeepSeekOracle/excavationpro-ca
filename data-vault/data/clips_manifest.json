@@ -97,10 +97,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 213.58
+    },
+    {
+      "id": "b1adab5e81c3b975",
+      "title": "20261121 055058 song card 20261121 053910 song pop punk comedy sitar placi",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "20261121-055058_song-card_20261121-053910-song-pop-punk-comedy-sitar-placi.mp4",
+      "file": "assets/gallery/clips/b1adab5e81c3b975.mp4",
+      "poster": "assets/gallery/clips/b1adab5e81c3b975.jpg",
+      "bytes": 11788308,
+      "width": 1080,
+      "height": 1080,
+      "duration": 318.58
     }
   ],
-  "count": 7,
-  "generated_utc": "2026-11-21T11:19:21.289010+00:00",
-  "cache_bust": "7-clips-202611210519",
+  "count": 8,
+  "generated_utc": "2026-11-21T11:51:54.435954+00:00",
+  "cache_bust": "8-clips-202611210551",
   "signature": "short clips"
 }
