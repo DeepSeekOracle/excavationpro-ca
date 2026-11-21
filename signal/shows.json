@@ -2,8 +2,25 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-20",
+ "updated": "2026-11-21",
  "shows": [
+  {
+   "slug": "gta-6-inside-the-underground-buzz",
+   "title": "GTA 6: Inside the Underground Buzz",
+   "page": "https://excavationpro.ca/signal/gta-6-inside-the-underground-buzz/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-inside-the-underground-buzz/ai_radio.mp3",
+   "duration": "14:06",
+   "seconds": 846.38,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Devon",
+    "Nadia"
+   ],
+   "date": "2026-11-21",
+   "desk": "gta-6"
+  },
   {
    "slug": "gta-6-launch-backlash",
    "title": "GTA 6 Launch Backlash",

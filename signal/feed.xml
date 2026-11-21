@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>GTA 6: Inside the Underground Buzz</title>
+    <link>https://excavationpro.ca/signal/gta-6-inside-the-underground-buzz/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-inside-the-underground-buzz/</guid>
+    <pubDate>Sat, 21 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and four international callers unpack GTA 6's record-breaking November 2026 launch, covering the technical 30 FPS backlash, hidden UFO and Bigfoot secrets, and the viral Cyberleek Xbox build leak.</description>
+    <itunes:duration>14:06</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/gta-6-inside-the-underground-buzz/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/gta-6-inside-the-underground-buzz/ai_radio.mp3" length="20314741" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6 Launch Backlash</title>
     <link>https://excavationpro.ca/signal/gta-6-launch-backlash/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-launch-backlash/</guid>
