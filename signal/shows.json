@@ -5,6 +5,23 @@
  "updated": "2026-11-21",
  "shows": [
   {
+   "slug": "gta-6-launch-backlash-show-ep2",
+   "title": "GTA 6 Launch Backlash",
+   "page": "https://excavationpro.ca/signal/gta-6-launch-backlash-show-ep2/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-launch-backlash-show-ep2/ai_radio.mp3",
+   "duration": "17:40",
+   "seconds": 1060.74,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Devon",
+    "Priya"
+   ],
+   "date": "2026-11-21",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-underground-secrets",
    "title": "GTA 6 Underground Secrets",
    "page": "https://excavationpro.ca/signal/gta-6-underground-secrets/",
