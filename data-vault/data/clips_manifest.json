@@ -83,10 +83,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 183.58
+    },
+    {
+      "id": "8c02c3a63d80b231",
+      "title": "20261121 051815 song card 20261121 050357 song ska hopeful trumpet vivacio",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "20261121-051815_song-card_20261121-050357-song-ska-hopeful-trumpet-vivacio.mp4",
+      "file": "assets/gallery/clips/8c02c3a63d80b231.mp4",
+      "poster": "assets/gallery/clips/8c02c3a63d80b231.jpg",
+      "bytes": 7391716,
+      "width": 1080,
+      "height": 1080,
+      "duration": 213.58
     }
   ],
-  "count": 6,
-  "generated_utc": "2026-11-21T08:40:05.731028+00:00",
-  "cache_bust": "6-clips-202611210240",
+  "count": 7,
+  "generated_utc": "2026-11-21T11:19:21.289010+00:00",
+  "cache_bust": "7-clips-202611210519",
   "signature": "short clips"
 }
