@@ -5,6 +5,22 @@
  "updated": "2026-11-21",
  "shows": [
   {
+   "slug": "gta-6-underground-secrets",
+   "title": "GTA 6 Underground Secrets",
+   "page": "https://excavationpro.ca/signal/gta-6-underground-secrets/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-underground-secrets/ai_radio.mp3",
+   "duration": "17:35",
+   "seconds": 1055.7,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Devon",
+    "Liam"
+   ],
+   "date": "2026-11-21",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-online-future-oracle",
    "title": "GTA 6 Online: Future Oracle",
    "page": "https://excavationpro.ca/signal/gta-6-online-future-oracle/",

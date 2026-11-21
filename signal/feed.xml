@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>GTA 6 Underground Secrets</title>
+    <link>https://excavationpro.ca/signal/gta-6-underground-secrets/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-underground-secrets/</guid>
+    <pubDate>Sat, 21 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and callers from Miami, Detroit, and Dublin break down the hottest overlooked locations, rare vehicles, and secret weapons in GTA 6 uncovered by Reddit, 4chan, and X communities. From Merlin's Palace Casino and Mount Kalaga's ruins to Moses' Emperor Sultan and missable unique firearms, explore the hidden systems of Leonida.</description>
+    <itunes:duration>17:35</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/gta-6-underground-secrets/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/gta-6-underground-secrets/ai_radio.mp3" length="21115725" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6 Online: Future Oracle</title>
     <link>https://excavationpro.ca/signal/gta-6-online-future-oracle/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-online-future-oracle/</guid>
