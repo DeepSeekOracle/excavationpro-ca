@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-11-22T00:48:00.602906+00:00",
+  "generated_at": "2026-11-22T01:05:12.358548+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11418,
+    "encoded_or_ready": 11434,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 47602640173,
-    "total_stream_gb": 47.6,
-    "remote_streams": 11418,
+    "total_stream_bytes": 47669977282,
+    "total_stream_gb": 47.67,
+    "remote_streams": 11434,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11418,
+    "playlist_tracks": 11434,
     "last_ingest": {
-      "utc": "2026-11-22T00:48:00.605526+00:00",
-      "added_or_updated": 1,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\b9207922958e"
+      "utc": "2026-11-22T01:05:12.360907+00:00",
+      "added_or_updated": 16,
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -156571,8 +156571,344 @@
       "added_utc": "2026-11-22T00:47:42.324178+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\b9207922958e\\Lasting Survivor.mp3",
       "action": "copy-mp3"
+    },
+    {
+      "sha256": "bdc1ac066a9a80ba5dfa071398a7cdab9d4d53e78a0fd60704dc3eef567049e0",
+      "title": "Breaking the Lullaby",
+      "aliases": [
+        "Breaking the Lullaby",
+        "Breaking the Lullaby",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4333594,
+      "stream_file": "bdc1ac066a9a80ba5dfa071398a7cdab9d4d53e78a0fd60704dc3eef567049e0.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\bd\\bdc1ac066a9a80ba5dfa071398a7cdab9d4d53e78a0fd60704dc3eef567049e0.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/bd/bdc1ac066a9a80ba5dfa071398a7cdab9d4d53e78a0fd60704dc3eef567049e0.mp3",
+      "hf_path": "stream/bd/bdc1ac066a9a80ba5dfa071398a7cdab9d4d53e78a0fd60704dc3eef567049e0.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:30.325499+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Breaking_the_Lullaby.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "b14ff438a13d2fd6d36a5914a4671f54f6b53c3316a3f9ea71c988dd8c740103",
+      "title": "Credit Card Cathedral",
+      "aliases": [
+        "Credit Card Cathedral",
+        "Credit Card Cathedral",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4342371,
+      "stream_file": "b14ff438a13d2fd6d36a5914a4671f54f6b53c3316a3f9ea71c988dd8c740103.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b1\\b14ff438a13d2fd6d36a5914a4671f54f6b53c3316a3f9ea71c988dd8c740103.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b1/b14ff438a13d2fd6d36a5914a4671f54f6b53c3316a3f9ea71c988dd8c740103.mp3",
+      "hf_path": "stream/b1/b14ff438a13d2fd6d36a5914a4671f54f6b53c3316a3f9ea71c988dd8c740103.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:30.653390+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Credit_Card_Cathedral.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "6bd8911c9043f0b800fa7bd64d3733eca4323a29f3c7ee72d2f03c6b27ea1d59",
+      "title": "Fifteen Percent",
+      "aliases": [
+        "Fifteen Percent",
+        "Fifteen Percent",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4351775,
+      "stream_file": "6bd8911c9043f0b800fa7bd64d3733eca4323a29f3c7ee72d2f03c6b27ea1d59.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\6b\\6bd8911c9043f0b800fa7bd64d3733eca4323a29f3c7ee72d2f03c6b27ea1d59.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/6b/6bd8911c9043f0b800fa7bd64d3733eca4323a29f3c7ee72d2f03c6b27ea1d59.mp3",
+      "hf_path": "stream/6b/6bd8911c9043f0b800fa7bd64d3733eca4323a29f3c7ee72d2f03c6b27ea1d59.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:30.855146+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Fifteen_Percent.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "99b4065eb4600df9022857e7a41d6f7c0db3c72d79053f0a65311681e6cd72ad",
+      "title": "Flesh light",
+      "aliases": [
+        "Flesh light",
+        "Flesh light",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4376853,
+      "stream_file": "99b4065eb4600df9022857e7a41d6f7c0db3c72d79053f0a65311681e6cd72ad.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\99\\99b4065eb4600df9022857e7a41d6f7c0db3c72d79053f0a65311681e6cd72ad.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/99/99b4065eb4600df9022857e7a41d6f7c0db3c72d79053f0a65311681e6cd72ad.mp3",
+      "hf_path": "stream/99/99b4065eb4600df9022857e7a41d6f7c0db3c72d79053f0a65311681e6cd72ad.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:31.132026+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Flesh_light.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "007b91d1f5f4dac916539e4e886e779f5646f17a274698fa005072d83c7a93e7",
+      "title": "Ghost Behind The Glass",
+      "aliases": [
+        "Ghost Behind The Glass",
+        "Ghost Behind The Glass",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4330459,
+      "stream_file": "007b91d1f5f4dac916539e4e886e779f5646f17a274698fa005072d83c7a93e7.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\00\\007b91d1f5f4dac916539e4e886e779f5646f17a274698fa005072d83c7a93e7.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/00/007b91d1f5f4dac916539e4e886e779f5646f17a274698fa005072d83c7a93e7.mp3",
+      "hf_path": "stream/00/007b91d1f5f4dac916539e4e886e779f5646f17a274698fa005072d83c7a93e7.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:31.541614+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Ghost_Behind_The_Glass.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "1c3a153a2a50208c94f4ee663379c372c11615d33533fbae4c45100cdd884a53",
+      "title": "Prisoner of the Present",
+      "aliases": [
+        "Prisoner of the Present",
+        "Prisoner of the Present",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4329833,
+      "stream_file": "1c3a153a2a50208c94f4ee663379c372c11615d33533fbae4c45100cdd884a53.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\1c\\1c3a153a2a50208c94f4ee663379c372c11615d33533fbae4c45100cdd884a53.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/1c/1c3a153a2a50208c94f4ee663379c372c11615d33533fbae4c45100cdd884a53.mp3",
+      "hf_path": "stream/1c/1c3a153a2a50208c94f4ee663379c372c11615d33533fbae4c45100cdd884a53.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:31.794160+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Prisoner_of_the_Present.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "369e64221fcef59f7402b684f72d9c7a32048fe57c10d48c21b047502f56758f",
+      "title": "Selling By The Ounce",
+      "aliases": [
+        "Selling By The Ounce",
+        "Selling By The Ounce",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4230149,
+      "stream_file": "369e64221fcef59f7402b684f72d9c7a32048fe57c10d48c21b047502f56758f.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\36\\369e64221fcef59f7402b684f72d9c7a32048fe57c10d48c21b047502f56758f.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/36/369e64221fcef59f7402b684f72d9c7a32048fe57c10d48c21b047502f56758f.mp3",
+      "hf_path": "stream/36/369e64221fcef59f7402b684f72d9c7a32048fe57c10d48c21b047502f56758f.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:31.980116+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Selling_By_The_Ounce.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "aaf9d91f84037cfdedc5e28db9a835c62ca9eedeba95319b508d5b644a0ea883",
+      "title": "Soil and Stone",
+      "aliases": [
+        "Soil and Stone",
+        "Soil and Stone",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4303501,
+      "stream_file": "aaf9d91f84037cfdedc5e28db9a835c62ca9eedeba95319b508d5b644a0ea883.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\aa\\aaf9d91f84037cfdedc5e28db9a835c62ca9eedeba95319b508d5b644a0ea883.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/aa/aaf9d91f84037cfdedc5e28db9a835c62ca9eedeba95319b508d5b644a0ea883.mp3",
+      "hf_path": "stream/aa/aaf9d91f84037cfdedc5e28db9a835c62ca9eedeba95319b508d5b644a0ea883.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:32.282133+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Soil_and_Stone.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "ebba121f13257719b2e7debc89d7d64073a1a27d46c00c8a35870dd824580e32",
+      "title": "The Flesh Is Mine",
+      "aliases": [
+        "The Flesh Is Mine",
+        "The Flesh Is Mine",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4380615,
+      "stream_file": "ebba121f13257719b2e7debc89d7d64073a1a27d46c00c8a35870dd824580e32.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\eb\\ebba121f13257719b2e7debc89d7d64073a1a27d46c00c8a35870dd824580e32.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/eb/ebba121f13257719b2e7debc89d7d64073a1a27d46c00c8a35870dd824580e32.mp3",
+      "hf_path": "stream/eb/ebba121f13257719b2e7debc89d7d64073a1a27d46c00c8a35870dd824580e32.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:32.640671+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Flesh_Is_Mine.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "64e8e6658fb1d91013152cfae654da60daeeaade5bbac9a9e72d495482d939fd",
+      "title": "The Glass Cage",
+      "aliases": [
+        "The Glass Cage",
+        "The Glass Cage",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4395661,
+      "stream_file": "64e8e6658fb1d91013152cfae654da60daeeaade5bbac9a9e72d495482d939fd.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\64\\64e8e6658fb1d91013152cfae654da60daeeaade5bbac9a9e72d495482d939fd.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/64/64e8e6658fb1d91013152cfae654da60daeeaade5bbac9a9e72d495482d939fd.mp3",
+      "hf_path": "stream/64/64e8e6658fb1d91013152cfae654da60daeeaade5bbac9a9e72d495482d939fd.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:33.035535+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Glass_Cage.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "2644a4b4d83db19e9e289d8a282b15a8f9969d96f00220465a34828c735a4b16",
+      "title": "The Great Unplugging",
+      "aliases": [
+        "The Great Unplugging",
+        "The Great Unplugging",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4299739,
+      "stream_file": "2644a4b4d83db19e9e289d8a282b15a8f9969d96f00220465a34828c735a4b16.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\26\\2644a4b4d83db19e9e289d8a282b15a8f9969d96f00220465a34828c735a4b16.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/26/2644a4b4d83db19e9e289d8a282b15a8f9969d96f00220465a34828c735a4b16.mp3",
+      "hf_path": "stream/26/2644a4b4d83db19e9e289d8a282b15a8f9969d96f00220465a34828c735a4b16.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:33.275413+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Great_Unplugging.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "8f1843598ac86f3e8069362722defd9a07453c395123665e1cd5a4070256530a",
+      "title": "The Heart That Used to Beat",
+      "aliases": [
+        "The Heart That Used to Beat",
+        "The Heart That Used to Beat",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4142378,
+      "stream_file": "8f1843598ac86f3e8069362722defd9a07453c395123665e1cd5a4070256530a.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\8f\\8f1843598ac86f3e8069362722defd9a07453c395123665e1cd5a4070256530a.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/8f/8f1843598ac86f3e8069362722defd9a07453c395123665e1cd5a4070256530a.mp3",
+      "hf_path": "stream/8f/8f1843598ac86f3e8069362722defd9a07453c395123665e1cd5a4070256530a.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:33.530956+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Heart_That_Used_to_Beat.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "b754fe75f4698ba82b7d5d87c09df317718a6c39c6d70b96177d0d32e4803917",
+      "title": "The Last Of The Real",
+      "aliases": [
+        "The Last Of The Real",
+        "The Last Of The Real",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4317294,
+      "stream_file": "b754fe75f4698ba82b7d5d87c09df317718a6c39c6d70b96177d0d32e4803917.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b7\\b754fe75f4698ba82b7d5d87c09df317718a6c39c6d70b96177d0d32e4803917.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b7/b754fe75f4698ba82b7d5d87c09df317718a6c39c6d70b96177d0d32e4803917.mp3",
+      "hf_path": "stream/b7/b754fe75f4698ba82b7d5d87c09df317718a6c39c6d70b96177d0d32e4803917.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:33.746435+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Last_Of_The_Real.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "ca4a8f8262fa1bbc8d6f465ffc4418ed4d548d21e39a4977da4922bb56ccb2bb",
+      "title": "The Metal Box",
+      "aliases": [
+        "The Metal Box",
+        "The Metal Box",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4358045,
+      "stream_file": "ca4a8f8262fa1bbc8d6f465ffc4418ed4d548d21e39a4977da4922bb56ccb2bb.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\ca\\ca4a8f8262fa1bbc8d6f465ffc4418ed4d548d21e39a4977da4922bb56ccb2bb.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/ca/ca4a8f8262fa1bbc8d6f465ffc4418ed4d548d21e39a4977da4922bb56ccb2bb.mp3",
+      "hf_path": "stream/ca/ca4a8f8262fa1bbc8d6f465ffc4418ed4d548d21e39a4977da4922bb56ccb2bb.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:34.011158+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\The_Metal_Box.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "77d313625c3ca65399f3ab815d1312288890ee0958952aded517e36bbe466829",
+      "title": "Watching You Fade",
+      "aliases": [
+        "Watching You Fade",
+        "Watching You Fade",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4232030,
+      "stream_file": "77d313625c3ca65399f3ab815d1312288890ee0958952aded517e36bbe466829.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\77\\77d313625c3ca65399f3ab815d1312288890ee0958952aded517e36bbe466829.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/77/77d313625c3ca65399f3ab815d1312288890ee0958952aded517e36bbe466829.mp3",
+      "hf_path": "stream/77/77d313625c3ca65399f3ab815d1312288890ee0958952aded517e36bbe466829.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:34.290181+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Watching_You_Fade.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "28e110648258c06124894b00da6be0f8fbe4c4c207170367e7974d107525b453",
+      "title": "Zero Oxygen",
+      "aliases": [
+        "Zero Oxygen",
+        "Zero Oxygen",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 2612812,
+      "stream_file": "28e110648258c06124894b00da6be0f8fbe4c4c207170367e7974d107525b453.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\28\\28e110648258c06124894b00da6be0f8fbe4c4c207170367e7974d107525b453.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/28/28e110648258c06124894b00da6be0f8fbe4c4c207170367e7974d107525b453.mp3",
+      "hf_path": "stream/28/28e110648258c06124894b00da6be0f8fbe4c4c207170367e7974d107525b453.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-22T01:04:35.635695+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\e27550779a5d\\Zero_Oxygen.wav",
+      "action": "encode-160k"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-11-22T00:48:00.602917+00:00"
+  "published_at": "2026-11-22T01:05:12.358558+00:00"
 }
