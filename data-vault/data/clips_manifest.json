@@ -209,10 +209,38 @@
       "width": 1080,
       "height": 1080,
       "duration": 128.0
+    },
+    {
+      "id": "d0d6e946bef818d0",
+      "title": "Lights Shadow",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Lights Shadow.mp4",
+      "file": "assets/gallery/clips/d0d6e946bef818d0.mp4",
+      "poster": "assets/gallery/clips/d0d6e946bef818d0.jpg",
+      "bytes": 25946078,
+      "width": 1080,
+      "height": 1080,
+      "duration": 151.93
+    },
+    {
+      "id": "3ac778f6ba354b73",
+      "title": "Weight Loss",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Weight Loss.mp4",
+      "file": "assets/gallery/clips/3ac778f6ba354b73.mp4",
+      "poster": "assets/gallery/clips/3ac778f6ba354b73.jpg",
+      "bytes": 21949993,
+      "width": 1080,
+      "height": 1080,
+      "duration": 176.07
     }
   ],
-  "count": 15,
-  "generated_utc": "2026-11-22T09:29:10.400004+00:00",
-  "cache_bust": "15-clips-202611220329",
+  "count": 17,
+  "generated_utc": "2026-11-22T09:29:50.511751+00:00",
+  "cache_bust": "17-clips-202611220329",
   "signature": "short clips"
 }
