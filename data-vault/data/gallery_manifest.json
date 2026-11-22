@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-22T09:30:12.676837+00:00",
-  "count": 1840,
+  "generated_utc": "2026-11-22T10:49:54.681165+00:00",
+  "count": 1841,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -29519,7 +29519,23 @@
       "full_bytes": 165758,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "c794e8e4b15ca79b",
+      "title": "20261122 044033 flux3 klein subject a stylized 3d game character asset of a",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261122-044033_flux3-klein_subject-a-stylized-3d-game-character-asset-of-a-.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261122-044033_flux3-klein_subject-a-stylized-3d-game-character-asset-of-a-.png",
+      "original_bytes": 1035921,
+      "full": "assets/gallery/full/c794e8e4b15ca79b.jpg",
+      "thumb": "assets/gallery/thumb/c794e8e4b15ca79b.jpg",
+      "full_bytes": 84218,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1840-auto-202611220330"
+  "cache_bust": "1841-auto-202611220449"
 }
