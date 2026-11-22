@@ -195,10 +195,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 182.8
+    },
+    {
+      "id": "6ae48eab59fb639e",
+      "title": "Killing Hope",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Killing Hope.mp4",
+      "file": "assets/gallery/clips/6ae48eab59fb639e.mp4",
+      "poster": "assets/gallery/clips/6ae48eab59fb639e.jpg",
+      "bytes": 9134904,
+      "width": 1080,
+      "height": 1080,
+      "duration": 128.0
     }
   ],
-  "count": 14,
-  "generated_utc": "2026-11-22T05:01:03.740211+00:00",
-  "cache_bust": "14-clips-202611212301",
+  "count": 15,
+  "generated_utc": "2026-11-22T09:29:10.400004+00:00",
+  "cache_bust": "15-clips-202611220329",
   "signature": "short clips"
 }
