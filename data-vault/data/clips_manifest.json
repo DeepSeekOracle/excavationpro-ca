@@ -181,10 +181,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 174.34
+    },
+    {
+      "id": "5d3bc08ed81ebf73",
+      "title": "Paint",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Paint.mp4",
+      "file": "assets/gallery/clips/5d3bc08ed81ebf73.mp4",
+      "poster": "assets/gallery/clips/5d3bc08ed81ebf73.jpg",
+      "bytes": 65357987,
+      "width": 1080,
+      "height": 1080,
+      "duration": 182.8
     }
   ],
-  "count": 13,
-  "generated_utc": "2026-11-22T01:05:50.816735+00:00",
-  "cache_bust": "13-clips-202611211905",
+  "count": 14,
+  "generated_utc": "2026-11-22T05:01:03.740211+00:00",
+  "cache_bust": "14-clips-202611212301",
   "signature": "short clips"
 }
