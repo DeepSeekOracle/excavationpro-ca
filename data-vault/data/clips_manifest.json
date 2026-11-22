@@ -251,10 +251,24 @@
       "width": 1104,
       "height": 816,
       "duration": 10.04
+    },
+    {
+      "id": "033df20abb3d1a20",
+      "title": "grok video ee66fc6a 07f6 4307 a32c 6ff68ee9e430",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "grok-video-ee66fc6a-07f6-4307-a32c-6ff68ee9e430.mp4",
+      "file": "assets/gallery/clips/033df20abb3d1a20.mp4",
+      "poster": "assets/gallery/clips/033df20abb3d1a20.jpg",
+      "bytes": 1368823,
+      "width": 1104,
+      "height": 816,
+      "duration": 10.04
     }
   ],
-  "count": 18,
-  "generated_utc": "2026-11-22T11:03:39.042687+00:00",
-  "cache_bust": "18-clips-202611220503",
+  "count": 19,
+  "generated_utc": "2026-11-22T11:03:50.638721+00:00",
+  "cache_bust": "19-clips-202611220503",
   "signature": "short clips"
 }
