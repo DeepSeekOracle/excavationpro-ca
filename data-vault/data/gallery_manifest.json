@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-22T10:49:54.681165+00:00",
-  "count": 1841,
+  "generated_utc": "2026-11-22T10:58:58.752935+00:00",
+  "count": 1842,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -29535,7 +29535,23 @@
       "full_bytes": 84218,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "1715a924fe871af8",
+      "title": "20261122 045617 flux3 klein create a full body 3d game character asset conce",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "20261122-045617_flux3-klein_create-a-full-body-3d-game-character-asset-conce.png",
+      "source_root": "Publish Portal",
+      "original_name": "20261122-045617_flux3-klein_create-a-full-body-3d-game-character-asset-conce.png",
+      "original_bytes": 1265560,
+      "full": "assets/gallery/full/1715a924fe871af8.jpg",
+      "thumb": "assets/gallery/thumb/1715a924fe871af8.jpg",
+      "full_bytes": 106669,
+      "width": 1024,
+      "height": 1024
     }
   ],
-  "cache_bust": "1841-auto-202611220449"
+  "cache_bust": "1842-auto-202611220458"
 }
