@@ -265,10 +265,24 @@
       "width": 1104,
       "height": 816,
       "duration": 10.04
+    },
+    {
+      "id": "a0af3be35c6ab210",
+      "title": "Rememeber When",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Rememeber  When.mp4",
+      "file": "assets/gallery/clips/a0af3be35c6ab210.mp4",
+      "poster": "assets/gallery/clips/a0af3be35c6ab210.jpg",
+      "bytes": 4238122,
+      "width": 1080,
+      "height": 1080,
+      "duration": 123.77
     }
   ],
-  "count": 19,
-  "generated_utc": "2026-11-22T11:03:50.638721+00:00",
-  "cache_bust": "19-clips-202611220503",
+  "count": 20,
+  "generated_utc": "2026-11-23T07:54:24.835783+00:00",
+  "cache_bust": "20-clips-202611230154",
   "signature": "short clips"
 }
