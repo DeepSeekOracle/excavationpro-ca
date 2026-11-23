@@ -5,6 +5,22 @@
  "updated": "2026-11-23",
  "shows": [
   {
+   "slug": "gta-6-engine-marvel-story-backlash",
+   "title": "GTA 6: Engine Marvel, Story Backlash",
+   "page": "https://excavationpro.ca/signal/gta-6-engine-marvel-story-backlash/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-engine-marvel-story-backlash/ai_radio.mp3",
+   "duration": "16:02",
+   "seconds": 962.22,
+   "speakers": [
+    "Paul",
+    "Devon",
+    "Sasha",
+    "Marcus"
+   ],
+   "date": "2026-11-23",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-unfiltered-scoop",
    "title": "GTA 6 Unfiltered Scoop",
    "page": "https://excavationpro.ca/signal/gta-6-unfiltered-scoop/",
