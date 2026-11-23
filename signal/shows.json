@@ -2,8 +2,25 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-21",
+ "updated": "2026-11-23",
  "shows": [
+  {
+   "slug": "gta-6-unfiltered-scoop",
+   "title": "GTA 6 Unfiltered Scoop",
+   "page": "https://excavationpro.ca/signal/gta-6-unfiltered-scoop/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-unfiltered-scoop/ai_radio.mp3",
+   "duration": "16:00",
+   "seconds": 960.23,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Devon",
+    "Sora",
+    "Chloe"
+   ],
+   "date": "2026-11-23",
+   "desk": "gta-6"
+  },
   {
    "slug": "gta-6-launch-backlash-show-ep2",
    "title": "GTA 6 Launch Backlash",
