@@ -5,6 +5,22 @@
  "updated": "2026-11-24",
  "shows": [
   {
+   "slug": "decoding-gta-6-with-lygo",
+   "title": "Decoding GTA 6 With LYGO",
+   "page": "https://excavationpro.ca/signal/decoding-gta-6-with-lygo/",
+   "audio": "https://excavationpro.ca/signal/shows/decoding-gta-6-with-lygo/ai_radio.mp3",
+   "duration": "13:10",
+   "seconds": 790.26,
+   "speakers": [
+    "Paul",
+    "Dante",
+    "Nadia",
+    "Callum"
+   ],
+   "date": "2026-11-24",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-decoding-the-lygo-mystery",
    "title": "GTA 6: Decoding the LYGO Mystery",
    "page": "https://excavationpro.ca/signal/gta-6-decoding-the-lygo-mystery/",
