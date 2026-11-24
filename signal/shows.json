@@ -2,8 +2,24 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-23",
+ "updated": "2026-11-24",
  "shows": [
+  {
+   "slug": "gta-6-decoding-the-lygo-mystery",
+   "title": "GTA 6: Decoding the LYGO Mystery",
+   "page": "https://excavationpro.ca/signal/gta-6-decoding-the-lygo-mystery/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-decoding-the-lygo-mystery/ai_radio.mp3",
+   "duration": "4:58",
+   "seconds": 298.98,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Sanjay"
+   ],
+   "date": "2026-11-24",
+   "desk": "gta-6"
+  },
   {
    "slug": "gta-6-engine-marvel-story-backlash",
    "title": "GTA 6: Engine Marvel, Story Backlash",
