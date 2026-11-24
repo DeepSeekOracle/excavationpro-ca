@@ -279,10 +279,24 @@
       "width": 1080,
       "height": 1080,
       "duration": 123.77
+    },
+    {
+      "id": "cdbe056c592ae3f4",
+      "title": "Breaking Down feat Justin Helmer (2)",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Breaking Down feat Justin Helmer (2).mp4",
+      "file": "assets/gallery/clips/cdbe056c592ae3f4.mp4",
+      "poster": "assets/gallery/clips/cdbe056c592ae3f4.jpg",
+      "bytes": 59013893,
+      "width": 2520,
+      "height": 1080,
+      "duration": 25.5
     }
   ],
-  "count": 20,
-  "generated_utc": "2026-11-23T07:54:24.835783+00:00",
-  "cache_bust": "20-clips-202611230154",
+  "count": 21,
+  "generated_utc": "2026-11-24T04:08:50.667695+00:00",
+  "cache_bust": "21-clips-202611232208",
   "signature": "short clips"
 }
