@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Vice City Signal: GTA 6 Online</title>
+    <link>https://excavationpro.ca/signal/vice-city-signal-gta-6-online/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/vice-city-signal-gta-6-online/</guid>
+    <pubDate>Tue, 24 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and callers from Miami, Glasgow, Toronto, and Austin fact-check the viral January 21 GTA 6 Online release rumor and break down what to expect in 2027. From PlayStation backend hooks and 96-player Fluid Access lobbies to CPU bottlenecks and GTA+ integration, this experimental broadcast separates hard evidence from internet static.</description>
+    <itunes:duration>14:41</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/vice-city-signal-gta-6-online/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/vice-city-signal-gta-6-online/ai_radio.mp3" length="17641485" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Vice City Silent Frequency</title>
     <link>https://excavationpro.ca/signal/vice-city-silent-frequency/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/vice-city-silent-frequency/</guid>

@@ -5,6 +5,23 @@
  "updated": "2026-11-24",
  "shows": [
   {
+   "slug": "vice-city-signal-gta-6-online",
+   "title": "Vice City Signal: GTA 6 Online",
+   "page": "https://excavationpro.ca/signal/vice-city-signal-gta-6-online/",
+   "audio": "https://excavationpro.ca/signal/shows/vice-city-signal-gta-6-online/ai_radio.mp3",
+   "duration": "14:41",
+   "seconds": 881.98,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Callum",
+    "Tessa",
+    "Devon"
+   ],
+   "date": "2026-11-24",
+   "desk": "gta-6"
+  },
+  {
    "slug": "vice-city-silent-frequency",
    "title": "Vice City Silent Frequency",
    "page": "https://excavationpro.ca/signal/vice-city-silent-frequency/",
