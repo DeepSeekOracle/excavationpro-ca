@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Vice City Silent Frequency</title>
+    <link>https://excavationpro.ca/signal/vice-city-silent-frequency/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/vice-city-silent-frequency/</guid>
+    <pubDate>Tue, 24 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Paul speaks with callers in Toronto, Austin, and Dublin about why GTA 6 launched without an online mode and what backend clues and Rockstar's FiveM acquisition reveal about 2027. Together they weigh modular multiplayer tech against the five-hundred-million-dollar shadow of the original GTA Online.</description>
+    <itunes:duration>4:46</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/vice-city-silent-frequency/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/vice-city-silent-frequency/ai_radio.mp3" length="5727885" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>Decoding GTA 6 With LYGO</title>
     <link>https://excavationpro.ca/signal/decoding-gta-6-with-lygo/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/decoding-gta-6-with-lygo/</guid>

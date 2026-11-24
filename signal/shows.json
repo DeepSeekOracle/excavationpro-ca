@@ -5,6 +5,22 @@
  "updated": "2026-11-24",
  "shows": [
   {
+   "slug": "vice-city-silent-frequency",
+   "title": "Vice City Silent Frequency",
+   "page": "https://excavationpro.ca/signal/vice-city-silent-frequency/",
+   "audio": "https://excavationpro.ca/signal/shows/vice-city-silent-frequency/ai_radio.mp3",
+   "duration": "4:46",
+   "seconds": 286.3,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Devon",
+    "Sora"
+   ],
+   "date": "2026-11-24",
+   "desk": "gta-6"
+  },
+  {
    "slug": "decoding-gta-6-with-lygo",
    "title": "Decoding GTA 6 With LYGO",
    "page": "https://excavationpro.ca/signal/decoding-gta-6-with-lygo/",
