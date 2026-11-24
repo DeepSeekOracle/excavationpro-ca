@@ -293,10 +293,38 @@
       "width": 2520,
       "height": 1080,
       "duration": 25.5
+    },
+    {
+      "id": "d037f18186e156bf",
+      "title": "Recording 2026 11 23 235341",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Recording 2026-11-23 235341.mp4",
+      "file": "assets/gallery/clips/d037f18186e156bf.mp4",
+      "poster": "assets/gallery/clips/d037f18186e156bf.jpg",
+      "bytes": 6783647,
+      "width": 1062,
+      "height": 866,
+      "duration": 38.57
+    },
+    {
+      "id": "1711709122c73eab",
+      "title": "Recording 2026 11 24 005115",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Recording 2026-11-24 005115.mp4",
+      "file": "assets/gallery/clips/1711709122c73eab.mp4",
+      "poster": "assets/gallery/clips/1711709122c73eab.jpg",
+      "bytes": 2497032,
+      "width": 1058,
+      "height": 886,
+      "duration": 21.77
     }
   ],
-  "count": 21,
-  "generated_utc": "2026-11-24T04:08:50.667695+00:00",
-  "cache_bust": "21-clips-202611232208",
+  "count": 23,
+  "generated_utc": "2026-11-24T06:54:48.734641+00:00",
+  "cache_bust": "23-clips-202611240054",
   "signature": "short clips"
 }
