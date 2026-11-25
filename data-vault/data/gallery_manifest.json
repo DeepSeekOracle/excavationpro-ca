@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-25T00:21:13.006752+00:00",
-  "count": 1845,
+  "generated_utc": "2026-11-25T07:51:54.171640+00:00",
+  "count": 1846,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -29599,7 +29599,23 @@
       "full_bytes": 215126,
       "width": 1024,
       "height": 1024
+    },
+    {
+      "id": "53fde3d7094bb801",
+      "title": "bafkreiexqobd4dwdafotjgvptrsrvbbxmaaace23ivxamih67go4brilva",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "bafkreiexqobd4dwdafotjgvptrsrvbbxmaaace23ivxamih67go4brilva.webp",
+      "source_root": "Publish Portal",
+      "original_name": "bafkreiexqobd4dwdafotjgvptrsrvbbxmaaace23ivxamih67go4brilva.webp",
+      "original_bytes": 32868,
+      "full": "assets/gallery/full/53fde3d7094bb801.jpg",
+      "thumb": "assets/gallery/thumb/53fde3d7094bb801.jpg",
+      "full_bytes": 55727,
+      "width": 496,
+      "height": 838
     }
   ],
-  "cache_bust": "1845-auto-202611241821"
+  "cache_bust": "1846-auto-202611250151"
 }
