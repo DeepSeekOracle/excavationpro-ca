@@ -2,8 +2,24 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-24",
+ "updated": "2026-11-25",
  "shows": [
+  {
+   "slug": "gta-6-secrets-leonida-s-hidden-lore",
+   "title": "GTA 6 Secrets: Leonida's Hidden Lore",
+   "page": "https://excavationpro.ca/signal/gta-6-secrets-leonida-s-hidden-lore/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-secrets-leonida-s-hidden-lore/ai_radio.mp3",
+   "duration": "14:12",
+   "seconds": 852.94,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Liam"
+   ],
+   "date": "2026-11-25",
+   "desk": "gta-6"
+  },
   {
    "slug": "vice-city-signal-gta-6-online",
    "title": "Vice City Signal: GTA 6 Online",
