@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>GTA 6 Console Crash Crisis</title>
+    <link>https://excavationpro.ca/signal/gta-6-console-crash-crisis/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-console-crash-crisis/</guid>
+    <pubDate>Wed, 25 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and four international callers break down today's GTA 6 crashing, PS5 power-draw and liquid-metal shutdown reports, and Xbox Series X|S issues following Patch 01.002.002. They walk listeners through community-verified troubleshooting steps—from disabling HDR and Rest Mode to rebuilding the database and using PS Plus cloud streaming.</description>
+    <itunes:duration>15:07</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/gta-6-console-crash-crisis/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/gta-6-console-crash-crisis/ai_radio.mp3" length="18143565" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6 Today: Secrets &amp; Leaks</title>
     <link>https://excavationpro.ca/signal/gta-6-today-secrets-leaks/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-today-secrets-leaks/</guid>

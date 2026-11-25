@@ -5,6 +5,23 @@
  "updated": "2026-11-25",
  "shows": [
   {
+   "slug": "gta-6-console-crash-crisis",
+   "title": "GTA 6 Console Crash Crisis",
+   "page": "https://excavationpro.ca/signal/gta-6-console-crash-crisis/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-console-crash-crisis/ai_radio.mp3",
+   "duration": "15:07",
+   "seconds": 907.1,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Elena",
+    "Devon",
+    "Chloe"
+   ],
+   "date": "2026-11-25",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-today-secrets-leaks",
    "title": "GTA 6 Today: Secrets & Leaks",
    "page": "https://excavationpro.ca/signal/gta-6-today-secrets-leaks/",
