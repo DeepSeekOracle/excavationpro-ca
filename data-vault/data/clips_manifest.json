@@ -433,10 +433,24 @@
       "width": 800,
       "height": 526,
       "duration": 84.23
+    },
+    {
+      "id": "cb76127fc2df3858",
+      "title": "Walking Death",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Walking Death.mp4",
+      "file": "assets/gallery/clips/cb76127fc2df3858.mp4",
+      "poster": "assets/gallery/clips/cb76127fc2df3858.jpg",
+      "bytes": 26277131,
+      "width": 720,
+      "height": 720,
+      "duration": 173.57
     }
   ],
-  "count": 31,
-  "generated_utc": "2026-11-25T09:31:18.239828+00:00",
-  "cache_bust": "31-clips-202611250331",
+  "count": 32,
+  "generated_utc": "2026-11-25T20:37:03.081879+00:00",
+  "cache_bust": "32-clips-202611251437",
   "signature": "short clips"
 }
