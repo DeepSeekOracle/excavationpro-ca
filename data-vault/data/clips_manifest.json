@@ -321,10 +321,66 @@
       "width": 1058,
       "height": 886,
       "duration": 21.77
+    },
+    {
+      "id": "5a528350d10e68c1",
+      "title": "11223",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "11223.mp4",
+      "file": "assets/gallery/clips/5a528350d10e68c1.mp4",
+      "poster": "assets/gallery/clips/5a528350d10e68c1.jpg",
+      "bytes": 2096105,
+      "width": 648,
+      "height": 578,
+      "duration": 30.59
+    },
+    {
+      "id": "ebd4211b1fc81772",
+      "title": "11313",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "11313.mp4",
+      "file": "assets/gallery/clips/ebd4211b1fc81772.mp4",
+      "poster": "assets/gallery/clips/ebd4211b1fc81772.jpg",
+      "bytes": 4656233,
+      "width": 666,
+      "height": 572,
+      "duration": 63.23
+    },
+    {
+      "id": "b3a01ae80b723f04",
+      "title": "113311",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "113311.mp4",
+      "file": "assets/gallery/clips/b3a01ae80b723f04.mp4",
+      "poster": "assets/gallery/clips/b3a01ae80b723f04.jpg",
+      "bytes": 12123246,
+      "width": 742,
+      "height": 574,
+      "duration": 180.3
+    },
+    {
+      "id": "470af92ccb68f7b5",
+      "title": "312",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "312.mp4",
+      "file": "assets/gallery/clips/470af92ccb68f7b5.mp4",
+      "poster": "assets/gallery/clips/470af92ccb68f7b5.jpg",
+      "bytes": 5511311,
+      "width": 706,
+      "height": 578,
+      "duration": 91.07
     }
   ],
-  "count": 23,
-  "generated_utc": "2026-11-24T06:54:48.734641+00:00",
-  "cache_bust": "23-clips-202611240054",
+  "count": 27,
+  "generated_utc": "2026-11-25T00:22:12.402987+00:00",
+  "cache_bust": "27-clips-202611241822",
   "signature": "short clips"
 }
