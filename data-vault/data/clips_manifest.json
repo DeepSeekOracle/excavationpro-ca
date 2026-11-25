@@ -377,10 +377,24 @@
       "width": 706,
       "height": 578,
       "duration": 91.07
+    },
+    {
+      "id": "7090d9512fec25f2",
+      "title": "Empty Space feat Justin Helmer",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Empty Space feat Justin Helmer.mp4",
+      "file": "assets/gallery/clips/7090d9512fec25f2.mp4",
+      "poster": "assets/gallery/clips/7090d9512fec25f2.jpg",
+      "bytes": 4868694,
+      "width": 1280,
+      "height": 720,
+      "duration": 200.81
     }
   ],
-  "count": 27,
-  "generated_utc": "2026-11-25T00:22:12.402987+00:00",
-  "cache_bust": "27-clips-202611241822",
+  "count": 28,
+  "generated_utc": "2026-11-25T00:27:09.864909+00:00",
+  "cache_bust": "28-clips-202611241827",
   "signature": "short clips"
 }
