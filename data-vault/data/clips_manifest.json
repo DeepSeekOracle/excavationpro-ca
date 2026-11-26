@@ -461,10 +461,24 @@
       "width": 1234,
       "height": 866,
       "duration": 54.97
+    },
+    {
+      "id": "d27899bc889c5dcc",
+      "title": "Recording 2026 11 26 015728",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Recording 2026-11-26 015728.mp4",
+      "file": "assets/gallery/clips/d27899bc889c5dcc.mp4",
+      "poster": "assets/gallery/clips/d27899bc889c5dcc.jpg",
+      "bytes": 6891677,
+      "width": 894,
+      "height": 674,
+      "duration": 43.7
     }
   ],
-  "count": 33,
-  "generated_utc": "2026-11-26T00:50:20.097119+00:00",
-  "cache_bust": "33-clips-202611251850",
+  "count": 34,
+  "generated_utc": "2026-11-26T08:03:37.043980+00:00",
+  "cache_bust": "34-clips-202611260203",
   "signature": "short clips"
 }
