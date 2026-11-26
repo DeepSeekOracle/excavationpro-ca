@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-11-26T01:43:19.396540+00:00",
+  "generated_at": "2026-11-26T01:43:41.485844+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11446,
+    "encoded_or_ready": 11447,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 47712433301,
-    "total_stream_gb": 47.71,
-    "remote_streams": 11446,
+    "total_stream_bytes": 47715905019,
+    "total_stream_gb": 47.72,
+    "remote_streams": 11447,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11446,
+    "playlist_tracks": 11447,
     "last_ingest": {
-      "utc": "2026-11-26T01:43:19.398781+00:00",
-      "added_or_updated": 2,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\78da7dc62804"
+      "utc": "2026-11-26T01:43:41.487985+00:00",
+      "added_or_updated": 1,
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\4da6836b9c47"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -157159,8 +157159,29 @@
       "added_utc": "2026-11-26T01:43:12.122055+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\78da7dc62804\\Ghost Code feat Justin Helmer.wav",
       "action": "encode-160k"
+    },
+    {
+      "sha256": "e03c252fecdcfbcc7b0a0ac659ed35eb4d1d708cb17bec714a2954700d0cb97b",
+      "title": "Watching You Fade",
+      "aliases": [
+        "Watching You Fade",
+        "Watching You Fade",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3471718,
+      "stream_file": "e03c252fecdcfbcc7b0a0ac659ed35eb4d1d708cb17bec714a2954700d0cb97b.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\e0\\e03c252fecdcfbcc7b0a0ac659ed35eb4d1d708cb17bec714a2954700d0cb97b.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/e0/e03c252fecdcfbcc7b0a0ac659ed35eb4d1d708cb17bec714a2954700d0cb97b.mp3",
+      "hf_path": "stream/e0/e03c252fecdcfbcc7b0a0ac659ed35eb4d1d708cb17bec714a2954700d0cb97b.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-26T01:43:37.590599+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\4da6836b9c47\\Watching You Fade.wav",
+      "action": "encode-160k"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-11-26T01:43:19.396550+00:00"
+  "published_at": "2026-11-26T01:43:41.485854+00:00"
 }
