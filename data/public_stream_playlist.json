@@ -1,23 +1,23 @@
 {
   "signature": "Δ9Φ963-PUBLIC-MUSIC-STREAM-v1",
   "artist": "Excavationpro",
-  "generated_at": "2026-11-26T01:39:39.049937+00:00",
+  "generated_at": "2026-11-26T01:40:19.515097+00:00",
   "bitrate": "160k",
   "stream_dir": "I:\\E Drive\\MUSIC_VAULT\\public_stream",
   "stats": {
-    "encoded_or_ready": 11437,
+    "encoded_or_ready": 11440,
     "new_encoded": 2055,
     "skipped_existing": 8707,
     "failed": 0,
-    "total_stream_bytes": 47680022228,
-    "total_stream_gb": 47.68,
-    "remote_streams": 11437,
+    "total_stream_bytes": 47692019908,
+    "total_stream_gb": 47.69,
+    "remote_streams": 11440,
     "playlist_missing_remote": 0,
-    "playlist_tracks": 11437,
+    "playlist_tracks": 11440,
     "last_ingest": {
-      "utc": "2026-11-26T01:39:39.052096+00:00",
-      "added_or_updated": 2,
-      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\1aae479d378a"
+      "utc": "2026-11-26T01:40:19.517306+00:00",
+      "added_or_updated": 3,
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\6eb8c3d9de36"
     }
   },
   "public_base_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream",
@@ -156970,8 +156970,71 @@
       "added_utc": "2026-11-26T01:39:27.640955+00:00",
       "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\1aae479d378a\\Death Walking feat Justin Helmer.wav",
       "action": "encode-160k"
+    },
+    {
+      "sha256": "b46c5d58f1d2685f48fd7b72c72b6537c74aed698afd186d713cd06b72aa99ab",
+      "title": "A Different Kind of Heart",
+      "aliases": [
+        "A Different Kind of Heart",
+        "A Different Kind of Heart",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3921695,
+      "stream_file": "b46c5d58f1d2685f48fd7b72c72b6537c74aed698afd186d713cd06b72aa99ab.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\b4\\b46c5d58f1d2685f48fd7b72c72b6537c74aed698afd186d713cd06b72aa99ab.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/b4/b46c5d58f1d2685f48fd7b72c72b6537c74aed698afd186d713cd06b72aa99ab.mp3",
+      "hf_path": "stream/b4/b46c5d58f1d2685f48fd7b72c72b6537c74aed698afd186d713cd06b72aa99ab.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-26T01:40:06.047913+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\6eb8c3d9de36\\A_Different_Kind_of_Heart.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "59236e92e46037d062e6a36e68ee9bc87ee1de1bd51011d2c6fa24ce47641457",
+      "title": "The Question Is a Fire",
+      "aliases": [
+        "The Question Is a Fire",
+        "The Question Is a Fire",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 3761199,
+      "stream_file": "59236e92e46037d062e6a36e68ee9bc87ee1de1bd51011d2c6fa24ce47641457.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\59\\59236e92e46037d062e6a36e68ee9bc87ee1de1bd51011d2c6fa24ce47641457.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/59/59236e92e46037d062e6a36e68ee9bc87ee1de1bd51011d2c6fa24ce47641457.mp3",
+      "hf_path": "stream/59/59236e92e46037d062e6a36e68ee9bc87ee1de1bd51011d2c6fa24ce47641457.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-26T01:40:06.174763+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\6eb8c3d9de36\\The_Question_Is_a_Fire.mp3",
+      "action": "copy-mp3"
+    },
+    {
+      "sha256": "de2471c50ce88388158ae36076afc918406a88c76474d68a1d891924c3bf3430",
+      "title": "Where the Water Meets the Will",
+      "aliases": [
+        "Where the Water Meets the Will",
+        "Where the Water Meets the Will",
+        "Singles"
+      ],
+      "isrcs": [],
+      "size": 4314786,
+      "stream_file": "de2471c50ce88388158ae36076afc918406a88c76474d68a1d891924c3bf3430.mp3",
+      "local_stream": "I:\\E Drive\\MUSIC_VAULT\\public_stream\\de\\de2471c50ce88388158ae36076afc918406a88c76474d68a1d891924c3bf3430.mp3",
+      "stream_url": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream/resolve/main/stream/de/de2471c50ce88388158ae36076afc918406a88c76474d68a1d891924c3bf3430.mp3",
+      "hf_path": "stream/de/de2471c50ce88388158ae36076afc918406a88c76474d68a1d891924c3bf3430.mp3",
+      "album": "Singles",
+      "artist": "Excavationpro",
+      "moniker": "",
+      "added_utc": "2026-11-26T01:40:06.321081+00:00",
+      "source": "C:\\Users\\justi\\Music\\Signal\\portal\\music_excav_uploads\\6eb8c3d9de36\\Where_the_Water_Meets_the_Will.mp3",
+      "action": "copy-mp3"
     }
   ],
   "hf_dataset": "https://huggingface.co/datasets/DeepSeekOracle/excavationpro-music-stream",
-  "published_at": "2026-11-26T01:39:39.049947+00:00"
+  "published_at": "2026-11-26T01:40:19.515108+00:00"
 }
