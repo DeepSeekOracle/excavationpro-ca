@@ -447,10 +447,24 @@
       "width": 720,
       "height": 720,
       "duration": 173.57
+    },
+    {
+      "id": "ad267f2c894ec5fa",
+      "title": "Recording 2026 11 25 184703",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Recording 2026-11-25 184703.mp4",
+      "file": "assets/gallery/clips/ad267f2c894ec5fa.mp4",
+      "poster": "assets/gallery/clips/ad267f2c894ec5fa.jpg",
+      "bytes": 8972571,
+      "width": 1234,
+      "height": 866,
+      "duration": 54.97
     }
   ],
-  "count": 32,
-  "generated_utc": "2026-11-25T20:37:03.081879+00:00",
-  "cache_bust": "32-clips-202611251437",
+  "count": 33,
+  "generated_utc": "2026-11-26T00:50:20.097119+00:00",
+  "cache_bust": "33-clips-202611251850",
   "signature": "short clips"
 }
