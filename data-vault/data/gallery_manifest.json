@@ -1,7 +1,7 @@
 {
   "signature": "Delta9Phi963-DATA-VAULT-GALLERY-v1",
-  "generated_utc": "2026-11-25T08:15:38.068484+00:00",
-  "count": 1848,
+  "generated_utc": "2026-11-26T01:50:38.517978+00:00",
+  "count": 1849,
   "candidates": 725,
   "skipped_duplicates": 52,
   "errors": 0,
@@ -29647,7 +29647,23 @@
       "full_bytes": 67749,
       "width": 504,
       "height": 771
+    },
+    {
+      "id": "b2c73d9c26989499",
+      "title": "the ascent vault",
+      "tags": [
+        "PHOTO"
+      ],
+      "source_rel": "the-ascent-vault.png",
+      "source_root": "Publish Portal",
+      "original_name": "the-ascent-vault.png",
+      "original_bytes": 1651859,
+      "full": "assets/gallery/full/b2c73d9c26989499.jpg",
+      "thumb": "assets/gallery/thumb/b2c73d9c26989499.jpg",
+      "full_bytes": 137442,
+      "width": 1080,
+      "height": 1080
     }
   ],
-  "cache_bust": "1848-auto-202611250215"
+  "cache_bust": "1849-auto-202611251950"
 }
