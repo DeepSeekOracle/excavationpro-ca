@@ -475,10 +475,24 @@
       "width": 894,
       "height": 674,
       "duration": 43.7
+    },
+    {
+      "id": "ff256befffd69a55",
+      "title": "You Never Know",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "You Never Know.mp4",
+      "file": "assets/gallery/clips/ff256befffd69a55.mp4",
+      "poster": "assets/gallery/clips/ff256befffd69a55.jpg",
+      "bytes": 4102162,
+      "width": 720,
+      "height": 720,
+      "duration": 152.93
     }
   ],
-  "count": 34,
-  "generated_utc": "2026-11-26T08:03:37.043980+00:00",
-  "cache_bust": "34-clips-202611260203",
+  "count": 35,
+  "generated_utc": "2026-11-27T00:31:18.527394+00:00",
+  "cache_bust": "35-clips-202611261831",
   "signature": "short clips"
 }
