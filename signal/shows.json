@@ -5,6 +5,22 @@
  "updated": "2026-11-27",
  "shows": [
   {
+   "slug": "wow-forever-three-weeks-in",
+   "title": "WoW Forever: Three Weeks In",
+   "page": "https://excavationpro.ca/signal/wow-forever-three-weeks-in/",
+   "audio": "https://excavationpro.ca/signal/shows/wow-forever-three-weeks-in/ai_radio.mp3",
+   "duration": "15:22",
+   "seconds": 922.42,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Devon"
+   ],
+   "date": "2026-11-27",
+   "desk": "wow"
+  },
+  {
    "slug": "gta-6-console-crash-survival",
    "title": "GTA 6 Console Crash Survival",
    "page": "https://excavationpro.ca/signal/gta-6-console-crash-survival/",

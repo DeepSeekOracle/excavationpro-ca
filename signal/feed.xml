@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>WoW Forever: Three Weeks In</title>
+    <link>https://excavationpro.ca/signal/wow-forever-three-weeks-in/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/wow-forever-three-weeks-in/</guid>
+    <pubDate>Fri, 27 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Paul hosts Marcus, Chloe, and Devon to unpack World of Warcraft: Forever three weeks after launch, covering the latest hotfixes, rarest drops, and deepest unsolved secrets. Drawing from Reddit, 4chan, and X, the roundtable weighs cozy old-school nostalgia against endgame salt and exploit drama.</description>
+    <itunes:duration>15:22</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/wow-forever-three-weeks-in/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/wow-forever-three-weeks-in/ai_radio.mp3" length="18450285" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6 Console Crash Survival</title>
     <link>https://excavationpro.ca/signal/gta-6-console-crash-survival/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-console-crash-survival/</guid>
