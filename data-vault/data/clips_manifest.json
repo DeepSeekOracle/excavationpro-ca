@@ -671,10 +671,122 @@
       "width": 1280,
       "height": 720,
       "duration": 15.19
+    },
+    {
+      "id": "9cae3d299abb063a",
+      "title": "3 Battlefield 6 Secrets You Missed",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "3 Battlefield 6 Secrets You Missed.mp4",
+      "file": "assets/gallery/clips/9cae3d299abb063a.mp4",
+      "poster": "assets/gallery/clips/9cae3d299abb063a.jpg",
+      "bytes": 19123504,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.97
+    },
+    {
+      "id": "d6d25f2d229b4454",
+      "title": "3 Hidden Online Secrets You Must Know",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "3 Hidden Online Secrets You Must Know.mp4",
+      "file": "assets/gallery/clips/d6d25f2d229b4454.mp4",
+      "poster": "assets/gallery/clips/d6d25f2d229b4454.jpg",
+      "bytes": 47446131,
+      "width": 720,
+      "height": 1280,
+      "duration": 58.11
+    },
+    {
+      "id": "0fcb6df70663f615",
+      "title": "AI Corruption 3 Essential Tips",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "AI Corruption 3 Essential Tips.mp4",
+      "file": "assets/gallery/clips/0fcb6df70663f615.mp4",
+      "poster": "assets/gallery/clips/0fcb6df70663f615.jpg",
+      "bytes": 27630969,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.45
+    },
+    {
+      "id": "47caca0a3d467b5a",
+      "title": "Chasing Dreams A Supercar Journey",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Chasing Dreams_ A Supercar Journey.mp4",
+      "file": "assets/gallery/clips/47caca0a3d467b5a.mp4",
+      "poster": "assets/gallery/clips/47caca0a3d467b5a.jpg",
+      "bytes": 18756786,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.97
+    },
+    {
+      "id": "be1a84ef148974d8",
+      "title": "Craftingadream",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Craftingadream.mp4",
+      "file": "assets/gallery/clips/be1a84ef148974d8.mp4",
+      "poster": "assets/gallery/clips/be1a84ef148974d8.jpg",
+      "bytes": 26559381,
+      "width": 720,
+      "height": 1280,
+      "duration": 58.1
+    },
+    {
+      "id": "cce079f1379fae8a",
+      "title": "Episode 1 The Scroll Trap",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Episode 1 The Scroll Trap.mp4",
+      "file": "assets/gallery/clips/cce079f1379fae8a.mp4",
+      "poster": "assets/gallery/clips/cce079f1379fae8a.jpg",
+      "bytes": 19812270,
+      "width": 720,
+      "height": 1280,
+      "duration": 47.32
+    },
+    {
+      "id": "41467cc289b342d7",
+      "title": "invideo ai 480",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "invideo-ai-480.mp4",
+      "file": "assets/gallery/clips/41467cc289b342d7.mp4",
+      "poster": "assets/gallery/clips/41467cc289b342d7.jpg",
+      "bytes": 19751721,
+      "width": 480,
+      "height": 854,
+      "duration": 39.34
+    },
+    {
+      "id": "0d879398a5a9ee44",
+      "title": "Jaw Dropping Heavy Equipment Fails! VEED",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Jaw Dropping Heavy Equipment Fails!-VEED.mp4",
+      "file": "assets/gallery/clips/0d879398a5a9ee44.mp4",
+      "poster": "assets/gallery/clips/0d879398a5a9ee44.jpg",
+      "bytes": 38832596,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.84
     }
   ],
-  "count": 48,
-  "generated_utc": "2026-11-27T00:37:35.945142+00:00",
-  "cache_bust": "48-clips-202611261837",
+  "count": 56,
+  "generated_utc": "2026-11-27T03:48:55.672048+00:00",
+  "cache_bust": "56-clips-202611262148",
   "signature": "short clips"
 }
