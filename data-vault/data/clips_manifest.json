@@ -643,10 +643,38 @@
       "width": 1280,
       "height": 720,
       "duration": 231.92
+    },
+    {
+      "id": "cce7aad2efee30b2",
+      "title": "1",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "1.mp4",
+      "file": "assets/gallery/clips/cce7aad2efee30b2.mp4",
+      "poster": "assets/gallery/clips/cce7aad2efee30b2.jpg",
+      "bytes": 8023166,
+      "width": 1280,
+      "height": 720,
+      "duration": 15.19
+    },
+    {
+      "id": "7b52994c50184f61",
+      "title": "2",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "2.mp4",
+      "file": "assets/gallery/clips/7b52994c50184f61.mp4",
+      "poster": "assets/gallery/clips/7b52994c50184f61.jpg",
+      "bytes": 13672964,
+      "width": 1280,
+      "height": 720,
+      "duration": 15.19
     }
   ],
-  "count": 46,
-  "generated_utc": "2026-11-27T00:32:04.865865+00:00",
-  "cache_bust": "46-clips-202611261832",
+  "count": 48,
+  "generated_utc": "2026-11-27T00:37:35.945142+00:00",
+  "cache_bust": "48-clips-202611261837",
   "signature": "short clips"
 }
