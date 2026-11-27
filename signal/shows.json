@@ -2,8 +2,25 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-25",
+ "updated": "2026-11-27",
  "shows": [
+  {
+   "slug": "gta-6-secrets-launch-chaos",
+   "title": "GTA 6 Secrets & Launch Chaos",
+   "page": "https://excavationpro.ca/signal/gta-6-secrets-launch-chaos/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-secrets-launch-chaos/ai_radio.mp3",
+   "duration": "17:40",
+   "seconds": 1060.26,
+   "speakers": [
+    "Paul",
+    "Maya",
+    "Liam",
+    "Chloe",
+    "Devon"
+   ],
+   "date": "2026-11-27",
+   "desk": "gta-6"
+  },
   {
    "slug": "gta-6-console-crash-crisis",
    "title": "GTA 6 Console Crash Crisis",
