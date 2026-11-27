@@ -5,6 +5,23 @@
  "updated": "2026-11-27",
  "shows": [
   {
+   "slug": "gta-6-console-crash-survival",
+   "title": "GTA 6 Console Crash Survival",
+   "page": "https://excavationpro.ca/signal/gta-6-console-crash-survival/",
+   "audio": "https://excavationpro.ca/signal/shows/gta-6-console-crash-survival/ai_radio.mp3",
+   "duration": "14:21",
+   "seconds": 861.19,
+   "speakers": [
+    "Paul",
+    "Marek",
+    "Chloe",
+    "Devon",
+    "Priya"
+   ],
+   "date": "2026-11-27",
+   "desk": "gta-6"
+  },
+  {
    "slug": "gta-6-secrets-launch-chaos",
    "title": "GTA 6 Secrets & Launch Chaos",
    "page": "https://excavationpro.ca/signal/gta-6-secrets-launch-chaos/",
