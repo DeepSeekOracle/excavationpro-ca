@@ -1147,10 +1147,52 @@
       "width": 720,
       "height": 1280,
       "duration": 58.73
+    },
+    {
+      "id": "660ee597560a20cf",
+      "title": "Chasing City Lights A Night Drive",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Chasing City Lights A Night Drive.mp4",
+      "file": "assets/gallery/clips/660ee597560a20cf.mp4",
+      "poster": "assets/gallery/clips/660ee597560a20cf.jpg",
+      "bytes": 28941568,
+      "width": 720,
+      "height": 1280,
+      "duration": 99.97
+    },
+    {
+      "id": "dbdd1fef79f2dd96",
+      "title": "Screw it Demo",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Screw it Demo.mp4",
+      "file": "assets/gallery/clips/dbdd1fef79f2dd96.mp4",
+      "poster": "assets/gallery/clips/dbdd1fef79f2dd96.jpg",
+      "bytes": 57715105,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.97
+    },
+    {
+      "id": "596878457a3dd321",
+      "title": "Unleashing the Beat Hip Hop Vibes",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Unleashing the Beat Hip Hop Vibes.mp4",
+      "file": "assets/gallery/clips/596878457a3dd321.mp4",
+      "poster": "assets/gallery/clips/596878457a3dd321.jpg",
+      "bytes": 9695513,
+      "width": 720,
+      "height": 1280,
+      "duration": 27.7
     }
   ],
-  "count": 82,
-  "generated_utc": "2026-11-28T12:24:06.994851+00:00",
-  "cache_bust": "82-clips-202611280624",
+  "count": 85,
+  "generated_utc": "2026-11-28T12:25:53.229090+00:00",
+  "cache_bust": "85-clips-202611280625",
   "signature": "short clips"
 }
