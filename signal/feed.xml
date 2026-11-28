@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>Vice City Secrets &amp; Backlash</title>
+    <link>https://excavationpro.ca/signal/vice-city-secrets-backlash/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/vice-city-secrets-backlash/</guid>
+    <pubDate>Sat, 28 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and international callers dive into Reddit, 4chan, and X for the latest GTA 6 patch news, the Xbox dump drama, and the backlash over missing endgame content. They also unpack debunked Online mode rumors, FiveM patents, and Leonida's wildest hidden Easter eggs.</description>
+    <itunes:duration>16:44</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/vice-city-secrets-backlash/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/vice-city-secrets-backlash/ai_radio.mp3" length="20095725" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>WoW Forever: Secrets &amp; Leaks</title>
     <link>https://excavationpro.ca/signal/wow-forever-secrets-leaks/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/wow-forever-secrets-leaks/</guid>

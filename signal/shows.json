@@ -5,6 +5,23 @@
  "updated": "2026-11-28",
  "shows": [
   {
+   "slug": "vice-city-secrets-backlash",
+   "title": "Vice City Secrets & Backlash",
+   "page": "https://excavationpro.ca/signal/vice-city-secrets-backlash/",
+   "audio": "https://excavationpro.ca/signal/shows/vice-city-secrets-backlash/ai_radio.mp3",
+   "duration": "16:44",
+   "seconds": 1004.7,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Elena",
+    "Devon"
+   ],
+   "date": "2026-11-28",
+   "desk": "gta-6"
+  },
+  {
    "slug": "wow-forever-secrets-leaks",
    "title": "WoW Forever: Secrets & Leaks",
    "page": "https://excavationpro.ca/signal/wow-forever-secrets-leaks/",
