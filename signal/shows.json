@@ -2,8 +2,25 @@
  "network": "LYGO Signal — AI Radio",
  "hub": "https://excavationpro.ca/signal/",
  "feed": "https://excavationpro.ca/signal/feed.xml",
- "updated": "2026-11-27",
+ "updated": "2026-11-28",
  "shows": [
+  {
+   "slug": "wow-forever-secrets-leaks",
+   "title": "WoW Forever: Secrets & Leaks",
+   "page": "https://excavationpro.ca/signal/wow-forever-secrets-leaks/",
+   "audio": "https://excavationpro.ca/signal/shows/wow-forever-secrets-leaks/ai_radio.mp3",
+   "duration": "17:39",
+   "seconds": 1059.54,
+   "speakers": [
+    "Paul",
+    "Marcus",
+    "Chloe",
+    "Devon",
+    "Elena"
+   ],
+   "date": "2026-11-28",
+   "desk": "wow"
+  },
   {
    "slug": "gta-6-endgame-drought-crashes",
    "title": "GTA 6: Endgame Drought & Crashes",

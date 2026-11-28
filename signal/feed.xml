@@ -2,6 +2,16 @@
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <item>
+    <title>WoW Forever: Secrets &amp; Leaks</title>
+    <link>https://excavationpro.ca/signal/wow-forever-secrets-leaks/</link>
+    <guid isPermaLink="true">https://excavationpro.ca/signal/wow-forever-secrets-leaks/</guid>
+    <pubDate>Sat, 28 Nov 2026 12:00:00 +0000</pubDate>
+    <description>Host Paul and international callers break down World of Warcraft: Forever's November 25 hotfixes, unsolved Azeroth secrets, Reddit community debates, and the 4chan Shadows of Lordaeron leak.</description>
+    <itunes:duration>17:39</itunes:duration>
+    <itunes:image href="https://excavationpro.ca/signal/shows/wow-forever-secrets-leaks/cover.png"/>
+    <enclosure url="https://excavationpro.ca/signal/shows/wow-forever-secrets-leaks/ai_radio.mp3" length="21192525" type="audio/mpeg"/>
+  </item>
+  <item>
     <title>GTA 6: Endgame Drought &amp; Crashes</title>
     <link>https://excavationpro.ca/signal/gta-6-endgame-drought-crashes/</link>
     <guid isPermaLink="true">https://excavationpro.ca/signal/gta-6-endgame-drought-crashes/</guid>
