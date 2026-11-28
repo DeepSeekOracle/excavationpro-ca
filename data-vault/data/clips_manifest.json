@@ -1049,10 +1049,108 @@
       "width": 720,
       "height": 1280,
       "duration": 59.95
+    },
+    {
+      "id": "288f51538303c22b",
+      "title": "AI Reveals the Universes Hidden Secrets",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "AI Reveals the Universes Hidden Secrets.mp4",
+      "file": "assets/gallery/clips/288f51538303c22b.mp4",
+      "poster": "assets/gallery/clips/288f51538303c22b.jpg",
+      "bytes": 77032804,
+      "width": 720,
+      "height": 1280,
+      "duration": 92.79
+    },
+    {
+      "id": "0d1d1d4fb92e33e5",
+      "title": "Priced Out of Reality Wake Up",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Priced Out of Reality Wake Up.mp4",
+      "file": "assets/gallery/clips/0d1d1d4fb92e33e5.mp4",
+      "poster": "assets/gallery/clips/0d1d1d4fb92e33e5.jpg",
+      "bytes": 17099812,
+      "width": 720,
+      "height": 1280,
+      "duration": 58.03
+    },
+    {
+      "id": "0e76d6bd5cc39cf1",
+      "title": "Society Has No Soul",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Society Has No Soul.mp4",
+      "file": "assets/gallery/clips/0e76d6bd5cc39cf1.mp4",
+      "poster": "assets/gallery/clips/0e76d6bd5cc39cf1.jpg",
+      "bytes": 20531135,
+      "width": 720,
+      "height": 1280,
+      "duration": 55.9
+    },
+    {
+      "id": "209743d39e9ea531",
+      "title": "Stop Apologizing for Your Pain",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Stop Apologizing for Your Pain.mp4",
+      "file": "assets/gallery/clips/209743d39e9ea531.mp4",
+      "poster": "assets/gallery/clips/209743d39e9ea531.jpg",
+      "bytes": 10735894,
+      "width": 720,
+      "height": 1280,
+      "duration": 60.1
+    },
+    {
+      "id": "54da09f4f0d20ba5",
+      "title": "Summer Laughing Through Chaos",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Summer Laughing Through Chaos.mp4",
+      "file": "assets/gallery/clips/54da09f4f0d20ba5.mp4",
+      "poster": "assets/gallery/clips/54da09f4f0d20ba5.jpg",
+      "bytes": 45176219,
+      "width": 720,
+      "height": 1280,
+      "duration": 96.26
+    },
+    {
+      "id": "8d687b004efaf234",
+      "title": "Unlocking Your True Self The Power of Honesty",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Unlocking Your True Self The Power of Honesty.mp4",
+      "file": "assets/gallery/clips/8d687b004efaf234.mp4",
+      "poster": "assets/gallery/clips/8d687b004efaf234.jpg",
+      "bytes": 46628294,
+      "width": 720,
+      "height": 1280,
+      "duration": 59.93
+    },
+    {
+      "id": "3c536ce14efd0b3d",
+      "title": "Unmasking Familial Trauma The Toxic Game",
+      "tags": [
+        "CLIP"
+      ],
+      "original_name": "Unmasking Familial Trauma The Toxic Game.mp4",
+      "file": "assets/gallery/clips/3c536ce14efd0b3d.mp4",
+      "poster": "assets/gallery/clips/3c536ce14efd0b3d.jpg",
+      "bytes": 21721584,
+      "width": 720,
+      "height": 1280,
+      "duration": 58.73
     }
   ],
-  "count": 75,
-  "generated_utc": "2026-11-28T12:23:27.370224+00:00",
-  "cache_bust": "75-clips-202611280623",
+  "count": 82,
+  "generated_utc": "2026-11-28T12:24:06.994851+00:00",
+  "cache_bust": "82-clips-202611280624",
   "signature": "short clips"
 }
